@@ -1,0 +1,208 @@
+﻿<Page x:Class="EnergyLabellingPrototype.Pages.SolutionPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:EnergyLabellingPrototype.Pages"
+      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+      xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+      mc:Ignorable="d" 
+      d:DesignHeight="650" d:DesignWidth="1200"
+      Title="Pakkeløsninger"
+      Loaded="Page_Loaded">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <Dialog:CustomDialog x:Key="AddBoilerDialog" x:Name="AddBoilerDialog" Title="Tilføj kedel">
+
+                <StackPanel>
+                    <TextBlock Height="30"
+                               Foreground="{DynamicResource AccentColorBrush}"
+                               Text="Vil du tilføje den valgte kedel som primær- eller supplerende kedel?"
+                               TextWrapping="Wrap" />
+                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                        <Button Click="Button_Click_2" Margin="5,5,5,5" Content="Primærkedel" />
+                        <Button Click="Button_Click_2" Margin="5,5,5,5" Content="Supplerende kedel" />
+                    </StackPanel>
+                </StackPanel>
+
+            </Dialog:CustomDialog>
+        </ResourceDictionary>
+    </Page.Resources>
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="11*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="1*"/>
+            
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="20" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Grid.ColumnSpan="7" Background="{StaticResource AccentBaseColorBrush}" />
+
+        <TextBox VerticalContentAlignment="Center" Grid.Column="3" Grid.Row="0" Style="{DynamicResource ButtonCommandMetroTextBox}" Controls:TextBoxHelper.Watermark="Søg på komponenter og eksisterende pakkeløsninger..." x:Name="textBoxSearch" Height="30" TextWrapping="Wrap" TextChanged="textBoxSearch_TextChanged">
+            <Controls:TextBoxHelper.ButtonContent>
+                <Rectangle Width="20" Height="20">
+                    <Rectangle.Resources>
+                        <SolidColorBrush x:Key="BlackBrush" Color="White" />
+                    </Rectangle.Resources>
+                    <Rectangle.Fill>
+                        <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_magnify}" />
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Controls:TextBoxHelper.ButtonContent>
+        </TextBox>
+        <ScrollViewer Grid.Column="3" Grid.Row="2">
+        <Grid >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="25" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+                <Label Grid.Column="0" Grid.Row="0" Foreground="{StaticResource IdealForegroundColorBrush}" Background="{DynamicResource AccentColorBrush}">Komponenter</Label>
+                <DataGrid x:Name="dataGridComponents" Margin="0,0,0,10" Grid.Column="0" Grid.Row="1" IsReadOnly="true" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Name}" Header="Navn" Width="2*"/>
+                <DataGridTextColumn Binding="{Binding Type}" Header="Type" Width="2*"/>
+                <DataGridTextColumn Binding="{Binding Description}"  Header="Beskrivelse" Width="3*"/>
+                    <DataGridTemplateColumn Width="2*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button x:Name="addToPackageButton" Click="AddToPackageButton_Click">Føj til pakke</Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="1*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button x:Name="editButton" Click="EditButton_Click">Info</Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+                <Label Grid.Column="0" Grid.Row="2" Foreground="{StaticResource IdealForegroundColorBrush}" Background="{DynamicResource AccentColorBrush}">Pakkeløsninger</Label>
+                <DataGrid x:Name="dataGridSolutions" Grid.Column="0" Grid.Row="3" IsReadOnly="true" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Name}" Header="Navn" Width="2*"/>
+                <DataGridTextColumn Binding="{Binding Type}" Header="Type" Width="2*"/>
+                <DataGridTextColumn Binding="{Binding Description}"  Width="3*"/>
+                <DataGridTemplateColumn Width="2*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button x:Name="addSolToPackageButton" Click="AddSolToPackageButton_Click">Føj til pakke</Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="1*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button x:Name="infoButton" Click="infoButton_Click">Info</Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                </DataGrid.Columns>
+        </DataGrid>
+    
+        </Grid>
+        </ScrollViewer>
+                <Grid Grid.Column="5" Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="150" />
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <Label Grid.Column="0" Grid.Row="0"  x:Name="label_Pakke_Navn" Visibility="Collapsed" Foreground="{StaticResource IdealForegroundColorBrush}" Background="{DynamicResource AccentColorBrush}" Content="Hej"></Label>
+                <Button Height="20" Width="20"  x:Name="removePackButton" Click="RemovePackButton_Click" Visibility="Collapsed" FontSize="10">X</Button>
+
+            </StackPanel>
+
+            <DataGrid x:Name="dataGridPackage" Grid.Row="1" Grid.Column="0" IsReadOnly="true" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Name}" Header="Navn" Width="8*"/>
+                    <DataGridTemplateColumn Width="3*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button x:Name="removeButton" Click="RemoveButton_Click">Slet</Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <StackPanel Grid.Row="2" Grid.Column="0">
+                <Label FontSize="24">
+                    Pakkeløsning
+                </Label>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+
+                    <Button Margin="5,5,5,5" x:Name="Gem_On_Pack" IsEnabled="False" Grid.Row="0" Grid.Column="0" Click="SaveButton_Click">Gem pakken</Button>
+                    <Button Margin="5,5,5,5" Grid.Row="0" Grid.Column="1" Click="SaveNewButton_Click">Gem ny pakke</Button>
+                    <Button Margin="5,5,5,5" Grid.Row="1" Grid.ColumnSpan="2" Click="NewButton_Click">Ny beregning</Button>
+                    <Button Margin="5,5,5,5" Grid.Row="2" Grid.ColumnSpan="2" Click="Button_Click_1">Print pakkelabel</Button>
+                </Grid>
+            </StackPanel>
+        </Grid>
+
+        <Expander x:Name="advancedSearchExpander" Background="{StaticResource AccentBaseColorBrush}" Height="30" Grid.Column="1" Grid.Row="0" Foreground="{StaticResource IdealForegroundColorBrush}" Header="Avanceret Søgning" Expanded="Expander_Expanded" Collapsed="Expander_Expanded" BorderThickness="0" />
+
+        <StackPanel Visibility="Collapsed" Background="{StaticResource AccentBaseColorBrush}" x:Name="advancedSearchStackPanel" Grid.Column="1" Grid.Row="2">
+            <StackPanel.Resources>
+                <Style TargetType="{x:Type TextBlock}">
+                    <Setter Property="Margin" Value="5,5,5,5"/>
+                </Style>
+                <Style TargetType="{x:Type CheckBox}">
+                    <Setter Property="Margin" Value="5,5,5,5"/>
+                </Style>
+            </StackPanel.Resources>
+            <TextBlock TextWrapping="Wrap" Text="Vælg hvilke typer du ønsker at inkludere i søgningen." Foreground="White"/>
+            <CheckBox Foreground="White">Oliekedel</CheckBox>
+            <CheckBox Foreground="White">Varmepumpe</CheckBox>
+            <CheckBox Foreground="White">Temperaturstyring</CheckBox>
+            <CheckBox Foreground="White">Solvarmestation</CheckBox>
+            <CheckBox Foreground="White">Solfanger</CheckBox>
+            <CheckBox Foreground="White">Varmtvandsbeholder</CheckBox>
+            <CheckBox Foreground="White">Bufferbeholder</CheckBox>
+
+            <TextBlock TextWrapping="Wrap" Text="Vælg minimum energimærkning for din søgning." Foreground="White"/>
+            <ComboBox IsReadOnly="true" Margin="5,5,5,5">
+                <ComboBoxItem>A</ComboBoxItem>
+                <ComboBoxItem>B</ComboBoxItem>
+                <ComboBoxItem>C</ComboBoxItem>
+                <ComboBoxItem>D</ComboBoxItem>
+                <ComboBoxItem>E</ComboBoxItem>
+                <ComboBoxItem>dunno lol</ComboBoxItem>
+            </ComboBox>
+        </StackPanel>
+
+    </Grid>
+
+</Page>

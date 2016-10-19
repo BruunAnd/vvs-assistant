@@ -1,0 +1,72 @@
+﻿<Controls:MetroWindow x:Class="EnergyLabellingPrototype.MainWindow"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                      xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      Title="Energy Labelling Prototype"
+                      Height="650"
+                      Width="1200"
+                      GlowBrush="Black"
+                      BorderBrush="{DynamicResource AccentColorBrush}"
+                      ResizeMode="CanResizeWithGrip"
+                      WindowStartupLocation="CenterScreen"
+                      Background="#f7f7f7">
+
+    <Controls:MetroWindow.Flyouts>
+        <Controls:FlyoutsControl>
+            <Controls:Flyout Theme="Accent" x:Name="Edit" Header="Edit component" Position="Right" Width="300">
+                <StackPanel>
+                    <Controls:ToggleSwitch x:Name="editToggleSwitch" Click="ToggleSwitch_Click" Foreground="{StaticResource IdealForegroundColorBrush}" Margin="5,5" Header="Tillad redigering" OnLabel="Ja" OffLabel="Nej" />
+
+                    <TextBox  x:Name="Label_Index_Edit" Visibility="Hidden"></TextBox>
+                    <Label Foreground="White">Type</Label>
+                    <ComboBox IsEnabled="false" Margin="5,3,5,0" x:Name="ComboBox_Type_Edit">
+                        <ComboBoxItem>Kedel</ComboBoxItem>
+                        <ComboBoxItem>Varmepumpe</ComboBoxItem>
+                        <ComboBoxItem>Temperaturstyring</ComboBoxItem>
+                    </ComboBox>
+                    <Label Foreground="White">Navn</Label>
+                    <TextBox Margin="5,3,5,0" x:Name="TextBox_Name_Edit" IsEnabled="False"></TextBox>
+                <Label Foreground="White">Beskrivelse</Label>
+                    <TextBox Margin="5,3,5,0" x:Name="TextBox_Info_Edit" IsEnabled="False"></TextBox>
+                <Button x:Name="saveComponent_Edit" Click="saveEditComponent_Click" Margin="5,5,5,0" Visibility="Hidden">Gem</Button>
+                    </StackPanel>
+            </Controls:Flyout>
+
+
+            <Controls:Flyout Theme="Accent" x:Name="infosolution" Header="Info solution" Position="Right" Width="300">
+                <StackPanel>
+                    <DataGrid x:Name="dataGridinfo" IsReadOnly="true" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Name}" Header="Navn" Width="2*"/>
+                            <DataGridTextColumn Binding="{Binding Type}" Header="Type" Width="2*"/>
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Controls:Flyout>
+
+
+            <Controls:Flyout Theme="Accent" x:Name="newFlyout" Header="New component" Position="Right" Width="300">
+                <StackPanel>
+                    <Label Foreground="White">Type</Label>
+                    <ComboBox Margin="5,3,5,0" x:Name="ComboBox_Type">
+                        <ComboBoxItem>Kedel</ComboBoxItem>
+                        <ComboBoxItem>Varmepumpe</ComboBoxItem>
+                        <ComboBoxItem>Temperaturstyring</ComboBoxItem>
+                    </ComboBox>
+                    <Label Foreground="White">Navn</Label>
+                    <TextBox Margin="5,3,5,0" x:Name="TextBox_Name"></TextBox>
+                    <Label Foreground="White">Beskrivelse</Label>
+                    <TextBox Margin="5,3,5,0" x:Name="TextBox_Info"></TextBox>
+                    <Button x:Name="saveComponent" Click="saveComponent_Click" Margin="5,5,5,0">Gem</Button>
+                </StackPanel>
+            </Controls:Flyout>
+        </Controls:FlyoutsControl>
+    </Controls:MetroWindow.Flyouts>
+
+    <Frame Width="Auto" Height="Auto" Source="Pages\NavigationPage.xaml" NavigationUIVisibility="Visible"/>
+    
+</Controls:MetroWindow>
