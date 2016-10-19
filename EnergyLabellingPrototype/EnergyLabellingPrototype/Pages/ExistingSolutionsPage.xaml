@@ -10,18 +10,22 @@
 
     <Grid Loaded="Grid_Loaded">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="50"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="19*"/>
+            <ColumnDefinition Width="0.5*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
+            <RowDefinition Height="20"/>
             <RowDefinition Height="1*" />
             <RowDefinition Height="50"/>
 
         </Grid.RowDefinitions>
 
-        <DataGrid x:Name="dataGrid" Grid.Column="1" Grid.Row="1" IsReadOnly="true" AutoGenerateColumns="False">
+        <Border Grid.Row="0" Grid.ColumnSpan="7" Background="{StaticResource AccentBaseColorBrush}" />
+        <Button Grid.Column="1" VerticalAlignment="Center" Height="32" Width="120" x:Name="back" Click="back_Click">Tilbage</Button>
+        <DataGrid x:Name="dataGrid" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2" IsReadOnly="true" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Counter}" Width="30">
                     <DataGridTextColumn.CellStyle>

@@ -13,9 +13,6 @@ namespace EnergyLabellingPrototype.Pages
         public NavigationPage()
         {
             InitializeComponent();
-            var col = new string[] {"Red", "Green", "Blue", "Purple", "Orange", "Lime", "Emerald", "Teal", "Cyan", "Cobalt", "Indigo", "Violet", "Pink", "Magenta", "Crimson", "Amber", "Yellow", "Brown", "Olive", "Steel", "Mauve", "Taupe", "Sienna"};
-            foreach (var item in col)
-                themes.Items.Add(item);
         }
 
         private void Tile_Click(object sender, RoutedEventArgs e)
@@ -36,11 +33,6 @@ namespace EnergyLabellingPrototype.Pages
         private void alternativePrototype_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(App.AlternativePage);
-        }
-
-        private void themes_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ThemeManager.ChangeAppStyle(Application.Current, ThemeManager.GetAccent(themes.SelectedValue.ToString()), ThemeManager.GetAppTheme("BaseLight"));
         }
     }
 }

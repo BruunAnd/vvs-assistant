@@ -47,5 +47,10 @@ namespace EnergyLabellingPrototype.Pages
             App.MainWindow.infosolution.IsOpen = true;
             App.MainWindow.Solution_Info(c);
         }
+
+        private void back_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new NavigationPage());
+        }
     }
 }

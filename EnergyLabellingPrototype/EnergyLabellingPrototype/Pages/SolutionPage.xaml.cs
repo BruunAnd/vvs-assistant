@@ -71,16 +71,10 @@ namespace EnergyLabellingPrototype.Pages
             dataGridComponents.ItemsSource = App._componentList.Where(c => c.FilterMatch(filterText));
             dataGridComponents.Items.Refresh();
 
-            // Update solution list
-            dataGridSolutions.ItemsSource = App._packagedList.Where(s => s.FilterMatch(filterText));
-            dataGridSolutions.Items.Refresh();
+            
         }
 
-        private void Expander_Expanded(object sender, RoutedEventArgs e)
-        {
-            advancedSearchStackPanel.Visibility = advancedSearchExpander.IsExpanded ? Visibility.Visible : Visibility.Collapsed;
-        }
-
+        
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             var item = (sender as Button).DataContext as Component;
@@ -245,6 +239,16 @@ namespace EnergyLabellingPrototype.Pages
             var dialog = (BaseMetroDialog) this.Resources["AddBoilerDialog"];
 
             await App.MainWindow.HideMetroDialogAsync(dialog);
+        }
+
+        private void addComponent_Click(object sender, RoutedEventArgs e)
+        {
+            App.MainWindow.newFlyout.IsOpen = true;
+        }
+
+        private void back_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new NavigationPage());
         }
     }
 }

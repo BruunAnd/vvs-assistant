@@ -29,7 +29,6 @@
             <ColumnDefinition Width="250*"/>
             <ColumnDefinition Width="250*"/>
         </Grid.ColumnDefinitions>
-        <ComboBox SelectionChanged="themes_SelectionChanged" x:Name="themes" Height="30" />
         <WrapPanel Width="Auto" Height="Auto" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="2" Margin="32.949,25,98,24" Grid.Column="1">
             <Controls:Tile Title="Lav ny pakkeløsning" Style="{StaticResource SmallTileStyle}" Click="Tile_Click">
                 <Rectangle Width="48" Height="48" Fill="White">
@@ -42,20 +41,6 @@
                 <Rectangle Width="48" Height="48" Fill="White">
                     <Rectangle.OpacityMask>
                         <VisualBrush Visual="{StaticResource appbar_timer_rewind}" Stretch="Fill" />
-                    </Rectangle.OpacityMask>
-                </Rectangle>
-            </Controls:Tile>
-            <Controls:Tile Title="Tilføj komponent til katalog" Style="{StaticResource SmallTileStyle}" x:Name="addComponent" Click="addComponent_Click">
-                <Rectangle Width="48" Height="48" Fill="White">
-                    <Rectangle.OpacityMask>
-                        <VisualBrush Visual="{StaticResource appbar_page_solid_add}" Stretch="Fill" />
-                    </Rectangle.OpacityMask>
-                </Rectangle>
-            </Controls:Tile>
-            <Controls:Tile Title="Alternativ prototype" Style="{StaticResource SmallTileStyle}" x:Name="alternativePrototype" Click="alternativePrototype_Click">
-                <Rectangle Width="48" Height="48" Fill="White">
-                    <Rectangle.OpacityMask>
-                        <VisualBrush Visual="{StaticResource appbar_layout}" Stretch="Fill" />
                     </Rectangle.OpacityMask>
                 </Rectangle>
             </Controls:Tile>
