@@ -49,13 +49,14 @@ namespace EnergyLabellingPrototype
 
         public void Info_in_fly(Component component, int index)
         {
+            editToggleSwitch.IsChecked = false;
             TextBox_Info_Edit.Text = component.Description;
             Label_Index_Edit.Text = index.ToString();
             TextBox_Name_Edit.Text = component.Name;
             ComboBox_Type_Edit.Text = component.Type;
         }
 
-        public void Solution_Info(Solution solution)
+        public void Solution_Info(Solution solution) 
         {
             dataGridinfo.ItemsSource = solution.SolutionList.Where((item) => item.Name != null);
         }
@@ -66,6 +67,6 @@ namespace EnergyLabellingPrototype
             ComboBox_Type_Edit.IsEnabled = editToggleSwitch.IsChecked.Value;
             TextBox_Info_Edit.IsEnabled = editToggleSwitch.IsChecked.Value;
             saveComponent_Edit.Visibility = editToggleSwitch.IsChecked.Value ? Visibility.Visible : Visibility.Hidden;
-        }
+        }      
     }
 }
