@@ -36,7 +36,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
             </Controls:Flyout>
 
 
-            <Controls:Flyout Theme="Accent" x:Name="infosolution" Header="Info solution" Position="Right" Width="300">
+            <Controls:Flyout Theme="Accent" x:Name="infosolution" Header="Info solution" Position="Right" Width="300" IsPinned="False">
                 <StackPanel>
                     <DataGrid x:Name="dataGridinfo" IsReadOnly="true" AutoGenerateColumns="False">
                         <DataGrid.Columns>
@@ -49,7 +49,7 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
             </Controls:Flyout>
 
 
-            <Controls:Flyout Theme="Accent" x:Name="newFlyout" Header="New component" Position="Right" Width="300">
+            <Controls:Flyout Theme="Accent" x:Name="newFlyout" Header="New component" Position="Right" Width="300" IsPinned="False">
                 <StackPanel>
                     <Label Foreground="White">Type</Label>
                     <ComboBox Margin="5,3,5,0" x:Name="ComboBox_Type">
@@ -67,6 +67,6 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         </Controls:FlyoutsControl>
     </Controls:MetroWindow.Flyouts>
 
-    <Frame Width="Auto" Height="Auto" Source="Pages\NavigationPage.xaml" NavigationUIVisibility="Visible"/>
+    <Frame Width="Auto" Height="Auto" Source="Pages\NavigationPage.xaml" NavigationUIVisibility="Hidden"/>
     
 </Controls:MetroWindow>

@@ -76,7 +76,8 @@
             </Grid.RowDefinitions>
                 <Label Grid.Column="0" Grid.Row="0" Foreground="{StaticResource IdealForegroundColorBrush}" Background="{DynamicResource AccentColorBrush}" Grid.ColumnSpan="2" Margin="0,0,0.2,37.2" Grid.RowSpan="2">Komponenter</Label>
             <ScrollViewer Grid.Column="0" Grid.Row="1" Background="White">
-                <DataGrid x:Name="dataGridComponents" Grid.Column="0" Grid.Row="1"  IsReadOnly="true" AutoGenerateColumns="False" Grid.ColumnSpan="2" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <DataGrid x:Name="dataGridComponents" Grid.Column="0" Grid.Row="1"  IsReadOnly="true" AutoGenerateColumns="False" Grid.ColumnSpan="2" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" MouseDoubleClick="DoubleClickOnComponent">
+                    
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding Name}" Header="Navn" Width="2*"/>
                         <DataGridTextColumn Binding="{Binding Type}" Header="Type" Width="2*"/>

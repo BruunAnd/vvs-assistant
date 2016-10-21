@@ -95,13 +95,12 @@ namespace EnergyLabellingPrototype.Pages
         private async void AddToPackageButton_Click(object sender, RoutedEventArgs e)
         {
             var item = ( sender as Button ).DataContext as Component;
-            Component c = new Component(item.Name, item.Description, item.Type);
             /*if (c.Type.ToLower().Contains("kedel"))
             {
                 var boilerDialog = (BaseMetroDialog) Resources["AddBoilerDialog"];
                 await App.MainWindow.ShowMetroDialogAsync(boilerDialog);
             }*/
-            Add_Component_Too_Shop(c);
+            Add_Component_Too_Shop(item);
         }
 
         private void Add_Component_Too_Shop(Component item)
@@ -149,7 +148,7 @@ namespace EnergyLabellingPrototype.Pages
                         }
                         count++;
                     }
-                    _packagedComponents.Clear();
+                    //_packagedComponents.Clear();
                     Update_Page();
                     dataGridPackage.Items.Refresh();
                 }
@@ -198,7 +197,7 @@ namespace EnergyLabellingPrototype.Pages
                     return;
                 s.Name = name;
 
-                _packagedComponents.Clear();
+                //_packagedComponents.Clear();
                 Update_Page();
                 dataGridPackage.Items.Refresh();
             }
@@ -248,7 +247,22 @@ namespace EnergyLabellingPrototype.Pages
 
         private void back_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new NavigationPage());
+            NavigationService.GoBack();
         }
+
+        private void DoubleClickOnComponent(object sender, MouseButtonEventArgs e)
+        {
+            var UIel = Mouse.DirectlyOver as UIElement;
+            if (UIel is Button)
+            {
+                return;
+            }
+            if (dataGridComponents.SelectedItem == null) return;
+            var selectedComponent = dataGridComponents.SelectedItem as Component;
+            Add_Component_Too_Shop(selectedComponent);
+        }
+        
+
+
     }
 }
