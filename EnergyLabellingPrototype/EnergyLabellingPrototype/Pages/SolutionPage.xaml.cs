@@ -117,7 +117,6 @@ namespace EnergyLabellingPrototype.Pages
             label_Pakke_Navn.Content = "Du arbejder med pakke: " + item.Name;
             label_Pakke_Navn.Visibility = Visibility;
             removePackButton.Visibility = Visibility;
-            Gem_On_Pack.IsEnabled = true;
             Add_Solution_Too_Shop(item);
             dataGridPackage.Items.Refresh();
         }
@@ -212,7 +211,6 @@ namespace EnergyLabellingPrototype.Pages
             Pack = null;
             label_Pakke_Navn.Visibility=Visibility.Collapsed;
             removePackButton.Visibility=Visibility.Collapsed;
-            Gem_On_Pack.IsEnabled = false;
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
@@ -261,8 +259,10 @@ namespace EnergyLabellingPrototype.Pages
             var selectedComponent = dataGridComponents.SelectedItem as Component;
             Add_Component_Too_Shop(selectedComponent);
         }
-        
 
+        private void dataGridComponents_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
 
+        }
     }
 }
