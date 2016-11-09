@@ -50,7 +50,7 @@
 
         <Border Grid.Row="0" Grid.ColumnSpan="7" Background="{StaticResource AccentBaseColorBrush}" />
 
-        <Button Grid.Column="1" VerticalAlignment="Center" Height="32" Width="120" x:Name="back" Click="back_Click">Tilbage</Button>
+        <Button Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Height="32" Width="120" x:Name="back" Click="back_Click">Tilbage</Button>
         <TextBox VerticalContentAlignment="Center" Grid.Column="3" Grid.Row="0" Style="{DynamicResource ButtonCommandMetroTextBox}" Controls:TextBoxHelper.Watermark="Søg på komponenter og eksisterende pakkeløsninger..." x:Name="textBoxSearch" Height="30" TextWrapping="Wrap" TextChanged="textBoxSearch_TextChanged">
             <Controls:TextBoxHelper.ButtonContent>
                 <Rectangle Width="20" Height="20">
@@ -63,7 +63,7 @@
                 </Rectangle>
             </Controls:TextBoxHelper.ButtonContent>
         </TextBox>
-        <Button Grid.Column="5" VerticalAlignment="Center" Height="32" Width="120" x:Name="addComponent" Click="addComponent_Click">Opret komponent</Button>
+        <Button Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Right" Height="32" Width="120" x:Name="addComponent" Click="addComponent_Click">Opret komponent</Button>
         <Grid Grid.Column="3" Grid.Row="2" Margin="0,0.4,0,19.6" >
                 <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -75,20 +75,26 @@
             </Grid.RowDefinitions>
                 <Label Grid.Column="0" Grid.Row="0" Foreground="{StaticResource IdealForegroundColorBrush}" Background="{DynamicResource AccentColorBrush}" Grid.ColumnSpan="2" Margin="0,0,0.2,37.2" Grid.RowSpan="2">Komponenter</Label>
             <ScrollViewer Grid.Column="0" Grid.Row="1" Background="White">
-                <DataGrid x:Name="dataGridComponents" Grid.Column="0" Grid.Row="1"  IsReadOnly="true" AutoGenerateColumns="False" Grid.ColumnSpan="2" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" MouseDoubleClick="DoubleClickOnComponent" SelectionChanged="dataGridComponents_SelectionChanged">
-                    
+                <DataGrid x:Name="dataGridComponents" Grid.Column="0" Grid.Row="1"  IsReadOnly="true" AutoGenerateColumns="False" Grid.ColumnSpan="2" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" MouseDoubleClick="DoubleClickOnComponent" SelectionChanged="dataGridComponents_SelectionChanged" MouseRightButtonDown="RightClickOnComponent">
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Tilføj" Click="AddToPackageButton_Click"/>
+                            <MenuItem Header="Rediger" Click="EditButton_Click"/>
+                            <MenuItem Header="Fjern" Click="EditButton_Click"/>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding Name}" Header="Navn" Width="2*"/>
                         <DataGridTextColumn Binding="{Binding Type}" Header="Type" Width="2*"/>
                         <DataGridTextColumn Binding="{Binding Description}"  Header="Beskrivelse" Width="3*"/>
-                        <DataGridTemplateColumn Width="2*">
+                        <DataGridTemplateColumn Width="2*" Visibility="Hidden">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button x:Name="addToPackageButton" Click="AddToPackageButton_Click">Føj til pakke</Button>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTemplateColumn Width="1*">
+                        <DataGridTemplateColumn Width="1*" Visibility="Hidden">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button x:Name="editButton" Click="EditButton_Click">Info</Button>

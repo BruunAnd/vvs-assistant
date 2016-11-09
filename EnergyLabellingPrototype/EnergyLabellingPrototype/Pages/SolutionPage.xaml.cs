@@ -100,10 +100,10 @@ namespace EnergyLabellingPrototype.Pages
                 var boilerDialog = (BaseMetroDialog) Resources["AddBoilerDialog"];
                 await App.MainWindow.ShowMetroDialogAsync(boilerDialog);
             }*/
-            Add_Component_Too_Shop(item);
+            Add_Component_To_Shop(item);
         }
 
-        private void Add_Component_Too_Shop(Component item)
+        private void Add_Component_To_Shop(Component item)
         {
             _packagedComponents.Add(item);
             dataGridPackage.Items.Refresh();
@@ -257,12 +257,27 @@ namespace EnergyLabellingPrototype.Pages
             }
             if (dataGridComponents.SelectedItem == null) return;
             var selectedComponent = dataGridComponents.SelectedItem as Component;
-            Add_Component_Too_Shop(selectedComponent);
+            Add_Component_To_Shop(selectedComponent);
+        }
+
+        private void RightClickOnComponent(object sender, MouseButtonEventArgs e)
+        {
+            var UIel = Mouse.DirectlyOver as UIElement;
+            if (UIel is Button)
+            {
+                return;
+            }
+            if (dataGridComponents.SelectedItem == null) return;
+            var selectedComponent = dataGridComponents.SelectedItem as Component;
+            
+            Add_Component_To_Shop(selectedComponent);
         }
 
         private void dataGridComponents_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }
+
+        
     }
 }
