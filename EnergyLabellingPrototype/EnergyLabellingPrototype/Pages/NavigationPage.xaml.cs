@@ -30,9 +30,9 @@ namespace EnergyLabellingPrototype.Pages
             NavigationService.Navigate(App.ExistingSolutionsPage);
         }
 
-        private void alternativePrototype_Click(object sender, RoutedEventArgs e)
+        private void Tile_Click_2(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(App.AlternativePage);
+            NavigationService.Navigate(App.OfferPage);
         }
     }
 }

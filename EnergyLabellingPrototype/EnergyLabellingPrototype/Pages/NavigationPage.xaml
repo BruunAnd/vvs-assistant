@@ -44,6 +44,13 @@
                     </Rectangle.OpacityMask>
                 </Rectangle>
             </Controls:Tile>
+            <Controls:Tile Title="Nyt tilbud" Style="{StaticResource SmallTileStyle}" Click="Tile_Click_2">
+                <Rectangle Width="48" Height="48" Fill="White">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Visual="{StaticResource appbar_money}" Stretch="Fill" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Controls:Tile>
         </WrapPanel>
     </Grid>
 </Page>

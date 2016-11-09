@@ -78,6 +78,9 @@
     <Compile Include="Pages\NavigationPage.xaml.cs">
       <DependentUpon>NavigationPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\OfferPage.xaml.cs">
+      <DependentUpon>OfferPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\SolutionPage.xaml.cs">
       <DependentUpon>SolutionPage.xaml</DependentUpon>
     </Compile>
@@ -111,6 +114,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\NavigationPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\OfferPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

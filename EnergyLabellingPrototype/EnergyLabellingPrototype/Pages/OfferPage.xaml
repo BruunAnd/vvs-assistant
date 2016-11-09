@@ -1,0 +1,124 @@
+﻿<Page x:Class="EnergyLabellingPrototype.Pages.OfferPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:EnergyLabellingPrototype.Pages"
+      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+      xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+      mc:Ignorable="d" 
+      d:DesignHeight="650" d:DesignWidth="1200"
+      Title="Tilbud"
+      Loaded="Page_Loaded"
+>
+    <Page.Resources>
+        <Style x:Key="Header1" TargetType="Label">
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Margin" Value="0 0 0 12" />
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="{StaticResource AccentBaseColorBrush}"/>
+        </Style>
+
+        <Style x:Key="Header2" TargetType="Label">
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Margin" Value="0 0 0 12" />
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="{StaticResource AccentColorBrush}"/>
+        </Style>
+    </Page.Resources>
+    
+    
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="12*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="0.5*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="20" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Grid.ColumnSpan="7" Background="{StaticResource AccentBaseColorBrush}" />
+
+        <Button Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Height="32" Width="120" x:Name="back" Click="back_Click">Tilbage</Button>
+
+        <DataGrid x:Name="dataGridContent" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="2"  IsReadOnly="False" AutoGenerateColumns="True" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Description}" Header="Beskrivelse" Width="2*"/>
+                <DataGridTextColumn Binding="{Binding Amount}" Header="Mængde" Width="1*"/>
+                <DataGridTextColumn Binding="{Binding Unit_Price}" Header="Enhedspris" Width="1*"/>
+                <DataGridTextColumn Binding="{Binding Cost_Price}" Header="Kostpris" Width="1*"/>
+                <DataGridTextColumn Binding="{Binding Sales_Unit_Price}" Header="Salgs EP" Width="1*"/>
+                <DataGridTextColumn Binding="{Binding Sales_Price_Abs}" Header="Salgspris (Abs.)" Width="1.5*"/>
+                <DataGridTextColumn Binding="{Binding Total_Gross_Margin}" Header="Samlet DB" Width="1*"/>
+
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Grid.Column="5" Grid.Row="2" Orientation="Vertical">
+            <Label Style="{StaticResource Header1}">Projekt resultat</Label>
+            <DockPanel>
+                <Label>Salgspris</Label>
+                <Label HorizontalAlignment="Right">124.278,00</Label>
+            </DockPanel>
+            <DockPanel>
+                <Label>Kostpris m. tillæg</Label>
+                <Label HorizontalAlignment="Right">102.698,44</Label>
+            </DockPanel>
+            <Separator Height="12px"/>
+            <DockPanel>
+                <Label>Dækningsbidrag</Label>
+                <Label HorizontalAlignment="Right">21.579,56</Label>
+            </DockPanel>
+            <DockPanel>
+                <Label>Dækningsgrad</Label>
+                <Label HorizontalAlignment="Right">17,36</Label>
+            </DockPanel>
+            <Separator Height="12px"/>
+            <Label Style="{StaticResource Header2}">Komponenter</Label>
+            <DockPanel>
+                <Label>Pris</Label>
+                <Label HorizontalAlignment="Right">102.698,44</Label>
+            </DockPanel>
+            <DockPanel>
+                <Label>% af samlet</Label>
+                <Label HorizontalAlignment="Right">82,64</Label>
+            </DockPanel>
+            <Separator Height="12px"/>
+            <Label Style="{StaticResource Header2}">Løn</Label>
+            <DockPanel>
+                <Label>Løntimer</Label>
+                <Label HorizontalAlignment="Right">21,00</Label>
+            </DockPanel>
+            <DockPanel>
+                <Label>Løn omkostning</Label>
+                <Label HorizontalAlignment="Right">5.670,00</Label>
+            </DockPanel>
+            <DockPanel>
+                <Label>% af samlet</Label>
+                <Label HorizontalAlignment="Right">5,52</Label>
+            </DockPanel>
+            <Separator Height="12px"/>
+            <Label Style="{StaticResource Header2}">Materialer</Label>
+            <DockPanel>
+                <Label>Materiale pris</Label>
+                <Label HorizontalAlignment="Right">3.100,00</Label>
+            </DockPanel>
+            <DockPanel>
+                <Label>% af samlet</Label>
+                <Label HorizontalAlignment="Right">3,02</Label>
+            </DockPanel>
+        </StackPanel>
+        
+        
+    </Grid>
+</Page>
