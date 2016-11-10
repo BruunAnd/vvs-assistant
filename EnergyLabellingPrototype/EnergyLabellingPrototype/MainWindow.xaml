@@ -6,10 +6,13 @@ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                       Title="dErP Beregner"
-                      Height="650"
-                      Width="1200"
-                      GlowBrush="Black"
+                      MinHeight="768"
+                      MinWidth="1280"
+                      
                       BorderBrush="{DynamicResource AccentColorBrush}"
+                      GlowBrush="{DynamicResource AccentColorBrush}"
+                      BorderThickness="1"
+                      
                       ResizeMode="CanResizeWithGrip"
                       WindowStartupLocation="CenterScreen"
                       Background="#f7f7f7">

@@ -51,6 +51,13 @@
                     </Rectangle.OpacityMask>
                 </Rectangle>
             </Controls:Tile>
+            <Controls:Tile Title="Se tidligere tilbud" Style="{StaticResource SmallTileStyle}" >
+                <Rectangle Width="48" Height="48" Fill="White">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Visual="{StaticResource appbar_timer_rewind}" Stretch="Fill" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Controls:Tile>
         </WrapPanel>
     </Grid>
 </Page>

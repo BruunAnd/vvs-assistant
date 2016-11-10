@@ -114,9 +114,6 @@ namespace EnergyLabellingPrototype.Pages
             var item = (sender as Button).DataContext as Solution;
             Pack_Id = item.Counter;
             Pack = "";
-            label_Pakke_Navn.Content = "Du arbejder med pakke: " + item.Name;
-            label_Pakke_Navn.Visibility = Visibility;
-            removePackButton.Visibility = Visibility;
             Add_Solution_Too_Shop(item);
             dataGridPackage.Items.Refresh();
         }
@@ -209,8 +206,6 @@ namespace EnergyLabellingPrototype.Pages
         private void RemovePackButton_Click(object sender, RoutedEventArgs e)
         {
             Pack = null;
-            label_Pakke_Navn.Visibility=Visibility.Collapsed;
-            removePackButton.Visibility=Visibility.Collapsed;
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)

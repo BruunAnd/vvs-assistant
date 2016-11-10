@@ -27,19 +27,55 @@
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="Background" Value="{StaticResource AccentColorBrush}"/>
         </Style>
+
+        <Style x:Key="Space" TargetType="Separator">
+            <Setter Property="Height" Value="6px"/>
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style x:Key="MetroTabControl" TargetType="TabControl">
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="BorderBrush" Value="{StaticResource AccentBaseColorBrush}"/>
+            <Style.Resources>
+                <Style TargetType="TabItem">
+                    <Setter Property="MinWidth" Value="100"/>
+                    <Setter Property="Margin" Value="-2 0 2 0"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="TabItem">
+                                <Grid Height="35" Background="#FFECF0F5">
+                                    <Border Name="Border" Margin="0" Background="Transparent" 
+                                    BorderBrush="{StaticResource AccentBaseColorBrush}" BorderThickness="0 0 2 0">
+                                        <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center"
+                                    HorizontalAlignment="Center" 
+                                    ContentSource="Header" Margin="12,2,12,2"
+                                    RecognizesAccessKey="True">
+                                        </ContentPresenter>
+                                    </Border>
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="Border" Property="BorderThickness" Value="0"/>
+                                        <Setter TargetName="Border" Property="Background" Value="{StaticResource AccentBaseColorBrush}"/>
+                                        <Setter Property="Foreground" Value="White"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Style.Resources>
+        </Style>
     </Page.Resources>
     
-    
-    
-    <Grid>
+    <Grid Name="Body">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.5*"/>
-            <ColumnDefinition Width="5*"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="12*"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="5*"/>
-            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="225"/>
+            <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
@@ -48,77 +84,141 @@
             <RowDefinition Height="20" />
         </Grid.RowDefinitions>
 
-        <Border Grid.Row="0" Grid.ColumnSpan="7" Background="{StaticResource AccentBaseColorBrush}" />
+        <Grid Name="Header" Grid.Row="0" Grid.ColumnSpan="99" Background="{StaticResource AccentBaseColorBrush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="20"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Height="32" Width="120" x:Name="back" Click="back_Click">Tilbage</Button>
+        </Grid>
 
-        <Button Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Height="32" Width="120" x:Name="back" Click="back_Click">Tilbage</Button>
+        <Grid Name="Content" Grid.Column="1" Grid.Row="2">
+            <TabControl Name="tabControl" Style="{StaticResource MetroTabControl}">
+                <TabItem Header="Komponenter">
+                    <DataGrid x:Name="dataGridComponents"  IsReadOnly="False" AutoGenerateColumns="True" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Description}" Header="Beskrivelse" Width="2*"/>
+                            <DataGridTextColumn Binding="{Binding Amount}" Header="Mængde" Width="1*"/>
+                            <DataGridTextColumn Binding="{Binding Unit_Price}" Header="Enhedspris" Width="1*"/>
+                            <DataGridTextColumn Binding="{Binding Cost_Price}" Header="Kostpris" Width="1*"/>
+                            <DataGridTextColumn Binding="{Binding Sales_Unit_Price}" Header="Salgs EP" Width="1*"/>
+                            <DataGridTextColumn Binding="{Binding Sales_Price_Abs}" Header="Salgspris (Abs.)" Width="1.5*"/>
+                            <DataGridTextColumn Binding="{Binding Total_Gross_Margin}" Header="Samlet DB" Width="1*"/>
 
-        <DataGrid x:Name="dataGridContent" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="2"  IsReadOnly="False" AutoGenerateColumns="True" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
-            <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Description}" Header="Beskrivelse" Width="2*"/>
-                <DataGridTextColumn Binding="{Binding Amount}" Header="Mængde" Width="1*"/>
-                <DataGridTextColumn Binding="{Binding Unit_Price}" Header="Enhedspris" Width="1*"/>
-                <DataGridTextColumn Binding="{Binding Cost_Price}" Header="Kostpris" Width="1*"/>
-                <DataGridTextColumn Binding="{Binding Sales_Unit_Price}" Header="Salgs EP" Width="1*"/>
-                <DataGridTextColumn Binding="{Binding Sales_Price_Abs}" Header="Salgspris (Abs.)" Width="1.5*"/>
-                <DataGridTextColumn Binding="{Binding Total_Gross_Margin}" Header="Samlet DB" Width="1*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+                <TabItem Header="Løn">
+                    <DataGrid x:Name="dataGridSallary"  IsReadOnly="False" AutoGenerateColumns="True" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Description}" Header="Beskrivelse" Width="2*"/>
+                            <DataGridTextColumn Binding="{Binding Amount}" Header="Mængde" Width="1*"/>
+                            <DataGridTextColumn Binding="{Binding Unit_Price}" Header="Enhedspris" Width="1*"/>
+                            <DataGridTextColumn Binding="{Binding Cost_Price}" Header="Kostpris" Width="1*"/>
+                            <DataGridTextColumn Binding="{Binding Sales_Unit_Price}" Header="Salgs EP" Width="1*"/>
+                            <DataGridTextColumn Binding="{Binding Sales_Price_Abs}" Header="Salgspris (Abs.)" Width="1.5*"/>
+                            <DataGridTextColumn Binding="{Binding Total_Gross_Margin}" Header="Samlet DB" Width="1*"/>
 
-            </DataGrid.Columns>
-        </DataGrid>
-        <StackPanel Grid.Column="5" Grid.Row="2" Orientation="Vertical">
-            <Label Style="{StaticResource Header1}">Projekt resultat</Label>
-            <DockPanel>
-                <Label>Salgspris</Label>
-                <Label HorizontalAlignment="Right">124.278,00</Label>
-            </DockPanel>
-            <DockPanel>
-                <Label>Kostpris m. tillæg</Label>
-                <Label HorizontalAlignment="Right">102.698,44</Label>
-            </DockPanel>
-            <Separator Height="12px"/>
-            <DockPanel>
-                <Label>Dækningsbidrag</Label>
-                <Label HorizontalAlignment="Right">21.579,56</Label>
-            </DockPanel>
-            <DockPanel>
-                <Label>Dækningsgrad</Label>
-                <Label HorizontalAlignment="Right">17,36</Label>
-            </DockPanel>
-            <Separator Height="12px"/>
-            <Label Style="{StaticResource Header2}">Komponenter</Label>
-            <DockPanel>
-                <Label>Pris</Label>
-                <Label HorizontalAlignment="Right">102.698,44</Label>
-            </DockPanel>
-            <DockPanel>
-                <Label>% af samlet</Label>
-                <Label HorizontalAlignment="Right">82,64</Label>
-            </DockPanel>
-            <Separator Height="12px"/>
-            <Label Style="{StaticResource Header2}">Løn</Label>
-            <DockPanel>
-                <Label>Løntimer</Label>
-                <Label HorizontalAlignment="Right">21,00</Label>
-            </DockPanel>
-            <DockPanel>
-                <Label>Løn omkostning</Label>
-                <Label HorizontalAlignment="Right">5.670,00</Label>
-            </DockPanel>
-            <DockPanel>
-                <Label>% af samlet</Label>
-                <Label HorizontalAlignment="Right">5,52</Label>
-            </DockPanel>
-            <Separator Height="12px"/>
-            <Label Style="{StaticResource Header2}">Materialer</Label>
-            <DockPanel>
-                <Label>Materiale pris</Label>
-                <Label HorizontalAlignment="Right">3.100,00</Label>
-            </DockPanel>
-            <DockPanel>
-                <Label>% af samlet</Label>
-                <Label HorizontalAlignment="Right">3,02</Label>
-            </DockPanel>
-        </StackPanel>
-        
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+                <TabItem Header="Materialer">
+                    <DataGrid x:Name="dataGridMaterials"  IsReadOnly="False" AutoGenerateColumns="True" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Description}" Header="Beskrivelse" Width="2*"/>
+                            <DataGridTextColumn Binding="{Binding Amount}" Header="Mængde" Width="1*"/>
+                            <DataGridTextColumn Binding="{Binding Unit_Price}" Header="Enhedspris" Width="1*"/>
+                            <DataGridTextColumn Binding="{Binding Cost_Price}" Header="Kostpris" Width="1*"/>
+                            <DataGridTextColumn Binding="{Binding Sales_Unit_Price}" Header="Salgs EP" Width="1*"/>
+                            <DataGridTextColumn Binding="{Binding Sales_Price_Abs}" Header="Salgspris (Abs.)" Width="1.5*"/>
+                            <DataGridTextColumn Binding="{Binding Total_Gross_Margin}" Header="Samlet DB" Width="1*"/>
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+            </TabControl>
+        </Grid>
+
+        <Grid Name="Sidebar_Right" Grid.Column="3" Grid.Row="2">
+            <StackPanel Orientation="Vertical">
+
+                <Label Style="{StaticResource Header2}">Projekt resultat</Label>
+                <DockPanel>
+                    <Label>Salgspris</Label>
+                    <Label HorizontalAlignment="Right">124.278,00</Label>
+                </DockPanel>
+                <DockPanel>
+                    <Label>Kostpris m. tillæg</Label>
+                    <Label HorizontalAlignment="Right">102.698,44</Label>
+                </DockPanel>
+
+                <Separator Style="{StaticResource Space}"/>
+
+                <DockPanel>
+                    <Label>Dækningsbidrag</Label>
+                    <Label HorizontalAlignment="Right">21.579,56</Label>
+                </DockPanel>
+                <DockPanel>
+                    <Label>Dækningsgrad</Label>
+                    <Label HorizontalAlignment="Right">17,36</Label>
+                </DockPanel>
+
+                <Separator Style="{StaticResource Space}"/>
+
+                <Label Style="{StaticResource Header2}">Komponenter</Label>
+                <DockPanel>
+                    <Label>Pris</Label>
+                    <Label HorizontalAlignment="Right">102.698,44</Label>
+                </DockPanel>
+                <DockPanel>
+                    <Label>% af samlet</Label>
+                    <Label HorizontalAlignment="Right">82,64</Label>
+                </DockPanel>
+
+                <Separator Style="{StaticResource Space}"/>
+
+                <Label Style="{StaticResource Header2}">Løn</Label>
+                <DockPanel>
+                    <Label>Løntimer</Label>
+                    <Label HorizontalAlignment="Right">21,00</Label>
+                </DockPanel>
+                <DockPanel>
+                    <Label>Løn omkostning</Label>
+                    <Label HorizontalAlignment="Right">5.670,00</Label>
+                </DockPanel>
+                <DockPanel>
+                    <Label>% af samlet</Label>
+                    <Label HorizontalAlignment="Right">5,52</Label>
+                </DockPanel>
+
+                <Separator Style="{StaticResource Space}"/>
+
+                <Label Style="{StaticResource Header2}">Materialer</Label>
+                <DockPanel>
+                    <Label>Materiale pris</Label>
+                    <Label HorizontalAlignment="Right">3.100,00</Label>
+                </DockPanel>
+                <DockPanel>
+                    <Label>% af samlet</Label>
+                    <Label HorizontalAlignment="Right">3,02</Label>
+                </DockPanel>
+            </StackPanel>
+            <Grid VerticalAlignment="Bottom">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.5*"/>
+                    <ColumnDefinition Width="0.5*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+
+                <Button Margin="5,5,5,5" Grid.Row="0" Grid.Column="0">Nyt tilbud</Button>
+                <Button Margin="5,5,5,5" Grid.Row="0" Grid.Column="1" >Gem tilbud</Button>
+                <Button Margin="5,5,5,5" Grid.Row="1" Grid.ColumnSpan="2">Print tilbud</Button>
+            </Grid>
+        </Grid>
         
     </Grid>
 </Page>

@@ -69,9 +69,6 @@
       <DependentUpon>DialogBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="IFilterable.cs" />
-    <Compile Include="Pages\AlternativePage.xaml.cs">
-      <DependentUpon>AlternativePage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\ExistingSolutionsPage.xaml.cs">
       <DependentUpon>ExistingSolutionsPage.xaml</DependentUpon>
     </Compile>
@@ -105,10 +102,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Pages\AlternativePage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Pages\ExistingSolutionsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
