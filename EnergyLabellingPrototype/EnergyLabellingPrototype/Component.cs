@@ -25,12 +25,13 @@ namespace EnergyLabellingPrototype
             }
         }
 
-        public Component(string name, string description, string type)
+        public Component(string name, string description, string type, int price)
         {
             Name = name;
             Counter = _count;
             Description = description;
             Type = type;
+            Price = price;
             _count++;
         }
 
@@ -40,14 +41,10 @@ namespace EnergyLabellingPrototype
         }
 
         public int Counter { get; set; }
-
-        private string _name;
-        public string Name { get { return _name; } set { SetProperty(ref _name, value); } }
-
-        private string _description;
-        public string Description { get { return _description; } set { SetProperty(ref _description, value); } }
-
-        private string _type = null;
-        public string Type { get { return _type; } set { SetProperty(ref _type, value); } }
+        
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string Type { get; set; }
+        public int Price { get; set; }
     }
 }

@@ -10,12 +10,9 @@ namespace EnergyLabellingPrototype
 {
     public class Solution : IFilterable, INotifyPropertyChanged
     {
+        private ObservableCollection<Component> _components = new ObservableCollection<Component>();
+
         private static int _count = 1;
-
-        private ObservableCollection<Component> _solutionList = new ObservableCollection<Component>();
-
-        private string _info;
-
         public int Counter
         {
             get; set;
@@ -26,11 +23,7 @@ namespace EnergyLabellingPrototype
         {
             get { return _name; } set { SetProperty(ref _name, value);}
         }
-
-        public string Type
-        {
-            get; set;
-        }
+        
 
         public string Date
         {
@@ -41,42 +34,37 @@ namespace EnergyLabellingPrototype
         {
             get
             {
-                return _solutionList;
+                return _components;
             }
             set
             {
-                _solutionList = value;
+                _components = value;
             }
         }
-
-        public string Information
+        
+        public string Info
         {
             get
             {
-                return _info ?? string.Join(", ", SolutionList.Select(c => c.Type));
-            }
-            set
-            {
-                _info = value;
+                return string.Join(", ", _components.Select(c => c.Name).ToArray());
             }
         }
 
-        public Solution(string name , IEnumerable<Component> list)
+        public Solution(string name, IEnumerable<Component> componentList)
         {
-            foreach (var i in list) _solutionList.Add(i);
+            foreach (var component in componentList) _components.Add(component);
             Date = DateTime.Now.ToString();
             Name = name + _count;
             Counter = _count;
-            Type = "Pakke";
             _count++;
         }
 
         public bool FilterMatch(string filterText)
         {
-            if (Information.ToLower().Contains(filterText) || Name.ToLower().Contains(filterText))
+            if (Info.ToLower().Contains(filterText) || Name.ToLower().Contains(filterText))
                 return true;
 
-            foreach (Component component in SolutionList)
+            foreach (Component component in _components)
                 if (!component.FilterMatch(filterText))
                     return false;
 

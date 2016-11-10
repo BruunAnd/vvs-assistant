@@ -30,7 +30,7 @@ namespace EnergyLabellingPrototype
 
         private void saveComponent_Click(object sender, RoutedEventArgs e)
         {
-            App._componentList.Add(new Component(TextBox_Name.Text, TextBox_Info.Text, ComboBox_Type.Text));
+            App._componentList.Add(new Component(TextBox_Name.Text, TextBox_Info.Text, ComboBox_Type.Text, 85000));
             newFlyout.IsOpen = false;
             TextBox_Name.Text = "";
             TextBox_Info.Text = "";

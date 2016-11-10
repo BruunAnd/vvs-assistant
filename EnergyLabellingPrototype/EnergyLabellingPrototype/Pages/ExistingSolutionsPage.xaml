@@ -50,7 +50,7 @@
                     </DataGridTextColumn>
                     <DataGridTextColumn Binding="{Binding Name}" Header="Navn" Width="5*"/>
                     <DataGridTextColumn Binding="{Binding Date}"  Header="Date" Width="5*"/>
-                    <DataGridTextColumn Binding="{Binding info}"  Header="Info" Width="5*"/>
+                    <DataGridTextColumn Binding="{Binding Info}"  Header="Info" Width="5*"/>
 
                     <DataGridTemplateColumn Width="2*">
                         <DataGridTemplateColumn.CellTemplate>

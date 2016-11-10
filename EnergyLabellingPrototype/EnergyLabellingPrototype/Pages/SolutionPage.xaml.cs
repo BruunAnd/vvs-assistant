@@ -11,8 +11,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -32,6 +30,7 @@ namespace EnergyLabellingPrototype.Pages
         private int Pack_Id;
         private string Pack;
         private ObservableCollection<Component> _packagedComponents = new ObservableCollection<Component>();
+
         public SolutionPage()
         {
             InitializeComponent();
@@ -70,15 +69,13 @@ namespace EnergyLabellingPrototype.Pages
             // Update component list
             dataGridComponents.ItemsSource = App._componentList.Where(c => c.FilterMatch(filterText));
             dataGridComponents.Items.Refresh();
-
-            
         }
 
         
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             var item = (sender as Button).DataContext as Component;
-            Component c = new Component(item.Name, item.Description, item.Type);
+            Component c = new Component(item.Name, item.Description, item.Type, item.Price);
             App.MainWindow.Edit.IsOpen = true;
             int count = 0;
             foreach (Component VARIABLE in App._componentList)
@@ -92,14 +89,9 @@ namespace EnergyLabellingPrototype.Pages
             App.MainWindow.Info_in_fly(c,count);
         }
 
-        private async void AddToPackageButton_Click(object sender, RoutedEventArgs e)
+        private void AddToPackageButton_Click(object sender, RoutedEventArgs e)
         {
             var item = ( sender as Button ).DataContext as Component;
-            /*if (c.Type.ToLower().Contains("kedel"))
-            {
-                var boilerDialog = (BaseMetroDialog) Resources["AddBoilerDialog"];
-                await App.MainWindow.ShowMetroDialogAsync(boilerDialog);
-            }*/
             Add_Component_To_Shop(item);
         }
 

@@ -9,7 +9,7 @@
       mc:Ignorable="d" 
       d:DesignHeight="650" d:DesignWidth="1200"
       Title="Tilbud"
-      Loaded="Page_Loaded"
+      Loaded="PageLoaded"
 >
     <Page.Resources>
         <Style x:Key="MetroTabControl" TargetType="TabControl">
@@ -71,24 +71,26 @@
             </Grid.ColumnDefinitions>
             <Button Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Height="32" Width="120" x:Name="back" Click="back_Click">Tilbage</Button>
         </Grid>
-        
+
         <Grid Name="Content" Grid.Column="1" Grid.Row="2">
-            <Label>Vælg en pakkeløsning for hvilken du ønsker at oprette en pakkeløsning, eller opret ny pakkeløsning.</Label>
-            <DataGrid Name="dataGridExistingSolutions" IsReadOnly="True" AutoGenerateColumns="False" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
+
+            <DataGrid x:Name="dataGridExistingSolutions" MouseDoubleClick="DoubleClickSolution" IsReadOnly="true" AutoGenerateColumns="False" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Navn" Width="1*"/>
-                    <DataGridTextColumn Header="Info" Width="4*"/>
-                    <DataGridTextColumn Header="Dato" Width="1*"/>
-                    <DataGridTextColumn Width="1*"/>
+                    <DataGridTextColumn Binding="{Binding Counter}" Width="30" Header="#" />
+                    <DataGridTextColumn Binding="{Binding Name}" Header="Navn" Width="1.5*"/>
+                    <DataGridTextColumn Binding="{Binding Info}"  Header="Info" Width="5*"/>
+                    <DataGridTextColumn Binding="{Binding Date}"  Header="Date" Width="0.75*"/>
                 </DataGrid.Columns>
             </DataGrid>
+
+
             <TabControl Name="tabControl" Style="{StaticResource MetroTabControl}">
                 <TabItem Header="Komponenter">
                     <DataGrid x:Name="dataGridComponents"  IsReadOnly="True" AutoGenerateColumns="False" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding Description}" Header="Beskrivelse" Width="2*"/>
+                            <DataGridTextColumn Binding="{Binding Name}" Header="Beskrivelse" Width="2*"/>
                             <DataGridTextColumn Binding="{Binding Amount}" Header="Mængde" Width="1*"/>
-                            <DataGridTextColumn Binding="{Binding Unit_Price}" Header="Enhedspris" Width="1*"/>
+                            <DataGridTextColumn Binding="{Binding Price}" Header="Enhedspris" Width="1*"/>
                             <DataGridTextColumn Binding="{Binding Cost_Price}" Header="Kostpris" Width="1*"/>
                             <DataGridTextColumn Binding="{Binding Sales_Unit_Price}" Header="Salgs EP" Width="1*"/>
                             <DataGridTextColumn Binding="{Binding Sales_Price_Abs}" Header="Salgspris (Abs.)" Width="1.5*"/>
@@ -112,6 +114,7 @@
                 <TabItem Header="Materialer" Name="MaterialTab">
                     <DataGrid x:Name="dataGridMaterials"  IsReadOnly="False" AutoGenerateColumns="False" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
                         <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding MaterialNumber}" Header="VVS Nr." Width="1*"/>
                             <DataGridTextColumn Binding="{Binding Description}" Header="Beskrivelse" Width="2*"/>
                             <DataGridTextColumn Binding="{Binding Amount}" Header="Mængde" Width="1*"/>
                             <DataGridTextColumn Binding="{Binding Unit_Price}" Header="Enhedspris" Width="1*"/>
@@ -199,7 +202,7 @@
                     <RowDefinition Height="1*" />
                 </Grid.RowDefinitions>
 
-                <Button Margin="5,5,5,5" Grid.Row="0" Grid.Column="0">Nyt tilbud</Button>
+                <Button Margin="5,5,5,5" Grid.Row="0" Grid.Column="0" Click="NewOffer">Nyt tilbud</Button>
                 <Button Margin="5,5,5,5" Grid.Row="0" Grid.Column="1" >Gem tilbud</Button>
                 <Button Margin="5,5,5,5" Grid.Row="1" Grid.ColumnSpan="2">Print tilbud</Button>
             </Grid>

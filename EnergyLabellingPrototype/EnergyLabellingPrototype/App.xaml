@@ -33,6 +33,10 @@
                 <Setter Property="Background" Value="{StaticResource AccentColorBrush}"/>
             </Style>
 
+            <Style TargetType="DataGrid" BasedOn="{StaticResource MetroDataGrid}">
+                <Setter Property="GridLinesVisibility" Value="All"/>
+            </Style>
+
             <Style x:Key="SmallTileStyle" TargetType="Controls:Tile">
                 <Setter Property="Width" Value="225" />
                 <Setter Property="Height" Value="200" />
