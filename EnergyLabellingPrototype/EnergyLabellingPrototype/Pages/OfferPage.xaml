@@ -12,27 +12,6 @@
       Loaded="Page_Loaded"
 >
     <Page.Resources>
-        <Style x:Key="Header1" TargetType="Label">
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="FontSize" Value="16" />
-            <Setter Property="Margin" Value="0 0 0 12" />
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Background" Value="{StaticResource AccentBaseColorBrush}"/>
-        </Style>
-
-        <Style x:Key="Header2" TargetType="Label">
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="FontSize" Value="14" />
-            <Setter Property="Margin" Value="0 0 0 12" />
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="Background" Value="{StaticResource AccentColorBrush}"/>
-        </Style>
-
-        <Style x:Key="Space" TargetType="Separator">
-            <Setter Property="Height" Value="6px"/>
-            <Setter Property="Background" Value="Transparent"/>
-        </Style>
-
         <Style x:Key="MetroTabControl" TargetType="TabControl">
             <Setter Property="Padding" Value="0"/>
             <Setter Property="BorderThickness" Value="2"/>
@@ -92,11 +71,20 @@
             </Grid.ColumnDefinitions>
             <Button Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Height="32" Width="120" x:Name="back" Click="back_Click">Tilbage</Button>
         </Grid>
-
+        
         <Grid Name="Content" Grid.Column="1" Grid.Row="2">
+            <Label>Vælg en pakkeløsning for hvilken du ønsker at oprette en pakkeløsning, eller opret ny pakkeløsning.</Label>
+            <DataGrid Name="dataGridExistingSolutions" IsReadOnly="True" AutoGenerateColumns="False" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Navn" Width="1*"/>
+                    <DataGridTextColumn Header="Info" Width="4*"/>
+                    <DataGridTextColumn Header="Dato" Width="1*"/>
+                    <DataGridTextColumn Width="1*"/>
+                </DataGrid.Columns>
+            </DataGrid>
             <TabControl Name="tabControl" Style="{StaticResource MetroTabControl}">
                 <TabItem Header="Komponenter">
-                    <DataGrid x:Name="dataGridComponents"  IsReadOnly="False" AutoGenerateColumns="True" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    <DataGrid x:Name="dataGridComponents"  IsReadOnly="True" AutoGenerateColumns="False" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Description}" Header="Beskrivelse" Width="2*"/>
                             <DataGridTextColumn Binding="{Binding Amount}" Header="Mængde" Width="1*"/>
@@ -105,12 +93,11 @@
                             <DataGridTextColumn Binding="{Binding Sales_Unit_Price}" Header="Salgs EP" Width="1*"/>
                             <DataGridTextColumn Binding="{Binding Sales_Price_Abs}" Header="Salgspris (Abs.)" Width="1.5*"/>
                             <DataGridTextColumn Binding="{Binding Total_Gross_Margin}" Header="Samlet DB" Width="1*"/>
-
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>
-                <TabItem Header="Løn">
-                    <DataGrid x:Name="dataGridSallary"  IsReadOnly="False" AutoGenerateColumns="True" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <TabItem Header="Løn" Name="SallaryTab">
+                    <DataGrid x:Name="dataGridSallary"  IsReadOnly="False" AutoGenerateColumns="False" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Description}" Header="Beskrivelse" Width="2*"/>
                             <DataGridTextColumn Binding="{Binding Amount}" Header="Mængde" Width="1*"/>
@@ -119,12 +106,11 @@
                             <DataGridTextColumn Binding="{Binding Sales_Unit_Price}" Header="Salgs EP" Width="1*"/>
                             <DataGridTextColumn Binding="{Binding Sales_Price_Abs}" Header="Salgspris (Abs.)" Width="1.5*"/>
                             <DataGridTextColumn Binding="{Binding Total_Gross_Margin}" Header="Samlet DB" Width="1*"/>
-
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>
-                <TabItem Header="Materialer">
-                    <DataGrid x:Name="dataGridMaterials"  IsReadOnly="False" AutoGenerateColumns="True" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <TabItem Header="Materialer" Name="MaterialTab">
+                    <DataGrid x:Name="dataGridMaterials"  IsReadOnly="False" AutoGenerateColumns="False" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Description}" Header="Beskrivelse" Width="2*"/>
                             <DataGridTextColumn Binding="{Binding Amount}" Header="Mængde" Width="1*"/>
@@ -133,7 +119,6 @@
                             <DataGridTextColumn Binding="{Binding Sales_Unit_Price}" Header="Salgs EP" Width="1*"/>
                             <DataGridTextColumn Binding="{Binding Sales_Price_Abs}" Header="Salgspris (Abs.)" Width="1.5*"/>
                             <DataGridTextColumn Binding="{Binding Total_Gross_Margin}" Header="Samlet DB" Width="1*"/>
-
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>
@@ -143,7 +128,7 @@
         <Grid Name="Sidebar_Right" Grid.Column="3" Grid.Row="2">
             <StackPanel Orientation="Vertical">
 
-                <Label Style="{StaticResource Header2}">Projekt resultat</Label>
+                <Label Style="{StaticResource Header1}">Projekt resultat</Label>
                 <DockPanel>
                     <Label>Salgspris</Label>
                     <Label HorizontalAlignment="Right">124.278,00</Label>

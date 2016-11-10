@@ -9,20 +9,6 @@
       d:DesignHeight="480" d:DesignWidth="860"
       Title="Navigation">
 
-    <Page.Resources>
-        <Style x:Key="SmallTileStyle" TargetType="Controls:Tile">
-            <Setter Property="Width" Value="225" />
-            <Setter Property="Height" Value="200" />
-            <Setter Property="TitleFontSize" Value="14" />
-            <Setter Property="HorizontalTitleAlignment" Value="Center" />
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="BorderThickness" Value="1.0" />
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-    </Page.Resources>
-
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="65*"/>

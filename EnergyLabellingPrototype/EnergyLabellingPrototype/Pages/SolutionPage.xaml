@@ -80,11 +80,11 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="25" />
+                <RowDefinition Height="auto" />
                 <RowDefinition Height="1*" />
             </Grid.RowDefinitions>
 
-            <Label Foreground="{StaticResource IdealForegroundColorBrush}" Background="{DynamicResource AccentColorBrush}" Grid.ColumnSpan="2" Margin="0,0,0.2,37.2" Grid.RowSpan="2">Komponenter</Label>
+            <Label Style="{StaticResource Header1}">Komponenter</Label>
             <DataGrid x:Name="dataGridComponents" Grid.Column="0" Grid.Row="1"  IsReadOnly="true" AutoGenerateColumns="False" Grid.ColumnSpan="2" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" MouseDoubleClick="DoubleClickOnComponent" SelectionChanged="dataGridComponents_SelectionChanged" MouseRightButtonDown="RightClickOnComponent">
                     <DataGrid.ContextMenu>
                         <ContextMenu>
@@ -118,7 +118,6 @@
         <Grid Name="RightSidebar" Grid.Column="5" Grid.Row="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
-                <RowDefinition Height="20"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="auto"/>
@@ -126,10 +125,10 @@
                 <RowDefinition Height="auto"/>
 
             </Grid.RowDefinitions>
-            
-            <TextBox Style="{DynamicResource MetroTextBox}" Controls:TextBoxHelper.Watermark="Navn på pakkeløsning..." x:Name="constructedPackageName" TextWrapping="Wrap"/>
 
-            <DataGrid x:Name="dataGridPackage" Grid.Row="2" IsReadOnly="true" AutoGenerateColumns="False" HeadersVisibility="None" >
+            <Label Style="{StaticResource Header1}">Pakkeløsning</Label>
+            
+            <DataGrid x:Name="dataGridPackage" Grid.Row="1" IsReadOnly="true" AutoGenerateColumns="False" HeadersVisibility="None" >
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Name}"  Width="8*"/>
                     <DataGridTemplateColumn Width="3*">
@@ -141,7 +140,7 @@
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-            <StackPanel Grid.Row="4" Orientation="Vertical">
+            <StackPanel Grid.Row="3" Orientation="Vertical">
                 <DockPanel >
                     <Label>Aktuelt energimærke</Label>
                     <Label HorizontalAlignment="Right">93%</Label>
@@ -152,7 +151,7 @@
                 </DockPanel>
             </StackPanel>
 
-            <Grid Grid.Row="6" VerticalAlignment="Bottom">
+            <Grid Grid.Row="5" VerticalAlignment="Bottom">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
