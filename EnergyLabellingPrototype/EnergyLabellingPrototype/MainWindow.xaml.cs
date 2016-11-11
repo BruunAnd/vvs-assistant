@@ -58,7 +58,7 @@ namespace EnergyLabellingPrototype
 
         public void Solution_Info(Solution solution) 
         {
-            dataGridinfo.ItemsSource = solution.SolutionList.Where((item) => item.Name != null);
+            dataGridinfo.ItemsSource = solution.Components.Where((item) => item.Name != null);
         }
 
         private void ToggleSwitch_Click(object sender, RoutedEventArgs e)

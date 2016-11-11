@@ -33,8 +33,15 @@
                 <Setter Property="Background" Value="{StaticResource AccentColorBrush}"/>
             </Style>
 
+            <Style TargetType="{x:Type TextBlock}" x:Key="RightCell">
+                <Setter Property="TextAlignment" Value="Right"/>
+            </Style>
+
             <Style TargetType="DataGrid" BasedOn="{StaticResource MetroDataGrid}">
                 <Setter Property="GridLinesVisibility" Value="All"/>
+                <Setter Property="HorizontalScrollBarVisibility" Value="Disabled"/>
+                <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+                <Setter Property="IsReadOnly" Value="True"/>
             </Style>
 
             <Style x:Key="SmallTileStyle" TargetType="Controls:Tile">

@@ -10,41 +10,103 @@ namespace EnergyLabellingPrototype
 {
     public class Component : IFilterable, INotifyPropertyChanged
     {
-        private static int _count = 1;
+        private static int count = 1;
+        public readonly int Counter;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void SetProperty<T>(ref T field, T value,
-            [CallerMemberName] string propname = null)
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
-            if (!EqualityComparer<T>.Default.Equals(field, value))
-            {
-                field = value;
-                var pc = PropertyChanged;
-                pc?.Invoke(this, new PropertyChangedEventArgs(propname));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public Component(string name, string description, string type, int price)
+
+        public Component(string name, string description, string type, double price)
         {
             Name = name;
-            Counter = _count;
+            Counter = count;
             Description = description;
             Type = type;
-            Price = price;
-            _count++;
+            Cost = price;
+            count++;
         }
 
         public bool FilterMatch(string filterText)
         {
             return Name.ToLower().Contains(filterText) || Type.ToLower().Contains(filterText) || Description.ToLower().Contains(filterText);
         }
-
-        public int Counter { get; set; }
         
         public string Name { get; set; }
-        public string Description { get; set; }
-        public string Type { get; set; }
-        public int Price { get; set; }
+
+        private string description;
+        public string Description
+        {
+            get
+            {
+                return description;
+            }
+            set
+            {
+                if (value != description)
+                {
+                    description = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        private string type = null;
+        public string Type
+        {
+            get
+            {
+                return type;
+            }
+            set
+            {
+                if (value != type)
+                {
+                    type = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+
+        private double cost;
+        public double Cost
+        {
+            get
+            {
+                return cost;
+            }
+            set
+            {
+                if (value != cost)
+                {
+                    cost = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        private double salesPrice;
+        public double SalesPrice
+        {
+            get
+            {
+                return salesPrice;
+            }
+            set
+            {
+                if (value != salesPrice)
+                {
+                    salesPrice = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+        
+        public double ContributionMargin { get { return SalesPrice - Cost; } }
     }
 }

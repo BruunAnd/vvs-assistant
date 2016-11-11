@@ -69,12 +69,12 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="20"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Height="32" Width="120" x:Name="back" Click="back_Click">Tilbage</Button>
+            <Button Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Height="32" MinWidth="120" x:Name="back" Click="back_Click">Tilbage</Button>
         </Grid>
 
-        <Grid Name="Content" Grid.Column="1" Grid.Row="2">
+        <Grid Name="Main" Grid.Column="1" Grid.Row="2">
 
-            <DataGrid x:Name="dataGridExistingSolutions" MouseDoubleClick="DoubleClickSolution" IsReadOnly="true" AutoGenerateColumns="False" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <DataGrid x:Name="dataGridExistingSolutions" MouseDoubleClick="DoubleClickSolution" AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Counter}" Width="30" Header="#" />
                     <DataGridTextColumn Binding="{Binding Name}" Header="Navn" Width="1.5*"/>
@@ -86,42 +86,39 @@
 
             <TabControl Name="tabControl" Style="{StaticResource MetroTabControl}">
                 <TabItem Header="Komponenter">
-                    <DataGrid x:Name="dataGridComponents"  IsReadOnly="True" AutoGenerateColumns="False" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    <DataGrid x:Name="dataGridComponents" AutoGenerateColumns="False" IsReadOnly="False" SelectionUnit="Cell" SelectionMode="Single" CurrentCellChanged="dataGridComponentsCurrentCellChanged">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Name}" Header="Beskrivelse" Width="2*"/>
-                            <DataGridTextColumn Binding="{Binding Amount}" Header="Mængde" Width="1*"/>
-                            <DataGridTextColumn Binding="{Binding Price}" Header="Enhedspris" Width="1*"/>
-                            <DataGridTextColumn Binding="{Binding Cost_Price}" Header="Kostpris" Width="1*"/>
-                            <DataGridTextColumn Binding="{Binding Sales_Unit_Price}" Header="Salgs EP" Width="1*"/>
-                            <DataGridTextColumn Binding="{Binding Sales_Price_Abs}" Header="Salgspris (Abs.)" Width="1.5*"/>
-                            <DataGridTextColumn Binding="{Binding Total_Gross_Margin}" Header="Samlet DB" Width="1*"/>
+                            <DataGridTextColumn Binding="{Binding Cost}" Header="Kostpris" Width="1*" ElementStyle="{StaticResource RightCell}"/>
+                            <DataGridTextColumn Binding="{Binding SalesPrice}" Header="Salgspris (Abs.)" Width="1.5*" ElementStyle="{StaticResource RightCell}"/>
+                            <DataGridTextColumn Binding="{Binding ContributionMargin}" IsReadOnly="True" Header="Samlet DB" Width="1*" ElementStyle="{StaticResource RightCell}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>
-                <TabItem Header="Løn" Name="SallaryTab">
-                    <DataGrid x:Name="dataGridSallary"  IsReadOnly="False" AutoGenerateColumns="False" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <TabItem Header="Løn" Name="SalaryTab" Loaded="SalaryTabLoaded">
+                    <DataGrid x:Name="dataGridSalary"  IsReadOnly="False" AutoGenerateColumns="False" SelectionUnit="Cell" SelectionMode="Single">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding Description}" Header="Beskrivelse" Width="2*"/>
-                            <DataGridTextColumn Binding="{Binding Amount}" Header="Mængde" Width="1*"/>
-                            <DataGridTextColumn Binding="{Binding Unit_Price}" Header="Enhedspris" Width="1*"/>
-                            <DataGridTextColumn Binding="{Binding Cost_Price}" Header="Kostpris" Width="1*"/>
-                            <DataGridTextColumn Binding="{Binding Sales_Unit_Price}" Header="Salgs EP" Width="1*"/>
-                            <DataGridTextColumn Binding="{Binding Sales_Price_Abs}" Header="Salgspris (Abs.)" Width="1.5*"/>
-                            <DataGridTextColumn Binding="{Binding Total_Gross_Margin}" Header="Samlet DB" Width="1*"/>
+                            <DataGridTextColumn Binding="{Binding Name}" Header="Beskrivelse" Width="2*"/>
+                            <DataGridTextColumn Binding="{Binding Quantity}" Header="Mængde" Width="1*" ElementStyle="{StaticResource RightCell}"/>
+                            <DataGridTextColumn Binding="{Binding UnitCost}" Header="Enhedspris" Width="1*" ElementStyle="{StaticResource RightCell}"/>
+                            <DataGridTextColumn Binding="{Binding Cost}" IsReadOnly="True" Header="Kostpris" Width="1*" ElementStyle="{StaticResource RightCell}"/>
+                            <DataGridTextColumn Binding="{Binding UnitSalesPrice}" Header="Salgs EP" Width="1*"/>
+                            <DataGridTextColumn Binding="{Binding SalesPrice}" IsReadOnly="True" Header="Salgspris (Abs.)" Width="1.5*" ElementStyle="{StaticResource RightCell}"/>
+                            <DataGridTextColumn Binding="{Binding ContributionMargin}" IsReadOnly="True" Header="Samlet DB" Width="1*" ElementStyle="{StaticResource RightCell}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>
-                <TabItem Header="Materialer" Name="MaterialTab">
-                    <DataGrid x:Name="dataGridMaterials"  IsReadOnly="False" AutoGenerateColumns="False" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <TabItem Header="Materialer" Name="MaterialTab" Loaded="MaterialTabLoaded">
+                    <DataGrid x:Name="dataGridMaterials"  IsReadOnly="False" AutoGenerateColumns="False" ScrollViewer.CanContentScroll="True">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding MaterialNumber}" Header="VVS Nr." Width="1*"/>
-                            <DataGridTextColumn Binding="{Binding Description}" Header="Beskrivelse" Width="2*"/>
-                            <DataGridTextColumn Binding="{Binding Amount}" Header="Mængde" Width="1*"/>
-                            <DataGridTextColumn Binding="{Binding Unit_Price}" Header="Enhedspris" Width="1*"/>
-                            <DataGridTextColumn Binding="{Binding Cost_Price}" Header="Kostpris" Width="1*"/>
-                            <DataGridTextColumn Binding="{Binding Sales_Unit_Price}" Header="Salgs EP" Width="1*"/>
-                            <DataGridTextColumn Binding="{Binding Sales_Price_Abs}" Header="Salgspris (Abs.)" Width="1.5*"/>
-                            <DataGridTextColumn Binding="{Binding Total_Gross_Margin}" Header="Samlet DB" Width="1*"/>
+                            <DataGridTextColumn Binding="{Binding Number}" Header="VVS Nr." Width="1*"/>
+                            <DataGridTextColumn Binding="{Binding Name}" Header="Beskrivelse" Width="2*"/>
+                            <DataGridTextColumn Binding="{Binding Quantity}" Header="Mængde" Width="1*" ElementStyle="{StaticResource RightCell}"/>
+                            <DataGridTextColumn Binding="{Binding UnitCost}" Header="Enhedspris" Width="1*" ElementStyle="{StaticResource RightCell}"/>
+                            <DataGridTextColumn Binding="{Binding Cost}" IsReadOnly="True" Header="Kostpris" Width="1*" ElementStyle="{StaticResource RightCell}"/>
+                            <DataGridTextColumn Binding="{Binding UnitSalesPrice}" Header="Salgs EP" Width="1*" ElementStyle="{StaticResource RightCell}"/>
+                            <DataGridTextColumn Binding="{Binding SalesPrice}" IsReadOnly="True" Header="Salgspris (Abs.)" Width="1.5*" ElementStyle="{StaticResource RightCell}"/>
+                            <DataGridTextColumn Binding="{Binding ContributionMargin}" IsReadOnly="True" Header="Samlet DB" Width="1*" ElementStyle="{StaticResource RightCell}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>

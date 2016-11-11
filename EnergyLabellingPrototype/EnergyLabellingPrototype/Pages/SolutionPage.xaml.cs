@@ -45,7 +45,7 @@ namespace EnergyLabellingPrototype.Pages
 
         private void Add_Solution_Too_Shop(Solution solution)
         {
-            foreach (var item in solution.SolutionList)
+            foreach (var item in solution.Components)
             {
                 _packagedComponents.Add(item);
             }
@@ -75,7 +75,7 @@ namespace EnergyLabellingPrototype.Pages
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             var item = (sender as Button).DataContext as Component;
-            Component c = new Component(item.Name, item.Description, item.Type, item.Price);
+            Component c = new Component(item.Name, item.Description, item.Type, item.SalesPrice);
             App.MainWindow.Edit.IsOpen = true;
             int count = 0;
             foreach (Component VARIABLE in App._componentList)
@@ -127,10 +127,10 @@ namespace EnergyLabellingPrototype.Pages
                     {
                         if (test.Counter.Equals(Pack_Id))
                         {
-                            App._packagedList[count].SolutionList.Clear();
+                            App._packagedList[count].Components.Clear();
                             foreach (Component item in _packagedComponents)
                             {
-                                App._packagedList[count].SolutionList.Add(item);
+                                App._packagedList[count].Components.Add(item);
                             }
                             break;
                         }
@@ -156,7 +156,7 @@ namespace EnergyLabellingPrototype.Pages
         private void infoButton_Click(object sender, RoutedEventArgs e)
         {
             var item = (sender as Button).DataContext as Solution;
-            Solution c = new Solution(item.Name, item.SolutionList);
+            Solution c = new Solution(item.Name, item.Components);
             App.MainWindow.infosolution.IsOpen = true;
             App.MainWindow.Solution_Info(c);
         }
@@ -200,10 +200,9 @@ namespace EnergyLabellingPrototype.Pages
             Pack = null;
         }
 
-        private async void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
             var dialog = (BaseMetroDialog) Resources["CustomCloseDialogTest"];
-            //await App.MainWindow.ShowMetroDialog(dialog);
         }
 
         private async void Button_Click_1(object sender, RoutedEventArgs e)

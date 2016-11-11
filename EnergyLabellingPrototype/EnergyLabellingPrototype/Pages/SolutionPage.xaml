@@ -75,7 +75,7 @@
         </Grid>
 
         
-        <Grid Name="Content" Grid.Column="3" Grid.Row="2">
+        <Grid Name="Main" Grid.Column="3" Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
@@ -85,7 +85,7 @@
             </Grid.RowDefinitions>
 
             <Label Style="{StaticResource Header1}">Komponenter</Label>
-            <DataGrid x:Name="dataGridComponents" Grid.Column="0" Grid.Row="1"  IsReadOnly="true" AutoGenerateColumns="False" Grid.ColumnSpan="2" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" MouseDoubleClick="DoubleClickOnComponent" SelectionChanged="dataGridComponents_SelectionChanged" MouseRightButtonDown="RightClickOnComponent">
+            <DataGrid x:Name="dataGridComponents" Grid.Column="0" Grid.Row="1" IsReadOnly="true" AutoGenerateColumns="False" Grid.ColumnSpan="2" MouseDoubleClick="DoubleClickOnComponent" SelectionChanged="dataGridComponents_SelectionChanged" MouseRightButtonDown="RightClickOnComponent">
                     <DataGrid.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Tilføj" Click="AddToPackageButton_Click"/>

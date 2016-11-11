@@ -43,7 +43,7 @@ namespace EnergyLabellingPrototype.Pages
         private void InfoButton_Click(object sender, RoutedEventArgs e)
         {
             var item = (sender as Button).DataContext as Solution;
-            Solution c = new Solution(item.Name, item.SolutionList);
+            Solution c = new Solution(item.Name, item.Components);
             App.MainWindow.infosolution.IsOpen = true;
             App.MainWindow.Solution_Info(c);
         }

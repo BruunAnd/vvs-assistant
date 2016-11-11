@@ -10,53 +10,20 @@ namespace EnergyLabellingPrototype
 {
     public class Solution : IFilterable, INotifyPropertyChanged
     {
-        private ObservableCollection<Component> _components = new ObservableCollection<Component>();
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        private static int _count = 1;
-        public int Counter
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
-            get; set;
-        }
-
-        private string _name;
-        public string Name
-        {
-            get { return _name; } set { SetProperty(ref _name, value);}
-        }
-        
-
-        public string Date
-        {
-            get; set;
-        }
-
-        public ObservableCollection<Component> SolutionList
-        {
-            get
-            {
-                return _components;
-            }
-            set
-            {
-                _components = value;
-            }
-        }
-        
-        public string Info
-        {
-            get
-            {
-                return string.Join(", ", _components.Select(c => c.Name).ToArray());
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public Solution(string name, IEnumerable<Component> componentList)
         {
-            foreach (var component in componentList) _components.Add(component);
+            foreach (var component in componentList) components.Add(component);
             Date = DateTime.Now.ToString();
-            Name = name + _count;
-            Counter = _count;
-            _count++;
+            Name = name;
+            Counter = count;
+            count++;
         }
 
         public bool FilterMatch(string filterText)
@@ -64,24 +31,61 @@ namespace EnergyLabellingPrototype
             if (Info.ToLower().Contains(filterText) || Name.ToLower().Contains(filterText))
                 return true;
 
-            foreach (Component component in _components)
+            foreach (Component component in components)
                 if (!component.FilterMatch(filterText))
                     return false;
 
             return true;
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void SetProperty<T>(ref T field, T value,
-           [CallerMemberName] string propname = null)
+        private ObservableCollection<Component> components = new ObservableCollection<Component>();
+        public ObservableCollection<Component> Components
         {
-            if (!EqualityComparer<T>.Default.Equals(field, value))
+            get
             {
-                field = value;
-                var pc = PropertyChanged;
-                pc?.Invoke(this, new PropertyChangedEventArgs(propname));
+                return components;
+            }
+            set
+            {
+                if(value != components)
+                {
+                    components = value;
+                    NotifyPropertyChanged();
+                }
             }
         }
+
+        private string name;
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+            set
+            {
+                if (value != name)
+                {
+                    name = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public string Info
+        {
+            get
+            {
+                return string.Join(", ", components.Select(c => c.Name).ToArray());
+            }
+        }
+
+        public string Date
+        {
+            get; set;
+        }
+
+        private static int count = 1;
+        public readonly int Counter;
     }
 }

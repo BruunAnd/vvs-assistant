@@ -19,7 +19,7 @@ namespace EnergyLabellingPrototype
     {
         private static Page _existingSolutionsPage, _solutionPage, _offerPage;
 
-        public static MainWindow MainWindow;
+        public static new MainWindow MainWindow;
 
         public static ObservableCollection<Solution> _packagedList = new ObservableCollection<Solution>();
         public static ObservableCollection<Component> _componentList = new ObservableCollection<Component>();

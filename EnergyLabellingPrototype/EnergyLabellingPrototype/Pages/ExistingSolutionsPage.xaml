@@ -31,7 +31,7 @@
             <Button Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Height="32" Width="120" x:Name="back" Click="back_Click">Tilbage</Button>
         </Grid>
 
-        <Grid Name="Content"  Grid.Column="1" Grid.Row="2">
+        <Grid Name="Main"  Grid.Column="1" Grid.Row="2">
             <DataGrid x:Name="dataGrid" IsReadOnly="true" AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Counter}" Width="30" Header="#">
