@@ -6,48 +6,13 @@
       xmlns:local="clr-namespace:EnergyLabellingPrototype.Pages"
       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
       xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+      xmlns:m="clr-namespace:EnergyLabellingPrototype.Models"
       mc:Ignorable="d" 
       d:DesignHeight="650" d:DesignWidth="1200"
       Title="Tilbud"
       Loaded="PageLoaded"
 >
-    <Page.Resources>
-        <Style x:Key="MetroTabControl" TargetType="TabControl">
-            <Setter Property="Padding" Value="0"/>
-            <Setter Property="BorderThickness" Value="2"/>
-            <Setter Property="BorderBrush" Value="{StaticResource AccentBaseColorBrush}"/>
-            <Style.Resources>
-                <Style TargetType="TabItem">
-                    <Setter Property="MinWidth" Value="100"/>
-                    <Setter Property="Margin" Value="-2 0 2 0"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="TabItem">
-                                <Grid Height="35" Background="#FFECF0F5">
-                                    <Border Name="Border" Margin="0" Background="Transparent" 
-                                    BorderBrush="{StaticResource AccentBaseColorBrush}" BorderThickness="0 0 2 0">
-                                        <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center"
-                                    HorizontalAlignment="Center" 
-                                    ContentSource="Header" Margin="12,2,12,2"
-                                    RecognizesAccessKey="True">
-                                        </ContentPresenter>
-                                    </Border>
-                                </Grid>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsSelected" Value="True">
-                                        <Setter TargetName="Border" Property="BorderThickness" Value="0"/>
-                                        <Setter TargetName="Border" Property="Background" Value="{StaticResource AccentBaseColorBrush}"/>
-                                        <Setter Property="Foreground" Value="White"/>
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Style.Resources>
-        </Style>
-    </Page.Resources>
-    
+
     <Grid Name="Body">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
@@ -86,39 +51,40 @@
 
             <TabControl Name="tabControl" Style="{StaticResource MetroTabControl}">
                 <TabItem Header="Komponenter">
-                    <DataGrid x:Name="dataGridComponents" AutoGenerateColumns="False" IsReadOnly="False" SelectionUnit="Cell" SelectionMode="Single" CurrentCellChanged="dataGridComponentsCurrentCellChanged">
+                    <DataGrid x:Name="dataGridAppliances" AutoGenerateColumns="False" IsReadOnly="False" SelectionUnit="Cell" SelectionMode="Single">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding Name}" Header="Beskrivelse" Width="2*"/>
-                            <DataGridTextColumn Binding="{Binding Cost}" Header="Kostpris" Width="1*" ElementStyle="{StaticResource RightCell}"/>
-                            <DataGridTextColumn Binding="{Binding SalesPrice}" Header="Salgspris (Abs.)" Width="1.5*" ElementStyle="{StaticResource RightCell}"/>
-                            <DataGridTextColumn Binding="{Binding ContributionMargin}" IsReadOnly="True" Header="Samlet DB" Width="1*" ElementStyle="{StaticResource RightCell}"/>
+                            <DataGridTextColumn Binding="{Binding Name}" Header="Navn" Width="1*" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding Type}" Header="Type" Width="1*" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding Cost, UpdateSourceTrigger=PropertyChanged}" Header="Kostpris" Width="1*" ElementStyle="{StaticResource RightCell}"/>
+                            <DataGridTextColumn Binding="{Binding SalesPrice, UpdateSourceTrigger=PropertyChanged}" Header="Salgspris (Abs.)" Width="1.5*" ElementStyle="{StaticResource RightCell}"/>
+                            <DataGridTextColumn Binding="{Binding ContributionMargin, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Header="Samlet DB" Width="1*" ElementStyle="{StaticResource RightCell}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>
-                <TabItem Header="Løn" Name="SalaryTab" Loaded="SalaryTabLoaded">
-                    <DataGrid x:Name="dataGridSalary"  IsReadOnly="False" AutoGenerateColumns="False" SelectionUnit="Cell" SelectionMode="Single">
+                <TabItem Header="Løn" Name="SalaryTab">
+                    <DataGrid x:Name="dataGridSalary" IsReadOnly="False" AutoGenerateColumns="False" SelectionUnit="Cell" SelectionMode="Single">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Name}" Header="Beskrivelse" Width="2*"/>
-                            <DataGridTextColumn Binding="{Binding Quantity}" Header="Mængde" Width="1*" ElementStyle="{StaticResource RightCell}"/>
-                            <DataGridTextColumn Binding="{Binding UnitCost}" Header="Enhedspris" Width="1*" ElementStyle="{StaticResource RightCell}"/>
-                            <DataGridTextColumn Binding="{Binding Cost}" IsReadOnly="True" Header="Kostpris" Width="1*" ElementStyle="{StaticResource RightCell}"/>
-                            <DataGridTextColumn Binding="{Binding UnitSalesPrice}" Header="Salgs EP" Width="1*"/>
-                            <DataGridTextColumn Binding="{Binding SalesPrice}" IsReadOnly="True" Header="Salgspris (Abs.)" Width="1.5*" ElementStyle="{StaticResource RightCell}"/>
-                            <DataGridTextColumn Binding="{Binding ContributionMargin}" IsReadOnly="True" Header="Samlet DB" Width="1*" ElementStyle="{StaticResource RightCell}"/>
+                            <DataGridTextColumn Binding="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" Header="Mængde" Width="1*" ElementStyle="{StaticResource RightCell}"/>
+                            <DataGridTextColumn Binding="{Binding UnitCost, UpdateSourceTrigger=PropertyChanged}" Header="Kost EP" Width="1*" ElementStyle="{StaticResource RightCell}"/>
+                            <DataGridTextColumn Binding="{Binding Cost, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Header="Kostpris" Width="1*" ElementStyle="{StaticResource RightCell}"/>
+                            <DataGridTextColumn Binding="{Binding UnitSalesPrice, UpdateSourceTrigger=PropertyChanged}" Header="Salgs EP" Width="1*"/>
+                            <DataGridTextColumn Binding="{Binding SalesPrice, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Header="Salgspris (Abs.)" Width="1.5*" ElementStyle="{StaticResource RightCell}"/>
+                            <DataGridTextColumn Binding="{Binding ContributionMargin, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Header="Samlet DB" Width="1*" ElementStyle="{StaticResource RightCell}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>
-                <TabItem Header="Materialer" Name="MaterialTab" Loaded="MaterialTabLoaded">
-                    <DataGrid x:Name="dataGridMaterials"  IsReadOnly="False" AutoGenerateColumns="False" ScrollViewer.CanContentScroll="True">
+                <TabItem Header="Materialer" Name="MaterialTab">
+                    <DataGrid x:Name="dataGridMaterials" IsReadOnly="False" AutoGenerateColumns="False" SelectionUnit="Cell" SelectionMode="Single">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Number}" Header="VVS Nr." Width="1*"/>
                             <DataGridTextColumn Binding="{Binding Name}" Header="Beskrivelse" Width="2*"/>
-                            <DataGridTextColumn Binding="{Binding Quantity}" Header="Mængde" Width="1*" ElementStyle="{StaticResource RightCell}"/>
-                            <DataGridTextColumn Binding="{Binding UnitCost}" Header="Enhedspris" Width="1*" ElementStyle="{StaticResource RightCell}"/>
-                            <DataGridTextColumn Binding="{Binding Cost}" IsReadOnly="True" Header="Kostpris" Width="1*" ElementStyle="{StaticResource RightCell}"/>
-                            <DataGridTextColumn Binding="{Binding UnitSalesPrice}" Header="Salgs EP" Width="1*" ElementStyle="{StaticResource RightCell}"/>
-                            <DataGridTextColumn Binding="{Binding SalesPrice}" IsReadOnly="True" Header="Salgspris (Abs.)" Width="1.5*" ElementStyle="{StaticResource RightCell}"/>
-                            <DataGridTextColumn Binding="{Binding ContributionMargin}" IsReadOnly="True" Header="Samlet DB" Width="1*" ElementStyle="{StaticResource RightCell}"/>
+                            <DataGridTextColumn Binding="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" Header="Mængde" Width="1*" ElementStyle="{StaticResource RightCell}"/>
+                            <DataGridTextColumn Binding="{Binding UnitCost, UpdateSourceTrigger=PropertyChanged}" Header="Kost EP" Width="1*" ElementStyle="{StaticResource RightCell}"/>
+                            <DataGridTextColumn Binding="{Binding Cost, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Header="Kostpris" Width="1*" ElementStyle="{StaticResource RightCell}"/>
+                            <DataGridTextColumn Binding="{Binding UnitSalesPrice, UpdateSourceTrigger=PropertyChanged}" Header="Salgs EP" Width="1*"/>
+                            <DataGridTextColumn Binding="{Binding SalesPrice, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Header="Salgspris (Abs.)" Width="1.5*" ElementStyle="{StaticResource RightCell}"/>
+                            <DataGridTextColumn Binding="{Binding ContributionMargin, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Header="Samlet DB" Width="1*" ElementStyle="{StaticResource RightCell}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>
@@ -131,7 +97,7 @@
                 <Label Style="{StaticResource Header1}">Projekt resultat</Label>
                 <DockPanel>
                     <Label>Salgspris</Label>
-                    <Label HorizontalAlignment="Right">124.278,00</Label>
+                    <TextBlock HorizontalAlignment="Right" Text="{Binding Offer.TotalSalesPrice}"/>
                 </DockPanel>
                 <DockPanel>
                     <Label>Kostpris m. tillæg</Label>

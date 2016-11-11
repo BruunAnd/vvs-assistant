@@ -6,7 +6,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace EnergyLabellingPrototype
+namespace EnergyLabellingPrototype.Models
 {
     public class Solution : IFilterable, INotifyPropertyChanged
     {
@@ -17,9 +17,10 @@ namespace EnergyLabellingPrototype
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public Solution(string name, IEnumerable<Component> componentList)
+
+        public Solution(string name, IEnumerable<Appliance> appliances)
         {
-            foreach (var component in componentList) components.Add(component);
+            foreach (var appliance in appliances) Appliances.Add(appliance);
             Date = DateTime.Now.ToString();
             Name = name;
             Counter = count;
@@ -31,29 +32,14 @@ namespace EnergyLabellingPrototype
             if (Info.ToLower().Contains(filterText) || Name.ToLower().Contains(filterText))
                 return true;
 
-            foreach (Component component in components)
+            foreach (Appliance component in Appliances)
                 if (!component.FilterMatch(filterText))
                     return false;
 
             return true;
         }
 
-        private ObservableCollection<Component> components = new ObservableCollection<Component>();
-        public ObservableCollection<Component> Components
-        {
-            get
-            {
-                return components;
-            }
-            set
-            {
-                if(value != components)
-                {
-                    components = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
+        public ObservableCollection<Appliance> Appliances = new ObservableCollection<Appliance>();
 
         private string name;
         public string Name
@@ -76,7 +62,7 @@ namespace EnergyLabellingPrototype
         {
             get
             {
-                return string.Join(", ", components.Select(c => c.Name).ToArray());
+                return string.Join(", ", Appliances.Select(c => c.Name).ToArray());
             }
         }
 

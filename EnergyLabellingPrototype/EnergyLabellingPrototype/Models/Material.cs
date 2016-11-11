@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace EnergyLabellingPrototype
+namespace EnergyLabellingPrototype.Models
 {
-    public class Salary : INotifyPropertyChanged
+    public class Material : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -13,11 +13,29 @@ namespace EnergyLabellingPrototype
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        
+
+        private double number;
+        public double Number
+        {
+            get
+            {
+                return number;
+            }
+            set
+            {
+                if (value != number)
+                {
+                    number = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
         public string Name { get; set; }
 
         private double quantity;
-        public double Quantity {
+        public double Quantity
+        {
             get
             {
                 return quantity;
@@ -28,6 +46,9 @@ namespace EnergyLabellingPrototype
                 {
                     quantity = value;
                     NotifyPropertyChanged();
+                    NotifyPropertyChanged("Cost");
+                    NotifyPropertyChanged("SalesPrice");
+                    NotifyPropertyChanged("ContributionMargin");
                 }
             }
         }
@@ -45,6 +66,8 @@ namespace EnergyLabellingPrototype
                 {
                     unitCost = value;
                     NotifyPropertyChanged();
+                    NotifyPropertyChanged("Cost");
+                    NotifyPropertyChanged("ContributionMargin");
                 }
             }
         }
@@ -64,12 +87,14 @@ namespace EnergyLabellingPrototype
                 {
                     unitSalesPrice = value;
                     NotifyPropertyChanged();
+                    NotifyPropertyChanged("SalesPrice");
+                    NotifyPropertyChanged("ContributionMargin");
                 }
             }
         }
-
-        public double SalesPrice { get { return Math.Abs(UnitSalesPrice * Quantity); } }
         
+        public double SalesPrice { get { return Math.Abs(UnitSalesPrice * Quantity); } }
+
         public double ContributionMargin { get { return SalesPrice - Cost; } }
     }
 }

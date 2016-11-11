@@ -64,13 +64,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Component.cs" />
-    <Compile Include="DialogBox.xaml.cs">
+    <Compile Include="Models\Appliance.cs" />
+    <Compile Include="Resources\DialogBox.xaml.cs">
       <DependentUpon>DialogBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="IFilterable.cs" />
-    <Compile Include="Material.cs" />
-    <Compile Include="Offer.cs" />
+    <Compile Include="Interfaces\IFilterable.cs" />
+    <Compile Include="Models\Material.cs" />
+    <Compile Include="Models\Offer.cs" />
     <Compile Include="Pages\ExistingSolutionsPage.xaml.cs">
       <DependentUpon>ExistingSolutionsPage.xaml</DependentUpon>
     </Compile>
@@ -83,13 +83,9 @@
     <Compile Include="Pages\SolutionPage.xaml.cs">
       <DependentUpon>SolutionPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Salary.cs" />
-    <Compile Include="Solution.cs" />
-    <Page Include="DialogBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Icons.xaml">
+    <Compile Include="Models\Salary.cs" />
+    <Compile Include="Models\Solution.cs" />
+    <Page Include="Resources\DialogBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

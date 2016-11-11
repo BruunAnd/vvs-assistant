@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EnergyLabellingPrototype
+namespace EnergyLabellingPrototype.Models
 {
     public class Offer : IFilterable, INotifyPropertyChanged
     {
@@ -48,24 +48,24 @@ namespace EnergyLabellingPrototype
                 }
             }
         }
+        
+        public double ApplianceCost { get { return Solution.Appliances.Select(x => x.Cost).Sum(); } }
+        public double ApplianceSalesPrice { get { return Solution.Appliances.Select(x => x.SalesPrice).Sum(); } }
+        public double ApplianceContributionMargin { get { return ApplianceSalesPrice - ApplianceCost; } }
 
-        public double ComponentCost { get { return Solution.Components.Select(x => x.Cost).Sum(); } }
-        public double ComponentSalesPrice { get { return Solution.Components.Select(x => x.SalesPrice).Sum(); } }
-        public double ComponentContributionMargin { get { return ComponentSalesPrice - ComponentCost; } }
-
-        public ObservableCollection<Salary> SalaryList = new ObservableCollection<Salary>();
-        public double SalaryCost { get { return SalaryList.Select(x => x.Cost).Sum(); } }
-        public double SalarySalesPrice { get { return SalaryList.Select(x => x.SalesPrice).Sum(); } }
+        public ObservableCollection<Salary> Salaries = new ObservableCollection<Salary>();
+        public double SalaryCost { get { return Salaries.Select(x => x.Cost).Sum(); } }
+        public double SalarySalesPrice { get { return Salaries.Select(x => x.SalesPrice).Sum(); } }
         public double SalaryContributionMargin { get { return SalarySalesPrice - SalaryCost; } }
 
-        public ObservableCollection<Material> MaterialList = new ObservableCollection<Material>();
-        public double MaterialCost { get { return MaterialList.Select(x => x.Cost).Sum(); } }
-        public double MaterialSalesPrice { get { return MaterialList.Select(x => x.SalesPrice).Sum(); } }
+        public ObservableCollection<Material> Materials = new ObservableCollection<Material>();
+        public double MaterialCost { get { return Materials.Select(x => x.Cost).Sum(); } }
+        public double MaterialSalesPrice { get { return Materials.Select(x => x.SalesPrice).Sum(); } }
         public double MaterialContributionMargin { get { return MaterialSalesPrice - MaterialCost; } }
 
-        public double TotalCost { get { return MaterialCost + SalaryCost + ComponentCost; } }
-        public double TotalSalesPrice { get { return MaterialSalesPrice + SalarySalesPrice + ComponentSalesPrice; } }
-        public double TotalContributionMargin { get { return MaterialContributionMargin + SalaryContributionMargin + ComponentContributionMargin; } }
+        public double TotalCost { get { return MaterialCost + SalaryCost + ApplianceCost; } }
+        public double TotalSalesPrice { get { return MaterialSalesPrice + SalarySalesPrice + ApplianceSalesPrice; } }
+        public double TotalContributionMargin { get { return MaterialContributionMargin + SalaryContributionMargin + ApplianceContributionMargin; } }
         public double TotalSalesPricePlusTax { get { return TotalSalesPrice * 1.25; } }
 
         public string Date { get; set; }

@@ -1,4 +1,5 @@
 ﻿using EnergyLabellingPrototype.Pages;
+using EnergyLabellingPrototype.Models;
 using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
@@ -30,7 +31,7 @@ namespace EnergyLabellingPrototype
 
         private void saveComponent_Click(object sender, RoutedEventArgs e)
         {
-            App._componentList.Add(new Component(TextBox_Name.Text, TextBox_Info.Text, ComboBox_Type.Text, 85000));
+            App._componentList.Add(new Appliance(TextBox_Name.Text, TextBox_Info.Text, ComboBox_Type.Text, 85000));
             newFlyout.IsOpen = false;
             TextBox_Name.Text = "";
             TextBox_Info.Text = "";
@@ -47,7 +48,7 @@ namespace EnergyLabellingPrototype
             Edit.IsOpen = false;
         }
 
-        public void Info_in_fly(Component component, int index)
+        public void Info_in_fly(Appliance component, int index)
         {
             editToggleSwitch.IsChecked = false;
             TextBox_Info_Edit.Text = component.Description;
@@ -58,7 +59,7 @@ namespace EnergyLabellingPrototype
 
         public void Solution_Info(Solution solution) 
         {
-            dataGridinfo.ItemsSource = solution.Components.Where((item) => item.Name != null);
+            dataGridinfo.ItemsSource = solution.Appliances.Where((item) => item.Name != null);
         }
 
         private void ToggleSwitch_Click(object sender, RoutedEventArgs e)

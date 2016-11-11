@@ -1,4 +1,5 @@
 ﻿using MahApps.Metro.Controls;
+using EnergyLabellingPrototype.Models;
 using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;
@@ -43,7 +44,7 @@ namespace EnergyLabellingPrototype.Pages
         private void InfoButton_Click(object sender, RoutedEventArgs e)
         {
             var item = (sender as Button).DataContext as Solution;
-            Solution c = new Solution(item.Name, item.Components);
+            Solution c = new Solution(item.Name, item.Appliances);
             App.MainWindow.infosolution.IsOpen = true;
             App.MainWindow.Solution_Info(c);
         }

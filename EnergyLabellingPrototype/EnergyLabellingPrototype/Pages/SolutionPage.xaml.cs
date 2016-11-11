@@ -1,4 +1,5 @@
 ﻿using MahApps.Metro.Controls;
+using EnergyLabellingPrototype.Models;
 using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,7 @@ namespace EnergyLabellingPrototype.Pages
     {
         private int Pack_Id;
         private string Pack;
-        private ObservableCollection<Component> _packagedComponents = new ObservableCollection<Component>();
+        private ObservableCollection<Appliance> _packagedComponents = new ObservableCollection<Appliance>();
 
         public SolutionPage()
         {
@@ -45,7 +46,7 @@ namespace EnergyLabellingPrototype.Pages
 
         private void Add_Solution_Too_Shop(Solution solution)
         {
-            foreach (var item in solution.Components)
+            foreach (var item in solution.Appliances)
             {
                 _packagedComponents.Add(item);
             }
@@ -74,11 +75,11 @@ namespace EnergyLabellingPrototype.Pages
         
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-            var item = (sender as Button).DataContext as Component;
-            Component c = new Component(item.Name, item.Description, item.Type, item.SalesPrice);
+            var item = (sender as Button).DataContext as Appliance;
+            Appliance c = new Appliance(item.Name, item.Description, item.Type, item.SalesPrice);
             App.MainWindow.Edit.IsOpen = true;
             int count = 0;
-            foreach (Component VARIABLE in App._componentList)
+            foreach (Appliance VARIABLE in App._componentList)
             {
                 if (VARIABLE.Counter.Equals(item.Counter))
                 {
@@ -91,11 +92,11 @@ namespace EnergyLabellingPrototype.Pages
 
         private void AddToPackageButton_Click(object sender, RoutedEventArgs e)
         {
-            var item = ( sender as Button ).DataContext as Component;
+            var item = ( sender as Button ).DataContext as Appliance;
             Add_Component_To_Shop(item);
         }
 
-        private void Add_Component_To_Shop(Component item)
+        private void Add_Component_To_Shop(Appliance item)
         {
             _packagedComponents.Add(item);
             dataGridPackage.Items.Refresh();
@@ -112,7 +113,7 @@ namespace EnergyLabellingPrototype.Pages
 
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
         {
-            _packagedComponents.Remove((sender as Button ).DataContext as Component);
+            _packagedComponents.Remove((sender as Button ).DataContext as Appliance);
             dataGridPackage.Items.Refresh();
         }
 
@@ -127,10 +128,10 @@ namespace EnergyLabellingPrototype.Pages
                     {
                         if (test.Counter.Equals(Pack_Id))
                         {
-                            App._packagedList[count].Components.Clear();
-                            foreach (Component item in _packagedComponents)
+                            App._packagedList[count].Appliances.Clear();
+                            foreach (Appliance item in _packagedComponents)
                             {
-                                App._packagedList[count].Components.Add(item);
+                                App._packagedList[count].Appliances.Add(item);
                             }
                             break;
                         }
@@ -156,7 +157,7 @@ namespace EnergyLabellingPrototype.Pages
         private void infoButton_Click(object sender, RoutedEventArgs e)
         {
             var item = (sender as Button).DataContext as Solution;
-            Solution c = new Solution(item.Name, item.Components);
+            Solution c = new Solution(item.Name, item.Appliances);
             App.MainWindow.infosolution.IsOpen = true;
             App.MainWindow.Solution_Info(c);
         }
@@ -242,7 +243,7 @@ namespace EnergyLabellingPrototype.Pages
                 return;
             }
             if (dataGridComponents.SelectedItem == null) return;
-            var selectedComponent = dataGridComponents.SelectedItem as Component;
+            var selectedComponent = dataGridComponents.SelectedItem as Appliance;
             Add_Component_To_Shop(selectedComponent);
         }
 
@@ -254,7 +255,7 @@ namespace EnergyLabellingPrototype.Pages
                 return;
             }
             if (dataGridComponents.SelectedItem == null) return;
-            var selectedComponent = dataGridComponents.SelectedItem as Component;
+            var selectedComponent = dataGridComponents.SelectedItem as Appliance;
             
             Add_Component_To_Shop(selectedComponent);
         }

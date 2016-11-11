@@ -6,9 +6,9 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EnergyLabellingPrototype
+namespace EnergyLabellingPrototype.Models
 {
-    public class Component : IFilterable, INotifyPropertyChanged
+    public class Appliance : IFilterable, INotifyPropertyChanged
     {
         private static int count = 1;
         public readonly int Counter;
@@ -21,7 +21,7 @@ namespace EnergyLabellingPrototype
         }
 
 
-        public Component(string name, string description, string type, double price)
+        public Appliance(string name, string description, string type, double price)
         {
             Name = name;
             Counter = count;
@@ -86,6 +86,7 @@ namespace EnergyLabellingPrototype
                 {
                     cost = value;
                     NotifyPropertyChanged();
+                    NotifyPropertyChanged("ContributionMargin");
                 }
             }
         }
@@ -103,6 +104,7 @@ namespace EnergyLabellingPrototype
                 {
                     salesPrice = value;
                     NotifyPropertyChanged();
+                    NotifyPropertyChanged("ContributionMargin");
                 }
             }
         }
