@@ -74,12 +74,6 @@ namespace EnergyLabellingPrototype.Pages
             CollapseControl(dataGridExistingSolutions);
             ExpandControl(tabControl);
         }
-
-
-        private void SidebarRefresh(object sender, RoutedEventArgs e)
-        {
-
-        }
         
         private void CollapseControl(Control target)
         {
@@ -95,7 +89,13 @@ namespace EnergyLabellingPrototype.Pages
         {
             NavigationService.GoBack();
         }
-        
-        
+
+        void OnItemPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Exception ex = new Exception();
+            throw ex;
+        }
+
+
     }
 }

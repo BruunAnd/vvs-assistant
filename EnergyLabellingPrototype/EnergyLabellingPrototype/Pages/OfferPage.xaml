@@ -97,62 +97,76 @@
                 <Label Style="{StaticResource Header1}">Projekt resultat</Label>
                 <DockPanel>
                     <Label>Salgspris</Label>
-                    <TextBlock HorizontalAlignment="Right" Text="{Binding Offer.TotalSalesPrice}"/>
+                    <Label HorizontalAlignment="Right" Content="{Binding Offer.TotalSalesPrice}"/>
                 </DockPanel>
                 <DockPanel>
-                    <Label>Kostpris m. tillæg</Label>
-                    <Label HorizontalAlignment="Right">102.698,44</Label>
+                    <Label>Salgspris inkl. moms</Label>
+                    <Label HorizontalAlignment="Right" Content="{Binding Offer.TotalSalesPricePlusTax}"/>
                 </DockPanel>
-
-                <Separator Style="{StaticResource Space}"/>
+                <DockPanel>
+                    <Label>Kostpris</Label>
+                    <Label HorizontalAlignment="Right" Content="{Binding Offer.TotalCost}"/>
+                </DockPanel>
 
                 <DockPanel>
                     <Label>Dækningsbidrag</Label>
-                    <Label HorizontalAlignment="Right">21.579,56</Label>
-                </DockPanel>
-                <DockPanel>
-                    <Label>Dækningsgrad</Label>
-                    <Label HorizontalAlignment="Right">17,36</Label>
+                    <Label HorizontalAlignment="Right" Content="{Binding Offer.TotalContributionMargin}"/>
                 </DockPanel>
 
                 <Separator Style="{StaticResource Space}"/>
 
                 <Label Style="{StaticResource Header2}">Komponenter</Label>
                 <DockPanel>
-                    <Label>Pris</Label>
-                    <Label HorizontalAlignment="Right">102.698,44</Label>
+                    <Label>Salgspris</Label>
+                    <Label HorizontalAlignment="Right" Content="{Binding Offer.ApplianceSalesPrice}"/>
                 </DockPanel>
+
                 <DockPanel>
-                    <Label>% af samlet</Label>
-                    <Label HorizontalAlignment="Right">82,64</Label>
+                    <Label>Kostspris</Label>
+                    <Label HorizontalAlignment="Right" Content="{Binding Offer.ApplianceCost}"/>
+                </DockPanel>
+
+                <DockPanel>
+                    <Label>Dækningsbidrag</Label>
+                    <Label HorizontalAlignment="Right" Content="{Binding Offer.ApplianceContributionMargin}"/>
                 </DockPanel>
 
                 <Separator Style="{StaticResource Space}"/>
 
                 <Label Style="{StaticResource Header2}">Løn</Label>
+                
                 <DockPanel>
-                    <Label>Løntimer</Label>
-                    <Label HorizontalAlignment="Right">21,00</Label>
+                    <Label>Salgspris</Label>
+                    <Label HorizontalAlignment="Right" Content="{Binding Offer.SalarySalesPrice}"/>
                 </DockPanel>
+
                 <DockPanel>
-                    <Label>Løn omkostning</Label>
-                    <Label HorizontalAlignment="Right">5.670,00</Label>
+                    <Label>Kostspris</Label>
+                    <Label HorizontalAlignment="Right" Content="{Binding Offer.SalaryCost}"/>
                 </DockPanel>
+
                 <DockPanel>
-                    <Label>% af samlet</Label>
-                    <Label HorizontalAlignment="Right">5,52</Label>
+                    <Label>Dækningsbidrag</Label>
+                    <Label HorizontalAlignment="Right" Content="{Binding Offer.SalaryContributionMargin}"/>
                 </DockPanel>
 
                 <Separator Style="{StaticResource Space}"/>
 
                 <Label Style="{StaticResource Header2}">Materialer</Label>
+                
                 <DockPanel>
-                    <Label>Materiale pris</Label>
-                    <Label HorizontalAlignment="Right">3.100,00</Label>
+                    <Label>Salgspris</Label>
+                    <Label HorizontalAlignment="Right" Content="{Binding Offer.MaterialSalesPrice}"/>
                 </DockPanel>
+
                 <DockPanel>
-                    <Label>% af samlet</Label>
-                    <Label HorizontalAlignment="Right">3,02</Label>
+                    <Label>Kostspris</Label>
+                    <Label HorizontalAlignment="Right" Content="{Binding Offer.MaterialCost}"/>
+                </DockPanel>
+
+                <DockPanel>
+                    <Label>Dækningsbidrag</Label>
+                    <Label HorizontalAlignment="Right" Content="{Binding Offer.MaterialContributionMargin}"/>
                 </DockPanel>
             </StackPanel>
             <Grid VerticalAlignment="Bottom">
