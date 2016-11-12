@@ -39,6 +39,8 @@ namespace EnergyLabellingPrototype.Pages
             Offer = new Offer();
             dataGridSalary.ItemsSource = Offer.Salaries;
             dataGridMaterials.ItemsSource = Offer.Materials;
+
+
             CollapseControl(tabControl);
             ExpandControl(dataGridExistingSolutions);
         }
@@ -49,8 +51,10 @@ namespace EnergyLabellingPrototype.Pages
 
         private void NewOffer(object sender, RoutedEventArgs e)
         {
+            Offer.Solution = new Solution("Pakke", new ObservableCollection<Appliance>()); // Lappeløsning, bør fixes når databasen er implementeret og solution klassen ikke tager constructor argumenter. Instansieres med en ny tom solution for at resette tal i sidebaren.
             Offer.Salaries.Clear();
             Offer.Materials.Clear();
+
             CollapseControl(tabControl);
             ExpandControl(dataGridExistingSolutions);
         }
@@ -89,12 +93,7 @@ namespace EnergyLabellingPrototype.Pages
         {
             NavigationService.GoBack();
         }
-
-        void OnItemPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            Exception ex = new Exception();
-            throw ex;
-        }
+        
 
 
     }

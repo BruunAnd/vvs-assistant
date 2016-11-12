@@ -30,7 +30,6 @@ namespace EnergyLabellingPrototype.Models
             Salaries.CollectionChanged += SalariesCollectionChanged;
         }
         
-        
 
         private void MaterialsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
@@ -38,7 +37,6 @@ namespace EnergyLabellingPrototype.Models
             {
                 foreach (Material item in e.NewItems)
                 {
-                    item.PropertyChanged += MaterialPropertyChanged;
                     item.PropertyChanged += AnyPropertyChanged;
                 }
 
@@ -48,10 +46,11 @@ namespace EnergyLabellingPrototype.Models
             {
                 foreach (Material item in e.OldItems)
                 {
-                    item.PropertyChanged -= MaterialPropertyChanged;
                     item.PropertyChanged -= AnyPropertyChanged;
                 }
             }
+            
+            AnyPropertyChanged(sender, null);
         }
 
         private void SalariesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -60,7 +59,6 @@ namespace EnergyLabellingPrototype.Models
             {
                 foreach (Salary item in e.NewItems)
                 {
-                    item.PropertyChanged += SalaryPropertyChanged;
                     item.PropertyChanged += AnyPropertyChanged;
                 }
 
@@ -70,35 +68,24 @@ namespace EnergyLabellingPrototype.Models
             {
                 foreach (Salary item in e.OldItems)
                 {
-                    item.PropertyChanged -= SalaryPropertyChanged;
                     item.PropertyChanged -= AnyPropertyChanged;
                 }
             }
-        }
-
-        private void AppliancePropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            NotifyPropertyChanged("ApplianceCost");
-            NotifyPropertyChanged("ApplianceSalesPrice");
-            NotifyPropertyChanged("ApplianceContributionMargin");
-        }
-
-        private void MaterialPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            NotifyPropertyChanged("MaterialCost");
-            NotifyPropertyChanged("MaterialSalesPrice");
-            NotifyPropertyChanged("MaterialContributionMargin");
-        }
-
-        private void SalaryPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            NotifyPropertyChanged("SalaryCost");
-            NotifyPropertyChanged("SalarySalesPrice");
-            NotifyPropertyChanged("SalaryContributionMargin");
+            
+            AnyPropertyChanged(sender, null);
         }
 
         private void AnyPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            NotifyPropertyChanged("ApplianceCost");
+            NotifyPropertyChanged("ApplianceSalesPrice");
+            NotifyPropertyChanged("ApplianceContributionMargin");
+            NotifyPropertyChanged("MaterialCost");
+            NotifyPropertyChanged("MaterialSalesPrice");
+            NotifyPropertyChanged("MaterialContributionMargin");
+            NotifyPropertyChanged("SalaryCost");
+            NotifyPropertyChanged("SalarySalesPrice");
+            NotifyPropertyChanged("SalaryContributionMargin");
             NotifyPropertyChanged("TotalCost");
             NotifyPropertyChanged("TotalSalesPrice");
             NotifyPropertyChanged("TotalContributionMargin");
@@ -121,32 +108,16 @@ namespace EnergyLabellingPrototype.Models
             }
             set
             {
-                if(solution != value)
+                solution = value;
+                foreach (Appliance item in solution.Appliances)
                 {
-                    // Remove property changed event from all previous items in appliance collection.
-                    foreach (Appliance item in Appliances)
-                    {
-                        item.PropertyChanged -= AppliancePropertyChanged;
-                        item.PropertyChanged -= AnyPropertyChanged;
-                    }
-
-                    solution = value;
-                    Appliances = solution.Appliances;
-
-                    // Add property changed event to all new items in appliance collection.
-                    foreach (Appliance item in Appliances)
-                    {
-                        item.PropertyChanged += AppliancePropertyChanged;
-                        item.PropertyChanged += AnyPropertyChanged;
-                    }
+                    item.PropertyChanged += AnyPropertyChanged;
                 }
             }
         }
-
-
-        public ObservableCollection<Appliance> Appliances = new ObservableCollection<Appliance>();
-        public double ApplianceCost { get { return Appliances.Select(x => x.Cost).Sum(); } }
-        public double ApplianceSalesPrice { get { return Appliances.Select(x => x.SalesPrice).Sum(); } }
+        
+        public double ApplianceCost { get { return Solution.Appliances.Select(x => x.Cost).Sum(); } }
+        public double ApplianceSalesPrice { get { return Solution.Appliances.Select(x => x.SalesPrice).Sum(); } }
         public double ApplianceContributionMargin { get { return ApplianceSalesPrice - ApplianceCost; } }
 
         public ObservableCollection<Salary> Salaries = new ObservableCollection<Salary>();
