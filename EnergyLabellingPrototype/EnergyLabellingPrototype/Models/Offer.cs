@@ -49,8 +49,8 @@ namespace EnergyLabellingPrototype.Models
                     item.PropertyChanged -= AnyPropertyChanged;
                 }
             }
-            
-            AnyPropertyChanged(sender, null);
+
+            CollectionChanged(sender, e);
         }
 
         private void SalariesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -71,11 +71,21 @@ namespace EnergyLabellingPrototype.Models
                     item.PropertyChanged -= AnyPropertyChanged;
                 }
             }
-            
-            AnyPropertyChanged(sender, null);
+
+            CollectionChanged(sender, e);
         }
 
         private void AnyPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            UpdateProperties();
+        }
+
+        private void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            UpdateProperties();
+        }
+
+        private void UpdateProperties()
         {
             NotifyPropertyChanged("ApplianceCost");
             NotifyPropertyChanged("ApplianceSalesPrice");
@@ -96,6 +106,13 @@ namespace EnergyLabellingPrototype.Models
         {
             return Name.ToLower().Contains(filterText);
         }
+        
+        public void Clear()
+        {
+            Solution = default(Solution);
+            Materials.Clear();
+            Salaries.Clear();
+        }
 
         public string Name { get; set; }
 
@@ -109,16 +126,41 @@ namespace EnergyLabellingPrototype.Models
             set
             {
                 solution = value;
-                foreach (Appliance item in solution.Appliances)
+                if(Solution != null && solution.Appliances != null)
                 {
-                    item.PropertyChanged += AnyPropertyChanged;
+                    foreach (Appliance item in solution.Appliances)
+                    {
+                        item.PropertyChanged += AnyPropertyChanged;
+                    }
                 }
             }
         }
         
-        public double ApplianceCost { get { return Solution.Appliances.Select(x => x.Cost).Sum(); } }
-        public double ApplianceSalesPrice { get { return Solution.Appliances.Select(x => x.SalesPrice).Sum(); } }
-        public double ApplianceContributionMargin { get { return ApplianceSalesPrice - ApplianceCost; } }
+        public double ApplianceCost
+        {
+            get
+            {
+                if(Solution != null) return Solution.Appliances.Select(x => x.Cost).Sum();
+                else return 0;
+            }
+        }
+
+        public double ApplianceSalesPrice
+        {
+            get
+            {
+                if (Solution != null && solution.Appliances != null) return Solution.Appliances.Select(x => x.SalesPrice).Sum();
+                else return 0;
+            }
+        }
+        public double ApplianceContributionMargin
+        {
+            get
+            {
+                if (Solution != null && Solution.Appliances != null) return ApplianceSalesPrice - ApplianceCost;
+                else return 0;
+            }
+        }
 
         public ObservableCollection<Salary> Salaries = new ObservableCollection<Salary>();
         public double SalaryCost { get { return Salaries.Select(x => x.Cost).Sum(); } }

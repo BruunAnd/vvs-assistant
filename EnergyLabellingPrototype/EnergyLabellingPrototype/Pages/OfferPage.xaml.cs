@@ -29,20 +29,32 @@ namespace EnergyLabellingPrototype.Pages
         public OfferPage()
         {
             InitializeComponent();
-            this.DataContext = this;
             InitializePage();
+
+            // Bound datacontext to this page, allowing the sidebar to retrieve information from the Offer through bindings.
+            this.DataContext = this;
         }
 
         private void InitializePage()
         {
-            dataGridExistingSolutions.ItemsSource = App._packagedList;
             Offer = new Offer();
+            dataGridExistingSolutions.ItemsSource = App._packagedList;
             dataGridSalary.ItemsSource = Offer.Salaries;
             dataGridMaterials.ItemsSource = Offer.Materials;
 
+            ShowExistingSolutionsGrid();
+        }
 
+        private void ShowExistingSolutionsGrid()
+        {
             CollapseControl(tabControl);
             ExpandControl(dataGridExistingSolutions);
+        }
+
+        private void ShowOfferGrid()
+        {
+            CollapseControl(dataGridExistingSolutions);
+            ExpandControl(tabControl);
         }
 
         private void PageLoaded(object sender, RoutedEventArgs e)
@@ -51,12 +63,8 @@ namespace EnergyLabellingPrototype.Pages
 
         private void NewOffer(object sender, RoutedEventArgs e)
         {
-            Offer.Solution = new Solution("Pakke", new ObservableCollection<Appliance>()); // Lappeløsning, bør fixes når databasen er implementeret og solution klassen ikke tager constructor argumenter. Instansieres med en ny tom solution for at resette tal i sidebaren.
-            Offer.Salaries.Clear();
-            Offer.Materials.Clear();
-
-            CollapseControl(tabControl);
-            ExpandControl(dataGridExistingSolutions);
+            Offer.Clear();
+            ShowExistingSolutionsGrid();
         }
 
         private void DoubleClickSolution(object sender, MouseButtonEventArgs e)
@@ -75,8 +83,8 @@ namespace EnergyLabellingPrototype.Pages
         {
             Offer.Solution = src;
             dataGridAppliances.ItemsSource = Offer.Solution.Appliances;
-            CollapseControl(dataGridExistingSolutions);
-            ExpandControl(tabControl);
+
+            ShowOfferGrid();
         }
         
         private void CollapseControl(Control target)
@@ -89,7 +97,7 @@ namespace EnergyLabellingPrototype.Pages
             target.Visibility = Visibility.Visible;
         }
 
-        private void back_Click(object sender, RoutedEventArgs e)
+        private void BackClick(object sender, RoutedEventArgs e)
         {
             NavigationService.GoBack();
         }

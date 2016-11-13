@@ -34,7 +34,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="20"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Height="32" MinWidth="120" x:Name="back" Click="back_Click">Tilbage</Button>
+            <Button Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Height="32" MinWidth="120" x:Name="backButton" Click="BackClick">Tilbage</Button>
         </Grid>
 
         <Grid Name="Main" Grid.Column="1" Grid.Row="2">
