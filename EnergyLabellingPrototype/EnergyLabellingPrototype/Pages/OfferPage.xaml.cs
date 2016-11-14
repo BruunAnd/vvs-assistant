@@ -82,7 +82,6 @@ namespace EnergyLabellingPrototype.Pages
         {
             Offer.Solution = src;
             dataGridAppliances.ItemsSource = Offer.Solution.Appliances;
-
             ShowOfferGrid();
         }
         
