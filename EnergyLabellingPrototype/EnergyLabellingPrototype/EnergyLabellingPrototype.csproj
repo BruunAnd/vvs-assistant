@@ -65,6 +65,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\Appliance.cs" />
+    <Compile Include="Pages\ExistingOffersPage.xaml.cs">
+      <DependentUpon>ExistingOffersPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Resources\DialogBox.xaml.cs">
       <DependentUpon>DialogBox.xaml</DependentUpon>
     </Compile>
@@ -85,6 +88,10 @@
     </Compile>
     <Compile Include="Models\Salary.cs" />
     <Compile Include="Models\Solution.cs" />
+    <Page Include="Pages\ExistingOffersPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\DialogBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

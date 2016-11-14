@@ -13,6 +13,7 @@ using System.ComponentModel;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
+using System.Diagnostics;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
@@ -30,7 +31,6 @@ namespace EnergyLabellingPrototype.Pages
         {
             InitializeComponent();
             InitializePage();
-
             // Bound datacontext to this page, allowing the sidebar to retrieve information from the Offer through bindings.
             this.DataContext = this;
         }
@@ -41,7 +41,6 @@ namespace EnergyLabellingPrototype.Pages
             dataGridExistingSolutions.ItemsSource = App._packagedList;
             dataGridSalary.ItemsSource = Offer.Salaries;
             dataGridMaterials.ItemsSource = Offer.Materials;
-
             ShowExistingSolutionsGrid();
         }
 
@@ -101,8 +100,5 @@ namespace EnergyLabellingPrototype.Pages
         {
             NavigationService.GoBack();
         }
-        
-
-
     }
 }

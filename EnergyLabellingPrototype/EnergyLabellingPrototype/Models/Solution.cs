@@ -23,7 +23,6 @@ namespace EnergyLabellingPrototype.Models
             foreach (var appliance in appliances) Appliances.Add(appliance);
             Date = DateTime.Now.ToString();
             Name = name;
-            Counter = count;
             count++;
         }
 
@@ -72,6 +71,6 @@ namespace EnergyLabellingPrototype.Models
         }
 
         private static int count = 1;
-        public readonly int Counter;
+        public readonly int bla = count;
     }
 }

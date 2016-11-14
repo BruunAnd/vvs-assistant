@@ -18,7 +18,7 @@ namespace EnergyLabellingPrototype
     /// </summary>
     public partial class App : Application
     {
-        private static Page _existingSolutionsPage, _solutionPage, _offerPage;
+        private static Page _existingSolutionsPage, _solutionPage, _offerPage, _existingOffersPage;
 
         public static new MainWindow MainWindow;
 
@@ -102,6 +102,14 @@ namespace EnergyLabellingPrototype
             get
             {
                 return _offerPage == null ? _offerPage = new OfferPage() : _offerPage;
+            }
+        }
+
+        public static Page ExistingOffersPage
+        {
+            get
+            {
+                return _existingOffersPage == null ? _existingOffersPage = new OfferPage() : _existingOffersPage;
             }
         }
     }
