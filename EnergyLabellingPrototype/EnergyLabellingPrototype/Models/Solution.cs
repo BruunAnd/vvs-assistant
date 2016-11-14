@@ -23,8 +23,8 @@ namespace EnergyLabellingPrototype.Models
             foreach (var appliance in appliances) Appliances.Add(appliance);
             Date = DateTime.Now.ToString();
             Name = name;
-            Counter = count;
-            count++;
+            ID = counter;
+            counter++;
         }
 
         public bool FilterMatch(string filterText)
@@ -71,7 +71,9 @@ namespace EnergyLabellingPrototype.Models
             get; set;
         }
 
-        private static int count = 1;
-        public readonly int Counter;
+        public int ID { get; private set; }
+
+        // Count Solution instances, starting at 1.
+        private static int counter = 1;
     }
 }

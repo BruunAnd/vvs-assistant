@@ -67,10 +67,10 @@
 
             <DataGrid x:Name="dataGridExistingSolutions" MouseDoubleClick="DoubleClickSolution" AutoGenerateColumns="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding Counter}" Width="30" Header="#" />
-                    <DataGridTextColumn Binding="{Binding Name}" Header="Navn" Width="1.5*"/>
-                    <DataGridTextColumn Binding="{Binding Info}"  Header="Info" Width="5*"/>
-                    <DataGridTextColumn Binding="{Binding Date}"  Header="Date" Width="0.75*"/>
+                    <DataGridTextColumn Binding="{Binding ID}" Width="40" Header="#" CanUserResize="False"/>
+                    <DataGridTextColumn Binding="{Binding Name}" Header="Navn" Width="1.5*" CanUserResize="False"/>
+                    <DataGridTextColumn Binding="{Binding Info}"  Header="Info" Width="5*" CanUserResize="False"/>
+                    <DataGridTextColumn Binding="{Binding Date}"  Header="Date" Width="1*" CanUserResize="False"/>
                 </DataGrid.Columns>
             </DataGrid>
 

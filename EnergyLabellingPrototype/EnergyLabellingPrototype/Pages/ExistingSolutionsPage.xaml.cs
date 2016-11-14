@@ -33,7 +33,7 @@ namespace EnergyLabellingPrototype.Pages
         {
             var item = (sender as Button).DataContext as Solution;
 
-            NavigationService.Navigate(new SolutionPage(item, item.Counter));
+            NavigationService.Navigate(new SolutionPage(item, item.ID));
         }
 
         private void Grid_Loaded(object sender, RoutedEventArgs e)

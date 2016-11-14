@@ -128,7 +128,7 @@
 
             <Label Style="{StaticResource Header1}">Pakkeløsning</Label>
             
-            <DataGrid x:Name="dataGridPackage" Grid.Row="1" IsReadOnly="true" AutoGenerateColumns="False" HeadersVisibility="None" >
+            <DataGrid x:Name="dataGridPackage" Grid.Row="1" IsReadOnly="true" AutoGenerateColumns="False" HeadersVisibility="None">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Name}"  Width="8*"/>
                     <DataGridTemplateColumn Width="3*">

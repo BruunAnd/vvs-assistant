@@ -105,7 +105,7 @@ namespace EnergyLabellingPrototype.Pages
         private void AddSolToPackageButton_Click(object sender, RoutedEventArgs e)
         {
             var item = (sender as Button).DataContext as Solution;
-            Pack_Id = item.Counter;
+            Pack_Id = item.ID;
             Pack = "";
             Add_Solution_Too_Shop(item);
             dataGridPackage.Items.Refresh();
@@ -126,7 +126,7 @@ namespace EnergyLabellingPrototype.Pages
                 {
                     foreach (var test in App._packagedList)
                     {
-                        if (test.Counter.Equals(Pack_Id))
+                        if (test.ID.Equals(Pack_Id))
                         {
                             App._packagedList[count].Appliances.Clear();
                             foreach (Appliance item in _packagedComponents)
