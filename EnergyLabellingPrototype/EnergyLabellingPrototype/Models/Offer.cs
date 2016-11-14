@@ -115,6 +115,18 @@ namespace EnergyLabellingPrototype.Models
         }
 
         public string Name { get; set; }
+        public string LetterOpening
+        {
+            get; set;
+        }
+        public string LetterEnding
+        {
+            get; set;
+        }
+        public bool ShowPrice
+        {
+            get; set;
+        }
 
         private Solution solution;
         public Solution Solution

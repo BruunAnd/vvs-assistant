@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace EnergyLabellingPrototype.Pages
 {
@@ -24,6 +25,8 @@ namespace EnergyLabellingPrototype.Pages
     /// </summary>
     public partial class OfferPage : Page
     {
+        private BaseMetroDialog _printDialog;
+
         public Offer Offer { get; set; }
 
         public OfferPage()
@@ -101,8 +104,27 @@ namespace EnergyLabellingPrototype.Pages
         {
             NavigationService.GoBack();
         }
-        
 
+        private void ShowPrintDialogButton_Click(object sender, RoutedEventArgs e)
+        {
+            _printDialog = (BaseMetroDialog) Resources["PrintOfferDialog"];
+            _printDialog.DataContext = Offer;
 
+            App.MainWindow.ShowMetroDialogAsync(_printDialog);
+        }
+
+        private void PrintOfferFinal_Click(object sender, RoutedEventArgs e)
+        {
+            App.MainWindow.HideMetroDialogAsync(_printDialog);
+            _printDialog = null;
+
+            App.MainWindow.ShowMessageAsync("grats", "u made an offer xD");
+        }
+
+        private void CloseDialog_Click(object sender, RoutedEventArgs e)
+        {
+            App.MainWindow.HideMetroDialogAsync(_printDialog);
+            _printDialog = null;
+        }
     }
 }

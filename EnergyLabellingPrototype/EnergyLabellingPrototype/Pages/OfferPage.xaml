@@ -13,6 +13,32 @@
       Loaded="PageLoaded"
 >
 
+    <Page.Resources>
+        <ResourceDictionary>
+            <Dialog:CustomDialog x:Key="PrintOfferDialog" x:Name="PrintOfferDialog" Title="Print tilbud">
+
+                <StackPanel>
+                    <Label>Projekt-titel:</Label>
+                    <TextBox Text="{Binding Name}"/>
+
+                    <Label>Indledning til følgebrev:</Label>
+                    <TextBox Height="120" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding LetterOpening}" />
+
+                    <Label>Afslutning på følgebrev:</Label>
+                    <TextBox Height="120" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding LetterEnding}" />
+
+                    <CheckBox Margin="5,5,5,5" IsChecked="{Binding ShowPrice}">Vis pris inkl. moms</CheckBox>
+
+                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                        <Button Click="PrintOfferFinal_Click" Margin="5,5,5,5" Content="Print tilbud" />
+                        <Button Click="CloseDialog_Click" Margin="5,5,5,5" Content="Afbryd" />
+                    </StackPanel>
+                </StackPanel>
+
+            </Dialog:CustomDialog>
+        </ResourceDictionary>
+    </Page.Resources>
+
     <Grid Name="Body">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
@@ -181,7 +207,7 @@
 
                 <Button Margin="5,5,5,5" Grid.Row="0" Grid.Column="0" Click="NewOffer">Nyt tilbud</Button>
                 <Button Margin="5,5,5,5" Grid.Row="0" Grid.Column="1" >Gem tilbud</Button>
-                <Button Margin="5,5,5,5" Grid.Row="1" Grid.ColumnSpan="2">Print tilbud</Button>
+                <Button Margin="5,5,5,5" Grid.Row="1" Grid.ColumnSpan="2" Name="ShowPrintDialogButton" Click="ShowPrintDialogButton_Click">Print tilbud</Button>
             </Grid>
         </Grid>
         
