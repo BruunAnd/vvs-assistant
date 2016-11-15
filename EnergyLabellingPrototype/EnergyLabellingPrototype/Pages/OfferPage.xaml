@@ -8,10 +8,8 @@
       xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
       xmlns:m="clr-namespace:EnergyLabellingPrototype.Models"
       mc:Ignorable="d" 
-      d:DesignHeight="650" d:DesignWidth="1200"
-      Title="Tilbud"
-      Loaded="PageLoaded"
->
+      d:DesignHeight="768" d:DesignWidth="1280"
+      Title="Tilbud">
 
     <Page.Resources>
         <ResourceDictionary>
@@ -30,8 +28,8 @@
                     <CheckBox Margin="5,5,5,5" IsChecked="{Binding ShowPrice}">Vis pris inkl. moms</CheckBox>
 
                     <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                        <Button Click="PrintOfferFinal_Click" Margin="5,5,5,5" Content="Print tilbud" />
-                        <Button Click="CloseDialog_Click" Margin="5,5,5,5" Content="Afbryd" />
+                        <Button Click="PrintOfferConfirm" Margin="5,5,5,5" Content="Print tilbud" />
+                        <Button Click="PrintOfferCancel" Margin="5,5,5,5" Content="Afbryd" />
                     </StackPanel>
                 </StackPanel>
 
@@ -81,8 +79,8 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Name}" Header="Navn" Width="1*" IsReadOnly="True"/>
                             <DataGridTextColumn Binding="{Binding Type}" Header="Type" Width="1*" IsReadOnly="True"/>
-                            <DataGridTextColumn Binding="{Binding Cost, UpdateSourceTrigger=PropertyChanged}" Header="Kostpris" Width="1*" ElementStyle="{StaticResource RightCell}"/>
-                            <DataGridTextColumn Binding="{Binding SalesPrice, UpdateSourceTrigger=PropertyChanged}" Header="Salgspris (Abs.)" Width="1.5*" ElementStyle="{StaticResource RightCell}"/>
+                            <DataGridTextColumn Binding="{Binding UnitCostPrice, UpdateSourceTrigger=PropertyChanged}" Header="Kostpris" Width="1*" ElementStyle="{StaticResource RightCell}"/>
+                            <DataGridTextColumn Binding="{Binding UnitSalesPrice, UpdateSourceTrigger=PropertyChanged}" Header="Salgspris" Width="1.5*" ElementStyle="{StaticResource RightCell}"/>
                             <DataGridTextColumn Binding="{Binding ContributionMargin, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Header="Samlet DB" Width="1*" ElementStyle="{StaticResource RightCell}"/>
                         </DataGrid.Columns>
                     </DataGrid>
@@ -92,7 +90,7 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Name}" Header="Beskrivelse" Width="2*"/>
                             <DataGridTextColumn Binding="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" Header="Mængde" Width="1*" ElementStyle="{StaticResource RightCell}"/>
-                            <DataGridTextColumn Binding="{Binding UnitCost, UpdateSourceTrigger=PropertyChanged}" Header="Kost EP" Width="1*" ElementStyle="{StaticResource RightCell}"/>
+                            <DataGridTextColumn Binding="{Binding UnitCostPrice, UpdateSourceTrigger=PropertyChanged}" Header="Kost EP" Width="1*" ElementStyle="{StaticResource RightCell}"/>
                             <DataGridTextColumn Binding="{Binding Cost, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Header="Kostpris" Width="1*" ElementStyle="{StaticResource RightCell}"/>
                             <DataGridTextColumn Binding="{Binding UnitSalesPrice, UpdateSourceTrigger=PropertyChanged}" Header="Salgs EP" Width="1*"/>
                             <DataGridTextColumn Binding="{Binding SalesPrice, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Header="Salgspris (Abs.)" Width="1.5*" ElementStyle="{StaticResource RightCell}"/>
@@ -103,10 +101,10 @@
                 <TabItem Header="Materialer" Name="MaterialTab">
                     <DataGrid x:Name="dataGridMaterials" IsReadOnly="False" AutoGenerateColumns="False" SelectionUnit="Cell" SelectionMode="Single">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding Number}" Header="VVS Nr." Width="1*"/>
+                            <DataGridTextColumn Binding="{Binding VvsNumber}" Header="VVS Nr." Width="1*"/>
                             <DataGridTextColumn Binding="{Binding Name}" Header="Beskrivelse" Width="2*"/>
                             <DataGridTextColumn Binding="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" Header="Mængde" Width="1*" ElementStyle="{StaticResource RightCell}"/>
-                            <DataGridTextColumn Binding="{Binding UnitCost, UpdateSourceTrigger=PropertyChanged}" Header="Kost EP" Width="1*" ElementStyle="{StaticResource RightCell}"/>
+                            <DataGridTextColumn Binding="{Binding UnitCostPrice, UpdateSourceTrigger=PropertyChanged}" Header="Kost EP" Width="1*" ElementStyle="{StaticResource RightCell}"/>
                             <DataGridTextColumn Binding="{Binding Cost, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Header="Kostpris" Width="1*" ElementStyle="{StaticResource RightCell}"/>
                             <DataGridTextColumn Binding="{Binding UnitSalesPrice, UpdateSourceTrigger=PropertyChanged}" Header="Salgs EP" Width="1*"/>
                             <DataGridTextColumn Binding="{Binding SalesPrice, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Header="Salgspris (Abs.)" Width="1.5*" ElementStyle="{StaticResource RightCell}"/>
@@ -123,20 +121,20 @@
                 <Label Style="{StaticResource Header1}">Projekt resultat</Label>
                 <DockPanel>
                     <Label>Salgspris</Label>
-                    <Label HorizontalAlignment="Right" Content="{Binding Offer.TotalSalesPrice}"/>
+                    <Label Name="TotalSalesPrice" HorizontalAlignment="Right" Content="0"/>
                 </DockPanel>
                 <DockPanel>
                     <Label>Salgspris inkl. moms</Label>
-                    <Label HorizontalAlignment="Right" Content="{Binding Offer.TotalSalesPricePlusTax}"/>
+                    <Label Name="TotalSalesPricePlusTax" HorizontalAlignment="Right" Content="0"/>
                 </DockPanel>
                 <DockPanel>
                     <Label>Kostpris</Label>
-                    <Label HorizontalAlignment="Right" Content="{Binding Offer.TotalCost}"/>
+                    <Label Name="TotalCostPrice" HorizontalAlignment="Right" Content="0"/>
                 </DockPanel>
 
                 <DockPanel>
                     <Label>Dækningsbidrag</Label>
-                    <Label HorizontalAlignment="Right" Content="{Binding Offer.TotalContributionMargin}"/>
+                    <Label Name="TotalContributionMargin" HorizontalAlignment="Right" Content="0"/>
                 </DockPanel>
 
                 <Separator Style="{StaticResource Space}"/>
@@ -144,17 +142,17 @@
                 <Label Style="{StaticResource Header2}">Komponenter</Label>
                 <DockPanel>
                     <Label>Salgspris</Label>
-                    <Label HorizontalAlignment="Right" Content="{Binding Offer.ApplianceSalesPrice}"/>
+                    <Label Name="AppliancesSalesPrice" HorizontalAlignment="Right" Content="0"/>
                 </DockPanel>
 
                 <DockPanel>
                     <Label>Kostspris</Label>
-                    <Label HorizontalAlignment="Right" Content="{Binding Offer.ApplianceCost}"/>
+                    <Label Name="AppliancesCostPrice" HorizontalAlignment="Right" Content="0"/>
                 </DockPanel>
 
                 <DockPanel>
                     <Label>Dækningsbidrag</Label>
-                    <Label HorizontalAlignment="Right" Content="{Binding Offer.ApplianceContributionMargin}"/>
+                    <Label Name="AppliancesContributionMargin" HorizontalAlignment="Right" Content="0"/>
                 </DockPanel>
 
                 <Separator Style="{StaticResource Space}"/>
@@ -163,17 +161,17 @@
                 
                 <DockPanel>
                     <Label>Salgspris</Label>
-                    <Label HorizontalAlignment="Right" Content="{Binding Offer.SalarySalesPrice}"/>
+                    <Label Name="SalariesSalesPrice" HorizontalAlignment="Right" Content="0"/>
                 </DockPanel>
 
                 <DockPanel>
                     <Label>Kostspris</Label>
-                    <Label HorizontalAlignment="Right" Content="{Binding Offer.SalaryCost}"/>
+                    <Label Name="SalariesCostPrice" HorizontalAlignment="Right" Content="0"/>
                 </DockPanel>
 
                 <DockPanel>
                     <Label>Dækningsbidrag</Label>
-                    <Label HorizontalAlignment="Right" Content="{Binding Offer.SalaryContributionMargin}"/>
+                    <Label Name="SalariesContributionMargin" HorizontalAlignment="Right" Content="0"/>
                 </DockPanel>
 
                 <Separator Style="{StaticResource Space}"/>
@@ -182,17 +180,17 @@
                 
                 <DockPanel>
                     <Label>Salgspris</Label>
-                    <Label HorizontalAlignment="Right" Content="{Binding Offer.MaterialSalesPrice}"/>
+                    <Label Name="MaterialsSalesPrice" HorizontalAlignment="Right" Content="0"/>
                 </DockPanel>
 
                 <DockPanel>
                     <Label>Kostspris</Label>
-                    <Label HorizontalAlignment="Right" Content="{Binding Offer.MaterialCost}"/>
+                    <Label Name="MaterialsCostPrice" HorizontalAlignment="Right" Content="0"/>
                 </DockPanel>
 
                 <DockPanel>
                     <Label>Dækningsbidrag</Label>
-                    <Label HorizontalAlignment="Right" Content="{Binding Offer.MaterialContributionMargin}"/>
+                    <Label Name="MaterialsContributionMargin" HorizontalAlignment="Right" Content="0"/>
                 </DockPanel>
             </StackPanel>
             <Grid VerticalAlignment="Bottom">
@@ -207,7 +205,7 @@
 
                 <Button Margin="5,5,5,5" Grid.Row="0" Grid.Column="0" Click="NewOffer">Nyt tilbud</Button>
                 <Button Margin="5,5,5,5" Grid.Row="0" Grid.Column="1" >Gem tilbud</Button>
-                <Button Margin="5,5,5,5" Grid.Row="1" Grid.ColumnSpan="2" Name="ShowPrintDialogButton" Click="ShowPrintDialogButton_Click">Print tilbud</Button>
+                <Button Margin="5,5,5,5" Grid.Row="1" Grid.ColumnSpan="2" Name="ShowPrintDialogButton" Click="PrintOffer">Print tilbud</Button>
             </Grid>
         </Grid>
         

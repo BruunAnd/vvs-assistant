@@ -8,26 +8,19 @@ using System.Threading.Tasks;
 
 namespace EnergyLabellingPrototype.Models
 {
-    public class Appliance : IFilterable, INotifyPropertyChanged
+    public class Appliance : UnitPrice, IFilterable
     {
         private static int count = 1;
         public readonly int Counter;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-
+        
         public Appliance(string name, string description, string type, double price)
         {
             Name = name;
             Counter = count;
             Description = description;
             Type = type;
-            Cost = price;
+            Quantity = 1;
+            UnitCostPrice = price;
             count++;
         }
 
@@ -71,44 +64,5 @@ namespace EnergyLabellingPrototype.Models
                 }
             }
         }
-
-
-        private double cost;
-        public double Cost
-        {
-            get
-            {
-                return cost;
-            }
-            set
-            {
-                if (value != cost)
-                {
-                    cost = value;
-                    NotifyPropertyChanged();
-                    NotifyPropertyChanged("ContributionMargin");
-                }
-            }
-        }
-
-        private double salesPrice;
-        public double SalesPrice
-        {
-            get
-            {
-                return salesPrice;
-            }
-            set
-            {
-                if (value != salesPrice)
-                {
-                    salesPrice = value;
-                    NotifyPropertyChanged();
-                    NotifyPropertyChanged("ContributionMargin");
-                }
-            }
-        }
-        
-        public double ContributionMargin { get { return SalesPrice - Cost; } }
     }
 }

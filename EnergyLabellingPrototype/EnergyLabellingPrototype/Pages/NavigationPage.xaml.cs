@@ -34,5 +34,10 @@ namespace EnergyLabellingPrototype.Pages
         {
             NavigationService.Navigate(App.OfferPage);
         }
+
+        private void Tile_Click_3(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(App.ExistingOffersPage);
+        }
     }
 }

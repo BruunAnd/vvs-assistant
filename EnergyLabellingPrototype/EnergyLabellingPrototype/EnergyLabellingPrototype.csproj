@@ -65,6 +65,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\Appliance.cs" />
+    <Compile Include="Models\Extensions.cs" />
+    <Compile Include="Models\Material.cs" />
+    <Compile Include="Models\OfferLetter.cs" />
+    <Compile Include="Models\Salary.cs" />
+    <Compile Include="Models\UnitPrice.cs" />
     <Compile Include="Pages\ExistingOffersPage.xaml.cs">
       <DependentUpon>ExistingOffersPage.xaml</DependentUpon>
     </Compile>
@@ -72,7 +77,6 @@
       <DependentUpon>DialogBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\IFilterable.cs" />
-    <Compile Include="Models\Material.cs" />
     <Compile Include="Models\Offer.cs" />
     <Compile Include="Pages\ExistingSolutionsPage.xaml.cs">
       <DependentUpon>ExistingSolutionsPage.xaml</DependentUpon>
@@ -86,7 +90,6 @@
     <Compile Include="Pages\SolutionPage.xaml.cs">
       <DependentUpon>SolutionPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models\Salary.cs" />
     <Compile Include="Models\Solution.cs" />
     <Page Include="Pages\ExistingOffersPage.xaml">
       <SubType>Designer</SubType>

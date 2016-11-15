@@ -24,14 +24,14 @@ namespace EnergyLabellingPrototype
 
         public static ObservableCollection<Solution> _packagedList = new ObservableCollection<Solution>();
         public static ObservableCollection<Appliance> _componentList = new ObservableCollection<Appliance>();
-
+        public static ObservableCollection<Offer> _offerList = new ObservableCollection<Offer>();
 
         public App()
         {
             ObservableCollection<Appliance> list = new ObservableCollection<Appliance>();
             list.Add(new Appliance("Logano plus SB105", "Oliekedel fra Bosch", "Oliekedel", 85000));
-                list.Add(new Appliance("Compress 6000 LW", "Varmepumpe fra Bosch", "Varmepumpe", 85000));
-                list.Add(new Appliance("CW400 Bosch", "Temperaturregulator fra Bosch", "Temperaturstyring", 85000));
+            list.Add(new Appliance("Compress 6000 LW", "Varmepumpe fra Bosch", "Varmepumpe", 85000));
+            list.Add(new Appliance("CW400 Bosch", "Temperaturregulator fra Bosch", "Temperaturstyring", 85000));
 
             ObservableCollection<Appliance> list2 = new ObservableCollection<Appliance>();
             list2.Add(new Appliance("Logano plus SB105", "Oliekedel fra Bosch", "Oliekedel", 85000));
@@ -45,7 +45,10 @@ namespace EnergyLabellingPrototype
             _packagedList.Add(new Solution("Pakke", list2));
 
 
-                _componentList.Add(new Appliance("Logano plus SB105", "Oliekedel fra Bosch", "Oliekedel", 85000));
+            _offerList.Add(new Offer("Tilbud", _packagedList[0]));
+            _offerList.Add(new Offer("Tilbud2", _packagedList[1]));
+
+            _componentList.Add(new Appliance("Logano plus SB105", "Oliekedel fra Bosch", "Oliekedel", 85000));
             _componentList.Add(new Appliance("Logano plus SB105 RC35", "Oliekedel fra Bosch", "Oliekedel", 85000));
             _componentList.Add(new Appliance("Logano plus GB312", "Gulvmonteret Gaskedel fra Bosch", "Gaskedel", 85000));
             _componentList.Add(new Appliance("Compress 6000 LW", "Brine/vand Varmepumpe fra Bosch", "Varmepumpe", 85000));
@@ -109,7 +112,7 @@ namespace EnergyLabellingPrototype
         {
             get
             {
-                return _existingOffersPage == null ? _existingOffersPage = new OfferPage() : _existingOffersPage;
+                return _existingOffersPage == null ? _existingOffersPage = new ExistingOffersPage() : _existingOffersPage;
             }
         }
     }

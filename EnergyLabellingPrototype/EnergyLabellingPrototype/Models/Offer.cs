@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EnergyLabellingPrototype.Models
 {
+    
     public class Offer : IFilterable, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
@@ -19,88 +17,45 @@ namespace EnergyLabellingPrototype.Models
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        
-        public Offer()
+        public Offer(string name, Solution solution)
         {
+            Name = name;
+            Solution = solution;
+
             Date = DateTime.Now.ToString();
-            Counter = count;
+            ID = count;
             count++;
             
-            Materials.CollectionChanged += MaterialsCollectionChanged;
-            Salaries.CollectionChanged += SalariesCollectionChanged;
+            Materials.CollectionChanged += OnCollectionChanged;
+            Salaries.CollectionChanged += OnCollectionChanged;
         }
-        
 
-        private void MaterialsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.NewItems != null)
             {
-                foreach (Material item in e.NewItems)
+                foreach (UnitPrice item in e.NewItems)
                 {
-                    item.PropertyChanged += AnyPropertyChanged;
+                    item.PropertyChanged += OnPropertyChanged;
                 }
-
             }
 
             if (e.OldItems != null)
             {
-                foreach (Material item in e.OldItems)
+                foreach (UnitPrice item in e.OldItems)
                 {
-                    item.PropertyChanged -= AnyPropertyChanged;
+                    item.PropertyChanged -= OnPropertyChanged;
                 }
             }
 
-            CollectionChanged(sender, e);
+            NotifyPropertyChanged();
         }
 
-        private void SalariesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.NewItems != null)
-            {
-                foreach (Salary item in e.NewItems)
-                {
-                    item.PropertyChanged += AnyPropertyChanged;
-                }
-
-            }
-
-            if (e.OldItems != null)
-            {
-                foreach (Salary item in e.OldItems)
-                {
-                    item.PropertyChanged -= AnyPropertyChanged;
-                }
-            }
-
-            CollectionChanged(sender, e);
+            NotifyPropertyChanged();
         }
 
-        private void AnyPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            UpdateProperties();
-        }
-
-        private void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            UpdateProperties();
-        }
-
-        private void UpdateProperties()
-        {
-            NotifyPropertyChanged("ApplianceCost");
-            NotifyPropertyChanged("ApplianceSalesPrice");
-            NotifyPropertyChanged("ApplianceContributionMargin");
-            NotifyPropertyChanged("MaterialCost");
-            NotifyPropertyChanged("MaterialSalesPrice");
-            NotifyPropertyChanged("MaterialContributionMargin");
-            NotifyPropertyChanged("SalaryCost");
-            NotifyPropertyChanged("SalarySalesPrice");
-            NotifyPropertyChanged("SalaryContributionMargin");
-            NotifyPropertyChanged("TotalCost");
-            NotifyPropertyChanged("TotalSalesPrice");
-            NotifyPropertyChanged("TotalContributionMargin");
-            NotifyPropertyChanged("TotalSalesPricePlusTax");
-        }
 
         public bool FilterMatch(string filterText)
         {
@@ -109,25 +64,13 @@ namespace EnergyLabellingPrototype.Models
         
         public void Clear()
         {
-            Solution = default(Solution);
+            Solution.Appliances.Clear();
             Materials.Clear();
             Salaries.Clear();
         }
 
         public string Name { get; set; }
-        public string LetterOpening
-        {
-            get; set;
-        }
-        public string LetterEnding
-        {
-            get; set;
-        }
-        public bool ShowPrice
-        {
-            get; set;
-        }
-
+        
         private Solution solution;
         public Solution Solution
         {
@@ -138,61 +81,24 @@ namespace EnergyLabellingPrototype.Models
             set
             {
                 solution = value;
-                if(Solution != null && solution.Appliances != null)
+                foreach (Appliance item in solution.Appliances)
                 {
-                    foreach (Appliance item in solution.Appliances)
-                    {
-                        item.PropertyChanged += AnyPropertyChanged;
-                    }
+                    item.PropertyChanged += OnPropertyChanged;
                 }
-            }
-        }
-        
-        public double ApplianceCost
-        {
-            get
-            {
-                if(Solution != null) return Solution.Appliances.Select(x => x.Cost).Sum();
-                else return 0;
-            }
-        }
-
-        public double ApplianceSalesPrice
-        {
-            get
-            {
-                if (Solution != null && solution.Appliances != null) return Solution.Appliances.Select(x => x.SalesPrice).Sum();
-                else return 0;
-            }
-        }
-        public double ApplianceContributionMargin
-        {
-            get
-            {
-                if (Solution != null && Solution.Appliances != null) return ApplianceSalesPrice - ApplianceCost;
-                else return 0;
             }
         }
 
         public ObservableCollection<Salary> Salaries = new ObservableCollection<Salary>();
-        public double SalaryCost { get { return Salaries.Select(x => x.Cost).Sum(); } }
-        public double SalarySalesPrice { get { return Salaries.Select(x => x.SalesPrice).Sum(); } }
-        public double SalaryContributionMargin { get { return SalarySalesPrice - SalaryCost; } }
-
         public ObservableCollection<Material> Materials = new ObservableCollection<Material>();
-        public double MaterialCost { get { return Materials.Select(x => x.Cost).Sum(); } }
-        public double MaterialSalesPrice { get { return Materials.Select(x => x.SalesPrice).Sum(); } }
-        public double MaterialContributionMargin { get { return MaterialSalesPrice - MaterialCost; } }
-
-        public double TotalCost { get { return MaterialCost + SalaryCost + ApplianceCost; } }
-        public double TotalSalesPrice { get { return MaterialSalesPrice + SalarySalesPrice + ApplianceSalesPrice; } }
-        public double TotalContributionMargin { get { return MaterialContributionMargin + SalaryContributionMargin + ApplianceContributionMargin; } }
+        
+        public double TotalCostPrice { get { return Materials.TotalCostPrice() + Salaries.TotalCostPrice() + Solution.Appliances.TotalCostPrice(); } }
+        public double TotalSalesPrice { get { return Materials.TotalSalesPrice() + Salaries.TotalSalesPrice() + Solution.Appliances.TotalSalesPrice(); } }
+        public double TotalContributionMargin { get { return Materials.TotalContributionMargin() + Salaries.TotalContributionMargin() + Solution.Appliances.TotalContributionMargin(); } }
         public double TotalSalesPricePlusTax { get { return TotalSalesPrice * 1.25; } }
 
         public string Date { get; set; }
 
         private static int count = 1;
-        public readonly int Counter;
-
+        public int ID { get; private set; }
     }
 }

@@ -33,14 +33,34 @@ namespace EnergyLabellingPrototype.Pages
         {
             InitializeComponent();
             InitializePage();
-
+            Offer.PropertyChanged += UpdateSidebar;
             // Bound datacontext to this page, allowing the sidebar to retrieve information from the Offer through bindings.
             this.DataContext = this;
         }
 
+        private void UpdateSidebar(object sender, PropertyChangedEventArgs e)
+        {
+            TotalSalesPrice.Content = Offer.TotalSalesPrice;
+            TotalSalesPricePlusTax.Content = Offer.TotalSalesPricePlusTax;
+            TotalCostPrice.Content = Offer.TotalCostPrice;
+            TotalContributionMargin.Content = Offer.TotalContributionMargin;
+
+            AppliancesSalesPrice.Content = Offer.Solution.Appliances.TotalSalesPrice();
+            AppliancesCostPrice.Content = Offer.Solution.Appliances.TotalCostPrice();
+            AppliancesContributionMargin.Content = Offer.Solution.Appliances.TotalContributionMargin();
+
+            SalariesSalesPrice.Content = Offer.Salaries.TotalSalesPrice();
+            SalariesCostPrice.Content = Offer.Salaries.TotalCostPrice();
+            SalariesContributionMargin.Content = Offer.Salaries.TotalContributionMargin();
+
+            MaterialsSalesPrice.Content = Offer.Materials.TotalSalesPrice();
+            MaterialsCostPrice.Content = Offer.Materials.TotalCostPrice();
+            MaterialsContributionMargin.Content = Offer.Materials.TotalContributionMargin();
+        }
+        
         private void InitializePage()
         {
-            Offer = new Offer();
+            Offer = new Offer("Tilbud 3", App._packagedList[0]);
             dataGridExistingSolutions.ItemsSource = App._packagedList;
             dataGridSalary.ItemsSource = Offer.Salaries;
             dataGridMaterials.ItemsSource = Offer.Materials;
@@ -59,11 +79,7 @@ namespace EnergyLabellingPrototype.Pages
             CollapseControl(dataGridExistingSolutions);
             ExpandControl(tabControl);
         }
-
-        private void PageLoaded(object sender, RoutedEventArgs e)
-        {
-        }
-
+        
         private void NewOffer(object sender, RoutedEventArgs e)
         {
             Offer.Clear();
@@ -105,23 +121,23 @@ namespace EnergyLabellingPrototype.Pages
             NavigationService.GoBack();
         }
 
-        private void ShowPrintDialogButton_Click(object sender, RoutedEventArgs e)
+        private void PrintOffer(object sender, RoutedEventArgs e)
         {
+            OfferLetter letter = new OfferLetter(Offer);
             _printDialog = (BaseMetroDialog) Resources["PrintOfferDialog"];
-            _printDialog.DataContext = Offer;
+            _printDialog.DataContext = letter;
 
             App.MainWindow.ShowMetroDialogAsync(_printDialog);
         }
 
-        private void PrintOfferFinal_Click(object sender, RoutedEventArgs e)
+        private async void PrintOfferConfirm(object sender, RoutedEventArgs e)
         {
-            App.MainWindow.HideMetroDialogAsync(_printDialog);
+            await App.MainWindow.HideMetroDialogAsync(_printDialog);
+            await App.MainWindow.ShowMessageAsync("grats", "u made an offer xD");
             _printDialog = null;
-
-            App.MainWindow.ShowMessageAsync("grats", "u made an offer xD");
         }
 
-        private void CloseDialog_Click(object sender, RoutedEventArgs e)
+        private void PrintOfferCancel(object sender, RoutedEventArgs e)
         {
             App.MainWindow.HideMetroDialogAsync(_printDialog);
             _printDialog = null;

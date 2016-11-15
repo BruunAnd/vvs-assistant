@@ -39,10 +39,13 @@
 
             <DataGrid x:Name="dataGridExistingOffers" AutoGenerateColumns="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding Counter}" Width="30" Header="#" />
+                    <DataGridTextColumn Binding="{Binding ID}" Header="#" Width="40"/>
                     <DataGridTextColumn Binding="{Binding Name}" Header="Navn" Width="1.5*"/>
-                    <DataGridTextColumn Binding="{Binding Info}"  Header="Info" Width="5*"/>
-                    <DataGridTextColumn Binding="{Binding Date}"  Header="Date" Width="0.75*"/>
+                    <DataGridTextColumn Binding="{Binding Date}" Header="Dato" Width="1*"/>
+                    <DataGridTextColumn Binding="{Binding Solution.Name}" Header="Pakkeløsning" Width="1.5*"/>
+                    <DataGridTextColumn Binding="{Binding TotalCostPrice}" Header="Kostpris"/>
+                    <DataGridTextColumn Binding="{Binding TotalSalesPrice}" Header="Salgspris"/>
+                    <DataGridTextColumn Binding="{Binding TotalContributionMargin}" Header="Dækningsbidrag"/>
                 </DataGrid.Columns>
             </DataGrid>
 

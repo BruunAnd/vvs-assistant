@@ -23,6 +23,7 @@ namespace EnergyLabellingPrototype.Pages
         public ExistingOffersPage()
         {
             InitializeComponent();
+            dataGridExistingOffers.ItemsSource = App._offerList;
         }
 
         private void BackClick(object sender, RoutedEventArgs e)
