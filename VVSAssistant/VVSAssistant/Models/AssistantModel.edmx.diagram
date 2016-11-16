@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d66af26ea5594d6c9d840c9ba5f2a420" Name="Diagram1" DisplayType="true" >
+        <EntityTypeShape EntityType="AssistantModel.Client" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="AssistantModel.ClientInformation" Width="1.5" PointX="3" PointY="6.25" />
+        <AssociationConnector Association="AssistantModel.ClientInformationAssociation" />
+        <EntityTypeShape EntityType="AssistantModel.Offer" Width="1.5" PointX="3" PointY="2.375" />
+        <AssociationConnector Association="AssistantModel.ClientOffer" />
+        <EntityTypeShape EntityType="AssistantModel.OfferInformation" Width="1.5" PointX="5.25" PointY="1.125" />
+        <AssociationConnector Association="AssistantModel.OfferOfferInformation" />
+        <EntityTypeShape EntityType="AssistantModel.PackagedSolution" Width="1.5" PointX="5.25" PointY="3.625" />
+        <AssociationConnector Association="AssistantModel.OfferPackagedSolutionAssociation" />
+        <EntityTypeShape EntityType="AssistantModel.Appliance" Width="1.5" PointX="7.5" PointY="3.5" />
+        <AssociationConnector Association="AssistantModel.PackagedSolutionApplianceAssociation" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
