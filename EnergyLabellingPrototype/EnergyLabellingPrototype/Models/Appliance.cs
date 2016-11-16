@@ -28,7 +28,7 @@ namespace EnergyLabellingPrototype.Models
         {
             return Name.ToLower().Contains(filterText) || Type.ToLower().Contains(filterText) || Description.ToLower().Contains(filterText);
         }
-        
+
         public string Name { get; set; }
 
         private string description;
@@ -62,6 +62,18 @@ namespace EnergyLabellingPrototype.Models
                     type = value;
                     NotifyPropertyChanged();
                 }
+            }
+        }
+
+
+        private bool isSelected;
+        public bool IsSelected
+        {
+            get { return isSelected; }
+            set
+            {
+                isSelected = value;
+                NotifyPropertyChanged();
             }
         }
     }

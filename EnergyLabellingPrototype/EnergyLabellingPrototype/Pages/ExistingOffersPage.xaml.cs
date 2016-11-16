@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using EnergyLabellingPrototype.Models;
 
 namespace EnergyLabellingPrototype.Pages
 {
@@ -30,7 +31,14 @@ namespace EnergyLabellingPrototype.Pages
         {
             NavigationService.GoBack();
         }
-        
+
+        private void NewOfferButton_Click(object sender, RoutedEventArgs e)
+        {
+            var item = (sender as Button).DataContext as Offer;
+            NavigationService.Navigate(new OfferPage(item));
+        }
+
+
         private void PageLoaded(object sender, RoutedEventArgs e)
         {
         }

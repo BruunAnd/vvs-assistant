@@ -27,28 +27,43 @@ namespace EnergyLabellingPrototype.Pages
     /// </summary>
     public partial class SolutionPage : Page
     {
-        private int Pack_Id;
-        private string Pack;
         private ObservableCollection<Appliance> _packagedComponents = new ObservableCollection<Appliance>();
+        private ObservableCollection<Appliance> _components = App._componentList;
 
         public SolutionPage()
         {
             InitializeComponent();
+            InitializePage();
         }
 
-        public SolutionPage(Solution solution, int id):this()
+        public SolutionPage(Solution solution, int id) : this()
         {
-            Pack_Id = id;
-            Pack = "";
-            Add_Solution_Too_Shop(solution);
+            LoadPackageSolution(solution);
         }
 
-        private void Add_Solution_Too_Shop(Solution solution)
+        public void InitializePage()
         {
-            foreach (var item in solution.Appliances)
-            {
-                _packagedComponents.Add(item);
-            }
+            
+            // Bind collection of components to datagrid of components.
+            dataGridComponents.ItemsSource = _components;
+
+            // Bind collection of components in the current package solution to the datagrid of components in the package solution.
+            dataGridPackage.ItemsSource = _packagedComponents;
+
+            // Set DataContext to this, allowing binders to access properties directly from here.
+            this.DataContext = this;
+        }
+
+        private void LoadPackageSolution(Solution solution)
+        {
+            // Add appliances to the current package solution in construction.
+            foreach (Appliance item in solution.Appliances) _packagedComponents.Add(item);
+        }
+
+        private void textBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string filterText = textBoxSearch.Text.ToLower();
+            dataGridComponents.ItemsSource = _components.Where(x => x.FilterMatch(filterText));
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -58,23 +73,25 @@ namespace EnergyLabellingPrototype.Pages
 
         private void Update_Page()
         {
-            RefreshDynamicItemSources();
-            dataGridPackage.ItemsSource = _packagedComponents;
+            RefreshItemSources();
         }
 
-        private void RefreshDynamicItemSources()
+        private void RefreshItemSources()
         {
-            var filterText = textBoxSearch.Text.ToLower();
-
-            // Update component list
-            dataGridComponents.ItemsSource = App._componentList.Where(c => c.FilterMatch(filterText));
             dataGridComponents.Items.Refresh();
+            dataGridPackage.Items.Refresh();
         }
 
-        
-        private void EditButton_Click(object sender, RoutedEventArgs e)
+        #region Context Menu
+        private void AddToSolutionMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            var item = (sender as Button).DataContext as Appliance;
+            foreach (Appliance item in dataGridComponents.SelectedItems) AddToSolution(item);
+        }
+
+        private void EditApplianceMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            // EEEEW FIX CODE PLEASE.
+            var item = dataGridComponents.SelectedItem as Appliance;
             Appliance c = new Appliance(item.Name, item.Description, item.Type, item.SalesPrice);
             App.MainWindow.Edit.IsOpen = true;
             int count = 0;
@@ -86,91 +103,46 @@ namespace EnergyLabellingPrototype.Pages
                 }
                 count++;
             }
-            App.MainWindow.Info_in_fly(c,count);
+            App.MainWindow.Info_in_fly(c, count);
         }
 
-        private void AddToPackageButton_Click(object sender, RoutedEventArgs e)
+        private void DeleteApplianceMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            var item = ( sender as Button ).DataContext as Appliance;
-            Add_Component_To_Shop(item);
-        }
-
-        private void Add_Component_To_Shop(Appliance item)
-        {
-            _packagedComponents.Add(item);
-            dataGridPackage.Items.Refresh();
-        }
-
-        private void AddSolToPackageButton_Click(object sender, RoutedEventArgs e)
-        {
-            var item = (sender as Button).DataContext as Solution;
-            Pack_Id = item.ID;
-            Pack = "";
-            Add_Solution_Too_Shop(item);
-            dataGridPackage.Items.Refresh();
-        }
-
-        private void RemoveButton_Click(object sender, RoutedEventArgs e)
-        {
-            _packagedComponents.Remove((sender as Button ).DataContext as Appliance);
-            dataGridPackage.Items.Refresh();
-        }
-
-        private async void SaveButton_Click(object sender, RoutedEventArgs e)
-        {
-            int count = 0;
-            if (_packagedComponents.Count >0)
+            // NOT A HACK JOB. 
+            // In order to remove multiple items from the datagrid, one must not delete the items whilst itterating over the selected items, as doing so would disturb the lookup. 
+            if(dataGridComponents.SelectedItems.Count > 1)
             {
-                if (Pack != null)
-                {
-                    foreach (var test in App._packagedList)
-                    {
-                        if (test.ID.Equals(Pack_Id))
-                        {
-                            App._packagedList[count].Appliances.Clear();
-                            foreach (Appliance item in _packagedComponents)
-                            {
-                                App._packagedList[count].Appliances.Add(item);
-                            }
-                            break;
-                        }
-                        count++;
-                    }
-                    //_packagedComponents.Clear();
-                    Update_Page();
-                    dataGridPackage.Items.Refresh();
-                }
-                else
-                {
-                    await App.MainWindow.ShowMessageAsync("Fejl", "Ingen pakke at gemme til");
-                }
-
-                Pack = null;
+                List<Appliance> selectedAppliances = new List<Appliance>();
+                foreach (var item in dataGridComponents.SelectedItems) selectedAppliances.Add(item as Appliance);
+                foreach (var item in selectedAppliances) _components.Remove(item);
             }
             else
             {
-                await App.MainWindow.ShowMessageAsync("Fejl", "Du skal tilføje komponenter til pakkeløsningen før den kan gemmes");
-            }
-           
+                var item = dataGridComponents.SelectedItem as Appliance;
+                
+                _components.Remove(item);
+            }   
         }
-        private void infoButton_Click(object sender, RoutedEventArgs e)
-        {
-            var item = (sender as Button).DataContext as Solution;
-            Solution c = new Solution(item.Name, item.Appliances);
-            App.MainWindow.infosolution.IsOpen = true;
-            App.MainWindow.Solution_Info(c);
-        }
+        #endregion
 
-        private void textBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
+
+        private void AddToSolution(Appliance item)
         {
-            RefreshDynamicItemSources();
+            _packagedComponents.Add(item);
         }
+        
+        
+        private void RemoveButton_Click(object sender, RoutedEventArgs e)
+        {
+            _packagedComponents.Remove((sender as Button).DataContext as Appliance);
+            dataGridPackage.Items.Refresh();
+        }
+        
 
         private void NewButton_Click(object sender, RoutedEventArgs e)
         {
             _packagedComponents.Clear();
             dataGridPackage.Items.Refresh();
-            Pack = null;
         }
 
         private  async void SaveNewButton_Click(object sender, RoutedEventArgs e)
@@ -184,8 +156,7 @@ namespace EnergyLabellingPrototype.Pages
                 if (string.IsNullOrEmpty(name))
                     return;
                 s.Name = name;
-
-                //_packagedComponents.Clear();
+                
                 Update_Page();
                 dataGridPackage.Items.Refresh();
             }
@@ -194,12 +165,7 @@ namespace EnergyLabellingPrototype.Pages
                 await App.MainWindow.ShowMessageAsync("Fejl", "Du skal tilføje komponenter til pakkeløsningen før den kan gemmes");
             }
         }
-
-        private void RemovePackButton_Click(object sender, RoutedEventArgs e)
-        {
-            Pack = null;
-        }
-
+        
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var dialog = (BaseMetroDialog) Resources["CustomCloseDialogTest"];
@@ -233,37 +199,5 @@ namespace EnergyLabellingPrototype.Pages
         {
             NavigationService.GoBack();
         }
-
-        private void DoubleClickOnComponent(object sender, MouseButtonEventArgs e)
-        {
-            var UIel = Mouse.DirectlyOver as UIElement;
-            if (UIel is Button)
-            {
-                return;
-            }
-            if (dataGridComponents.SelectedItem == null) return;
-            var selectedComponent = dataGridComponents.SelectedItem as Appliance;
-            Add_Component_To_Shop(selectedComponent);
-        }
-
-        private void RightClickOnComponent(object sender, MouseButtonEventArgs e)
-        {
-            var UIel = Mouse.DirectlyOver as UIElement;
-            if (UIel is Button)
-            {
-                return;
-            }
-            if (dataGridComponents.SelectedItem == null) return;
-            var selectedComponent = dataGridComponents.SelectedItem as Appliance;
-            
-            Add_Component_To_Shop(selectedComponent);
-        }
-
-        private void dataGridComponents_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        
     }
 }

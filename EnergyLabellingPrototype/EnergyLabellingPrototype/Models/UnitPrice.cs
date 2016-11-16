@@ -30,7 +30,7 @@ namespace EnergyLabellingPrototype.Models
                 {
                     quantity = value;
                     NotifyPropertyChanged();
-                    NotifyPropertyChanged("Cost");
+                    NotifyPropertyChanged("CostPrice");
                     NotifyPropertyChanged("SalesPrice");
                     NotifyPropertyChanged("ContributionMargin");
                 }
@@ -50,7 +50,7 @@ namespace EnergyLabellingPrototype.Models
                 {
                     unitCostPrice = value;
                     NotifyPropertyChanged();
-                    NotifyPropertyChanged("Cost");
+                    NotifyPropertyChanged("CostPrice");
                     NotifyPropertyChanged("ContributionMargin");
                 }
             }

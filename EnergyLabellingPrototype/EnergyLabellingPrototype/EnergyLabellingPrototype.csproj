@@ -67,7 +67,7 @@
     <Compile Include="Models\Appliance.cs" />
     <Compile Include="Models\Extensions.cs" />
     <Compile Include="Models\Material.cs" />
-    <Compile Include="Models\OfferLetter.cs" />
+    <Compile Include="Models\OfferPrint.cs" />
     <Compile Include="Models\Salary.cs" />
     <Compile Include="Models\UnitPrice.cs" />
     <Compile Include="Pages\ExistingOffersPage.xaml.cs">
