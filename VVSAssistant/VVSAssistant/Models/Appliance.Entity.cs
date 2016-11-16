@@ -18,6 +18,5 @@ namespace VVSAssistant.Models
         public string Name { get; set; }
         public System.DateTime CreationDate { get; set; }
         public ApplianceTypes Type { get; set; }
-        public int PackagedSolutionId { get; set; }
     }
 }

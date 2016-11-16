@@ -12,6 +12,7 @@
     <EntitySet Name="OfferInformation" EntityType="AssistantModel.Store.OfferInformation" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="PackagedSolutions" EntityType="AssistantModel.Store.PackagedSolutions" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Appliances" EntityType="AssistantModel.Store.Appliances" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PackagedSolutionApplianceAssociation" EntityType="AssistantModel.Store.PackagedSolutionApplianceAssociation" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="ClientInformationAssociation" Association="AssistantModel.Store.ClientInformationAssociation">
       <End Role="Client" EntitySet="Clients" />
       <End Role="ClientInformation" EntitySet="ClientInformation" />
@@ -28,9 +29,13 @@
       <End Role="Offer" EntitySet="Offers" />
       <End Role="PackagedSolution" EntitySet="PackagedSolutions" />
     </AssociationSet>
-    <AssociationSet Name="PackagedSolutionApplianceAssociation" Association="AssistantModel.Store.PackagedSolutionApplianceAssociation">
+    <AssociationSet Name="FK_PackagedSolutionApplianceAssociation_PackagedSolution" Association="AssistantModel.Store.FK_PackagedSolutionApplianceAssociation_PackagedSolution">
       <End Role="PackagedSolution" EntitySet="PackagedSolutions" />
+      <End Role="PackagedSolutionApplianceAssociation" EntitySet="PackagedSolutionApplianceAssociation" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PackagedSolutionApplianceAssociation_Appliance" Association="AssistantModel.Store.FK_PackagedSolutionApplianceAssociation_Appliance">
       <End Role="Appliance" EntitySet="Appliances" />
+      <End Role="PackagedSolutionApplianceAssociation" EntitySet="PackagedSolutionApplianceAssociation" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Clients">
@@ -85,7 +90,14 @@
     <Property Name="Name" Type="nvarchar" Nullable="false" />
     <Property Name="CreationDate" Type="datetime" Nullable="false" />
     <Property Name="Type" Type="int" Nullable="false" />
-    <Property Name="PackagedSolutionId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PackagedSolutionApplianceAssociation">
+    <Key>
+      <PropertyRef Name="PackagedSolutionApplianceAssociation_Appliance_Id" />
+      <PropertyRef Name="Appliances_Id" />
+    </Key>
+    <Property Name="PackagedSolutionApplianceAssociation_Appliance_Id" Type="int" Nullable="false" />
+    <Property Name="Appliances_Id" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="ClientInformationAssociation">
     <End Role="Client" Type="AssistantModel.Store.Clients" Multiplicity="*" />
@@ -135,15 +147,27 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="PackagedSolutionApplianceAssociation">
+  <Association Name="FK_PackagedSolutionApplianceAssociation_PackagedSolution">
     <End Role="PackagedSolution" Type="AssistantModel.Store.PackagedSolutions" Multiplicity="1" />
-    <End Role="Appliance" Type="AssistantModel.Store.Appliances" Multiplicity="*" />
+    <End Role="PackagedSolutionApplianceAssociation" Type="AssistantModel.Store.PackagedSolutionApplianceAssociation" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="PackagedSolution">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="Appliance">
-        <PropertyRef Name="PackagedSolutionId" />
+      <Dependent Role="PackagedSolutionApplianceAssociation">
+        <PropertyRef Name="PackagedSolutionApplianceAssociation_Appliance_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PackagedSolutionApplianceAssociation_Appliance">
+    <End Role="PackagedSolutionApplianceAssociation" Type="AssistantModel.Store.PackagedSolutionApplianceAssociation" Multiplicity="*" />
+    <End Role="Appliance" Type="AssistantModel.Store.Appliances" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Appliance">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PackagedSolutionApplianceAssociation">
+        <PropertyRef Name="Appliances_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -249,7 +273,6 @@
           <Property Name="Name" Type="String" Nullable="false" />
           <Property Name="CreationDate" Type="DateTime" Nullable="false" />
           <Property Name="Type" Type="AssistantModel.ApplianceTypes" Nullable="false" />
-          <Property Name="PackagedSolutionId" Type="Int32" Nullable="false" />
         </EntityType>
         <EnumType Name="ApplianceTypes">
           <Member Name="Heatpump" />
@@ -258,16 +281,8 @@
           <Member Name="SolarPanel" />
         </EnumType>
         <Association Name="PackagedSolutionApplianceAssociation">
-          <End Type="AssistantModel.PackagedSolution" Role="PackagedSolution" Multiplicity="1" />
+          <End Type="AssistantModel.PackagedSolution" Role="PackagedSolution" Multiplicity="*" />
           <End Type="AssistantModel.Appliance" Role="Appliance" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PackagedSolution">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Appliance">
-              <PropertyRef Name="PackagedSolutionId" />
-            </Dependent>
-          </ReferentialConstraint>
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -327,7 +342,6 @@
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
           <ScalarProperty Name="Type" ColumnName="Type" />
-          <ScalarProperty Name="PackagedSolutionId" ColumnName="PackagedSolutionId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -361,6 +375,14 @@
       </EndProperty>
       <EndProperty Name="Offer">
         <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="PackagedSolutionApplianceAssociation" TypeName="AssistantModel.PackagedSolutionApplianceAssociation" StoreEntitySet="PackagedSolutionApplianceAssociation">
+      <EndProperty Name="PackagedSolution">
+        <ScalarProperty Name="Id" ColumnName="PackagedSolutionApplianceAssociation_Appliance_Id" />
+      </EndProperty>
+      <EndProperty Name="Appliance">
+        <ScalarProperty Name="Id" ColumnName="Appliances_Id" />
       </EndProperty>
     </AssociationSetMapping>
   </EntityContainerMapping>

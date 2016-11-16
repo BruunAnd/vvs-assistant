@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server Compact Edition
 -- --------------------------------------------------
--- Date Created: 11/16/2016 15:26:14
--- Generated from EDMX file: C:\Users\Zen\Documents\ds305e16\VVSAssistant\VVSAssistant\Models\AssistantModel.edmx
+-- Date Created: 11/16/2016 21:03:02
+-- Generated from EDMX file: C:\Users\User\Desktop\ds305e16\VVSAssistant\VVSAssistant\Models\AssistantModel.edmx
 -- --------------------------------------------------
 
 
@@ -94,8 +94,14 @@ CREATE TABLE [Appliances] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(4000)  NOT NULL,
     [CreationDate] datetime  NOT NULL,
-    [Type] int  NOT NULL,
-    [PackagedSolutionId] int  NOT NULL
+    [Type] int  NOT NULL
+);
+GO
+
+-- Creating table 'PackagedSolutionApplianceAssociation'
+CREATE TABLE [PackagedSolutionApplianceAssociation] (
+    [PackagedSolutionApplianceAssociation_Appliance_Id] int  NOT NULL,
+    [Appliances_Id] int  NOT NULL
 );
 GO
 
@@ -137,6 +143,12 @@ GO
 ALTER TABLE [Appliances]
 ADD CONSTRAINT [PK_Appliances]
     PRIMARY KEY ([Id] );
+GO
+
+-- Creating primary key on [PackagedSolutionApplianceAssociation_Appliance_Id], [Appliances_Id] in table 'PackagedSolutionApplianceAssociation'
+ALTER TABLE [PackagedSolutionApplianceAssociation]
+ADD CONSTRAINT [PK_PackagedSolutionApplianceAssociation]
+    PRIMARY KEY ([PackagedSolutionApplianceAssociation_Appliance_Id], [Appliances_Id] );
 GO
 
 -- --------------------------------------------------
@@ -203,19 +215,28 @@ ON [Offers]
     ([PackagedSolution_Id]);
 GO
 
--- Creating foreign key on [PackagedSolutionId] in table 'Appliances'
-ALTER TABLE [Appliances]
-ADD CONSTRAINT [FK_PackagedSolutionApplianceAssociation]
-    FOREIGN KEY ([PackagedSolutionId])
+-- Creating foreign key on [PackagedSolutionApplianceAssociation_Appliance_Id] in table 'PackagedSolutionApplianceAssociation'
+ALTER TABLE [PackagedSolutionApplianceAssociation]
+ADD CONSTRAINT [FK_PackagedSolutionApplianceAssociation_PackagedSolution]
+    FOREIGN KEY ([PackagedSolutionApplianceAssociation_Appliance_Id])
     REFERENCES [PackagedSolutions]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_PackagedSolutionApplianceAssociation'
-CREATE INDEX [IX_FK_PackagedSolutionApplianceAssociation]
-ON [Appliances]
-    ([PackagedSolutionId]);
+-- Creating foreign key on [Appliances_Id] in table 'PackagedSolutionApplianceAssociation'
+ALTER TABLE [PackagedSolutionApplianceAssociation]
+ADD CONSTRAINT [FK_PackagedSolutionApplianceAssociation_Appliance]
+    FOREIGN KEY ([Appliances_Id])
+    REFERENCES [Appliances]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_PackagedSolutionApplianceAssociation_Appliance'
+CREATE INDEX [IX_FK_PackagedSolutionApplianceAssociation_Appliance]
+ON [PackagedSolutionApplianceAssociation]
+    ([Appliances_Id]);
 GO
 
 -- --------------------------------------------------
