@@ -4,11 +4,150 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl" Namespace="AssistantModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005">
-        <EntityContainer Name="AssistantModelTargetContainer" >
-        </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+    <Schema Namespace="AssistantModel.Store" Alias="Self" Provider="System.Data.SqlServerCe.4.0" ProviderManifestToken="4.0" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="AssistantModelStoreContainer">
+    <EntitySet Name="Clients" EntityType="AssistantModel.Store.Clients" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ClientInformation" EntityType="AssistantModel.Store.ClientInformation" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Offers" EntityType="AssistantModel.Store.Offers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="OfferInformation" EntityType="AssistantModel.Store.OfferInformation" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PackagedSolutions" EntityType="AssistantModel.Store.PackagedSolutions" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Appliances" EntityType="AssistantModel.Store.Appliances" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="ClientInformationAssociation" Association="AssistantModel.Store.ClientInformationAssociation">
+      <End Role="Client" EntitySet="Clients" />
+      <End Role="ClientInformation" EntitySet="ClientInformation" />
+    </AssociationSet>
+    <AssociationSet Name="ClientOffer" Association="AssistantModel.Store.ClientOffer">
+      <End Role="Client" EntitySet="Clients" />
+      <End Role="Offer" EntitySet="Offers" />
+    </AssociationSet>
+    <AssociationSet Name="OfferOfferInformation" Association="AssistantModel.Store.OfferOfferInformation">
+      <End Role="Offer" EntitySet="Offers" />
+      <End Role="OfferInformation" EntitySet="OfferInformation" />
+    </AssociationSet>
+    <AssociationSet Name="OfferPackagedSolutionAssociation" Association="AssistantModel.Store.OfferPackagedSolutionAssociation">
+      <End Role="Offer" EntitySet="Offers" />
+      <End Role="PackagedSolution" EntitySet="PackagedSolutions" />
+    </AssociationSet>
+    <AssociationSet Name="PackagedSolutionApplianceAssociation" Association="AssistantModel.Store.PackagedSolutionApplianceAssociation">
+      <End Role="PackagedSolution" EntitySet="PackagedSolutions" />
+      <End Role="Appliance" EntitySet="Appliances" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Clients">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CreationDate" Type="datetime" Nullable="false" />
+    <Property Name="ClientInformation_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ClientInformation">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" Nullable="false" />
+    <Property Name="Address" Type="nvarchar" Nullable="false" />
+    <Property Name="PhoneNumber" Type="nvarchar" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Offers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CreationDate" Type="datetime" Nullable="false" />
+    <Property Name="Client_Id" Type="int" Nullable="false" />
+    <Property Name="OfferInformation_Id" Type="int" Nullable="false" />
+    <Property Name="PackagedSolution_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="OfferInformation">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" Nullable="false" />
+    <Property Name="Price" Type="decimal" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PackagedSolutions">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" />
+    <Property Name="CreationDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Appliances">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" />
+    <Property Name="CreationDate" Type="datetime" Nullable="false" />
+    <Property Name="Type" Type="int" Nullable="false" />
+    <Property Name="PackagedSolutionId" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="ClientInformationAssociation">
+    <End Role="Client" Type="AssistantModel.Store.Clients" Multiplicity="*" />
+    <End Role="ClientInformation" Type="AssistantModel.Store.ClientInformation" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="ClientInformation">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Client">
+        <PropertyRef Name="ClientInformation_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ClientOffer">
+    <End Role="Client" Type="AssistantModel.Store.Clients" Multiplicity="1" />
+    <End Role="Offer" Type="AssistantModel.Store.Offers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Client">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Offer">
+        <PropertyRef Name="Client_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="OfferOfferInformation">
+    <End Role="Offer" Type="AssistantModel.Store.Offers" Multiplicity="*" />
+    <End Role="OfferInformation" Type="AssistantModel.Store.OfferInformation" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="OfferInformation">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Offer">
+        <PropertyRef Name="OfferInformation_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="OfferPackagedSolutionAssociation">
+    <End Role="Offer" Type="AssistantModel.Store.Offers" Multiplicity="*" />
+    <End Role="PackagedSolution" Type="AssistantModel.Store.PackagedSolutions" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="PackagedSolution">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Offer">
+        <PropertyRef Name="PackagedSolution_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PackagedSolutionApplianceAssociation">
+    <End Role="PackagedSolution" Type="AssistantModel.Store.PackagedSolutions" Multiplicity="1" />
+    <End Role="Appliance" Type="AssistantModel.Store.Appliances" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PackagedSolution">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Appliance">
+        <PropertyRef Name="PackagedSolutionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="AssistantModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
@@ -134,13 +273,98 @@
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs" Space="C-S">
-        <Alias Key="Model" Value="AssistantModel" />
-        <Alias Key="Target" Value="AssistantModel.Store" />
-        <EntityContainerMapping CdmEntityContainer="AssistantModelContainer" StorageEntityContainer="AssistantModelTargetContainer">
-        </EntityContainerMapping>
-      </Mapping>
-    </edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="AssistantModelStoreContainer" CdmEntityContainer="AssistantModelContainer">
+    <EntitySetMapping Name="Clients">
+      <EntityTypeMapping TypeName="IsTypeOf(AssistantModel.Client)">
+        <MappingFragment StoreEntitySet="Clients">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ClientInformation">
+      <EntityTypeMapping TypeName="IsTypeOf(AssistantModel.ClientInformation)">
+        <MappingFragment StoreEntitySet="ClientInformation">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Offers">
+      <EntityTypeMapping TypeName="IsTypeOf(AssistantModel.Offer)">
+        <MappingFragment StoreEntitySet="Offers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OfferInformation">
+      <EntityTypeMapping TypeName="IsTypeOf(AssistantModel.OfferInformation)">
+        <MappingFragment StoreEntitySet="OfferInformation">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PackagedSolutions">
+      <EntityTypeMapping TypeName="IsTypeOf(AssistantModel.PackagedSolution)">
+        <MappingFragment StoreEntitySet="PackagedSolutions">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Appliances">
+      <EntityTypeMapping TypeName="IsTypeOf(AssistantModel.Appliance)">
+        <MappingFragment StoreEntitySet="Appliances">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="PackagedSolutionId" ColumnName="PackagedSolutionId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="ClientInformationAssociation" TypeName="AssistantModel.ClientInformationAssociation" StoreEntitySet="Clients">
+      <EndProperty Name="ClientInformation">
+        <ScalarProperty Name="Id" ColumnName="ClientInformation_Id" />
+      </EndProperty>
+      <EndProperty Name="Client">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ClientOffer" TypeName="AssistantModel.ClientOffer" StoreEntitySet="Offers">
+      <EndProperty Name="Client">
+        <ScalarProperty Name="Id" ColumnName="Client_Id" />
+      </EndProperty>
+      <EndProperty Name="Offer">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="OfferOfferInformation" TypeName="AssistantModel.OfferOfferInformation" StoreEntitySet="Offers">
+      <EndProperty Name="OfferInformation">
+        <ScalarProperty Name="Id" ColumnName="OfferInformation_Id" />
+      </EndProperty>
+      <EndProperty Name="Offer">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="OfferPackagedSolutionAssociation" TypeName="AssistantModel.OfferPackagedSolutionAssociation" StoreEntitySet="Offers">
+      <EndProperty Name="PackagedSolution">
+        <ScalarProperty Name="Id" ColumnName="PackagedSolution_Id" />
+      </EndProperty>
+      <EndProperty Name="Offer">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
@@ -154,6 +378,7 @@
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="True" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
       </DesignerInfoPropertySet>
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->

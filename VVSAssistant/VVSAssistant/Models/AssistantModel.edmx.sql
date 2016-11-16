@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server Compact Edition
 -- --------------------------------------------------
--- Date Created: 11/16/2016 14:38:50
+-- Date Created: 11/16/2016 15:26:14
 -- Generated from EDMX file: C:\Users\Zen\Documents\ds305e16\VVSAssistant\VVSAssistant\Models\AssistantModel.edmx
 -- --------------------------------------------------
 
@@ -12,12 +12,34 @@
 -- NOTE: if the constraint does not exist, an ignorable error will be reported.
 -- --------------------------------------------------
 
+    ALTER TABLE [Clients] DROP CONSTRAINT [FK_ClientInformationAssociation];
+GO
+    ALTER TABLE [Offers] DROP CONSTRAINT [FK_ClientOffer];
+GO
+    ALTER TABLE [Offers] DROP CONSTRAINT [FK_OfferOfferInformation];
+GO
+    ALTER TABLE [Offers] DROP CONSTRAINT [FK_OfferPackagedSolutionAssociation];
+GO
+    ALTER TABLE [Appliances] DROP CONSTRAINT [FK_PackagedSolutionApplianceAssociation];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
 -- NOTE: if the table does not exist, an ignorable error will be reported.
 -- --------------------------------------------------
 
+    DROP TABLE [Clients];
+GO
+    DROP TABLE [ClientInformation];
+GO
+    DROP TABLE [Offers];
+GO
+    DROP TABLE [OfferInformation];
+GO
+    DROP TABLE [PackagedSolutions];
+GO
+    DROP TABLE [Appliances];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
