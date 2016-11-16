@@ -14,11 +14,22 @@ namespace VVSAssistant.Models
     
     public partial class Offer
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Offer()
+        {
+            this.Salaries = new HashSet<Salary>();
+            this.Materials = new HashSet<Material>();
+        }
+    
         public int Id { get; set; }
         public System.DateTime CreationDate { get; set; }
     
         public virtual Client Client { get; set; }
         public virtual OfferInformation OfferInformation { get; set; }
         public virtual PackagedSolution PackagedSolution { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Salary> Salaries { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Material> Materials { get; set; }
     }
 }

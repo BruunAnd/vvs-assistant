@@ -31,5 +31,6 @@ namespace VVSAssistant.Models
         public virtual DbSet<OfferInformation> OfferInformation { get; set; }
         public virtual DbSet<PackagedSolution> PackagedSolutions { get; set; }
         public virtual DbSet<Appliance> Appliances { get; set; }
+        public virtual DbSet<UnitPrice> UnitPrices { get; set; }
     }
 }

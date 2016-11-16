@@ -12,6 +12,9 @@
     <EntitySet Name="OfferInformation" EntityType="AssistantModel.Store.OfferInformation" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="PackagedSolutions" EntityType="AssistantModel.Store.PackagedSolutions" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Appliances" EntityType="AssistantModel.Store.Appliances" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="UnitPrices" EntityType="AssistantModel.Store.UnitPrices" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="UnitPrices_Salary" EntityType="AssistantModel.Store.UnitPrices_Salary" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="UnitPrices_Material" EntityType="AssistantModel.Store.UnitPrices_Material" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="PackagedSolutionApplianceAssociation" EntityType="AssistantModel.Store.PackagedSolutionApplianceAssociation" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="ClientInformationAssociation" Association="AssistantModel.Store.ClientInformationAssociation">
       <End Role="Client" EntitySet="Clients" />
@@ -36,6 +39,22 @@
     <AssociationSet Name="FK_PackagedSolutionApplianceAssociation_Appliance" Association="AssistantModel.Store.FK_PackagedSolutionApplianceAssociation_Appliance">
       <End Role="Appliance" EntitySet="Appliances" />
       <End Role="PackagedSolutionApplianceAssociation" EntitySet="PackagedSolutionApplianceAssociation" />
+    </AssociationSet>
+    <AssociationSet Name="OfferSalary" Association="AssistantModel.Store.OfferSalary">
+      <End Role="Offer" EntitySet="Offers" />
+      <End Role="Salary" EntitySet="UnitPrices_Salary" />
+    </AssociationSet>
+    <AssociationSet Name="OfferMaterial" Association="AssistantModel.Store.OfferMaterial">
+      <End Role="Offer" EntitySet="Offers" />
+      <End Role="Material" EntitySet="UnitPrices_Material" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Salary_inherits_UnitPrice" Association="AssistantModel.Store.FK_Salary_inherits_UnitPrice">
+      <End Role="UnitPrice" EntitySet="UnitPrices" />
+      <End Role="Salary" EntitySet="UnitPrices_Salary" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Material_inherits_UnitPrice" Association="AssistantModel.Store.FK_Material_inherits_UnitPrice">
+      <End Role="UnitPrice" EntitySet="UnitPrices" />
+      <End Role="Material" EntitySet="UnitPrices_Material" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Clients">
@@ -90,6 +109,32 @@
     <Property Name="Name" Type="nvarchar" Nullable="false" />
     <Property Name="CreationDate" Type="datetime" Nullable="false" />
     <Property Name="Type" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UnitPrices">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Quantity" Type="int" Nullable="false" />
+    <Property Name="UnitCostPrice" Type="float" Nullable="false" />
+    <Property Name="UnitSalesPrice" Type="float" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UnitPrices_Salary">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Name" Type="nvarchar" Nullable="false" />
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="OfferSalary_Salary_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UnitPrices_Material">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="VvsNumber" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" />
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="OfferMaterial_Material_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="PackagedSolutionApplianceAssociation">
     <Key>
@@ -147,6 +192,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="OfferSalary">
+    <End Role="Offer" Type="AssistantModel.Store.Offers" Multiplicity="1" />
+    <End Role="Salary" Type="AssistantModel.Store.UnitPrices_Salary" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Offer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Salary">
+        <PropertyRef Name="OfferSalary_Salary_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="OfferMaterial">
+    <End Role="Offer" Type="AssistantModel.Store.Offers" Multiplicity="1" />
+    <End Role="Material" Type="AssistantModel.Store.UnitPrices_Material" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Offer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Material">
+        <PropertyRef Name="OfferMaterial_Material_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_PackagedSolutionApplianceAssociation_PackagedSolution">
     <End Role="PackagedSolution" Type="AssistantModel.Store.PackagedSolutions" Multiplicity="1" />
     <End Role="PackagedSolutionApplianceAssociation" Type="AssistantModel.Store.PackagedSolutionApplianceAssociation" Multiplicity="*" />
@@ -168,6 +237,34 @@
       </Principal>
       <Dependent Role="PackagedSolutionApplianceAssociation">
         <PropertyRef Name="Appliances_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Salary_inherits_UnitPrice">
+    <End Role="UnitPrice" Type="AssistantModel.Store.UnitPrices" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Salary" Type="AssistantModel.Store.UnitPrices_Salary" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="UnitPrice">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Salary">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Material_inherits_UnitPrice">
+    <End Role="UnitPrice" Type="AssistantModel.Store.UnitPrices" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Material" Type="AssistantModel.Store.UnitPrices_Material" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="UnitPrice">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Material">
+        <PropertyRef Name="Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -202,6 +299,15 @@
             <End Role="PackagedSolution" EntitySet="PackagedSolutions" />
             <End Role="Appliance" EntitySet="Appliances" />
           </AssociationSet>
+          <EntitySet Name="UnitPrices" EntityType="AssistantModel.UnitPrice" />
+          <AssociationSet Name="OfferSalary" Association="AssistantModel.OfferSalary">
+            <End Role="Offer" EntitySet="Offers" />
+            <End Role="Salary" EntitySet="UnitPrices" />
+          </AssociationSet>
+          <AssociationSet Name="OfferMaterial" Association="AssistantModel.OfferMaterial">
+            <End Role="Offer" EntitySet="Offers" />
+            <End Role="Material" EntitySet="UnitPrices" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Client">
           <Key>
@@ -235,6 +341,8 @@
           <NavigationProperty Name="Client" Relationship="AssistantModel.ClientOffer" FromRole="Offer" ToRole="Client" />
           <NavigationProperty Name="OfferInformation" Relationship="AssistantModel.OfferOfferInformation" FromRole="Offer" ToRole="OfferInformation" />
           <NavigationProperty Name="PackagedSolution" Relationship="AssistantModel.OfferPackagedSolutionAssociation" FromRole="Offer" ToRole="PackagedSolution" />
+          <NavigationProperty Name="Salaries" Relationship="AssistantModel.OfferSalary" FromRole="Offer" ToRole="Salary" />
+          <NavigationProperty Name="Materials" Relationship="AssistantModel.OfferMaterial" FromRole="Offer" ToRole="Material" />
         </EntityType>
         <Association Name="ClientOffer">
           <End Type="AssistantModel.Client" Role="Client" Multiplicity="1" />
@@ -283,6 +391,30 @@
         <Association Name="PackagedSolutionApplianceAssociation">
           <End Type="AssistantModel.PackagedSolution" Role="PackagedSolution" Multiplicity="*" />
           <End Type="AssistantModel.Appliance" Role="Appliance" Multiplicity="*" />
+        </Association>
+        <EntityType Name="UnitPrice" Abstract="true">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="UnitCostPrice" Type="Double" Nullable="false" />
+          <Property Name="UnitSalesPrice" Type="Double" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Salary" BaseType="AssistantModel.UnitPrice" >
+          <Property Name="Name" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Material" BaseType="AssistantModel.UnitPrice" >
+          <Property Name="VvsNumber" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" />
+        </EntityType>
+        <Association Name="OfferSalary">
+          <End Type="AssistantModel.Offer" Role="Offer" Multiplicity="1" />
+          <End Type="AssistantModel.Salary" Role="Salary" Multiplicity="*" />
+        </Association>
+        <Association Name="OfferMaterial">
+          <End Type="AssistantModel.Offer" Role="Offer" Multiplicity="1" />
+          <End Type="AssistantModel.Material" Role="Material" Multiplicity="*" />
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -345,6 +477,29 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="UnitPrices">
+      <EntityTypeMapping TypeName="IsTypeOf(AssistantModel.UnitPrice)">
+        <MappingFragment StoreEntitySet="UnitPrices">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="UnitCostPrice" ColumnName="UnitCostPrice" />
+          <ScalarProperty Name="UnitSalesPrice" ColumnName="UnitSalesPrice" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(AssistantModel.Salary)">
+        <MappingFragment StoreEntitySet="UnitPrices_Salary">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(AssistantModel.Material)">
+        <MappingFragment StoreEntitySet="UnitPrices_Material">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="VvsNumber" ColumnName="VvsNumber" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="ClientInformationAssociation" TypeName="AssistantModel.ClientInformationAssociation" StoreEntitySet="Clients">
       <EndProperty Name="ClientInformation">
         <ScalarProperty Name="Id" ColumnName="ClientInformation_Id" />
@@ -383,6 +538,22 @@
       </EndProperty>
       <EndProperty Name="Appliance">
         <ScalarProperty Name="Id" ColumnName="Appliances_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="OfferSalary" TypeName="AssistantModel.OfferSalary" StoreEntitySet="UnitPrices_Salary">
+      <EndProperty Name="Offer">
+        <ScalarProperty Name="Id" ColumnName="OfferSalary_Salary_Id" />
+      </EndProperty>
+      <EndProperty Name="Salary">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="OfferMaterial" TypeName="AssistantModel.OfferMaterial" StoreEntitySet="UnitPrices_Material">
+      <EndProperty Name="Offer">
+        <ScalarProperty Name="Id" ColumnName="OfferMaterial_Material_Id" />
+      </EndProperty>
+      <EndProperty Name="Material">
+        <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
   </EntityContainerMapping>

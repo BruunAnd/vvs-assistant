@@ -132,6 +132,9 @@
     <Compile Include="Models\ClientInformation.Entity.cs">
       <DependentUpon>AssistantModelGenerator.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Material.Entity.cs">
+      <DependentUpon>AssistantModelGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Offer.Entity.cs">
       <DependentUpon>AssistantModelGenerator.tt</DependentUpon>
     </Compile>
@@ -139,6 +142,13 @@
       <DependentUpon>AssistantModelGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PackagedSolution.Entity.cs">
+      <DependentUpon>AssistantModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Salary.Entity.cs">
+      <DependentUpon>AssistantModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UnitPrice.cs" />
+    <Compile Include="Models\UnitPrice.Entity.cs">
       <DependentUpon>AssistantModelGenerator.tt</DependentUpon>
     </Compile>
     <Compile Include="View Models\RelayCommand.cs" />
