@@ -42,10 +42,17 @@
                     <DataGridTextColumn Binding="{Binding ID}" Header="#" Width="40"/>
                     <DataGridTextColumn Binding="{Binding Name}" Header="Navn" Width="1.5*"/>
                     <DataGridTextColumn Binding="{Binding Date}" Header="Dato" Width="1*"/>
-                    <DataGridTextColumn Binding="{Binding Solution.Name}" Header="Pakkeløsning" Width="1.5*"/>
                     <DataGridTextColumn Binding="{Binding TotalCostPrice}" Header="Kostpris"/>
                     <DataGridTextColumn Binding="{Binding TotalSalesPrice}" Header="Salgspris"/>
                     <DataGridTextColumn Binding="{Binding TotalContributionMargin}" Header="Dækningsbidrag"/>
+                    <DataGridTemplateColumn Width="150" CanUserResize="False">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button x:Name="addToOfferButton" Click="NewOfferButton_Click">Føj til nyt tilbud</Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    
                 </DataGrid.Columns>
             </DataGrid>
 

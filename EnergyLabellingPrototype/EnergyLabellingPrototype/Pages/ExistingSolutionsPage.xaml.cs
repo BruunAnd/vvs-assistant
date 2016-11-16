@@ -49,6 +49,13 @@ namespace EnergyLabellingPrototype.Pages
             App.MainWindow.Solution_Info(c);
         }
 
+        private void NewOfferButton_Click(object sender, RoutedEventArgs e)
+        {
+            var item = (sender as Button).DataContext as Solution;
+
+            NavigationService.Navigate(new OfferPage(item));
+        }
+
         private void back_Click(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new NavigationPage());

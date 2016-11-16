@@ -6,13 +6,8 @@ using System.Threading.Tasks;
 
 namespace EnergyLabellingPrototype.Models
 {
-    class OfferLetter
+    public abstract class OfferPrint
     {
-        public OfferLetter(Offer offer)
-        {
-            Offer = offer;
-        }
-        public Offer Offer { get; set; }
         public string LetterOpening { get; set; }
         public string LetterEnding { get; set; }
         public bool ShowPrice { get; set; }

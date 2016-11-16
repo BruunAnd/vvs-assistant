@@ -19,17 +19,17 @@
                     <Label>Projekt-titel:</Label>
                     <TextBox Text="{Binding Name}"/>
 
-                    <Label>Indledning til følgebrev:</Label>
+                    <Label Content="Indledning til følgebrev:"/>
                     <TextBox Height="120" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding LetterOpening}" />
 
-                    <Label>Afslutning på følgebrev:</Label>
+                    <Label Content="Afslutning på følgebrev:"/>
                     <TextBox Height="120" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding LetterEnding}" />
 
                     <CheckBox Margin="5,5,5,5" IsChecked="{Binding ShowPrice}">Vis pris inkl. moms</CheckBox>
 
                     <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                        <Button Click="PrintOfferConfirm" Margin="5,5,5,5" Content="Print tilbud" />
-                        <Button Click="PrintOfferCancel" Margin="5,5,5,5" Content="Afbryd" />
+                        <Button Click="PrintConfirm" Margin="5,5,5,5" Content="Print tilbud" />
+                        <Button Click="PrintCancel" Margin="5,5,5,5" Content="Afbryd" />
                     </StackPanel>
                 </StackPanel>
 
@@ -91,8 +91,8 @@
                             <DataGridTextColumn Binding="{Binding Name}" Header="Beskrivelse" Width="2*"/>
                             <DataGridTextColumn Binding="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" Header="Mængde" Width="1*" ElementStyle="{StaticResource RightCell}"/>
                             <DataGridTextColumn Binding="{Binding UnitCostPrice, UpdateSourceTrigger=PropertyChanged}" Header="Kost EP" Width="1*" ElementStyle="{StaticResource RightCell}"/>
-                            <DataGridTextColumn Binding="{Binding Cost, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Header="Kostpris" Width="1*" ElementStyle="{StaticResource RightCell}"/>
-                            <DataGridTextColumn Binding="{Binding UnitSalesPrice, UpdateSourceTrigger=PropertyChanged}" Header="Salgs EP" Width="1*"/>
+                            <DataGridTextColumn Binding="{Binding CostPrice, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Header="Kostpris" Width="1*" ElementStyle="{StaticResource RightCell}"/>
+                            <DataGridTextColumn Binding="{Binding UnitSalesPrice, UpdateSourceTrigger=PropertyChanged}" Header="Salgs EP" Width="1*" ElementStyle="{StaticResource RightCell}"/>
                             <DataGridTextColumn Binding="{Binding SalesPrice, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Header="Salgspris (Abs.)" Width="1.5*" ElementStyle="{StaticResource RightCell}"/>
                             <DataGridTextColumn Binding="{Binding ContributionMargin, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Header="Samlet DB" Width="1*" ElementStyle="{StaticResource RightCell}"/>
                         </DataGrid.Columns>
@@ -105,8 +105,8 @@
                             <DataGridTextColumn Binding="{Binding Name}" Header="Beskrivelse" Width="2*"/>
                             <DataGridTextColumn Binding="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" Header="Mængde" Width="1*" ElementStyle="{StaticResource RightCell}"/>
                             <DataGridTextColumn Binding="{Binding UnitCostPrice, UpdateSourceTrigger=PropertyChanged}" Header="Kost EP" Width="1*" ElementStyle="{StaticResource RightCell}"/>
-                            <DataGridTextColumn Binding="{Binding Cost, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Header="Kostpris" Width="1*" ElementStyle="{StaticResource RightCell}"/>
-                            <DataGridTextColumn Binding="{Binding UnitSalesPrice, UpdateSourceTrigger=PropertyChanged}" Header="Salgs EP" Width="1*"/>
+                            <DataGridTextColumn Binding="{Binding CostPrice, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Header="Kostpris" Width="1*" ElementStyle="{StaticResource RightCell}"/>
+                            <DataGridTextColumn Binding="{Binding UnitSalesPrice, UpdateSourceTrigger=PropertyChanged}" Header="Salgs EP" Width="1*" ElementStyle="{StaticResource RightCell}"/>
                             <DataGridTextColumn Binding="{Binding SalesPrice, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Header="Salgspris (Abs.)" Width="1.5*" ElementStyle="{StaticResource RightCell}"/>
                             <DataGridTextColumn Binding="{Binding ContributionMargin, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Header="Samlet DB" Width="1*" ElementStyle="{StaticResource RightCell}"/>
                         </DataGrid.Columns>
@@ -203,9 +203,9 @@
                     <RowDefinition Height="1*" />
                 </Grid.RowDefinitions>
 
-                <Button Margin="5,5,5,5" Grid.Row="0" Grid.Column="0" Click="NewOffer">Nyt tilbud</Button>
-                <Button Margin="5,5,5,5" Grid.Row="0" Grid.Column="1" >Gem tilbud</Button>
-                <Button Margin="5,5,5,5" Grid.Row="1" Grid.ColumnSpan="2" Name="ShowPrintDialogButton" Click="PrintOffer">Print tilbud</Button>
+                <Button Margin="5,5,5,5" Grid.Row="0" Grid.Column="0" Click="New">Nyt tilbud</Button>
+                <Button Margin="5,5,5,5" Grid.Row="0" Grid.Column="1" Click="Save">Gem tilbud</Button>
+                <Button Margin="5,5,5,5" Grid.Row="1" Grid.ColumnSpan="2" Click="Print">Print tilbud</Button>
             </Grid>
         </Grid>
         

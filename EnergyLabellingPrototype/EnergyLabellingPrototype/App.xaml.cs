@@ -43,10 +43,7 @@ namespace EnergyLabellingPrototype
 
             _packagedList.Add(new Solution("Pakke",list));
             _packagedList.Add(new Solution("Pakke", list2));
-
-
-            _offerList.Add(new Offer("Tilbud", _packagedList[0]));
-            _offerList.Add(new Offer("Tilbud2", _packagedList[1]));
+            
 
             _componentList.Add(new Appliance("Logano plus SB105", "Oliekedel fra Bosch", "Oliekedel", 85000));
             _componentList.Add(new Appliance("Logano plus SB105 RC35", "Oliekedel fra Bosch", "Oliekedel", 85000));
