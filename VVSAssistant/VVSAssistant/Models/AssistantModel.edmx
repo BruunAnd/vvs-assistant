@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl" Namespace="AssistantModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005">
+        <EntityContainer Name="AssistantModelTargetContainer" >
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="AssistantModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="AssistantModelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Clients" EntityType="AssistantModel.Client" />
+          <EntitySet Name="ClientInformation" EntityType="AssistantModel.ClientInformation" />
+          <AssociationSet Name="ClientInformationAssociation" Association="AssistantModel.ClientInformationAssociation">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="ClientInformation" EntitySet="ClientInformation" />
+          </AssociationSet>
+          <EntitySet Name="Offers" EntityType="AssistantModel.Offer" />
+          <AssociationSet Name="ClientOffer" Association="AssistantModel.ClientOffer">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="Offer" EntitySet="Offers" />
+          </AssociationSet>
+          <EntitySet Name="OfferInformation" EntityType="AssistantModel.OfferInformation" />
+          <AssociationSet Name="OfferOfferInformation" Association="AssistantModel.OfferOfferInformation">
+            <End Role="Offer" EntitySet="Offers" />
+            <End Role="OfferInformation" EntitySet="OfferInformation" />
+          </AssociationSet>
+          <EntitySet Name="PackagedSolutions" EntityType="AssistantModel.PackagedSolution" />
+          <AssociationSet Name="OfferPackagedSolutionAssociation" Association="AssistantModel.OfferPackagedSolutionAssociation">
+            <End Role="Offer" EntitySet="Offers" />
+            <End Role="PackagedSolution" EntitySet="PackagedSolutions" />
+          </AssociationSet>
+          <EntitySet Name="Appliances" EntityType="AssistantModel.Appliance" />
+          <AssociationSet Name="PackagedSolutionApplianceAssociation" Association="AssistantModel.PackagedSolutionApplianceAssociation">
+            <End Role="PackagedSolution" EntitySet="PackagedSolutions" />
+            <End Role="Appliance" EntitySet="Appliances" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CreationDate" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="ClientInformation" Relationship="AssistantModel.ClientInformationAssociation" FromRole="Client" ToRole="ClientInformation" />
+          <NavigationProperty Name="Offers" Relationship="AssistantModel.ClientOffer" FromRole="Client" ToRole="Offer" />
+        </EntityType>
+        <EntityType Name="ClientInformation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Email" Type="String" Nullable="false" />
+          <Property Name="Address" Type="String" Nullable="false" />
+          <Property Name="PhoneNumber" Type="String" Nullable="false" />
+        </EntityType>
+        <Association Name="ClientInformationAssociation">
+          <End Type="AssistantModel.Client" Role="Client" Multiplicity="1" />
+          <End Type="AssistantModel.ClientInformation" Role="ClientInformation" Multiplicity="1" />
+        </Association>
+        <EntityType Name="Offer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CreationDate" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Client" Relationship="AssistantModel.ClientOffer" FromRole="Offer" ToRole="Client" />
+          <NavigationProperty Name="OfferInformation" Relationship="AssistantModel.OfferOfferInformation" FromRole="Offer" ToRole="OfferInformation" />
+          <NavigationProperty Name="PackagedSolution" Relationship="AssistantModel.OfferPackagedSolutionAssociation" FromRole="Offer" ToRole="PackagedSolution" />
+        </EntityType>
+        <Association Name="ClientOffer">
+          <End Type="AssistantModel.Client" Role="Client" Multiplicity="1" />
+          <End Type="AssistantModel.Offer" Role="Offer" Multiplicity="*" />
+        </Association>
+        <EntityType Name="OfferInformation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Nullable="false" />
+        </EntityType>
+        <Association Name="OfferOfferInformation">
+          <End Type="AssistantModel.Offer" Role="Offer" Multiplicity="1" />
+          <End Type="AssistantModel.OfferInformation" Role="OfferInformation" Multiplicity="1" />
+        </Association>
+        <EntityType Name="PackagedSolution">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="CreationDate" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Appliances" Relationship="AssistantModel.PackagedSolutionApplianceAssociation" FromRole="PackagedSolution" ToRole="Appliance" />
+        </EntityType>
+        <Association Name="OfferPackagedSolutionAssociation">
+          <End Type="AssistantModel.Offer" Role="Offer" Multiplicity="*" />
+          <End Type="AssistantModel.PackagedSolution" Role="PackagedSolution" Multiplicity="1" />
+        </Association>
+        <EntityType Name="Appliance">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="CreationDate" Type="DateTime" Nullable="false" />
+          <Property Name="Type" Type="AssistantModel.ApplianceTypes" Nullable="false" />
+          <Property Name="PackagedSolutionId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EnumType Name="ApplianceTypes">
+          <Member Name="Heatpump" />
+          <Member Name="Boiler" />
+          <Member Name="TemperatureController" />
+          <Member Name="SolarPanel" />
+        </EnumType>
+        <Association Name="PackagedSolutionApplianceAssociation">
+          <End Type="AssistantModel.PackagedSolution" Role="PackagedSolution" Multiplicity="1" />
+          <End Type="AssistantModel.Appliance" Role="Appliance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PackagedSolution">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Appliance">
+              <PropertyRef Name="PackagedSolutionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs" Space="C-S">
+        <Alias Key="Model" Value="AssistantModel" />
+        <Alias Key="Target" Value="AssistantModel.Store" />
+        <EntityContainerMapping CdmEntityContainer="AssistantModelContainer" StorageEntityContainer="AssistantModelTargetContainer">
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
