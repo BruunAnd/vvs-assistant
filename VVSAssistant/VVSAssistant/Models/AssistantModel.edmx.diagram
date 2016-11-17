@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="d66af26ea5594d6c9d840c9ba5f2a420" Name="Diagram1" DisplayType="true" ZoomLevel="82" ShowGrid="true" >
+      <Diagram DiagramId="d66af26ea5594d6c9d840c9ba5f2a420" Name="Diagram1" DisplayType="true" ZoomLevel="89" ShowGrid="true" >
         <EntityTypeShape EntityType="AssistantModel.Client" Width="1.5" PointX="8.125" PointY="5.125" />
         <EntityTypeShape EntityType="AssistantModel.ClientInformation" Width="1.5" PointX="10.375" PointY="1.5" />
         <AssociationConnector Association="AssistantModel.ClientInformationAssociation" />
@@ -23,6 +23,12 @@
         <InheritanceConnector EntityType="AssistantModel.Material" />
         <AssociationConnector Association="AssistantModel.OfferSalary" />
         <AssociationConnector Association="AssistantModel.OfferMaterial" />
+        <EntityTypeShape EntityType="AssistantModel.DataSheet" Width="1.5" PointX="17.5" PointY="6.75" />
+        <AssociationConnector Association="AssistantModel.ApplianceDataSheet" />
+        <EntityTypeShape EntityType="AssistantModel.HeatPumpDataSheet" Width="1.75" PointX="16.25" PointY="9.125" IsExpanded="true" />
+        <InheritanceConnector EntityType="AssistantModel.HeatPumpDataSheet" />
+        <EntityTypeShape EntityType="AssistantModel.TemperatureControllerDataSheet" Width="2.5" PointX="18.25" PointY="9.125" />
+        <InheritanceConnector EntityType="AssistantModel.TemperatureControllerDataSheet" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

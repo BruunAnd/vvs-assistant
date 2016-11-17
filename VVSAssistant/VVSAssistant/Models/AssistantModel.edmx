@@ -308,6 +308,11 @@
             <End Role="Offer" EntitySet="Offers" />
             <End Role="Material" EntitySet="UnitPrices" />
           </AssociationSet>
+          <EntitySet Name="DataSheets" EntityType="AssistantModel.DataSheet" />
+          <AssociationSet Name="ApplianceDataSheet" Association="AssistantModel.ApplianceDataSheet">
+            <End Role="Appliance" EntitySet="Appliances" />
+            <End Role="DataSheet" EntitySet="DataSheets" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Client">
           <Key>
@@ -381,6 +386,7 @@
           <Property Name="Name" Type="String" Nullable="false" />
           <Property Name="CreationDate" Type="DateTime" Nullable="false" />
           <Property Name="Type" Type="AssistantModel.ApplianceTypes" Nullable="false" />
+          <NavigationProperty Name="DataSheet" Relationship="AssistantModel.ApplianceDataSheet" FromRole="Appliance" ToRole="DataSheet" />
         </EntityType>
         <EnumType Name="ApplianceTypes">
           <Member Name="Heatpump" />
@@ -416,6 +422,19 @@
           <End Type="AssistantModel.Offer" Role="Offer" Multiplicity="1" />
           <End Type="AssistantModel.Material" Role="Material" Multiplicity="*" />
         </Association>
+        <EntityType Name="DataSheet" Abstract="true">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Price" Type="Double" Nullable="false" />
+        </EntityType>
+        <Association Name="ApplianceDataSheet">
+          <End Type="AssistantModel.Appliance" Role="Appliance" Multiplicity="0..1" />
+          <End Type="AssistantModel.DataSheet" Role="DataSheet" Multiplicity="1" />
+        </Association>
+        <EntityType Name="HeatPumpDataSheet" BaseType="AssistantModel.DataSheet" />
+        <EntityType Name="TemperatureControllerDataSheet" BaseType="AssistantModel.DataSheet" />
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
