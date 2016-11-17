@@ -12,13 +12,8 @@ namespace VVSAssistant.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Offer
+    public partial class Salary : UnitPrice
     {
-        public int Id { get; set; }
-        public System.DateTime CreationDate { get; set; }
-    
-        public virtual Client Client { get; set; }
-        public virtual OfferInformation OfferInformation { get; set; }
-        public virtual PackagedSolution PackagedSolution { get; set; }
+        public string Name { get; set; }
     }
 }

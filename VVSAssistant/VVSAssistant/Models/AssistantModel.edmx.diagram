@@ -4,18 +4,25 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="d66af26ea5594d6c9d840c9ba5f2a420" Name="Diagram1" DisplayType="true" >
-        <EntityTypeShape EntityType="AssistantModel.Client" Width="1.5" PointX="0.75" PointY="3.75" />
-        <EntityTypeShape EntityType="AssistantModel.ClientInformation" Width="1.5" PointX="3" PointY="6.25" />
+      <Diagram DiagramId="d66af26ea5594d6c9d840c9ba5f2a420" Name="Diagram1" DisplayType="true" ZoomLevel="82" ShowGrid="true" >
+        <EntityTypeShape EntityType="AssistantModel.Client" Width="1.5" PointX="8.125" PointY="5.125" />
+        <EntityTypeShape EntityType="AssistantModel.ClientInformation" Width="1.5" PointX="10.375" PointY="1.5" />
         <AssociationConnector Association="AssistantModel.ClientInformationAssociation" />
-        <EntityTypeShape EntityType="AssistantModel.Offer" Width="1.5" PointX="3" PointY="2.375" />
+        <EntityTypeShape EntityType="AssistantModel.Offer" Width="1.5" PointX="10.375" PointY="4.75" />
         <AssociationConnector Association="AssistantModel.ClientOffer" />
-        <EntityTypeShape EntityType="AssistantModel.OfferInformation" Width="1.5" PointX="5.25" PointY="1.125" />
+        <EntityTypeShape EntityType="AssistantModel.OfferInformation" Width="1.5" PointX="12.625" PointY="3.875" />
         <AssociationConnector Association="AssistantModel.OfferOfferInformation" />
-        <EntityTypeShape EntityType="AssistantModel.PackagedSolution" Width="1.5" PointX="5.25" PointY="3.625" />
+        <EntityTypeShape EntityType="AssistantModel.PackagedSolution" Width="1.5" PointX="12.625" PointY="6.25" />
         <AssociationConnector Association="AssistantModel.OfferPackagedSolutionAssociation" />
-        <EntityTypeShape EntityType="AssistantModel.Appliance" Width="1.5" PointX="7.5" PointY="3.5" />
+        <EntityTypeShape EntityType="AssistantModel.Appliance" Width="1.5" PointX="14.875" PointY="6.25" />
         <AssociationConnector Association="AssistantModel.PackagedSolutionApplianceAssociation" />
+        <EntityTypeShape EntityType="AssistantModel.UnitPrice" Width="1.5" PointX="5.375" PointY="5.375" />
+        <EntityTypeShape EntityType="AssistantModel.Salary" Width="1.5" PointX="10.375" PointY="7.875" />
+        <InheritanceConnector EntityType="AssistantModel.Salary" />
+        <EntityTypeShape EntityType="AssistantModel.Material" Width="1.5" PointX="10.375" PointY="9.875" />
+        <InheritanceConnector EntityType="AssistantModel.Material" />
+        <AssociationConnector Association="AssistantModel.OfferSalary" />
+        <AssociationConnector Association="AssistantModel.OfferMaterial" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

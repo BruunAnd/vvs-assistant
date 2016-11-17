@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server Compact Edition
 -- --------------------------------------------------
--- Date Created: 11/16/2016 14:38:50
--- Generated from EDMX file: C:\Users\Zen\Documents\ds305e16\VVSAssistant\VVSAssistant\Models\AssistantModel.edmx
+-- Date Created: 11/16/2016 21:56:22
+-- Generated from EDMX file: C:\Users\User\Desktop\ds305e16\VVSAssistant\VVSAssistant\Models\AssistantModel.edmx
 -- --------------------------------------------------
 
 
@@ -12,12 +12,38 @@
 -- NOTE: if the constraint does not exist, an ignorable error will be reported.
 -- --------------------------------------------------
 
+    ALTER TABLE [Clients] DROP CONSTRAINT [FK_ClientInformationAssociation];
+GO
+    ALTER TABLE [Offers] DROP CONSTRAINT [FK_ClientOffer];
+GO
+    ALTER TABLE [Offers] DROP CONSTRAINT [FK_OfferOfferInformation];
+GO
+    ALTER TABLE [Offers] DROP CONSTRAINT [FK_OfferPackagedSolutionAssociation];
+GO
+    ALTER TABLE [PackagedSolutionApplianceAssociation] DROP CONSTRAINT [FK_PackagedSolutionApplianceAssociation_PackagedSolution];
+GO
+    ALTER TABLE [PackagedSolutionApplianceAssociation] DROP CONSTRAINT [FK_PackagedSolutionApplianceAssociation_Appliance];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
 -- NOTE: if the table does not exist, an ignorable error will be reported.
 -- --------------------------------------------------
 
+    DROP TABLE [Clients];
+GO
+    DROP TABLE [ClientInformation];
+GO
+    DROP TABLE [Offers];
+GO
+    DROP TABLE [OfferInformation];
+GO
+    DROP TABLE [PackagedSolutions];
+GO
+    DROP TABLE [Appliances];
+GO
+    DROP TABLE [PackagedSolutionApplianceAssociation];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
@@ -72,8 +98,40 @@ CREATE TABLE [Appliances] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(4000)  NOT NULL,
     [CreationDate] datetime  NOT NULL,
-    [Type] int  NOT NULL,
-    [PackagedSolutionId] int  NOT NULL
+    [Type] int  NOT NULL
+);
+GO
+
+-- Creating table 'UnitPrices'
+CREATE TABLE [UnitPrices] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Quantity] int  NOT NULL,
+    [UnitCostPrice] float  NOT NULL,
+    [UnitSalesPrice] float  NOT NULL
+);
+GO
+
+-- Creating table 'UnitPrices_Salary'
+CREATE TABLE [UnitPrices_Salary] (
+    [Name] nvarchar(4000)  NOT NULL,
+    [Id] int  NOT NULL,
+    [OfferSalary_Salary_Id] int  NOT NULL
+);
+GO
+
+-- Creating table 'UnitPrices_Material'
+CREATE TABLE [UnitPrices_Material] (
+    [VvsNumber] int  NOT NULL,
+    [Name] nvarchar(4000)  NOT NULL,
+    [Id] int  NOT NULL,
+    [OfferMaterial_Material_Id] int  NOT NULL
+);
+GO
+
+-- Creating table 'PackagedSolutionApplianceAssociation'
+CREATE TABLE [PackagedSolutionApplianceAssociation] (
+    [PackagedSolutionApplianceAssociation_Appliance_Id] int  NOT NULL,
+    [Appliances_Id] int  NOT NULL
 );
 GO
 
@@ -115,6 +173,30 @@ GO
 ALTER TABLE [Appliances]
 ADD CONSTRAINT [PK_Appliances]
     PRIMARY KEY ([Id] );
+GO
+
+-- Creating primary key on [Id] in table 'UnitPrices'
+ALTER TABLE [UnitPrices]
+ADD CONSTRAINT [PK_UnitPrices]
+    PRIMARY KEY ([Id] );
+GO
+
+-- Creating primary key on [Id] in table 'UnitPrices_Salary'
+ALTER TABLE [UnitPrices_Salary]
+ADD CONSTRAINT [PK_UnitPrices_Salary]
+    PRIMARY KEY ([Id] );
+GO
+
+-- Creating primary key on [Id] in table 'UnitPrices_Material'
+ALTER TABLE [UnitPrices_Material]
+ADD CONSTRAINT [PK_UnitPrices_Material]
+    PRIMARY KEY ([Id] );
+GO
+
+-- Creating primary key on [PackagedSolutionApplianceAssociation_Appliance_Id], [Appliances_Id] in table 'PackagedSolutionApplianceAssociation'
+ALTER TABLE [PackagedSolutionApplianceAssociation]
+ADD CONSTRAINT [PK_PackagedSolutionApplianceAssociation]
+    PRIMARY KEY ([PackagedSolutionApplianceAssociation_Appliance_Id], [Appliances_Id] );
 GO
 
 -- --------------------------------------------------
@@ -181,19 +263,76 @@ ON [Offers]
     ([PackagedSolution_Id]);
 GO
 
--- Creating foreign key on [PackagedSolutionId] in table 'Appliances'
-ALTER TABLE [Appliances]
-ADD CONSTRAINT [FK_PackagedSolutionApplianceAssociation]
-    FOREIGN KEY ([PackagedSolutionId])
+-- Creating foreign key on [PackagedSolutionApplianceAssociation_Appliance_Id] in table 'PackagedSolutionApplianceAssociation'
+ALTER TABLE [PackagedSolutionApplianceAssociation]
+ADD CONSTRAINT [FK_PackagedSolutionApplianceAssociation_PackagedSolution]
+    FOREIGN KEY ([PackagedSolutionApplianceAssociation_Appliance_Id])
     REFERENCES [PackagedSolutions]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_PackagedSolutionApplianceAssociation'
-CREATE INDEX [IX_FK_PackagedSolutionApplianceAssociation]
-ON [Appliances]
-    ([PackagedSolutionId]);
+-- Creating foreign key on [Appliances_Id] in table 'PackagedSolutionApplianceAssociation'
+ALTER TABLE [PackagedSolutionApplianceAssociation]
+ADD CONSTRAINT [FK_PackagedSolutionApplianceAssociation_Appliance]
+    FOREIGN KEY ([Appliances_Id])
+    REFERENCES [Appliances]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_PackagedSolutionApplianceAssociation_Appliance'
+CREATE INDEX [IX_FK_PackagedSolutionApplianceAssociation_Appliance]
+ON [PackagedSolutionApplianceAssociation]
+    ([Appliances_Id]);
+GO
+
+-- Creating foreign key on [OfferSalary_Salary_Id] in table 'UnitPrices_Salary'
+ALTER TABLE [UnitPrices_Salary]
+ADD CONSTRAINT [FK_OfferSalary]
+    FOREIGN KEY ([OfferSalary_Salary_Id])
+    REFERENCES [Offers]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_OfferSalary'
+CREATE INDEX [IX_FK_OfferSalary]
+ON [UnitPrices_Salary]
+    ([OfferSalary_Salary_Id]);
+GO
+
+-- Creating foreign key on [OfferMaterial_Material_Id] in table 'UnitPrices_Material'
+ALTER TABLE [UnitPrices_Material]
+ADD CONSTRAINT [FK_OfferMaterial]
+    FOREIGN KEY ([OfferMaterial_Material_Id])
+    REFERENCES [Offers]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_OfferMaterial'
+CREATE INDEX [IX_FK_OfferMaterial]
+ON [UnitPrices_Material]
+    ([OfferMaterial_Material_Id]);
+GO
+
+-- Creating foreign key on [Id] in table 'UnitPrices_Salary'
+ALTER TABLE [UnitPrices_Salary]
+ADD CONSTRAINT [FK_Salary_inherits_UnitPrice]
+    FOREIGN KEY ([Id])
+    REFERENCES [UnitPrices]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Id] in table 'UnitPrices_Material'
+ALTER TABLE [UnitPrices_Material]
+ADD CONSTRAINT [FK_Material_inherits_UnitPrice]
+    FOREIGN KEY ([Id])
+    REFERENCES [UnitPrices]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
 
 -- --------------------------------------------------
