@@ -13,8 +13,11 @@
     <EntitySet Name="PackagedSolutions" EntityType="AssistantModel.Store.PackagedSolutions" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Appliances" EntityType="AssistantModel.Store.Appliances" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="UnitPrices" EntityType="AssistantModel.Store.UnitPrices" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DataSheets" EntityType="AssistantModel.Store.DataSheets" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="UnitPrices_Salary" EntityType="AssistantModel.Store.UnitPrices_Salary" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="UnitPrices_Material" EntityType="AssistantModel.Store.UnitPrices_Material" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DataSheets_HeatPumpDataSheet" EntityType="AssistantModel.Store.DataSheets_HeatPumpDataSheet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DataSheets_TemperatureControllerDataSheet" EntityType="AssistantModel.Store.DataSheets_TemperatureControllerDataSheet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="PackagedSolutionApplianceAssociation" EntityType="AssistantModel.Store.PackagedSolutionApplianceAssociation" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="ClientInformationAssociation" Association="AssistantModel.Store.ClientInformationAssociation">
       <End Role="Client" EntitySet="Clients" />
@@ -48,6 +51,10 @@
       <End Role="Offer" EntitySet="Offers" />
       <End Role="Material" EntitySet="UnitPrices_Material" />
     </AssociationSet>
+    <AssociationSet Name="ApplianceDataSheet" Association="AssistantModel.Store.ApplianceDataSheet">
+      <End Role="Appliance" EntitySet="Appliances" />
+      <End Role="DataSheet" EntitySet="DataSheets" />
+    </AssociationSet>
     <AssociationSet Name="FK_Salary_inherits_UnitPrice" Association="AssistantModel.Store.FK_Salary_inherits_UnitPrice">
       <End Role="UnitPrice" EntitySet="UnitPrices" />
       <End Role="Salary" EntitySet="UnitPrices_Salary" />
@@ -55,6 +62,14 @@
     <AssociationSet Name="FK_Material_inherits_UnitPrice" Association="AssistantModel.Store.FK_Material_inherits_UnitPrice">
       <End Role="UnitPrice" EntitySet="UnitPrices" />
       <End Role="Material" EntitySet="UnitPrices_Material" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HeatPumpDataSheet_inherits_DataSheet" Association="AssistantModel.Store.FK_HeatPumpDataSheet_inherits_DataSheet">
+      <End Role="DataSheet" EntitySet="DataSheets" />
+      <End Role="HeatPumpDataSheet" EntitySet="DataSheets_HeatPumpDataSheet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TemperatureControllerDataSheet_inherits_DataSheet" Association="AssistantModel.Store.FK_TemperatureControllerDataSheet_inherits_DataSheet">
+      <End Role="DataSheet" EntitySet="DataSheets" />
+      <End Role="TemperatureControllerDataSheet" EntitySet="DataSheets_TemperatureControllerDataSheet" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Clients">
@@ -109,6 +124,7 @@
     <Property Name="Name" Type="nvarchar" Nullable="false" />
     <Property Name="CreationDate" Type="datetime" Nullable="false" />
     <Property Name="Type" Type="int" Nullable="false" />
+    <Property Name="DataSheet_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="UnitPrices">
     <Key>
@@ -118,6 +134,13 @@
     <Property Name="Quantity" Type="int" Nullable="false" />
     <Property Name="UnitCostPrice" Type="float" Nullable="false" />
     <Property Name="UnitSalesPrice" Type="float" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DataSheets">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Price" Type="float" Nullable="false" />
   </EntityType>
   <EntityType Name="UnitPrices_Salary">
     <Key>
@@ -135,6 +158,18 @@
     <Property Name="Name" Type="nvarchar" Nullable="false" />
     <Property Name="Id" Type="int" Nullable="false" />
     <Property Name="OfferMaterial_Material_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DataSheets_HeatPumpDataSheet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DataSheets_TemperatureControllerDataSheet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="PackagedSolutionApplianceAssociation">
     <Key>
@@ -216,6 +251,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="ApplianceDataSheet">
+    <End Role="Appliance" Type="AssistantModel.Store.Appliances" Multiplicity="*" />
+    <End Role="DataSheet" Type="AssistantModel.Store.DataSheets" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="DataSheet">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Appliance">
+        <PropertyRef Name="DataSheet_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_PackagedSolutionApplianceAssociation_PackagedSolution">
     <End Role="PackagedSolution" Type="AssistantModel.Store.PackagedSolutions" Multiplicity="1" />
     <End Role="PackagedSolutionApplianceAssociation" Type="AssistantModel.Store.PackagedSolutionApplianceAssociation" Multiplicity="*" />
@@ -264,6 +311,34 @@
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="Material">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HeatPumpDataSheet_inherits_DataSheet">
+    <End Role="DataSheet" Type="AssistantModel.Store.DataSheets" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="HeatPumpDataSheet" Type="AssistantModel.Store.DataSheets_HeatPumpDataSheet" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="DataSheet">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="HeatPumpDataSheet">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TemperatureControllerDataSheet_inherits_DataSheet">
+    <End Role="DataSheet" Type="AssistantModel.Store.DataSheets" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="TemperatureControllerDataSheet" Type="AssistantModel.Store.DataSheets_TemperatureControllerDataSheet" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="DataSheet">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TemperatureControllerDataSheet">
         <PropertyRef Name="Id" />
       </Dependent>
     </ReferentialConstraint>
@@ -519,6 +594,24 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="DataSheets">
+      <EntityTypeMapping TypeName="IsTypeOf(AssistantModel.DataSheet)">
+        <MappingFragment StoreEntitySet="DataSheets">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(AssistantModel.HeatPumpDataSheet)">
+        <MappingFragment StoreEntitySet="DataSheets_HeatPumpDataSheet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(AssistantModel.TemperatureControllerDataSheet)">
+        <MappingFragment StoreEntitySet="DataSheets_TemperatureControllerDataSheet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="ClientInformationAssociation" TypeName="AssistantModel.ClientInformationAssociation" StoreEntitySet="Clients">
       <EndProperty Name="ClientInformation">
         <ScalarProperty Name="Id" ColumnName="ClientInformation_Id" />
@@ -572,6 +665,14 @@
         <ScalarProperty Name="Id" ColumnName="OfferMaterial_Material_Id" />
       </EndProperty>
       <EndProperty Name="Material">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ApplianceDataSheet" TypeName="AssistantModel.ApplianceDataSheet" StoreEntitySet="Appliances">
+      <EndProperty Name="DataSheet">
+        <ScalarProperty Name="Id" ColumnName="DataSheet_Id" />
+      </EndProperty>
+      <EndProperty Name="Appliance">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>

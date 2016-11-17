@@ -51,6 +51,12 @@ namespace VVSAssistant
                     Type = ApplianceTypes.Boiler
                 };
                 packagedSolution.Appliances.Add(appliance);
+                var heatPumpDataSheet = new HeatPumpDataSheet()
+                {
+                    Price = 200
+                };
+                db.DataSheets.Add(heatPumpDataSheet);
+                appliance.DataSheet = heatPumpDataSheet;
                 offer.PackagedSolution = packagedSolution;
                 db.Offers.Add(offer);
                 db.SaveChanges();

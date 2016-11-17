@@ -105,7 +105,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Models\PackageSolution.cs" />
+    <Compile Include="Models\DataSheet.Entity.cs">
+      <DependentUpon>AssistantModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HeatPumpDataSheet.Entity.cs">
+      <DependentUpon>AssistantModelGenerator.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PackagedSolution.cs" />
+    <Compile Include="Models\TemperatureControllerDataSheet.Entity.cs">
+      <DependentUpon>AssistantModelGenerator.tt</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\ApplianceViewModel.cs" />
     <Compile Include="ViewModels\CreatePackageSolutionViewModel.cs" />
     <Compile Include="ViewModels\PackageSolutionViewModel.cs" />

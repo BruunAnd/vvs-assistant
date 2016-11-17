@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server Compact Edition
 -- --------------------------------------------------
--- Date Created: 11/16/2016 21:56:22
--- Generated from EDMX file: C:\Users\User\Desktop\ds305e16\VVSAssistant\VVSAssistant\Models\AssistantModel.edmx
+-- Date Created: 11/17/2016 10:57:57
+-- Generated from EDMX file: C:\Users\Zen\Documents\ds305e16\VVSAssistant\VVSAssistant\Models\AssistantModel.edmx
 -- --------------------------------------------------
 
 
@@ -24,6 +24,14 @@ GO
 GO
     ALTER TABLE [PackagedSolutionApplianceAssociation] DROP CONSTRAINT [FK_PackagedSolutionApplianceAssociation_Appliance];
 GO
+    ALTER TABLE [UnitPrices_Salary] DROP CONSTRAINT [FK_OfferSalary];
+GO
+    ALTER TABLE [UnitPrices_Material] DROP CONSTRAINT [FK_OfferMaterial];
+GO
+    ALTER TABLE [UnitPrices_Salary] DROP CONSTRAINT [FK_Salary_inherits_UnitPrice];
+GO
+    ALTER TABLE [UnitPrices_Material] DROP CONSTRAINT [FK_Material_inherits_UnitPrice];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -41,6 +49,12 @@ GO
     DROP TABLE [PackagedSolutions];
 GO
     DROP TABLE [Appliances];
+GO
+    DROP TABLE [UnitPrices];
+GO
+    DROP TABLE [UnitPrices_Salary];
+GO
+    DROP TABLE [UnitPrices_Material];
 GO
     DROP TABLE [PackagedSolutionApplianceAssociation];
 GO
@@ -98,7 +112,8 @@ CREATE TABLE [Appliances] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(4000)  NOT NULL,
     [CreationDate] datetime  NOT NULL,
-    [Type] int  NOT NULL
+    [Type] int  NOT NULL,
+    [DataSheet_Id] int  NOT NULL
 );
 GO
 
@@ -108,6 +123,13 @@ CREATE TABLE [UnitPrices] (
     [Quantity] int  NOT NULL,
     [UnitCostPrice] float  NOT NULL,
     [UnitSalesPrice] float  NOT NULL
+);
+GO
+
+-- Creating table 'DataSheets'
+CREATE TABLE [DataSheets] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Price] float  NOT NULL
 );
 GO
 
@@ -125,6 +147,18 @@ CREATE TABLE [UnitPrices_Material] (
     [Name] nvarchar(4000)  NOT NULL,
     [Id] int  NOT NULL,
     [OfferMaterial_Material_Id] int  NOT NULL
+);
+GO
+
+-- Creating table 'DataSheets_HeatPumpDataSheet'
+CREATE TABLE [DataSheets_HeatPumpDataSheet] (
+    [Id] int  NOT NULL
+);
+GO
+
+-- Creating table 'DataSheets_TemperatureControllerDataSheet'
+CREATE TABLE [DataSheets_TemperatureControllerDataSheet] (
+    [Id] int  NOT NULL
 );
 GO
 
@@ -181,6 +215,12 @@ ADD CONSTRAINT [PK_UnitPrices]
     PRIMARY KEY ([Id] );
 GO
 
+-- Creating primary key on [Id] in table 'DataSheets'
+ALTER TABLE [DataSheets]
+ADD CONSTRAINT [PK_DataSheets]
+    PRIMARY KEY ([Id] );
+GO
+
 -- Creating primary key on [Id] in table 'UnitPrices_Salary'
 ALTER TABLE [UnitPrices_Salary]
 ADD CONSTRAINT [PK_UnitPrices_Salary]
@@ -190,6 +230,18 @@ GO
 -- Creating primary key on [Id] in table 'UnitPrices_Material'
 ALTER TABLE [UnitPrices_Material]
 ADD CONSTRAINT [PK_UnitPrices_Material]
+    PRIMARY KEY ([Id] );
+GO
+
+-- Creating primary key on [Id] in table 'DataSheets_HeatPumpDataSheet'
+ALTER TABLE [DataSheets_HeatPumpDataSheet]
+ADD CONSTRAINT [PK_DataSheets_HeatPumpDataSheet]
+    PRIMARY KEY ([Id] );
+GO
+
+-- Creating primary key on [Id] in table 'DataSheets_TemperatureControllerDataSheet'
+ALTER TABLE [DataSheets_TemperatureControllerDataSheet]
+ADD CONSTRAINT [PK_DataSheets_TemperatureControllerDataSheet]
     PRIMARY KEY ([Id] );
 GO
 
@@ -317,6 +369,21 @@ ON [UnitPrices_Material]
     ([OfferMaterial_Material_Id]);
 GO
 
+-- Creating foreign key on [DataSheet_Id] in table 'Appliances'
+ALTER TABLE [Appliances]
+ADD CONSTRAINT [FK_ApplianceDataSheet]
+    FOREIGN KEY ([DataSheet_Id])
+    REFERENCES [DataSheets]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ApplianceDataSheet'
+CREATE INDEX [IX_FK_ApplianceDataSheet]
+ON [Appliances]
+    ([DataSheet_Id]);
+GO
+
 -- Creating foreign key on [Id] in table 'UnitPrices_Salary'
 ALTER TABLE [UnitPrices_Salary]
 ADD CONSTRAINT [FK_Salary_inherits_UnitPrice]
@@ -331,6 +398,24 @@ ALTER TABLE [UnitPrices_Material]
 ADD CONSTRAINT [FK_Material_inherits_UnitPrice]
     FOREIGN KEY ([Id])
     REFERENCES [UnitPrices]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Id] in table 'DataSheets_HeatPumpDataSheet'
+ALTER TABLE [DataSheets_HeatPumpDataSheet]
+ADD CONSTRAINT [FK_HeatPumpDataSheet_inherits_DataSheet]
+    FOREIGN KEY ([Id])
+    REFERENCES [DataSheets]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Id] in table 'DataSheets_TemperatureControllerDataSheet'
+ALTER TABLE [DataSheets_TemperatureControllerDataSheet]
+ADD CONSTRAINT [FK_TemperatureControllerDataSheet_inherits_DataSheet]
+    FOREIGN KEY ([Id])
+    REFERENCES [DataSheets]
         ([Id])
     ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
