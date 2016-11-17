@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace VVSAssistant.View_Models
+namespace VVSAssistant.ViewModels
 {
     /// <summary>
     /// This is what commands in the View are bound to.

@@ -105,13 +105,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="View Models\RelayCommand.cs" />
-    <Compile Include="View Models\ObservableObject.cs" />
+    <Compile Include="Models\Appliance.cs" />
+    <Compile Include="Models\PackageSolution.cs" />
+    <Compile Include="ViewModels\ApplianceViewModel.cs" />
+    <Compile Include="ViewModels\CreatePackageSolutionViewModel.cs" />
+    <Compile Include="ViewModels\PackageSolutionViewModel.cs" />
+    <Compile Include="ViewModels\MVVM\RelayCommand.cs" />
+    <Compile Include="ViewModels\MVVM\ObservableObject.cs" />
     <Compile Include="Views\NavigationView.xaml.cs">
       <DependentUpon>NavigationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\NewPackageSolutionView.xaml.cs">
-      <DependentUpon>NewPackageSolutionView.xaml</DependentUpon>
+    <Compile Include="Views\CreatePackageSolutionView.xaml.cs">
+      <DependentUpon>CreatePackageSolutionView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -137,7 +142,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\NewPackageSolutionView.xaml">
+    <Page Include="Views\CreatePackageSolutionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -175,7 +180,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Extensions\" />
-    <Folder Include="Models\Interfaces\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\WindowsIcons-license.txt" />

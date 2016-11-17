@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace VVSAssistant.View_Models
+namespace VVSAssistant.ViewModels
 {
     /// <summary>
     /// Base class for ViewModel classes.
