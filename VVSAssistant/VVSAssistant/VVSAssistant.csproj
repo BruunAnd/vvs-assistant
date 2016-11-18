@@ -113,7 +113,7 @@
     <Compile Include="Models\DataSheet.cs" />
     <Compile Include="Models\HeatPumpDataSheet.cs" />
     <Compile Include="Models\Material.Entity.cs" />
-    <Compile Include="Models\Offer.Entity.cs" />
+    <Compile Include="Models\Offer.cs" />
     <Compile Include="Models\OfferInformation.cs" />
     <Compile Include="Models\PackagedSolution.cs" />
     <Compile Include="Models\Salary.cs" />

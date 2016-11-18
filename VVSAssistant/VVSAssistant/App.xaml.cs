@@ -19,6 +19,7 @@ namespace VVSAssistant
         {
             base.OnStartup(e);
 
+            new AssistantContext().Database.Delete();
             // Test database stuff
             using (var db = new AssistantContext())
             {
@@ -56,6 +57,7 @@ namespace VVSAssistant
                 packagedSolution.Appliances.Add(appliance);
                 var heatPumpDataSheet = new HeatPumpDataSheet()
                 {
+                    Size = 9001,
                     Price = 200
                 };
                 db.DataSheets.Add(heatPumpDataSheet);
@@ -63,6 +65,12 @@ namespace VVSAssistant
                 offer.PackagedSolution = packagedSolution;
                 db.Offers.Add(offer);
                 db.SaveChanges();
+            }
+
+            // get datasheet test
+            using (var ctx = new AssistantContext())
+            {
+                ctx.DataSheets.ToList().ForEach(sheet => Console.WriteLine(sheet is HeatPumpDataSheet));
             }
 
         }

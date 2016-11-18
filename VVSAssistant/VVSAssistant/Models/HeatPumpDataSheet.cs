@@ -5,5 +5,6 @@ namespace VVSAssistant.Models
 {
     public class HeatPumpDataSheet : DataSheet
     {
+        public int Size { get; set; }
     }
 }
