@@ -1,25 +1,19 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace VVSAssistant.Models
 {
-    
-    public class PackageSolution
+    public class PackagedSolution
     {
-        public PackageSolution()
+        /* Lazy loading has been removed - should it be used? */
+        public PackagedSolution()
         {
-            Appliances = new ObservableCollection<Appliance>();
+            Appliances = new List<Appliance>();
         }
 
+        public int Id { get; set; }
         public string Name { get; set; }
-
-        public ObservableCollection<Appliance> Appliances
-        {
-            get; private set;
-        }
+        public DateTime CreationDate { get; set; }
+        public ICollection<Appliance> Appliances { get; set; }
     }
 }

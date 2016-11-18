@@ -22,7 +22,7 @@ namespace VVSAssistant.ViewModels
             {
                 if (_Name == value) return;
                 _Name = value;
-                onPropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -34,7 +34,7 @@ namespace VVSAssistant.ViewModels
             {
                 if (_Type == value) return;
                 _Type = value;
-                onPropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -46,7 +46,7 @@ namespace VVSAssistant.ViewModels
             {
                 if (_Description == value) return;
                 _Description = value;
-                onPropertyChanged();
+                OnPropertyChanged();
             }
         }
 

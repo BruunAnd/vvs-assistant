@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using VVSAssistant.Database;
 using VVSAssistant.Models;
 
 namespace VVSAssistant
@@ -19,7 +20,7 @@ namespace VVSAssistant
             base.OnStartup(e);
 
             // Test database stuff
-            using (var db = new AssistantModelContainer())
+            using (var db = new AssistantContext())
             {
                 // add a new client 'Iaro'
                 var clientInformation = new ClientInformation() { Name="Iaroslav", Address="Kvadratet", Email="iaro@russia.ru", PhoneNumber="88888888"};
@@ -28,9 +29,11 @@ namespace VVSAssistant
                 db.Clients.Add(client);
                 db.SaveChanges();
                 // offer example
-                var offer = new Offer();
-                offer.Client = client;
-                offer.CreationDate = DateTime.Now;
+                var offer = new Offer
+                {
+                    Client = client,
+                    CreationDate = DateTime.Now
+                };
                 var offerInformation = new OfferInformation()
                 {
                     Description = "Example description",

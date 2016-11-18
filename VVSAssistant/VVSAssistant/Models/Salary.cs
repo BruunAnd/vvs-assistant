@@ -3,9 +3,8 @@ using System.Collections.Generic;
 
 namespace VVSAssistant.Models
 {
-    public class Material : UnitPrice
+    public class Salary : UnitPrice
     {
-        public int VvsNumber { get; set; }
         public string Name { get; set; }
     }
 }

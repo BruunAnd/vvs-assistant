@@ -22,7 +22,7 @@ namespace VVSAssistant.ViewModels
             {
                 if (_Name == value) return;
                 _Name = value;
-                onPropertyChanged();
+                OnPropertyChanged();
             }
         }
 
