@@ -16,7 +16,7 @@ namespace VVSAssistant.Tests
         }
 
         [Test]
-        [Category("Very Important Test Never Delete")]
+        [Category("Very Important Test Never Delete Mis")]
         //Method_StateUnderTest_ExpectedBehavior
         public void IsAndersFaglord_IstUndFaglord_True()
         {
