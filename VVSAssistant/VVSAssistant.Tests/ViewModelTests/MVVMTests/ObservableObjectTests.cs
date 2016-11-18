@@ -14,6 +14,7 @@ namespace VVSAssistant.Tests.ViewModelTests.MVVMTests
     {
         private StubObservableObject _stub = null;
 
+        // Factory er anbefalet i stedet for Setup
         [SetUp]
         public void Setup()
         {
@@ -34,35 +35,23 @@ namespace VVSAssistant.Tests.ViewModelTests.MVVMTests
 
             Assert.IsTrue(raised);
         }
+
         [Test]
-        public void Setproperty_PropertyChangedEventRaised_True()
+        [TestCase(null, "Value", true)]
+        [TestCase("Value", "Value", false)]
+        [TestCase("Not value", "Value", true)]
+        public void Setproperty_PropertyChangedEventRaised_True(string formerValue, string testValue, bool expected)
         {
             bool raised = false;
-
+            _stub.TestSetProperty = formerValue;
             _stub.PropertyChanged += (sender, e) =>
             {
                 Assert.IsTrue(e.PropertyName.Equals("TestSetProperty"));
                 raised = true;
             };
-            _stub.TestSetProperty = "Some value";
+            _stub.TestSetProperty = testValue;
 
-            Assert.IsTrue(raised);
-        }
-        [Test]
-        public void Setproperty_PropertyChangedEventRaised_False()
-        {
-            bool raised = false;
-            string value = "Value";
-            _stub.TestSetProperty = value;
-
-            _stub.PropertyChanged += (sender, e) =>
-            {
-                Assert.IsTrue(e.PropertyName.Equals("TestSetProperty"));
-                raised = true;
-            };
-            _stub.TestSetProperty = "Value";
-
-            Assert.IsFalse(raised);
+            Assert.AreEqual(raised, expected);
         }
 
         [TearDown]

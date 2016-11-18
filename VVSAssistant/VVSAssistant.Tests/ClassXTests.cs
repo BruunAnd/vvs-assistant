@@ -10,6 +10,8 @@ namespace VVSAssistant.Tests
     [TestFixture]
     public class ClassXTests
     {
+        // Det er anbefalet at bruge factory i stedet for Setup, 
+        // men ved ikke hvordan endnu
         [SetUp]
         public void Setup()
         {
@@ -28,6 +30,7 @@ namespace VVSAssistant.Tests
             Assert.IsTrue(andersIstUndFaglord);
         }
 
+        // TearDown skal heller ikke bruges 
         [TearDown]
         public void TearDown()
         {
