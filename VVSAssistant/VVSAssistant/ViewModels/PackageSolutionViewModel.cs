@@ -4,10 +4,11 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VVSAssistant.ViewModels.MVVM;
 
 namespace VVSAssistant.ViewModels
 {
-    class PackageSolutionViewModel : ObservableObject
+    class PackageSolutionViewModel : ViewModelBase
     {
         public PackageSolutionViewModel()
         {

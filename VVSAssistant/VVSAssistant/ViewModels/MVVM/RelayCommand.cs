@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace VVSAssistant.ViewModels
+namespace VVSAssistant.ViewModels.MVVM
 {
     /// <summary>
     /// This is what commands in the View are bound to.
@@ -29,5 +29,7 @@ namespace VVSAssistant.ViewModels
         public void Execute(object parameter) => this.executeAction?.Invoke(parameter);
 
         public void NotifyCanExecuteChanged() => this.CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+
+        
     }
 }

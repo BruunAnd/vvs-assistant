@@ -6,10 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Specialized;
+using VVSAssistant.ViewModels.MVVM;
 
 namespace VVSAssistant.ViewModels
 {
-    internal class CreatePackageSolutionViewModel
+    class CreatePackageSolutionViewModel : ViewModelBase
     {
         #region Commands
         public RelayCommand AddApplianceToPackageSolution { get; }
@@ -42,7 +43,6 @@ namespace VVSAssistant.ViewModels
                 if (this.PackageSolution.Appliances.Any()) this.PackageSolution.Appliances.Clear();
             }, x => this.PackageSolution.Appliances.Any());
             this.PackageSolution.Appliances.CollectionChanged += PackageSolutionAppliances_CollectionChanged;
-            
         }
 
         private void PackageSolutionAppliances_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
