@@ -7,7 +7,7 @@ using VVSAssistant.Models;
 
 namespace VVSAssistant.Functions.Calculation.Strategies
 {
-    public class CHPStrategy : IEEICalculation
+    class CHPStrategy : IEEICalculation
     {
 
         public EEICalculationResult CalculateEEI(PackagedSolution PackagedSolutionForCalculation)

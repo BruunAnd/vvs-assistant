@@ -7,6 +7,8 @@ using VVSAssistant.Models;
 
 namespace VVSAssistant.Functions.Calculation.Strategies
 {
+
+    // !!!!!!!! Alle strategies skal gøre internal igen !!!!!!!!!!
     public class BoilerForWater : IEEICalculation
     {
         /// <summary>

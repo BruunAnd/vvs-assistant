@@ -9,7 +9,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
 {
     public class LowTempHeatPumpAsPrimary : IEEICalculation
     {
-        public EEICalculationResult CalculateEEI(PackagedSolution PackagedSolutionForCalculation)
+        EEICalculationResult CalculateEEI(PackagedSolution PackagedSolutionForCalculation)
         {
             throw new NotImplementedException();
         }

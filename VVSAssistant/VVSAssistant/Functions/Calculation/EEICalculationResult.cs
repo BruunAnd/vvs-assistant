@@ -24,5 +24,6 @@ namespace VVSAssistant.Functions.Calculation
         public float PackagedSolutionAtColdTemperaturesAFUE { get; set; }
         public float PackagedSolutionAtWarmTemperaturesAFUE { get; set; }
         public float LowHeatAFUE { get; set; }
+        public float WaterHeatingUseProfile { get; set; }
     }
 }
