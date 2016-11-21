@@ -4,11 +4,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:local="clr-namespace:VVSAssistant"
     mc:Ignorable="d"     
     xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
     Title="MainWindow" MinHeight="600" MinWidth="1080" Height="600" Width="1080">
 
-    <Frame Width="Auto" Height="Auto" NavigationUIVisibility="Hidden" Name="Frame" Source="{Binding Path=DisplayPage, Mode=TwoWay}"/>
+    <Frame Width="Auto" Height="Auto" NavigationUIVisibility="Hidden" Name="Frame" Source="Views/ExistingPackagedSolutionsView.xaml"/>
 
 </Controls:MetroWindow>

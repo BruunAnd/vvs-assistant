@@ -12,7 +12,7 @@ namespace VVSAssistant.ViewModels
 {
     class FilterableListViewModel<T> : ViewModelBase where T : IFilterable
     {
-        public ICollectionView Collection { get; private set; }
+        public ICollectionView Collection { get; }
 
         private string _filterString = "";
         public string FilterString
@@ -30,10 +30,7 @@ namespace VVSAssistant.ViewModels
         public FilterableListViewModel(ICollection<T> dataSource)
         {
             Collection = CollectionViewSource.GetDefaultView(dataSource);
-            Collection.Filter = obj =>
-            {
-                return (obj as IFilterable).DoesFilterMatch(FilterString);
-            };
+            Collection.Filter = obj => (obj as IFilterable).DoesFilterMatch(FilterString);
         }
     }
 }

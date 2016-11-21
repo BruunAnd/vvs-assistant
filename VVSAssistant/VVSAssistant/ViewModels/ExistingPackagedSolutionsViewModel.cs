@@ -10,18 +10,15 @@ using VVSAssistant.ViewModels.MVVM;
 
 namespace VVSAssistant.ViewModels
 {
-    class ExistingPackagedSolutionsViewModel : ViewModelBase
+    internal class ExistingPackagedSolutionsViewModel : ViewModelBase
     {
-        private ObservableCollection<PackagedSolutionViewModel> _packagedSolutions = new ObservableCollection<PackagedSolutionViewModel>();
-        public ObservableCollection<PackagedSolutionViewModel> PackagedSolutions
-        {
-            get { return _packagedSolutions; }
-        }
+        public ObservableCollection<PackagedSolutionViewModel> PackagedSolutions { get; }
 
-        public FilterableListViewModel<PackagedSolutionViewModel> FilterablePackagedSolutionsList { get; private set; }
+        public FilterableListViewModel<PackagedSolutionViewModel> FilterablePackagedSolutionsList { get; }
 
         public ExistingPackagedSolutionsViewModel()
         {
+            PackagedSolutions = new ObservableCollection<PackagedSolutionViewModel>();
             // Load list of packaged solutions from database
             using (var dbContext = new AssistantContext())
             {
@@ -30,7 +27,6 @@ namespace VVSAssistant.ViewModels
                 // Create filterable list
                 FilterablePackagedSolutionsList = new FilterableListViewModel<PackagedSolutionViewModel>(PackagedSolutions);
             }
-            Console.WriteLine("test");
         }
     }
 }

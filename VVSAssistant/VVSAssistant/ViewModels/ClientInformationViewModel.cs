@@ -10,7 +10,7 @@ namespace VVSAssistant.ViewModels
 {
     class ClientInformationViewModel : ViewModelBase
     {
-        private ClientInformation _clientInformation;
+        private readonly ClientInformation _clientInformation;
 
         public ClientInformationViewModel(ClientInformation clientInformation)
         {

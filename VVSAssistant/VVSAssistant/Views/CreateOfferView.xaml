@@ -10,7 +10,7 @@
       d:DesignHeight="600" d:DesignWidth="1080"
       Title="CreateOfferView">
     <Page.DataContext>
-        <viewModels:NewOfferViewModel/>
+        <viewModels:CreateOfferViewModel/>
     </Page.DataContext>
 
     <Grid>
@@ -326,6 +326,7 @@
                 <Button Margin="5,5,5,5" 
                         Grid.Row="1" 
                         Grid.ColumnSpan="2"
+                        Command="{Binding CreateNewOffer}"
                         Content="Print tilbud"/>
             </Grid>
         </Grid>
