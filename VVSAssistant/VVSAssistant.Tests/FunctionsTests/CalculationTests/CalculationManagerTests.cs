@@ -23,7 +23,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests
             Assert.IsTrue(typeof(IEEICalculation).IsAssignableFrom(calcManager.SelectCalculationStreategy(package).GetType()));
         }
 
-        // Integrations Test
+        // Integration Test between Appliance and CalculationSelector
         [Test]
         [TestCase(ApplianceTypes.Boiler, null, typeof(BoilerAsPrimary))]
         [TestCase(ApplianceTypes.Heatpump, null, typeof(HeatPumpAsPrimary))]
@@ -41,17 +41,8 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests
             package.PrimaryHeatingUnit = new Appliance() { Type = type };
             package.Appliances.Add(new Appliance() { Type = secondApplianceType});
 
+            //Assert
             Assert.AreEqual(calcManager.SelectCalculationStreategy(package).GetType(), EEICalculation);
-        }
-    }
-    internal class CalculationManagerStub
-    {
-        private CalculationManager _calcManager;
-        private PackagedSolution _package;
-        public CalculationManagerStub(CalculationManager calcManager, PackagedSolution package)
-        {
-            _calcManager = calcManager;
-            _package = package;
         }
     }
 }
