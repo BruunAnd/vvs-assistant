@@ -120,13 +120,15 @@
     <Compile Include="Models\Client.cs" />
     <Compile Include="Models\ClientInformation.cs" />
     <Compile Include="Models\DataSheet.cs" />
-    <Compile Include="Models\HeatPumpDataSheet.cs" />
+    <Compile Include="Models\DataSheets\ContainerDataSheet.cs" />
+    <Compile Include="Models\DataSheets\HeatingUnitDataSheet.cs" />
     <Compile Include="Models\Material.Entity.cs" />
     <Compile Include="Models\Offer.cs" />
     <Compile Include="Models\OfferInformation.cs" />
     <Compile Include="Models\PackagedSolution.cs" />
     <Compile Include="Models\Salary.cs" />
-    <Compile Include="Models\TemperatureControllerDataSheet.cs" />
+    <Compile Include="Models\DataSheets\SolarCollectorDataSheet.cs" />
+    <Compile Include="Models\DataSheets\TemperatureControllerDataSheet.cs" />
     <Compile Include="ViewModels\ApplianceViewModel.cs" />
     <Compile Include="ViewModels\Commands\CreateClientCommand.cs" />
     <Compile Include="ViewModels\CreatePackageSolutionViewModel.cs" />
