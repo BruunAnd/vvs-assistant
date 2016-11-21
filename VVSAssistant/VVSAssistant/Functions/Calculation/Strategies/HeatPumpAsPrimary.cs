@@ -11,12 +11,6 @@ namespace VVSAssistant.Functions.Calculation.Strategies
     {
         public EEICalculationResult CalculateEEI(PackagedSolution PackagedSolutionForCalculations)
         {
-
-
-
-
-
-
             return null;
         }
     }

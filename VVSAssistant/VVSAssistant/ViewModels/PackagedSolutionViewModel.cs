@@ -1,10 +1,12 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using VVSAssistant.Models;
+using VVSAssistant.ViewModels.Interfaces;
 using VVSAssistant.ViewModels.MVVM;
 
 namespace VVSAssistant.ViewModels
 {
-    class PackagedSolutionViewModel : ViewModelBase
+    class PackagedSolutionViewModel : ViewModelBase, IFilterable
     {
         // Base model
         private PackagedSolution _packagedSolution;
@@ -36,6 +38,18 @@ namespace VVSAssistant.ViewModels
             }
         }
 
+        public string CreationDate => _packagedSolution.CreationDate.ToString(@"dd\/MM\/yyyy HH:mm");
+
         public string Description => string.Join(" ", Appliances);
+
+        public bool DoesFilterMatch(string query)
+        {
+            foreach (IFilterable appliance in Appliances)
+            {
+                if (appliance.DoesFilterMatch(query))
+                    return true;
+            }
+            return false;
+        }
     }
 }
