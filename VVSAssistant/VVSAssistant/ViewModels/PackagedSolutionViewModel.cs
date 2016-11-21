@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using VVSAssistant.Database;
+﻿using System.Collections.ObjectModel;
 using VVSAssistant.ViewModels.MVVM;
 
 namespace VVSAssistant.ViewModels
 {
-    class PackagedSolutionsViewModel : ViewModelBase
+    class PackagedSolutionViewModel : ViewModelBase
     {
-        public PackagedSolutionsViewModel()
+        public PackagedSolutionViewModel()
         {
-            Appliances = new ObservableCollection<ViewModels.ApplianceViewModel>();
+            Appliances = new ObservableCollection<ApplianceViewModel>();
         }
 
         private string _name;

@@ -22,8 +22,8 @@ namespace VVSAssistant.ViewModels
         #endregion
 
         #region Collections
-        private PackagedSolutionsViewModel _packageSolution = new PackagedSolutionsViewModel();
-        public PackagedSolutionsViewModel PackageSolution
+        private PackagedSolutionViewModel _packageSolution = new PackagedSolutionViewModel();
+        public PackagedSolutionViewModel PackageSolution
         {
             get { return _packageSolution; }
         }
@@ -42,7 +42,7 @@ namespace VVSAssistant.ViewModels
             using (var dbContext = new AssistantContext())
             {
                 var applianceList = dbContext.Appliances.ToList();
-                applianceList.ForEach(a => _appliances.Add(new ApplianceViewModel(a)));
+                applianceList.ForEach(a => Appliances.Add(new ApplianceViewModel(a)));
             }
 
             #region Command declarations
