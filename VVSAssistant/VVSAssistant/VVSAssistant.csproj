@@ -123,6 +123,7 @@
     <Compile Include="Models\DataSheet.cs" />
     <Compile Include="Models\DataSheets\ContainerDataSheet.cs" />
     <Compile Include="Models\DataSheets\HeatingUnitDataSheet.cs" />
+    <Compile Include="Models\DataSheets\WaterHeatingUnitDataSheet.cs" />
     <Compile Include="Models\Interfaces\ICalculatable.cs" />
     <Compile Include="Models\Interfaces\IDataSheet.cs" />
     <Compile Include="Models\Interfaces\IExportableAppliance.cs" />
