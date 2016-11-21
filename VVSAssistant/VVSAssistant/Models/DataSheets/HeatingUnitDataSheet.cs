@@ -6,6 +6,8 @@ namespace VVSAssistant.Models.DataSheets
     public class HeatingUnitDataSheet : DataSheet
     {
         public float AFUE { get; set; }
-        public float wattUsage { get; set; }
+        public float WattUsage { get; set; }
+        public float AFUEColdClima { get; set; }
+        public float AFUEWarmClima { get; set; }
     }
 }

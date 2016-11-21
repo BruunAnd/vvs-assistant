@@ -1,18 +1,30 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using VVSAssistant.Models;
+using VVSAssistant.ViewModels.Interfaces;
 using VVSAssistant.ViewModels.MVVM;
 
 namespace VVSAssistant.ViewModels
 {
-    class PackagedSolutionViewModel : ViewModelBase
+    class PackagedSolutionViewModel : ViewModelBase, IFilterable
     {
+        // Base model
         private PackagedSolution _packagedSolution;
 
-        public PackagedSolutionViewModel()
+        public ObservableCollection<ApplianceViewModel> Appliances { get; private set; }
+
+        public PackagedSolutionViewModel() : this(new PackagedSolution()) { }
+
+        public PackagedSolutionViewModel(PackagedSolution packagedSolution)
         {
-            _packagedSolution = new PackagedSolution();
+            _packagedSolution = packagedSolution;
+
+            // Transform list of Appliance to list of ApplianceViewModel
             Appliances = new ObservableCollection<ApplianceViewModel>();
-            // TODO: Add constructor for existing packaged solution object?
+            foreach (var appliance in _packagedSolution.Appliances)
+            {
+                Appliances.Add(new ApplianceViewModel(appliance));
+            }
         }
 
         public string Name
@@ -26,9 +38,18 @@ namespace VVSAssistant.ViewModels
             }
         }
 
-        public ObservableCollection<ApplianceViewModel> Appliances
+        public string CreationDate => _packagedSolution.CreationDate.ToString(@"dd\/MM\/yyyy HH:mm");
+
+        public string Description => string.Join(" ", Appliances);
+
+        public bool DoesFilterMatch(string query)
         {
-            get; private set;
+            foreach (IFilterable appliance in Appliances)
+            {
+                if (appliance.DoesFilterMatch(query))
+                    return true;
+            }
+            return false;
         }
     }
 }
