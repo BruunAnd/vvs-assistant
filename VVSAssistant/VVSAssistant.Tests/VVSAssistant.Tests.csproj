@@ -43,6 +43,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -55,6 +56,7 @@
     <Compile Include="ClassXTests.cs" />
     <Compile Include="ViewModelTests\MVVMTests\ObservableObjectTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModelTests\MVVMTests\ViewModelBaseTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -120,6 +120,7 @@
     <Compile Include="Models\TemperatureControllerDataSheet.cs" />
     <Compile Include="ViewModels\ApplianceViewModel.cs" />
     <Compile Include="ViewModels\CreatePackageSolutionViewModel.cs" />
+    <Compile Include="ViewModels\MVVM\ViewModelBase.cs" />
     <Compile Include="ViewModels\PackageSolutionViewModel.cs" />
     <Compile Include="ViewModels\MVVM\RelayCommand.cs" />
     <Compile Include="ViewModels\MVVM\ObservableObject.cs" />
