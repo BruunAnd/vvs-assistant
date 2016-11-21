@@ -9,6 +9,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
 {
     class CHPStrategy : IEEICalculation
     {
+
         public EEICalculationResult CalculateEEI(PackagedSolution PackagedSolutionForCalculation)
         {
             throw new NotImplementedException();
