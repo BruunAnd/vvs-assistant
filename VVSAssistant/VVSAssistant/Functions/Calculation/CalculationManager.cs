@@ -21,17 +21,21 @@ namespace VVSAssistant.Functions.Calculation
         {
             var primaryType = package.PrimaryHeatingUnit.Type;
 
-            bool OnlyContainsSolorPanels = package.Appliances.SingleOrDefault(solarPanel =>
-                        solarPanel.Type == ApplianceTypes.SolarPanel) != null &&
-                        package.Appliances.FirstOrDefault(item => item.Type != ApplianceTypes.SolarPanel && 
-                                                          item != package.PrimaryHeatingUnit) == null;
+            bool ContainsSolarPanel = package.Appliances.SingleOrDefault(solarPanel =>
+                                       solarPanel.Type == ApplianceTypes.SolarPanel) != null;
+
+            bool DoesNotContainsOtherTypes = package.Appliances.FirstOrDefault(item => 
+                                       item.Type != ApplianceTypes.SolarPanel &&
+                                       item != package.PrimaryHeatingUnit) == null;
+
+            bool OnlyContainsSolarPanels = ContainsSolarPanel && DoesNotContainsOtherTypes;
 
             switch (package.PrimaryHeatingUnit.Type)
             {
                 case ApplianceTypes.Heatpump:
                     return new HeatPumpAsPrimary();
                 case ApplianceTypes.Boiler:
-                    if (primaryType == ApplianceTypes.Boiler && OnlyContainsSolorPanels)
+                    if (primaryType == ApplianceTypes.Boiler && OnlyContainsSolarPanels)
                         return new BoilerForWater();
                     else
                         return new BoilerAsPrimary();

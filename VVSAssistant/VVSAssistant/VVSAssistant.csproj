@@ -129,6 +129,7 @@
     <Compile Include="Models\DataSheet.cs" />
     <Compile Include="Models\DataSheets\ContainerDataSheet.cs" />
     <Compile Include="Models\DataSheets\HeatingUnitDataSheet.cs" />
+    <Compile Include="Models\DataSheets\WaterHeatingUnitDataSheet.cs" />
     <Compile Include="Models\Interfaces\ICalculatable.cs" />
     <Compile Include="Models\Material.cs" />
     <Compile Include="Models\Offer.cs" />
