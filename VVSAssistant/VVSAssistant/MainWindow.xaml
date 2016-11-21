@@ -10,6 +10,6 @@
     xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
     Title="MainWindow" MinHeight="600" MinWidth="1080" Height="600" Width="1080">
 
-    <Frame Width="Auto" Height="Auto" Source="Views\NavigationView.xaml" NavigationUIVisibility="Hidden"/>
+    <Frame Width="Auto" Height="Auto" NavigationUIVisibility="Hidden" Name="Frame"/>
 
 </Controls:MetroWindow>
