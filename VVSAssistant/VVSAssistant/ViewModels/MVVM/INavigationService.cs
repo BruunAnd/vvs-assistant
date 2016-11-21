@@ -12,7 +12,6 @@ namespace VVSAssistant.ViewModels.MVVM
         void Goback();
         void GoToCreatePackageSolution();
         void GoToEditPackageSolution(Models.PackagedSolution p);
-
         void GoToCreateOffer();
         void GoToExistingOffers();
         void GoToExistingPackageSolutions();

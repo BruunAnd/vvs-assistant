@@ -123,6 +123,7 @@
     <Compile Include="Models\DataSheet.cs" />
     <Compile Include="Models\DataSheets\ContainerDataSheet.cs" />
     <Compile Include="Models\DataSheets\HeatingUnitDataSheet.cs" />
+    <Compile Include="Models\ICalculatable.cs" />
     <Compile Include="Models\Material.Entity.cs" />
     <Compile Include="Models\Offer.cs" />
     <Compile Include="Models\OfferInformation.cs" />
@@ -138,6 +139,9 @@
     <Compile Include="ViewModels\ExistingPackagedSolutionsViewModel.cs" />
     <Compile Include="ViewModels\FilterableListViewModel.cs" />
     <Compile Include="ViewModels\Interfaces\IFilterable.cs" />
+    <Compile Include="ViewModels\MVVM\DataEventArgs.cs" />
+    <Compile Include="ViewModels\MVVM\INavigationService.cs" />
+    <Compile Include="ViewModels\MVVM\NavigationService.cs" />
     <Compile Include="ViewModels\MVVM\ViewModelBase.cs" />
     <Compile Include="ViewModels\PackagedSolutionViewModel.cs" />
     <Compile Include="ViewModels\MVVM\RelayCommand.cs" />

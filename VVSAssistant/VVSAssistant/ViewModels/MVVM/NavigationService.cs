@@ -14,6 +14,12 @@ namespace VVSAssistant.ViewModels.MVVM
     {
         public event EventHandler<DataEventArgs> DataSent;
         private Page currentPage;
+        private Frame _frame;
+
+        public NavigationService(Frame frame)
+        {
+            _frame = frame;
+        }
 
         public void Goback()
         {
@@ -48,7 +54,7 @@ namespace VVSAssistant.ViewModels.MVVM
         public void GoToNavigation()
         {
             currentPage = new NavigationView();
-            
+            _frame.Navigate(currentPage);
         }
     }
 }
