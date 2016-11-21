@@ -9,15 +9,8 @@ namespace VVSAssistant.Functions.Calculation
 {
     public class WeightingBetweenPrimaryAndSecondaryChooser
     {
-        public WeightingBetweenPrimaryAndSecondaryChooser()
-        {
-            InitiateDataTables();
-
-            PrimHeatPumpSecBoilerGrid.WriteXml("dtDataxml");
-        }
 
         static public DataTable PrimHeatPumpSecBoilerGrid;
-
 
         private void InitiateDataTables()
         { 
@@ -45,6 +38,16 @@ namespace VVSAssistant.Functions.Calculation
             _primHeatSecBoil.Rows.Add(row8);
 
             PrimHeatPumpSecBoilerGrid = _primHeatSecBoil;
+        }
+
+        public float GetWeighting()
+        {
+            InitiateDataTables();
+
+            DataRow[] ResultsRow = PrimHeatPumpSecBoilerGrid.Select("Result = 0.0");
+
+            Console.WriteLine(ResultsRow[2]);
+            return 0.0f;
         }
        
     }
