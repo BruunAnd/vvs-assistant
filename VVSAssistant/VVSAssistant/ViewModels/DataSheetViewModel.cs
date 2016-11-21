@@ -10,7 +10,7 @@ namespace VVSAssistant.ViewModels
 {
     class DataSheetViewModel : ViewModelBase
     {
-        private DataSheet _dataSheet;
+        private readonly DataSheet _dataSheet;
 
         public DataSheetViewModel(DataSheet dataSheet)
         {

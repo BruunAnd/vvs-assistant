@@ -10,7 +10,7 @@ namespace VVSAssistant.ViewModels
 {
     class UnitPriceViewModel : ViewModelBase
     {
-        private UnitPrice _unitPrice;
+        private readonly UnitPrice _unitPrice;
 
         public UnitPriceViewModel(UnitPrice unitPrice)
         {

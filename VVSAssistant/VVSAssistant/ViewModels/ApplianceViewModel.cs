@@ -13,7 +13,7 @@ namespace VVSAssistant.ViewModels
 {
     class ApplianceViewModel : ViewModelBase, IFilterable
     {
-        private Appliance _appliance;
+        private readonly Appliance _appliance;
         private DataSheetViewModel _dataSheet;
 
         public ApplianceViewModel(Appliance appliance)
