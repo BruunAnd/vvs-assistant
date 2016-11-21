@@ -11,6 +11,7 @@ namespace VVSAssistant.Functions.Calculation
     public class EEICalculationResult
     {
         public IEEICalculation CalculationType { get; set; }
+        public float EEI { get; set; }
         public float PrimaryHeatingUnitAFUE { get; set; }
         public float EffectOfTemperatureRegulatorClass { get; set; }
         public float SecondaryBoilerAFUE { get; set; }
