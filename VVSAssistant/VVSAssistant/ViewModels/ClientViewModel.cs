@@ -66,6 +66,5 @@ namespace VVSAssistant.ViewModels
                 OnPropertyChanged();
             }
         }
-
     }
 }
