@@ -12,7 +12,7 @@ namespace VVSAssistant.ViewModels
     //TODO: This name is fine, but we have to change the name of the class with the same name in the component view model figure
     class ClientViewModel : ViewModelBase
     {
-        private Client _client;
+        private readonly Client _client;
 
         private ClientInformationViewModel _clientInformation;
         private ObservableCollection<OfferViewModel> _offers;
