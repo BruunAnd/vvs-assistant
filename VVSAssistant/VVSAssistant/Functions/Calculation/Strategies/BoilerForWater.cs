@@ -7,7 +7,7 @@ using VVSAssistant.Models;
 
 namespace VVSAssistant.Functions.Calculation.Strategies
 {
-    class BoilerForWater : IEEICalculation
+    public class BoilerForWater : IEEICalculation
     {
         public EEICalculationResult CalculateEEI(PackagedSolution PackagedSolutionForCalculation)
         {
