@@ -8,7 +8,7 @@ namespace VVSAssistant.Models.DataSheets
 {
     class SolarCollectorDataSheet
     {
-        public float area { get; set; }
-        public float efficency { get; set; }
+        public float Area { get; set; }
+        public float Efficency { get; set; }
     }
 }
