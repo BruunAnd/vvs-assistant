@@ -132,6 +132,7 @@
     <Compile Include="ViewModels\ApplianceViewModel.cs" />
     <Compile Include="ViewModels\Commands\CreateClientCommand.cs" />
     <Compile Include="ViewModels\CreatePackagedSolutionViewModel.cs" />
+    <Compile Include="ViewModels\Interfaces\IFilterable.cs" />
     <Compile Include="ViewModels\MVVM\ViewModelBase.cs" />
     <Compile Include="ViewModels\PackagedSolutionViewModel.cs" />
     <Compile Include="ViewModels\MVVM\RelayCommand.cs" />

@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VVSAssistant.Models;
+using VVSAssistant.ViewModels.Interfaces;
 using VVSAssistant.ViewModels.MVVM;
 
 namespace VVSAssistant.ViewModels
 {
-    class ApplianceViewModel : ViewModelBase
+    class ApplianceViewModel : ViewModelBase, IFilterable
     {
         private Appliance _appliance;
 
@@ -42,6 +43,11 @@ namespace VVSAssistant.ViewModels
         public string Description
         {
             get { return "no description xd"; }
+        }
+
+        public bool DoesFilterMatch(string query)
+        {
+            return Name.ToLower().Contains(query);
         }
     }
 }
