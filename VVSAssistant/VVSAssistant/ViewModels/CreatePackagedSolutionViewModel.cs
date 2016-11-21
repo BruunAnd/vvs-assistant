@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Specialized;
 using VVSAssistant.ViewModels.MVVM;
+using VVSAssistant.Database;
 
 namespace VVSAssistant.ViewModels
 {
@@ -21,8 +22,8 @@ namespace VVSAssistant.ViewModels
         #endregion
 
         #region Collections
-        private PackagedSolutionViewModel _packageSolution = new PackagedSolutionViewModel();
-        public PackagedSolutionViewModel PackageSolution
+        private PackagedSolutionsViewModel _packageSolution = new PackagedSolutionsViewModel();
+        public PackagedSolutionsViewModel PackageSolution
         {
             get { return _packageSolution; }
         }
@@ -37,8 +38,14 @@ namespace VVSAssistant.ViewModels
 
         public CreatePackagedSolutionViewModel()
         {
-            #region Command declerations
+            // Load list of appliances from database
+            using (var dbContext = new AssistantContext())
+            {
+                var applianceList = dbContext.Appliances.ToList();
+                applianceList.ForEach(a => _appliances.Add(new ApplianceViewModel(a)));
+            }
 
+            #region Command declarations
             AddApplianceToPackageSolution = new RelayCommand(x => 
             {
                 var item = x as ApplianceViewModel;
