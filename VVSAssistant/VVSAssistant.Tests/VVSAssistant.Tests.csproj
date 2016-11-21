@@ -54,6 +54,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClassXTests.cs" />
+    <Compile Include="FunctionsTests\CalculationTests\Strategies\BoilerAsPrimaryTests.cs" />
+    <Compile Include="FunctionsTests\CalculationTests\Strategies\BoilerForWaterAsPrimaryTests.cs" />
+    <Compile Include="FunctionsTests\CalculationTests\CalculationManagerTests.cs" />
+    <Compile Include="FunctionsTests\CalculationTests\Strategies\CHPTests.cs" />
+    <Compile Include="FunctionsTests\CalculationTests\Strategies\HeatPumpAsPrimaryTests.cs" />
+    <Compile Include="FunctionsTests\CalculationTests\Strategies\LowTempHeatPumpAsPrimaryTest.cs" />
     <Compile Include="ViewModelTests\MVVMTests\ObservableObjectTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModelTests\MVVMTests\ViewModelBaseTests.cs" />
