@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
+using VVSAssistant.Extensions;
 using VVSAssistant.Models;
 using VVSAssistant.ViewModels.Interfaces;
 using VVSAssistant.ViewModels.MVVM;
@@ -44,12 +46,10 @@ namespace VVSAssistant.ViewModels
 
         public bool DoesFilterMatch(string query)
         {
-            foreach (IFilterable appliance in Appliances)
-            {
-                if (appliance.DoesFilterMatch(query))
-                    return true;
-            }
-            return false;
+            if (Name.ContainsIgnoreCase(query) || CreationDate.ContainsIgnoreCase(query))
+                return true;
+            // Checks if any of the contained appliances match the filter
+            return Appliances.Cast<IFilterable>().Any(x => x.DoesFilterMatch(query));
         }
     }
 }
