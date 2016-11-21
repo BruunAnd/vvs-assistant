@@ -10,7 +10,7 @@ using VVSAssistant.ViewModels.MVVM;
 
 namespace VVSAssistant.ViewModels
 {
-    class CreatePackageSolutionViewModel : ViewModelBase
+    class CreatePackagedSolutionViewModel : ViewModelBase
     {
         #region Commands
         public RelayCommand AddApplianceToPackageSolution { get; }
@@ -18,14 +18,26 @@ namespace VVSAssistant.ViewModels
         public RelayCommand EditAppliance { get; }
         public RelayCommand RemoveAppliance { get; }
         public RelayCommand NewPackageSolution { get; }
-        
         #endregion
 
-        public CreatePackageSolutionViewModel()
+        #region Collections
+        private PackagedSolutionViewModel _packageSolution = new PackagedSolutionViewModel();
+        public PackagedSolutionViewModel PackageSolution
         {
-            PackageSolution = new PackageSolutionViewModel();
-            Appliances = new ObservableCollection<ApplianceViewModel>();
-            
+            get { return _packageSolution; }
+        }
+
+        private ObservableCollection<ApplianceViewModel> _appliances = new ObservableCollection<ApplianceViewModel>();
+        public ObservableCollection<ApplianceViewModel> Appliances
+        {
+            get { return _appliances; }
+        }
+
+        #endregion
+
+        public CreatePackagedSolutionViewModel()
+        {
+
             AddApplianceToPackageSolution = new RelayCommand(x => 
             {
                 var item = x as ApplianceViewModel;
@@ -48,16 +60,6 @@ namespace VVSAssistant.ViewModels
         private void PackageSolutionAppliances_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             NewPackageSolution.NotifyCanExecuteChanged();
-        }
-
-        public PackageSolutionViewModel PackageSolution
-        {
-            get; private set;
-        }
-        
-        public ObservableCollection<ApplianceViewModel> Appliances
-        {
-            get; private set;
         }
     }
 }
