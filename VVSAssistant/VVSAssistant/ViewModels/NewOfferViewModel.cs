@@ -34,7 +34,7 @@ namespace VVSAssistant.ViewModels
                 }
                 else
                 {
-                    throw new InvalidParameterTypeException("The type of objects added to list of packaged solutions can only be PackagedSolutionViewModel. ");
+                    // throw new InvalidParameterTypeException("The type of objects added to list of packaged solutions can only be PackagedSolutionViewModel. ");
                 }
             }
         }
@@ -52,9 +52,9 @@ namespace VVSAssistant.ViewModels
         #endregion
 
         //TODO: We should probably add this method to this class in the component design chapter - Can't see it anywhere else
-        public Offer CreateOffer()
+        /*public Offer CreateOffer()
         {
 
-        }
+        }*/
     }
 }
