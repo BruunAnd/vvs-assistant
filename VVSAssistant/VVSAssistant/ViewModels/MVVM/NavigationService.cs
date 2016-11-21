@@ -13,7 +13,19 @@ namespace VVSAssistant.ViewModels.MVVM
     class NavigationService:INavigationService
     {
         public event EventHandler<DataEventArgs> DataSent;
-        private Page currentPage;
+
+        private Page _currentPage;
+        public Page CurrentPage
+        {
+            get { return _currentPage; }
+            set
+            {
+                if (_currentPage == value) return;
+                _currentPage = value;
+                _frame.Navigate(_currentPage);
+            }
+        }
+
         private Frame _frame;
 
         public NavigationService(Frame frame)
@@ -28,7 +40,7 @@ namespace VVSAssistant.ViewModels.MVVM
 
         public void GoToCreatePackageSolution()
         {
-            currentPage = new CreatePackagedSolutionView();
+            CurrentPage = new CreatePackagedSolutionView();
         }
 
         public void GoToEditPackageSolution(PackagedSolution p)
@@ -48,13 +60,12 @@ namespace VVSAssistant.ViewModels.MVVM
 
         public void GoToExistingPackageSolutions()
         {
-            throw new NotImplementedException();
+            CurrentPage = new ExistingPackagedSolutionsView();
         }
 
         public void GoToNavigation()
         {
-            currentPage = new NavigationView();
-            _frame.Navigate(currentPage);
+            CurrentPage = new NavigationView();
         }
     }
 }
