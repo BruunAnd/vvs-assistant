@@ -11,7 +11,7 @@ namespace VVSAssistant.Models.DataSheets
         public float WaterHeatingEffiency { get; set; }
         public UseProfileType UseProfile { get; set; }
     }
-    internal enum UseProfileType
+    public enum UseProfileType
     {
         XXXS = 1, XXS, XS, S, M, L, XL, XXL
     }
