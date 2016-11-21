@@ -10,6 +10,7 @@ using VVSAssistant.ViewModels.MVVM;
 using VVSAssistant.Database;
 using System.Windows.Data;
 using VVSAssistant.ViewModels.Interfaces;
+using VVSAssistant.Models;
 
 namespace VVSAssistant.ViewModels
 {
@@ -57,11 +58,10 @@ namespace VVSAssistant.ViewModels
             // Load list of appliances from database
             using (var dbContext = new AssistantContext())
             {
-                var applianceViewModelList = new List<ApplianceViewModel>();
                 // Transform list of Appliance to a list of ApplianceViewModel
-                dbContext.Appliances.ToList().ForEach(a => applianceViewModelList.Add(new ApplianceViewModel(a)));
+                dbContext.Appliances.ToList().ForEach(a => Appliances.Add(new ApplianceViewModel(a)));
                 // Create filtered list
-                FilteredApplianceList = CollectionViewSource.GetDefaultView(applianceViewModelList);
+                FilteredApplianceList = CollectionViewSource.GetDefaultView(Appliances);
                 FilteredApplianceList.Filter = obj =>
                 {
                     return (obj as IFilterable).DoesFilterMatch(FilterString);

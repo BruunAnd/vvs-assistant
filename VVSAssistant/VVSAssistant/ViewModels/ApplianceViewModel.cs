@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using VVSAssistant.Extensions;
 using VVSAssistant.Models;
 using VVSAssistant.ViewModels.Interfaces;
 using VVSAssistant.ViewModels.MVVM;
@@ -47,7 +49,9 @@ namespace VVSAssistant.ViewModels
 
         public bool DoesFilterMatch(string query)
         {
-            return Name.ToLower().Contains(query);
+            return Name.ContainsIgnoreCase(query)
+                   || Type.ToString().ContainsIgnoreCase(query)
+                   || Description.ContainsIgnoreCase(query);
         }
     }
 }

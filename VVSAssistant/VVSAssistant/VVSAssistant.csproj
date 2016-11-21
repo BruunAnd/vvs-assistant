@@ -106,6 +106,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Database\AssistantContext.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Functions\Calculation\Strategies\BoilerAsPrimary.cs" />
     <Compile Include="Functions\Calculation\Strategies\BoilerForWater.cs" />
     <Compile Include="Functions\Calculation\CalculationManager.cs" />
@@ -132,6 +133,7 @@
     <Compile Include="ViewModels\ApplianceViewModel.cs" />
     <Compile Include="ViewModels\Commands\CreateClientCommand.cs" />
     <Compile Include="ViewModels\CreatePackagedSolutionViewModel.cs" />
+    <Compile Include="ViewModels\FilterableListViewModel.cs" />
     <Compile Include="ViewModels\Interfaces\IFilterable.cs" />
     <Compile Include="ViewModels\MVVM\ViewModelBase.cs" />
     <Compile Include="ViewModels\PackagedSolutionViewModel.cs" />
@@ -204,9 +206,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Extensions\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Resources\WindowsIcons-license.txt" />
   </ItemGroup>
