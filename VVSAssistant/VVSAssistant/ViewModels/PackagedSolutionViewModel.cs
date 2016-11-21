@@ -1,28 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
+using VVSAssistant.Models;
 using VVSAssistant.ViewModels.MVVM;
 
 namespace VVSAssistant.ViewModels
 {
     class PackagedSolutionViewModel : ViewModelBase
     {
+        private PackagedSolution _packagedSolution;
+
         public PackagedSolutionViewModel()
         {
+            _packagedSolution = new PackagedSolution();
             Appliances = new ObservableCollection<ApplianceViewModel>();
+            // TODO: Add constructor for existing packaged solution object?
         }
 
-        private string _Name;
         public string Name
         {
-            get { return _Name; }
+            get { return _packagedSolution.Name; }
             set
             {
-                if (_Name == value) return;
-                _Name = value;
+                if (_packagedSolution.Name == value) return;
+                _packagedSolution.Name = value;
                 OnPropertyChanged();
             }
         }
@@ -30,18 +29,6 @@ namespace VVSAssistant.ViewModels
         public ObservableCollection<ApplianceViewModel> Appliances
         {
             get; private set;
-        }
-
-        public void Push()
-        {
-            // Should call a method in the model to push the data in this object to the model / database.
-            throw new NotImplementedException();
-        }
-
-        public void Pull()
-        {
-            // Should call a method in the model to pull data from the model / database to override this object.
-            throw new NotImplementedException();
         }
     }
 }

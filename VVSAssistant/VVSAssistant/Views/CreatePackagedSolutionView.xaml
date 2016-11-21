@@ -53,7 +53,8 @@
             <TextBox Controls:TextBoxHelper.ClearTextButton="True" 
                      Controls:TextBoxHelper.Watermark="Søg" 
                      Grid.Column="3"
-                     Height="24"/>
+                     Height="24"
+                     Text="{Binding FilterString, UpdateSourceTrigger=PropertyChanged}"/>
 
             <Button Grid.Column="5" 
                     VerticalAlignment="Center" 
@@ -80,7 +81,7 @@
                       Grid.Row="2" 
                       AutoGenerateColumns="False" 
                       Grid.ColumnSpan="2" 
-                      ItemsSource="{Binding Appliances}">
+                      ItemsSource="{Binding FilteredApplianceList}">
                 
                 <DataGrid.InputBindings>
                     <MouseBinding MouseAction="LeftDoubleClick"

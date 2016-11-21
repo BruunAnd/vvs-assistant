@@ -14,11 +14,8 @@ namespace VVSAssistant.Models
         public double UnitCostPrice { get; set; }
         public double UnitSalesPrice { get; set; }
 
-        [NotMapped]
         public double SalesPrice => Math.Abs(UnitSalesPrice * Quantity);
-        [NotMapped]
         public double CostPrice => UnitCostPrice * Quantity;
-        [NotMapped]
         public double ContributionMargin => SalesPrice - CostPrice;
     }
 }

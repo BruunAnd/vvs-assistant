@@ -7,6 +7,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Specialized;
 using VVSAssistant.ViewModels.MVVM;
+using VVSAssistant.Database;
+using System.Windows.Data;
+using VVSAssistant.ViewModels.Interfaces;
+using VVSAssistant.Models;
 
 namespace VVSAssistant.ViewModels
 {
@@ -33,12 +37,38 @@ namespace VVSAssistant.ViewModels
             get { return _appliances; }
         }
 
+        public ICollectionView FilteredApplianceList { get; private set; }
         #endregion
+
+        private string _filterString = "";
+        public string FilterString
+        {
+            get { return _filterString; }
+            set
+            {
+                if (_filterString.Equals(value)) return;
+                _filterString = value;
+                FilteredApplianceList.Refresh();
+                OnPropertyChanged();
+            }
+        }
 
         public CreatePackagedSolutionViewModel()
         {
-            #region Command declerations
+            // Load list of appliances from database
+            using (var dbContext = new AssistantContext())
+            {
+                // Transform list of Appliance to a list of ApplianceViewModel
+                dbContext.Appliances.ToList().ForEach(a => Appliances.Add(new ApplianceViewModel(a)));
+                // Create filtered list
+                FilteredApplianceList = CollectionViewSource.GetDefaultView(Appliances);
+                FilteredApplianceList.Filter = obj =>
+                {
+                    return (obj as IFilterable).DoesFilterMatch(FilterString);
+                };
+            }
 
+            #region Command declarations
             AddApplianceToPackageSolution = new RelayCommand(x => 
             {
                 var item = x as ApplianceViewModel;
