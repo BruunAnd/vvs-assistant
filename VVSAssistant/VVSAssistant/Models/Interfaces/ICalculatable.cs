@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace VVSAssistant.Models.Interfaces
 {
-    interface Interface1
+    public interface ICalculateable
     {
+        ApplianceTypes Type { get; set; }
     }
 }

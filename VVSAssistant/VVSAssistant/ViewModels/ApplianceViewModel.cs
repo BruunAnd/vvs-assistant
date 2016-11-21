@@ -14,10 +14,12 @@ namespace VVSAssistant.ViewModels
     class ApplianceViewModel : ViewModelBase, IFilterable
     {
         private Appliance _appliance;
+        private DataSheetViewModel _dataSheet;
 
         public ApplianceViewModel(Appliance appliance)
         {
             _appliance = appliance;
+            _dataSheet = new DataSheetViewModel(appliance.DataSheet);
         }
 
         public string Name
@@ -52,6 +54,16 @@ namespace VVSAssistant.ViewModels
             return Name.ContainsIgnoreCase(query)
                    || Type.ToString().ContainsIgnoreCase(query)
                    || Description.ContainsIgnoreCase(query);
+        }
+
+        public DataSheetViewModel DataSheet
+        {
+            get { return _dataSheet; }
+            set
+            {
+                _dataSheet = value;
+                OnPropertyChanged();
+            }
         }
 
         public override string ToString()

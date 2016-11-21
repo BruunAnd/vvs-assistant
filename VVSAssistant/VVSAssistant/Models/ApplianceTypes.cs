@@ -2,11 +2,11 @@ namespace VVSAssistant.Models
 {
     public enum ApplianceTypes : int
     {
-        Heatpump = 0,
-        Boiler = 1,
-        TemperatureController = 2,
-        SolarPanel = 3,
-        Collector = 4,
-        LowTempHeatPump = 5
+        Heatpump = 1,
+        Boiler = 2,
+        TemperatureController = 3,
+        SolarPanel = 4,
+        Collector = 5,
+        LowTempHeatPump = 6
     }
 }
