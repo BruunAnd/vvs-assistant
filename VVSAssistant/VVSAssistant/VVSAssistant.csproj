@@ -131,12 +131,16 @@
     <Compile Include="Models\DataSheets\TemperatureControllerDataSheet.cs" />
     <Compile Include="ViewModels\ApplianceViewModel.cs" />
     <Compile Include="ViewModels\Commands\CreateClientCommand.cs" />
+    <Compile Include="ViewModels\CreateOfferViewModel.cs" />
     <Compile Include="ViewModels\CreatePackagedSolutionViewModel.cs" />
     <Compile Include="ViewModels\MVVM\ViewModelBase.cs" />
     <Compile Include="ViewModels\PackagedSolutionViewModel.cs" />
     <Compile Include="ViewModels\MVVM\RelayCommand.cs" />
     <Compile Include="ViewModels\MVVM\ObservableObject.cs" />
     <Compile Include="Models\UnitPrice.cs" />
+    <Compile Include="Views\CreateOfferView.xaml.cs">
+      <DependentUpon>CreateOfferView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\NavigationView.xaml.cs">
       <DependentUpon>NavigationView.xaml</DependentUpon>
     </Compile>
@@ -162,6 +166,10 @@
     <Page Include="Resources\IconsNonShared.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CreateOfferView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\NavigationView.xaml">
       <SubType>Designer</SubType>
