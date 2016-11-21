@@ -141,11 +141,9 @@
     <Compile Include="ViewModels\ExistingPackagedSolutionsViewModel.cs" />
     <Compile Include="ViewModels\FilterableListViewModel.cs" />
     <Compile Include="ViewModels\Interfaces\IFilterable.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\MVVM\DataEventArgs.cs" />
-    <Compile Include="ViewModels\MVVM\INavigationService.cs" />
-    <Compile Include="ViewModels\MVVM\NavigationService.cs" />
     <Compile Include="ViewModels\MVVM\ViewModelBase.cs" />
-    <Compile Include="ViewModels\NavigationViewModel.cs" />
     <Compile Include="ViewModels\PackagedSolutionViewModel.cs" />
     <Compile Include="ViewModels\MVVM\RelayCommand.cs" />
     <Compile Include="ViewModels\MVVM\ObservableObject.cs" />
@@ -158,9 +156,6 @@
     </Compile>
     <Compile Include="Views\ExistingPackagedSolutionsView.xaml.cs">
       <DependentUpon>ExistingPackagedSolutionsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\NavigationView.xaml.cs">
-      <DependentUpon>NavigationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CreatePackagedSolutionView.xaml.cs">
       <DependentUpon>CreatePackagedSolutionView.xaml</DependentUpon>
@@ -194,10 +189,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ExistingPackagedSolutionsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\NavigationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

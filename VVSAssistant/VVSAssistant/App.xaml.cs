@@ -24,12 +24,6 @@ namespace VVSAssistant
             base.OnStartup(e);
 
             ShittySeed();
-
-            MainWindow mainWindow = new MainWindow();
-            mainWindow.Show();
-
-            Navigation = new NavigationService(mainWindow.Frame);
-            Navigation.GoToExistingPackageSolutions();
         }
 
         private void ShittySeed()
