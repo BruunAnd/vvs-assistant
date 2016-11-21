@@ -119,6 +119,7 @@
     <Compile Include="Models\Salary.cs" />
     <Compile Include="Models\TemperatureControllerDataSheet.cs" />
     <Compile Include="ViewModels\ApplianceViewModel.cs" />
+    <Compile Include="ViewModels\Commands\CreateClientCommand.cs" />
     <Compile Include="ViewModels\CreatePackageSolutionViewModel.cs" />
     <Compile Include="ViewModels\MVVM\ViewModelBase.cs" />
     <Compile Include="ViewModels\PackageSolutionViewModel.cs" />

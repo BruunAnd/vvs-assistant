@@ -10,7 +10,7 @@ namespace VVSAssistant.ViewModels
     /// <summary>
     /// This is what commands in the View are bound to.
     /// </summary>
-    class RelayCommand : ICommand
+    public class RelayCommand : ICommand
     {
         private readonly Predicate<object> canExecutePredicate;
 
