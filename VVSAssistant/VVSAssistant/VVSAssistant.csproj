@@ -106,6 +106,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Database\AssistantContext.cs" />
+    <Compile Include="Functions\Calculation\CalculationManager.cs" />
+    <Compile Include="Functions\Calculation\EEICalculationResult.cs" />
+    <Compile Include="Functions\Calculation\IEEICalculation.cs" />
+    <Compile Include="Functions\Calculation\Interfaces\ICalculationChooser.cs" />
     <Compile Include="Models\Appliance.cs" />
     <Compile Include="Models\ApplianceTypes.cs" />
     <Compile Include="Models\Client.cs" />
