@@ -6,13 +6,23 @@ namespace VVSAssistant.ViewModels
 {
     class PackagedSolutionViewModel : ViewModelBase
     {
+        // Base model
         private PackagedSolution _packagedSolution;
 
-        public PackagedSolutionViewModel()
+        public ObservableCollection<ApplianceViewModel> Appliances { get; private set; }
+
+        public PackagedSolutionViewModel() : this(new PackagedSolution()) { }
+
+        public PackagedSolutionViewModel(PackagedSolution packagedSolution)
         {
-            _packagedSolution = new PackagedSolution();
+            _packagedSolution = packagedSolution;
+
+            // Transform list of Appliance to list of ApplianceViewModel
             Appliances = new ObservableCollection<ApplianceViewModel>();
-            // TODO: Add constructor for existing packaged solution object?
+            foreach (var appliance in _packagedSolution.Appliances)
+            {
+                Appliances.Add(new ApplianceViewModel(appliance));
+            }
         }
 
         public string Name
@@ -26,9 +36,6 @@ namespace VVSAssistant.ViewModels
             }
         }
 
-        public ObservableCollection<ApplianceViewModel> Appliances
-        {
-            get; private set;
-        }
+        public string Description => string.Join(" ", Appliances);
     }
 }
