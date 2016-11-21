@@ -53,5 +53,10 @@ namespace VVSAssistant.ViewModels
                    || Type.ToString().ContainsIgnoreCase(query)
                    || Description.ContainsIgnoreCase(query);
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

@@ -8,6 +8,7 @@ using System.Windows;
 using VVSAssistant.Database;
 using VVSAssistant.Models;
 using VVSAssistant.Models.DataSheets;
+using VVSAssistant.ViewModels.MVVM;
 
 namespace VVSAssistant
 {
@@ -16,16 +17,29 @@ namespace VVSAssistant
     /// </summary>
     public partial class App : Application
     {
+        public static INavigationService Navigation;
+
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
+            ShittySeed();
+
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+
+            Navigation = new NavigationService(mainWindow.Frame);
+            Navigation.GoToExistingPackageSolutions();
+        }
+
+        private void ShittySeed()
+        {
             new AssistantContext().Database.Delete();
             // Test database stuff
             using (var db = new AssistantContext())
             {
                 // add a new client 'Iaro'
-                var clientInformation = new ClientInformation() { Name="Iaroslav", Address="Kvadratet", Email="iaro@russia.ru", PhoneNumber="88888888"};
+                var clientInformation = new ClientInformation() { Name = "Iaroslav", Address = "Kvadratet", Email = "iaro@russia.ru", PhoneNumber = "88888888" };
                 db.ClientInformation.Add(clientInformation);
                 var client = new Client { CreationDate = DateTime.Now, ClientInformation = clientInformation };
                 db.Clients.Add(client);
@@ -72,7 +86,6 @@ namespace VVSAssistant
             {
                 ctx.DataSheets.ToList().ForEach(sheet => Console.WriteLine(sheet is HeatingUnitDataSheet));
             }
-
         }
     }
 }

@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VVSAssistant.Models.Interfaces
+namespace VVSAssistant.ViewModels
 {
-    public interface ICalculateable
+    class ExistingOffersViewModel
     {
-        ApplianceTypes Type { get; set; }
     }
 }

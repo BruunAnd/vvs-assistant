@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
+using VVSAssistant.Models.Interfaces;
 
 namespace VVSAssistant.Models
 {
-    public class Appliance
+    public class Appliance : ICalculateable
     {
         public int Id { get; set; }
         public string Name { get; set; }
