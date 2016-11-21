@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VVSAssistant.Models.DataSheets;
 
 namespace VVSAssistant.Functions.Calculation
 {
@@ -24,6 +25,8 @@ namespace VVSAssistant.Functions.Calculation
         public float PackagedSolutionAtColdTemperaturesAFUE { get; set; }
         public float PackagedSolutionAtWarmTemperaturesAFUE { get; set; }
         public float LowHeatAFUE { get; set; }
-        public float WaterHeatingUseProfile { get; set; }
+        public UseProfileType WaterHeatingUseProfile { get; set; }
+        public float WaterHeatingEffciency { get; set; }
+        public float SolarHeatContribution { get; set; }
     }
 }
