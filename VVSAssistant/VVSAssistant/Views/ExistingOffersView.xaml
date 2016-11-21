@@ -1,0 +1,85 @@
+﻿<Page x:Class="VVSAssistant.Views.ExistingOffersView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:VVSAssistant.Views"
+      xmlns:viewModels="clr-namespace:VVSAssistant.ViewModels"
+      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="1080"
+      Title="ExistingOffersView">
+    <Page.DataContext>
+        <viewModels:ExistingOffersViewModel/>
+    </Page.DataContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0"
+              Grid.ColumnSpan="99"
+              Background="{StaticResource AccentBaseColorBrush}">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="20"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="1"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left"
+                    Height="32"
+                    MinWidth="120"
+                    Content="Tilbage"/>
+        </Grid>
+
+        <Grid Grid.Column="1" 
+              Grid.Row="2">
+
+            <DataGrid AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding ID}"
+                                        Header="#"
+                                        Width="40"
+                                        CanUserReorder="False"
+                                        CanUserResize="False"/>
+                    <DataGridTextColumn Binding="{Binding Name}"
+                                        Header="Navn"
+                                        MinWidth="100"
+                                        Width="1.5*"
+                                        CanUserReorder="False"/>
+                    <DataGridTextColumn Binding="{Binding Date}"
+                                        Header="Dato"
+                                        MinWidth="50"
+                                        Width="1*"
+                                        CanUserReorder="False"/>
+                    <DataGridTextColumn Binding="{Binding TotalCostPrice}"
+                                        Header="Kostpris"
+                                        MinWidth="100"
+                                        Width="1*"
+                                        CanUserReorder="False"/>
+                    <DataGridTextColumn Binding="{Binding TotalSalesPrice}"
+                                        Header="Salgspris"
+                                        MinWidth="100"
+                                        Width="1*"
+                                        CanUserReorder="False"/>
+                    <DataGridTextColumn Binding="{Binding TotalContributionMargin}"
+                                        Header="Dækningsbidrag"
+                                        MinWidth="100"
+                                        Width="1*"
+                                        CanUserReorder="False"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </Grid>
+</Page>
