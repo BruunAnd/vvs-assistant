@@ -81,6 +81,22 @@ namespace VVSAssistant.ViewModels
                 if (item != null) this.PackageSolution.Appliances.Remove(item);
             });
 
+            /* EditAppliance = new RelayCommand(x =>
+             {
+                 var item = x as ApplianceViewModel;
+                 if (item != null)
+             });
+             */
+
+            RemoveAppliance = new RelayCommand(x =>
+            {
+                var item = x as ApplianceViewModel;
+                if (item != null)
+                {
+                    Appliances.Remove(item);                       
+                }
+            });
+
             NewPackageSolution = new RelayCommand(x =>
             {
                 if (this.PackageSolution.Appliances.Any()) this.PackageSolution.Appliances.Clear();

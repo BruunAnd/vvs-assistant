@@ -87,7 +87,14 @@
                     <MouseBinding MouseAction="LeftDoubleClick"
                                   Command="{Binding AddApplianceToPackageSolution}"
                                   CommandParameter="{Binding SelectedItem, ElementName=AppliancesDataGrid}"/>
+                    <MouseBinding MouseAction="RightClick"
+                                  Command="{Binding EditAppliance}"
+                                  CommandParameter="{Binding SelectedItem, ElementName=AppliancesDataGrid}"/>
+                    <MouseBinding MouseAction="RightClick"
+                                  Command="{Binding RemoveAppliance}"
+                                  CommandParameter="{Binding SelectedItem, ElementName=AppliancesDataGrid}"/>
                 </DataGrid.InputBindings>
+                
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Name}" 
                                         Header="Navn" 
