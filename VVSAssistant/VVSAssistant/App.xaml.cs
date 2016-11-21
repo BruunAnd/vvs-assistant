@@ -17,7 +17,6 @@ namespace VVSAssistant
     /// </summary>
     public partial class App : Application
     {
-        public static INavigationService Navigation;
 
         protected override void OnStartup(StartupEventArgs e)
         {
