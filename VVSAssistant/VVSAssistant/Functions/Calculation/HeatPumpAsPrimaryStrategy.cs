@@ -7,8 +7,17 @@ using VVSAssistant.Models;
 
 namespace VVSAssistant.Functions.Calculation
 {
-    public interface IEEICalculation
+    class HeatPumpAsPrimaryStrategy : IEEICalculation
     {
-        EEICalculationResult CalculateEEI(PackagedSolution PackagedSolutionForCalculation);
+        public EEICalculationResult CalculateEEI(PackagedSolution PackagedSolutionForCalculations)
+        {
+
+
+
+
+
+
+            return null;
+        }
     }
 }
