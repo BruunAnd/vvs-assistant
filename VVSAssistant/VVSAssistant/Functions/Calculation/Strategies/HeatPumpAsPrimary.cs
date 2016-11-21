@@ -8,7 +8,7 @@ using VVSAssistant.Models.DataSheets;
 
 namespace VVSAssistant.Functions.Calculation.Strategies
 {
-    public class HeatPumpAsPrimary : IEEICalculation
+    class HeatPumpAsPrimary : IEEICalculation
     {
         EEICalculationResult Results;
         private float _startAFUE;

@@ -18,7 +18,7 @@ namespace VVSAssistant.Views
     /// <summary>
     /// Interaction logic for ExistingPackagedSolutionsView.xaml
     /// </summary>
-    public partial class ExistingPackagedSolutionsView : Page
+    public partial class ExistingPackagedSolutionsView
     {
         public ExistingPackagedSolutionsView()
         {

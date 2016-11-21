@@ -1,4 +1,4 @@
-﻿<Page x:Class="VVSAssistant.Views.ExistingOffersView"
+﻿<ContentControl x:Class="VVSAssistant.Views.ExistingOffersView"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -7,12 +7,11 @@
       xmlns:viewModels="clr-namespace:VVSAssistant.ViewModels"
       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
       mc:Ignorable="d" 
-      d:DesignHeight="600" d:DesignWidth="1080"
-      Title="ExistingOffersView">
-    <Page.DataContext>
+      d:DesignHeight="600" d:DesignWidth="1080">
+    <ContentControl.DataContext>
         <viewModels:ExistingOffersViewModel/>
-    </Page.DataContext>
-    <Grid>
+    </ContentControl.DataContext>
+    <Grid Background="White">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="*"/>
@@ -40,7 +39,8 @@
                     HorizontalAlignment="Left"
                     Height="32"
                     MinWidth="120"
-                    Content="Tilbage"/>
+                    Content="Tilbage"
+                    Command="{Binding ElementName=root, Path=DataContext.NavCommand}"/>
         </Grid>
 
         <Grid Grid.Column="1" 
@@ -82,4 +82,4 @@
             </DataGrid>
         </Grid>
     </Grid>
-</Page>
+</ContentControl>

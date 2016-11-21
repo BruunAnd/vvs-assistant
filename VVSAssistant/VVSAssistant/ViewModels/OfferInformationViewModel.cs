@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using VVSAssistant.Models;
 using VVSAssistant.ViewModels.MVVM;
+using System.Runtime.CompilerServices;
 
 namespace VVSAssistant.ViewModels
 {
     class OfferInformationViewModel : ViewModelBase
     {
-        private OfferInformation _offerInformation;
+        private readonly OfferInformation _offerInformation;
 
         public OfferInformationViewModel(OfferInformation offerInformation)
         {

@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VVSAssistant.Functions.Calculation;
+using VVSAssistant.Models;
+using Moq;
+using VVSAssistant.Functions.Calculation.Strategies;
 
 namespace VVSAssistant.Tests.FunctionsTests.CalculationTests
 {
@@ -11,9 +15,34 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests
     public class CalculationManagerTests
     {
         [Test]
-        public void SelectCalculationStrategy_SelectsHeatPumpStrategt_True()
+        public void SelectCalculationStrategy_ReturnsAEEICalculationType_True()
         {
+            var package = new PackagedSolution() { PrimaryHeatingUnit = new Appliance() { Type = ApplianceTypes.Boiler } };
+            var calcManager = new CalculationManager();
 
+            Assert.IsTrue(typeof(IEEICalculation).IsAssignableFrom(calcManager.SelectCalculationStreategy(package).GetType()));
+        }
+
+        // Integration Test between Appliance and CalculationSelector
+        [Test]
+        [TestCase(ApplianceTypes.Boiler, null, typeof(BoilerAsPrimary))]
+        [TestCase(ApplianceTypes.Heatpump, null, typeof(HeatPumpAsPrimary))]
+        [TestCase(ApplianceTypes.LowTempHeatPump, null, typeof(LowTempHeatPumpAsPrimary))]
+        [TestCase(ApplianceTypes.Boiler, ApplianceTypes.SolarPanel, typeof(BoilerForWater))]
+        [TestCase(null, ApplianceTypes.Boiler, typeof(CHPStrategy))]
+        public void SelectCalculationStrategy_SelectsCorrectStrategy(ApplianceTypes type,
+            ApplianceTypes secondApplianceType, Type EEICalculation)
+        {
+            // Arrange
+            var package = new PackagedSolution();
+            var calcManager = new CalculationManager();
+
+            //Act
+            package.PrimaryHeatingUnit = new Appliance() { Type = type };
+            package.Appliances.Add(new Appliance() { Type = secondApplianceType});
+
+            //Assert
+            Assert.AreEqual(calcManager.SelectCalculationStreategy(package).GetType(), EEICalculation);
         }
     }
 }

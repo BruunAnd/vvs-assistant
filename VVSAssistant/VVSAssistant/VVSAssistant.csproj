@@ -117,7 +117,6 @@
     <Compile Include="Functions\Calculation\IEEICalculation.cs" />
     <Compile Include="Functions\Calculation\Interfaces\ICalculationChooser.cs" />
     <Compile Include="Functions\Calculation\Strategies\LowTempHeatPumpAsPrimary.cs" />
-    <Compile Include="Functions\Calculation\WeightingBetweenPrimaryAndSecondaryChooser.cs" />
     <Compile Include="Models\Appliance.cs" />
     <Compile Include="Models\ApplianceTypes.cs" />
     <Compile Include="Models\Client.cs" />
@@ -125,8 +124,9 @@
     <Compile Include="Models\DataSheet.cs" />
     <Compile Include="Models\DataSheets\ContainerDataSheet.cs" />
     <Compile Include="Models\DataSheets\HeatingUnitDataSheet.cs" />
-    <Compile Include="Models\ICalculatable.cs" />
-    <Compile Include="Models\Material.Entity.cs" />
+    <Compile Include="Models\DataSheets\WaterHeatingUnitDataSheet.cs" />
+    <Compile Include="Models\Interfaces\ICalculatable.cs" />
+    <Compile Include="Models\Material.cs" />
     <Compile Include="Models\Offer.cs" />
     <Compile Include="Models\OfferInformation.cs" />
     <Compile Include="Models\PackagedSolution.cs" />
@@ -137,18 +137,17 @@
     <Compile Include="ViewModels\ClientInformationViewModel.cs" />
     <Compile Include="ViewModels\ClientViewModel.cs" />
     <Compile Include="ViewModels\Commands\CreateClientCommand.cs" />
+    <Compile Include="ViewModels\CreateOfferViewModel.cs" />
     <Compile Include="ViewModels\CreatePackagedSolutionViewModel.cs" />
     <Compile Include="ViewModels\DataSheetViewModel.cs" />
     <Compile Include="ViewModels\ExistingOffersViewModel.cs" />
     <Compile Include="ViewModels\ExistingPackagedSolutionsViewModel.cs" />
     <Compile Include="ViewModels\FilterableListViewModel.cs" />
     <Compile Include="ViewModels\Interfaces\IFilterable.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\MaterialViewModel.cs" />
     <Compile Include="ViewModels\MVVM\DataEventArgs.cs" />
-    <Compile Include="ViewModels\MVVM\INavigationService.cs" />
-    <Compile Include="ViewModels\MVVM\NavigationService.cs" />
     <Compile Include="ViewModels\MVVM\ViewModelBase.cs" />
-    <Compile Include="ViewModels\NewOfferViewModel.cs" />
     <Compile Include="ViewModels\OfferInformationViewModel.cs" />
     <Compile Include="ViewModels\OfferViewModel.cs" />
     <Compile Include="ViewModels\PackagedSolutionViewModel.cs" />
@@ -165,9 +164,6 @@
     </Compile>
     <Compile Include="Views\ExistingPackagedSolutionsView.xaml.cs">
       <DependentUpon>ExistingPackagedSolutionsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\NavigationView.xaml.cs">
-      <DependentUpon>NavigationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CreatePackagedSolutionView.xaml.cs">
       <DependentUpon>CreatePackagedSolutionView.xaml</DependentUpon>
@@ -201,10 +197,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ExistingPackagedSolutionsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\NavigationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
