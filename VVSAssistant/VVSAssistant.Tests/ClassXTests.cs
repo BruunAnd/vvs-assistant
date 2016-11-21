@@ -24,7 +24,10 @@ namespace VVSAssistant.Tests
         {
             //arrange
             bool andersIstUndFaglord = false;
+            DateTime Start = new DateTime(1994, 12, 3);
+            DateTime CurrentTime = DateTime.Now;
             //act
+            if (CurrentTime > Start)
             andersIstUndFaglord = true;
             //assert
             Assert.IsTrue(andersIstUndFaglord);
