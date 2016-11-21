@@ -53,6 +53,8 @@ namespace VVSAssistant.ViewModels
             }
         }
 
+        public FilterableListViewModel<ApplianceViewModel> FilterableList { get; private set; }
+
         public CreatePackagedSolutionViewModel()
         {
             // Load list of appliances from database
@@ -61,11 +63,7 @@ namespace VVSAssistant.ViewModels
                 // Transform list of Appliance to a list of ApplianceViewModel
                 dbContext.Appliances.ToList().ForEach(a => Appliances.Add(new ApplianceViewModel(a)));
                 // Create filtered list
-                FilteredApplianceList = CollectionViewSource.GetDefaultView(Appliances);
-                FilteredApplianceList.Filter = obj =>
-                {
-                    return (obj as IFilterable).DoesFilterMatch(FilterString);
-                };
+                FilterableList = new FilterableListViewModel<ApplianceViewModel>(Appliances);
             }
 
             #region Command declarations
