@@ -29,7 +29,6 @@
             <views:ExistingOffersView/>
         </DataTemplate>
     </Window.Resources>
-
     <Grid>
         <Grid>
             <WrapPanel HorizontalAlignment="Center" 
@@ -92,7 +91,7 @@
             </WrapPanel>
 
         </Grid>
-        <ContentControl Content = "{Binding CurrentViewModel}"/>
+        <Controls:TransitioningContentControl Content = "{Binding CurrentViewModel}"/>
     </Grid>
     
 

@@ -63,7 +63,7 @@
                     Command="{Binding AddApplianceToPackageSolution}"
                     CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"/>
         </Grid>
-        
+
         <Grid Grid.Column="3" Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
