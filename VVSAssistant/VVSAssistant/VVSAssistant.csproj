@@ -141,6 +141,7 @@
     <Compile Include="ViewModels\ClientInformationViewModel.cs" />
     <Compile Include="ViewModels\ClientViewModel.cs" />
     <Compile Include="ViewModels\Commands\CreateClientCommand.cs" />
+    <Compile Include="ViewModels\CreateOfferViewModel.cs" />
     <Compile Include="ViewModels\CreatePackagedSolutionViewModel.cs" />
     <Compile Include="ViewModels\DataSheetViewModel.cs" />
     <Compile Include="ViewModels\ExistingOffersViewModel.cs" />
