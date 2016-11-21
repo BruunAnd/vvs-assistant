@@ -7,9 +7,9 @@ namespace VVSAssistant.Views
     /// <summary>
     /// Interaction logic for NewPackageSolutionView.xaml
     /// </summary>
-    public partial class CreatePackageSolutionView : Page
+    public partial class CreatePackagedSolutionView : Page
     {
-        public CreatePackageSolutionView()
+        public CreatePackagedSolutionView()
         {
             InitializeComponent();
         }

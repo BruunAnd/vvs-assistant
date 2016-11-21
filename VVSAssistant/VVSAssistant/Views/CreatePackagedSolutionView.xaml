@@ -1,5 +1,5 @@
 ﻿<Page 
-    x:Class="VVSAssistant.Views.CreatePackageSolutionView"
+    x:Class="VVSAssistant.Views.CreatePackagedSolutionView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -9,10 +9,10 @@
     xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
     mc:Ignorable="d" 
     d:DesignHeight="600" d:DesignWidth="1080"
-    Title="CreatePackageSolutionView"
+    Title="CreatePackagedSolutionView"
 >
     <Page.DataContext>
-        <viewModels:CreatePackageSolutionViewModel/>
+        <viewModels:CreatePackagedSolutionViewModel/>
     </Page.DataContext>
 
     <Grid>

@@ -131,17 +131,17 @@
     <Compile Include="Models\DataSheets\TemperatureControllerDataSheet.cs" />
     <Compile Include="ViewModels\ApplianceViewModel.cs" />
     <Compile Include="ViewModels\Commands\CreateClientCommand.cs" />
-    <Compile Include="ViewModels\CreatePackageSolutionViewModel.cs" />
+    <Compile Include="ViewModels\CreatePackagedSolutionViewModel.cs" />
     <Compile Include="ViewModels\MVVM\ViewModelBase.cs" />
-    <Compile Include="ViewModels\PackageSolutionViewModel.cs" />
+    <Compile Include="ViewModels\PackagedSolutionViewModel.cs" />
     <Compile Include="ViewModels\MVVM\RelayCommand.cs" />
     <Compile Include="ViewModels\MVVM\ObservableObject.cs" />
     <Compile Include="Models\UnitPrice.cs" />
     <Compile Include="Views\NavigationView.xaml.cs">
       <DependentUpon>NavigationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\CreatePackageSolutionView.xaml.cs">
-      <DependentUpon>CreatePackageSolutionView.xaml</DependentUpon>
+    <Compile Include="Views\CreatePackagedSolutionView.xaml.cs">
+      <DependentUpon>CreatePackagedSolutionView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -167,7 +167,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\CreatePackageSolutionView.xaml">
+    <Page Include="Views\CreatePackagedSolutionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
