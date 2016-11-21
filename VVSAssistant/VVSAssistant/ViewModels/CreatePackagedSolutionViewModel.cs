@@ -37,23 +37,8 @@ namespace VVSAssistant.ViewModels
             get { return _appliances; }
         }
 
-        public ICollectionView FilteredApplianceList { get; private set; }
+        public FilterableListViewModel<ApplianceViewModel> FilterableApplianceList { get; private set; }
         #endregion
-
-        private string _filterString = "";
-        public string FilterString
-        {
-            get { return _filterString; }
-            set
-            {
-                if (_filterString.Equals(value)) return;
-                _filterString = value;
-                FilteredApplianceList.Refresh();
-                OnPropertyChanged();
-            }
-        }
-
-        public FilterableListViewModel<ApplianceViewModel> FilterableList { get; private set; }
 
         public CreatePackagedSolutionViewModel()
         {
@@ -63,7 +48,7 @@ namespace VVSAssistant.ViewModels
                 // Transform list of Appliance to a list of ApplianceViewModel
                 dbContext.Appliances.ToList().ForEach(a => Appliances.Add(new ApplianceViewModel(a)));
                 // Create filtered list
-                FilterableList = new FilterableListViewModel<ApplianceViewModel>(Appliances);
+                FilterableApplianceList = new FilterableListViewModel<ApplianceViewModel>(Appliances);
             }
 
             #region Command declarations

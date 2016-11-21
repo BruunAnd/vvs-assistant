@@ -1,0 +1,333 @@
+﻿<Page x:Class="VVSAssistant.Views.CreateOfferView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:VVSAssistant.Views"
+      xmlns:viewModels="clr-namespace:VVSAssistant.ViewModels"
+      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="1080"
+      Title="CreateOfferView">
+    <Page.DataContext>
+        <viewModels:CreateOfferViewModel/>
+    </Page.DataContext>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="275"/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="20" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0"
+              Grid.ColumnSpan="99"
+              Background="{StaticResource AccentBaseColorBrush}">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="20"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="1"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left"
+                    Height="32"
+                    MinWidth="120"
+                    Content="Tilbage"/>
+        </Grid>
+
+        <Grid Grid.Column="1"
+              Grid.Row="2">
+
+            <DataGrid AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding ID}"
+                                        Header="#"
+                                        Width="40"
+                                        CanUserResize="False"
+                                        CanUserReorder="False"/>
+                    <DataGridTextColumn Binding="{Binding Name}"
+                                        Header="Navn"
+                                        MinWidth="100"
+                                        Width="1.5*"
+                                        CanUserReorder="False"/>
+                    <DataGridTextColumn Binding="{Binding Info}"
+                                        Header="Info"
+                                        MinWidth="100"
+                                        Width="5*"
+                                        CanUserReorder="False"/>
+                    <DataGridTextColumn Binding="{Binding Date}"
+                                        Header="Dato"
+                                        MinWidth="50"
+                                        Width="1*"
+                                        CanUserReorder="False"/>
+                </DataGrid.Columns>
+                
+            </DataGrid>
+
+            <TabControl>
+                <TabItem Header="Komponenter">
+                    <DataGrid AutoGenerateColumns="False"
+                              IsReadOnly="False"
+                              SelectionUnit="Cell"
+                              SelectionMode="Single">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Name}"
+                                                Header="Navn"
+                                                MinWidth="100"
+                                                Width="1.5*"
+                                                IsReadOnly="True"
+                                                CanUserReorder="False"/>
+                            <DataGridTextColumn Binding="{Binding Type}"
+                                                Header="Type"
+                                                MinWidth="100"
+                                                Width="1*"
+                                                IsReadOnly="True"
+                                                CanUserReorder="False"/>
+                            <DataGridTextColumn Binding="{Binding UnitCostPrice, UpdateSourceTrigger=PropertyChanged}"
+                                                Header="Kostpris"
+                                                MinWidth="100"
+                                                Width="1*"
+                                                CanUserReorder="False"/>
+                            <DataGridTextColumn Binding="{Binding UnitSalesPrice, UpdateSourceTrigger=PropertyChanged}"
+                                                Header="Salgspris"
+                                                MinWidth="100"
+                                                Width="1*"
+                                                CanUserReorder="False"/>
+                            <DataGridTextColumn Binding="{Binding ContributionMargin, UpdateSourceTrigger=PropertyChanged}" 
+                                                Header="Samlet DB" 
+                                                IsReadOnly="True"
+                                                MinWidth="100"
+                                                Width="1*"
+                                                CanUserReorder="False"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+                <TabItem Header="Løn">
+                    <DataGrid AutoGenerateColumns="False"
+                              IsReadOnly="False"
+                              SelectionUnit="Cell"
+                              SelectionMode="Single">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Name}"
+                                                Header="Beskrivelse"
+                                                MinWidth="100"
+                                                Width="1.5*"
+                                                CanUserReorder="False"/>
+                            <DataGridTextColumn Binding="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}"
+                                                Header="Timer"
+                                                MinWidth="50"
+                                                Width="1*"
+                                                CanUserReorder="False"/>
+                            <DataGridTextColumn Binding="{Binding UnitCostPrice, UpdateSourceTrigger=PropertyChanged}"
+                                                Header="Kost EP"
+                                                MinWidth="100"
+                                                Width="1*"
+                                                CanUserReorder="False"/>
+
+                            <DataGridTextColumn Binding="{Binding CostPrice, UpdateSourceTrigger=PropertyChanged}" 
+                                                Header="Kostpris"
+                                                IsReadOnly="True"  
+                                                MinWidth="100"
+                                                Width="1*"
+                                                CanUserReorder="False"/>
+                            <DataGridTextColumn Binding="{Binding UnitSalesPrice, UpdateSourceTrigger=PropertyChanged}"
+                                                Header="Salgs EP"
+                                                MinWidth="100"
+                                                Width="1*"
+                                                CanUserReorder="False"/>
+                            <DataGridTextColumn Binding="{Binding SalesPrice, UpdateSourceTrigger=PropertyChanged}" 
+                                                Header="Salgspris"
+                                                IsReadOnly="True"  
+                                                MinWidth="100"
+                                                Width="1*"
+                                                CanUserReorder="False"/>
+                            <DataGridTextColumn Binding="{Binding ContributionMargin, UpdateSourceTrigger=PropertyChanged}" 
+                                                Header="Samlet DB" 
+                                                IsReadOnly="True"
+                                                MinWidth="100"
+                                                Width="1*"
+                                                CanUserReorder="False"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+                <TabItem Header="Materialer">
+                    <DataGrid AutoGenerateColumns="False"
+                              IsReadOnly="False"
+                              SelectionUnit="Cell"
+                              SelectionMode="Single">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding VvsNumber}"
+                                                Header="VVS Nr."
+                                                MinWidth="100"
+                                                Width="1*"
+                                                CanUserReorder="False"/>
+                            <DataGridTextColumn Binding="{Binding Name}"
+                                                Header="Beskrivelse"
+                                                MinWidth="100"
+                                                Width="1.5*"
+                                                CanUserReorder="False"/>
+                            <DataGridTextColumn Binding="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}"
+                                                Header="Timer"
+                                                MinWidth="50"
+                                                Width="1*"
+                                                CanUserReorder="False"/>
+                            <DataGridTextColumn Binding="{Binding UnitCostPrice, UpdateSourceTrigger=PropertyChanged}"
+                                                Header="Kost EP"
+                                                MinWidth="100"
+                                                Width="1*"
+                                                CanUserReorder="False"/>
+
+                            <DataGridTextColumn Binding="{Binding CostPrice, UpdateSourceTrigger=PropertyChanged}" 
+                                                Header="Kostpris"
+                                                IsReadOnly="True"  
+                                                MinWidth="100"
+                                                Width="1*"
+                                                CanUserReorder="False"/>
+                            <DataGridTextColumn Binding="{Binding UnitSalesPrice, UpdateSourceTrigger=PropertyChanged}"
+                                                Header="Salgs EP"
+                                                MinWidth="100"
+                                                Width="1*"
+                                                CanUserReorder="False"/>
+                            <DataGridTextColumn Binding="{Binding SalesPrice, UpdateSourceTrigger=PropertyChanged}" 
+                                                Header="Salgspris"
+                                                IsReadOnly="True"  
+                                                MinWidth="100"
+                                                Width="1*"
+                                                CanUserReorder="False"/>
+                            <DataGridTextColumn Binding="{Binding ContributionMargin, UpdateSourceTrigger=PropertyChanged}" 
+                                                Header="Samlet DB" 
+                                                IsReadOnly="True"
+                                                MinWidth="100"
+                                                Width="1*"
+                                                CanUserReorder="False"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+            </TabControl>
+            
+        </Grid>
+
+        <Grid Grid.Column="3" 
+              Grid.Row="2">
+            <StackPanel Orientation="Vertical">
+
+                <Label Content="Projekt resultat"/>
+                <DockPanel>
+                    <Label Content="Salgspris"/>
+                    <Label HorizontalAlignment="Right" 
+                           Content="0"/>
+                </DockPanel>
+                <DockPanel>
+                    <Label Content="Salgspris inkl. moms"/>
+                    <Label HorizontalAlignment="Right" 
+                           Content="0"/>
+                </DockPanel>
+                <DockPanel>
+                    <Label Content="Kostpris"/>
+                    <Label HorizontalAlignment="Right" 
+                           Content="0"/>
+                </DockPanel>
+
+                <DockPanel>
+                    <Label Content="Dækningsbidrag"/>
+                    <Label HorizontalAlignment="Right" 
+                           Content="0"/>
+                </DockPanel>
+
+                <Label Content="Komponenter"/>
+                <DockPanel>
+                    <Label Content="Salgspris"/>
+                    <Label HorizontalAlignment="Right" 
+                           Content="0"/>
+                </DockPanel>
+
+                <DockPanel>
+                    <Label Content="Kostpris"/> 
+                    <Label HorizontalAlignment="Right" 
+                           Content="0"/>
+                </DockPanel>
+
+                <DockPanel>
+                    <Label Content="Dækningsbidrag"/>
+                    <Label HorizontalAlignment="Right"
+                           Content="0"/>
+                </DockPanel>
+
+                <Label Content="Løn"/>
+
+                <DockPanel>
+                    <Label Content="Salgspris"/>
+                    <Label HorizontalAlignment="Right" 
+                           Content="0"/>
+                </DockPanel>
+
+                <DockPanel>
+                    <Label Content="Kostpris"/>
+                    <Label HorizontalAlignment="Right" 
+                           Content="0"/>
+                </DockPanel>
+
+                <DockPanel>
+                    <Label Content="Dækningsbidrag"/>
+                    <Label HorizontalAlignment="Right" 
+                           Content="0"/>
+                </DockPanel>
+
+                <Label Content="Materialer"/>
+
+                <DockPanel>
+                    <Label Content="Salgspris"/>
+                    <Label HorizontalAlignment="Right"
+                           Content="0"/>
+                </DockPanel>
+
+                <DockPanel>
+                    <Label Content="Kostpris"/> 
+                    <Label HorizontalAlignment="Right" 
+                           Content="0"/>
+                </DockPanel>
+
+                <DockPanel>
+                    <Label Content="Dækningsbidrag"/>
+                    <Label HorizontalAlignment="Right" 
+                           Content="0"/>
+                </DockPanel>
+            </StackPanel>
+            
+            <Grid VerticalAlignment="Bottom">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.5*"/>
+                    <ColumnDefinition Width="0.5*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+
+                <Button Margin="5,5,5,5"
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Content="Nyt tilbud"/>
+                <Button Margin="5,5,5,5" 
+                        Grid.Row="0" 
+                        Grid.Column="1"
+                        Content="Gem tilbud"/>
+                <Button Margin="5,5,5,5" 
+                        Grid.Row="1" 
+                        Grid.ColumnSpan="2"
+                        Content="Print tilbud"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>
