@@ -134,6 +134,8 @@
     <Compile Include="ViewModels\Commands\CreateClientCommand.cs" />
     <Compile Include="ViewModels\CreateOfferViewModel.cs" />
     <Compile Include="ViewModels\CreatePackagedSolutionViewModel.cs" />
+    <Compile Include="ViewModels\ExistingOffersViewModel.cs" />
+    <Compile Include="ViewModels\ExistingPackagedSolutionsViewModel.cs" />
     <Compile Include="ViewModels\FilterableListViewModel.cs" />
     <Compile Include="ViewModels\Interfaces\IFilterable.cs" />
     <Compile Include="ViewModels\MVVM\ViewModelBase.cs" />
@@ -143,6 +145,12 @@
     <Compile Include="Models\UnitPrice.cs" />
     <Compile Include="Views\CreateOfferView.xaml.cs">
       <DependentUpon>CreateOfferView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ExistingOffersView.xaml.cs">
+      <DependentUpon>ExistingOffersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ExistingPackagedSolutionsView.xaml.cs">
+      <DependentUpon>ExistingPackagedSolutionsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\NavigationView.xaml.cs">
       <DependentUpon>NavigationView.xaml</DependentUpon>
@@ -171,6 +179,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\CreateOfferView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ExistingOffersView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ExistingPackagedSolutionsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
