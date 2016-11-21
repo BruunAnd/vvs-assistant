@@ -12,49 +12,28 @@ namespace VVSAssistant.ViewModels
 {
     class NewOfferViewModel : ViewModelBase
     {
-        #region Properties
+        /* Packaged solutions on list */ 
         private ObservableCollection<PackagedSolutionViewModel> _packagedSolutions;
+
+        #region Temporary data for creating an offer
+        private PackagedSolution _currentPackagedSolution;
+        private Salary _currentSalary;
+        #endregion
+
         public ObservableCollection<PackagedSolutionViewModel> PackagedSolutions
         {
-            get
-            {
-                if (_packagedSolutions != null && _packagedSolutions.Count != 0)
-                    return _packagedSolutions;
-                else
-                    throw new NullReferenceException("You must add packaged solutions before composing a new offer. ");
-            }
-
+            get { return _packagedSolutions; }
             set
             {
-                //TODO: Test whether or not this fails when value is just a single PackagedSolution (it shouldn't)
-                if (value is ObservableCollection<PackagedSolutionViewModel>)
-                {
-                    _packagedSolutions.Concat(value);
-                    OnPropertyChanged();
-                }
-                else
-                {
-                    // throw new InvalidParameterTypeException("The type of objects added to list of packaged solutions can only be PackagedSolutionViewModel. ");
-                }
-            }
-        }
-
-        private string _offerDescription;
-        public string OfferDescription
-        {
-            get { return _offerDescription; }
-            set
-            {
-                _offerDescription = value;
+                _packagedSolutions = value;
                 OnPropertyChanged();
             }
         }
-        #endregion
 
         //TODO: We should probably add this method to this class in the component design chapter - Can't see it anywhere else
-        /*public Offer CreateOffer()
+        public Offer CreateOffer()
         {
-
-        }*/
+            return null;
+        }
     }
 }
