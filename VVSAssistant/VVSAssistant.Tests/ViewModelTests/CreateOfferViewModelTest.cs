@@ -4,18 +4,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VVSAssistant.Models;
+using VVSAssistant.ViewModels;
 
 namespace VVSAssistant.Tests.ViewModelTests
 {
     [TestFixture]
     class CreateOfferViewModelTest
     {
-        private CreateOfferViewModelTest testModel;
+        private CreateOfferViewModel testModel;
+        private ClientViewModel TestClient;
 
         [SetUp]
         public void Setup()
         {
-            testModel = new CreateOfferViewModelTest();
+            testModel = new CreateOfferViewModel();
         }
 
         [Test]
