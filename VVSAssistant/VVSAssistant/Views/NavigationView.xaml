@@ -36,6 +36,7 @@
                 </Rectangle>
             </Controls:Tile>
             <Controls:Tile 
+                Command="{Binding CreateOffer}"
                        Title="Opret tilbud" 
                        Width="200" 
                        Height="200">
