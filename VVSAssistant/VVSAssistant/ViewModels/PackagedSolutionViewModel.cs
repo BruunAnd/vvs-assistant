@@ -10,8 +10,7 @@ namespace VVSAssistant.ViewModels
 {
     class PackagedSolutionViewModel : ViewModelBase, IFilterable
     {
-        // Base model
-        private PackagedSolution _packagedSolution;
+        private readonly PackagedSolution _packagedSolution;
 
         public ObservableCollection<ApplianceViewModel> Appliances { get; private set; }
 
@@ -42,7 +41,7 @@ namespace VVSAssistant.ViewModels
 
         public string CreationDate => _packagedSolution.CreationDate.ToString(@"dd\/MM\/yyyy HH:mm");
 
-        public string Description => string.Join(" ", Appliances);
+        public string Description => string.Join(", ", Appliances);
 
         public bool DoesFilterMatch(string query)
         {

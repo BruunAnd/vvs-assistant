@@ -1,6 +1,6 @@
 namespace VVSAssistant.Models
 {
-    public enum ApplianceTypes : int
+    public enum ApplianceTypes
     {
         Heatpump = 1,
         Boiler = 2,

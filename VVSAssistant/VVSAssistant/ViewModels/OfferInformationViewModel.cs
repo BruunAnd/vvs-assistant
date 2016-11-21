@@ -10,7 +10,7 @@ namespace VVSAssistant.ViewModels
 {
     class OfferInformationViewModel : ViewModelBase
     {
-        private OfferInformation _offerInformation;
+        private readonly OfferInformation _offerInformation;
 
         public OfferInformationViewModel(OfferInformation offerInformation)
         {

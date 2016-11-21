@@ -28,7 +28,7 @@ namespace VVSAssistant
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
             
-            Navigation.GoToExistingPackageSolutions();
+            //Navigation.GoToExistingPackageSolutions();
         }
 
         private void ShittySeed()
