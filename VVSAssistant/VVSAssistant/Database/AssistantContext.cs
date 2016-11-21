@@ -5,7 +5,7 @@ namespace VVSAssistant.Database
 {
     public class AssistantContext : DbContext
     {
-        public AssistantContext() : base("AssistantContext")
+        public AssistantContext() : base("AssistantDatabseConnectionString")
         {
         }
 

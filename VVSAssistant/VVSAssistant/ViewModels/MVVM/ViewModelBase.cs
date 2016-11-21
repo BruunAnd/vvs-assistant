@@ -18,6 +18,7 @@ namespace VVSAssistant.ViewModels.MVVM
                 return ValidateProperty(propName);
             }
         }
+
         /// <summary>
         /// Validates a property based on its DataAnnotations
         /// </summary>
