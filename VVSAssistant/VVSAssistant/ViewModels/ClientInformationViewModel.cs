@@ -8,7 +8,7 @@ using VVSAssistant.ViewModels.MVVM;
 
 namespace VVSAssistant.ViewModels
 {
-    class ClientInformationViewModel : ViewModelBase
+    public class ClientInformationViewModel : ViewModelBase
     {
         private readonly ClientInformation _clientInformation;
 

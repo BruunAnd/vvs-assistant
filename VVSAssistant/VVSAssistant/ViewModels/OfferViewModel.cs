@@ -10,7 +10,7 @@ using System.Collections.ObjectModel;
 
 namespace VVSAssistant.ViewModels
 {
-    class OfferViewModel : ViewModelBase
+    public class OfferViewModel : ViewModelBase
     {
         private readonly Offer _offer;
         private PackagedSolutionViewModel _packagedSolution;

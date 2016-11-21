@@ -10,7 +10,7 @@ using VVSAssistant.ViewModels.MVVM;
 namespace VVSAssistant.ViewModels
 {
     //TODO: This name is fine, but we have to change the name of the class with the same name in the component view model figure
-    class ClientViewModel : ViewModelBase
+    public class ClientViewModel : ViewModelBase
     {
         private readonly Client _client;
 

@@ -8,7 +8,7 @@ using VVSAssistant.ViewModels.MVVM;
 
 namespace VVSAssistant.ViewModels
 {
-    class SalaryViewModel : ViewModelBase
+    public class SalaryViewModel : ViewModelBase
     {
         private readonly Salary _salary;
 
