@@ -18,7 +18,7 @@ namespace VVSAssistant.Tests.ViewModelTests
         [SetUp]
         public void Setup()
         {
-            testModel = new CreateOfferViewModelTest();
+            testModel = new CreateOfferViewModel();
         }
 
         [Test]

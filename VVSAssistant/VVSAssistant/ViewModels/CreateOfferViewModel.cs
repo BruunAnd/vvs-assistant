@@ -11,7 +11,7 @@ using System.Reflection;
 
 namespace VVSAssistant.ViewModels
 {
-    public class CreateOfferViewModel : ViewModelBase
+    class CreateOfferViewModel : ViewModelBase
     {
         public RelayCommand CreateNewOffer { get; }
 

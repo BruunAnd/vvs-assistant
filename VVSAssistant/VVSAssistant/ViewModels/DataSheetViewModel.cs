@@ -8,7 +8,7 @@ using VVSAssistant.ViewModels.MVVM;
 
 namespace VVSAssistant.ViewModels
 {
-    public class DataSheetViewModel : ViewModelBase
+    class DataSheetViewModel : ViewModelBase
     {
         private readonly DataSheet _dataSheet;
 

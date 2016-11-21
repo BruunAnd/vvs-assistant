@@ -11,7 +11,7 @@ using VVSAssistant.ViewModels.MVVM;
 
 namespace VVSAssistant.ViewModels
 {
-    public class ApplianceViewModel : ViewModelBase, IFilterable
+    class ApplianceViewModel : ViewModelBase, IFilterable
     {
         private readonly Appliance _appliance;
         private DataSheetViewModel _dataSheet;

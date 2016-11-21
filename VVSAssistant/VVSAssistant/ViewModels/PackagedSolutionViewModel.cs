@@ -8,7 +8,7 @@ using VVSAssistant.ViewModels.MVVM;
 
 namespace VVSAssistant.ViewModels
 {
-    public class PackagedSolutionViewModel : ViewModelBase, IFilterable
+    class PackagedSolutionViewModel : ViewModelBase, IFilterable
     {
         private readonly PackagedSolution _packagedSolution;
 

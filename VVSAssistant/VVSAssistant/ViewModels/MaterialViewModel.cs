@@ -8,7 +8,7 @@ using VVSAssistant.ViewModels.MVVM;
 
 namespace VVSAssistant.ViewModels
 {
-    public class MaterialViewModel : ViewModelBase
+    class MaterialViewModel : ViewModelBase
     {
         private readonly Material _material;
 
