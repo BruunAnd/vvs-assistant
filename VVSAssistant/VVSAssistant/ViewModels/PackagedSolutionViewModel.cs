@@ -8,9 +8,9 @@ using VVSAssistant.ViewModels.MVVM;
 
 namespace VVSAssistant.ViewModels
 {
-    class PackageSolutionViewModel : ViewModelBase
+    class PackagedSolutionViewModel : ViewModelBase
     {
-        public PackageSolutionViewModel()
+        public PackagedSolutionViewModel()
         {
             Appliances = new ObservableCollection<ApplianceViewModel>();
         }

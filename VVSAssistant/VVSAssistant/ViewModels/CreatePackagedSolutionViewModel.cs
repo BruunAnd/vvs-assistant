@@ -12,7 +12,7 @@ namespace VVSAssistant.ViewModels
 {
     class CreatePackagedSolutionViewModel : ViewModelBase
     {
-        #region Commands
+        #region Command initializations
         public RelayCommand AddApplianceToPackageSolution { get; }
         public RelayCommand RemoveApplianceFromPackageSolution { get; }
         public RelayCommand EditAppliance { get; }
@@ -37,6 +37,7 @@ namespace VVSAssistant.ViewModels
 
         public CreatePackagedSolutionViewModel()
         {
+            #region Command declerations
 
             AddApplianceToPackageSolution = new RelayCommand(x => 
             {
@@ -55,6 +56,8 @@ namespace VVSAssistant.ViewModels
                 if (this.PackageSolution.Appliances.Any()) this.PackageSolution.Appliances.Clear();
             }, x => this.PackageSolution.Appliances.Any());
             this.PackageSolution.Appliances.CollectionChanged += PackageSolutionAppliances_CollectionChanged;
+
+            #endregion
         }
 
         private void PackageSolutionAppliances_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
