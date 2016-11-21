@@ -145,6 +145,7 @@
     <Compile Include="ViewModels\MVVM\INavigationService.cs" />
     <Compile Include="ViewModels\MVVM\NavigationService.cs" />
     <Compile Include="ViewModels\MVVM\ViewModelBase.cs" />
+    <Compile Include="ViewModels\NavigationViewModel.cs" />
     <Compile Include="ViewModels\PackagedSolutionViewModel.cs" />
     <Compile Include="ViewModels\MVVM\RelayCommand.cs" />
     <Compile Include="ViewModels\MVVM\ObservableObject.cs" />
