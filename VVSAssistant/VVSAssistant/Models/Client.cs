@@ -6,7 +6,6 @@ namespace VVSAssistant.Models
 {
     public class Client
     {
-        /* Lazy loading has been removed - should it be used? */
         public Client()
         {
             Offers = new List<Offer>();
@@ -14,7 +13,7 @@ namespace VVSAssistant.Models
 
         public int Id { get; set; }
         public DateTime CreationDate { get; set; }
-        public ClientInformation ClientInformation { get; set; }
-        public ICollection<Offer> Offers { get; set; }
+        public virtual ClientInformation ClientInformation { get; set; }
+        public virtual ICollection<Offer> Offers { get; }
     }
 }

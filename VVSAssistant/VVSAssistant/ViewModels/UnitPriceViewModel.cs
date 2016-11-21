@@ -57,19 +57,10 @@ namespace VVSAssistant.ViewModels
             }
         }
 
-        public double SalesPrice
-        {
-            get { return _unitPrice.SalesPrice; }
-        }
+        public double SalesPrice => _unitPrice.SalesPrice;
 
-        public double CostPrice
-        {
-            get { return _unitPrice.CostPrice; }
-        }
+        public double CostPrice => _unitPrice.CostPrice;
 
-        public double ContributionMargin
-        {
-            get { return _unitPrice.ContributionMargin; }
-        }
+        public double ContributionMargin => _unitPrice.ContributionMargin;
     }
 }
