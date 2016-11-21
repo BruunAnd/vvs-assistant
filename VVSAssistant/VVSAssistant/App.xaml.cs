@@ -29,7 +29,7 @@ namespace VVSAssistant
             mainWindow.Show();
 
             Navigation = new NavigationService(mainWindow.Frame);
-            Navigation.GoToNavigation();
+            Navigation.GoToExistingPackageSolutions();
         }
 
         private void ShittySeed()

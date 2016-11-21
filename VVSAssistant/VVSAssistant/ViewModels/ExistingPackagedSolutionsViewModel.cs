@@ -30,6 +30,7 @@ namespace VVSAssistant.ViewModels
                 // Create filterable list
                 FilterablePackagedSolutionsList = new FilterableListViewModel<PackagedSolutionViewModel>(PackagedSolutions);
             }
+            Console.WriteLine("test");
         }
     }
 }

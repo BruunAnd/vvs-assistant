@@ -32,6 +32,8 @@
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="20"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="20"/>
             </Grid.ColumnDefinitions>
@@ -42,14 +44,31 @@
                     Height="32"
                     MinWidth="120"
                     Content="Tilbage"/>
+
+            <TextBox Controls:TextBoxHelper.ClearTextButton="True" 
+                     Controls:TextBoxHelper.Watermark="Søg" 
+                     Grid.Column="3"
+                     Height="24"
+                     Text="{Binding FilterablePackagedSolutionsList, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
 
         <Grid Grid.Column="1" 
               Grid.Row="2">
 
-            <DataGrid AutoGenerateColumns="False">
+            <DataGrid AutoGenerateColumns="False"
+                      ItemsSource="{Binding FilterablePackagedSolutionsList.Collection}">
                 <DataGrid.Columns>
-                    <!-- Packaged Solution columns -->
+                    <DataGridTextColumn Binding="{Binding Name}" 
+                                        Header="Navn" 
+                                        Width="2*"/>
+
+                    <DataGridTextColumn Binding="{Binding CreationDate}" 
+                                        Header="Dato" 
+                                        Width="2*"/>
+                    
+                    <DataGridTextColumn Binding="{Binding Description}"  
+                                        Header="Beskrivelse" 
+                                        Width="3*"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
