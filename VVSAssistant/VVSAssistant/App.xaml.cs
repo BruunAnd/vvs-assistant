@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using VVSAssistant.Database;
 using VVSAssistant.Models;
+using VVSAssistant.Models.DataSheets;
 
 namespace VVSAssistant
 {
@@ -55,9 +56,8 @@ namespace VVSAssistant
                     Type = ApplianceTypes.Boiler
                 };
                 packagedSolution.Appliances.Add(appliance);
-                var heatPumpDataSheet = new HeatPumpDataSheet()
+                var heatPumpDataSheet = new HeatingUnitDataSheet()
                 {
-                    Size = 9001,
                     Price = 200
                 };
                 db.DataSheets.Add(heatPumpDataSheet);
@@ -70,7 +70,7 @@ namespace VVSAssistant
             // get datasheet test
             using (var ctx = new AssistantContext())
             {
-                ctx.DataSheets.ToList().ForEach(sheet => Console.WriteLine(sheet is HeatPumpDataSheet));
+                ctx.DataSheets.ToList().ForEach(sheet => Console.WriteLine(sheet is HeatingUnitDataSheet));
             }
 
         }
