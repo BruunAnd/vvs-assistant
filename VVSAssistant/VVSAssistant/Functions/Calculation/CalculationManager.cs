@@ -13,13 +13,7 @@ namespace VVSAssistant.Functions.Calculation
     {
         public IEEICalculation SelectCalculationStreategy(PackagedSolution package)
         {
-            switch(package.PrimaryHeatingUnit.Type)
-            {
-                case ApplianceTypes.Heatpump:
-                    return new HeatPumpAsPrimary();
-                default:
-                    return null;
-            }
+            return null;
         } 
     }
 }
