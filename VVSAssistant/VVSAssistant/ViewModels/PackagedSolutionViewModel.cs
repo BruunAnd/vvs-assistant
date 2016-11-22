@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity.Migrations;
 using System.Linq;
@@ -10,7 +11,7 @@ using VVSAssistant.ViewModels.MVVM;
 
 namespace VVSAssistant.ViewModels
 {
-    class PackagedSolutionViewModel : ViewModelBase, IFilterable
+    public class PackagedSolutionViewModel : ViewModelBase, IFilterable
     {
         public readonly PackagedSolution Model;
 
@@ -58,6 +59,7 @@ namespace VVSAssistant.ViewModels
             using (var dbContext = new AssistantContext())
             {
                 Model.Appliances = Appliances.Select(x => x.Model).ToList(); // Updates appliance list in model
+                Model.CreationDate = DateTime.Now;
                 dbContext.PackagedSolutions.AddOrUpdate(Model);
                 dbContext.SaveChanges();
             }
