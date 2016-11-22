@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using VVSAssistant.Models;
 using VVSAssistant.ViewModels.MVVM;
+using System.Runtime.CompilerServices;
 
 namespace VVSAssistant.ViewModels
 {
@@ -27,12 +28,22 @@ namespace VVSAssistant.ViewModels
             }
         }
 
-        public string Description
+        public string Intro
         {
-            get { return _offerInformation.Description; }
+            get { return _offerInformation.Intro; }
             set
             {
-                _offerInformation.Description = value;
+                _offerInformation.Intro = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string Outro
+        {
+            get { return _offerInformation.Outro; }
+            set
+            {
+                _offerInformation.Outro = value;
                 OnPropertyChanged();
             }
         }

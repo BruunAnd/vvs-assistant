@@ -8,6 +8,10 @@ using VVSAssistant.ViewModels.MVVM;
 using VVSAssistant.Exceptions;
 using VVSAssistant.Models;
 using System.Reflection;
+using MahApps.Metro.Controls.Dialogs;
+using VVSAssistant.Controls.Dialogs.ViewModels;
+using VVSAssistant.Controls.Dialogs.Views;
+
 
 namespace VVSAssistant.ViewModels
 {
@@ -17,13 +21,15 @@ namespace VVSAssistant.ViewModels
 
         /* Packaged solutions on list */ 
         private ObservableCollection<PackagedSolutionViewModel> _packagedSolutions;
-
+        private ObservableCollection<ClientViewModel> _clients;
         private OfferViewModel _offer;
+        private IDialogCoordinator _dialogCoordinator;
 
-        public CreateOfferViewModel()
+        public CreateOfferViewModel(IDialogCoordinator coordinator)
         {
             _offer = new OfferViewModel(new Offer());
             CreateNewOffer = new RelayCommand(x => CreateOffer(), x => VerifyNeededInformation());
+            _dialogCoordinator = coordinator;
         }
 
         public ObservableCollection<PackagedSolutionViewModel> PackagedSolutions
@@ -39,6 +45,7 @@ namespace VVSAssistant.ViewModels
         public OfferViewModel Offer
         {
             get { return _offer; }
+            set { _offer = value; }
         }
 
         public void CreateOffer()
@@ -49,45 +56,59 @@ namespace VVSAssistant.ViewModels
         /// <summary>
         /// Uses reflection to check whether or not any of the properties in the passed object is null or empty.
         /// </summary>
-        /// <param name="objectToCheck"></param>
         /// <returns></returns>
         private bool IsPropertyNullOrEmpty(object objectToCheck)
         {
-            /* Fetch all properties */ 
+            //TODO: Fix this method. Doesn't work for some reason, don't know why. 
+            /* Fetch all properties */
             foreach (PropertyInfo pi in objectToCheck.GetType().GetProperties())
             {
-                /* Make sure that it is a property with a name */
-                if (pi.PropertyType == typeof(string))
+                string value = (string) pi.GetValue(objectToCheck);
+                if (string.IsNullOrEmpty(value))
                 {
-                    /* Fetch the value of the property, and see if it is null or empty */
-                    string value = (string)pi.GetValue(objectToCheck);
-                    if (string.IsNullOrEmpty(value))
-                    {
-                        return true;
-                    }
+                    return true;
                 }
             }
             return false;
         }
 
         /// <summary>
-        /// Returns true if ALL needed information in the offer is present. If any information is missing, return false.
+        /// Returns true if both Client and Packaged Solution has a name
         /// </summary>
-        /// <param name="offer"></param>
         /// <returns></returns>
-        private bool VerifyNeededInformation()
+        public bool VerifyNeededInformationDeprecated()
         {
-            if (IsPropertyNullOrEmpty(Offer.Client.ClientInformation) == false &&
-                IsPropertyNullOrEmpty(Offer.Client) == false &&
-                IsPropertyNullOrEmpty(Offer.PackagedSolution) == false &&
-                IsPropertyNullOrEmpty(Offer) == false)
-            {
-                return true;
-            }
+            if (IsPropertyNullOrEmpty(Offer.Client.ClientInformation) ||
+                IsPropertyNullOrEmpty(Offer.Client)                   ||
+                IsPropertyNullOrEmpty(Offer.PackagedSolution)         ||
+                IsPropertyNullOrEmpty(Offer))
+                return false;
             else
+                return true;
+        }
+
+        public bool VerifyNeededInformation()
+        {
+            if (Offer.Client.ClientInformation.Name == null ||
+                Offer.PackagedSolution.Name         == null ||
+                Offer.OfferInformation              == null )
             {
                 return false;
             }
+            else
+                return true;
+        }
+
+        public async void RunGenerateOfferDialog()
+        {
+            var customDialog = new CustomDialog();
+            var dialogViewModel = new GenerateOfferDialogViewModel(Offer, _dialogCoordinator, instance =>
+            {
+                // Makes it possible to close the dialog.
+                _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
+            });
+            customDialog.Content = new GenerateOfferDialogView { DataContext = dialogViewModel };
+            await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
         }
     }
 }

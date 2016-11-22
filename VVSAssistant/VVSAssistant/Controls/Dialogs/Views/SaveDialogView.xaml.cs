@@ -10,17 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace VVSAssistant.Views
+namespace VVSAssistant.Controls.Dialogs.Views
 {
     /// <summary>
-    /// Interaction logic for NavigationView.xaml
+    /// Interaction logic for CustomDialogExample.xaml
     /// </summary>
-    public partial class NavigationView : Page
+    public partial class SaveDialogView : UserControl
     {
-        public NavigationView()
+        public SaveDialogView()
         {
             InitializeComponent();
         }

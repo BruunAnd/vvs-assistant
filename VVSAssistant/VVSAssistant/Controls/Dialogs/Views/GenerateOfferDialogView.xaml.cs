@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace VVSAssistant.Views
+namespace VVSAssistant.Controls.Dialogs.Views
 {
     /// <summary>
-    /// Interaction logic for CreateOfferView.xaml
+    /// Interaction logic for GenerateOfferDialogView.xaml
     /// </summary>
-    public partial class CreateOfferView
+    public partial class GenerateOfferDialogView : UserControl
     {
-        public CreateOfferView()
+        public GenerateOfferDialogView()
         {
             InitializeComponent();
         }

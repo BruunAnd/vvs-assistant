@@ -26,6 +26,9 @@ namespace VVSAssistant.ViewModels
             _packagedSolution = new PackagedSolutionViewModel(offer.PackagedSolution);
             _offerInformation = new OfferInformationViewModel(offer.OfferInformation);
 
+            _materials = new ObservableCollection<MaterialViewModel>();
+            _salaries = new ObservableCollection<SalaryViewModel>();
+
             foreach (var material in offer.Materials)
                 _materials.Add(new MaterialViewModel(material));
             foreach (var salary in offer.Salaries)

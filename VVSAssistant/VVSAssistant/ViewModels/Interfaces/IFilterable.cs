@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VVSAssistant.ViewModels.Interfaces
 {
-    interface IFilterable
+    public interface IFilterable
     {
         bool DoesFilterMatch(string query);
     }

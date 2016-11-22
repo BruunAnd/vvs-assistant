@@ -1,4 +1,4 @@
-﻿<Page 
+﻿<ContentControl 
     x:Class="VVSAssistant.Views.CreatePackagedSolutionView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -7,15 +7,21 @@
     xmlns:local="clr-namespace:VVSAssistant.Views"
     xmlns:viewModels="clr-namespace:VVSAssistant.ViewModels"
     xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
     mc:Ignorable="d" 
     d:DesignHeight="600" d:DesignWidth="1080"
-    Title="CreatePackagedSolutionView"
+    d:DataContext="{d:DesignInstance viewModels:CreatePackagedSolutionViewModel}"
+    Dialog:DialogParticipation.Register="{Binding}"
 >
-    <Page.DataContext>
-        <viewModels:CreatePackagedSolutionViewModel/>
-    </Page.DataContext>
 
-    <Grid>
+    <ContentControl.Resources>
+        <Style x:Key="CommandableMenuItemStyle" TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+            <Setter Property="CommandParameter"
+                    Value="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"/>
+        </Style>
+    </ContentControl.Resources>
+    
+    <Grid Background="White">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="225"/>
@@ -48,7 +54,10 @@
             <Button Grid.Column="1" 
                     VerticalAlignment="Center" 
                     HorizontalAlignment="Left"
-                    Content="Tilbage"/>
+                    Content="Tilbage"
+                    Height="32"
+                    MinWidth="120"
+                    Command="{Binding ElementName=root, Path=DataContext.NavCommand}"/>
 
             <TextBox Controls:TextBoxHelper.ClearTextButton="True" 
                      Controls:TextBoxHelper.Watermark="Søg" 
@@ -63,7 +72,7 @@
                     Command="{Binding AddApplianceToPackageSolution}"
                     CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"/>
         </Grid>
-        
+
         <Grid Grid.Column="3" Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -78,12 +87,25 @@
                    Content="Komponenter"/>
 
             <DataGrid Name="AppliancesDataGrid" Grid.Column="0"
-                      Grid.Row="2" 
+                      Grid.Row="1" 
                       AutoGenerateColumns="False" 
-                      Grid.ColumnSpan="2" 
                       ItemsSource="{Binding FilterableApplianceList.Collection}">
+
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Føj til pakke"
+                                  Command="{Binding AddApplianceToPackageSolution}"
+                                  Style="{StaticResource CommandableMenuItemStyle}" />
+                        <MenuItem Header="Redigér"
+                                  Command="{Binding EditAppliance}"
+                                  Style="{StaticResource CommandableMenuItemStyle}" />
+                        <MenuItem Header="Slet"
+                                  Command="{Binding RemoveAppliance}"
+                                  Style="{StaticResource CommandableMenuItemStyle}" />
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
                 
-                <DataGrid.InputBindings>
+                <!--<DataGrid.InputBindings>
                     <MouseBinding MouseAction="LeftDoubleClick"
                                   Command="{Binding AddApplianceToPackageSolution}"
                                   CommandParameter="{Binding SelectedItem, ElementName=AppliancesDataGrid}"/>
@@ -92,18 +114,18 @@
                                   CommandParameter="{Binding SelectedItem, ElementName=AppliancesDataGrid}"/>
                     <MouseBinding MouseAction="RightClick"
                                   Command="{Binding RemoveAppliance}"
-                                  CommandParameter="{Binding SelectedItem, ElementName=AppliancesDataGrid}"/>
-                </DataGrid.InputBindings>
-                
+                                  CommandParameter="{Binding SelectedItem, ElementName=AppliancesDataGrid}"/>-
+                </DataGrid.InputBindings>-->
+
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Name}" 
                                         Header="Navn" 
                                         Width="2*"/>
-                    
+
                     <DataGridTextColumn Binding="{Binding Type}" 
                                         Header="Type" 
                                         Width="2*"/>
-                    
+
                     <DataGridTextColumn Binding="{Binding Description}"  
                                         Header="Beskrivelse" 
                                         Width="3*"/>
@@ -128,7 +150,7 @@
                       Grid.Row="1" 
                       IsReadOnly="true" 
                       AutoGenerateColumns="False" 
-                      ItemsSource="{Binding PackageSolution.Appliances}">
+                      ItemsSource="{Binding PackagedSolution.Appliances}">
                 <DataGrid.InputBindings>
                     <MouseBinding MouseAction="LeftDoubleClick"
                                   Command="{Binding RemoveApplianceFromPackageSolution}"
@@ -140,7 +162,7 @@
                                         Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
-            
+
             <StackPanel Grid.Row="3" 
                         Orientation="Vertical" 
                         VerticalAlignment="Bottom">
@@ -159,9 +181,10 @@
                         Content="Ny pakkeløsning"
                         Command="{Binding NewPackageSolution}"
                         />
-                
+
                 <Button Margin="0 5 0 0" 
-                        Content="Gem pakkeløsning"/>
+                        Content="Gem pakkeløsning"
+                        Command="{Binding SaveDialog}"/>
                 <Button Margin="0 5 0 0" 
                         Content="Print pakkelabel"/>
             </StackPanel>
@@ -210,4 +233,4 @@
             </StackPanel>
         </Grid>
     </Grid>
-</Page>
+</ContentControl>

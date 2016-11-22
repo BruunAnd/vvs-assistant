@@ -18,7 +18,7 @@ namespace VVSAssistant.Views
     /// <summary>
     /// Interaction logic for ExistingOffersView.xaml
     /// </summary>
-    public partial class ExistingOffersView : Page
+    public partial class ExistingOffersView
     {
         public ExistingOffersView()
         {

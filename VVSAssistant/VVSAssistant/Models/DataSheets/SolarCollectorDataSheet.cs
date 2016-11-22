@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VVSAssistant.Models.DataSheets
 {
-    class SolarCollectorDataSheet
+    class SolarCollectorDataSheet : DataSheet
     {
         public float Area { get; set; }
         public float Efficency { get; set; }

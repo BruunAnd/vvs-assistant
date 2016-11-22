@@ -11,6 +11,8 @@ namespace VVSAssistant.Models
             Appliances = new List<Appliance>();
         }
 
+        public Appliance SolarContainer;
+
         protected Appliance _primaryHeatingUnit;
         //[NotMapped]
         public virtual Appliance PrimaryHeatingUnit
@@ -26,6 +28,6 @@ namespace VVSAssistant.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTime CreationDate { get; set; }
-        public virtual ICollection<Appliance> Appliances { get; }
+        public virtual ICollection<Appliance> Appliances { get; set;  }
     }
 }
