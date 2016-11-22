@@ -15,6 +15,9 @@ namespace VVSAssistant.Functions.Calculation.Strategies
         private HeatingUnitDataSheet SecondaryBoiler;
         private float _effectOfTemperatureRegulator;
         private float II;
+        private float III;
+        private float IV;
+
         private float _effectOfSecBoiler;
         private bool _hasContainerForSec;
 
@@ -44,13 +47,30 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             float heatingUnitRelationship = PrimaryUnit.WattUsage / (PrimaryUnit.WattUsage + SecondaryBoiler.WattUsage);
 
             IEnumerable<Appliance> Containers = PackagedSolution.Appliances.Where(Container => Container.Type == ApplianceTypes.Container);
-            if (Containers.Count() > Solars.Count())
-                _hasContainerForSec = true;
+            bool HasNonSolarContainer = PackagedSolution.Appliances.Where(Container => Container.Type == ApplianceTypes.Container && PackagedSolution.SolarContainer != Container).Count() > 0;
 
-            II = UtilityClass.GetWeighting(heatingUnitRelationship, _hasContainerForSec, true);
+            II = UtilityClass.GetWeighting(heatingUnitRelationship, HasNonSolarContainer, true);
 
             _effectOfSecBoiler = (SecondaryBoiler.AFUE - PrimaryUnit.AFUE) * II;
             Results.EffectOfSecondaryBoiler = _effectOfSecBoiler;
+
+            //Calculating effect of solarcollector
+            III = 294 / (11 * PrimaryUnit.WattUsage);
+            IV = 115 / (11 * PrimaryUnit.WattUsage);
+
+            float AreaOfSolars = 0;
+            foreach (Appliance solar in Solars)
+            {
+                AreaOfSolars = (solar.DataSheet as SolarCollectorDataSheet).Area + AreaOfSolars;
+            }
+            Results.SolarCollectorArea = AreaOfSolars;
+
+            Results.ContainerVolume = (PackagedSolution.SolarContainer.DataSheet as ContainerDataSheet).Volume;
+            Results.SolarCollectorEffectiveness = (Solars.FirstOrDefault()?.DataSheet as SolarCollectorDataSheet).Efficency;
+            Results.ContainerClassification = (PackagedSolution.SolarContainer.DataSheet as ContainerDataSheet).Classification;
+
+
+
 
 
 

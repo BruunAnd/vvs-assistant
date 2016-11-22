@@ -11,6 +11,8 @@ namespace VVSAssistant.Models
             Appliances = new List<Appliance>();
         }
 
+        public Appliance SolarContainer;
+
         protected Appliance _primaryHeatingUnit;
         //[NotMapped]
         public virtual Appliance PrimaryHeatingUnit
