@@ -6,9 +6,11 @@
       xmlns:local="clr-namespace:VVSAssistant.Views"
       xmlns:viewModels="clr-namespace:VVSAssistant.ViewModels"
       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+      xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
       mc:Ignorable="d" 
-    d:DataContext="{d:DesignInstance viewModels:CreatePackagedSolutionViewModel}"
+      d:DataContext="{d:DesignInstance viewModels:CreatePackagedSolutionViewModel}"
       d:DesignHeight="600" d:DesignWidth="1080"
+      Dialog:DialogParticipation.Register="{Binding}"
       >
 
     <Grid Background="White">

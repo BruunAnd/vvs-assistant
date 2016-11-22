@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using VVSAssistant.ViewModels.MVVM;
 using VVSAssistant.Exceptions;
 using VVSAssistant.Models;
@@ -109,6 +106,7 @@ namespace VVSAssistant.ViewModels
                 _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
             });
             customDialog.Content = new GenerateOfferDialogView { DataContext = dialogViewModel };
+            // await _dialogCoordinator.ShowMessageAsync(this, "bla", "bla");
             await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
         }
     }
