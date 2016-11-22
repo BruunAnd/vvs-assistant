@@ -49,7 +49,6 @@
 
         <Grid Grid.Column="1"
               Grid.Row="2">
-
             <!-- Packaged solution -->
                 <DataGrid AutoGenerateColumns="False" DataContext="{Binding PackagedSolutions}">
                 <DataGrid.Columns>

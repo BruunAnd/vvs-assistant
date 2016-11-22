@@ -57,5 +57,17 @@ namespace VVSAssistant.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        public string Title
+        {
+            get { return _offerInformation.Title; } 
+            set { _offerInformation.Title = value; OnPropertyChanged(); }
+        }
+
+        public bool ApplyTax
+        {
+            get { return _offerInformation.ApplyTax; }
+            set { _offerInformation.ApplyTax = value; OnPropertyChanged(); }
+        }
     }
 }
