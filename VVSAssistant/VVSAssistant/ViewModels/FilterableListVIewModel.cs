@@ -10,7 +10,7 @@ using VVSAssistant.ViewModels.MVVM;
 
 namespace VVSAssistant.ViewModels
 {
-    class FilterableListViewModel<T> : ViewModelBase where T : IFilterable
+    public class FilterableListViewModel<T> : ViewModelBase where T : IFilterable
     {
         public ICollectionView Collection { get; }
 

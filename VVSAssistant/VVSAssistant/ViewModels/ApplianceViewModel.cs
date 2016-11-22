@@ -9,7 +9,7 @@ using VVSAssistant.ViewModels.MVVM;
 
 namespace VVSAssistant.ViewModels
 {
-    class ApplianceViewModel : ViewModelBase, IFilterable
+    public class ApplianceViewModel : ViewModelBase, IFilterable
     {
         public readonly Appliance Model;
 
