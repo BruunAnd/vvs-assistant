@@ -32,7 +32,7 @@ namespace VVSAssistant
             using (var db = new AssistantContext())
             {
                 // add a new client 'Iaro'
-                var clientInformation = new ClientInformation() { Name = "Iaroslav", Address = "Kvadratet", Email = "iaro@russia.ru", PhoneNumber = "88888888" };
+                var clientInformation = new ClientInformation { Name = "Iaroslav", Address = "Kvadratet", Email = "iaro@russia.ru", PhoneNumber = "88888888" };
                 db.ClientInformation.Add(clientInformation);
                 var client = new Client { CreationDate = DateTime.Now, ClientInformation = clientInformation };
                 db.Clients.Add(client);

@@ -9,6 +9,15 @@ namespace VVSAssistant.Database
         {
         }
 
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<PackagedSolution>().HasMany(s => s.Appliances).WithMany(a => a.PackagedSolutions);
+            modelBuilder.Entity<Appliance>().HasRequired(a => a.DataSheet);
+            modelBuilder.Entity<Client>().HasRequired(c => c.ClientInformation);
+            modelBuilder.Entity<Client>().HasMany(c => c.Offers).WithRequired(o => o.Client);
+            modelBuilder.Entity<Offer>().HasRequired(o => o.OfferInformation);
+        }
+
         public DbSet<Client> Clients { get; set; }
         public DbSet<ClientInformation> ClientInformation { get; set; }
         public DbSet<Offer> Offers { get; set; }
