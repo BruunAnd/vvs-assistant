@@ -68,6 +68,13 @@ namespace VVSAssistant.Functions.Calculation.Strategies
 
             Results.SolarHeatContribution = (III * Results.SolarCollectorArea + IV * Results.ContainerVolume) * SolarContributionFactor * (Results.SolarCollectorEffectiveness / 100) * Results.ContainerClassification;
 
+            Results.EEI = Results.PrimaryHeatingUnitAFUE + Results.EffectOfTemperatureRegulatorClass - Results.EffectOfSecondaryBoiler + Results.SolarHeatContribution;
+
+            //Calculating for colder and warmer climates
+            Results.PackagedSolutionAtColdTemperaturesAFUE = Results.EEI;
+
+
+
 
 
 
