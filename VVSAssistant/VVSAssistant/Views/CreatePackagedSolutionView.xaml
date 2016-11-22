@@ -15,7 +15,7 @@
 >
 
     <ContentControl.Resources>
-        <Style x:Key="CommandableMenuItemStyle" TargetType="MenuItem">
+        <Style x:Key="CommandableMenuItemStyle" TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
             <Setter Property="CommandParameter"
                     Value="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"/>
         </Style>
@@ -87,9 +87,8 @@
                    Content="Komponenter"/>
 
             <DataGrid Name="AppliancesDataGrid" Grid.Column="0"
-                      Grid.Row="2" 
+                      Grid.Row="1" 
                       AutoGenerateColumns="False" 
-                      Grid.ColumnSpan="2" 
                       ItemsSource="{Binding FilterableApplianceList.Collection}">
 
                 <DataGrid.ContextMenu>

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace VVSAssistant.Models.DataSheets
 {
-    class ContainerDataSheet
+    class ContainerDataSheet : DataSheet
     {
         [NotMapped]
         public static Dictionary<string, float> ClassificationClass = new Dictionary<string, float>()

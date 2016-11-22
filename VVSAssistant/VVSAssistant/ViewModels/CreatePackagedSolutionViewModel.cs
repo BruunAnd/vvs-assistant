@@ -76,8 +76,10 @@ namespace VVSAssistant.ViewModels
 
             RemoveAppliance = new RelayCommand(x =>
             {
-                var item = x as ApplianceViewModel;
-                if (item != null) Appliances.Remove(item);                       
+                var appliance = x as ApplianceViewModel;
+                if (appliance == null) return;
+                Appliances.Remove(appliance);
+                appliance.RemoveFromDatabase();
             });
 
             NewPackageSolution = new RelayCommand(x =>
@@ -111,12 +113,10 @@ namespace VVSAssistant.ViewModels
             this.PackageSolution.Name = dialogViewModel.Input;
         }
 
-
         private void PackageSolutionAppliances_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             NewPackageSolution.NotifyCanExecuteChanged();
             SaveDialog.NotifyCanExecuteChanged();
         }
-
     }
 }

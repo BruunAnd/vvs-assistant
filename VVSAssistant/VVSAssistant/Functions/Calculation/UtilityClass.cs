@@ -7,39 +7,34 @@ using System.Threading.Tasks;
 
 namespace VVSAssistant.Functions.Calculation
 {
-    public class WeightingBetweenPrimaryAndSecondaryChooser
+    public static class UtilityClass
     {
-        //below did not work
-
-        //public static Dictionary<float, float> PrimHeatPumpNoContainer = new Dictionary<float, float>()
-        //{
-        //    {0.0f, 1.0f }, {0.1f, 0.70f }, {0.2f, 0.45f }, {0.3f, 0.25f }, {0.4f, 0.15f }, {0.5f, 0.05f }, {0.6f, 0.02f }, {0.7f, 0.0f }
-        //};
-        //public static Dictionary<float, float> PrimHeatPumpWithContainer = new Dictionary<float, float>()
-        //{
-        //    {0.0f, 1.0f }, {0.1f, 0.63f }, {0.2f, 0.30f }, {0.3f, 0.15f }, {0.4f, 0.06f }, {0.5f, 0.02f }, {0.6f, 0.0f }, {0.7f, 0.0f }
-        //};
-
-        ////for later use with primary boiler.
-        //public static Dictionary<float, float> PrimBoilerNoContainer = new Dictionary<float, float>();
-        //public static Dictionary<float, float> PrimBoilerWithContainer = new Dictionary<float, float>();
 
         public static float[] resultsPrimHeat = new float[] { 0.0f, 0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f };
         public static float[] PrimHeatNoContainer = new float[] { 1.0f, 0.7f, 0.45f, 0.25f, 0.15f, 0.05f, 0.02f, 0.0f };
-        public static float[] PrimHeatWithContainer = new float[] { 1.0f, 0.63f, 0.30f, 0.15f, 0.06f, 0.02f, 0.00f, 0.0f };
+        public static float[] PrimHeatWithContainer = new float[] { 1.0f, 0.63f, 0.30f, 0.15f, 0.06f, 0.02f, 0.0f, 0.0f };
+        public static float[] PrimBoilNoContainer = new float[] { 0.30f, 0.35f, 0.55f, 0.75f, 0.85f, 0.95f, 0.98f, 1.0f };
+        public static float[] PrimBoilWithContainer = new float[] { 0.0f, 0.37f, 0.70f, 0.85f, 0.94f, 0.98f, 1.0f, 1.0f };
 
 
-        public float GetWeightingPrimHeat(float input, bool hasContainer)
+        public static float GetWeighting(float input, bool hasContainer, bool PrimIsHeatPump)
         {
             float[] Array;
 
             if(hasContainer == true)
             {
-                Array = PrimHeatWithContainer;
+                if (PrimIsHeatPump)
+                    Array = PrimHeatWithContainer;
+                else
+                    Array = PrimBoilWithContainer;
             }
             else
             {
-                Array = PrimHeatNoContainer;
+                if (PrimIsHeatPump)
+                    Array = PrimHeatNoContainer;
+                else
+                    Array = PrimBoilNoContainer;
+
             }
 
             float output = 0.0f;
@@ -48,7 +43,11 @@ namespace VVSAssistant.Functions.Calculation
 
             while (_outputFound == false)
             {
-                if (input < resultsPrimHeat[i])
+                if (input > 0.7f)
+                {
+                    output = Array[resultsPrimHeat.Length - 1];
+                }                                
+                else if (input < resultsPrimHeat[i])
                 {
                     i++;
                 }
@@ -66,10 +65,9 @@ namespace VVSAssistant.Functions.Calculation
             return output;
         }
 
-        private float LiniarInterpolation(float[] results, float[] IIvalues, int i, float input)
+        private static float LiniarInterpolation(float[] results, float[] IIvalues, int i, float input)
         {
             return IIvalues[i - 1] + (IIvalues[i] - IIvalues[i - 1]) / (results[i] - results[i - 1]) * (input - results[i - 1]);
         }
-
     }
 }
