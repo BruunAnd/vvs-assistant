@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using VVSAssistant.ViewModels.MVVM;
 using VVSAssistant.Exceptions;
 using VVSAssistant.Models;
@@ -29,8 +26,15 @@ namespace VVSAssistant.ViewModels
         {
             _offer = new OfferViewModel(new Offer());
 
-            CreateNewOffer = new RelayCommand(x => CreateOffer(), x => VerifyNeededInformation());
+            CreateNewOffer = new RelayCommand(x => CreateOffer()/*, x => VerifyNeededInformation()*/);
             _dialogCoordinator = coordinator;
+
+            /* Dialog test case */
+            _clients = new ObservableCollection<ClientViewModel>();
+            Client cli = new Client();
+            cli.ClientInformation.Name = "Anders Brams";
+            _clients.Add(new ClientViewModel(cli));
+
         }
 
         public ObservableCollection<PackagedSolutionViewModel> PackagedSolutions
@@ -51,7 +55,7 @@ namespace VVSAssistant.ViewModels
 
         public void CreateOffer()
         {
-            /* Call the exporter class, export the pdf. Save the pdf in the system. */
+            RunGenerateOfferDialog();
         }
 
         /// <summary>
@@ -103,12 +107,13 @@ namespace VVSAssistant.ViewModels
         public async void RunGenerateOfferDialog()
         {
             var customDialog = new CustomDialog();
-            var dialogViewModel = new GenerateOfferDialogViewModel(Offer, _dialogCoordinator, instance =>
+            var dialogViewModel = new GenerateOfferDialogViewModel(Offer, _clients, _dialogCoordinator, instance =>
             {
                 // Makes it possible to close the dialog.
                 _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
             });
             customDialog.Content = new GenerateOfferDialogView { DataContext = dialogViewModel };
+            // await _dialogCoordinator.ShowMessageAsync(this, "bla", "bla");
             await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
         }
     }

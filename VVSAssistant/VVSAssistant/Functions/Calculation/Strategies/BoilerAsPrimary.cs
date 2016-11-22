@@ -87,7 +87,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             var boilerData = heatpump?.DataSheet as HeatingUnitDataSheet;
             float relationship;
             if (heatpumpData != null && boilerData != null)
-                relationship = boilerData.WattUsage / (boilerData.WattUsage + heatpumpData.WattUsage);
+                relationship = heatpumpData.WattUsage / (boilerData.WattUsage + heatpumpData.WattUsage);
             else
                 return 0;
             II = UtilityClass.GetWeighting(relationship, container, false);

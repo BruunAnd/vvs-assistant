@@ -11,6 +11,5 @@ namespace VVSAssistant.Models
         public DateTime CreationDate { get; set; }
         public ApplianceTypes Type { get; set; }
         public virtual DataSheet DataSheet { get; set; }
-        public virtual ICollection<PackagedSolution> PackagedSolutions { get; set; }
     }
 }
