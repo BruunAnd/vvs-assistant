@@ -19,6 +19,8 @@ namespace VVSAssistant.ViewModels
         {
             get { return _packageSolution; }
         }
+
+        private IDialogCoordinator _dialogCoordinator;
         #endregion
 
         #region Command initializations
@@ -31,9 +33,11 @@ namespace VVSAssistant.ViewModels
         #endregion
 
         #region Collections
-        private readonly IDialogCoordinator _dialogCoordinator;
-
-        public ObservableCollection<ApplianceViewModel> Appliances { get; }
+        private ObservableCollection<ApplianceViewModel> _appliances = new ObservableCollection<ApplianceViewModel>();
+        public ObservableCollection<ApplianceViewModel> Appliances
+        {
+            get { return _appliances; }
+        }
 
         public FilterableListViewModel<ApplianceViewModel> FilterableApplianceList { get; private set; }
         #endregion
@@ -41,8 +45,6 @@ namespace VVSAssistant.ViewModels
         public CreatePackagedSolutionViewModel(IDialogCoordinator dialogCoordinator)
         {
             _dialogCoordinator = dialogCoordinator;
-            Appliances = new ObservableCollection<ApplianceViewModel>();
-
             // Load list of appliances from database
             using (var dbContext = new AssistantContext())
             {
@@ -82,31 +84,33 @@ namespace VVSAssistant.ViewModels
 
             NewPackageSolution = new RelayCommand(x =>
             {
-                if (this.PackageSolution.Appliances.Any()) this.PackageSolution.Appliances.Clear();
+                this.PackageSolution.Appliances.Clear();
             }, x => this.PackageSolution.Appliances.Any());
             
 
             SaveDialog = new RelayCommand(x =>
             {
-                RunCustomFromVm();
-            });
+                RunSaveDialog();
+            }, x => this.PackageSolution.Appliances.Any());
             #endregion
 
             this.PackageSolution.Appliances.CollectionChanged += PackageSolutionAppliances_CollectionChanged;
         }
 
-        private async void RunCustomFromVm()
+        private async void RunSaveDialog()
         {
             var customDialog = new CustomDialog();
 
-            var customDialogExampleContent = new SaveDialogViewModel("Gem pakkeløsning", "Navn:" ,instance =>
+            var dialogViewModel = new SaveDialogViewModel("Gem pakkeløsning", "Navn:", _dialogCoordinator, instance =>
             {
+                // Makes it possible to close the dialog.
                 _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
-                System.Diagnostics.Debug.WriteLine(instance.Input);
             });
-            customDialog.Content = new SaveDialogView { DataContext = customDialogExampleContent };
+            customDialog.Content = new SaveDialogView { DataContext = dialogViewModel };
 
             await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
+
+            this.PackageSolution.Name = dialogViewModel.Input;
         }
 
         private void PackageSolutionAppliances_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Threading;
 using VVSAssistant.ViewModels.MVVM;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace VVSAssistant.Controls.Dialogs.ViewModels
 {
     public class SaveDialogViewModel : ViewModelBase
     {
+        private IDialogCoordinator _dialogCoordinator;
+
         public RelayCommand CloseCommand { get; }
         public RelayCommand SaveCommand { get; }
         
@@ -23,14 +27,16 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             }
         }
 
-        public SaveDialogViewModel(string title, string message, Action<SaveDialogViewModel> closeHandler)
+        public SaveDialogViewModel(string title, string message, IDialogCoordinator dialogCoordinator, Action<SaveDialogViewModel> closeHandler)
         {
+            _dialogCoordinator = dialogCoordinator;
+
             Title = title;
             Message = message;
 
             SaveCommand = new RelayCommand(x =>
             {
-                closeHandler(this);
+                ConfirmSaveDialog(closeHandler);
             }, x => !string.IsNullOrEmpty(Input));
             
 
@@ -38,6 +44,12 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             {
                 closeHandler(this);
             });
+        }
+
+        private async void ConfirmSaveDialog(Action<SaveDialogViewModel> closeHandler)
+        {
+            await _dialogCoordinator.ShowMessageAsync(this, "Gemt", "Din pakkeløsning blev gemt under navnet " + Input);
+            closeHandler(this);
         }
     }
 }
