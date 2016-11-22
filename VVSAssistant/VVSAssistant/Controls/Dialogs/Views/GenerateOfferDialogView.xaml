@@ -7,47 +7,122 @@
              xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
              mc:Ignorable="d"
              MinHeight="175"
-             MinWidth="350"
+             MinWidth="600"
              Dialog:DialogParticipation.Register="{Binding}">
     <Grid Margin="0 10 0 0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" MinHeight="20" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
         <TextBlock Grid.Row="0"
                    Margin="0 5 0 0"
                    FontSize="24"
-                   Text="Print tilbud"
+                   Text="Generer tilbudsrapport"
                    TextWrapping="Wrap"/>
-        <Label Grid.Row="1" Content="Navn:"/>
+        
+        <StackPanel Orientation="Vertical"
+                    Grid.Row="1">
+            
+            <Label Content="Navn på tilbud:"/>
+            <TextBox Grid.Row="2" 
+                 Controls:TextBoxHelper.ClearTextButton="True"
+                 Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <Label Content="Indledning på følgebrev:"/>
+            <TextBox Grid.Row="4"
+                 Height="100"
+                 Text="{Binding Intro, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <Label Content="Afslutning på følgebrev:"/>
+            <TextBox Height="100"
+                     Text="{Binding Outro, UpdateSourceTrigger=PropertyChanged}"/>
+        </StackPanel>
+        <DockPanel Grid.Column="2" Grid.Row="1">
+            <DockPanel DockPanel.Dock="Top">
+                <StackPanel Orientation="Vertical">
+                    <Label Content="Navn på kunde:"/>
+                    <ComboBox IsTextSearchEnabled="True"
+                      ItemsSource="{Binding ClientName}"
+                      IsEditable="True"/>
+
+                    <Label Content="Adresse:"/>
+                    <TextBox Text="{Binding ClientAddress}" />
+
+                    <Label Content="Email:"/>
+                    <TextBox Text="{Binding ClientEmail}" />
+
+                    <Label Content="Telefon:"/>
+                    <TextBox Text="{Binding ClientPhone}" />
+                </StackPanel>
+            </DockPanel>
+            
+            <DockPanel DockPanel.Dock="Bottom">
+                <DockPanel DockPanel.Dock="Left">
+                    <CheckBox Margin="0 5 0 0"
+                              Content="Pris inkl. moms"
+                              IsChecked="{Binding ApplyTax}"/>
+
+                </DockPanel>
+                <DockPanel DockPanel.Dock="Right">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button x:Name="PART_AffirmativeButton"
+                    Height="35"
+                    Margin="0 0 5 0"
+                    Command="{Binding SaveCommand}"
+                    Content="Gem"/>
+                        <Button x:Name="PART_NegativeButton"
+                    Height="35"
+                    Command="{Binding CloseCommand}"
+                    Content="Fortryd"/>
+                    </StackPanel>
+                </DockPanel>
+            </DockPanel>
+        </DockPanel>
+        
+
+        <!--<Label Grid.Row="1" Content="Navn på tilbud:"/>
         <TextBox Grid.Row="2" 
                  Controls:TextBoxHelper.ClearTextButton="True"
-                 Margin="0 5 0 0"
                  Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"/>
+
+
+        <Label Grid.Row="1" Grid.Column="2" Content="Navn på kunde:" />
+        <ComboBox Grid.Row="2"
+                  Grid.Column="2"
+                  IsTextSearchEnabled="True"
+                  ItemsSource="{Binding ClientName}"
+                  IsEditable="True"
+                  />
+
+        <Label Grid.Row="3" Grid.Column="2" Content="Adresse:"/>
+        <TextBox Grid.Row="4" Grid.Column="2"/>
+
         <Label Grid.Row="3" Content="Indledning til følgebrev:"/>
         <TextBox Grid.Row="4"
-                 Margin="0 5 0 0"
                  Height="100"
                  Text="{Binding Intro, UpdateSourceTrigger=PropertyChanged}"/>
 
         <Label Grid.Row="5" Content="Afslutning på følgebrev:"/>
         <TextBox Grid.Row="6"
+                 Height="100"
+                 Text="{Binding Outro, UpdateSourceTrigger=PropertyChanged}"/>
+        
+
+        <Label Grid.Row="5"
+               Grid.Column="2"
+               Content="Afslutning på følgebrev:"/>
+        <TextBox Grid.Row="6"
+                 Grid.Column="2"
                  Margin="0 5 0 0"
                  Height="100"
                  Text="{Binding Outro, UpdateSourceTrigger=PropertyChanged}"/>
-        <CheckBox Grid.Row="7"
-                  Margin="0 5 0 0"
-                  Content="Pris inkl. moms"
-                  IsChecked="{Binding ApplyTax}"/>
-        
+
         <StackPanel Grid.Row="7"
                     Margin="0 5 0 0"
                     HorizontalAlignment="Right"
@@ -61,6 +136,6 @@
                     Height="35"
                     Command="{Binding CloseCommand}"
                     Content="Fortryd"/>
-        </StackPanel>
+        </StackPanel>-->
     </Grid>
 </UserControl>

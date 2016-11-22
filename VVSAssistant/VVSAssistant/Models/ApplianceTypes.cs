@@ -7,6 +7,7 @@ namespace VVSAssistant.Models
         TemperatureController = 3,
         SolarPanel = 4,
         Container = 5,
-        LowTempHeatPump = 6
+        LowTempHeatPump = 6,
+        CHP = 7
     }
 }
