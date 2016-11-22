@@ -45,7 +45,7 @@ namespace VVSAssistant
                 };
                 var offerInformation = new OfferInformation()
                 {
-                    Description = "Example description",
+                    Intro = "Example intro",
                     Price = 500
                 };
                 db.OfferInformation.Add(offerInformation);
