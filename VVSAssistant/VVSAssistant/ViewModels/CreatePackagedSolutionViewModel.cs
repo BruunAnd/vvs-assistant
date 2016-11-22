@@ -14,7 +14,6 @@ namespace VVSAssistant.ViewModels
     {
         #region Property initializations
         public PackagedSolutionViewModel PackagedSolution { get; } = new PackagedSolutionViewModel();
-
         private IDialogCoordinator _dialogCoordinator;
         #endregion
 
@@ -47,6 +46,7 @@ namespace VVSAssistant.ViewModels
             }
 
             #region Command declarations
+
             AddApplianceToPackageSolution = new RelayCommand(x => 
             {
                 var item = x as ApplianceViewModel;
@@ -59,12 +59,10 @@ namespace VVSAssistant.ViewModels
                 if (item != null) this.PackagedSolution.Appliances.Remove(item);
             });
 
-            /* EditAppliance = new RelayCommand(x =>
+            EditAppliance = new RelayCommand(x =>
              {
-                 var item = x as ApplianceViewModel;
-                 if (item != null)
+                 RunEditDialog();
              });
-             */
 
             RemoveAppliance = new RelayCommand(x =>
             {
@@ -93,24 +91,29 @@ namespace VVSAssistant.ViewModels
         {
             var customDialog = new CustomDialog();
 
-            var dialogViewModel = new SaveDialogViewModel("Gem pakkeløsning", "Navn:", _dialogCoordinator, instance =>
-            {
-                // Makes it possible to close the dialog.
-                _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
-            });
-            dialogViewModel.DialogFilled += SaveDialogFilled;
+            var dialogViewModel = new SaveDialogViewModel("Gem pakkeløsning", "Navn:",
+                instanceCancel => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
+                instanceCompleted =>
+                {
+                    _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
+                    PackagedSolution.Name = instanceCompleted.Input;
+                    PackagedSolution.SaveToDatabase();
+                }); 
+            
             customDialog.Content = new SaveDialogView { DataContext = dialogViewModel };
-
             await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
         }
 
-        private async void SaveDialogFilled(string input)
+        private async void RunEditDialog()
         {
-            PackagedSolution.Name = input;
-            PackagedSolution.SaveToDatabase();
-            await _dialogCoordinator.ShowMessageAsync(this, "Gemt", "Din pakkeløsning blev gemt under navnet " + input);
-        }
+            var customDialog = new CustomDialog();
 
+            var dialogViewModel = new EditApplianceViewModel(instanceCancel => _dialogCoordinator.HideMetroDialogAsync(this, customDialog), instanceCompleted => _dialogCoordinator.HideMetroDialogAsync(this, customDialog));
+
+            customDialog.Content = new EditApplianceView { DataContext = dialogViewModel };
+            await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
+        }
+        
         private void PackageSolutionAppliances_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             NewPackageSolution.NotifyCanExecuteChanged();

@@ -89,7 +89,8 @@
             <DataGrid Name="AppliancesDataGrid" Grid.Column="0"
                       Grid.Row="1" 
                       AutoGenerateColumns="False" 
-                      ItemsSource="{Binding FilterableApplianceList.Collection}">
+                      ItemsSource="{Binding FilterableApplianceList.Collection}"
+                      SelectedItem="{Binding SelectedAppliance}">
 
                 <DataGrid.ContextMenu>
                     <ContextMenu>

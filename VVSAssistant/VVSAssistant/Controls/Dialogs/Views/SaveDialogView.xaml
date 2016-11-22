@@ -17,7 +17,8 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0"
-                   Margin="0 5 0 0"
+                   Grid.ColumnSpan="99"
+                   Margin="0 5 0 5"
                    FontSize="24"
                    Text="{Binding Title}"
                    TextWrapping="Wrap"/>

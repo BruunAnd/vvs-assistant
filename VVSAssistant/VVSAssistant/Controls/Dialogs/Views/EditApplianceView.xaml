@@ -1,0 +1,83 @@
+﻿<UserControl x:Class="VVSAssistant.Controls.Dialogs.Views.EditApplianceView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+             mc:Ignorable="d"
+             Dialog:DialogParticipation.Register="{Binding}">
+    <Grid Margin="0 10 0 10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" MinHeight="20" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock
+                   Margin="0 5 0 5"
+                   FontSize="24"
+                   Text="Rediger komponent"
+                   TextWrapping="Wrap"/>
+        
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Orientation="Vertical">
+                <DockPanel>
+                    <Label Content="VVS nummer:"/>
+                    <TextBlock TextWrapping="Wrap" HorizontalAlignment="Right" Text="{Binding VVS}"/>
+                </DockPanel>
+                <DockPanel>
+                    <Label Content="Navn:"/>
+                    <TextBlock TextWrapping="Wrap" HorizontalAlignment="Right" Text="{Binding Name}"/>
+                </DockPanel>
+                <DockPanel>
+                    <Label Content="Type:"/>
+                    <TextBlock TextWrapping="Wrap" HorizontalAlignment="Right" Text="{Binding Type}"/>
+                </DockPanel>
+                <Label Content="Kostpris:"/>
+                <TextBox
+                Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+                <Label Content="Salgspris:"/>
+                <TextBox
+                Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+            
+            <StackPanel Orientation="Vertical" Grid.Column="2">
+
+                <Label Content="AFUE:"/>
+                    <TextBox
+                Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Label Content="Watt forbrug:"/>
+                    <TextBox
+                 Text="{Binding Type, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Label Content="Klassificering"/>
+                <TextBox Text="{Binding Outro, UpdateSourceTrigger=PropertyChanged}"/>
+                
+            </StackPanel>
+            
+        </Grid>
+        
+        <StackPanel Grid.Row="2" Orientation="Horizontal"
+                    HorizontalAlignment="Right" Margin="0 10 0 0">
+            <Button x:Name="PART_AffirmativeButton"
+                    Height="35"
+                    MinWidth="80"
+                    Margin="0 0 5 0"
+                    Command="{Binding SaveCommand}"
+                    Content="Gem"/>
+            <Button x:Name="PART_NegativeButton"
+                    Height="35"
+                    MinWidth="80"
+                    Margin="5 0 5 0"
+                    Command="{Binding CloseCommand}"
+                    Content="Fortryd"/>
+        </StackPanel>
+
+    </Grid>
+</UserControl>
