@@ -7,7 +7,7 @@ using VVSAssistant.Models;
 
 namespace VVSAssistant.Functions.Calculation.Strategies
 {
-    public class LowTempHeatPumpAsPrimary : IEEICalculation
+    class LowTempHeatPumpAsPrimary : IEEICalculation
     {
         public EEICalculationResult CalculateEEI(PackagedSolution PackagedSolutionForCalculation)
         {

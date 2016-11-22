@@ -1,4 +1,4 @@
-﻿<Page x:Class="VVSAssistant.Views.ExistingPackagedSolutionsView"
+﻿<UserControl x:Class="VVSAssistant.Views.ExistingPackagedSolutionsView"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -7,13 +7,12 @@
       xmlns:viewModels="clr-namespace:VVSAssistant.ViewModels"
       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
       mc:Ignorable="d" 
-      d:DesignHeight="600" d:DesignWidth="1080"
-      Title="ExistingPackagedSolutionsView">
-    <Page.DataContext>
-        <viewModels:ExistingPackagedSolutionsViewModel />
-    </Page.DataContext>
+      d:DesignHeight="600" d:DesignWidth="1080">
+    <UserControl.DataContext>
+        <viewModels:ExistingPackagedSolutionsViewModel/>
+    </UserControl.DataContext>
 
-    <Grid>
+    <Grid Background="White">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="*"/>
@@ -43,7 +42,8 @@
                     HorizontalAlignment="Left"
                     Height="32"
                     MinWidth="120"
-                    Content="Tilbage"/>
+                    Content="Tilbage"
+                    Command="{Binding ElementName=root, Path=DataContext.NavCommand}"/>
 
             <TextBox Controls:TextBoxHelper.ClearTextButton="True" 
                      Controls:TextBoxHelper.Watermark="Søg" 
@@ -73,4 +73,4 @@
             </DataGrid>
         </Grid>
     </Grid>
-</Page>
+</UserControl>

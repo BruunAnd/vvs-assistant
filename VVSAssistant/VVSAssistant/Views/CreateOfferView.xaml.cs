@@ -18,7 +18,7 @@ namespace VVSAssistant.Views
     /// <summary>
     /// Interaction logic for CreateOfferView.xaml
     /// </summary>
-    public partial class CreateOfferView : Page
+    public partial class CreateOfferView
     {
         public CreateOfferView()
         {

@@ -4,10 +4,95 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:VVSAssistant"
+    xmlns:views ="clr-namespace:VVSAssistant.Views"
+    xmlns:viewModels="clr-namespace:VVSAssistant.ViewModels"
     mc:Ignorable="d"     
+    x:Name="root"
     xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
     Title="MainWindow" MinHeight="600" MinWidth="1080" Height="600" Width="1080">
+    <Window.DataContext>
+        <viewModels:MainWindowViewModel/>
+    </Window.DataContext>
 
-    <Frame Width="Auto" Height="Auto" NavigationUIVisibility="Hidden" Name="Frame" Source="Views/ExistingPackagedSolutionsView.xaml"/>
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type viewModels:CreatePackagedSolutionViewModel}">
+            <views:CreatePackagedSolutionView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:ExistingPackagedSolutionsViewModel}">
+            <views:ExistingPackagedSolutionsView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:CreateOfferViewModel}">
+            <views:CreateOfferView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:ExistingOffersViewModel}">
+            <views:ExistingOffersView/>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <Grid>
+            <WrapPanel HorizontalAlignment="Center" 
+                   VerticalAlignment="Center">
+                <Controls:Tile 
+                       Command="{Binding NavCommand}"
+                       CommandParameter="CreatePackagedSolutionView"
+                       Title="Opret pakkeløsning" 
+                       Width="200" 
+                       Height="200">
+                    <Rectangle Width="64" 
+                           Height="64"
+                           Fill="{StaticResource IdealForegroundColorBrush}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Visual="{StaticResource appbar_layer_add}" Stretch="Fill" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Controls:Tile>
+                <Controls:Tile Title="Pakkeløsninger"
+                           Command="{Binding NavCommand}"
+                           CommandParameter="ExistingPackagedSolutionView"
+                           Width="200" 
+                           Height="200">
+                    <Rectangle Width="64" 
+                           Height="64"
+                           Fill="{StaticResource IdealForegroundColorBrush}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Visual="{StaticResource appbar_box_layered}" Stretch="Fill" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Controls:Tile>
+                <Controls:Tile 
+                       Command="{Binding NavCommand}"
+                       CommandParameter="CreateOfferView"
+                       Title="Opret tilbud" 
+                       Width="200" 
+                       Height="200">
+                    <Rectangle Width="64" 
+                           Height="64"
+                           Fill="{StaticResource IdealForegroundColorBrush}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Visual="{StaticResource appbar_money}" Stretch="Fill" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Controls:Tile>
+                <Controls:Tile 
+                       Command="{Binding NavCommand}"
+                       CommandParameter="ExistingOffersView"
+                       Title="Tilbud" 
+                       Width="200" 
+                       Height="200">
+                    <Rectangle Width="64" 
+                           Height="64"
+                           Fill="{StaticResource IdealForegroundColorBrush}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Visual="{StaticResource appbar_book_open_writing}" Stretch="Fill" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Controls:Tile>
+            </WrapPanel>
+
+        </Grid>
+        <Controls:TransitioningContentControl Content = "{Binding CurrentViewModel}"/>
+    </Grid>
+    
 
 </Controls:MetroWindow>
