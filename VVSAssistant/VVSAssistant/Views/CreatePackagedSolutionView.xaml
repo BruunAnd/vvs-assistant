@@ -7,12 +7,13 @@
     xmlns:local="clr-namespace:VVSAssistant.Views"
     xmlns:viewModels="clr-namespace:VVSAssistant.ViewModels"
     xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
     mc:Ignorable="d" 
     d:DesignHeight="600" d:DesignWidth="1080"
+    d:DataContext="{d:DesignInstance viewModels:CreatePackagedSolutionViewModel}"
+    Dialog:DialogParticipation.Register="{Binding}"
 >
-    <ContentControl.DataContext>
-        <viewModels:CreatePackagedSolutionViewModel/>
-    </ContentControl.DataContext>
+
 
     <Grid Background="White">
         <Grid.ColumnDefinitions>
@@ -82,7 +83,7 @@
                       AutoGenerateColumns="False" 
                       Grid.ColumnSpan="2" 
                       ItemsSource="{Binding FilterableApplianceList.Collection}">
-                
+
                 <DataGrid.InputBindings>
                     <MouseBinding MouseAction="LeftDoubleClick"
                                   Command="{Binding AddApplianceToPackageSolution}"
@@ -94,16 +95,16 @@
                                   Command="{Binding RemoveAppliance}"
                                   CommandParameter="{Binding SelectedItem, ElementName=AppliancesDataGrid}"/>
                 </DataGrid.InputBindings>
-                
+
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Name}" 
                                         Header="Navn" 
                                         Width="2*"/>
-                    
+
                     <DataGridTextColumn Binding="{Binding Type}" 
                                         Header="Type" 
                                         Width="2*"/>
-                    
+
                     <DataGridTextColumn Binding="{Binding Description}"  
                                         Header="Beskrivelse" 
                                         Width="3*"/>
@@ -140,7 +141,7 @@
                                         Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
-            
+
             <StackPanel Grid.Row="3" 
                         Orientation="Vertical" 
                         VerticalAlignment="Bottom">
@@ -159,9 +160,10 @@
                         Content="Ny pakkeløsning"
                         Command="{Binding NewPackageSolution}"
                         />
-                
+
                 <Button Margin="0 5 0 0" 
-                        Content="Gem pakkeløsning"/>
+                        Content="Gem pakkeløsning"
+                        Command="{Binding SaveDialog}"/>
                 <Button Margin="0 5 0 0" 
                         Content="Print pakkelabel"/>
             </StackPanel>

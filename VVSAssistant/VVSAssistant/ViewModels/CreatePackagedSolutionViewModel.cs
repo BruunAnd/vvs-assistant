@@ -1,36 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Collections.Specialized;
-using VVSAssistant.ViewModels.MVVM;
+using MahApps.Metro.Controls.Dialogs;
 using VVSAssistant.Database;
-using System.Windows.Data;
-using VVSAssistant.ViewModels.Interfaces;
-using VVSAssistant.Models;
+using VVSAssistant.ViewModels.MVVM;
+using VVSAssistant.Controls.Dialogs.ViewModels;
+using VVSAssistant.Controls.Dialogs.Views;
 
 namespace VVSAssistant.ViewModels
 {
     class CreatePackagedSolutionViewModel : ViewModelBase
     {
+        #region Property initializations
+
+        private PackagedSolutionViewModel _packageSolution = new PackagedSolutionViewModel();
+        public PackagedSolutionViewModel PackageSolution
+        {
+            get { return _packageSolution; }
+        }
+        #endregion
+
         #region Command initializations
         public RelayCommand AddApplianceToPackageSolution { get; }
         public RelayCommand RemoveApplianceFromPackageSolution { get; }
         public RelayCommand EditAppliance { get; }
         public RelayCommand RemoveAppliance { get; }
         public RelayCommand NewPackageSolution { get; }
+        public RelayCommand SaveDialog { get; }
         #endregion
 
         #region Collections
-        private PackagedSolutionViewModel _packageSolution = new PackagedSolutionViewModel();
-        public PackagedSolutionViewModel PackageSolution
-        {
-            get { return _packageSolution; }
-        }
-
+        private IDialogCoordinator _dialogCoordinator;
         private ObservableCollection<ApplianceViewModel> _appliances = new ObservableCollection<ApplianceViewModel>();
         public ObservableCollection<ApplianceViewModel> Appliances
         {
@@ -40,8 +41,9 @@ namespace VVSAssistant.ViewModels
         public FilterableListViewModel<ApplianceViewModel> FilterableApplianceList { get; private set; }
         #endregion
 
-        public CreatePackagedSolutionViewModel()
+        public CreatePackagedSolutionViewModel(IDialogCoordinator dialogCoordinator)
         {
+            _dialogCoordinator = dialogCoordinator;
             // Load list of appliances from database
             using (var dbContext = new AssistantContext())
             {
@@ -84,14 +86,37 @@ namespace VVSAssistant.ViewModels
             {
                 if (this.PackageSolution.Appliances.Any()) this.PackageSolution.Appliances.Clear();
             }, x => this.PackageSolution.Appliances.Any());
-            this.PackageSolution.Appliances.CollectionChanged += PackageSolutionAppliances_CollectionChanged;
+            
 
+            SaveDialog = new RelayCommand(x =>
+            {
+                RunCustomFromVm();
+            });
             #endregion
+
+            this.PackageSolution.Appliances.CollectionChanged += PackageSolutionAppliances_CollectionChanged;
         }
+
+        private async void RunCustomFromVm()
+        {
+            var customDialog = new CustomDialog();
+
+            var customDialogExampleContent = new SaveDialogViewModel("Gem pakkeløsning", "Navn:" ,instance =>
+            {
+                _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
+                System.Diagnostics.Debug.WriteLine(instance.Input);
+            });
+            customDialog.Content = new SaveDialogView { DataContext = customDialogExampleContent };
+
+            await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
+        }
+
 
         private void PackageSolutionAppliances_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             NewPackageSolution.NotifyCanExecuteChanged();
+            SaveDialog.NotifyCanExecuteChanged();
         }
+
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VVSAssistant.ViewModels.MVVM;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace VVSAssistant.ViewModels
 {
@@ -20,7 +21,7 @@ namespace VVSAssistant.ViewModels
         }
         
         private ExistingPackagedSolutionsViewModel _existingPackagedSolutionViewModel = new ExistingPackagedSolutionsViewModel();
-        private CreatePackagedSolutionViewModel _createPackagedSolutionViewModel = new CreatePackagedSolutionViewModel();
+        private CreatePackagedSolutionViewModel _createPackagedSolutionViewModel = new CreatePackagedSolutionViewModel(new DialogCoordinator());
         private ExistingOffersViewModel _existingOffersViewModel = new ExistingOffersViewModel();
         private CreateOfferViewModel _createOfferViewModel = new CreateOfferViewModel();
 
