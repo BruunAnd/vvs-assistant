@@ -8,49 +8,78 @@ using System.Reflection;
 using MahApps.Metro.Controls.Dialogs;
 using VVSAssistant.Controls.Dialogs.ViewModels;
 using VVSAssistant.Controls.Dialogs.Views;
-
+using VVSAssistant.Database;
+using System.Linq;
+using System.Windows;
+using System.Windows.Input;
 
 namespace VVSAssistant.ViewModels
 {
     class CreateOfferViewModel : ViewModelBase
     {
         public RelayCommand CreateNewOffer { get; }
-
-        /* Packaged solutions on list */ 
-        private ObservableCollection<PackagedSolutionViewModel> _packagedSolutions;
+        public RelayCommand SolutionDoubleClicked { get; }
+        public ObservableCollection<PackagedSolutionViewModel> PackagedSolutions { get; }
         private ObservableCollection<ClientViewModel> _clients;
         private OfferViewModel _offer;
+        private PackagedSolutionViewModel _selectedPackagedSolution;
         private IDialogCoordinator _dialogCoordinator;
+        private bool isComponentTabVisible;
+        private bool arePackagedSolutionsVisible;
 
         public CreateOfferViewModel(IDialogCoordinator coordinator)
         {
             _offer = new OfferViewModel(new Offer());
-
-            CreateNewOffer = new RelayCommand(x => CreateOffer()/*, x => VerifyNeededInformation()*/);
             _dialogCoordinator = coordinator;
 
-            /* Dialog test case */
-            _clients = new ObservableCollection<ClientViewModel>();
-            Client cli = new Client();
-            cli.ClientInformation.Name = "Anders Brams";
-            _clients.Add(new ClientViewModel(cli));
+            CreateNewOffer = new RelayCommand(x => CreateOffer()/*, x => VerifyNeededInformation()*/);
 
-        }
-
-        public ObservableCollection<PackagedSolutionViewModel> PackagedSolutions
-        {
-            get { return _packagedSolutions; }
-            set
+            SolutionDoubleClicked = new RelayCommand(x => 
             {
-                _packagedSolutions = value;
-                OnPropertyChanged();
+                IsComponentTabVisible = true;
+                ArePackagedSolutionsVisible = false;
+            });
+
+            PackagedSolutions = new ObservableCollection<PackagedSolutionViewModel>();
+            // Load list of packaged solutions from database
+            using (var dbContext = new AssistantContext())
+            {
+                // Transform list of PackagedSolution to a list of PackagedSolutionViewModel
+                dbContext.PackagedSolutions.ToList().ForEach(p => PackagedSolutions.Add(new PackagedSolutionViewModel(p)));
             }
+
+            IsComponentTabVisible = false;
+            arePackagedSolutionsVisible = true;
         }
 
         public OfferViewModel Offer
         {
             get { return _offer; }
             set { _offer = value; }
+        }
+
+        public ObservableCollection<ApplianceViewModel> SelectedAppliances
+        {
+            get { return SelectedPackagedSolution.Appliances; }
+            set { SelectedPackagedSolution.Appliances = value; OnPropertyChanged(); }
+        }
+
+        public bool IsComponentTabVisible
+        {
+            get { return isComponentTabVisible; }
+            set { isComponentTabVisible = value; OnPropertyChanged(); }
+        }
+
+        public bool ArePackagedSolutionsVisible
+        {
+            get { return arePackagedSolutionsVisible; }
+            set { arePackagedSolutionsVisible = value;  OnPropertyChanged(); }
+        }
+
+        public PackagedSolutionViewModel SelectedPackagedSolution
+        {
+            get { return Offer.PackagedSolution; }
+            set { Offer.PackagedSolution = value;  OnPropertyChanged(); }
         }
 
         public void CreateOffer()
