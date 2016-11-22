@@ -9,6 +9,7 @@ namespace VVSAssistant.Models
         public Client()
         {
             Offers = new List<Offer>();
+            ClientInformation = new ClientInformation();
         }
 
         public int Id { get; set; }

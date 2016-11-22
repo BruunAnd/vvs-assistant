@@ -150,7 +150,7 @@
                       Grid.Row="1" 
                       IsReadOnly="true" 
                       AutoGenerateColumns="False" 
-                      ItemsSource="{Binding PackageSolution.Appliances}">
+                      ItemsSource="{Binding PackagedSolution.Appliances}">
                 <DataGrid.InputBindings>
                     <MouseBinding MouseAction="LeftDoubleClick"
                                   Command="{Binding RemoveApplianceFromPackageSolution}"

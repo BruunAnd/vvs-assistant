@@ -9,35 +9,36 @@ using VVSAssistant.ViewModels.MVVM;
 
 namespace VVSAssistant.ViewModels
 {
-    class ApplianceViewModel : ViewModelBase, IFilterable
+    public class ApplianceViewModel : ViewModelBase, IFilterable
     {
-        private readonly Appliance _appliance;
+        public readonly Appliance Model;
+
         private DataSheetViewModel _dataSheet;
 
-        public ApplianceViewModel(Appliance appliance)
+        public ApplianceViewModel(Appliance model)
         {
-            _appliance = appliance;
-            _dataSheet = new DataSheetViewModel(appliance.DataSheet);
+            Model = model;
+            _dataSheet = new DataSheetViewModel(model.DataSheet);
         }
 
         public string Name
         {
-            get { return _appliance.Name; }
+            get { return Model.Name; }
             set
             {
-                if (_appliance.Name == value) return;
-                _appliance.Name = value;
+                if (Model.Name == value) return;
+                Model.Name = value;
                 OnPropertyChanged();
             }
         }
 
         public ApplianceTypes Type
         {
-            get { return _appliance.Type; }
+            get { return Model.Type; }
             set
             {
-                if (_appliance.Type == value) return;
-                _appliance.Type = value;
+                if (Model.Type == value) return;
+                Model.Type = value;
                 OnPropertyChanged();
             }
         }
@@ -70,7 +71,7 @@ namespace VVSAssistant.ViewModels
         {
             using (var dbContext = new AssistantContext())
             {
-                var applianceEntity = dbContext.Appliances.SingleOrDefault(x => x.Id == _appliance.Id);
+                var applianceEntity = dbContext.Appliances.SingleOrDefault(x => x.Id == Model.Id);
                 if (applianceEntity == null) return;
                 dbContext.Appliances.Remove(applianceEntity);
                 dbContext.SaveChanges();
@@ -81,7 +82,7 @@ namespace VVSAssistant.ViewModels
         {
             using (var dbContext = new AssistantContext())
             {
-                dbContext.Appliances.AddOrUpdate(_appliance);
+                dbContext.Appliances.AddOrUpdate(Model);
                 dbContext.SaveChanges();
             }
         }

@@ -57,6 +57,17 @@ namespace VVSAssistant.Functions.Calculation.Strategies
         // Calculates the Qnonsol (annual non-solar contribution)
         internal float SolCalMethodQnonsol(WaterHeatingUnitDataSheet data)
         {
+            // Average global solar irradiance in W/m2
+            float QsolMtm = 342.0f;
+            // Aggreated koefficients
+            float Ytm, Xtm;
+
+            return 0.0f;
+        }
+
+        // Solar panel plants and conventional water heaters
+        internal float SolicsMethode(WaterHeatingUnitDataSheet data)
+        {
             return 0.0f;
         }
     }
