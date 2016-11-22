@@ -22,33 +22,33 @@ namespace VVSAssistant.Tests.ViewModelTests
         [SetUp]
         public void Setup()
         {
-            testModel = new CreateOfferViewModel();
+            //testModel = new CreateOfferViewModel();
 
-            /* Client Setup */
-            _testClient = new ClientViewModel(new Client());
-            _testClient.ClientInformation.Address = "test";
-            _testClient.ClientInformation.Name = "test";
-            _testClient.ClientInformation.Email = "test";
-            _testClient.ClientInformation.PhoneNumber = "test";
-            _testClient.Offers = new System.Collections.ObjectModel.ObservableCollection<OfferViewModel>();
-            _testClient.CreationDate = DateTime.Now;
-            _testClient.Id = 1;
+            ///* Client Setup */
+            //_testClient = new ClientViewModel(new Client());
+            //_testClient.ClientInformation.Address = "test";
+            //_testClient.ClientInformation.Name = "test";
+            //_testClient.ClientInformation.Email = "test";
+            //_testClient.ClientInformation.PhoneNumber = "test";
+            //_testClient.Offers = new System.Collections.ObjectModel.ObservableCollection<OfferViewModel>();
+            //_testClient.CreationDate = DateTime.Now;
+            //_testClient.Id = 1;
 
-            /* Appliance 1 setup */
-            _testAppliance1 = new ApplianceViewModel(new Appliance());
-            _testAppliance1.Name = "test";
-            _testAppliance1.Type = ApplianceTypes.Container;
+            ///* Appliance 1 setup */
+            //_testAppliance1 = new ApplianceViewModel(new Appliance());
+            //_testAppliance1.Name = "test";
+            //_testAppliance1.Type = ApplianceTypes.Container;
 
-            /* Appliance 2 setup */
-            _testAppliance2 = new ApplianceViewModel(new Appliance());
-            _testAppliance1.Name = "test";
-            _testAppliance1.Type = ApplianceTypes.Boiler;
+            ///* Appliance 2 setup */
+            //_testAppliance2 = new ApplianceViewModel(new Appliance());
+            //_testAppliance1.Name = "test";
+            //_testAppliance1.Type = ApplianceTypes.Boiler;
 
-            /* Packaged solution setup */
-            _testPackSol = new PackagedSolutionViewModel(new PackagedSolution());
-            _testPackSol.Appliances.Add(_testAppliance1);
-            _testPackSol.Appliances.Add(_testAppliance2);
-            _testPackSol.Name = "test";
+            ///* Packaged solution setup */
+            //_testPackSol = new PackagedSolutionViewModel(new PackagedSolution());
+            //_testPackSol.Appliances.Add(_testAppliance1);
+            //_testPackSol.Appliances.Add(_testAppliance2);
+            //_testPackSol.Name = "test";
         }
 
         [Test]
