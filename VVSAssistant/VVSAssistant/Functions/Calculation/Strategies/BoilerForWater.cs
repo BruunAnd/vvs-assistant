@@ -22,9 +22,30 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             var data = Package.PrimaryHeatingUnit.DataSheet as WaterHeatingUnitDataSheet;
             result.WaterHeatingUseProfile = data.UseProfile;
             result.WaterHeatingEffciency = data.WaterHeatingEffiency;
-            result.SolarHeatContribution = (1.1f * result.WaterHeatingEffciency - 10.0f) * 666 - 333 - result.WaterHeatingEffciency;
-            
+            var Qref = _Qref[result.WaterHeatingUseProfile];
+            int parameterTwo = (int)(220 - Qref);
+            int parameterThree = (int)((_Qaux * 2.5) / (220 * Qref)); 
+            result.SolarHeatContribution = (1.1f * result.WaterHeatingEffciency - 10.0f) * parameterTwo - parameterThree - result.WaterHeatingEffciency;
+
+            result.EEI = result.SolarHeatContribution + result.WaterHeatingEffciency;
+
+            result.PackagedSolutionAtColdTemperaturesAFUE = result.EEI - 0.2f * result.SolarHeatContribution;
+            result.PackagedSolutionAtWarmTemperaturesAFUE = result.EEI + 0.4f * result.SolarHeatContribution;
+
             throw new NotImplementedException();
+        }
+        private int _Qaux;
+        private int _Qnonsol;
+
+        private Dictionary<UseProfileType, float> _Qref = new Dictionary<UseProfileType, float>()
+        {
+            {UseProfileType.M, 5.845f}, {UseProfileType.L, 11.655f}, {UseProfileType.XL, 19.070f}, {UseProfileType.XXL, 24.530f}
+        };
+        
+        // Calculates the Qaux (auxiliary electricity consumption) and Qnonsol (annual non-solar contribution)
+        private void SolCalMethod(WaterHeatingUnitDataSheet data)
+        {
+
         }
     }
 }

@@ -6,7 +6,7 @@ namespace VVSAssistant.Models
         Boiler = 2,
         TemperatureController = 3,
         SolarPanel = 4,
-        Collector = 5,
+        Container = 5,
         LowTempHeatPump = 6
     }
 }
