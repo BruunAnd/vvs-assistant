@@ -21,21 +21,12 @@ namespace VVSAssistant.Functions.Calculation
         {
             var primaryType = package.PrimaryHeatingUnit.Type;
 
-            bool ContainsSolarPanel = package.Appliances.SingleOrDefault(solarPanel =>
-                                       solarPanel.Type == ApplianceTypes.SolarPanel) != null;
-
-            bool DoesNotContainsOtherTypes = package.Appliances.FirstOrDefault(item => 
-                                       item.Type != ApplianceTypes.SolarPanel &&
-                                       item != package.PrimaryHeatingUnit) == null;
-
-            bool OnlyContainsSolarPanels = ContainsSolarPanel && DoesNotContainsOtherTypes;
-
             switch (package.PrimaryHeatingUnit.Type)
             {
                 case ApplianceTypes.Heatpump:
                     return new HeatPumpAsPrimary();
                 case ApplianceTypes.Boiler:
-                    if (primaryType == ApplianceTypes.Boiler && OnlyContainsSolarPanels)
+                    if (IsBoilerForWater(package))
                         return new BoilerForWater();
                     else
                         return new BoilerAsPrimary();
@@ -49,6 +40,22 @@ namespace VVSAssistant.Functions.Calculation
                 default:
                     return null;
             }
+        }
+        private bool IsBoilerForWater(PackagedSolution package)
+        {
+            var primaryType = package.PrimaryHeatingUnit.Type;
+
+            bool ContainsSolarPanel = package.Appliances.SingleOrDefault(solarPanel =>
+                                       solarPanel.Type == ApplianceTypes.SolarPanel) != null;
+
+            bool DoesNotContainsOtherTypes = package.Appliances.FirstOrDefault(item =>
+                                       item.Type != ApplianceTypes.SolarPanel &&
+                                       item != package.PrimaryHeatingUnit && 
+                                       item.Type != ApplianceTypes.Container) == null;
+
+            bool OnlyContainsSolarPanels = ContainsSolarPanel && DoesNotContainsOtherTypes;
+
+            return primaryType == ApplianceTypes.Boiler && OnlyContainsSolarPanels;
         } 
     }
 }

@@ -20,32 +20,44 @@ namespace VVSAssistant.Functions.Calculation.Strategies
         {
             var result = new EEICalculationResult();
             var data = Package.PrimaryHeatingUnit.DataSheet as WaterHeatingUnitDataSheet;
+
             result.WaterHeatingUseProfile = data.UseProfile;
             result.WaterHeatingEffciency = data.WaterHeatingEffiency;
             var Qref = _Qref[result.WaterHeatingUseProfile];
-            int parameterTwo = (int)(220 - Qref);
-            int parameterThree = (int)((_Qaux * 2.5) / (220 * Qref)); 
-            result.SolarHeatContribution = (1.1f * result.WaterHeatingEffciency - 10.0f) * parameterTwo - parameterThree - result.WaterHeatingEffciency;
+            float Qaux = SolCalMethodQaux(data);
+            float Qnonsol = SolCalMethodQnonsol(data);
 
-            result.EEI = result.SolarHeatContribution + result.WaterHeatingEffciency;
+            float parameterOne = result.WaterHeatingEffciency;
+            float parameterTwo = (220 - Qref);
+            float parameterThree = (float)((Qaux * 2.5) / (220 * Qref)); 
+            result.SolarHeatContribution = (1.1f * result.WaterHeatingEffciency - 10.0f) * parameterTwo - parameterThree - parameterOne;
+
+            result.EEI = result.SolarHeatContribution + parameterOne;
 
             result.PackagedSolutionAtColdTemperaturesAFUE = result.EEI - 0.2f * result.SolarHeatContribution;
             result.PackagedSolutionAtWarmTemperaturesAFUE = result.EEI + 0.4f * result.SolarHeatContribution;
 
-            throw new NotImplementedException();
+            result.CalculationType = this;
+
+            return result;
         }
-        private int _Qaux;
-        private int _Qnonsol;
 
         private Dictionary<UseProfileType, float> _Qref = new Dictionary<UseProfileType, float>()
         {
             {UseProfileType.M, 5.845f}, {UseProfileType.L, 11.655f}, {UseProfileType.XL, 19.070f}, {UseProfileType.XXL, 24.530f}
         };
         
-        // Calculates the Qaux (auxiliary electricity consumption) and Qnonsol (annual non-solar contribution)
-        private void SolCalMethod(WaterHeatingUnitDataSheet data)
+        // Calculates the Qaux (auxiliary electricity consumption)
+        internal float SolCalMethodQaux(WaterHeatingUnitDataSheet data)
         {
+            // 2000 active solar hours 
+            return (float)Math.Ceiling(((data.SolPumpConsumption * 2000) + (data.SolStandbyConsumption * 24 * 365)) / 1000);
+        }
 
+        // Calculates the Qnonsol (annual non-solar contribution)
+        internal float SolCalMethodQnonsol(WaterHeatingUnitDataSheet data)
+        {
+            return 0.0f;
         }
     }
 }
