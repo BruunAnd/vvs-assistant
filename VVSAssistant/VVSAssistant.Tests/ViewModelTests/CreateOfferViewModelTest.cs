@@ -37,7 +37,7 @@ namespace VVSAssistant.Tests.ViewModelTests
             /* Appliance 1 setup */
             _testAppliance1 = new ApplianceViewModel(new Appliance());
             _testAppliance1.Name = "test";
-            _testAppliance1.Type = ApplianceTypes.Collector;
+            _testAppliance1.Type = ApplianceTypes.Container;
 
             /* Appliance 2 setup */
             _testAppliance2 = new ApplianceViewModel(new Appliance());
@@ -88,6 +88,7 @@ namespace VVSAssistant.Tests.ViewModelTests
             offer.Materials.Add(new MaterialViewModel(new Material()));
             offer.Salaries.Add(new SalaryViewModel(new Salary()));
 
+            testModel.Offer = offer;
             Assert.IsTrue(testModel.VerifyNeededInformation());
 
         }

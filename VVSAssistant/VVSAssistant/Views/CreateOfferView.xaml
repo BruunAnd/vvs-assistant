@@ -50,7 +50,8 @@
         <Grid Grid.Column="1"
               Grid.Row="2">
 
-            <DataGrid AutoGenerateColumns="False" DataContext="{Binding }">
+            <!-- Packaged solution -->
+                <DataGrid AutoGenerateColumns="False" DataContext="{Binding PackagedSolutions}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding ID}"
                                         Header="#"

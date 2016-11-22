@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using VVSAssistant.Models;
@@ -13,9 +14,10 @@ namespace VVSAssistant.ViewModels
     class ClientViewModel : ViewModelBase
     {
         private readonly Client _client;
-
+        
         private ClientInformationViewModel _clientInformation;
         private ObservableCollection<OfferViewModel> _offers;
+        public bool hasInformation = false;
 
         public ClientViewModel(Client client)
         {
@@ -63,5 +65,25 @@ namespace VVSAssistant.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        public void VerifyRequiredInformation()
+        {
+            VerifyProperties(_client);
+            VerifyProperties(ClientInformation);
+        }
+
+        private void VerifyProperties(object obj)
+        {
+            foreach (PropertyInfo pi in obj.GetType().GetProperties())
+            {
+                if (string.IsNullOrEmpty(pi.GetValue(obj).ToString()))
+                {
+                    hasInformation = false;
+                    return;
+                }
+            }
+            hasInformation = true;
+        }
+
     }
 }

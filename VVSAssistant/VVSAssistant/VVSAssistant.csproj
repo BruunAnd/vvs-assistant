@@ -126,6 +126,7 @@
     <Compile Include="Functions\Calculation\Interfaces\ICalculationChooser.cs" />
     <Compile Include="Functions\Calculation\Strategies\LowTempHeatPumpAsPrimary.cs" />
     <Compile Include="Functions\Calculation\WeightingBetweenPrimaryAndSecondaryChooser.cs" />
+    <Compile Include="Functions\Exporter.cs" />
     <Compile Include="Models\Appliance.cs" />
     <Compile Include="Models\ApplianceTypes.cs" />
     <Compile Include="Models\Client.cs" />

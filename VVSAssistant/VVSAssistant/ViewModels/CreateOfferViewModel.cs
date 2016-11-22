@@ -40,6 +40,7 @@ namespace VVSAssistant.ViewModels
         public OfferViewModel Offer
         {
             get { return _offer; }
+            set { _offer = value; }
         }
 
         public void CreateOffer()
@@ -55,7 +56,7 @@ namespace VVSAssistant.ViewModels
         {
             //TODO: Fix this method. Doesn't work for some reason, don't know why. 
             /* Fetch all properties */
-            foreach (PropertyInfo pi in objectToCheck.GetType().GetProperties(BindingFlags.GetProperty))
+            foreach (PropertyInfo pi in objectToCheck.GetType().GetProperties())
             {
                 string value = (string) pi.GetValue(objectToCheck);
                 if (string.IsNullOrEmpty(value))
@@ -70,11 +71,25 @@ namespace VVSAssistant.ViewModels
         /// Returns true if both Client and Packaged Solution has a name
         /// </summary>
         /// <returns></returns>
+        public bool VerifyNeededInformationDeprecated()
+        {
+            if (IsPropertyNullOrEmpty(Offer.Client.ClientInformation) ||
+                IsPropertyNullOrEmpty(Offer.Client)                   ||
+                IsPropertyNullOrEmpty(Offer.PackagedSolution)         ||
+                IsPropertyNullOrEmpty(Offer))
+                return false;
+            else
+                return true;
+        }
+
         public bool VerifyNeededInformation()
         {
-            if (string.IsNullOrEmpty(Offer.Client.ClientInformation.Name) ||
-                string.IsNullOrEmpty(Offer.PackagedSolution.Name))
+            if (Offer.Client.ClientInformation.Name == null ||
+                Offer.PackagedSolution.Name         == null ||
+                Offer.OfferInformation              == null )
+            {
                 return false;
+            }
             else
                 return true;
         }
