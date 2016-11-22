@@ -28,6 +28,13 @@ namespace VVSAssistant.ViewModels
 
             CreateNewOffer = new RelayCommand(x => CreateOffer()/*, x => VerifyNeededInformation()*/);
             _dialogCoordinator = coordinator;
+
+            /* Dialog test case */
+            _clients = new ObservableCollection<ClientViewModel>();
+            Client cli = new Client();
+            cli.ClientInformation.Name = "Anders Brams";
+            _clients.Add(new ClientViewModel(cli));
+
         }
 
         public ObservableCollection<PackagedSolutionViewModel> PackagedSolutions
@@ -100,7 +107,7 @@ namespace VVSAssistant.ViewModels
         public async void RunGenerateOfferDialog()
         {
             var customDialog = new CustomDialog();
-            var dialogViewModel = new GenerateOfferDialogViewModel(Offer, _dialogCoordinator, instance =>
+            var dialogViewModel = new GenerateOfferDialogViewModel(Offer, _clients, _dialogCoordinator, instance =>
             {
                 // Makes it possible to close the dialog.
                 _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
