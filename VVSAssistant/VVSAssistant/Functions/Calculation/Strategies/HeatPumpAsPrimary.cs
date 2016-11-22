@@ -10,13 +10,13 @@ namespace VVSAssistant.Functions.Calculation.Strategies
 {
     class HeatPumpAsPrimary : IEEICalculation
     {
-        WeightingBetweenPrimaryAndSecondaryChooser WeightChooser = new WeightingBetweenPrimaryAndSecondaryChooser();
         EEICalculationResult Results;
         private HeatingUnitDataSheet PrimaryUnit;
         private HeatingUnitDataSheet SecondaryBoiler;
         private float _effectOfTemperatureRegulator;
         private float II;
         private float _effectOfSecBoiler;
+        private bool _hasContainerForSec;
 
         public EEICalculationResult CalculateEEI(PackagedSolution PackagedSolution)
         {
@@ -45,13 +45,9 @@ namespace VVSAssistant.Functions.Calculation.Strategies
 
             IEnumerable<Appliance> Containers = PackagedSolution.Appliances.Where(Container => Container.Type == ApplianceTypes.Container);
             if (Containers.Count() > Solars.Count())
-            {
-                II = WeightChooser.GetWeightingPrimHeat(heatingUnitRelationship, true);
-            }
-            else
-            {
-                II = WeightChooser.GetWeightingPrimHeat(heatingUnitRelationship, false);
-            }
+                _hasContainerForSec = true;
+
+            II = UtilityClass.GetWeighting(heatingUnitRelationship, _hasContainerForSec, true);
 
             _effectOfSecBoiler = (SecondaryBoiler.AFUE - PrimaryUnit.AFUE) * II;
             Results.EffectOfSecondaryBoiler = _effectOfSecBoiler;
