@@ -27,9 +27,8 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests
         [Test]
         [TestCase(ApplianceTypes.Boiler, null, typeof(BoilerAsPrimary))]
         [TestCase(ApplianceTypes.Heatpump, null, typeof(HeatPumpAsPrimary))]
-        [TestCase(ApplianceTypes.LowTempHeatPump, null, typeof(LowTempHeatPumpAsPrimary))]
+        [TestCase(ApplianceTypes.LowTempHeatPump, null, typeof(HeatPumpAsPrimary))]
         [TestCase(ApplianceTypes.Boiler, ApplianceTypes.SolarPanel, typeof(BoilerForWater))]
-        [TestCase(null, ApplianceTypes.Boiler, typeof(CHPStrategy))]
         public void SelectCalculationStrategy_SelectsCorrectStrategy(ApplianceTypes type,
             ApplianceTypes secondApplianceType, Type EEICalculation)
         {
