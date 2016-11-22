@@ -109,6 +109,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\Dialogs\ViewModels\GenerateOfferDialogViewModel.cs" />
+    <Compile Include="Controls\Dialogs\Views\GenerateOfferDialogView.xaml.cs">
+      <DependentUpon>GenerateOfferDialogView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Dialogs\Views\SaveDialogView.xaml.cs">
       <DependentUpon>SaveDialogView.xaml</DependentUpon>
     </Compile>
@@ -180,6 +184,10 @@
     <Compile Include="Views\CreatePackagedSolutionView.xaml.cs">
       <DependentUpon>CreatePackagedSolutionView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Controls\Dialogs\Views\GenerateOfferDialogView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Controls\Dialogs\Views\SaveDialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
