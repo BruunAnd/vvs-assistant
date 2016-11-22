@@ -19,6 +19,8 @@ namespace VVSAssistant.ViewModels
         {
             get { return _packageSolution; }
         }
+
+        private IDialogCoordinator _dialogCoordinator;
         #endregion
 
         #region Command initializations
@@ -31,7 +33,6 @@ namespace VVSAssistant.ViewModels
         #endregion
 
         #region Collections
-        private IDialogCoordinator _dialogCoordinator;
         private ObservableCollection<ApplianceViewModel> _appliances = new ObservableCollection<ApplianceViewModel>();
         public ObservableCollection<ApplianceViewModel> Appliances
         {
@@ -81,31 +82,33 @@ namespace VVSAssistant.ViewModels
 
             NewPackageSolution = new RelayCommand(x =>
             {
-                if (this.PackageSolution.Appliances.Any()) this.PackageSolution.Appliances.Clear();
+                this.PackageSolution.Appliances.Clear();
             }, x => this.PackageSolution.Appliances.Any());
             
 
             SaveDialog = new RelayCommand(x =>
             {
-                RunCustomFromVm();
-            });
+                RunSaveDialog();
+            }, x => this.PackageSolution.Appliances.Any());
             #endregion
 
             this.PackageSolution.Appliances.CollectionChanged += PackageSolutionAppliances_CollectionChanged;
         }
 
-        private async void RunCustomFromVm()
+        private async void RunSaveDialog()
         {
             var customDialog = new CustomDialog();
 
-            var customDialogExampleContent = new SaveDialogViewModel("Gem pakkeløsning", "Navn:" ,instance =>
+            var dialogViewModel = new SaveDialogViewModel("Gem pakkeløsning", "Navn:", _dialogCoordinator, instance =>
             {
+                // Makes it possible to close the dialog.
                 _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
-                System.Diagnostics.Debug.WriteLine(instance.Input);
             });
-            customDialog.Content = new SaveDialogView { DataContext = customDialogExampleContent };
+            customDialog.Content = new SaveDialogView { DataContext = dialogViewModel };
 
             await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
+
+            this.PackageSolution.Name = dialogViewModel.Input;
         }
 
 
