@@ -17,16 +17,6 @@ namespace VVSAssistant.ViewModels
             _clientInformation = clientInformation;
         }
 
-        public int Id
-        {
-            get { return _clientInformation.Id; }
-            set
-            {
-                _clientInformation.Id = value;
-                OnPropertyChanged();
-            }
-        }
-
         public string Name
         {
             get { return _clientInformation.Name; }

@@ -9,6 +9,10 @@ namespace VVSAssistant.Models
         {
             Salaries = new List<Salary>();
             Materials = new List<Material>();
+            Client = new Client();
+            OfferInformation = new OfferInformation();
+            PackagedSolution = new PackagedSolution();
+            CreationDate = DateTime.Now;
         }
 
         public int Id { get; set; }

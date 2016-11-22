@@ -23,7 +23,7 @@ namespace VVSAssistant.ViewModels
         private ExistingPackagedSolutionsViewModel _existingPackagedSolutionViewModel = new ExistingPackagedSolutionsViewModel();
         private CreatePackagedSolutionViewModel _createPackagedSolutionViewModel = new CreatePackagedSolutionViewModel(new DialogCoordinator());
         private ExistingOffersViewModel _existingOffersViewModel = new ExistingOffersViewModel();
-        private CreateOfferViewModel _createOfferViewModel = new CreateOfferViewModel();
+        private CreateOfferViewModel _createOfferViewModel = new CreateOfferViewModel(new DialogCoordinator());
 
         private ViewModelBase _CurrentViewModel;
 
