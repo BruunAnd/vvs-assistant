@@ -31,10 +31,10 @@ namespace VVSAssistant.Functions.Calculation
                     else
                         return new BoilerAsPrimary();
                 case ApplianceTypes.LowTempHeatPump:
-                    return new LowTempHeatPumpAsPrimary();
+                    return new HeatPumpAsPrimary();
                 case default(ApplianceTypes):
                     if (package.Appliances.Any(item => item.Type == ApplianceTypes.Boiler))
-                        return new CHPStrategy();
+                        return new HeatPumpAsPrimary();
                     else
                         return null;
                 default:
