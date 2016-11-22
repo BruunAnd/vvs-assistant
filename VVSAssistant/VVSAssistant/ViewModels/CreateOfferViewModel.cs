@@ -28,6 +28,7 @@ namespace VVSAssistant.ViewModels
         public CreateOfferViewModel(IDialogCoordinator coordinator)
         {
             _offer = new OfferViewModel(new Offer());
+
             CreateNewOffer = new RelayCommand(x => CreateOffer(), x => VerifyNeededInformation());
             _dialogCoordinator = coordinator;
         }

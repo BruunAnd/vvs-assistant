@@ -123,11 +123,14 @@
     <Compile Include="Functions\Calculation\Strategies\BoilerAsPrimary.cs" />
     <Compile Include="Functions\Calculation\Strategies\BoilerForWater.cs" />
     <Compile Include="Functions\Calculation\CalculationManager.cs" />
+    <Compile Include="Functions\Calculation\Strategies\CHPStrategy.cs" />
     <Compile Include="Functions\Calculation\EEICalculationResult.cs" />
     <Compile Include="Functions\Calculation\Strategies\HeatPumpAsPrimary.cs" />
     <Compile Include="Functions\Calculation\IEEICalculation.cs" />
     <Compile Include="Functions\Calculation\Interfaces\ICalculationChooser.cs" />
-    <Compile Include="Functions\Calculation\UtilityClass.cs" />
+    <Compile Include="Functions\Calculation\Strategies\LowTempHeatPumpAsPrimary.cs" />
+    <Compile Include="Functions\Calculation\WeightingBetweenPrimaryAndSecondaryChooser.cs" />
+    <Compile Include="Functions\Exporter.cs" />
     <Compile Include="Models\Appliance.cs" />
     <Compile Include="Models\ApplianceTypes.cs" />
     <Compile Include="Models\Client.cs" />
@@ -182,8 +185,8 @@
       <DependentUpon>CreatePackagedSolutionView.xaml</DependentUpon>
     </Compile>
     <Page Include="Controls\Dialogs\Views\GenerateOfferDialogView.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\Dialogs\Views\SaveDialogView.xaml">
       <SubType>Designer</SubType>
