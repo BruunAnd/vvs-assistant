@@ -13,11 +13,10 @@ namespace VVSAssistant.Functions.Calculation.Strategies
         EEICalculationResult Results;
         private HeatingUnitDataSheet PrimaryUnit;
         private HeatingUnitDataSheet SecondaryBoiler;
-        private float _effectOfTemperatureRegulator;
         private float II;
         private float III;
         private float IV;
-        private float SolarContributionFactor = 0.45f;
+        private float SolarContributionFactor;
 
 
         public EEICalculationResult CalculateEEI(PackagedSolution PackagedSolution)
@@ -53,6 +52,11 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             Results.EffectOfSecondaryBoiler = (SecondaryBoiler.AFUE - PrimaryUnit.AFUE) * II;
 
             //Calculating effect of solarcollector
+            if (PackagedSolution.PrimaryHeatingUnit.Type == ApplianceTypes.CHP)
+                SolarContributionFactor = 0.7f;
+            else
+                SolarContributionFactor = 0.45f;
+
             III = 294 / (11 * PrimaryUnit.WattUsage);
             IV = 115 / (11 * PrimaryUnit.WattUsage);
 
@@ -71,20 +75,8 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             Results.EEI = Results.PrimaryHeatingUnitAFUE + Results.EffectOfTemperatureRegulatorClass - Results.EffectOfSecondaryBoiler + Results.SolarHeatContribution;
 
             //Calculating for colder and warmer climates
-            Results.PackagedSolutionAtColdTemperaturesAFUE = Results.EEI;
-
-
-
-
-
-
-
-
-
-
-
-
-
+            Results.PackagedSolutionAtColdTemperaturesAFUE = (PackagedSolution.PrimaryHeatingUnit.DataSheet as HeatingUnitDataSheet).AFUEColdClima;
+            Results.PackagedSolutionAtWarmTemperaturesAFUE = (PackagedSolution.PrimaryHeatingUnit.DataSheet as HeatingUnitDataSheet).AFUEWarmClima;
 
             return Results;
         }

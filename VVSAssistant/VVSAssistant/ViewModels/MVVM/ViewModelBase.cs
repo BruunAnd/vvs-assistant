@@ -43,7 +43,8 @@ namespace VVSAssistant.ViewModels.MVVM
         {
             get
             {
-                throw new NotSupportedException();
+                //TODO: Implement whatever this is supposed to do
+                return "No error";
             }
         }
     }
