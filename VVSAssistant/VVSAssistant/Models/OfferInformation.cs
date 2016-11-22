@@ -9,5 +9,7 @@ namespace VVSAssistant.Models
         public string Intro { get; set; }
         public string Outro { get; set; }
         public decimal Price { get; set; }
+        public string Title { get; set; }
+        public bool ApplyTax { get; set; }
     }
 }

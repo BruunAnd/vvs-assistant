@@ -46,8 +46,9 @@ namespace VVSAssistant.Functions.Calculation
                 if (input > 0.7f)
                 {
                     output = Array[resultsPrimHeat.Length - 1];
+                    _outputFound = true;
                 }                                
-                else if (input < resultsPrimHeat[i])
+                else if (input > resultsPrimHeat[i])
                 {
                     i++;
                 }
@@ -67,7 +68,9 @@ namespace VVSAssistant.Functions.Calculation
 
         private static float LiniarInterpolation(float[] results, float[] IIvalues, int i, float input)
         {
-            return IIvalues[i - 1] + (IIvalues[i] - IIvalues[i - 1]) / (results[i] - results[i - 1]) * (input - results[i - 1]);
+
+            
+            return (float)(Math.Round((IIvalues[i - 1] + (IIvalues[i] - IIvalues[i - 1]) / (results[i] - results[i - 1]) * (input - results[i - 1])) * 100) / 100);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace VVSAssistant.ViewModels
     {
         public readonly PackagedSolution Model;
 
-        public ObservableCollection<ApplianceViewModel> Appliances { get; }
+        public ObservableCollection<ApplianceViewModel> Appliances { get; set; }
 
         public PackagedSolutionViewModel() : this(new PackagedSolution()) { }
 

@@ -22,7 +22,7 @@
                    Grid.ColumnSpan="99"
                    Margin="0 5 0 5"
                    FontSize="24"
-                   Text="Generer tilbudsrapport"
+                   Text="Generer Tilbud"
                    TextWrapping="Wrap"/>
         
         <StackPanel Orientation="Vertical"
@@ -36,7 +36,7 @@
             <Label Content="Indledning på følgebrev:"/>
             <TextBox Grid.Row="4"
                  Height="75"
-                 Text="{Binding Intro, UpdateSourceTrigger=PropertyChanged}"/>
+                 Text="{Binding OfferIntro, Mode=TwoWay}"/>
 
             <Label Content="Afslutning på følgebrev:"/>
             <TextBox Height="75"
@@ -47,20 +47,20 @@
                 <StackPanel Orientation="Vertical">
                     <Label Content="Navn på kunde:"/>
                     <ComboBox IsTextSearchEnabled="True"
-                      TextSearch.TextPath="Name"
+                      TextSearch.TextPath="{Binding ClientInformation.Name}"
                       ItemsSource="{Binding Clients}"
                       Text="{Binding ClientName}"
                       SelectedItem="{Binding SelectedClient}"
                       IsEditable="True"/>
 
                     <Label Content="Adresse:"/>
-                    <TextBox Text="{Binding ClientAddress}" />
+                    <TextBox Text="{Binding ClientAddress, Mode=TwoWay}" />
 
                     <Label Content="Email:"/>
-                    <TextBox Text="{Binding ClientEmail}" />
+                    <TextBox Text="{Binding ClientEmail, Mode=TwoWay}" />
 
                     <Label Content="Telefon:"/>
-                    <TextBox Text="{Binding ClientPhone}" />
+                    <TextBox Text="{Binding ClientPhone, Mode=TwoWay}" />
                 </StackPanel>
             </DockPanel>
 

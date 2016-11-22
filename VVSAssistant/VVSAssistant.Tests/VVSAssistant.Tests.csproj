@@ -73,6 +73,7 @@
     <Compile Include="FunctionsTests\CalculationTests\Strategies\CHPTests.cs" />
     <Compile Include="FunctionsTests\CalculationTests\Strategies\HeatPumpAsPrimaryTests.cs" />
     <Compile Include="FunctionsTests\CalculationTests\Strategies\LowTempHeatPumpAsPrimaryTest.cs" />
+    <Compile Include="FunctionsTests\CalculationTests\UtilityClassTests.cs" />
     <Compile Include="ViewModelTests\CreateOfferViewModelTest.cs" />
     <Compile Include="ViewModelTests\MVVMTests\ObservableObjectTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
