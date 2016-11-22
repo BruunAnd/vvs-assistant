@@ -66,7 +66,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
                 AreaOfSolars = (solar.DataSheet as SolarCollectorDataSheet).Area + AreaOfSolars;
             }
             Results.SolarCollectorArea = AreaOfSolars;
-            Results.ContainerVolume = (PackagedSolution.SolarContainer.DataSheet as ContainerDataSheet).Volume;
+            Results.ContainerVolume = ((PackagedSolution.SolarContainer.DataSheet as ContainerDataSheet).Volume)/1000;
             Results.SolarCollectorEffectiveness = (Solars.FirstOrDefault()?.DataSheet as SolarCollectorDataSheet).Efficency;
             Results.ContainerClassification = ContainerDataSheet.ClassificationClass[(PackagedSolution.SolarContainer.DataSheet as ContainerDataSheet).Classification];
 
