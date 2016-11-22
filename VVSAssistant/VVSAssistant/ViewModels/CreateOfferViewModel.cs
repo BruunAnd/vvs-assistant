@@ -29,7 +29,7 @@ namespace VVSAssistant.ViewModels
         {
             _offer = new OfferViewModel(new Offer());
 
-            CreateNewOffer = new RelayCommand(x => CreateOffer(), x => VerifyNeededInformation());
+            CreateNewOffer = new RelayCommand(x => CreateOffer()/*, x => VerifyNeededInformation()*/);
             _dialogCoordinator = coordinator;
         }
 
@@ -51,7 +51,7 @@ namespace VVSAssistant.ViewModels
 
         public void CreateOffer()
         {
-            /* Call the exporter class, export the pdf. Save the pdf in the system. */
+            RunGenerateOfferDialog();
         }
 
         /// <summary>

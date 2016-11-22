@@ -30,7 +30,7 @@ namespace VVSAssistant.ViewModels
                 Appliances.Add(new ApplianceViewModel(appliance));
             }
 
-            _packagedSolution.CreationDate = DateTime.Now;
+            Model.CreationDate = DateTime.Now;
         }
 
         public string Name
