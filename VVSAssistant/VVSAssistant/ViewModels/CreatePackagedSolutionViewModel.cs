@@ -10,15 +10,10 @@ using VVSAssistant.Controls.Dialogs.Views;
 
 namespace VVSAssistant.ViewModels
 {
-    class CreatePackagedSolutionViewModel : ViewModelBase
+    public class CreatePackagedSolutionViewModel : ViewModelBase
     {
         #region Property initializations
-
-        private PackagedSolutionViewModel _packageSolution = new PackagedSolutionViewModel();
-        public PackagedSolutionViewModel PackageSolution
-        {
-            get { return _packageSolution; }
-        }
+        public PackagedSolutionViewModel PackagedSolution { get; } = new PackagedSolutionViewModel();
 
         private IDialogCoordinator _dialogCoordinator;
         #endregion
@@ -33,11 +28,7 @@ namespace VVSAssistant.ViewModels
         #endregion
 
         #region Collections
-        private ObservableCollection<ApplianceViewModel> _appliances = new ObservableCollection<ApplianceViewModel>();
-        public ObservableCollection<ApplianceViewModel> Appliances
-        {
-            get { return _appliances; }
-        }
+        public ObservableCollection<ApplianceViewModel> Appliances { get; } = new ObservableCollection<ApplianceViewModel>();
 
         public FilterableListViewModel<ApplianceViewModel> FilterableApplianceList { get; private set; }
         #endregion
@@ -45,6 +36,7 @@ namespace VVSAssistant.ViewModels
         public CreatePackagedSolutionViewModel(IDialogCoordinator dialogCoordinator)
         {
             _dialogCoordinator = dialogCoordinator;
+
             // Load list of appliances from database
             using (var dbContext = new AssistantContext())
             {
@@ -58,13 +50,13 @@ namespace VVSAssistant.ViewModels
             AddApplianceToPackageSolution = new RelayCommand(x => 
             {
                 var item = x as ApplianceViewModel;
-                if (item != null) this.PackageSolution.Appliances.Add(item);
+                if (item != null) this.PackagedSolution.Appliances.Add(item);
             });
 
             RemoveApplianceFromPackageSolution = new RelayCommand(x =>
             {
                 var item = x as ApplianceViewModel;
-                if (item != null) this.PackageSolution.Appliances.Remove(item);
+                if (item != null) this.PackagedSolution.Appliances.Remove(item);
             });
 
             /* EditAppliance = new RelayCommand(x =>
@@ -84,17 +76,17 @@ namespace VVSAssistant.ViewModels
 
             NewPackageSolution = new RelayCommand(x =>
             {
-                this.PackageSolution.Appliances.Clear();
-            }, x => this.PackageSolution.Appliances.Any());
+                this.PackagedSolution.Appliances.Clear();
+            }, x => this.PackagedSolution.Appliances.Any());
             
 
             SaveDialog = new RelayCommand(x =>
             {
                 RunSaveDialog();
-            }, x => this.PackageSolution.Appliances.Any());
+            }, x => this.PackagedSolution.Appliances.Any());
             #endregion
 
-            this.PackageSolution.Appliances.CollectionChanged += PackageSolutionAppliances_CollectionChanged;
+            this.PackagedSolution.Appliances.CollectionChanged += PackageSolutionAppliances_CollectionChanged;
         }
 
         private async void RunSaveDialog()
@@ -106,11 +98,17 @@ namespace VVSAssistant.ViewModels
                 // Makes it possible to close the dialog.
                 _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
             });
+            dialogViewModel.DialogFilled += SaveDialogFilled;
             customDialog.Content = new SaveDialogView { DataContext = dialogViewModel };
 
             await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
+        }
 
-            this.PackageSolution.Name = dialogViewModel.Input;
+        private async void SaveDialogFilled(string input)
+        {
+            PackagedSolution.Name = input;
+            PackagedSolution.SaveToDatabase();
+            await _dialogCoordinator.ShowMessageAsync(this, "Gemt", "Din pakkeløsning blev gemt under navnet " + input);
         }
 
         private void PackageSolutionAppliances_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

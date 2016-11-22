@@ -22,12 +22,12 @@ namespace VVSAssistant.Functions.Calculation
         public float ContainerVolume { get; set; }
         public float SolarCollectorEffectiveness { get; set; }
         public float ContainerClassification { get; set; }
-        public float PackagedSolutionAtNormalTemperaturesAFUE { get; set; }
         public float PackagedSolutionAtColdTemperaturesAFUE { get; set; }
         public float PackagedSolutionAtWarmTemperaturesAFUE { get; set; }
         public float LowHeatAFUE { get; set; }
         public UseProfileType WaterHeatingUseProfile { get; set; }
         public float WaterHeatingEffciency { get; set; }
         public float SolarHeatContribution { get; set; }
+        public float AdjustedContribution { get; set; }
     }
 }
