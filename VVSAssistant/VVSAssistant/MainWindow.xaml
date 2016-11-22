@@ -34,11 +34,9 @@
             <WrapPanel HorizontalAlignment="Center" 
                    VerticalAlignment="Center">
                 <Controls:Tile 
-                       Command="{Binding NavCommand}"
+                       Style="{StaticResource NavigationTileStyle}"
                        CommandParameter="CreatePackagedSolutionView"
-                       Title="Opret pakkeløsning" 
-                       Width="200" 
-                       Height="200">
+                       Title="Opret pakkeløsning">
                     <Rectangle Width="64" 
                            Height="64"
                            Fill="{StaticResource IdealForegroundColorBrush}">
@@ -48,10 +46,8 @@
                     </Rectangle>
                 </Controls:Tile>
                 <Controls:Tile Title="Pakkeløsninger"
-                           Command="{Binding NavCommand}"
-                           CommandParameter="ExistingPackagedSolutionView"
-                           Width="200" 
-                           Height="200">
+                           Style="{StaticResource NavigationTileStyle}"
+                           CommandParameter="ExistingPackagedSolutionView">
                     <Rectangle Width="64" 
                            Height="64"
                            Fill="{StaticResource IdealForegroundColorBrush}">
@@ -61,11 +57,9 @@
                     </Rectangle>
                 </Controls:Tile>
                 <Controls:Tile 
-                       Command="{Binding NavCommand}"
+                       Style="{StaticResource NavigationTileStyle}"
                        CommandParameter="CreateOfferView"
-                       Title="Opret tilbud" 
-                       Width="200" 
-                       Height="200">
+                       Title="Opret tilbud">
                     <Rectangle Width="64" 
                            Height="64"
                            Fill="{StaticResource IdealForegroundColorBrush}">
@@ -75,11 +69,9 @@
                     </Rectangle>
                 </Controls:Tile>
                 <Controls:Tile 
-                       Command="{Binding NavCommand}"
+                       Style="{StaticResource NavigationTileStyle}"
                        CommandParameter="ExistingOffersView"
-                       Title="Tilbud" 
-                       Width="200" 
-                       Height="200">
+                       Title="Tilbud">
                     <Rectangle Width="64" 
                            Height="64"
                            Fill="{StaticResource IdealForegroundColorBrush}">

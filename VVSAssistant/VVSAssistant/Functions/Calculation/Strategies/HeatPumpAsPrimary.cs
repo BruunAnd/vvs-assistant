@@ -10,13 +10,15 @@ namespace VVSAssistant.Functions.Calculation.Strategies
 {
     class HeatPumpAsPrimary : IEEICalculation
     {
-        WeightingBetweenPrimaryAndSecondaryChooser WeightChooser = new WeightingBetweenPrimaryAndSecondaryChooser();
         EEICalculationResult Results;
         private HeatingUnitDataSheet PrimaryUnit;
         private HeatingUnitDataSheet SecondaryBoiler;
         private float _effectOfTemperatureRegulator;
         private float II;
-        private float _effectOfSecBoiler;
+        private float III;
+        private float IV;
+        private float SolarContributionFactor = 0.45f;
+
 
         public EEICalculationResult CalculateEEI(PackagedSolution PackagedSolution)
         {
@@ -29,8 +31,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
 
             //finding effect of temperatur regulator
             IEnumerable<Appliance> TempControllers = PackagedSolution.Appliances.Where(TempControl => TempControl.Type == ApplianceTypes.TemperatureController);
-            _effectOfTemperatureRegulator = TemperatureControllerDataSheet.ClassBonus[(TempControllers.FirstOrDefault().DataSheet as TemperatureControllerDataSheet).Class];
-            Results.EffectOfTemperatureRegulatorClass = _effectOfTemperatureRegulator;
+            Results.EffectOfTemperatureRegulatorClass = TemperatureControllerDataSheet.ClassBonus[(TempControllers.FirstOrDefault().DataSheet as TemperatureControllerDataSheet).Class];
 
             //finding a solarCollector
             IEnumerable<Appliance> Solars = PackagedSolution.Appliances.Where(Solar => Solar.Type == ApplianceTypes.SolarPanel);
@@ -44,17 +45,31 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             float heatingUnitRelationship = PrimaryUnit.WattUsage / (PrimaryUnit.WattUsage + SecondaryBoiler.WattUsage);
 
             IEnumerable<Appliance> Containers = PackagedSolution.Appliances.Where(Container => Container.Type == ApplianceTypes.Container);
-            if (Containers.Count() > Solars.Count())
-            {
-                II = WeightChooser.GetWeightingPrimHeat(heatingUnitRelationship, true);
-            }
-            else
-            {
-                II = WeightChooser.GetWeightingPrimHeat(heatingUnitRelationship, false);
-            }
+            bool HasNonSolarContainer = PackagedSolution.Appliances.Where(Container => Container.Type == ApplianceTypes.Container && PackagedSolution.SolarContainer != Container).Count() > 0;
 
-            _effectOfSecBoiler = (SecondaryBoiler.AFUE - PrimaryUnit.AFUE) * II;
-            Results.EffectOfSecondaryBoiler = _effectOfSecBoiler;
+            II = UtilityClass.GetWeighting(heatingUnitRelationship, HasNonSolarContainer, true);
+
+
+            Results.EffectOfSecondaryBoiler = (SecondaryBoiler.AFUE - PrimaryUnit.AFUE) * II;
+
+            //Calculating effect of solarcollector
+            III = 294 / (11 * PrimaryUnit.WattUsage);
+            IV = 115 / (11 * PrimaryUnit.WattUsage);
+
+            float AreaOfSolars = 0;
+            foreach (Appliance solar in Solars)
+            {
+                AreaOfSolars = (solar.DataSheet as SolarCollectorDataSheet).Area + AreaOfSolars;
+            }
+            Results.SolarCollectorArea = AreaOfSolars;
+            Results.ContainerVolume = (PackagedSolution.SolarContainer.DataSheet as ContainerDataSheet).Volume;
+            Results.SolarCollectorEffectiveness = (Solars.FirstOrDefault()?.DataSheet as SolarCollectorDataSheet).Efficency;
+            Results.ContainerClassification = ContainerDataSheet.ClassificationClass[(PackagedSolution.SolarContainer.DataSheet as ContainerDataSheet).Classification];
+
+            Results.SolarHeatContribution = (III * Results.SolarCollectorArea + IV * Results.ContainerVolume) * SolarContributionFactor * (Results.SolarCollectorEffectiveness / 100) * Results.ContainerClassification;
+
+
+
 
 
 

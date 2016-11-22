@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+using VVSAssistant.Database;
 using VVSAssistant.Extensions;
 using VVSAssistant.Models;
 using VVSAssistant.ViewModels.Interfaces;
@@ -13,41 +11,39 @@ namespace VVSAssistant.ViewModels
 {
     class ApplianceViewModel : ViewModelBase, IFilterable
     {
-        private readonly Appliance _appliance;
+        public readonly Appliance Model;
+
         private DataSheetViewModel _dataSheet;
 
-        public ApplianceViewModel(Appliance appliance)
+        public ApplianceViewModel(Appliance model)
         {
-            _appliance = appliance;
-            _dataSheet = new DataSheetViewModel(appliance.DataSheet);
+            Model = model;
+            _dataSheet = new DataSheetViewModel(model.DataSheet);
         }
 
         public string Name
         {
-            get { return _appliance.Name; }
+            get { return Model.Name; }
             set
             {
-                if (_appliance.Name == value) return;
-                _appliance.Name = value;
+                if (Model.Name == value) return;
+                Model.Name = value;
                 OnPropertyChanged();
             }
         }
 
         public ApplianceTypes Type
         {
-            get { return _appliance.Type; }
+            get { return Model.Type; }
             set
             {
-                if (_appliance.Type == value) return;
-                _appliance.Type = value;
+                if (Model.Type == value) return;
+                Model.Type = value;
                 OnPropertyChanged();
             }
         }
 
-        public string Description
-        {
-            get { return "no description xd"; }
-        }
+        public string Description => "no description xd (should be datasheet stuff)";
 
         public bool DoesFilterMatch(string query)
         {
@@ -69,6 +65,26 @@ namespace VVSAssistant.ViewModels
         public override string ToString()
         {
             return Name;
+        }
+
+        public void RemoveFromDatabase()
+        {
+            using (var dbContext = new AssistantContext())
+            {
+                var applianceEntity = dbContext.Appliances.SingleOrDefault(x => x.Id == Model.Id);
+                if (applianceEntity == null) return;
+                dbContext.Appliances.Remove(applianceEntity);
+                dbContext.SaveChanges();
+            }
+        }
+
+        public void SaveToDatabse()
+        {
+            using (var dbContext = new AssistantContext())
+            {
+                dbContext.Appliances.AddOrUpdate(Model);
+                dbContext.SaveChanges();
+            }
         }
     }
 }
