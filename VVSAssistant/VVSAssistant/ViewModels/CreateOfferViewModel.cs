@@ -17,6 +17,7 @@ namespace VVSAssistant.ViewModels
 
         /* Packaged solutions on list */ 
         private ObservableCollection<PackagedSolutionViewModel> _packagedSolutions;
+        private ObservableCollection<ClientViewModel> _clients;
 
         private OfferViewModel _offer;
 
@@ -49,45 +50,33 @@ namespace VVSAssistant.ViewModels
         /// <summary>
         /// Uses reflection to check whether or not any of the properties in the passed object is null or empty.
         /// </summary>
-        /// <param name="objectToCheck"></param>
         /// <returns></returns>
         private bool IsPropertyNullOrEmpty(object objectToCheck)
         {
-            /* Fetch all properties */ 
-            foreach (PropertyInfo pi in objectToCheck.GetType().GetProperties())
+            //TODO: Fix this method. Doesn't work for some reason, don't know why. 
+            /* Fetch all properties */
+            foreach (PropertyInfo pi in objectToCheck.GetType().GetProperties(BindingFlags.GetProperty))
             {
-                /* Make sure that it is a property with a name */
-                if (pi.PropertyType == typeof(string))
+                string value = (string) pi.GetValue(objectToCheck);
+                if (string.IsNullOrEmpty(value))
                 {
-                    /* Fetch the value of the property, and see if it is null or empty */
-                    string value = (string)pi.GetValue(objectToCheck);
-                    if (string.IsNullOrEmpty(value))
-                    {
-                        return true;
-                    }
+                    return true;
                 }
             }
             return false;
         }
 
         /// <summary>
-        /// Returns true if ALL needed information in the offer is present. If any information is missing, return false.
+        /// Returns true if both Client and Packaged Solution has a name
         /// </summary>
-        /// <param name="offer"></param>
         /// <returns></returns>
-        private bool VerifyNeededInformation()
+        public bool VerifyNeededInformation()
         {
-            if (IsPropertyNullOrEmpty(Offer.Client.ClientInformation) == false &&
-                IsPropertyNullOrEmpty(Offer.Client) == false &&
-                IsPropertyNullOrEmpty(Offer.PackagedSolution) == false &&
-                IsPropertyNullOrEmpty(Offer) == false)
-            {
-                return true;
-            }
-            else
-            {
+            if (string.IsNullOrEmpty(Offer.Client.ClientInformation.Name) ||
+                string.IsNullOrEmpty(Offer.PackagedSolution.Name))
                 return false;
-            }
+            else
+                return true;
         }
     }
 }

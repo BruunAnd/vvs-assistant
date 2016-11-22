@@ -20,10 +20,7 @@ namespace VVSAssistant.ViewModels
         public ClientViewModel(Client client)
         {
             _client = client;
-            _clientInformation = new ClientInformationViewModel(_client.ClientInformation);
-
-            foreach (var offer in _client.Offers)
-                _offers.Add(new OfferViewModel(offer));
+            _clientInformation = new ClientInformationViewModel(client.ClientInformation);
         }
 
         public int Id
@@ -61,7 +58,7 @@ namespace VVSAssistant.ViewModels
             get { return _offers; }
             set
             {
-                //HACK: Keep an eye on how we assign the offers, may need to change it
+                //HACK: Keep an eye on how we assign the list of offers, may need to change it
                 _offers = value;
                 OnPropertyChanged();
             }
