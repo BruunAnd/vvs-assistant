@@ -69,7 +69,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 {
                     Name = "CW400",
                     Type = ApplianceTypes.TemperatureController,
-                    DataSheet = new TemperatureControllerDataSheet() {Class = "4"}
+                    DataSheet = new TemperatureControllerDataSheet() {Class = "6"}
                 }
             };
 
@@ -86,6 +86,30 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         public void HeatPumpAsPrimStrategyReturnsResultsEEUCalculationResult_true()
         {
         Assert.AreEqual(HeatPumpStrategy.CalculateEEI(pack1).GetType(), typeof(EEICalculationResult));
+        }
+
+        [Test]
+        public void HeatPumpAsPrimStrategyReturnsCorrectEEI_true()
+        {
+            Assert.AreEqual(HeatPumpStrategy.CalculateEEI(pack1).EEI, 137);
+        }
+
+        [Test]
+        public void HeatPumpAsPrimaryReturnsCorrectRegEff_true()
+        {
+            Assert.AreEqual(HeatPumpStrategy.CalculateEEI(pack1).EffectOfTemperatureRegulatorClass, 3.5f);
+        }
+
+        [Test]
+        public void HeatPumpAsPrimaryReturnsCorrectSecEff_true()
+        {
+            Assert.AreEqual(HeatPumpStrategy.CalculateEEI(pack1).EffectOfSecondaryBoiler, 0);
+        }
+
+        [Test]
+        public void HeatPumpAsPrimaryReturnsCorrectSolEff_true()
+        {
+            Assert.AreEqual(HeatPumpStrategy.CalculateEEI(pack1).SolarHeatContribution, 0.65f);
         }
 
     }
