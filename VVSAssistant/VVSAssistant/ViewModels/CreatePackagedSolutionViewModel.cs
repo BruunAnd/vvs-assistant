@@ -31,12 +31,9 @@ namespace VVSAssistant.ViewModels
         #endregion
 
         #region Collections
-        private IDialogCoordinator _dialogCoordinator;
-        private ObservableCollection<ApplianceViewModel> _appliances = new ObservableCollection<ApplianceViewModel>();
-        public ObservableCollection<ApplianceViewModel> Appliances
-        {
-            get { return _appliances; }
-        }
+        private readonly IDialogCoordinator _dialogCoordinator;
+
+        public ObservableCollection<ApplianceViewModel> Appliances { get; }
 
         public FilterableListViewModel<ApplianceViewModel> FilterableApplianceList { get; private set; }
         #endregion
@@ -44,6 +41,8 @@ namespace VVSAssistant.ViewModels
         public CreatePackagedSolutionViewModel(IDialogCoordinator dialogCoordinator)
         {
             _dialogCoordinator = dialogCoordinator;
+            Appliances = new ObservableCollection<ApplianceViewModel>();
+
             // Load list of appliances from database
             using (var dbContext = new AssistantContext())
             {

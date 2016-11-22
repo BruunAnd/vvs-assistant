@@ -28,6 +28,6 @@ namespace VVSAssistant.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTime CreationDate { get; set; }
-        public virtual ICollection<Appliance> Appliances { get; }
+        public virtual ICollection<Appliance> Appliances { get; set;  }
     }
 }
