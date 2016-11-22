@@ -17,9 +17,8 @@ namespace VVSAssistant.Functions.Calculation.Strategies
         private float II;
         private float III;
         private float IV;
+        private float SolarContributionFactor = 0.45f;
 
-        private float _effectOfSecBoiler;
-        private bool _hasContainerForSec;
 
         public EEICalculationResult CalculateEEI(PackagedSolution PackagedSolution)
         {
@@ -32,8 +31,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
 
             //finding effect of temperatur regulator
             IEnumerable<Appliance> TempControllers = PackagedSolution.Appliances.Where(TempControl => TempControl.Type == ApplianceTypes.TemperatureController);
-            _effectOfTemperatureRegulator = TemperatureControllerDataSheet.ClassBonus[(TempControllers.FirstOrDefault().DataSheet as TemperatureControllerDataSheet).Class];
-            Results.EffectOfTemperatureRegulatorClass = _effectOfTemperatureRegulator;
+            Results.EffectOfTemperatureRegulatorClass = TemperatureControllerDataSheet.ClassBonus[(TempControllers.FirstOrDefault().DataSheet as TemperatureControllerDataSheet).Class];
 
             //finding a solarCollector
             IEnumerable<Appliance> Solars = PackagedSolution.Appliances.Where(Solar => Solar.Type == ApplianceTypes.SolarPanel);
@@ -51,8 +49,8 @@ namespace VVSAssistant.Functions.Calculation.Strategies
 
             II = UtilityClass.GetWeighting(heatingUnitRelationship, HasNonSolarContainer, true);
 
-            _effectOfSecBoiler = (SecondaryBoiler.AFUE - PrimaryUnit.AFUE) * II;
-            Results.EffectOfSecondaryBoiler = _effectOfSecBoiler;
+
+            Results.EffectOfSecondaryBoiler = (SecondaryBoiler.AFUE - PrimaryUnit.AFUE) * II;
 
             //Calculating effect of solarcollector
             III = 294 / (11 * PrimaryUnit.WattUsage);
@@ -64,10 +62,11 @@ namespace VVSAssistant.Functions.Calculation.Strategies
                 AreaOfSolars = (solar.DataSheet as SolarCollectorDataSheet).Area + AreaOfSolars;
             }
             Results.SolarCollectorArea = AreaOfSolars;
-
             Results.ContainerVolume = (PackagedSolution.SolarContainer.DataSheet as ContainerDataSheet).Volume;
             Results.SolarCollectorEffectiveness = (Solars.FirstOrDefault()?.DataSheet as SolarCollectorDataSheet).Efficency;
-            Results.ContainerClassification = (PackagedSolution.SolarContainer.DataSheet as ContainerDataSheet).Classification;
+            Results.ContainerClassification = ContainerDataSheet.ClassificationClass[(PackagedSolution.SolarContainer.DataSheet as ContainerDataSheet).Classification];
+
+            Results.SolarHeatContribution = (III * Results.SolarCollectorArea + IV * Results.ContainerVolume) * SolarContributionFactor * (Results.SolarCollectorEffectiveness / 100) * Results.ContainerClassification;
 
 
 
