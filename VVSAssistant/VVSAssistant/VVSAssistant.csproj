@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{84693127-5887-4811-892E-A5480F408CDF}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>VVSAssistant</RootNamespace>
     <AssemblyName>VVSAssistant</AssemblyName>
@@ -136,6 +136,7 @@
     <Compile Include="Functions\Exporter.cs" />
     <Compile Include="Functions\UtilityClass.cs" />
     <Compile Include="Models\Appliance.cs" />
+    <Compile Include="Models\ApplianceInstance.cs" />
     <Compile Include="Models\ApplianceTypes.cs" />
     <Compile Include="Models\Client.cs" />
     <Compile Include="Models\ClientInformation.cs" />
@@ -154,7 +155,6 @@
     <Compile Include="ViewModels\ApplianceViewModel.cs" />
     <Compile Include="ViewModels\ClientInformationViewModel.cs" />
     <Compile Include="ViewModels\ClientViewModel.cs" />
-    <Compile Include="ViewModels\Commands\CreateClientCommand.cs" />
     <Compile Include="ViewModels\CreateOfferViewModel.cs" />
     <Compile Include="ViewModels\CreatePackagedSolutionViewModel.cs" />
     <Compile Include="ViewModels\DataSheetViewModel.cs" />
@@ -165,8 +165,6 @@
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\MaterialViewModel.cs" />
     <Compile Include="ViewModels\MVVM\DataEventArgs.cs" />
-    <Compile Include="ViewModels\MVVM\DialogCoordinator.cs" />
-    <Compile Include="ViewModels\MVVM\DialogParticipation.cs" />
     <Compile Include="ViewModels\MVVM\ViewModelBase.cs" />
     <Compile Include="ViewModels\OfferInformationViewModel.cs" />
     <Compile Include="ViewModels\OfferViewModel.cs" />

@@ -14,13 +14,6 @@
     Dialog:DialogParticipation.Register="{Binding}"
 >
 
-    <ContentControl.Resources>
-        <Style x:Key="CommandableMenuItemStyle" TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
-            <Setter Property="CommandParameter"
-                    Value="{Binding PlacementTarget.SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"/>
-        </Style>
-    </ContentControl.Resources>
-    
     <Grid Background="White">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
@@ -90,33 +83,24 @@
                       Grid.Row="1" 
                       AutoGenerateColumns="False" 
                       ItemsSource="{Binding FilterableApplianceList.Collection}"
-                      SelectedItem="{Binding SelectedAppliance}">
+                      SelectedItem="{Binding SelectedAppliance}"
+                      SelectionMode="Single">
 
                 <DataGrid.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Føj til pakke"
-                                  Command="{Binding AddApplianceToPackageSolution}"
-                                  Style="{StaticResource CommandableMenuItemStyle}" />
+                                  Command="{Binding AddApplianceToPackageSolution}"/>
                         <MenuItem Header="Redigér"
-                                  Command="{Binding EditAppliance}"
-                                  Style="{StaticResource CommandableMenuItemStyle}" />
+                                  Command="{Binding EditAppliance}"/>
                         <MenuItem Header="Slet"
-                                  Command="{Binding RemoveAppliance}"
-                                  Style="{StaticResource CommandableMenuItemStyle}" />
+                                  Command="{Binding RemoveAppliance}"/>
                     </ContextMenu>
                 </DataGrid.ContextMenu>
-                
-                <!--<DataGrid.InputBindings>
+
+                <DataGrid.InputBindings>
                     <MouseBinding MouseAction="LeftDoubleClick"
-                                  Command="{Binding AddApplianceToPackageSolution}"
-                                  CommandParameter="{Binding SelectedItem, ElementName=AppliancesDataGrid}"/>
-                    <MouseBinding MouseAction="RightClick"
-                                  Command="{Binding EditAppliance}"
-                                  CommandParameter="{Binding SelectedItem, ElementName=AppliancesDataGrid}"/>
-                    <MouseBinding MouseAction="RightClick"
-                                  Command="{Binding RemoveAppliance}"
-                                  CommandParameter="{Binding SelectedItem, ElementName=AppliancesDataGrid}"/>-
-                </DataGrid.InputBindings>-->
+                                  Command="{Binding AddApplianceToPackageSolution}"/>
+                </DataGrid.InputBindings>
 
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Name}" 
@@ -151,11 +135,11 @@
                       Grid.Row="1" 
                       IsReadOnly="true" 
                       AutoGenerateColumns="False" 
-                      ItemsSource="{Binding PackagedSolution.Appliances}">
+                      ItemsSource="{Binding PackagedSolution.Appliances}"
+                      SelectedItem="{Binding SelectedAppliance}" >
                 <DataGrid.InputBindings>
                     <MouseBinding MouseAction="LeftDoubleClick"
-                                  Command="{Binding RemoveApplianceFromPackageSolution}"
-                                  CommandParameter="{Binding SelectedItem, ElementName=PackageSolutionDataGrid}"/>
+                                  Command="{Binding RemoveApplianceFromPackageSolution}"/>
                 </DataGrid.InputBindings>
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Name}"

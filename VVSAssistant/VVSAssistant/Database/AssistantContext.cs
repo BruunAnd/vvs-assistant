@@ -12,14 +12,12 @@ namespace VVSAssistant.Database
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<PackagedSolution>().HasMany(s => s.Appliances).
-                WithMany().
-                Map(m =>
-                {
-                    m.ToTable("AppliancePackageAssosocation");
-                    m.MapLeftKey("PackagedSolutionId");
-                    m.MapRightKey("ApplianceId");
-                });
+            modelBuilder.Entity<PackagedSolution>().HasMany(s => s.ApplianceInstances).WithRequired();
+            modelBuilder.Entity<PackagedSolution>().HasOptional(s => s.SolarContainerInstance);
+            modelBuilder.Entity<PackagedSolution>().HasOptional(s => s.PrimaryHeatingUnitInstance);
+
+            modelBuilder.Entity<ApplianceInstance>().HasRequired(a => a.Appliance).WithMany();
+            modelBuilder.Entity<ApplianceInstance>().HasRequired(a => a.DataSheet).WithMany();
 
             // Create a table for each datasheet type
             modelBuilder.Entity<ContainerDataSheet>().ToTable("ContainerDataSheets");
@@ -41,5 +39,6 @@ namespace VVSAssistant.Database
         public DbSet<Appliance> Appliances { get; set; }
         public DbSet<UnitPrice> UnitPrices { get; set; }
         public DbSet<DataSheet> DataSheets { get; set; }
+        public DbSet<ApplianceInstance> ApplianceInstances { get; set; }
     }
 }
