@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using VVSAssistant.Models;
 using VVSAssistant.Common.ViewModels;
 using VVSAssistant.Common;
+using VVSAssistant.Events;
 
 namespace VVSAssistant.Controls.Dialogs.ViewModels
 {
@@ -49,6 +50,7 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
 
         private void ConfirmSaveDialog(Action<GenerateOfferDialogViewModel> closeHandler)
         {
+            VVSAssistantEvents.OnSaveOfferButtonPressed(Offer);
             closeHandler(this);
         }
 

@@ -14,6 +14,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Collections.Specialized;
 using VVSAssistant.Common.ViewModels;
+using VVSAssistant.Events;
 
 namespace VVSAssistant.ViewModels
 {
@@ -112,7 +113,7 @@ namespace VVSAssistant.ViewModels
 
             MaterialsInOffer.CollectionChanged += NotifyOfferContentsChanged;
             SalariesInOffer.CollectionChanged += NotifyOfferContentsChanged;
-
+            VVSAssistantEvents.SaveOfferButtonPressedEventHandler += SaveOfferToDatabase;
             SetInitialSettings();
         }
 
@@ -176,6 +177,17 @@ namespace VVSAssistant.ViewModels
         public override void Initialize()
         {
             DbContext.PackagedSolutions.ToList().ForEach(p => PackagedSolutions.Add(p));
+        }
+
+        private void SaveOfferToDatabase(Offer offer)
+        {
+            offer.Salaries = SalariesInOffer.ToList();
+            offer.Materials = MaterialsInOffer.ToList();
+            offer.CreationDate = DateTime.Now;
+            /* Everything else has been set by reference */
+            /* Save it to the database */
+            DbContext.Offers.Add(offer);
+            DbContext.SaveChanges();
         }
 
 

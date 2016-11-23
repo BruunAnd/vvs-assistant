@@ -127,6 +127,7 @@
     </Compile>
     <Compile Include="Controls\Dialogs\ViewModels\SaveDialogViewModel.cs" />
     <Compile Include="Database\AssistantContext.cs" />
+    <Compile Include="Events\VVSAssistantEvents.cs" />
     <Compile Include="Exceptions\InvalidParameterException.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Functions\Calculation\Strategies\BoilerAsPrimary.cs" />
