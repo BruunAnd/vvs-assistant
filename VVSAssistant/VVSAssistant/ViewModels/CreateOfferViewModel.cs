@@ -116,7 +116,7 @@ namespace VVSAssistant.ViewModels
 
             MaterialsInOffer.CollectionChanged += NotifyOfferContentsChanged;
             SalariesInOffer.CollectionChanged += NotifyOfferContentsChanged;
-            VVSAssistantEvents.SaveOfferButtonPressedEventHandler += SaveOfferToDatabase;
+            //VVSAssistantEvents.SaveOfferButtonPressedEventHandler += SaveOfferToDatabase;
             SetInitialSettings();
         }
 
@@ -162,11 +162,19 @@ namespace VVSAssistant.ViewModels
         public async void RunGenerateOfferDialog()
         {
             var customDialog = new CustomDialog();
-            var dialogViewModel = new GenerateOfferDialogViewModel(Offer, _clients, _dialogCoordinator, instance =>
-            {
-                // Makes it possible to close the dialog.
-                _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
-            });
+            var dialogViewModel = new GenerateOfferDialogViewModel(Offer, _clients, _dialogCoordinator, 
+                closeHandler =>
+                {
+                    // Closes the dialog
+                    _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
+                }, 
+                completionHandler =>
+                {
+                    // Closes the dialog and saves the offer to database
+                    _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
+                    SaveOfferToDatabase(Offer);
+                });
+
             customDialog.Content = new GenerateOfferDialogView { DataContext = dialogViewModel };
             await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
         }

@@ -24,16 +24,19 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
         public RelayCommand CloseCommand { get; }
         public RelayCommand SaveCommand { get; }
 
-        public GenerateOfferDialogViewModel(Offer offer, ObservableCollection<Client> clients, IDialogCoordinator dialogCoordinator, Action<GenerateOfferDialogViewModel> closeHandler)
+        public GenerateOfferDialogViewModel(Offer offer, ObservableCollection<Client> clients, IDialogCoordinator dialogCoordinator, 
+                                            Action<GenerateOfferDialogViewModel> closeHandler, Action<GenerateOfferDialogViewModel> completionHandler)
         {
             Offer = offer;
+            Offer.Client = new Client() { ClientInformation = new ClientInformation()};
+            Offer.OfferInformation = new OfferInformation();
             Offer.Client.ClientInformation.PropertyChanged += OfferInformationChanged;
             Offer.OfferInformation.PropertyChanged += OfferInformationChanged;
 
             Clients = clients;
             SaveCommand = new RelayCommand(x =>
             {
-                ConfirmSaveDialog(closeHandler);
+                completionHandler(this);
             }, x => VerifyRequiredInformation());
 
             CloseCommand = new RelayCommand(x =>
@@ -46,12 +49,6 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
         private void OfferInformationChanged(object sender, PropertyChangedEventArgs e)
         {
             SaveCommand.NotifyCanExecuteChanged();
-        }
-
-        private void ConfirmSaveDialog(Action<GenerateOfferDialogViewModel> closeHandler)
-        {
-            VVSAssistantEvents.OnSaveOfferButtonPressed(Offer);
-            closeHandler(this);
         }
 
         private void CancelOfferGeneration()
