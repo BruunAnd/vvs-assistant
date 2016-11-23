@@ -17,8 +17,9 @@ namespace VVSAssistant.ViewModels
 {
     class CreateOfferViewModel : ViewModelBase
     {
-        public RelayCommand CreateNewOffer { get; }
+        public RelayCommand PrintNewOffer { get; }
         public RelayCommand SolutionDoubleClicked { get; }
+        public RelayCommand CreateNewOffer { get; }
         public ObservableCollection<PackagedSolutionViewModel> PackagedSolutions { get; }
         private ObservableCollection<ClientViewModel> _clients;
         private OfferViewModel _offer;
@@ -28,28 +29,51 @@ namespace VVSAssistant.ViewModels
 
         public CreateOfferViewModel(IDialogCoordinator coordinator)
         {
+            #region Properties and fields
+
             _offer = new OfferViewModel(new Offer());
             _dialogCoordinator = coordinator;
-
-            CreateNewOffer = new RelayCommand(x => CreateOffer()/*, x => VerifyNeededInformation()*/);
-            SolutionDoubleClicked = new RelayCommand(x =>
-            {
-                IsComponentTabVisible = true;
-                ArePackagedSolutionsVisible = false;
-            });
-
             PackagedSolutions = new ObservableCollection<PackagedSolutionViewModel>();
-            // Load list of packaged solutions from database
+
+            #endregion
+
+            #region Commands
+
+            /* Tied to "print offer" button in bottom left corner. 
+             * Disabled if VerifyOfferHasRequiredInformation returns false. */
+            PrintNewOffer = new RelayCommand
+                        (x => PrintOfferDialog(), 
+                         x => VerifyOfferHasRequiredInformation()); 
+
+            /* Tied to the action of double clicking a packaged solution's info 
+             * in the list of packaged solutions. When this happens, property 
+             * "SelectedPackagedSolution" is set to the clicked Packaged Solution. */
+            SolutionDoubleClicked = new RelayCommand
+                        (x => OnSolutionDoubleClicked()); 
+
+            /* When the "nyt tilbud" button in bottom left corner is pressed. 
+             * Nullifies all offer properties and changes view to list of packaged solutions. */
+            CreateNewOffer = new RelayCommand
+                        ( x => SetInitialSettings()); 
+            #endregion
+
+            #region Initial view settings
+
+            SetInitialSettings();
+
+            #endregion
+
+            #region Fetch from database
+
             using (var dbContext = new AssistantContext())
             {
-                // Transform list of PackagedSolution to a list of PackagedSolutionViewModel
                 dbContext.PackagedSolutions.ToList().ForEach(p => PackagedSolutions.Add(new PackagedSolutionViewModel(p)));
             }
 
-            IsComponentTabVisible = false;
-            arePackagedSolutionsVisible = true;
+            #endregion
         }
 
+        #region Properties for view
         public OfferViewModel Offer
         {
             get { return _offer; }
@@ -65,66 +89,58 @@ namespace VVSAssistant.ViewModels
         public bool ArePackagedSolutionsVisible
         {
             get { return arePackagedSolutionsVisible; }
-            set { arePackagedSolutionsVisible = value;  OnPropertyChanged(); }
+            set { arePackagedSolutionsVisible = value; OnPropertyChanged(); }
         }
 
         public PackagedSolutionViewModel SelectedPackagedSolution
         {
             get { return Offer.PackagedSolution; }
-            set { Offer.PackagedSolution = value;  OnPropertyChanged(); }
+            set { Offer.PackagedSolution = value; OnPropertyChanged(); }
         }
 
-        public void CreateOffer()
+        #endregion
+
+        #region Methods
+
+        /* Initializes the view */
+        public void SetInitialSettings()
+        {
+            ArePackagedSolutionsVisible = true;
+            IsComponentTabVisible = false;
+
+            Offer = new OfferViewModel(new Offer());
+            SelectedPackagedSolution = null;
+            PrintNewOffer.NotifyCanExecuteChanged();
+        }
+
+        public bool VerifyOfferHasRequiredInformation()
+        {
+            if (Offer.PackagedSolution != null &&
+                Offer.Salaries.Count   != 0    &&
+                Offer.Materials.Count  != 0 )
+                return true;
+            else
+                return false;
+        }
+
+        /* Enables the Component, Salary, and Materials view, and prepares
+         * the offer for receiving information about any of these */
+        public void OnSolutionDoubleClicked()
+        {
+            IsComponentTabVisible = true;
+            ArePackagedSolutionsVisible = false;
+            Offer.Materials = new ObservableCollection<MaterialViewModel>();
+            Offer.Salaries = new ObservableCollection<SalaryViewModel>();
+            PrintNewOffer.NotifyCanExecuteChanged();
+        }
+
+        /* Opens offer creation dialog */
+        public void PrintOfferDialog()
         {
             RunGenerateOfferDialog();
         }
 
-        /// <summary>
-        /// Uses reflection to check whether or not any of the properties in the passed object is null or empty.
-        /// </summary>
-        /// <returns></returns>
-        private bool IsPropertyNullOrEmpty(object objectToCheck)
-        {
-            //TODO: Fix this method. Doesn't work for some reason, don't know why. 
-            /* Fetch all properties */
-            foreach (PropertyInfo pi in objectToCheck.GetType().GetProperties())
-            {
-                string value = (string) pi.GetValue(objectToCheck);
-                if (string.IsNullOrEmpty(value))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Returns true if both Client and Packaged Solution has a name
-        /// </summary>
-        /// <returns></returns>
-        public bool VerifyNeededInformationDeprecated()
-        {
-            if (IsPropertyNullOrEmpty(Offer.Client.ClientInformation) ||
-                IsPropertyNullOrEmpty(Offer.Client)                   ||
-                IsPropertyNullOrEmpty(Offer.PackagedSolution)         ||
-                IsPropertyNullOrEmpty(Offer))
-                return false;
-            else
-                return true;
-        }
-
-        public bool VerifyNeededInformation()
-        {
-            if (Offer.Client.ClientInformation.Name == null ||
-                Offer.PackagedSolution.Name         == null ||
-                Offer.OfferInformation              == null )
-            {
-                return false;
-            }
-            else
-                return true;
-        }
-
+        /* Called by PrintOfferDialog */
         public async void RunGenerateOfferDialog()
         {
             var customDialog = new CustomDialog();
@@ -137,5 +153,8 @@ namespace VVSAssistant.ViewModels
             // await _dialogCoordinator.ShowMessageAsync(this, "bla", "bla");
             await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
         }
+
+        #endregion
+
     }
 }

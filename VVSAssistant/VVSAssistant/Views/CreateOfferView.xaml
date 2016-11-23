@@ -83,7 +83,7 @@
                                      UpdateSourceTrigger=PropertyChanged}">
                 <TabItem Header="Komponenter">
                     <DataGrid AutoGenerateColumns="False"
-                              ItemsSource="{Binding SelectedPackagedSolution.Appliances, UpdateSourceTrigger=PropertyChanged}"
+                              ItemsSource="{Binding Offer.PackagedSolution.Appliances, UpdateSourceTrigger=PropertyChanged}"
                               IsReadOnly="False"
                               SelectionUnit="Cell"
                               SelectionMode="Single">
@@ -100,12 +100,12 @@
                                                 Width="1*" 
                                                 IsReadOnly="True"
                                                 CanUserReorder="False"/>
-                            <DataGridTextColumn Binding="{Binding DataSheet.Price, UpdateSourceTrigger=PropertyChanged}"
+                            <DataGridTextColumn Binding="{Binding UnitCostPrice, UpdateSourceTrigger=PropertyChanged}"
                                                 Header="Kostpris"
                                                 MinWidth="100"
                                                 Width="1*"
                                                 CanUserReorder="False"/>
-                            <DataGridTextColumn Binding="{Binding UnitSalesPrice, UpdateSourceTrigger=PropertyChanged}"
+                            <DataGridTextColumn Binding="{Binding SalesPrice, UpdateSourceTrigger=PropertyChanged}"
                                                 Header="Salgspris"
                                                 MinWidth="100"
                                                 Width="1*"
@@ -123,7 +123,8 @@
                     <DataGrid AutoGenerateColumns="False"
                               IsReadOnly="False"
                               SelectionUnit="Cell"
-                              SelectionMode="Single">
+                              SelectionMode="Single"
+                              ItemsSource="{Binding Offer.Salaries}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Name}"
                                                 Header="Beskrivelse"
@@ -324,6 +325,7 @@
                 <Button Margin="5,5,5,5"
                         Grid.Row="0"
                         Grid.Column="0"
+                        Command="{Binding CreateNewOffer}"
                         Content="Nyt tilbud"/>
                 <Button Margin="5,5,5,5" 
                         Grid.Row="0" 
@@ -332,7 +334,7 @@
                 <Button Margin="5,5,5,5" 
                         Grid.Row="1" 
                         Grid.ColumnSpan="2"
-                        Command="{Binding CreateNewOffer}"
+                        Command="{Binding PrintNewOffer}"
                         Content="Print tilbud"/>
             </Grid>
         </Grid>

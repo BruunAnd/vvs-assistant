@@ -26,5 +26,10 @@ namespace VVSAssistant.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        public Salary Salary
+        {
+            get { return _salary; }
+        }
     }
 }

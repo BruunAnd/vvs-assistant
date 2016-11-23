@@ -36,5 +36,10 @@ namespace VVSAssistant.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        public Material Material
+        {
+            get { return _material; }
+        }
     }
 }

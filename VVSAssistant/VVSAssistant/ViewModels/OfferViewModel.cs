@@ -40,15 +40,8 @@ namespace VVSAssistant.ViewModels
             get { return _packagedSolution; }
             set
             {
-                if (value is PackagedSolutionViewModel)
-                {
-                    _packagedSolution = value;
-                    OnPropertyChanged();
-                }
-                else
-                {
-                    throw new InvalidParameterException("Packaged solution added to offer must be of type Packaged Solution. ");
-                }
+                _packagedSolution = value;
+                OnPropertyChanged();
             }
         }
 
@@ -57,15 +50,8 @@ namespace VVSAssistant.ViewModels
             get { return _offerInformation; }
             set
             {
-                if (value is OfferInformationViewModel)
-                {
-                    _offerInformation = value;
-                    OnPropertyChanged();
-                }
-                else
-                {
-                    throw new InvalidParameterException("Offer information added to offer must be of type Offer Information. ");
-                }
+                _offerInformation = value;
+                OnPropertyChanged();
             }
         }
 
@@ -74,15 +60,8 @@ namespace VVSAssistant.ViewModels
             get { return _client; }
             set
             {
-                if (value is ClientViewModel)
-                {
-                    _client = value;
-                    OnPropertyChanged();
-                }
-                else
-                {
-                    throw new InvalidParameterException("Client added to offer must be of type Client. ");
-                }
+                _client = value;
+                OnPropertyChanged();
             }
         }
 

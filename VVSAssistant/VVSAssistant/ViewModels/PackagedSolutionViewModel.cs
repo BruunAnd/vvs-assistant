@@ -28,6 +28,7 @@ namespace VVSAssistant.ViewModels
             foreach (var appliance in Model.Appliances)
             {
                 Appliances.Add(new ApplianceViewModel(appliance));
+                OnPropertyChanged(tempNmbrAppliances);
             }
         }
 
@@ -40,6 +41,11 @@ namespace VVSAssistant.ViewModels
                 Model.Name = value;
                 OnPropertyChanged();
             }
+        }
+
+        public string tempNmbrAppliances
+        {
+            get { return Appliances.Count.ToString(); }
         }
 
         public string CreationDate => Model.CreationDate.ToString(@"dd\/MM\/yyyy HH:mm");
