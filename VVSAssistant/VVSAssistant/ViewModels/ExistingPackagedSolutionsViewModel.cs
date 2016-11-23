@@ -16,7 +16,7 @@ namespace VVSAssistant.ViewModels
             SetupFilterableView(PackagedSolutions);
         }
 
-        public override void Initialize()
+        public override void LoadDataFromDatabase()
         {
             // Load list of packaged solutions from database
             DbContext.PackagedSolutions.ToList().ForEach(PackagedSolutions.Add);
