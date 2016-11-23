@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Data.Entity.Migrations;
 using System.Linq;
+using VVSAssistant.Common.ViewModels;
 using VVSAssistant.Database;
 using VVSAssistant.Extensions;
 using VVSAssistant.Models;
 using VVSAssistant.ViewModels.Interfaces;
-using VVSAssistant.ViewModels.MVVM;
 
 namespace VVSAssistant.ViewModels
 {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using VVSAssistant.ViewModels.MVVM;
 using VVSAssistant.Exceptions;
 using VVSAssistant.Models;
 using System.Reflection;
@@ -12,6 +11,8 @@ using VVSAssistant.Database;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using VVSAssistant.Common;
+using VVSAssistant.Common.ViewModels;
 
 namespace VVSAssistant.ViewModels
 {

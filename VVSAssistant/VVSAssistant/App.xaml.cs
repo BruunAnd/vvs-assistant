@@ -8,7 +8,6 @@ using System.Windows;
 using VVSAssistant.Database;
 using VVSAssistant.Models;
 using VVSAssistant.Models.DataSheets;
-using VVSAssistant.ViewModels.MVVM;
 
 namespace VVSAssistant
 {

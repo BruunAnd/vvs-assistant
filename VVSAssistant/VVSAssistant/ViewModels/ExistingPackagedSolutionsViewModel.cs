@@ -1,33 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using VVSAssistant.Common.ViewModels;
 using VVSAssistant.Database;
+using VVSAssistant.Extensions;
+using VVSAssistant.Models;
 using VVSAssistant.ViewModels;
-using VVSAssistant.ViewModels.MVVM;
+using VVSAssistant.ViewModels.Interfaces;
 
 namespace VVSAssistant.ViewModels
 {
-    internal class ExistingPackagedSolutionsViewModel : ViewModelBase
+    internal class ExistingPackagedSolutionsViewModel : FilterableViewModelBase<PackagedSolution>
     {
-        public ObservableCollection<PackagedSolutionViewModel> PackagedSolutions { get; }
+        public ObservableCollection<PackagedSolution> PackagedSolutions { get; }
 
-        public FilterableListViewModel<PackagedSolutionViewModel> FilterablePackagedSolutionsList { get; }
+        protected override bool Filter(PackagedSolution filterObj)
+        {
+            return filterObj.Name.ContainsIgnoreCase(FilterString) || filterObj.Description.ContainsIgnoreCase(FilterString);
+        }
 
         public ExistingPackagedSolutionsViewModel()
         {
-            PackagedSolutions = new ObservableCollection<PackagedSolutionViewModel>();
+            PackagedSolutions = new ObservableCollection<PackagedSolution>();
+            SetupFilterableView(PackagedSolutions);
 
             // Load list of packaged solutions from database
             using (var dbContext = new AssistantContext())
             {
                 // Transform list of PackagedSolution to a list of PackagedSolutionViewModel
-                dbContext.PackagedSolutions.ToList().ForEach(x => PackagedSolutions.Add(new PackagedSolutionViewModel(x)));
-                // Create filterable list
-                FilterablePackagedSolutionsList = new FilterableListViewModel<PackagedSolutionViewModel>(PackagedSolutions);
+                dbContext.PackagedSolutions.ToList().ForEach(x => PackagedSolutions.Add(x));
             }
         }
     }

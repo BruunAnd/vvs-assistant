@@ -1,23 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace VVSAssistant.ViewModels.MVVM
+namespace VVSAssistant.Common.ViewModels
 {
-    public class ViewModelBase : ObservableObject, IDataErrorInfo
+    public class ViewModelBase : NotifyPropertyChanged, IDataErrorInfo
     {
-        public string this[string propName]
-        {
-            get
-            {
-                return ValidateProperty(propName);
-            }
-        }
+        public string this[string propName] => ValidateProperty(propName);
 
         /// <summary>
         /// Validates a property based on its DataAnnotations
