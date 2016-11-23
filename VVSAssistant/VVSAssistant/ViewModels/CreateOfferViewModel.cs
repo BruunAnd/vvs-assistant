@@ -28,7 +28,11 @@ namespace VVSAssistant.ViewModels
         public Offer Offer
         {
             get { return _offer; }
-            set { _offer = value; OnPropertyChanged(); }
+            set
+            {
+                _offer = value;
+                OnPropertyChanged();
+            }
         }
         private IDialogCoordinator _dialogCoordinator;
         private bool isComponentTabVisible;
@@ -48,12 +52,25 @@ namespace VVSAssistant.ViewModels
             get { return Offer.PackagedSolution; }
             set { Offer.PackagedSolution = value; OnPropertyChanged(); }
         }
+        private ObservableCollection<Material> _materialsInOffer;
+        public ObservableCollection<Material> MaterialsInOffer
+        {
+            get { return _materialsInOffer; }
+            set { _materialsInOffer = value; OnPropertyChanged(); }
+        }
+
+        private ObservableCollection<Salary> _salariesInOffer;
+        public ObservableCollection<Salary> SalariesInOffer
+        {
+            get { return _salariesInOffer; }
+            set { _salariesInOffer = value; OnPropertyChanged(); }
+        }
 
         public CreateOfferViewModel(IDialogCoordinator coordinator)
         {
             #region Properties and fields
 
-            _offer = new Offer(new Offer());
+            _offer = new Offer();
             _dialogCoordinator = coordinator;
             PackagedSolutions = new ObservableCollection<PackagedSolution>();
             #endregion
@@ -79,22 +96,18 @@ namespace VVSAssistant.ViewModels
 
             #endregion
 
-            #region Initial view settings
-
             SetInitialSettings();
 
-            #endregion
-
             #region Events
-            Offer.Materials.CollectionChanged += NotifyOfferContentsChanged;
-            Offer.Salaries.CollectionChanged += NotifyOfferContentsChanged;
+            MaterialsInOffer.CollectionChanged += NotifyOfferContentsChanged;
+            SalariesInOffer.CollectionChanged += NotifyOfferContentsChanged;
             #endregion
 
             #region Fetch from database
 
             using (var dbContext = new AssistantContext())
             {
-                dbContext.PackagedSolutions.ToList().ForEach(p => PackagedSolutions.Add(new PackagedSolutionViewModel(p)));
+                dbContext.PackagedSolutions.ToList().ForEach(p => PackagedSolutions.Add(new PackagedSolution()));
             }
 
             #endregion
@@ -108,7 +121,7 @@ namespace VVSAssistant.ViewModels
             ArePackagedSolutionsVisible = true;
             IsComponentTabVisible = false;
 
-            Offer = new Offer(new Offer());
+            Offer = new Offer();
             SelectedPackagedSolution = null;
             PrintNewOffer.NotifyCanExecuteChanged();
         }
@@ -116,8 +129,8 @@ namespace VVSAssistant.ViewModels
         public bool VerifyOfferHasRequiredInformation()
         {
             if (Offer.PackagedSolution != null &&
-                Offer.Salaries.Count   != 0    &&
-                Offer.Materials.Count  != 0 )
+                SalariesInOffer.Count   != 0    &&
+                MaterialsInOffer.Count  != 0 )
                 return true;
             else
                 return false;

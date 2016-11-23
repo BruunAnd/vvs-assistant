@@ -54,8 +54,8 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
 
         private void CancelOfferGeneration()
         {
-            Offer.Client = new Client(new Client());
-            Offer.OfferInformation = new OfferInformation(new OfferInformation());
+            Offer.Client = new Client();
+            Offer.OfferInformation = new OfferInformation();
         }
 
         private bool VerifyRequiredInformation()
