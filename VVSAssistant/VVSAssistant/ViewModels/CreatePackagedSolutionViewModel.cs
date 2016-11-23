@@ -4,6 +4,7 @@ using System.Threading;
 using System.Collections.Specialized;
 using MahApps.Metro.Controls.Dialogs;
 using VVSAssistant.Common.ViewModels;
+using VVSAssistant.Common.ViewModels.VVSAssistant.Common.ViewModels;
 using VVSAssistant.Database;
 using VVSAssistant.ViewModels.MVVM;
 using VVSAssistant.Controls.Dialogs.ViewModels;
@@ -11,7 +12,7 @@ using VVSAssistant.Controls.Dialogs.Views;
 
 namespace VVSAssistant.ViewModels
 {
-    public class CreatePackagedSolutionViewModel : ViewModelBase
+    public class CreatePackagedSolutionViewModel : FilterableViewModelBase<ApplianceViewModel>
     {
         #region Property initializations
         public PackagedSolutionViewModel PackagedSolution { get; } = new PackagedSolutionViewModel();
@@ -30,11 +31,11 @@ namespace VVSAssistant.ViewModels
 
         #region Collections
         public ObservableCollection<ApplianceViewModel> Appliances { get; } = new ObservableCollection<ApplianceViewModel>();
-        public FilterableListViewModel<ApplianceViewModel> FilterableApplianceList { get; private set; }
         #endregion
 
         public CreatePackagedSolutionViewModel(IDialogCoordinator dialogCoordinator)
         {
+            SetupFilterableView(Appliances);
             _dialogCoordinator = dialogCoordinator;
 
             // Load list of appliances from database
@@ -42,8 +43,6 @@ namespace VVSAssistant.ViewModels
             {
                 // Transform list of Appliance to a list of ApplianceViewModel
                 dbContext.Appliances.ToList().ForEach(a => Appliances.Add(new ApplianceViewModel(a)));
-                // Create filtered list
-                FilterableApplianceList = new FilterableListViewModel<ApplianceViewModel>(Appliances);
             }
 
             #region Command declarations

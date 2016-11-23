@@ -112,6 +112,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Common\NotifyPropertyChanged.cs" />
+    <Compile Include="Common\ViewModels\FilterableViewModelBase.cs" />
     <Compile Include="Controls\Dialogs\ViewModels\EditApplianceViewModel.cs" />
     <Compile Include="Controls\Dialogs\ViewModels\GenerateOfferDialogViewModel.cs" />
     <Compile Include="Controls\Dialogs\Views\EditApplianceView.xaml.cs">
@@ -161,7 +162,6 @@
     <Compile Include="ViewModels\DataSheetViewModel.cs" />
     <Compile Include="ViewModels\ExistingOffersViewModel.cs" />
     <Compile Include="ViewModels\ExistingPackagedSolutionsViewModel.cs" />
-    <Compile Include="ViewModels\FilterableListViewModel.cs" />
     <Compile Include="ViewModels\Interfaces\IFilterable.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\MaterialViewModel.cs" />
