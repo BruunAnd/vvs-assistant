@@ -83,17 +83,6 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             Assert.AreEqual(HeatPumpStrategy.CalculateEEI(CurrentPack).SolarHeatContribution, expectedValue);
         }
 
-        [Test]
-        [TestCase(ApplianceTypes.Heatpump, 118, 9, 104, 187, ApplianceTypes.Boiler, 94, 42, 3.19f, 72, 4, 400, "E", 300, "B", "2", 2, 0.1766f)]
-        public void HeatRelationsAreCorrect_true(ApplianceTypes PrimType, float PrimAFUE, float PrimWatt, float PrimCold, float PrimWarm, ApplianceTypes SecType, float secAFUE, float secWatt, float SolArea, float SolEff, int SolNumber, float Container1Vol, string Container1Class,
-                                           float Container2Vol, string Container2Class, string TempControlClass, int IdOfSolarContainer, float expectedValue)
-        {
-            CreatePackageSolution(PrimType, PrimAFUE, PrimWatt, PrimCold, PrimWarm, SecType, secAFUE, secWatt, SolArea, SolEff, SolNumber, Container1Vol, Container1Class, Container2Vol, Container2Class, TempControlClass, IdOfSolarContainer);
-            Assert.AreEqual(HeatPumpStrategy.CalculateEEI(CurrentPack).HeatingUnitRelationship, expectedValue);
-        }
-
-
-
         private void CreatePackageSolution(ApplianceTypes PrimType, float PrimAFUE, float PrimWatt, float PrimCold, float PrimWarm, ApplianceTypes SecType, float secAFUE, float secWatt, float SolArea, float SolEff, int SolNumber, float Container1Vol, string Container1Class,
                                            float Container2Vol, string Container2Class, string TempControlClass, int IdOfSolarContainer)
         {

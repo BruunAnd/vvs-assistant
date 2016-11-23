@@ -42,12 +42,12 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             SecondaryBoiler = SecBoilers.FirstOrDefault()?.DataSheet as HeatingUnitDataSheet;
             Results.SecondaryBoilerAFUE = SecondaryBoiler.AFUE;
 
-            Results.HeatingUnitRelationship = PrimaryUnit.WattUsage / (PrimaryUnit.WattUsage + SecondaryBoiler.WattUsage);
+            float heatingUnitRelationship = PrimaryUnit.WattUsage / (PrimaryUnit.WattUsage + SecondaryBoiler.WattUsage);
 
             IEnumerable<Appliance> Containers = PackagedSolution.Appliances.Where(Container => Container.Type == ApplianceTypes.Container);
             bool HasNonSolarContainer = PackagedSolution.Appliances.Where(Container => Container.Type == ApplianceTypes.Container && PackagedSolution.SolarContainer != Container).Count() > 0;
 
-            II = UtilityClass.GetWeighting(Results.HeatingUnitRelationship, HasNonSolarContainer, true);
+            II = UtilityClass.GetWeighting(heatingUnitRelationship, HasNonSolarContainer, true);
 
 
             Results.EffectOfSecondaryBoiler = (float)Math.Round(Math.Abs(((SecondaryBoiler.AFUE - PrimaryUnit.AFUE) * II)*100))/100;
