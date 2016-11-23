@@ -31,7 +31,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 }
             };
 
-            pack1.Appliances = new List<Appliance>() {
+            pack1.Appliances = new ApplianceList(new List<Appliance>() {
                 new Appliance()
                 {
                     Name = "Logano Plus",
@@ -71,7 +71,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                     Type = ApplianceTypes.TemperatureController,
                     DataSheet = new TemperatureControllerDataSheet() {Class = "6"}
                 }
-            };
+            });
 
             pack1.SolarContainer = pack1.Appliances?.FirstOrDefault(solCon => solCon.Type == ApplianceTypes.Container && solCon.Name == "BST");
         }

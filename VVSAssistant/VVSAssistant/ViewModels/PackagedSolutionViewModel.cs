@@ -29,8 +29,6 @@ namespace VVSAssistant.ViewModels
             {
                 Appliances.Add(new ApplianceViewModel(appliance));
             }
-
-            Model.CreationDate = DateTime.Now;
         }
 
         public string Name
@@ -60,8 +58,9 @@ namespace VVSAssistant.ViewModels
         {
             using (var dbContext = new AssistantContext())
             {
-                Model.Appliances = Appliances.Select(x => x.Model).ToList(); // Updates appliance list in model
+                Model.Appliances = new ApplianceList(Appliances.Select(x => x.Model).ToList()); // Update model to reflect changes
                 Model.CreationDate = DateTime.Now;
+
                 dbContext.PackagedSolutions.AddOrUpdate(Model);
                 dbContext.SaveChanges();
             }

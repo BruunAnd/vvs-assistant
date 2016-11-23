@@ -50,7 +50,7 @@ namespace VVSAssistant.ViewModels
             AddApplianceToPackageSolution = new RelayCommand(x => 
             {
                 var item = x as ApplianceViewModel;
-                if (item != null) this.PackagedSolution.Appliances.Add(item);
+                if (item != null) PackagedSolution.Appliances.Add(item);
             });
 
             RemoveApplianceFromPackageSolution = new RelayCommand(x =>
