@@ -43,7 +43,6 @@ namespace VVSAssistant
                 var offerInformation = new OfferInformation()
                 {
                     Intro = "Example intro",
-                    Price = 500
                 };
                 offer.OfferInformation = offerInformation;
                 var packagedSolution = new PackagedSolution()
