@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using VVSAssistant.ViewModels.MVVM;
+﻿using VVSAssistant.ViewModels.MVVM;
 using MahApps.Metro.Controls.Dialogs;
 using VVSAssistant.Common;
 using VVSAssistant.Common.ViewModels;
 
 namespace VVSAssistant.ViewModels
 {
-    class MainWindowViewModel : NotifyPropertyChanged
+    internal class MainWindowViewModel : NotifyPropertyChanged
     {
         
         public MainWindowViewModel()
@@ -48,7 +43,7 @@ namespace VVSAssistant.ViewModels
                     CurrentViewModel = new ExistingOffersViewModel();
                     break;
                 case ("CreateOfferView"):
-                    CurrentViewModel = new CreateOfferViewModel(new DialogCoordinator()); ;
+                    CurrentViewModel = new CreateOfferViewModel(new DialogCoordinator());
                     break;
                 default:
                     CurrentViewModel = null;
