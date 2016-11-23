@@ -10,7 +10,10 @@ namespace VVSAssistant.ViewModels
 {
     class MaterialViewModel : ViewModelBase
     {
-        private readonly Material _material;
+        private readonly Material _material = new Material();
+
+        public MaterialViewModel()
+        { }
 
         public MaterialViewModel(Material material)
         {

@@ -12,6 +12,7 @@ using VVSAssistant.Database;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using System.Collections.Specialized;
 
 namespace VVSAssistant.ViewModels
 {
@@ -23,9 +24,29 @@ namespace VVSAssistant.ViewModels
         public ObservableCollection<PackagedSolutionViewModel> PackagedSolutions { get; }
         private ObservableCollection<ClientViewModel> _clients;
         private OfferViewModel _offer;
+        public OfferViewModel Offer
+        {
+            get { return _offer; }
+            set { _offer = value; OnPropertyChanged(); }
+        }
         private IDialogCoordinator _dialogCoordinator;
         private bool isComponentTabVisible;
+        public bool IsComponentTabVisible
+        {
+            get { return isComponentTabVisible; }
+            set { isComponentTabVisible = value; OnPropertyChanged(); }
+        }
         private bool arePackagedSolutionsVisible;
+        public bool ArePackagedSolutionsVisible
+        {
+            get { return arePackagedSolutionsVisible; }
+            set { arePackagedSolutionsVisible = value; OnPropertyChanged(); }
+        }
+        public PackagedSolutionViewModel SelectedPackagedSolution
+        {
+            get { return Offer.PackagedSolution; }
+            set { Offer.PackagedSolution = value; OnPropertyChanged(); }
+        }
 
         public CreateOfferViewModel(IDialogCoordinator coordinator)
         {
@@ -34,7 +55,6 @@ namespace VVSAssistant.ViewModels
             _offer = new OfferViewModel(new Offer());
             _dialogCoordinator = coordinator;
             PackagedSolutions = new ObservableCollection<PackagedSolutionViewModel>();
-
             #endregion
 
             #region Commands
@@ -55,12 +75,18 @@ namespace VVSAssistant.ViewModels
              * Nullifies all offer properties and changes view to list of packaged solutions. */
             CreateNewOffer = new RelayCommand
                         ( x => SetInitialSettings()); 
+
             #endregion
 
             #region Initial view settings
 
             SetInitialSettings();
 
+            #endregion
+
+            #region Events
+            Offer.Materials.CollectionChanged += NotifyOfferContentsChanged;
+            Offer.Salaries.CollectionChanged += NotifyOfferContentsChanged;
             #endregion
 
             #region Fetch from database
@@ -72,33 +98,6 @@ namespace VVSAssistant.ViewModels
 
             #endregion
         }
-
-        #region Properties for view
-        public OfferViewModel Offer
-        {
-            get { return _offer; }
-            set { _offer = value; }
-        }
-
-        public bool IsComponentTabVisible
-        {
-            get { return isComponentTabVisible; }
-            set { isComponentTabVisible = value; OnPropertyChanged(); }
-        }
-
-        public bool ArePackagedSolutionsVisible
-        {
-            get { return arePackagedSolutionsVisible; }
-            set { arePackagedSolutionsVisible = value; OnPropertyChanged(); }
-        }
-
-        public PackagedSolutionViewModel SelectedPackagedSolution
-        {
-            get { return Offer.PackagedSolution; }
-            set { Offer.PackagedSolution = value; OnPropertyChanged(); }
-        }
-
-        #endregion
 
         #region Methods
 
@@ -129,8 +128,6 @@ namespace VVSAssistant.ViewModels
         {
             IsComponentTabVisible = true;
             ArePackagedSolutionsVisible = false;
-            Offer.Materials = new ObservableCollection<MaterialViewModel>();
-            Offer.Salaries = new ObservableCollection<SalaryViewModel>();
             PrintNewOffer.NotifyCanExecuteChanged();
         }
 
@@ -150,9 +147,15 @@ namespace VVSAssistant.ViewModels
                 _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
             });
             customDialog.Content = new GenerateOfferDialogView { DataContext = dialogViewModel };
-            // await _dialogCoordinator.ShowMessageAsync(this, "bla", "bla");
             await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
         }
+
+        /* When items are added to Offer.Materials and Offer.Salaries */
+        private void NotifyOfferContentsChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            PrintNewOffer.NotifyCanExecuteChanged();
+        }
+
 
         #endregion
 

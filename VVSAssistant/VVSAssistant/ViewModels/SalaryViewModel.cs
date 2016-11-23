@@ -10,7 +10,11 @@ namespace VVSAssistant.ViewModels
 {
     class SalaryViewModel : ViewModelBase
     {
-        private readonly Salary _salary;
+        private readonly Salary _salary = new Salary();
+
+        public SalaryViewModel()
+        {
+        }
 
         public SalaryViewModel(Salary salary)
         {

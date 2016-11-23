@@ -29,10 +29,10 @@ namespace VVSAssistant.Models
             get { return _unitSalesPrice; }
             set { SetProperty<double>(ref _unitSalesPrice, value); OnPropertyChanged("SalesPrice"); }
         }
-        
 
         public double SalesPrice => Math.Abs(UnitSalesPrice * Quantity);
         public double CostPrice => UnitCostPrice * Quantity;
         public double ContributionMargin => SalesPrice - CostPrice;
+        
     }
 }
