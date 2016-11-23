@@ -7,7 +7,6 @@ namespace VVSAssistant.ViewModels
 {
     internal class MainWindowViewModel : NotifyPropertyChanged
     {
-        
         public MainWindowViewModel()
         {
             NavCommand = new RelayCommand(x =>
@@ -18,7 +17,6 @@ namespace VVSAssistant.ViewModels
         }
         
         private ViewModelBase _currentViewModel;
-
         public ViewModelBase CurrentViewModel
         {
             get { return _currentViewModel; }
@@ -47,7 +45,7 @@ namespace VVSAssistant.ViewModels
                     break;
                 default:
                     CurrentViewModel = null;
-                    break;
+                    return; // Don't open dataconnection
             }
 
             CurrentViewModel?.OpenDataConnection();

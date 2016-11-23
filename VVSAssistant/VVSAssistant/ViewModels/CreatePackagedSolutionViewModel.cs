@@ -21,7 +21,7 @@ namespace VVSAssistant.ViewModels
             set
             {
                 _packagedSolution = value;
-                AppliancesInSolution = new ObservableCollection<Appliance>(_packagedSolution.Appliances);
+                AppliancesInSolution = new ObservableCollection<Appliance>();
                 AppliancesInSolution.CollectionChanged += PackageSolutionAppliances_CollectionChanged;
             }
 
@@ -29,7 +29,20 @@ namespace VVSAssistant.ViewModels
 
         private readonly IDialogCoordinator _dialogCoordinator;
 
-        public Appliance SelectedAppliance { get; set; }
+        private Appliance _selectedAppliance;
+        public Appliance SelectedAppliance
+        {
+            get { return _selectedAppliance; }
+            set
+            {
+                if (!SetProperty(ref _selectedAppliance, value)) return;
+
+                // Notify if property was changed
+                AddApplianceToPackageSolution.NotifyCanExecuteChanged();
+                EditAppliance.NotifyCanExecuteChanged();
+                RemoveAppliance.NotifyCanExecuteChanged();
+            }
+        }
         #endregion
 
         #region Command initializations
@@ -67,7 +80,7 @@ namespace VVSAssistant.ViewModels
             EditAppliance = new RelayCommand(x =>
             {
                 RunEditDialog();
-            });
+            }, x => SelectedAppliance != null);
 
             RemoveAppliance = new RelayCommand(x =>
             {
@@ -97,6 +110,7 @@ namespace VVSAssistant.ViewModels
         private void SaveCurrentPackagedSolution()
         {
             PackagedSolution.CreationDate = DateTime.Now;
+            PackagedSolution.Appliances = new ApplianceList(AppliancesInSolution.ToList());
 
             DbContext.PackagedSolutions.Add(PackagedSolution);
             DbContext.SaveChanges();

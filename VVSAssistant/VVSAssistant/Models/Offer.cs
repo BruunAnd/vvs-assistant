@@ -20,7 +20,7 @@ namespace VVSAssistant.Models
         public virtual Client Client { get; set; }
         public virtual OfferInformation OfferInformation { get; set; }
         public virtual PackagedSolution PackagedSolution { get; set; }
-        public virtual ICollection<Salary> Salaries { get; }
-        public virtual ICollection<Material> Materials { get; }
+        public virtual ICollection<Salary> Salaries { get; set; }
+        public virtual ICollection<Material> Materials { get; set; }
     }
 }
