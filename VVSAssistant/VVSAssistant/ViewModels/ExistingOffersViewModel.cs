@@ -1,13 +1,35 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 using VVSAssistant.Common.ViewModels;
+using VVSAssistant.Models;
+using VVSAssistant.Database;
+
 
 namespace VVSAssistant.ViewModels
 {
     public class ExistingOffersViewModel : ViewModelBase
     {
+        private ObservableCollection<Offer> _offers;
+        public ObservableCollection<Offer> Offers
+        {
+            get { return _offers; }
+            set { _offers = value; OnPropertyChanged(); }
+        }
+
+        public ExistingOffersViewModel()
+        {
+            _offers = new ObservableCollection<Offer>();
+        }
         public override void Initialize()
         {
-            throw new NotImplementedException();
+            DbContext.Offers.ToList().ForEach(o => Offers.Add(o));
+
+            //HACK: wat - hvorfor er det her nødvendigt? 
+            for (int i = 0; i < DbContext.OfferInformation.ToList().Count; i++)
+            {
+                Offers[i].OfferInformation = DbContext.OfferInformation.ToList()[i];
+            }
         }
     }
 }
