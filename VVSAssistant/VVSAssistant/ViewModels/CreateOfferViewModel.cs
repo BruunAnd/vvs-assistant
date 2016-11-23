@@ -177,7 +177,7 @@ namespace VVSAssistant.ViewModels
             PrintNewOffer.NotifyCanExecuteChanged();
         }
 
-        public override void Initialize()
+        public override void LoadDataFromDatabase()
         {
             DbContext.PackagedSolutions.ToList().ForEach(p => PackagedSolutions.Add(p));
         }

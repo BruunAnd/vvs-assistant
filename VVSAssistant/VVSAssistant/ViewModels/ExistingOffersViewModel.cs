@@ -22,7 +22,7 @@ namespace VVSAssistant.ViewModels
             _offers = new ObservableCollection<Offer>();
         }
 
-        public override void Initialize()
+        public override void LoadDataFromDatabase()
         {
             DbContext.Offers.ToList().ForEach(o => Offers.Add(o));
         }

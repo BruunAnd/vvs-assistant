@@ -153,7 +153,7 @@ namespace VVSAssistant.ViewModels
             SaveDialog.NotifyCanExecuteChanged();
         }
 
-        public override void Initialize()
+        public override void LoadDataFromDatabase()
         {
             DbContext.Appliances.ToList().ForEach(Appliances.Add);
         }

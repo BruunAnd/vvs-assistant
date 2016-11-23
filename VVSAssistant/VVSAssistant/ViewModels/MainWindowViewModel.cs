@@ -57,7 +57,7 @@ namespace VVSAssistant.ViewModels
             }
 
             CurrentViewModel?.OpenDataConnection();
-            CurrentViewModel?.Initialize();
+            CurrentViewModel?.LoadDataFromDatabase();
         }
     }
 }
