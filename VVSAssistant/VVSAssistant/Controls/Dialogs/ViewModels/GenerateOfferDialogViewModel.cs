@@ -7,10 +7,11 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using VVSAssistant.Models;
 using VVSAssistant.Common.ViewModels;
+using VVSAssistant.Common;
 
 namespace VVSAssistant.Controls.Dialogs.ViewModels
 {
-    class GenerateOfferDialogViewModel : ViewModelBase
+    class GenerateOfferDialogViewModel : NotifyPropertyChanged
     {
         private OfferViewModel _offer;
         public OfferViewModel Offer
