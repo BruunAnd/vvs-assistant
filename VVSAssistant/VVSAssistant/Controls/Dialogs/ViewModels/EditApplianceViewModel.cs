@@ -4,6 +4,7 @@ using VVSAssistant.ViewModels.MVVM;
 using MahApps.Metro.Controls.Dialogs;
 using VVSAssistant.ViewModels;
 using System.ComponentModel;
+using VVSAssistant.Models;
 
 namespace VVSAssistant.Controls.Dialogs.ViewModels
 {
@@ -12,9 +13,9 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
         public RelayCommand CloseCommand { get; }
         public RelayCommand SaveCommand { get; }
 
-        public ApplianceViewModel Appliance { get; }
+        public Appliance Appliance { get; }
         
-        public EditApplianceViewModel(ApplianceViewModel appliance, Action<EditApplianceViewModel> closeHandler, Action<EditApplianceViewModel> completionHandler)
+        public EditApplianceViewModel(Appliance appliance, Action<EditApplianceViewModel> closeHandler, Action<EditApplianceViewModel> completionHandler)
         {
             Appliance = appliance;
 

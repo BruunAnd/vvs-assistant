@@ -7,15 +7,16 @@ using VVSAssistant.Database;
 using VVSAssistant.ViewModels.MVVM;
 using VVSAssistant.Controls.Dialogs.ViewModels;
 using VVSAssistant.Controls.Dialogs.Views;
+using VVSAssistant.Models;
 
 namespace VVSAssistant.ViewModels
 {
     public class CreatePackagedSolutionViewModel : ViewModelBase
     {
         #region Property initializations
-        public PackagedSolutionViewModel PackagedSolution { get; } = new PackagedSolutionViewModel();
+        public PackagedSolution PackagedSolution { get; } = new PackagedSolution();
         private IDialogCoordinator _dialogCoordinator;
-        public ApplianceViewModel SelectedAppliance { get; set; }
+        public Appliance SelectedAppliance { get; set; }
         #endregion
 
         #region Command initializations
@@ -28,8 +29,8 @@ namespace VVSAssistant.ViewModels
         #endregion
 
         #region Collections
-        public ObservableCollection<ApplianceViewModel> Appliances { get; } = new ObservableCollection<ApplianceViewModel>();
-        public FilterableListViewModel<ApplianceViewModel> FilterableApplianceList { get; private set; }
+        public ObservableCollection<Appliance> Appliances { get; } = new ObservableCollection<Appliance>();
+        //public FilterableListViewModel<ApplianceViewModel> FilterableApplianceList { get; private set; }
         #endregion
 
         public CreatePackagedSolutionViewModel(IDialogCoordinator dialogCoordinator)
@@ -39,10 +40,12 @@ namespace VVSAssistant.ViewModels
             // Load list of appliances from database
             using (var dbContext = new AssistantContext())
             {
-                // Transform list of Appliance to a list of ApplianceViewModel
-                dbContext.Appliances.ToList().ForEach(a => Appliances.Add(new ApplianceViewModel(a)));
+                foreach(var item in dbContext.Appliances)
+                {
+                    Appliances.Add(item);
+                }
                 // Create filtered list
-                FilterableApplianceList = new FilterableListViewModel<ApplianceViewModel>(Appliances);
+                // FilterableApplianceList = new FilterableListViewModel<ApplianceViewModel>(Appliances);
             }
 
             #region Command declarations
@@ -50,11 +53,13 @@ namespace VVSAssistant.ViewModels
             AddApplianceToPackageSolution = new RelayCommand(x => 
             {
                 PackagedSolution.Appliances.Add(SelectedAppliance);
+                RaiseCanExecuteChanged();
             }, x => SelectedAppliance != null);
 
             RemoveApplianceFromPackageSolution = new RelayCommand(x =>
             {
                 PackagedSolution.Appliances.Remove(SelectedAppliance);
+                RaiseCanExecuteChanged();
             }, x => SelectedAppliance != null);
 
             EditAppliance = new RelayCommand(x =>
@@ -64,7 +69,7 @@ namespace VVSAssistant.ViewModels
 
             RemoveAppliance = new RelayCommand(x =>
             {
-                SelectedAppliance.RemoveFromDatabase();
+                // SelectedAppliance.RemoveFromDatabase();
                 
                 Appliances.Remove(SelectedAppliance);
             }, x => SelectedAppliance != null);
@@ -72,6 +77,7 @@ namespace VVSAssistant.ViewModels
             NewPackageSolution = new RelayCommand(x =>
             {
                 PackagedSolution.Appliances.Clear();
+                RaiseCanExecuteChanged();
             }, x => PackagedSolution.Appliances.Any());
             
 
@@ -80,8 +86,12 @@ namespace VVSAssistant.ViewModels
                 RunSaveDialog();
             }, x => PackagedSolution.Appliances.Any());
             #endregion
+        }
 
-            PackagedSolution.Appliances.CollectionChanged += PackageSolutionAppliances_CollectionChanged;
+        private void RaiseCanExecuteChanged()
+        {
+            NewPackageSolution.NotifyCanExecuteChanged();
+            SaveDialog.NotifyCanExecuteChanged();
         }
 
         private async void RunSaveDialog()
@@ -94,7 +104,7 @@ namespace VVSAssistant.ViewModels
                 {
                     _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
                     PackagedSolution.Name = instanceCompleted.Input;
-                    PackagedSolution.SaveToDatabase();
+                    // PackagedSolution.SaveToDatabase();
                 }); 
             
             customDialog.Content = new SaveDialogView { DataContext = dialogViewModel };
@@ -111,10 +121,6 @@ namespace VVSAssistant.ViewModels
             await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
         }
         
-        private void PackageSolutionAppliances_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            NewPackageSolution.NotifyCanExecuteChanged();
-            SaveDialog.NotifyCanExecuteChanged();
-        }
+       
     }
 }
