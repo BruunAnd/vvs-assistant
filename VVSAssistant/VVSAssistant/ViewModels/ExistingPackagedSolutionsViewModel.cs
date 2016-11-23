@@ -8,25 +8,31 @@ using System.Threading.Tasks;
 using VVSAssistant.Common.ViewModels;
 using VVSAssistant.Common.ViewModels.VVSAssistant.Common.ViewModels;
 using VVSAssistant.Database;
+using VVSAssistant.Extensions;
+using VVSAssistant.Models;
 using VVSAssistant.ViewModels;
 using VVSAssistant.ViewModels.MVVM;
 
 namespace VVSAssistant.ViewModels
 {
-    internal class ExistingPackagedSolutionsViewModel : FilterableViewModelBase<PackagedSolutionViewModel>
+    internal class ExistingPackagedSolutionsViewModel : FilterableViewModelBase<PackagedSolution>
     {
-        public ObservableCollection<PackagedSolutionViewModel> PackagedSolutions { get; } = new ObservableCollection<PackagedSolutionViewModel>();
+        public ObservableCollection<PackagedSolution> PackagedSolutions { get; set; }
 
         public ExistingPackagedSolutionsViewModel()
         {
             SetupFilterableView(PackagedSolutions);
+        }
 
+        public override void Initialize()
+        {
             // Load list of packaged solutions from database
-            using (var dbContext = new AssistantContext())
-            {
-                // Transform list of PackagedSolution to a list of PackagedSolutionViewModel
-                dbContext.PackagedSolutions.ToList().ForEach(x => PackagedSolutions.Add(new PackagedSolutionViewModel(x)));
-            }
+            DbContext.PackagedSolutions.ToList().ForEach(PackagedSolutions.Add);
+        }
+
+        protected override bool Filter(PackagedSolution obj)
+        {
+            return obj.Name.ContainsIgnoreCase(FilterString) || obj.Description.ContainsIgnoreCase(FilterString);
         }
     }
 }

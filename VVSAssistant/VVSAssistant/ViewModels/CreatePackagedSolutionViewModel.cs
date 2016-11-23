@@ -9,14 +9,15 @@ using VVSAssistant.Database;
 using VVSAssistant.ViewModels.MVVM;
 using VVSAssistant.Controls.Dialogs.ViewModels;
 using VVSAssistant.Controls.Dialogs.Views;
+using VVSAssistant.Models;
 
 namespace VVSAssistant.ViewModels
 {
-    public class CreatePackagedSolutionViewModel : FilterableViewModelBase<ApplianceViewModel>
+    public class CreatePackagedSolutionViewModel : FilterableViewModelBase<Appliance>
     {
         #region Property initializations
         public PackagedSolutionViewModel PackagedSolution { get; } = new PackagedSolutionViewModel();
-        private IDialogCoordinator _dialogCoordinator;
+        private readonly IDialogCoordinator _dialogCoordinator;
         public ApplianceViewModel SelectedAppliance { get; set; }
         #endregion
 
@@ -30,20 +31,13 @@ namespace VVSAssistant.ViewModels
         #endregion
 
         #region Collections
-        public ObservableCollection<ApplianceViewModel> Appliances { get; } = new ObservableCollection<ApplianceViewModel>();
+        public ObservableCollection<Appliance> Appliances { get; } = new ObservableCollection<Appliance>();
         #endregion
 
         public CreatePackagedSolutionViewModel(IDialogCoordinator dialogCoordinator)
         {
             SetupFilterableView(Appliances);
             _dialogCoordinator = dialogCoordinator;
-
-            // Load list of appliances from database
-            using (var dbContext = new AssistantContext())
-            {
-                // Transform list of Appliance to a list of ApplianceViewModel
-                dbContext.Appliances.ToList().ForEach(a => Appliances.Add(new ApplianceViewModel(a)));
-            }
 
             #region Command declarations
 
@@ -66,7 +60,7 @@ namespace VVSAssistant.ViewModels
             {
                 SelectedAppliance.RemoveFromDatabase();
                 
-                Appliances.Remove(SelectedAppliance);
+                // Appliances.Remove(SelectedAppliance);
             }, x => SelectedAppliance != null);
 
             NewPackageSolution = new RelayCommand(x =>
@@ -108,6 +102,7 @@ namespace VVSAssistant.ViewModels
             var dialogViewModel = new EditApplianceViewModel(SelectedAppliance, instanceCancel => _dialogCoordinator.HideMetroDialogAsync(this, customDialog), instanceCompleted => _dialogCoordinator.HideMetroDialogAsync(this, customDialog));
 
             customDialog.Content = new EditApplianceView { DataContext = dialogViewModel };
+
             await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
         }
         
@@ -115,6 +110,16 @@ namespace VVSAssistant.ViewModels
         {
             NewPackageSolution.NotifyCanExecuteChanged();
             SaveDialog.NotifyCanExecuteChanged();
+        }
+
+        public override void Initialize()
+        {
+            DbContext.Appliances.ToList().ForEach(Appliances.Add);
+        }
+
+        protected override bool Filter(Appliance obj)
+        {
+            return true;
         }
     }
 }

@@ -4,11 +4,12 @@ using VVSAssistant.ViewModels.MVVM;
 using MahApps.Metro.Controls.Dialogs;
 using VVSAssistant.ViewModels;
 using System.Threading.Tasks;
+using VVSAssistant.Common;
 using VVSAssistant.Common.ViewModels;
 
 namespace VVSAssistant.Controls.Dialogs.ViewModels
 {
-    public class SaveDialogViewModel : ViewModelBase
+    public class SaveDialogViewModel : NotifyPropertyChanged
     {
         public RelayCommand CloseCommand { get; }
         public RelayCommand SaveCommand { get; }

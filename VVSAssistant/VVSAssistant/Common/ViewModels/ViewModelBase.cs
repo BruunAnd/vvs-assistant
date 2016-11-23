@@ -3,12 +3,28 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using VVSAssistant.Database;
 
 namespace VVSAssistant.Common.ViewModels
 {
-    public class ViewModelBase : NotifyPropertyChanged, IDataErrorInfo
+    public abstract class ViewModelBase : NotifyPropertyChanged, IDataErrorInfo
     {
+        public AssistantContext DbContext { get; private set; }
         public string this[string propName] => ValidateProperty(propName);
+
+        public void OpenDataConnection()
+        {
+            if (DbContext != null)
+                CloseDataConnection();
+            DbContext = new AssistantContext();
+        }
+
+        public void CloseDataConnection()
+        {
+            DbContext?.Dispose();
+        }
+
+        public abstract void Initialize();
 
         /// <summary>
         /// Validates a property based on its DataAnnotations
