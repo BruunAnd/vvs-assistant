@@ -17,7 +17,7 @@ namespace VVSAssistant.ViewModels
     {
         #region Property initializations
         public PackagedSolutionViewModel PackagedSolution { get; } = new PackagedSolutionViewModel();
-        private IDialogCoordinator _dialogCoordinator;
+        private readonly IDialogCoordinator _dialogCoordinator;
         public ApplianceViewModel SelectedAppliance { get; set; }
         #endregion
 
@@ -102,6 +102,7 @@ namespace VVSAssistant.ViewModels
             var dialogViewModel = new EditApplianceViewModel(SelectedAppliance, instanceCancel => _dialogCoordinator.HideMetroDialogAsync(this, customDialog), instanceCompleted => _dialogCoordinator.HideMetroDialogAsync(this, customDialog));
 
             customDialog.Content = new EditApplianceView { DataContext = dialogViewModel };
+
             await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
         }
         
