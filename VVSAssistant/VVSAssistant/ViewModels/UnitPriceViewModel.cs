@@ -8,7 +8,7 @@ using VVSAssistant.ViewModels.MVVM;
 
 namespace VVSAssistant.ViewModels
 {
-    class UnitPriceViewModel : ViewModelBase
+    public class UnitPriceViewModel : ViewModelBase
     {
         private readonly UnitPrice _unitPrice;
 

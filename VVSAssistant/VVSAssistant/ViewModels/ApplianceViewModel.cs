@@ -14,11 +14,13 @@ namespace VVSAssistant.ViewModels
         public readonly Appliance Model;
 
         private DataSheetViewModel _dataSheet;
+        private UnitPriceViewModel _unitPrice;
 
         public ApplianceViewModel(Appliance model)
         {
             Model = model;
             _dataSheet = new DataSheetViewModel(model.DataSheet);
+            _unitPrice = new UnitPriceViewModel(model.UnitPrice);
         }
 
         public string Name
@@ -85,6 +87,12 @@ namespace VVSAssistant.ViewModels
                 dbContext.Appliances.AddOrUpdate(Model);
                 dbContext.SaveChanges();
             }
+        }
+
+        public UnitPriceViewModel UnitPrice
+        {
+            get { return _unitPrice; }
+            set { _unitPrice = value; OnPropertyChanged(); }
         }
     }
 }
