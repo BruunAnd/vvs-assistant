@@ -10,6 +10,7 @@ namespace VVSAssistant.Database
         public AssistantContext() : base("AssistantDatabaseConnectionString")
         {
         }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<PackagedSolution>().HasMany(s => s.ApplianceInstances).WithRequired();

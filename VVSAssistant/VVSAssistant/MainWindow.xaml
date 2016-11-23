@@ -83,7 +83,7 @@
             </WrapPanel>
 
         </Grid>
-        <Controls:TransitioningContentControl Content = "{Binding CurrentViewModel}"/>
+        <Controls:TransitioningContentControl Content="{Binding CurrentViewModel}" Transition="{Binding Transition}"/>
     </Grid>
     
 
