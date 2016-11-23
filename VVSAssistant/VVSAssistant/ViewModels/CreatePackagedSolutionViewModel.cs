@@ -16,7 +16,6 @@ namespace VVSAssistant.ViewModels
         public PackagedSolutionViewModel PackagedSolution { get; } = new PackagedSolutionViewModel();
         private IDialogCoordinator _dialogCoordinator;
         public ApplianceViewModel SelectedAppliance { get; set; }
-        public ApplianceViewModel SelectedPackagedSolutionAppliance { get; set; }
         #endregion
 
         #region Command initializations
@@ -30,7 +29,6 @@ namespace VVSAssistant.ViewModels
 
         #region Collections
         public ObservableCollection<ApplianceViewModel> Appliances { get; } = new ObservableCollection<ApplianceViewModel>();
-
         public FilterableListViewModel<ApplianceViewModel> FilterableApplianceList { get; private set; }
         #endregion
 
@@ -56,8 +54,8 @@ namespace VVSAssistant.ViewModels
 
             RemoveApplianceFromPackageSolution = new RelayCommand(x =>
             {
-                PackagedSolution.Appliances.Remove(SelectedPackagedSolutionAppliance);
-            }, x => SelectedPackagedSolutionAppliance != null);
+                PackagedSolution.Appliances.Remove(SelectedAppliance);
+            }, x => SelectedAppliance != null);
 
             EditAppliance = new RelayCommand(x =>
              {

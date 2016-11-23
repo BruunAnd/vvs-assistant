@@ -154,7 +154,6 @@
     <Compile Include="ViewModels\ApplianceViewModel.cs" />
     <Compile Include="ViewModels\ClientInformationViewModel.cs" />
     <Compile Include="ViewModels\ClientViewModel.cs" />
-    <Compile Include="ViewModels\Commands\CreateClientCommand.cs" />
     <Compile Include="ViewModels\CreateOfferViewModel.cs" />
     <Compile Include="ViewModels\CreatePackagedSolutionViewModel.cs" />
     <Compile Include="ViewModels\DataSheetViewModel.cs" />
@@ -165,8 +164,6 @@
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\MaterialViewModel.cs" />
     <Compile Include="ViewModels\MVVM\DataEventArgs.cs" />
-    <Compile Include="ViewModels\MVVM\DialogCoordinator.cs" />
-    <Compile Include="ViewModels\MVVM\DialogParticipation.cs" />
     <Compile Include="ViewModels\MVVM\ViewModelBase.cs" />
     <Compile Include="ViewModels\OfferInformationViewModel.cs" />
     <Compile Include="ViewModels\OfferViewModel.cs" />
