@@ -13,7 +13,7 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
 {
     class GenerateOfferDialogViewModel : NotifyPropertyChanged
     {
-        public OfferViewModel Offer;
+        public Offer Offer;
         public ObservableCollection<Client> Clients;
         public RelayCommand CloseCommand { get; }
         public RelayCommand SaveCommand { get; }
@@ -86,7 +86,7 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             set { Offer.OfferInformation.Title = value; OnPropertyChanged(); }
         }
 
-        public GenerateOfferDialogViewModel(OfferViewModel offer, ObservableCollection<Client> clients, IDialogCoordinator dialogCoordinator, Action<GenerateOfferDialogViewModel> closeHandler)
+        public GenerateOfferDialogViewModel(Offer offer, ObservableCollection<Client> clients, IDialogCoordinator dialogCoordinator, Action<GenerateOfferDialogViewModel> closeHandler)
         {
             Offer = offer;
             Clients = clients;

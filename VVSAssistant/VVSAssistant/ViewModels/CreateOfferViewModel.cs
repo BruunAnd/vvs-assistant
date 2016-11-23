@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Collections.ObjectModel;
 
 using VVSAssistant.ViewModels.MVVM;
@@ -26,7 +27,6 @@ namespace VVSAssistant.ViewModels
         {
             #region Properties and fields
 
-            Offer = new OfferViewModel(new Offer());
             _dialogCoordinator = coordinator;
 
             #endregion
@@ -59,7 +59,7 @@ namespace VVSAssistant.ViewModels
         }
 
         #region Properties for view
-        public OfferViewModel Offer { get; set; }
+        public Offer Offer { get; set; }
 
         public bool IsComponentTabVisible
         {
@@ -73,7 +73,7 @@ namespace VVSAssistant.ViewModels
             set { arePackagedSolutionsVisible = value; OnPropertyChanged(); }
         }
 
-        public PackagedSolutionViewModel SelectedPackagedSolution
+        public PackagedSolution SelectedPackagedSolution
         {
             get { return Offer.PackagedSolution; }
             set { Offer.PackagedSolution = value; OnPropertyChanged(); }
@@ -94,7 +94,7 @@ namespace VVSAssistant.ViewModels
             ArePackagedSolutionsVisible = true;
             IsComponentTabVisible = false;
 
-            Offer = new OfferViewModel(new Offer());
+            Offer = new Offer();
             SelectedPackagedSolution = null;
             PrintNewOffer.NotifyCanExecuteChanged();
         }
@@ -117,8 +117,8 @@ namespace VVSAssistant.ViewModels
         {
             IsComponentTabVisible = true;
             ArePackagedSolutionsVisible = false;
-            Offer.Materials = new ObservableCollection<MaterialViewModel>();
-            Offer.Salaries = new ObservableCollection<SalaryViewModel>();
+            Offer.Materials = new List<Material>();
+            Offer.Salaries = new List<Salary>();
             PrintNewOffer.NotifyCanExecuteChanged();
         }
 
