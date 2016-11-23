@@ -20,6 +20,7 @@ namespace VVSAssistant.ViewModels
 {
     class CreateOfferViewModel : ViewModelBase
     {
+        #region Properties
         public RelayCommand PrintNewOffer { get; }
         public RelayCommand SolutionDoubleClicked { get; }
         public RelayCommand CreateNewOffer { get; }
@@ -85,6 +86,7 @@ namespace VVSAssistant.ViewModels
             get { return _appliancesInPackagedSolution; }
             set { _appliancesInPackagedSolution = value; OnPropertyChanged(); }
         }
+        #endregion
 
         public CreateOfferViewModel(IDialogCoordinator coordinator)
         {
@@ -184,14 +186,12 @@ namespace VVSAssistant.ViewModels
             offer.Salaries = SalariesInOffer.ToList();
             offer.Materials = MaterialsInOffer.ToList();
             offer.CreationDate = DateTime.Now;
+            offer.Client.CreationDate = DateTime.Now;
             /* Everything else has been set by reference */
             /* Save it to the database */
             DbContext.Offers.Add(offer);
             DbContext.SaveChanges();
         }
-
-
         #endregion
-
     }
 }
