@@ -22,6 +22,7 @@ namespace VVSAssistant.Common.ViewModels
         public void CloseDataConnection()
         {
             DbContext?.Dispose();
+            DbContext = null;
         }
 
         public abstract void Initialize();
