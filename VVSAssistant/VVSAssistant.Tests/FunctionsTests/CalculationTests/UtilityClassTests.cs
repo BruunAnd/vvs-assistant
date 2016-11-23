@@ -35,6 +35,8 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests
         [TestCase(0.59f, true, false, 1.0f)]
         [TestCase(0.0735f, false, true, 0.78f)]
         [TestCase(0.7f, false, true, 0.00f)]
+        [TestCase(0.36f,true,true, 0.10f)]
+        [TestCase(0.1764f,true, true, 0.38f)]
 
         public void GetWeightingReturnsCurrectAnswer_True(float input, bool firstBool, bool secondBool, float expectedAnswer)
         {

@@ -67,10 +67,8 @@ namespace VVSAssistant.Functions.Calculation
         }
 
         private static float LiniarInterpolation(float[] results, float[] IIvalues, int i, float input)
-        {
-
-            
-            return (float)(Math.Round((IIvalues[i - 1] + (IIvalues[i] - IIvalues[i - 1]) / (results[i] - results[i - 1]) * (input - results[i - 1])) * 100) / 100);
+        {          
+            return (float)Math.Round(IIvalues[i - 1] + (IIvalues[i] - IIvalues[i - 1]) / (results[i] - results[i - 1]) * (input - results[i - 1]), 2);
         }
     }
 }
