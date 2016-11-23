@@ -93,7 +93,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 }
             };
 
-            CurrentPack.Appliances = new List<Appliance>() {
+            CurrentPack.Appliances = new ApplianceList(new List<Appliance>() {
                 new Appliance()
                 {
                     Name = "Logano Plus",
@@ -122,7 +122,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                     DataSheet = new TemperatureControllerDataSheet() {Class = TempControlClass}
                 }
 
-            };
+            });
             for (int i = 0; i < SolNumber; i++)
             {
                 Appliance SolarCollector = new Appliance()
