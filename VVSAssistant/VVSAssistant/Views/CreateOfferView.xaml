@@ -80,11 +80,10 @@
             <!-- Appliances for selected pacckaged solution-->
             <TabControl Visibility="{Binding IsComponentTabVisible, 
                                      Converter={StaticResource BoolToVisibilityConverter}, 
-                                     UpdateSourceTrigger=PropertyChanged}"
-                        Style="{StaticResource MetroTabControl}">
+                                     UpdateSourceTrigger=PropertyChanged}">
                 <TabItem Header="Komponenter">
                     <DataGrid AutoGenerateColumns="False"
-                              ItemsSource="{Binding Offer.PackagedSolution.Appliances, UpdateSourceTrigger=PropertyChanged}"
+                              ItemsSource="{Binding AppliancesInPackagedSolution, UpdateSourceTrigger=PropertyChanged}"
                               IsReadOnly="False"
                               SelectionUnit="Cell"
                               SelectionMode="Single">
@@ -125,7 +124,7 @@
                               IsReadOnly="False"
                               SelectionUnit="Cell"
                               SelectionMode="Single"
-                              ItemsSource="{Binding Offer.Salaries}"
+                              ItemsSource="{Binding SalariesInPackagedSolution}"
                               CanUserAddRows="True">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Salary.Name}"
@@ -175,7 +174,7 @@
                               IsReadOnly="False"
                               SelectionUnit="Cell"
                               SelectionMode="Single"
-                              ItemsSource="{Binding Offer.Materials}">
+                              ItemsSource="{Binding MaterialsInPackagedSolution}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding VvsNumber}"
                                                 Header="VVS Nr."
