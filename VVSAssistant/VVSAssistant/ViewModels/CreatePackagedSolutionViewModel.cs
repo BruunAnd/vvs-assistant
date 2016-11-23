@@ -64,8 +64,9 @@ namespace VVSAssistant.ViewModels
 
             RemoveAppliance = new RelayCommand(x =>
             {
+                SelectedAppliance.RemoveFromDatabase();
+                
                 Appliances.Remove(SelectedAppliance);
-                // SelectedAppliance.RemoveFromDatabase();
             }, x => SelectedAppliance != null);
 
             NewPackageSolution = new RelayCommand(x =>
