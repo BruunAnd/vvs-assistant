@@ -135,7 +135,7 @@
                       Grid.Row="1" 
                       IsReadOnly="true" 
                       AutoGenerateColumns="False" 
-                      ItemsSource="{Binding PackagedSolution.Appliances}"
+                      ItemsSource="{Binding AppliancesInSolution}"
                       SelectedItem="{Binding SelectedAppliance}" >
                 <DataGrid.InputBindings>
                     <MouseBinding MouseAction="LeftDoubleClick"

@@ -1,11 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading;
 using System.Collections.Specialized;
 using MahApps.Metro.Controls.Dialogs;
-using VVSAssistant.Common.ViewModels;
 using VVSAssistant.Common.ViewModels.VVSAssistant.Common.ViewModels;
-using VVSAssistant.Database;
 using VVSAssistant.ViewModels.MVVM;
 using VVSAssistant.Controls.Dialogs.ViewModels;
 using VVSAssistant.Controls.Dialogs.Views;
@@ -16,9 +13,22 @@ namespace VVSAssistant.ViewModels
     public class CreatePackagedSolutionViewModel : FilterableViewModelBase<Appliance>
     {
         #region Property initializations
-        public PackagedSolutionViewModel PackagedSolution { get; } = new PackagedSolutionViewModel();
+        private PackagedSolution _packagedSolution;
+        public PackagedSolution PackagedSolution
+        {
+            get { return _packagedSolution; }
+            set
+            {
+                _packagedSolution = value;
+                AppliancesInSolution = new ObservableCollection<Appliance>(_packagedSolution.Appliances);
+                AppliancesInSolution.CollectionChanged += PackageSolutionAppliances_CollectionChanged;
+            }
+
+        }
+
         private readonly IDialogCoordinator _dialogCoordinator;
-        public ApplianceViewModel SelectedAppliance { get; set; }
+
+        public Appliance SelectedAppliance { get; set; }
         #endregion
 
         #region Command initializations
@@ -32,6 +42,7 @@ namespace VVSAssistant.ViewModels
 
         #region Collections
         public ObservableCollection<Appliance> Appliances { get; } = new ObservableCollection<Appliance>();
+        public ObservableCollection<Appliance> AppliancesInSolution { get; set; }
         #endregion
 
         public CreatePackagedSolutionViewModel(IDialogCoordinator dialogCoordinator)
@@ -58,7 +69,7 @@ namespace VVSAssistant.ViewModels
 
             RemoveAppliance = new RelayCommand(x =>
             {
-                SelectedAppliance.RemoveFromDatabase();
+                // SelectedAppliance.RemoveFromDatabase();
                 
                 // Appliances.Remove(SelectedAppliance);
             }, x => SelectedAppliance != null);
@@ -74,8 +85,6 @@ namespace VVSAssistant.ViewModels
                 RunSaveDialog();
             }, x => PackagedSolution.Appliances.Any());
             #endregion
-
-            PackagedSolution.Appliances.CollectionChanged += PackageSolutionAppliances_CollectionChanged;
         }
 
         private async void RunSaveDialog()
@@ -88,7 +97,7 @@ namespace VVSAssistant.ViewModels
                 {
                     _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
                     PackagedSolution.Name = instanceCompleted.Input;
-                    PackagedSolution.SaveToDatabase();
+                    // todo PackagedSolution.SaveToDatabase();
                 }); 
             
             customDialog.Content = new SaveDialogView { DataContext = dialogViewModel };
