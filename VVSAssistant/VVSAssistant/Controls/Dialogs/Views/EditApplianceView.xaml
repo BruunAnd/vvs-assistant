@@ -12,15 +12,16 @@
             <RowDefinition Height="Auto" MinHeight="20" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <TextBlock
+        <!--<TextBlock
                    Margin="0 5 0 5"
                    FontSize="24"
                    Text="Rediger komponent"
-                   TextWrapping="Wrap"/>
-        
-        <Grid Grid.Row="1">
+                   TextWrapping="Wrap"/>-->
+
+        <Grid Grid.Row="1" DataContext="{Binding Appliance}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="10"/>
@@ -28,43 +29,40 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Orientation="Vertical">
-                <DockPanel>
-                    <Label Content="VVS nummer:"/>
+                <DockPanel Margin="5">
+                    <TextBlock Text="VVS nummer:"/>
                     <TextBlock TextWrapping="Wrap" HorizontalAlignment="Right" Text="{Binding VVS}"/>
                 </DockPanel>
-                <DockPanel>
-                    <Label Content="Navn:"/>
+                <DockPanel Margin="5">
+                    <TextBlock Text="Navn:"/>
                     <TextBlock TextWrapping="Wrap" HorizontalAlignment="Right" Text="{Binding Name}"/>
                 </DockPanel>
-                <DockPanel>
-                    <Label Content="Type:"/>
+            </StackPanel>
+
+            <StackPanel Grid.Column="2" 
+                        Orientation="Vertical">
+                <DockPanel Margin="5">
+                    <TextBlock Text="Type:"/>
                     <TextBlock TextWrapping="Wrap" HorizontalAlignment="Right" Text="{Binding Type}"/>
                 </DockPanel>
-                <Label Content="Kostpris:"/>
-                <TextBox
-                Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
-                <Label Content="Salgspris:"/>
-                <TextBox
-                Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+                <DockPanel Margin="5">
+                    <TextBlock Text="Indkøbspris:"/>
+                    <TextBlock TextWrapping="Wrap" HorizontalAlignment="Right" Text="{Binding CostPrice}"/>
+                </DockPanel>
             </StackPanel>
-            
-            <StackPanel Orientation="Vertical" Grid.Column="2">
 
-                <Label Content="AFUE:"/>
-                    <TextBox
-                Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
-                    <Label Content="Watt forbrug:"/>
-                    <TextBox
-                 Text="{Binding Type, UpdateSourceTrigger=PropertyChanged}"/>
-                    <Label Content="Klassificering"/>
-                <TextBox Text="{Binding Outro, UpdateSourceTrigger=PropertyChanged}"/>
-                
-            </StackPanel>
-            
         </Grid>
         
-        <StackPanel Grid.Row="2" Orientation="Horizontal"
-                    HorizontalAlignment="Right" Margin="0 10 0 0">
+        <StackPanel Orientation="Vertical" Grid.Row="2">
+            <Label Content="AFUE:"/>
+            <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="Watt forbrug:"/>
+            <TextBox Text="{Binding Type, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="Klassificering"/>
+            <TextBox Text="{Binding Outro, UpdateSourceTrigger=PropertyChanged}"/>
+        </StackPanel>
+        
+        <DockPanel Grid.Row="3" HorizontalAlignment="Right" Margin="0 10 0 0">
             <Button x:Name="PART_AffirmativeButton"
                     Height="35"
                     MinWidth="80"
@@ -77,7 +75,6 @@
                     Margin="5 0 5 0"
                     Command="{Binding CloseCommand}"
                     Content="Fortryd"/>
-        </StackPanel>
-
+        </DockPanel>
     </Grid>
 </UserControl>

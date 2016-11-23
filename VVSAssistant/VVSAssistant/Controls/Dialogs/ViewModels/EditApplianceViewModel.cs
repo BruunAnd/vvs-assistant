@@ -11,10 +11,13 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
     {
         public RelayCommand CloseCommand { get; }
         public RelayCommand SaveCommand { get; }
-        
 
-        public EditApplianceViewModel(Action<EditApplianceViewModel> closeHandler, Action<EditApplianceViewModel> completionHandler)
+        public ApplianceViewModel Appliance { get; }
+        
+        public EditApplianceViewModel(ApplianceViewModel appliance, Action<EditApplianceViewModel> closeHandler, Action<EditApplianceViewModel> completionHandler)
         {
+            Appliance = appliance;
+
             SaveCommand = new RelayCommand(x =>
             {
                 completionHandler(this);
