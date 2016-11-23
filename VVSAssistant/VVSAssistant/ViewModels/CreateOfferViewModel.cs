@@ -22,7 +22,12 @@ namespace VVSAssistant.ViewModels
         public RelayCommand PrintNewOffer { get; }
         public RelayCommand SolutionDoubleClicked { get; }
         public RelayCommand CreateNewOffer { get; }
-        public ObservableCollection<PackagedSolution> PackagedSolutions { get; set; }
+        private ObservableCollection<PackagedSolution> _packagedSolutions;
+        public ObservableCollection<PackagedSolution> PackagedSolutions
+        {
+            get { return _packagedSolutions; }
+            set { _packagedSolutions = value; OnPropertyChanged(); }
+        }
         private ObservableCollection<Client> _clients;
         private Offer _offer;
         public Offer Offer
@@ -82,16 +87,11 @@ namespace VVSAssistant.ViewModels
 
         public CreateOfferViewModel(IDialogCoordinator coordinator)
         {
-            #region Properties and fields
-
             _offer = new Offer();
             _dialogCoordinator = coordinator;
             PackagedSolutions = new ObservableCollection<PackagedSolution>();
             MaterialsInOffer = new ObservableCollection<Material>();
             SalariesInOffer = new ObservableCollection<Salary>();
-            #endregion
-
-            #region Commands
 
             /* Tied to "print offer" button in bottom left corner. 
              * Disabled if VerifyOfferHasRequiredInformation returns false. */
@@ -110,18 +110,10 @@ namespace VVSAssistant.ViewModels
             CreateNewOffer = new RelayCommand
                         ( x => SetInitialSettings()); 
 
-            #endregion
-
-            SetInitialSettings();
-
-            #region Events
             MaterialsInOffer.CollectionChanged += NotifyOfferContentsChanged;
             SalariesInOffer.CollectionChanged += NotifyOfferContentsChanged;
-            #endregion
 
-            #region Fetch from database
-
-            #endregion
+            SetInitialSettings();
         }
 
         #region Methods
@@ -183,7 +175,7 @@ namespace VVSAssistant.ViewModels
 
         public override void Initialize()
         {
-            DbContext.PackagedSolutions.ToList().ForEach(p => PackagedSolutions.Add(new PackagedSolution()));
+            DbContext.PackagedSolutions.ToList().ForEach(p => PackagedSolutions.Add(p));
         }
 
 

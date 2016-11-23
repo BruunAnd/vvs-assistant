@@ -56,7 +56,7 @@
                       Visibility="{Binding ArePackagedSolutionsVisible, 
                                    Converter={StaticResource BoolToVisibilityConverter},
                                    UpdateSourceTrigger=PropertyChanged}"
-                      ItemsSource="{Binding PackagedSolutions}"
+                      ItemsSource="{Binding PackagedSolutions, UpdateSourceTrigger=PropertyChanged}"
                       SelectedItem="{Binding SelectedPackagedSolution}">
                 <DataGrid.InputBindings>
                     <MouseBinding Gesture="LeftDoubleClick" Command="{Binding SolutionDoubleClicked}"
@@ -124,43 +124,43 @@
                               IsReadOnly="False"
                               SelectionUnit="Cell"
                               SelectionMode="Single"
-                              ItemsSource="{Binding SalariesInPackagedSolution}"
+                              ItemsSource="{Binding SalariesInOffer}"
                               CanUserAddRows="True">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding Salary.Name}"
+                            <DataGridTextColumn Binding="{Binding Name}"
                                                 Header="Beskrivelse"
                                                 MinWidth="100"
                                                 Width="1.5*"
                                                 CanUserReorder="False"/>
-                            <DataGridTextColumn Binding="{Binding Salary.Quantity, UpdateSourceTrigger=PropertyChanged}"
+                            <DataGridTextColumn Binding="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}"
                                                 Header="Timer"
                                                 MinWidth="50"
                                                 Width="1*"
                                                 CanUserReorder="False"/>
-                            <DataGridTextColumn Binding="{Binding Salary.UnitCostPrice, UpdateSourceTrigger=PropertyChanged}"
+                            <DataGridTextColumn Binding="{Binding UnitCostPrice, UpdateSourceTrigger=PropertyChanged}"
                                                 Header="Kost EP"
                                                 MinWidth="100"
                                                 Width="1*"
                                                 CanUserReorder="False"/>
 
-                            <DataGridTextColumn Binding="{Binding Salary.CostPrice, UpdateSourceTrigger=PropertyChanged}" 
+                            <DataGridTextColumn Binding="{Binding CostPrice, UpdateSourceTrigger=PropertyChanged}" 
                                                 Header="Kostpris"
                                                 IsReadOnly="True"  
                                                 MinWidth="100"
                                                 Width="1*"
                                                 CanUserReorder="False"/>
-                            <DataGridTextColumn Binding="{Binding Salary.UnitSalesPrice, UpdateSourceTrigger=PropertyChanged}"
+                            <DataGridTextColumn Binding="{Binding UnitSalesPrice, UpdateSourceTrigger=PropertyChanged}"
                                                 Header="Salgs EP"
                                                 MinWidth="100"
                                                 Width="1*"
                                                 CanUserReorder="False"/>
-                            <DataGridTextColumn Binding="{Binding Salary.SalesPrice, UpdateSourceTrigger=PropertyChanged}" 
+                            <DataGridTextColumn Binding="{Binding SalesPrice, UpdateSourceTrigger=PropertyChanged}" 
                                                 Header="Salgspris"
                                                 IsReadOnly="True"  
                                                 MinWidth="100"
                                                 Width="1*"
                                                 CanUserReorder="False"/>
-                            <DataGridTextColumn Binding="{Binding Salary.ContributionMargin, UpdateSourceTrigger=PropertyChanged}" 
+                            <DataGridTextColumn Binding="{Binding ContributionMargin, UpdateSourceTrigger=PropertyChanged}" 
                                                 Header="Samlet DB" 
                                                 IsReadOnly="True"
                                                 MinWidth="100"
@@ -174,7 +174,7 @@
                               IsReadOnly="False"
                               SelectionUnit="Cell"
                               SelectionMode="Single"
-                              ItemsSource="{Binding MaterialsInPackagedSolution}">
+                              ItemsSource="{Binding MaterialsInOffer}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding VvsNumber}"
                                                 Header="VVS Nr."
@@ -186,35 +186,35 @@
                                                 MinWidth="100"
                                                 Width="1.5*"
                                                 CanUserReorder="False"/>
-                            <DataGridTextColumn Binding="{Binding Material.Quantity, UpdateSourceTrigger=PropertyChanged}"
+                            <DataGridTextColumn Binding="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}"
                                                 Header="Timer"
                                                 MinWidth="50"
                                                 Width="1*"
                                                 CanUserReorder="False"/>
-                            <DataGridTextColumn Binding="{Binding Material.UnitCostPrice, UpdateSourceTrigger=PropertyChanged}"
+                            <DataGridTextColumn Binding="{Binding UnitCostPrice, UpdateSourceTrigger=PropertyChanged}"
                                                 Header="Kost EP"
                                                 MinWidth="100"
                                                 Width="1*"
                                                 CanUserReorder="False"/>
 
-                            <DataGridTextColumn Binding="{Binding Material.CostPrice, UpdateSourceTrigger=PropertyChanged}" 
+                            <DataGridTextColumn Binding="{Binding CostPrice, UpdateSourceTrigger=PropertyChanged}" 
                                                 Header="Kostpris"
                                                 IsReadOnly="True"  
                                                 MinWidth="100"
                                                 Width="1*"
                                                 CanUserReorder="False"/>
-                            <DataGridTextColumn Binding="{Binding Material.UnitSalesPrice, UpdateSourceTrigger=PropertyChanged}"
+                            <DataGridTextColumn Binding="{Binding UnitSalesPrice, UpdateSourceTrigger=PropertyChanged}"
                                                 Header="Salgs EP"
                                                 MinWidth="100"
                                                 Width="1*"
                                                 CanUserReorder="False"/>
-                            <DataGridTextColumn Binding="{Binding Material.SalesPrice, UpdateSourceTrigger=PropertyChanged}" 
+                            <DataGridTextColumn Binding="{Binding SalesPrice, UpdateSourceTrigger=PropertyChanged}" 
                                                 Header="Salgspris"
                                                 IsReadOnly="True"  
                                                 MinWidth="100"
                                                 Width="1*"
                                                 CanUserReorder="False"/>
-                            <DataGridTextColumn Binding="{Binding Material.ContributionMargin, UpdateSourceTrigger=PropertyChanged}" 
+                            <DataGridTextColumn Binding="{Binding ContributionMargin, UpdateSourceTrigger=PropertyChanged}" 
                                                 Header="Samlet DB" 
                                                 IsReadOnly="True"
                                                 MinWidth="100"
