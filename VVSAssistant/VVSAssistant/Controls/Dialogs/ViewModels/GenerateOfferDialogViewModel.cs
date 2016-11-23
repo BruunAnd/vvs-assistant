@@ -5,14 +5,16 @@ using MahApps.Metro.Controls.Dialogs;
 using VVSAssistant.ViewModels;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
+using VVSAssistant.Common;
 using VVSAssistant.Common.ViewModels;
+using VVSAssistant.Models;
 
 namespace VVSAssistant.Controls.Dialogs.ViewModels
 {
-    class GenerateOfferDialogViewModel : ViewModelBase
+    class GenerateOfferDialogViewModel : NotifyPropertyChanged
     {
         public OfferViewModel Offer;
-        public ObservableCollection<ClientViewModel> Clients;
+        public ObservableCollection<Client> Clients;
         public RelayCommand CloseCommand { get; }
         public RelayCommand SaveCommand { get; }
 
@@ -84,7 +86,7 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             set { Offer.OfferInformation.Title = value; OnPropertyChanged(); }
         }
 
-        public GenerateOfferDialogViewModel(OfferViewModel offer, ObservableCollection<ClientViewModel> clients, IDialogCoordinator dialogCoordinator, Action<GenerateOfferDialogViewModel> closeHandler)
+        public GenerateOfferDialogViewModel(OfferViewModel offer, ObservableCollection<Client> clients, IDialogCoordinator dialogCoordinator, Action<GenerateOfferDialogViewModel> closeHandler)
         {
             Offer = offer;
             Clients = clients;

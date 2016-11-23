@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Linq;
 using System.Collections.ObjectModel;
+
 using VVSAssistant.ViewModels.MVVM;
-using VVSAssistant.Exceptions;
 using VVSAssistant.Models;
-using System.Reflection;
-using MahApps.Metro.Controls.Dialogs;
 using VVSAssistant.Controls.Dialogs.ViewModels;
 using VVSAssistant.Controls.Dialogs.Views;
-using VVSAssistant.Database;
-using System.Linq;
-using System.Windows;
-using System.Windows.Input;
 using VVSAssistant.Common.ViewModels;
+
+using MahApps.Metro.Controls.Dialogs;
 
 namespace VVSAssistant.ViewModels
 {
@@ -21,10 +16,9 @@ namespace VVSAssistant.ViewModels
         public RelayCommand PrintNewOffer { get; }
         public RelayCommand SolutionDoubleClicked { get; }
         public RelayCommand CreateNewOffer { get; }
-        public ObservableCollection<PackagedSolutionViewModel> PackagedSolutions { get; }
-        private ObservableCollection<ClientViewModel> _clients;
-        private OfferViewModel _offer;
-        private IDialogCoordinator _dialogCoordinator;
+        public ObservableCollection<PackagedSolution> PackagedSolutions { get; } = new ObservableCollection<PackagedSolution>();
+        private ObservableCollection<Client> _clients;
+        private readonly IDialogCoordinator _dialogCoordinator;
         private bool isComponentTabVisible;
         private bool arePackagedSolutionsVisible;
 
@@ -32,9 +26,8 @@ namespace VVSAssistant.ViewModels
         {
             #region Properties and fields
 
-            _offer = new OfferViewModel(new Offer());
+            Offer = new OfferViewModel(new Offer());
             _dialogCoordinator = coordinator;
-            PackagedSolutions = new ObservableCollection<PackagedSolutionViewModel>();
 
             #endregion
 
@@ -63,23 +56,10 @@ namespace VVSAssistant.ViewModels
             SetInitialSettings();
 
             #endregion
-
-            #region Fetch from database
-
-            using (var dbContext = new AssistantContext())
-            {
-                dbContext.PackagedSolutions.ToList().ForEach(p => PackagedSolutions.Add(new PackagedSolutionViewModel(p)));
-            }
-
-            #endregion
         }
 
         #region Properties for view
-        public OfferViewModel Offer
-        {
-            get { return _offer; }
-            set { _offer = value; }
-        }
+        public OfferViewModel Offer { get; set; }
 
         public bool IsComponentTabVisible
         {
@@ -103,6 +83,11 @@ namespace VVSAssistant.ViewModels
 
         #region Methods
 
+        public override void Initialize()
+        {
+            DbContext.PackagedSolutions.ToList().ForEach(x => PackagedSolutions.Add(x));
+        }
+
         /* Initializes the view */
         public void SetInitialSettings()
         {
@@ -113,6 +98,8 @@ namespace VVSAssistant.ViewModels
             SelectedPackagedSolution = null;
             PrintNewOffer.NotifyCanExecuteChanged();
         }
+
+
 
         public bool VerifyOfferHasRequiredInformation()
         {
@@ -157,5 +144,6 @@ namespace VVSAssistant.ViewModels
 
         #endregion
 
+        
     }
 }
