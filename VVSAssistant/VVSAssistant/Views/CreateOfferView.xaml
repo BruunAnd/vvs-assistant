@@ -52,34 +52,38 @@
                 <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
             </Grid.Resources>
             <!-- Packaged solution -->
-            <DataGrid AutoGenerateColumns="False" 
+            <DataGrid AutoGenerateColumns="False" Name="packagedSolutionDataGrid"
                       Visibility="{Binding ArePackagedSolutionsVisible, 
                                    Converter={StaticResource BoolToVisibilityConverter},
                                    UpdateSourceTrigger=PropertyChanged}"
                       ItemsSource="{Binding PackagedSolutions}"
                       SelectedItem="{Binding SelectedPackagedSolution}">
                 <DataGrid.InputBindings>
-                    <MouseBinding Gesture="LeftDoubleClick" Command="{Binding SolutionDoubleClicked}" />
+                    <MouseBinding Gesture="LeftDoubleClick" Command="{Binding SolutionDoubleClicked}"
+                                                            CommandParameter="{Binding ElementName=packagedSolutionDataGrid,Path=SelectedItem}"/>
                 </DataGrid.InputBindings>
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding Name}" 
-                                        Header="Navn" 
-                                        Width="2*"/>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Name}" 
+                                    Header="Navn" 
+                                    Width="2*"/>
 
-                        <DataGridTextColumn Binding="{Binding CreationDate}" 
-                                        Header="Dato" 
-                                        Width="2*"/>
+                    <DataGridTextColumn Binding="{Binding CreationDate}" 
+                                    Header="Dato" 
+                                    Width="2*"/>
 
-                        <DataGridTextColumn Binding="{Binding Description}"  
-                                        Header="Beskrivelse" 
-                                        Width="3*"/>
-                    </DataGrid.Columns>
-                </DataGrid>
+                    <DataGridTextColumn Binding="{Binding Description}"  
+                                    Header="Beskrivelse" 
+                                    Width="3*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            
+            <!-- Appliances for selected pacckaged solution-->
             <TabControl Visibility="{Binding IsComponentTabVisible, 
                                      Converter={StaticResource BoolToVisibilityConverter}, 
                                      UpdateSourceTrigger=PropertyChanged}">
                 <TabItem Header="Komponenter">
                     <DataGrid AutoGenerateColumns="False"
+                              ItemsSource="{Binding SelectedPackagedSolution.Appliances, UpdateSourceTrigger=PropertyChanged}"
                               IsReadOnly="False"
                               SelectionUnit="Cell"
                               SelectionMode="Single">
@@ -93,10 +97,10 @@
                             <DataGridTextColumn Binding="{Binding Type}"
                                                 Header="Type"
                                                 MinWidth="100"
-                                                Width="1*"
+                                                Width="1*" 
                                                 IsReadOnly="True"
                                                 CanUserReorder="False"/>
-                            <DataGridTextColumn Binding="{Binding UnitCostPrice, UpdateSourceTrigger=PropertyChanged}"
+                            <DataGridTextColumn Binding="{Binding DataSheet.Price, UpdateSourceTrigger=PropertyChanged}"
                                                 Header="Kostpris"
                                                 MinWidth="100"
                                                 Width="1*"

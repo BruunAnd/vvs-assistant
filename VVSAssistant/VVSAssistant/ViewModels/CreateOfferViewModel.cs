@@ -22,7 +22,6 @@ namespace VVSAssistant.ViewModels
         public ObservableCollection<PackagedSolutionViewModel> PackagedSolutions { get; }
         private ObservableCollection<ClientViewModel> _clients;
         private OfferViewModel _offer;
-        private PackagedSolutionViewModel _selectedPackagedSolution;
         private IDialogCoordinator _dialogCoordinator;
         private bool isComponentTabVisible;
         private bool arePackagedSolutionsVisible;
@@ -33,8 +32,7 @@ namespace VVSAssistant.ViewModels
             _dialogCoordinator = coordinator;
 
             CreateNewOffer = new RelayCommand(x => CreateOffer()/*, x => VerifyNeededInformation()*/);
-
-            SolutionDoubleClicked = new RelayCommand(x => 
+            SolutionDoubleClicked = new RelayCommand(x =>
             {
                 IsComponentTabVisible = true;
                 ArePackagedSolutionsVisible = false;
@@ -56,12 +54,6 @@ namespace VVSAssistant.ViewModels
         {
             get { return _offer; }
             set { _offer = value; }
-        }
-
-        public ObservableCollection<ApplianceViewModel> SelectedAppliances
-        {
-            get { return SelectedPackagedSolution.Appliances; }
-            set { SelectedPackagedSolution.Appliances = value; OnPropertyChanged(); }
         }
 
         public bool IsComponentTabVisible
