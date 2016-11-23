@@ -51,6 +51,8 @@ namespace VVSAssistant
                     Name = "Example Solution"
                 };
 
+                db.PackagedSolutions.Add(packagedSolution);
+
                 //First appliance
                 var appliance = new Appliance()
                 {
