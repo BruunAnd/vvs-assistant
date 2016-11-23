@@ -26,13 +26,16 @@
             </ResourceDictionary.MergedDictionaries>
             
             <!-- Global view styles -->
+            
+            <!-- Added visibile gridlines for all datagrids -->
             <Style TargetType="DataGrid" BasedOn="{StaticResource MetroDataGrid}">
                 <Setter Property="GridLinesVisibility" Value="All"/>
                 <Setter Property="HorizontalScrollBarVisibility" Value="Disabled"/>
                 <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
                 <Setter Property="IsReadOnly" Value="True"/>
             </Style>
-
+            
+            <!-- Tile styling -->
             <Style TargetType="controls:Tile" x:Key="NavigationTileStyle">
                 <Setter Property="TitleFontSize" Value="14" />
                 <Setter Property="HorizontalTitleAlignment" Value="Center" />
@@ -46,7 +49,41 @@
                 </Style.Triggers>
             </Style>
                    
-
+            <!-- Tabcontrol styling -->
+            <Style x:Key="MetroTabControl" TargetType="TabControl">
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="BorderThickness" Value="2"/>
+                <Setter Property="BorderBrush" Value="{StaticResource AccentBaseColorBrush}"/>
+                <Style.Resources>
+                    <Style TargetType="TabItem">
+                        <Setter Property="MinWidth" Value="100"/>
+                        <Setter Property="Margin" Value="-2 0 2 0"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="TabItem">
+                                    <Grid Height="35" Background="#FFECF0F5">
+                                        <Border Name="Border" Margin="0" Background="Transparent" 
+                                    BorderBrush="{StaticResource AccentBaseColorBrush}" BorderThickness="0 0 2 0">
+                                            <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center"
+                                    HorizontalAlignment="Center" 
+                                    ContentSource="Header" Margin="12,2,12,2"
+                                    RecognizesAccessKey="True">
+                                            </ContentPresenter>
+                                        </Border>
+                                    </Grid>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter TargetName="Border" Property="BorderThickness" Value="0"/>
+                                            <Setter TargetName="Border" Property="Background" Value="{StaticResource AccentBaseColorBrush}"/>
+                                            <Setter Property="Foreground" Value="White"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Style.Resources>
+            </Style>
         </ResourceDictionary>
 
     </Application.Resources>

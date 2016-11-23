@@ -80,7 +80,8 @@
             <!-- Appliances for selected pacckaged solution-->
             <TabControl Visibility="{Binding IsComponentTabVisible, 
                                      Converter={StaticResource BoolToVisibilityConverter}, 
-                                     UpdateSourceTrigger=PropertyChanged}">
+                                     UpdateSourceTrigger=PropertyChanged}"
+                        Style="{StaticResource MetroTabControl}">
                 <TabItem Header="Komponenter">
                     <DataGrid AutoGenerateColumns="False"
                               ItemsSource="{Binding Offer.PackagedSolution.Appliances, UpdateSourceTrigger=PropertyChanged}"
