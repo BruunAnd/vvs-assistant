@@ -16,15 +16,12 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
     public class BoilerForWaterAsPrimaryTests
     {
         [Test]
-        public void CalculateEEI_CalculatesTheCorrectResult_FirstOffer()
-        {
-            
-        }
-        [Test]
         [TestCase(15, 2, 48)]
         [TestCase(10,5, 64)]
         [TestCase(35, 10, 158)]
-        public void SolCalMethodQaux(int pumpConsumption, int standbyConsumption, float expected)
+        [TestCase(45, 2.72f, 114)]
+        [TestCase(70, 2.72f, 164)]
+        public void SolCalMethodQaux(float pumpConsumption, float standbyConsumption, float expected)
         {
             var package = new PackagedSolution() { PrimaryHeatingUnit = new Appliance() { DataSheet = new WaterHeatingUnitDataSheet()} };
             var data = package.PrimaryHeatingUnit.DataSheet as WaterHeatingUnitDataSheet;
@@ -36,5 +33,142 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
 
             Assert.AreEqual(result, expected);
         }
+        [Test]
+        [TestCase(2,3082)]
+        [TestCase(3, 3108)]
+        public void SolcalMethodQnonsol_CalculatesQnonsol(int packageId, float expected)
+        {
+            var package = new PackagedSolutionFactory().GetPackagedSolution(packageId);
+            var data = package.PrimaryHeatingUnit.DataSheet as WaterHeatingUnitDataSheet;
+            var calculation = new BoilerForWater();
+            float QnonsolTest = calculation.SolCalMethodQnonsol(data);
+            
+            Assert.AreEqual(expected, Math.Round(QnonsolTest));
+        }
+
+        [Test]
+        [TestCase(2,82)]
+        public void CalculateEEI_CorrectEnergiEfficiency(int packageId, float expected)
+        {
+            var package = new PackagedSolutionFactory().GetPackagedSolution(packageId);
+            var data = package.PrimaryHeatingUnit.DataSheet as WaterHeatingUnitDataSheet;
+            var calculation = new BoilerForWater();
+            var result = calculation.CalculateEEI(package);
+            var EEI = result.WaterHeatingEffciency;
+            Assert.IsTrue(expected + 0.1f >= EEI && EEI >= expected - 0.1f);
+        }
+        [Test]
+        [TestCase(2,17.65f)]
+        public void CalculateEEI_CorrectSolarContribution(int packageId, float expected)
+        {
+            var package = new PackagedSolutionFactory().GetPackagedSolution(packageId);
+            var data = package.PrimaryHeatingUnit.DataSheet as WaterHeatingUnitDataSheet;
+            var calculation = new BoilerForWater();
+            var result = calculation.CalculateEEI(package);
+            var EEI = Math.Round(result.SolarHeatContribution, 2);
+            // fejl skal være margin på 0.1
+            Assert.IsTrue(expected + 0.3f >= EEI && EEI >= expected - 0.3f);
+        }
+        [Test]
+        [TestCase(2,100)]
+        [TestCase(1,111)]
+        public void CalculateEEI_CalculatesEEICompletePackagedSolution(int packageId, float expected)
+        {
+            var package = new PackagedSolutionFactory().GetPackagedSolution(packageId);
+            var data = package.PrimaryHeatingUnit.DataSheet as WaterHeatingUnitDataSheet;
+            var calculation = new BoilerForWater();
+            var result = calculation.CalculateEEI(package);
+            var EEI = (float)Math.Round(result.EEI);
+            Assert.IsTrue(expected+1f >= EEI && EEI >= expected-1f);
+        }
+        [Test]
+        [TestCase(2,107)]
+        public void CalculateEEI_CorrectWarmerEEI(int packageId, float expected)
+        {
+            var package = new PackagedSolutionFactory().GetPackagedSolution(packageId);
+            var data = package.PrimaryHeatingUnit.DataSheet as WaterHeatingUnitDataSheet;
+            var calculation = new BoilerForWater();
+            var result = calculation.CalculateEEI(package);
+            var EEI = (float)Math.Round(result.PackagedSolutionAtWarmTemperaturesAFUE);
+            Assert.IsTrue(expected + 1f >= EEI && EEI >= expected - 1f);
+        }
+        [Test]
+        [TestCase(2,96)]
+        public void CalculateEEI_CorrectColderEEI(int packageId, float expected)
+        {
+            var package = new PackagedSolutionFactory().GetPackagedSolution(packageId);
+            var data = package.PrimaryHeatingUnit.DataSheet as WaterHeatingUnitDataSheet;
+            var calculation = new BoilerForWater();
+            var result = calculation.CalculateEEI(package);
+            var EEI = (float)Math.Round(result.PackagedSolutionAtColdTemperaturesAFUE);
+            Assert.IsTrue(expected + 1f >= EEI && EEI >= expected - 1f);
+        }
+        #region Factories
     }
+    class DataSheetFactory
+    {
+        public WaterHeatingUnitDataSheet GetDataSheet(int id)
+        {
+            DataSheet datasheet;
+            switch(id)
+            {
+                case 1:
+                    datasheet = new DataSheetStub(1.94f, 0.761f, 3.08f, 0.012f, 0.94f, 190.3f, 
+                                             20f, 64f, 45f, 2.72f, UseProfileType.XL, 95f);
+                    break;
+                case 2:
+                    datasheet = new DataSheetStub(2.25f, 0.766f, 3.22f, 0.015f, 0.92f, 500f,
+                                             0f, 80f, 70, 2.72f, UseProfileType.XL, 82f);
+                    break;
+                case 3:
+                    datasheet = new DataSheetStub(2.25f, 0.766f, 3.22f, 0.015f, 0.92f, 500f,
+                                             20f, 80f, 70, 2.72f, UseProfileType.XL, 82f);
+                    break;
+                default:
+                    return null;
+            }
+            return datasheet as WaterHeatingUnitDataSheet;
+        }
+    }
+    class PackagedSolutionFactory
+    {
+        public PackagedSolution GetPackagedSolution(int id)
+        {
+            switch (id)
+            {
+                case 1:
+                    return new PackagedSolutionStub(1);
+                case 2:
+                    return new PackagedSolutionStub(2);
+                case 3:
+                    return new PackagedSolutionStub(3);
+                default:
+                    return null;
+            }
+        }
+    }
+    class PackagedSolutionStub : PackagedSolution
+    {
+        public PackagedSolutionStub(int datasheetId)
+        {
+            PrimaryHeatingUnit = new Appliance
+            { DataSheet = new DataSheetFactory().GetDataSheet(datasheetId) };
+        }
+    }
+    class DataSheetStub : WaterHeatingUnitDataSheet
+    {
+        public DataSheetStub(float Asol, float N0, float a1, float a2, float IAM, 
+                float Vnorm, float Vbu, float stdLoss, float solPump, float solsb, 
+                UseProfileType type, float efficiency)
+        {
+            this.Asol = Asol; this.N0 = N0; this.a1 = a1;
+            this.a2 = a2; this.IAM = IAM; this.Volume = Vnorm;
+            this.Vbu = Vbu; this.StandingLoss = stdLoss;
+            this.SolPumpConsumption = solPump;
+            this.SolStandbyConsumption = solsb;
+            this.UseProfile = type;
+            this.WaterHeatingEffiency = efficiency;
+        }
+    }
+    #endregion
 }
