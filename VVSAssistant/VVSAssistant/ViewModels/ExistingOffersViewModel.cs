@@ -8,7 +8,11 @@ using VVSAssistant.ViewModels.MVVM;
 
 namespace VVSAssistant.ViewModels
 {
-    class ExistingOffersViewModel : ViewModelBase
+    public class ExistingOffersViewModel : ViewModelBase
     {
+        public override void Initialize()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
