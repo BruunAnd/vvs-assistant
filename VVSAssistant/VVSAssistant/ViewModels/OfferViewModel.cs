@@ -7,6 +7,7 @@ using VVSAssistant.Models;
 using VVSAssistant.ViewModels.MVVM;
 using VVSAssistant.Exceptions;
 using System.Collections.ObjectModel;
+using VVSAssistant.Common.ViewModels;
 
 namespace VVSAssistant.ViewModels
 {

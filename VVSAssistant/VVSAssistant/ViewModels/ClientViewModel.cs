@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using VVSAssistant.Common.ViewModels;
 using VVSAssistant.Models;
 using VVSAssistant.ViewModels.MVVM;
 

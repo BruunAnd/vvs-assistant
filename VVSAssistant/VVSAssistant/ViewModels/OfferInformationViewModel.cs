@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using VVSAssistant.Models;
 using VVSAssistant.ViewModels.MVVM;
 using System.Runtime.CompilerServices;
+using VVSAssistant.Common.ViewModels;
 
 namespace VVSAssistant.ViewModels
 {

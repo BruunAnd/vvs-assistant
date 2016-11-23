@@ -49,14 +49,14 @@
                      Controls:TextBoxHelper.Watermark="Søg" 
                      Grid.Column="3"
                      Height="24"
-                     Text="{Binding FilterablePackagedSolutionsList.FilterString, UpdateSourceTrigger=PropertyChanged}"/>
+                     Text="{Binding FilterString, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
 
         <Grid Grid.Column="1" 
               Grid.Row="2">
 
             <DataGrid AutoGenerateColumns="False"
-                      ItemsSource="{Binding FilterablePackagedSolutionsList.Collection}">
+                      ItemsSource="{Binding CollectionView}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Name}" 
                                         Header="Navn" 
