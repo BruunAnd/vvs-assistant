@@ -12,6 +12,7 @@ namespace VVSAssistant.ViewModels
 
         public ExistingPackagedSolutionsViewModel()
         {
+            PackagedSolutions = new ObservableCollection<PackagedSolution>();
             SetupFilterableView(PackagedSolutions);
         }
 

@@ -21,15 +21,10 @@ namespace VVSAssistant.ViewModels
         {
             _offers = new ObservableCollection<Offer>();
         }
+
         public override void Initialize()
         {
             DbContext.Offers.ToList().ForEach(o => Offers.Add(o));
-
-            //HACK: wat - hvorfor er det her nødvendigt? 
-            for (int i = 0; i < DbContext.OfferInformation.ToList().Count; i++)
-            {
-                Offers[i].OfferInformation = DbContext.OfferInformation.ToList()[i];
-            }
         }
     }
 }
