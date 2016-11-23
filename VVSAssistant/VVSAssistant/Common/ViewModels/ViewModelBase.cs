@@ -1,23 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+using VVSAssistant.Database;
 
-namespace VVSAssistant.ViewModels.MVVM
+namespace VVSAssistant.Common.ViewModels
 {
-    public class ViewModelBase : ObservableObject, IDataErrorInfo
+    public abstract class ViewModelBase : NotifyPropertyChanged, IDataErrorInfo
     {
-        public string this[string propName]
+        public AssistantContext DbContext { get; private set; }
+        public string this[string propName] => ValidateProperty(propName);
+
+        public void OpenDataConnection()
         {
-            get
-            {
-                return ValidateProperty(propName);
-            }
+            if (DbContext != null)
+                CloseDataConnection();
+            DbContext = new AssistantContext();
         }
+
+        public void CloseDataConnection()
+        {
+            DbContext?.Dispose();
+        }
+
+        public abstract void Initialize();
 
         /// <summary>
         /// Validates a property based on its DataAnnotations
@@ -31,12 +38,9 @@ namespace VVSAssistant.ViewModels.MVVM
             var errors = new List<ValidationResult>();
             if (Validator.TryValidateObject(this, context, errors, true))
                 return null;
-            else
-            {
-                var validationError = errors.SingleOrDefault(error => error.MemberNames
-                                            .Any(member => member == propName));
-                return validationError?.ErrorMessage;
-            }
+            var validationError = errors.SingleOrDefault(error => error.MemberNames
+                .Any(member => member == propName));
+            return validationError?.ErrorMessage;
         }
 
         public string Error

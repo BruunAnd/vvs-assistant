@@ -1,21 +1,34 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading;
 using System.Collections.Specialized;
 using MahApps.Metro.Controls.Dialogs;
-using VVSAssistant.Database;
+using VVSAssistant.Common.ViewModels.VVSAssistant.Common.ViewModels;
 using VVSAssistant.ViewModels.MVVM;
 using VVSAssistant.Controls.Dialogs.ViewModels;
 using VVSAssistant.Controls.Dialogs.Views;
+using VVSAssistant.Models;
 
 namespace VVSAssistant.ViewModels
 {
-    public class CreatePackagedSolutionViewModel : ViewModelBase
+    public class CreatePackagedSolutionViewModel : FilterableViewModelBase<Appliance>
     {
         #region Property initializations
-        public PackagedSolutionViewModel PackagedSolution { get; } = new PackagedSolutionViewModel();
-        private IDialogCoordinator _dialogCoordinator;
-        public ApplianceViewModel SelectedAppliance { get; set; }
+        private PackagedSolution _packagedSolution;
+        public PackagedSolution PackagedSolution
+        {
+            get { return _packagedSolution; }
+            set
+            {
+                _packagedSolution = value;
+                AppliancesInSolution = new ObservableCollection<Appliance>(_packagedSolution.Appliances);
+                AppliancesInSolution.CollectionChanged += PackageSolutionAppliances_CollectionChanged;
+            }
+
+        }
+
+        private readonly IDialogCoordinator _dialogCoordinator;
+
+        public Appliance SelectedAppliance { get; set; }
         #endregion
 
         #region Command initializations
@@ -28,22 +41,14 @@ namespace VVSAssistant.ViewModels
         #endregion
 
         #region Collections
-        public ObservableCollection<ApplianceViewModel> Appliances { get; } = new ObservableCollection<ApplianceViewModel>();
-        public FilterableListViewModel<ApplianceViewModel> FilterableApplianceList { get; private set; }
+        public ObservableCollection<Appliance> Appliances { get; } = new ObservableCollection<Appliance>();
+        public ObservableCollection<Appliance> AppliancesInSolution { get; set; }
         #endregion
 
         public CreatePackagedSolutionViewModel(IDialogCoordinator dialogCoordinator)
         {
+            SetupFilterableView(Appliances);
             _dialogCoordinator = dialogCoordinator;
-
-            // Load list of appliances from database
-            using (var dbContext = new AssistantContext())
-            {
-                // Transform list of Appliance to a list of ApplianceViewModel
-                dbContext.Appliances.ToList().ForEach(a => Appliances.Add(new ApplianceViewModel(a)));
-                // Create filtered list
-                FilterableApplianceList = new FilterableListViewModel<ApplianceViewModel>(Appliances);
-            }
 
             #region Command declarations
 
@@ -64,8 +69,9 @@ namespace VVSAssistant.ViewModels
 
             RemoveAppliance = new RelayCommand(x =>
             {
-                Appliances.Remove(SelectedAppliance);
                 // SelectedAppliance.RemoveFromDatabase();
+                
+                // Appliances.Remove(SelectedAppliance);
             }, x => SelectedAppliance != null);
 
             NewPackageSolution = new RelayCommand(x =>
@@ -79,8 +85,6 @@ namespace VVSAssistant.ViewModels
                 RunSaveDialog();
             }, x => PackagedSolution.Appliances.Any());
             #endregion
-
-            PackagedSolution.Appliances.CollectionChanged += PackageSolutionAppliances_CollectionChanged;
         }
 
         private async void RunSaveDialog()
@@ -93,7 +97,7 @@ namespace VVSAssistant.ViewModels
                 {
                     _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
                     PackagedSolution.Name = instanceCompleted.Input;
-                    PackagedSolution.SaveToDatabase();
+                    // todo PackagedSolution.SaveToDatabase();
                 }); 
             
             customDialog.Content = new SaveDialogView { DataContext = dialogViewModel };
@@ -107,6 +111,7 @@ namespace VVSAssistant.ViewModels
             var dialogViewModel = new EditApplianceViewModel(SelectedAppliance, instanceCancel => _dialogCoordinator.HideMetroDialogAsync(this, customDialog), instanceCompleted => _dialogCoordinator.HideMetroDialogAsync(this, customDialog));
 
             customDialog.Content = new EditApplianceView { DataContext = dialogViewModel };
+
             await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
         }
         
@@ -114,6 +119,16 @@ namespace VVSAssistant.ViewModels
         {
             NewPackageSolution.NotifyCanExecuteChanged();
             SaveDialog.NotifyCanExecuteChanged();
+        }
+
+        public override void Initialize()
+        {
+            DbContext.Appliances.ToList().ForEach(Appliances.Add);
+        }
+
+        protected override bool Filter(Appliance obj)
+        {
+            return true;
         }
     }
 }

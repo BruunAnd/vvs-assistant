@@ -1,61 +1,57 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using VVSAssistant.ViewModels.MVVM;
+﻿using VVSAssistant.ViewModels.MVVM;
 using MahApps.Metro.Controls.Dialogs;
+using VVSAssistant.Common;
+using VVSAssistant.Common.ViewModels;
 
 namespace VVSAssistant.ViewModels
 {
-    class MainWindowViewModel : ViewModelBase
+    internal class MainWindowViewModel : NotifyPropertyChanged
     {
         
         public MainWindowViewModel()
         {
             NavCommand = new RelayCommand(x =>
             {
-                string str = x as string;
+                var str = x as string;
                 OnNav(str);
             });
         }
         
-        private ExistingPackagedSolutionsViewModel _existingPackagedSolutionViewModel = new ExistingPackagedSolutionsViewModel();
-        private CreatePackagedSolutionViewModel _createPackagedSolutionViewModel = new CreatePackagedSolutionViewModel(new DialogCoordinator());
-        private ExistingOffersViewModel _existingOffersViewModel = new ExistingOffersViewModel();
-        private CreateOfferViewModel _createOfferViewModel = new CreateOfferViewModel(new DialogCoordinator());
-
-        private ViewModelBase _CurrentViewModel;
+        private ViewModelBase _currentViewModel;
 
         public ViewModelBase CurrentViewModel
         {
-            get { return _CurrentViewModel; }
-            set { SetProperty(ref _CurrentViewModel, value); }
+            get { return _currentViewModel; }
+            set { SetProperty(ref _currentViewModel, value); }
         }
         
         public RelayCommand NavCommand { get; private set; }
 
         private void OnNav(string destination)
         {
+            CurrentViewModel?.CloseDataConnection();
 
             switch (destination)
             {
                 case ("ExistingPackagedSolutionView"):
-                    CurrentViewModel = _existingPackagedSolutionViewModel;
+                    CurrentViewModel = new ExistingPackagedSolutionsViewModel();
                     break;
                 case ("CreatePackagedSolutionView"):
-                    CurrentViewModel = _createPackagedSolutionViewModel;
+                    CurrentViewModel = new CreatePackagedSolutionViewModel(new DialogCoordinator());
                     break;
                 case ("ExistingOffersView"):
-                    CurrentViewModel = _existingOffersViewModel;
+                    CurrentViewModel = new ExistingOffersViewModel();
                     break;
                 case ("CreateOfferView"):
-                    CurrentViewModel = _createOfferViewModel;
+                    CurrentViewModel = new CreateOfferViewModel(new DialogCoordinator());
                     break;
                 default:
                     CurrentViewModel = null;
                     break;
             }
+
+            CurrentViewModel?.OpenDataConnection();
+            CurrentViewModel?.Initialize();
         }
     }
 }

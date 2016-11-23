@@ -21,6 +21,7 @@ namespace VVSAssistant
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+            //return;
             ShittySeed();
         }
 
@@ -32,10 +33,7 @@ namespace VVSAssistant
             {
                 // add a new client 'Iaro'
                 var clientInformation = new ClientInformation { Name = "Iaroslav", Address = "Kvadratet", Email = "iaro@russia.ru", PhoneNumber = "88888888" };
-                db.ClientInformation.Add(clientInformation);
                 var client = new Client { CreationDate = DateTime.Now, ClientInformation = clientInformation };
-                db.Clients.Add(client);
-                db.SaveChanges();
                 // offer example
                 var offer = new Offer
                 {
@@ -47,28 +45,54 @@ namespace VVSAssistant
                     Intro = "Example intro",
                     Price = 500
                 };
-                db.OfferInformation.Add(offerInformation);
                 offer.OfferInformation = offerInformation;
                 var packagedSolution = new PackagedSolution()
                 {
                     CreationDate = DateTime.Now,
                     Name = "Example Solution"
                 };
-                db.PackagedSolutions.Add(packagedSolution);
+
+                //First appliance
                 var appliance = new Appliance()
                 {
                     CreationDate = DateTime.Now,
-                    Name = "Example Appliance",
-                    Type = ApplianceTypes.Boiler
+                    Name = "Vultorp XP",
+                    Type = ApplianceTypes.Container
                 };
                 var heatPumpDataSheet = new HeatingUnitDataSheet()
                 {
-                    Price = 200
+                    Price = 150
                 };
-                db.DataSheets.Add(heatPumpDataSheet);
                 appliance.DataSheet = heatPumpDataSheet;
+                var unitPrice = new UnitPrice()
+                {
+                    UnitCostPrice = 150,
+                    Quantity = 1
+                };
+                appliance.UnitPrice = unitPrice;
+
+                //Second appliance
+                var appliance2 = new Appliance()
+                {
+                    CreationDate = DateTime.Now,
+                    Name = "MegaBoiler2000",
+                    Type = ApplianceTypes.Boiler
+                };
+                var heatPumpDataSheet2 = new HeatingUnitDataSheet()
+                {
+                    Price = 120
+                };
+                appliance2.DataSheet = heatPumpDataSheet2;
+                var unitPrice2 = new UnitPrice()
+                {                    
+                    UnitCostPrice = 120,
+                    Quantity = 1
+                };
+                appliance2.UnitPrice = unitPrice2;
+
                 packagedSolution.Appliances.Add(appliance);
-                packagedSolution.Appliances.Add(appliance);
+                packagedSolution.Appliances.Add(appliance2);
+
                 offer.PackagedSolution = packagedSolution;
                 db.Offers.Add(offer);
                 db.SaveChanges();

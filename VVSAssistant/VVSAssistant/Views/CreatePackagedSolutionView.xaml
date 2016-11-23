@@ -56,7 +56,7 @@
                      Controls:TextBoxHelper.Watermark="Søg" 
                      Grid.Column="3"
                      Height="24"
-                     Text="{Binding FilterableApplianceList.FilterString, UpdateSourceTrigger=PropertyChanged}"/>
+                     Text="{Binding FilterString, UpdateSourceTrigger=PropertyChanged}"/>
 
             <Button Grid.Column="5" 
                     VerticalAlignment="Center" 
@@ -82,7 +82,7 @@
             <DataGrid Name="AppliancesDataGrid" Grid.Column="0"
                       Grid.Row="1" 
                       AutoGenerateColumns="False" 
-                      ItemsSource="{Binding FilterableApplianceList.Collection}"
+                      ItemsSource="{Binding CollectionView}"
                       SelectedItem="{Binding SelectedAppliance}"
                       SelectionMode="Single">
 
@@ -135,7 +135,7 @@
                       Grid.Row="1" 
                       IsReadOnly="true" 
                       AutoGenerateColumns="False" 
-                      ItemsSource="{Binding PackagedSolution.Appliances}"
+                      ItemsSource="{Binding AppliancesInSolution}"
                       SelectedItem="{Binding SelectedAppliance}" >
                 <DataGrid.InputBindings>
                     <MouseBinding MouseAction="LeftDoubleClick"
