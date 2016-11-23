@@ -45,7 +45,7 @@ namespace VVSAssistant.Models
         public virtual ICollection<ApplianceInstance> ApplianceInstances { get; set; }
         public virtual ApplianceInstance SolarContainerInstance { get; set; }
         public virtual ApplianceInstance PrimaryHeatingUnitInstance { get; set; }
-        public string Description => "todo";// string.Join(", ", Appliances);
+        public string Description => string.Join(", ", Appliances);
     }
 
     public class ApplianceList : IList<Appliance>

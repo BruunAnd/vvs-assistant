@@ -8,11 +8,12 @@ using VVSAssistant.Common.ViewModels;
 using VVSAssistant.Database;
 using VVSAssistant.Controls.Dialogs.ViewModels;
 using VVSAssistant.Controls.Dialogs.Views;
+using VVSAssistant.Extensions;
 using VVSAssistant.Models;
 
 namespace VVSAssistant.ViewModels
 {
-    public class CreatePackagedSolutionViewModel : ViewModelBase
+    public class CreatePackagedSolutionViewModel : FilterableViewModelBase<Appliance>
     {
         #region Property initializations
         public PackagedSolution PackagedSolution { get; } = new PackagedSolution();
@@ -31,22 +32,17 @@ namespace VVSAssistant.ViewModels
 
         #region Collections
         public ObservableCollection<Appliance> Appliances { get; } = new ObservableCollection<Appliance>();
-        //public FilterableListViewModel<ApplianceViewModel> FilterableApplianceList { get; private set; }
         #endregion
 
         public CreatePackagedSolutionViewModel(IDialogCoordinator dialogCoordinator)
         {
+            SetupFilterableView(Appliances);
             _dialogCoordinator = dialogCoordinator;
 
             // Load list of appliances from database
-            using (var dbContext = new AssistantContext())
+            foreach (var appliance in new AssistantContext().Appliances)
             {
-                foreach(var item in dbContext.Appliances)
-                {
-                    Appliances.Add(item);
-                }
-                // Create filtered list
-                // FilterableApplianceList = new FilterableListViewModel<ApplianceViewModel>(Appliances);
+                Appliances.Add(appliance);
             }
 
             #region Command declarations
@@ -121,7 +117,12 @@ namespace VVSAssistant.ViewModels
             customDialog.Content = new EditApplianceView { DataContext = dialogViewModel };
             await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
         }
-        
-       
+
+
+        protected override bool Filter(Appliance filterObj)
+        {
+            return filterObj.Name.ContainsIgnoreCase(FilterString) ||
+                   filterObj.Type.ToString().ContainsIgnoreCase(FilterString);
+        }
     }
 }

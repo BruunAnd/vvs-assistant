@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Moq;
+using VVSAssistant.Common;
 using VVSAssistant.ViewModels;
 
 namespace VVSAssistant.Tests.ViewModelTests.MVVMTests
@@ -61,7 +62,7 @@ namespace VVSAssistant.Tests.ViewModelTests.MVVMTests
         }
     }
 
-    class StubObservableObject : ObservableObject
+    class StubObservableObject : NotifyPropertyChanged
     {
         private string _testOnpropertyChanged;
         public string TestOnPropertyChanged
