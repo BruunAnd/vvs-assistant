@@ -21,6 +21,7 @@ namespace VVSAssistant
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+            //return;
             ShittySeed();
         }
 
@@ -32,10 +33,7 @@ namespace VVSAssistant
             {
                 // add a new client 'Iaro'
                 var clientInformation = new ClientInformation { Name = "Iaroslav", Address = "Kvadratet", Email = "iaro@russia.ru", PhoneNumber = "88888888" };
-                db.ClientInformation.Add(clientInformation);
                 var client = new Client { CreationDate = DateTime.Now, ClientInformation = clientInformation };
-                db.Clients.Add(client);
-                db.SaveChanges();
                 // offer example
                 var offer = new Offer
                 {
@@ -47,14 +45,12 @@ namespace VVSAssistant
                     Intro = "Example intro",
                     Price = 500
                 };
-                db.OfferInformation.Add(offerInformation);
                 offer.OfferInformation = offerInformation;
                 var packagedSolution = new PackagedSolution()
                 {
                     CreationDate = DateTime.Now,
                     Name = "Example Solution"
                 };
-                db.PackagedSolutions.Add(packagedSolution);
                 var appliance = new Appliance()
                 {
                     CreationDate = DateTime.Now,
@@ -65,7 +61,6 @@ namespace VVSAssistant
                 {
                     Price = 200
                 };
-                db.DataSheets.Add(heatPumpDataSheet);
                 appliance.DataSheet = heatPumpDataSheet;
                 packagedSolution.Appliances.Add(appliance);
                 packagedSolution.Appliances.Add(appliance);
