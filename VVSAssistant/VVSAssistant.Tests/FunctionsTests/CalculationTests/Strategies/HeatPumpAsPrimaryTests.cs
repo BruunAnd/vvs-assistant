@@ -14,103 +14,128 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
     [TestFixture]
     public class HeatPumpAsPrimaryStrategyTests
     {
-        PackagedSolution pack1;
+        PackagedSolution CurrentPack;
         HeatPumpAsPrimary HeatPumpStrategy = new HeatPumpAsPrimary();
 
         [SetUp]
         public void Setup()
         {
-            //first PackageSolution
-            pack1 = new PackagedSolution()
+        }
+        
+        [TearDown]
+        public void TearDown()
+        {
+            CurrentPack = null;
+        }
+
+        [Test]
+        [TestCase(ApplianceTypes.Heatpump, 133, 43, 139, 136, ApplianceTypes.Boiler, 91, 18, 2.25f, 60, 2, 481, "C", 500, "B", "6", 1)]
+        [TestCase(ApplianceTypes.Heatpump, 158, 10, 164, 151, ApplianceTypes.Boiler, 91, 18, 2.25f, 61, 6, 489.3f, "E", 741, "E", "6", 1)]
+        public void pack1HeatPumpAsPrimStrategyReturnsResultsEEUCalculationResult_true(ApplianceTypes PrimType, float PrimAFUE, float PrimWatt, float PrimCold, float PrimWarm, ApplianceTypes SecType, float secAFUE, float secWatt, float SolArea, float SolEff, int SolNumber, float Container1Vol, string Container1Class,
+                                           float Container2Vol, string Container2Class, string TempControlClass, int IdOfSolarContainer)
+        {
+        CreatePackageSolution(PrimType, PrimAFUE, PrimWatt, PrimCold, PrimWarm, SecType, secAFUE, secWatt, SolArea, SolEff, SolNumber, Container1Vol, Container1Class, Container2Vol, Container2Class, TempControlClass, IdOfSolarContainer);
+        Assert.AreEqual(HeatPumpStrategy.CalculateEEI(CurrentPack).GetType(), typeof(EEICalculationResult));
+        }
+
+        [Test]
+        [TestCase(ApplianceTypes.Heatpump, 133, 43, 139, 136, ApplianceTypes.Boiler, 91, 18, 2.25f, 60, 2, 481, "C", 500, "B", "6", 1, 137)]
+        [TestCase(ApplianceTypes.Heatpump, 158, 10, 164, 151, ApplianceTypes.Boiler, 91, 18, 2.25f, 61, 6, 489.3f, "E", 741, "E", "6", 1, 164)]
+        public void pack1HeatPumpAsPrimStrategyReturnsCorrectEEI_true(ApplianceTypes PrimType, float PrimAFUE, float PrimWatt, float PrimCold, float PrimWarm, ApplianceTypes SecType, float secAFUE, float secWatt, float SolArea, float SolEff, int SolNumber, float Container1Vol, string Container1Class,
+                                           float Container2Vol, string Container2Class, string TempControlClass, int IdOfSolarContainer, float expectedValue)
+        {
+            CreatePackageSolution(PrimType, PrimAFUE, PrimWatt, PrimCold, PrimWarm, SecType, secAFUE, secWatt, SolArea, SolEff, SolNumber, Container1Vol, Container1Class, Container2Vol, Container2Class, TempControlClass, IdOfSolarContainer);
+            Assert.AreEqual(HeatPumpStrategy.CalculateEEI(CurrentPack).EEI, expectedValue);
+        }
+
+        [Test]
+        [TestCase(ApplianceTypes.Heatpump, 133, 43, 139, 136, ApplianceTypes.Boiler, 91, 18, 2.25f, 60, 2, 481, "C", 500, "B", "6", 1, 3.5f)]
+        [TestCase(ApplianceTypes.Heatpump, 158, 10, 164, 151, ApplianceTypes.Boiler, 91, 18, 2.25f, 61, 6, 489.3f, "E", 741, "E", "6", 1, 4)]
+
+        public void pack1HeatPumpAsPrimaryReturnsCorrectRegEff_true(ApplianceTypes PrimType, float PrimAFUE, float PrimWatt, float PrimCold, float PrimWarm, ApplianceTypes SecType, float secAFUE, float secWatt, float SolArea, float SolEff, int SolNumber, float Container1Vol, string Container1Class,
+                                           float Container2Vol, string Container2Class, string TempControlClass, int IdOfSolarContainer, float expectedValue)
+        {
+            CreatePackageSolution(PrimType, PrimAFUE, PrimWatt, PrimCold, PrimWarm, SecType, secAFUE, secWatt, SolArea, SolEff, SolNumber, Container1Vol, Container1Class, Container2Vol, Container2Class, TempControlClass, IdOfSolarContainer);
+            Assert.AreEqual(HeatPumpStrategy.CalculateEEI(CurrentPack).EffectOfTemperatureRegulatorClass, expectedValue);
+        }
+
+        [Test]
+        [TestCase(ApplianceTypes.Heatpump, 133, 43, 139, 136, ApplianceTypes.Boiler, 91, 18, 2.25f, 60, 2, 481, "C", 500, "B", "6", 1, 0)]
+        [TestCase(ApplianceTypes.Heatpump, 158, 10, 164, 151, ApplianceTypes.Boiler, 91, 18, 2.25f, 61, 6, 489.3f, "E", 741, "E", "6", 1, 6.6f)]
+        public void pack1HeatPumpAsPrimaryReturnsCorrectSecEff_true(ApplianceTypes PrimType, float PrimAFUE, float PrimWatt, float PrimCold, float PrimWarm, ApplianceTypes SecType, float secAFUE, float secWatt, float SolArea, float SolEff, int SolNumber, float Container1Vol, string Container1Class,
+                                           float Container2Vol, string Container2Class, string TempControlClass, int IdOfSolarContainer, float expectedValue)
+        {
+            CreatePackageSolution(PrimType, PrimAFUE, PrimWatt, PrimCold, PrimWarm, SecType, secAFUE, secWatt, SolArea, SolEff, SolNumber, Container1Vol, Container1Class, Container2Vol, Container2Class, TempControlClass, IdOfSolarContainer);
+            Assert.AreEqual(HeatPumpStrategy.CalculateEEI(CurrentPack).EffectOfSecondaryBoiler, expectedValue);
+        }
+
+        [Test]
+        [TestCase(ApplianceTypes.Heatpump, 133, 43, 139, 136, ApplianceTypes.Boiler, 91, 18, 2.25f, 60, 2, 481, "C", 500, "B", "6", 1, 0.65f)]
+        [TestCase(ApplianceTypes.Heatpump, 158, 10, 164, 151, ApplianceTypes.Boiler, 91, 18, 2.25f, 61, 6, 489.3f, "E", 741, "E", "6", 1, 8.14f)]
+        public void pack1HeatPumpAsPrimaryReturnsCorrectSolEff_true(ApplianceTypes PrimType, float PrimAFUE, float PrimWatt, float PrimCold, float PrimWarm, ApplianceTypes SecType, float secAFUE, float secWatt, float SolArea, float SolEff, int SolNumber, float Container1Vol, string Container1Class,
+                                           float Container2Vol, string Container2Class, string TempControlClass, int IdOfSolarContainer, float expectedValue)
+        {
+            CreatePackageSolution(PrimType, PrimAFUE, PrimWatt, PrimCold, PrimWarm, SecType, secAFUE, secWatt, SolArea, SolEff, SolNumber, Container1Vol, Container1Class, Container2Vol, Container2Class, TempControlClass, IdOfSolarContainer);
+            Assert.AreEqual(HeatPumpStrategy.CalculateEEI(CurrentPack).SolarHeatContribution, expectedValue);
+        }
+
+
+        private void CreatePackageSolution(ApplianceTypes PrimType, float PrimAFUE, float PrimWatt, float PrimCold, float PrimWarm, ApplianceTypes SecType, float secAFUE, float secWatt, float SolArea, float SolEff, int SolNumber, float Container1Vol, string Container1Class,
+                                           float Container2Vol, string Container2Class, string TempControlClass, int IdOfSolarContainer)
+        {
+            CurrentPack = new PackagedSolution()
             {
                 PrimaryHeatingUnit = new Appliance()
                 {
                     Name = "Compress 5000",
-                    Type = ApplianceTypes.Heatpump,
-                    DataSheet = new HeatingUnitDataSheet() { AFUE = 133, WattUsage = 43, AFUEColdClima = 139, AFUEWarmClima = 136 }
+                    Type = PrimType,
+                    DataSheet = new HeatingUnitDataSheet() { AFUE = PrimAFUE, WattUsage = PrimWatt, AFUEColdClima = PrimCold, AFUEWarmClima = PrimWarm }
                 }
             };
 
-            pack1.Appliances = new ApplianceList(new List<Appliance>() {
+            CurrentPack.Appliances = new ApplianceList(new List<Appliance>() {
                 new Appliance()
                 {
                     Name = "Logano Plus",
-                    Type = ApplianceTypes.Boiler,
-                    DataSheet = new HeatingUnitDataSheet() { AFUE = 91, WattUsage = 18 }
+                    Type = SecType,
+                    DataSheet = new HeatingUnitDataSheet() { AFUE = secAFUE, WattUsage = secWatt }
                 },
 
                 new Appliance()
                 {
-                    Name = "Logasol SKN",
-                    Type = ApplianceTypes.SolarPanel,
-                    DataSheet = new SolarCollectorDataSheet() {Area = 2.25f, Efficency = 60 }
-                },
-
-                new Appliance()
-                {
-                    Name = "Logasol SKN",
-                    Type = ApplianceTypes.SolarPanel,
-                    DataSheet = new SolarCollectorDataSheet() {Area = 2.25f, Efficency = 60 }
-                },
-
-                new Appliance()
-                {
+                    Id = 1,
                     Name = "BST",
                     Type = ApplianceTypes.Container,
-                    DataSheet = new ContainerDataSheet() {Volume = 481, Classification = "C" }
+                    DataSheet = new ContainerDataSheet() {Volume = Container1Vol, Classification = Container1Class }
                 },
                 new Appliance()
                 {
+                    Id = 2,
                     Name = "Logalux",
                     Type = ApplianceTypes.Container,
-                    DataSheet = new ContainerDataSheet() {Volume = 500, Classification = "B"}
+                    DataSheet = new ContainerDataSheet() {Volume = Container2Vol, Classification = Container2Class}
                 },
                 new Appliance()
                 {
                     Name = "CW400",
                     Type = ApplianceTypes.TemperatureController,
-                    DataSheet = new TemperatureControllerDataSheet() {Class = "6"}
+                    DataSheet = new TemperatureControllerDataSheet() {Class = TempControlClass}
                 }
+
             });
+            for (int i = 0; i < SolNumber; i++)
+            {
+                Appliance SolarCollector = new Appliance()
+                {
+                    Name = "Logasol SKN",
+                    Type = ApplianceTypes.SolarPanel,
+                    DataSheet = new SolarCollectorDataSheet() { Area = SolArea, Efficency = SolEff }
+                };
 
-            pack1.SolarContainer = pack1.Appliances?.FirstOrDefault(solCon => solCon.Type == ApplianceTypes.Container && solCon.Name == "BST");
+                CurrentPack.Appliances.Add(SolarCollector);
+            }
+
+            CurrentPack.SolarContainer = CurrentPack.Appliances?.FirstOrDefault(solCon => solCon.Type == ApplianceTypes.Container && solCon.Id == IdOfSolarContainer);
         }
-
-        [TearDown]
-        public void TearDown()
-        {
-            pack1 = null;
-        }
-
-        [Test]
-        public void HeatPumpAsPrimStrategyReturnsResultsEEUCalculationResult_true()
-        {
-        Assert.AreEqual(HeatPumpStrategy.CalculateEEI(pack1).GetType(), typeof(EEICalculationResult));
-        }
-
-        [Test]
-        public void HeatPumpAsPrimStrategyReturnsCorrectEEI_true()
-        {
-            Assert.AreEqual(HeatPumpStrategy.CalculateEEI(pack1).EEI, 137);
-        }
-
-        [Test]
-        public void HeatPumpAsPrimaryReturnsCorrectRegEff_true()
-        {
-            Assert.AreEqual(HeatPumpStrategy.CalculateEEI(pack1).EffectOfTemperatureRegulatorClass, 3.5f);
-        }
-
-        [Test]
-        public void HeatPumpAsPrimaryReturnsCorrectSecEff_true()
-        {
-            Assert.AreEqual(HeatPumpStrategy.CalculateEEI(pack1).EffectOfSecondaryBoiler, 0);
-        }
-
-        [Test]
-        public void HeatPumpAsPrimaryReturnsCorrectSolEff_true()
-        {
-            Assert.AreEqual(HeatPumpStrategy.CalculateEEI(pack1).SolarHeatContribution, 0.65f);
-        }
-
     }
 }
