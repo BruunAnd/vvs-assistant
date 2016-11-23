@@ -106,7 +106,8 @@ namespace VVSAssistant.ViewModels
              * in the list of packaged solutions. When this happens, property 
              * "SelectedPackagedSolution" is set to the clicked Packaged Solution. */
             SolutionDoubleClicked = new RelayCommand
-                        (x => OnSolutionDoubleClicked()); 
+                        (x => OnSolutionDoubleClicked(),
+                         x => SelectedPackagedSolution != null); 
 
             /* When the "nyt tilbud" button in bottom left corner is pressed. 
              * Nullifies all offer properties and changes view to list of packaged solutions. */
