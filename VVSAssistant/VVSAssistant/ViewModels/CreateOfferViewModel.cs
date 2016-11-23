@@ -13,6 +13,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Collections.Specialized;
+using VVSAssistant.Common.ViewModels;
 
 namespace VVSAssistant.ViewModels
 {

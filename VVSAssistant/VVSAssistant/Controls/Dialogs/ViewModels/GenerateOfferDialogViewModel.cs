@@ -6,6 +6,7 @@ using VVSAssistant.ViewModels;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using VVSAssistant.Models;
+using VVSAssistant.Common.ViewModels;
 
 namespace VVSAssistant.Controls.Dialogs.ViewModels
 {
