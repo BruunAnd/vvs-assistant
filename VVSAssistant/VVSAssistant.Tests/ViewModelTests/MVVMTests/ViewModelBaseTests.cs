@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using VVSAssistant.ViewModels.MVVM;
 using System.ComponentModel.DataAnnotations;
+using VVSAssistant.Common.ViewModels;
 
 namespace VVSAssistant.Tests.ViewModelTests.MVVMTests
 {

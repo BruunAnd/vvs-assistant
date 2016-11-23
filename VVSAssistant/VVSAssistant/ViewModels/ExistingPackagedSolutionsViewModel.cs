@@ -1,37 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using VVSAssistant.Database;
-using VVSAssistant.ViewModels;
-using VVSAssistant.ViewModels.MVVM;
+using VVSAssistant.Common.ViewModels.VVSAssistant.Common.ViewModels;
+using VVSAssistant.Extensions;
+using VVSAssistant.Models;
 
 namespace VVSAssistant.ViewModels
 {
-    internal class ExistingPackagedSolutionsViewModel : ViewModelBase
+    internal class ExistingPackagedSolutionsViewModel : FilterableViewModelBase<PackagedSolution>
     {
-        public ObservableCollection<PackagedSolutionViewModel> PackagedSolutions { get; }
-
-        public FilterableListViewModel<PackagedSolutionViewModel> FilterablePackagedSolutionsList { get; }
+        public ObservableCollection<PackagedSolution> PackagedSolutions { get; set; }
 
         public ExistingPackagedSolutionsViewModel()
         {
-            PackagedSolutions = new ObservableCollection<PackagedSolutionViewModel>();
+            SetupFilterableView(PackagedSolutions);
+        }
+
+        public override void Initialize()
+        {
             // Load list of packaged solutions from database
-            using (var dbContext = new AssistantContext())
-            {
-                var existingSolutions = dbContext.PackagedSolutions.ToList();
-                // Transform list of PackagedSolution to a list of PackagedSolutionViewModel
-                foreach (var solutionModel in existingSolutions)
-                {
-                    PackagedSolutions.Add(new PackagedSolutionViewModel(solutionModel));
-                }
-                // Create filterable list
-                FilterablePackagedSolutionsList = new FilterableListViewModel<PackagedSolutionViewModel>(PackagedSolutions);
-            }
+            DbContext.PackagedSolutions.ToList().ForEach(PackagedSolutions.Add);
+        }
+
+        protected override bool Filter(PackagedSolution obj)
+        {
+            return obj.Name.ContainsIgnoreCase(FilterString) || obj.Description.ContainsIgnoreCase(FilterString);
         }
     }
 }

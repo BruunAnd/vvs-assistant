@@ -44,6 +44,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -111,6 +112,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Common\NotifyPropertyChanged.cs" />
+    <Compile Include="Common\ViewModels\FilterableViewModelBase.cs" />
     <Compile Include="Controls\Dialogs\ViewModels\EditApplianceViewModel.cs" />
     <Compile Include="Controls\Dialogs\ViewModels\GenerateOfferDialogViewModel.cs" />
     <Compile Include="Controls\Dialogs\Views\EditApplianceView.xaml.cs">
@@ -124,6 +127,7 @@
     </Compile>
     <Compile Include="Controls\Dialogs\ViewModels\SaveDialogViewModel.cs" />
     <Compile Include="Database\AssistantContext.cs" />
+    <Compile Include="Events\VVSAssistantEvents.cs" />
     <Compile Include="Exceptions\InvalidParameterException.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Functions\Calculation\Strategies\BoilerAsPrimary.cs" />
@@ -152,28 +156,15 @@
     <Compile Include="Models\Salary.cs" />
     <Compile Include="Models\DataSheets\SolarCollectorDataSheet.cs" />
     <Compile Include="Models\DataSheets\TemperatureControllerDataSheet.cs" />
-    <Compile Include="ViewModels\ApplianceViewModel.cs" />
-    <Compile Include="ViewModels\ClientInformationViewModel.cs" />
-    <Compile Include="ViewModels\ClientViewModel.cs" />
     <Compile Include="ViewModels\CreateOfferViewModel.cs" />
     <Compile Include="ViewModels\CreatePackagedSolutionViewModel.cs" />
-    <Compile Include="ViewModels\DataSheetViewModel.cs" />
     <Compile Include="ViewModels\ExistingOffersViewModel.cs" />
     <Compile Include="ViewModels\ExistingPackagedSolutionsViewModel.cs" />
-    <Compile Include="ViewModels\FilterableListViewModel.cs" />
     <Compile Include="ViewModels\Interfaces\IFilterable.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
-    <Compile Include="ViewModels\MaterialViewModel.cs" />
-    <Compile Include="ViewModels\MVVM\DataEventArgs.cs" />
-    <Compile Include="ViewModels\MVVM\ViewModelBase.cs" />
-    <Compile Include="ViewModels\OfferInformationViewModel.cs" />
-    <Compile Include="ViewModels\OfferViewModel.cs" />
-    <Compile Include="ViewModels\PackagedSolutionViewModel.cs" />
-    <Compile Include="ViewModels\MVVM\RelayCommand.cs" />
-    <Compile Include="ViewModels\MVVM\ObservableObject.cs" />
+    <Compile Include="Common\ViewModels\ViewModelBase.cs" />
+    <Compile Include="Common\ViewModels\RelayCommand.cs" />
     <Compile Include="Models\UnitPrice.cs" />
-    <Compile Include="ViewModels\SalaryViewModel.cs" />
-    <Compile Include="ViewModels\UnitPriceViewModel.cs" />
     <Compile Include="Views\CreateOfferView.xaml.cs">
       <DependentUpon>CreateOfferView.xaml</DependentUpon>
     </Compile>

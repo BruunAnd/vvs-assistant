@@ -11,5 +11,12 @@ namespace VVSAssistant.Models
         public DateTime CreationDate { get; set; }
         public ApplianceTypes Type { get; set; }
         public virtual DataSheet DataSheet { get; set; }
+        public virtual UnitPrice UnitPrice { get; set; }
+        public string Description => DataSheet.ToString();
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

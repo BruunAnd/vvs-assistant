@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using VVSAssistant.Models;
 using VVSAssistant.Models.DataSheets;
 
@@ -9,15 +10,15 @@ namespace VVSAssistant.Database
         public AssistantContext() : base("AssistantDatabaseConnectionString")
         {
         }
-
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<PackagedSolution>().HasMany(s => s.ApplianceInstances).WithRequired();
             modelBuilder.Entity<PackagedSolution>().HasOptional(s => s.SolarContainerInstance);
             modelBuilder.Entity<PackagedSolution>().HasOptional(s => s.PrimaryHeatingUnitInstance);
 
-            modelBuilder.Entity<ApplianceInstance>().HasRequired(a => a.Appliance).WithMany();
-            modelBuilder.Entity<ApplianceInstance>().HasRequired(a => a.DataSheet).WithMany();
+            modelBuilder.Entity<Appliance>().HasRequired(a => a.DataSheet);
+
+            modelBuilder.Entity<Client>().HasRequired(c => c.ClientInformation);
 
             // Create a table for each datasheet type
             modelBuilder.Entity<ContainerDataSheet>().ToTable("ContainerDataSheets");
@@ -29,6 +30,10 @@ namespace VVSAssistant.Database
             // Create a table for each unitprice type
             modelBuilder.Entity<Salary>().ToTable("Salaries");
             modelBuilder.Entity<Material>().ToTable("Materials");
+
+            // Map Offer
+            modelBuilder.Entity<Offer>().HasMany(o => o.Materials).WithRequired();
+            modelBuilder.Entity<Offer>().HasMany(o => o.Salaries).WithRequired();
         }
 
         public DbSet<Client> Clients { get; set; }

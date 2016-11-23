@@ -2,12 +2,9 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace VVSAssistant.ViewModels.MVVM
+namespace VVSAssistant.Common
 {
-    /// <summary>
-    /// Base class for ViewModel classes.
-    /// </summary>
-    public class ObservableObject : INotifyPropertyChanged
+    public class NotifyPropertyChanged : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

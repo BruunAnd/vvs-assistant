@@ -52,34 +52,38 @@
                 <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
             </Grid.Resources>
             <!-- Packaged solution -->
-            <DataGrid AutoGenerateColumns="False" 
+            <DataGrid AutoGenerateColumns="False" Name="packagedSolutionDataGrid"
                       Visibility="{Binding ArePackagedSolutionsVisible, 
                                    Converter={StaticResource BoolToVisibilityConverter},
                                    UpdateSourceTrigger=PropertyChanged}"
-                      ItemsSource="{Binding PackagedSolutions}"
+                      ItemsSource="{Binding PackagedSolutions, UpdateSourceTrigger=PropertyChanged}"
                       SelectedItem="{Binding SelectedPackagedSolution}">
                 <DataGrid.InputBindings>
-                    <MouseBinding Gesture="LeftDoubleClick" Command="{Binding SolutionDoubleClicked}" />
+                    <MouseBinding Gesture="LeftDoubleClick" Command="{Binding SolutionDoubleClicked}"
+                                                            CommandParameter="{Binding ElementName=packagedSolutionDataGrid,Path=SelectedItem}"/>
                 </DataGrid.InputBindings>
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Binding="{Binding Name}" 
-                                        Header="Navn" 
-                                        Width="2*"/>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Name}" 
+                                    Header="Navn" 
+                                    Width="2*"/>
 
-                        <DataGridTextColumn Binding="{Binding CreationDate}" 
-                                        Header="Dato" 
-                                        Width="2*"/>
+                    <DataGridTextColumn Binding="{Binding CreationDate}" 
+                                    Header="Dato" 
+                                    Width="2*"/>
 
-                        <DataGridTextColumn Binding="{Binding Description}"  
-                                        Header="Beskrivelse" 
-                                        Width="3*"/>
-                    </DataGrid.Columns>
-                </DataGrid>
+                    <DataGridTextColumn Binding="{Binding Description}"  
+                                    Header="Beskrivelse" 
+                                    Width="3*"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            
+            <!-- Appliances for selected pacckaged solution-->
             <TabControl Visibility="{Binding IsComponentTabVisible, 
                                      Converter={StaticResource BoolToVisibilityConverter}, 
                                      UpdateSourceTrigger=PropertyChanged}">
                 <TabItem Header="Komponenter">
                     <DataGrid AutoGenerateColumns="False"
+                              ItemsSource="{Binding AppliancesInPackagedSolution, UpdateSourceTrigger=PropertyChanged}"
                               IsReadOnly="False"
                               SelectionUnit="Cell"
                               SelectionMode="Single">
@@ -93,20 +97,20 @@
                             <DataGridTextColumn Binding="{Binding Type}"
                                                 Header="Type"
                                                 MinWidth="100"
-                                                Width="1*"
+                                                Width="1*" 
                                                 IsReadOnly="True"
                                                 CanUserReorder="False"/>
-                            <DataGridTextColumn Binding="{Binding UnitCostPrice, UpdateSourceTrigger=PropertyChanged}"
+                            <DataGridTextColumn Binding="{Binding UnitPrice.UnitCostPrice, UpdateSourceTrigger=PropertyChanged}"
                                                 Header="Kostpris"
                                                 MinWidth="100"
                                                 Width="1*"
                                                 CanUserReorder="False"/>
-                            <DataGridTextColumn Binding="{Binding UnitSalesPrice, UpdateSourceTrigger=PropertyChanged}"
+                            <DataGridTextColumn Binding="{Binding UnitPrice.UnitSalesPrice, UpdateSourceTrigger=PropertyChanged}"
                                                 Header="Salgspris"
                                                 MinWidth="100"
                                                 Width="1*"
                                                 CanUserReorder="False"/>
-                            <DataGridTextColumn Binding="{Binding ContributionMargin, UpdateSourceTrigger=PropertyChanged}" 
+                            <DataGridTextColumn Binding="{Binding UnitPrice.ContributionMargin, UpdateSourceTrigger=PropertyChanged}" 
                                                 Header="Samlet DB" 
                                                 IsReadOnly="True"
                                                 MinWidth="100"
@@ -119,7 +123,9 @@
                     <DataGrid AutoGenerateColumns="False"
                               IsReadOnly="False"
                               SelectionUnit="Cell"
-                              SelectionMode="Single">
+                              SelectionMode="Single"
+                              ItemsSource="{Binding SalariesInOffer}"
+                              CanUserAddRows="True">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Name}"
                                                 Header="Beskrivelse"
@@ -167,7 +173,8 @@
                     <DataGrid AutoGenerateColumns="False"
                               IsReadOnly="False"
                               SelectionUnit="Cell"
-                              SelectionMode="Single">
+                              SelectionMode="Single"
+                              ItemsSource="{Binding MaterialsInOffer}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding VvsNumber}"
                                                 Header="VVS Nr."
@@ -320,6 +327,7 @@
                 <Button Margin="5,5,5,5"
                         Grid.Row="0"
                         Grid.Column="0"
+                        Command="{Binding CreateNewOffer}"
                         Content="Nyt tilbud"/>
                 <Button Margin="5,5,5,5" 
                         Grid.Row="0" 
@@ -328,7 +336,7 @@
                 <Button Margin="5,5,5,5" 
                         Grid.Row="1" 
                         Grid.ColumnSpan="2"
-                        Command="{Binding CreateNewOffer}"
+                        Command="{Binding PrintNewOffer}"
                         Content="Print tilbud"/>
             </Grid>
         </Grid>
