@@ -8,15 +8,14 @@ namespace VVSAssistant.ViewModels
 {
     internal class ExistingPackagedSolutionsViewModel : FilterableViewModelBase<PackagedSolution>
     {
-        public ObservableCollection<PackagedSolution> PackagedSolutions { get; set; }
+        public ObservableCollection<PackagedSolution> PackagedSolutions { get; } = new ObservableCollection<PackagedSolution>();
 
         public ExistingPackagedSolutionsViewModel()
         {
-            PackagedSolutions = new ObservableCollection<PackagedSolution>();
             SetupFilterableView(PackagedSolutions);
         }
 
-        public override void Initialize()
+        public override void LoadDataFromDatabase()
         {
             // Load list of packaged solutions from database
             DbContext.PackagedSolutions.ToList().ForEach(PackagedSolutions.Add);
