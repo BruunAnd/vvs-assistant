@@ -11,7 +11,7 @@ namespace VVSAssistant.Models
         public int Quantity
         {
             get { return _quantity; }
-            set { SetProperty<int>(ref _quantity, value); }
+            set { SetProperty<int>(ref _quantity, value); OnPropertyChanged("CostPrice"); OnPropertyChanged("SalesPrice"); }
         }
         
         // Update CostPrice if the UnitCostPrice is changed.
