@@ -19,6 +19,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
         private float SolarContributionFactor;
 
 
+
         public EEICalculationResult CalculateEEI(PackagedSolution PackagedSolution)
         {
             Results = new EEICalculationResult();
@@ -41,15 +42,15 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             SecondaryBoiler = SecBoilers.FirstOrDefault()?.DataSheet as HeatingUnitDataSheet;
             Results.SecondaryBoilerAFUE = SecondaryBoiler.AFUE;
 
-            float heatingUnitRelationship = PrimaryUnit.WattUsage / (PrimaryUnit.WattUsage + SecondaryBoiler.WattUsage);
+            Results.HeatingUnitRelationship = PrimaryUnit.WattUsage / (PrimaryUnit.WattUsage + SecondaryBoiler.WattUsage);
 
             IEnumerable<Appliance> Containers = PackagedSolution.Appliances.Where(Container => Container.Type == ApplianceTypes.Container);
             bool HasNonSolarContainer = PackagedSolution.Appliances.Where(Container => Container.Type == ApplianceTypes.Container && PackagedSolution.SolarContainer != Container).Count() > 0;
 
-            II = UtilityClass.GetWeighting(heatingUnitRelationship, HasNonSolarContainer, true);
+            II = UtilityClass.GetWeighting(Results.HeatingUnitRelationship, HasNonSolarContainer, true);
 
 
-            Results.EffectOfSecondaryBoiler = (SecondaryBoiler.AFUE - PrimaryUnit.AFUE) * II;
+            Results.EffectOfSecondaryBoiler = (float)Math.Round(Math.Abs(((SecondaryBoiler.AFUE - PrimaryUnit.AFUE) * II)*100))/100;
 
             //Calculating effect of solarcollector
             if (PackagedSolution.PrimaryHeatingUnit.Type == ApplianceTypes.CHP)

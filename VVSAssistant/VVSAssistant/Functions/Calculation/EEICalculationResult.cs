@@ -29,5 +29,6 @@ namespace VVSAssistant.Functions.Calculation
         public float WaterHeatingEffciency { get; set; }
         public float SolarHeatContribution { get; set; }
         public float AdjustedContribution { get; set; }
+        public float HeatingUnitRelationship { get; set; }
     }
 }
