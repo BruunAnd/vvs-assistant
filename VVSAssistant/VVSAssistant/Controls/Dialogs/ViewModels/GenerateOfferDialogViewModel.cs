@@ -13,17 +13,17 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
 {
     class GenerateOfferDialogViewModel : NotifyPropertyChanged
     {
-        private OfferViewModel _offer;
-        public OfferViewModel Offer
+        private Offer _offer;
+        public Offer Offer
         {
             get { return _offer; }
             set { _offer = value; OnPropertyChanged(); }
         }
-        public ObservableCollection<ClientViewModel> Clients;
+        public ObservableCollection<Client> Clients;
         public RelayCommand CloseCommand { get; }
         public RelayCommand SaveCommand { get; }
 
-        public GenerateOfferDialogViewModel(OfferViewModel offer, ObservableCollection<ClientViewModel> clients, IDialogCoordinator dialogCoordinator, Action<GenerateOfferDialogViewModel> closeHandler)
+        public GenerateOfferDialogViewModel(Offer offer, ObservableCollection<Client> clients, IDialogCoordinator dialogCoordinator, Action<GenerateOfferDialogViewModel> closeHandler)
         {
             Offer = offer;
             Offer.Client.ClientInformation.PropertyChanged += OfferInformationChanged;
@@ -54,8 +54,8 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
 
         private void CancelOfferGeneration()
         {
-            Offer.Client = new ClientViewModel(new Client());
-            Offer.OfferInformation = new OfferInformationViewModel(new OfferInformation());
+            Offer.Client = new Client(new Client());
+            Offer.OfferInformation = new OfferInformation(new OfferInformation());
         }
 
         private bool VerifyRequiredInformation()

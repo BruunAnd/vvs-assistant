@@ -22,10 +22,10 @@ namespace VVSAssistant.ViewModels
         public RelayCommand PrintNewOffer { get; }
         public RelayCommand SolutionDoubleClicked { get; }
         public RelayCommand CreateNewOffer { get; }
-        public ObservableCollection<PackagedSolutionViewModel> PackagedSolutions { get; }
-        private ObservableCollection<ClientViewModel> _clients;
-        private OfferViewModel _offer;
-        public OfferViewModel Offer
+        public ObservableCollection<PackagedSolution> PackagedSolutions { get; }
+        private ObservableCollection<Client> _clients;
+        private Offer _offer;
+        public Offer Offer
         {
             get { return _offer; }
             set { _offer = value; OnPropertyChanged(); }
@@ -43,7 +43,7 @@ namespace VVSAssistant.ViewModels
             get { return arePackagedSolutionsVisible; }
             set { arePackagedSolutionsVisible = value; OnPropertyChanged(); }
         }
-        public PackagedSolutionViewModel SelectedPackagedSolution
+        public PackagedSolution SelectedPackagedSolution
         {
             get { return Offer.PackagedSolution; }
             set { Offer.PackagedSolution = value; OnPropertyChanged(); }
@@ -53,9 +53,9 @@ namespace VVSAssistant.ViewModels
         {
             #region Properties and fields
 
-            _offer = new OfferViewModel(new Offer());
+            _offer = new Offer(new Offer());
             _dialogCoordinator = coordinator;
-            PackagedSolutions = new ObservableCollection<PackagedSolutionViewModel>();
+            PackagedSolutions = new ObservableCollection<PackagedSolution>();
             #endregion
 
             #region Commands
@@ -108,7 +108,7 @@ namespace VVSAssistant.ViewModels
             ArePackagedSolutionsVisible = true;
             IsComponentTabVisible = false;
 
-            Offer = new OfferViewModel(new Offer());
+            Offer = new Offer(new Offer());
             SelectedPackagedSolution = null;
             PrintNewOffer.NotifyCanExecuteChanged();
         }
@@ -155,6 +155,11 @@ namespace VVSAssistant.ViewModels
         private void NotifyOfferContentsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             PrintNewOffer.NotifyCanExecuteChanged();
+        }
+
+        public override void Initialize()
+        {
+            throw new NotImplementedException();
         }
 
 
