@@ -8,7 +8,7 @@ namespace VVSAssistant.Common.ViewModels
 
     namespace VVSAssistant.Common.ViewModels
     {
-        public abstract class FilterableViewModelBase<T> : ViewModelBase where T : IFilterable
+        public abstract class FilterableViewModelBase<T> : ViewModelBase 
         {
             public ICollectionView CollectionView { get; set; }
 
@@ -31,10 +31,7 @@ namespace VVSAssistant.Common.ViewModels
                 CollectionView.Filter = obj => Filter((T)obj);
             }
 
-            private bool Filter(IFilterable filterObj)
-            {
-                return filterObj.DoesFilterMatch(FilterString);
-            }
+            protected abstract bool Filter(T obj);
         }
     }
 
