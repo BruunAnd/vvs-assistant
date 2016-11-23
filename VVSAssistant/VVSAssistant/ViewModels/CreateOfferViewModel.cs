@@ -1,13 +1,19 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-
 using VVSAssistant.ViewModels.MVVM;
+using VVSAssistant.Exceptions;
 using VVSAssistant.Models;
+using System.Reflection;
+using MahApps.Metro.Controls.Dialogs;
 using VVSAssistant.Controls.Dialogs.ViewModels;
 using VVSAssistant.Controls.Dialogs.Views;
+using VVSAssistant.Database;
+using System.Linq;
+using System.Windows;
+using System.Windows.Input;
+using System.Collections.Specialized;
 using VVSAssistant.Common.ViewModels;
-
-using MahApps.Metro.Controls.Dialogs;
 
 namespace VVSAssistant.ViewModels
 {
@@ -16,19 +22,40 @@ namespace VVSAssistant.ViewModels
         public RelayCommand PrintNewOffer { get; }
         public RelayCommand SolutionDoubleClicked { get; }
         public RelayCommand CreateNewOffer { get; }
-        public ObservableCollection<PackagedSolution> PackagedSolutions { get; } = new ObservableCollection<PackagedSolution>();
-        private ObservableCollection<Client> _clients;
-        private readonly IDialogCoordinator _dialogCoordinator;
+        public ObservableCollection<PackagedSolutionViewModel> PackagedSolutions { get; }
+        private ObservableCollection<ClientViewModel> _clients;
+        private OfferViewModel _offer;
+        public OfferViewModel Offer
+        {
+            get { return _offer; }
+            set { _offer = value; OnPropertyChanged(); }
+        }
+        private IDialogCoordinator _dialogCoordinator;
         private bool isComponentTabVisible;
+        public bool IsComponentTabVisible
+        {
+            get { return isComponentTabVisible; }
+            set { isComponentTabVisible = value; OnPropertyChanged(); }
+        }
         private bool arePackagedSolutionsVisible;
+        public bool ArePackagedSolutionsVisible
+        {
+            get { return arePackagedSolutionsVisible; }
+            set { arePackagedSolutionsVisible = value; OnPropertyChanged(); }
+        }
+        public PackagedSolutionViewModel SelectedPackagedSolution
+        {
+            get { return Offer.PackagedSolution; }
+            set { Offer.PackagedSolution = value; OnPropertyChanged(); }
+        }
 
         public CreateOfferViewModel(IDialogCoordinator coordinator)
         {
             #region Properties and fields
 
-            Offer = new OfferViewModel(new Offer());
+            _offer = new OfferViewModel(new Offer());
             _dialogCoordinator = coordinator;
-
+            PackagedSolutions = new ObservableCollection<PackagedSolutionViewModel>();
             #endregion
 
             #region Commands
@@ -49,6 +76,7 @@ namespace VVSAssistant.ViewModels
              * Nullifies all offer properties and changes view to list of packaged solutions. */
             CreateNewOffer = new RelayCommand
                         ( x => SetInitialSettings()); 
+
             #endregion
 
             #region Initial view settings
@@ -56,37 +84,23 @@ namespace VVSAssistant.ViewModels
             SetInitialSettings();
 
             #endregion
+
+            #region Events
+            Offer.Materials.CollectionChanged += NotifyOfferContentsChanged;
+            Offer.Salaries.CollectionChanged += NotifyOfferContentsChanged;
+            #endregion
+
+            #region Fetch from database
+
+            using (var dbContext = new AssistantContext())
+            {
+                dbContext.PackagedSolutions.ToList().ForEach(p => PackagedSolutions.Add(new PackagedSolutionViewModel(p)));
+            }
+
+            #endregion
         }
-
-        #region Properties for view
-        public OfferViewModel Offer { get; set; }
-
-        public bool IsComponentTabVisible
-        {
-            get { return isComponentTabVisible; }
-            set { isComponentTabVisible = value; OnPropertyChanged(); }
-        }
-
-        public bool ArePackagedSolutionsVisible
-        {
-            get { return arePackagedSolutionsVisible; }
-            set { arePackagedSolutionsVisible = value; OnPropertyChanged(); }
-        }
-
-        public PackagedSolutionViewModel SelectedPackagedSolution
-        {
-            get { return Offer.PackagedSolution; }
-            set { Offer.PackagedSolution = value; OnPropertyChanged(); }
-        }
-
-        #endregion
 
         #region Methods
-
-        public override void Initialize()
-        {
-            DbContext.PackagedSolutions.ToList().ForEach(x => PackagedSolutions.Add(x));
-        }
 
         /* Initializes the view */
         public void SetInitialSettings()
@@ -98,8 +112,6 @@ namespace VVSAssistant.ViewModels
             SelectedPackagedSolution = null;
             PrintNewOffer.NotifyCanExecuteChanged();
         }
-
-
 
         public bool VerifyOfferHasRequiredInformation()
         {
@@ -117,8 +129,6 @@ namespace VVSAssistant.ViewModels
         {
             IsComponentTabVisible = true;
             ArePackagedSolutionsVisible = false;
-            Offer.Materials = new ObservableCollection<MaterialViewModel>();
-            Offer.Salaries = new ObservableCollection<SalaryViewModel>();
             PrintNewOffer.NotifyCanExecuteChanged();
         }
 
@@ -138,12 +148,17 @@ namespace VVSAssistant.ViewModels
                 _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
             });
             customDialog.Content = new GenerateOfferDialogView { DataContext = dialogViewModel };
-            // await _dialogCoordinator.ShowMessageAsync(this, "bla", "bla");
             await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
         }
 
+        /* When items are added to Offer.Materials and Offer.Salaries */
+        private void NotifyOfferContentsChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            PrintNewOffer.NotifyCanExecuteChanged();
+        }
+
+
         #endregion
 
-        
     }
 }

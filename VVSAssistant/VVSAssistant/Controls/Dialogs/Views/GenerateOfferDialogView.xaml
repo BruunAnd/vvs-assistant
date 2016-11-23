@@ -31,16 +31,16 @@
             <Label Content="Navn på tilbud:"/>
             <TextBox Grid.Row="2" 
                  Controls:TextBoxHelper.ClearTextButton="True"
-                 Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"/>
+                 Text="{Binding Offer.OfferInformation.Title, UpdateSourceTrigger=PropertyChanged}"/>
 
             <Label Content="Indledning på følgebrev:"/>
             <TextBox Grid.Row="4"
                  Height="75"
-                 Text="{Binding OfferIntro, Mode=TwoWay}"/>
+                 Text="{Binding Offer.OfferInformation.Intro, UpdateSourceTrigger=PropertyChanged}"/>
 
             <Label Content="Afslutning på følgebrev:"/>
             <TextBox Height="75"
-                     Text="{Binding Outro, UpdateSourceTrigger=PropertyChanged}"/>
+                     Text="{Binding Offer.OfferInformation.Outro, UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>
         <DockPanel Grid.Column="2" Grid.Row="1">
             <DockPanel DockPanel.Dock="Top">
@@ -49,18 +49,18 @@
                     <ComboBox IsTextSearchEnabled="True"
                       TextSearch.TextPath="{Binding ClientInformation.Name}"
                       ItemsSource="{Binding Clients}"
-                      Text="{Binding ClientName}"
+                      Text="{Binding Offer.Client.ClientInformation.Name, UpdateSourceTrigger=PropertyChanged}"
                       SelectedItem="{Binding SelectedClient}"
                       IsEditable="True"/>
 
                     <Label Content="Adresse:"/>
-                    <TextBox Text="{Binding ClientAddress, Mode=TwoWay}" />
+                    <TextBox Text="{Binding Offer.Client.ClientInformation.Address, UpdateSourceTrigger=PropertyChanged}" />
 
                     <Label Content="Email:"/>
-                    <TextBox Text="{Binding ClientEmail, Mode=TwoWay}" />
+                    <TextBox Text="{Binding Offer.Client.ClientInformation.Email, UpdateSourceTrigger=PropertyChanged}" />
 
                     <Label Content="Telefon:"/>
-                    <TextBox Text="{Binding ClientPhone, Mode=TwoWay}" />
+                    <TextBox Text="{Binding Offer.Client.ClientInformation.PhoneNumber, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </DockPanel>
 
@@ -68,7 +68,7 @@
                 <DockPanel DockPanel.Dock="Left">
                     <CheckBox Margin="0 5 0 0"
                               Content="Pris inkl. moms"
-                              IsChecked="{Binding ApplyTax}"/>
+                              IsChecked="{Binding Offer.OfferInformation.ApplyTax, UpdateSourceTrigger=PropertyChanged}"/>
 
                 </DockPanel>
                 <DockPanel DockPanel.Dock="Right">

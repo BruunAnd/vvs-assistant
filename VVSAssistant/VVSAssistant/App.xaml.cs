@@ -51,19 +51,48 @@ namespace VVSAssistant
                     CreationDate = DateTime.Now,
                     Name = "Example Solution"
                 };
+
+                //First appliance
                 var appliance = new Appliance()
                 {
                     CreationDate = DateTime.Now,
-                    Name = "Example Appliance",
-                    Type = ApplianceTypes.Boiler
+                    Name = "Vultorp XP",
+                    Type = ApplianceTypes.Container
                 };
                 var heatPumpDataSheet = new HeatingUnitDataSheet()
                 {
-                    Price = 200
+                    Price = 150
                 };
                 appliance.DataSheet = heatPumpDataSheet;
+                var unitPrice = new UnitPrice()
+                {
+                    UnitCostPrice = 150,
+                    Quantity = 1
+                };
+                appliance.UnitPrice = unitPrice;
+
+                //Second appliance
+                var appliance2 = new Appliance()
+                {
+                    CreationDate = DateTime.Now,
+                    Name = "MegaBoiler2000",
+                    Type = ApplianceTypes.Boiler
+                };
+                var heatPumpDataSheet2 = new HeatingUnitDataSheet()
+                {
+                    Price = 120
+                };
+                appliance2.DataSheet = heatPumpDataSheet2;
+                var unitPrice2 = new UnitPrice()
+                {                    
+                    UnitCostPrice = 120,
+                    Quantity = 1
+                };
+                appliance2.UnitPrice = unitPrice2;
+
                 packagedSolution.Appliances.Add(appliance);
-                packagedSolution.Appliances.Add(appliance);
+                packagedSolution.Appliances.Add(appliance2);
+
                 offer.PackagedSolution = packagedSolution;
                 db.Offers.Add(offer);
                 db.SaveChanges();

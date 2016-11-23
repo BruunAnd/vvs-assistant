@@ -5,106 +5,71 @@ using MahApps.Metro.Controls.Dialogs;
 using VVSAssistant.ViewModels;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
-using VVSAssistant.Common;
-using VVSAssistant.Common.ViewModels;
 using VVSAssistant.Models;
+using VVSAssistant.Common.ViewModels;
+using VVSAssistant.Common;
 
 namespace VVSAssistant.Controls.Dialogs.ViewModels
 {
     class GenerateOfferDialogViewModel : NotifyPropertyChanged
     {
-        public OfferViewModel Offer;
-        public ObservableCollection<Client> Clients;
+        private OfferViewModel _offer;
+        public OfferViewModel Offer
+        {
+            get { return _offer; }
+            set { _offer = value; OnPropertyChanged(); }
+        }
+        public ObservableCollection<ClientViewModel> Clients;
         public RelayCommand CloseCommand { get; }
         public RelayCommand SaveCommand { get; }
 
-        public string ClientName
-        {
-            get { return Offer.Client.ClientInformation.Name; }
-            set
-            {
-                Offer.Client.ClientInformation.Name = value;
-                OnPropertyChanged();
-                OnPropertyChanged("OfferIntro");
-            }
-        }
-
-        public string ClientAddress
-        {
-            get { return Offer.Client.ClientInformation.Address; }
-            set
-            {
-                Offer.Client.ClientInformation.Address = value;
-                OnPropertyChanged();
-                OnPropertyChanged("OfferIntro");
-            }
-        }
-
-        public string ClientEmail
-        {
-            get { return Offer.Client.ClientInformation.Email; }
-            set
-            {
-                Offer.Client.ClientInformation.Email = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string ClientPhone
-        {
-            get { return Offer.Client.ClientInformation.PhoneNumber; }
-            set
-            {
-                Offer.Client.ClientInformation.PhoneNumber = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string OfferIntro
-        {
-            get { return Offer.OfferInformation.Intro; }
-            set
-            {
-                Offer.OfferInformation.Intro = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string OfferOutro
-        {
-            get { return Offer.OfferInformation.Outro; }
-            set
-            {
-                Offer.OfferInformation.Outro = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string OfferTitle
-        {
-            get { return Offer.OfferInformation.Title; }
-            set { Offer.OfferInformation.Title = value; OnPropertyChanged(); }
-        }
-
-        public GenerateOfferDialogViewModel(OfferViewModel offer, ObservableCollection<Client> clients, IDialogCoordinator dialogCoordinator, Action<GenerateOfferDialogViewModel> closeHandler)
+        public GenerateOfferDialogViewModel(OfferViewModel offer, ObservableCollection<ClientViewModel> clients, IDialogCoordinator dialogCoordinator, Action<GenerateOfferDialogViewModel> closeHandler)
         {
             Offer = offer;
+            Offer.Client.ClientInformation.PropertyChanged += OfferInformationChanged;
+            Offer.OfferInformation.PropertyChanged += OfferInformationChanged;
+
             Clients = clients;
             SaveCommand = new RelayCommand(x =>
             {
                 ConfirmSaveDialog(closeHandler);
-            }, x => true);
-
+            }, x => VerifyRequiredInformation());
 
             CloseCommand = new RelayCommand(x =>
             {
+                CancelOfferGeneration();
                 closeHandler(this);
             });
+        }
+
+        private void OfferInformationChanged(object sender, PropertyChangedEventArgs e)
+        {
+            SaveCommand.NotifyCanExecuteChanged();
         }
 
         private void ConfirmSaveDialog(Action<GenerateOfferDialogViewModel> closeHandler)
         {
             closeHandler(this);
+        }
+
+        private void CancelOfferGeneration()
+        {
+            Offer.Client = new ClientViewModel(new Client());
+            Offer.OfferInformation = new OfferInformationViewModel(new OfferInformation());
+        }
+
+        private bool VerifyRequiredInformation()
+        {
+            if (!string.IsNullOrEmpty(Offer.Client.ClientInformation.Name) &&
+                !string.IsNullOrEmpty(Offer.Client.ClientInformation.Email) &&
+                !string.IsNullOrEmpty(Offer.Client.ClientInformation.Address) &&
+                !string.IsNullOrEmpty(Offer.Client.ClientInformation.PhoneNumber) &&
+                !string.IsNullOrEmpty(Offer.OfferInformation.Title) &&
+                !string.IsNullOrEmpty(Offer.OfferInformation.Intro) &&
+                !string.IsNullOrEmpty(Offer.OfferInformation.Outro))
+                return true;
+            else
+                return false;
         }
     }
 }
