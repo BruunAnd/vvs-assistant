@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Collections.Specialized;
 using MahApps.Metro.Controls.Dialogs;
+using VVSAssistant.Common.ViewModels;
 using VVSAssistant.Database;
 using VVSAssistant.ViewModels.MVVM;
 using VVSAssistant.Controls.Dialogs.ViewModels;

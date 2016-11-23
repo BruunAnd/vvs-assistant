@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity.Migrations;
 using System.Linq;
+using VVSAssistant.Common.ViewModels;
 using VVSAssistant.Database;
 using VVSAssistant.Extensions;
 using VVSAssistant.Models;

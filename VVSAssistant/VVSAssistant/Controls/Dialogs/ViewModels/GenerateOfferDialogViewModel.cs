@@ -5,6 +5,7 @@ using MahApps.Metro.Controls.Dialogs;
 using VVSAssistant.ViewModels;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
+using VVSAssistant.Common.ViewModels;
 
 namespace VVSAssistant.Controls.Dialogs.ViewModels
 {
