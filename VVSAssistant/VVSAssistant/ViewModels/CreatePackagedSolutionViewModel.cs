@@ -15,6 +15,8 @@ namespace VVSAssistant.ViewModels
         #region Property initializations
         public PackagedSolutionViewModel PackagedSolution { get; } = new PackagedSolutionViewModel();
         private IDialogCoordinator _dialogCoordinator;
+        public ApplianceViewModel SelectedAppliance { get; set; }
+        public ApplianceViewModel SelectedPackagedSolutionAppliance { get; set; }
         #endregion
 
         #region Command initializations
@@ -49,15 +51,13 @@ namespace VVSAssistant.ViewModels
 
             AddApplianceToPackageSolution = new RelayCommand(x => 
             {
-                var item = x as ApplianceViewModel;
-                if (item != null) this.PackagedSolution.Appliances.Add(item);
-            });
+                PackagedSolution.Appliances.Add(SelectedAppliance);
+            }, x => SelectedAppliance != null);
 
             RemoveApplianceFromPackageSolution = new RelayCommand(x =>
             {
-                var item = x as ApplianceViewModel;
-                if (item != null) this.PackagedSolution.Appliances.Remove(item);
-            });
+                PackagedSolution.Appliances.Remove(SelectedPackagedSolutionAppliance);
+            }, x => SelectedPackagedSolutionAppliance != null);
 
             EditAppliance = new RelayCommand(x =>
              {
@@ -66,25 +66,23 @@ namespace VVSAssistant.ViewModels
 
             RemoveAppliance = new RelayCommand(x =>
             {
-                var appliance = x as ApplianceViewModel;
-                if (appliance == null) return;
-                Appliances.Remove(appliance);
-                appliance.RemoveFromDatabase();
-            });
+                Appliances.Remove(SelectedAppliance);
+                // SelectedAppliance.RemoveFromDatabase();
+            }, x => SelectedAppliance != null);
 
             NewPackageSolution = new RelayCommand(x =>
             {
-                this.PackagedSolution.Appliances.Clear();
-            }, x => this.PackagedSolution.Appliances.Any());
+                PackagedSolution.Appliances.Clear();
+            }, x => PackagedSolution.Appliances.Any());
             
 
             SaveDialog = new RelayCommand(x =>
             {
                 RunSaveDialog();
-            }, x => this.PackagedSolution.Appliances.Any());
+            }, x => PackagedSolution.Appliances.Any());
             #endregion
 
-            this.PackagedSolution.Appliances.CollectionChanged += PackageSolutionAppliances_CollectionChanged;
+            PackagedSolution.Appliances.CollectionChanged += PackageSolutionAppliances_CollectionChanged;
         }
 
         private async void RunSaveDialog()
@@ -108,7 +106,7 @@ namespace VVSAssistant.ViewModels
         {
             var customDialog = new CustomDialog();
 
-            var dialogViewModel = new EditApplianceViewModel(instanceCancel => _dialogCoordinator.HideMetroDialogAsync(this, customDialog), instanceCompleted => _dialogCoordinator.HideMetroDialogAsync(this, customDialog));
+            var dialogViewModel = new EditApplianceViewModel(SelectedAppliance, instanceCancel => _dialogCoordinator.HideMetroDialogAsync(this, customDialog), instanceCompleted => _dialogCoordinator.HideMetroDialogAsync(this, customDialog));
 
             customDialog.Content = new EditApplianceView { DataContext = dialogViewModel };
             await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
