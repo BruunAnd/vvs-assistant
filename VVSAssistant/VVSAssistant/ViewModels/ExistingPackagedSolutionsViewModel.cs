@@ -20,13 +20,12 @@ namespace VVSAssistant.ViewModels
         public ExistingPackagedSolutionsViewModel()
         {
             SetupFilterableView(PackagedSolutions);
+        }
 
+        public override void Initialize()
+        {
             // Load list of packaged solutions from database
-            using (var dbContext = new AssistantContext())
-            {
-                // Transform list of PackagedSolution to a list of PackagedSolutionViewModel
-                dbContext.PackagedSolutions.ToList().ForEach(x => PackagedSolutions.Add(new PackagedSolutionViewModel(x)));
-            }
+            DbContext.PackagedSolutions.ToList().ForEach(x => PackagedSolutions.Add(new PackagedSolutionViewModel(x)));
         }
     }
 }
