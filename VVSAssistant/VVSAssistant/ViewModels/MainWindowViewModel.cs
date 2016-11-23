@@ -17,7 +17,6 @@ namespace VVSAssistant.ViewModels
         }
         
         private ViewModelBase _currentViewModel;
-
         public ViewModelBase CurrentViewModel
         {
             get { return _currentViewModel; }
