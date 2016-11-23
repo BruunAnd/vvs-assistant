@@ -21,7 +21,6 @@ namespace VVSAssistant
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-
             ShittySeed();
         }
 
@@ -62,14 +61,14 @@ namespace VVSAssistant
                     Name = "Example Appliance",
                     Type = ApplianceTypes.Boiler
                 };
-                packagedSolution.Appliances.Add(appliance);
-                packagedSolution.Appliances.Add(appliance);
                 var heatPumpDataSheet = new HeatingUnitDataSheet()
                 {
                     Price = 200
                 };
                 db.DataSheets.Add(heatPumpDataSheet);
                 appliance.DataSheet = heatPumpDataSheet;
+                packagedSolution.Appliances.Add(appliance);
+                packagedSolution.Appliances.Add(appliance);
                 offer.PackagedSolution = packagedSolution;
                 db.Offers.Add(offer);
                 db.SaveChanges();
