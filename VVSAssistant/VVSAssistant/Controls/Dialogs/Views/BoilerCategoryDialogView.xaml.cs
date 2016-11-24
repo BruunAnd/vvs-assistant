@@ -17,7 +17,7 @@ namespace VVSAssistant.Controls.Dialogs.Views
     /// <summary>
     /// Interaction logic for BoilerCategoryDialogView.xaml
     /// </summary>
-    public partial class BoilerCategoryDialogView : Window
+    public partial class BoilerCategoryDialogView : UserControl
     {
         public BoilerCategoryDialogView()
         {
