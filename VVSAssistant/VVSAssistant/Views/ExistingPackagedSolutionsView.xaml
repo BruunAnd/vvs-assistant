@@ -53,7 +53,7 @@
               Grid.Row="2">
 
             <DataGrid AutoGenerateColumns="False"
-                      ItemsSource="{Binding CollectionView}">
+                      ItemsSource="{Binding FilteredCollectionView}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Name}" 
                                         Header="Navn" 
