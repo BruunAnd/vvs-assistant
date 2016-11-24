@@ -38,16 +38,11 @@ namespace VVSAssistant.Models.DataSheets
         /* Container Data */
         public float Volume { get; set; }
 
-        /* Non-Solar unit Container data */
         public float StandingLoss { get; set; }
 
         /* Solar Station */
         public float SolPumpConsumption { get; set; }
         public float SolStandbyConsumption { get; set; }
 
-    }
-    public enum UseProfileType
-    {
-        XXXS = 1, XXS, XS, S, M, L, XL, XXL
     }
 }

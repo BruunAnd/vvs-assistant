@@ -293,7 +293,7 @@ namespace VVSAssistant.ViewModels
                         if (!IncludeContainers)
                             return false;
                         break;
-                    case ApplianceTypes.Heatpump:
+                    case ApplianceTypes.HeatPump:
                         if (!IncludeHeatPumps)
                             return false;
                         break;
