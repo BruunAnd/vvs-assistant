@@ -28,12 +28,16 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             _result.PrimaryHeatingUnitAFUE = PrimaryBoiler.AFUE;
             
             _result.EffectOfTemperatureRegulatorClass = TempControlBonus;
-            _result.EffectOfSecondaryBoiler = (SecondBoilerData.AFUE - _result.PrimaryHeatingUnitAFUE) * 0.1f;
+            _result.EffectOfSecondaryBoiler = SecondBoilerData != null ?
+                             (SecondBoilerData.AFUE - _result.PrimaryHeatingUnitAFUE) * 0.1f
+                             : 0;
             III = 294 / (11*PrimaryBoiler.WattUsage);
             IV = 115 / (11 * PrimaryBoiler.WattUsage);
             // Assume only one type of solarpanel pr. package
-            _result.SolarHeatContribution = (III * SolarPanels.Area + IV * (SolarContainerData.Volume/1000)) * 0.9f 
-                                             * (SolarCollectorData.Efficency/100)*SolarContainerClass;
+            _result.SolarHeatContribution = SolarPanels != null && SolarContainerData != null ? 
+                                            (III * SolarPanels.Area + IV * (SolarContainerData.Volume/1000)) * 
+                                             0.9f * (SolarCollectorData.Efficency/100)*SolarContainerClass 
+                                             : 0;
             _result.EffectOfSecondaryHeatPump = HeatpumpContribution(HasNonSolarContainer());
             _result.AdjustedContribution = _result.EffectOfSecondaryHeatPump > 0 && _result.SolarHeatContribution > 0
                                            ? AdjustedContribution(_result.EffectOfSecondaryHeatPump, _result.SolarHeatContribution)
@@ -81,22 +85,22 @@ namespace VVSAssistant.Functions.Calculation.Strategies
         internal float TempControlBonus { get { return TemperatureControllerDataSheet.ClassBonus
                                         [(_package?.Appliances.FirstOrDefault(item =>
                                         item?.Type == ApplianceTypes.TemperatureController)?
-                                        .DataSheet as TemperatureControllerDataSheet).Class ?? "0"]; } }
-        internal HeatingUnitDataSheet SecondBoilerData { get { return _package.Appliances.First(item =>
+                                        .DataSheet as TemperatureControllerDataSheet)?.Class ?? "0"]; } }
+        internal HeatingUnitDataSheet SecondBoilerData { get { return _package.Appliances.FirstOrDefault(item =>
                                             item.Type == ApplianceTypes.Boiler && item !=
                                             _package.PrimaryHeatingUnit)?.DataSheet as HeatingUnitDataSheet; } }
-        internal SolarCollectorDataSheet SolarPanels { get { return _package.Appliances.FirstOrDefault(item =>
-                                                      item.Type == ApplianceTypes.SolarPanel).DataSheet as
+        internal SolarCollectorDataSheet SolarPanels { get { return _package?.Appliances?.FirstOrDefault(item =>
+                                                      item.Type == ApplianceTypes.SolarPanel)?.DataSheet as
                                                       SolarCollectorDataSheet; } }
         internal Appliance SupplementaryHeatpump { get { return null; } }
         internal float SolarContainerClass { get { return ContainerDataSheet.ClassificationClass[
                                              (_package?.SolarContainer?.DataSheet
-                                             as ContainerDataSheet).Classification]; } }
+                                             as ContainerDataSheet).Classification ?? "0"]; } }
         internal ContainerDataSheet SolarContainerData
         {
             get
             {
-                return _package?.SolarContainer.DataSheet as ContainerDataSheet;
+                return _package?.SolarContainer?.DataSheet as ContainerDataSheet;
             }
         }
         internal SolarCollectorDataSheet SolarCollectorData
@@ -113,7 +117,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             get
             {
                 return _package?.Appliances.FirstOrDefault(item =>
-                       item.Type == ApplianceTypes.Heatpump)?.DataSheet
+                       item.Type == ApplianceTypes.HeatPump)?.DataSheet
                        as HeatingUnitDataSheet;
             }
         }

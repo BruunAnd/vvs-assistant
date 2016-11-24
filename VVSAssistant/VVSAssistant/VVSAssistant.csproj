@@ -114,11 +114,12 @@
     </ApplicationDefinition>
     <Compile Include="Common\NotifyPropertyChanged.cs" />
     <Compile Include="Common\ViewModels\FilterableViewModelBase.cs" />
-    <Compile Include="Controls\Dialogs\ViewModels\BoilerCategoryDialogViewModel.cs" />
+    <Compile Include="Controls\Dialogs\ViewModels\AddHeatingUnitDialogViewModel.cs" />
     <Compile Include="Controls\Dialogs\ViewModels\EditApplianceViewModel.cs" />
     <Compile Include="Controls\Dialogs\ViewModels\GenerateOfferDialogViewModel.cs" />
-    <Compile Include="Controls\Dialogs\Views\BoilerCategoryDialogView.xaml.cs">
-      <DependentUpon>BoilerCategoryDialogView.xaml</DependentUpon>
+    <Compile Include="Controls\Dialogs\ViewModels\SolarContainerDialogViewModel.cs" />
+    <Compile Include="Controls\Dialogs\Views\AddHeatingUnitDialogView.xaml.cs">
+      <DependentUpon>AddHeatingUnitDialogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Dialogs\Views\EditApplianceView.xaml.cs">
       <DependentUpon>EditApplianceView.xaml</DependentUpon>
@@ -130,6 +131,9 @@
       <DependentUpon>SaveDialogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Dialogs\ViewModels\SaveDialogViewModel.cs" />
+    <Compile Include="Controls\Dialogs\Views\SolarContainerDialogView.xaml.cs">
+      <DependentUpon>SolarContainerDialogView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Database\AssistantContext.cs" />
     <Compile Include="Events\VVSAssistantEvents.cs" />
     <Compile Include="Exceptions\InvalidParameterException.cs" />
@@ -152,6 +156,7 @@
     <Compile Include="Models\DataSheet.cs" />
     <Compile Include="Models\DataSheets\ContainerDataSheet.cs" />
     <Compile Include="Models\DataSheets\HeatingUnitDataSheet.cs" />
+    <Compile Include="Models\DataSheets\SolarStationDataSheet.cs" />
     <Compile Include="Models\DataSheets\WaterHeatingUnitDataSheet.cs" />
     <Compile Include="Models\Interfaces\ICalculatable.cs" />
     <Compile Include="Models\Material.cs" />
@@ -182,9 +187,9 @@
     <Compile Include="Views\CreatePackagedSolutionView.xaml.cs">
       <DependentUpon>CreatePackagedSolutionView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Controls\Dialogs\Views\BoilerCategoryDialogView.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Controls\Dialogs\Views\AddHeatingUnitDialogView.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\Dialogs\Views\EditApplianceView.xaml">
       <SubType>Designer</SubType>
@@ -195,6 +200,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\Dialogs\Views\SaveDialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Dialogs\Views\SolarContainerDialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -60,7 +60,7 @@
                     VerticalAlignment="Center" 
                     HorizontalAlignment="Right"
                     Content="Opret komponent"
-                    Command="{Binding AddApplianceToPackageSolution}"
+                    Command="{Binding AddApplianceToPackagedSolution}"
                     CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"/>
         </Grid>
 
@@ -87,7 +87,7 @@
                 <DataGrid.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Føj til pakke"
-                                  Command="{Binding AddApplianceToPackageSolution}"/>
+                                  Command="{Binding AddApplianceToPackagedSolution}"/>
                         <MenuItem Header="Redigér"
                                   Command="{Binding EditAppliance}"/>
                         <MenuItem Header="Slet"
@@ -97,7 +97,7 @@
 
                 <DataGrid.InputBindings>
                     <MouseBinding MouseAction="LeftDoubleClick"
-                                  Command="{Binding AddApplianceToPackageSolution}"/>
+                                  Command="{Binding AddApplianceToPackagedSolution}"/>
                 </DataGrid.InputBindings>
 
                 <DataGrid.Columns>
@@ -137,7 +137,7 @@
                       SelectedItem="{Binding SelectedAppliance}" >
                 <DataGrid.InputBindings>
                     <MouseBinding MouseAction="LeftDoubleClick"
-                                  Command="{Binding RemoveApplianceFromPackageSolution}"/>
+                                  Command="{Binding RemoveApplianceFromPackagedSolution}"/>
                 </DataGrid.InputBindings>
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Name}"

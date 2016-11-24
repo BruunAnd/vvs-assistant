@@ -26,7 +26,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests
         // Integration Test between Appliance and CalculationSelector
         [Test]
         [TestCase(ApplianceTypes.Boiler, null, typeof(BoilerAsPrimary))]
-        [TestCase(ApplianceTypes.Heatpump, null, typeof(HeatPumpAsPrimary))]
+        [TestCase(ApplianceTypes.HeatPump, null, typeof(HeatPumpAsPrimary))]
         [TestCase(ApplianceTypes.LowTempHeatPump, null, typeof(HeatPumpAsPrimary))]
         [TestCase(ApplianceTypes.Boiler, ApplianceTypes.SolarPanel, typeof(BoilerForWater))]
         public void SelectCalculationStrategy_SelectsCorrectStrategy(ApplianceTypes type,

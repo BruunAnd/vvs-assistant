@@ -23,7 +23,7 @@ namespace VVSAssistant.Functions.Calculation
 
             switch (package.PrimaryHeatingUnit.Type)
             {
-                case ApplianceTypes.Heatpump:
+                case ApplianceTypes.HeatPump:
                     return new HeatPumpAsPrimary();
                 case ApplianceTypes.Boiler:
                     if (IsBoilerForWater(package))
