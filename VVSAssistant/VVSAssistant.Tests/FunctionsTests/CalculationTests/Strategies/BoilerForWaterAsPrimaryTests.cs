@@ -36,9 +36,9 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         }
         [Test]
         // Skal være 3075 for SolarContribution bliver rigtig
-        [TestCase(2,3082)]
-        [TestCase(3, 3108)]
-        [TestCase(4,3082)]
+        [TestCase(2,3074)]
+        [TestCase(3, 3099)]
+        [TestCase(4,3074)]
         public void SolcalMethodQnonsol_CalculatesQnonsol(int packageId, float expected)
         {
             var package = new PackagedSolutionFactory().GetPackagedSolution(packageId);
@@ -71,12 +71,11 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             var calculation = new BoilerForWater();
             var result = calculation.CalculateEEI(package);
             var EEI = Math.Round(result.SolarHeatContribution, 2);
-            // fejl margin skal være på 0.1
-            Assert.IsTrue(expected + 0.3f >= EEI && EEI >= expected - 0.3f);
+            
+            Assert.IsTrue(expected + 0.1f >= EEI && EEI >= expected - 0.1f);
         }
         [Test]
         [TestCase(2,100)]
-        [TestCase(1,111)]
         [TestCase(4, 104)]
         public void CalculateEEI_CalculatesEEICompletePackagedSolution(int packageId, float expected)
         {

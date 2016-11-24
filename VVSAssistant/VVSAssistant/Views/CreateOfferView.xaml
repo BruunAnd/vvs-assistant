@@ -41,7 +41,7 @@
                     Height="32"
                     MinWidth="120"
                     Content="Tilbage"
-                    Command="{Binding ElementName=root, Path=DataContext.NavCommand}"/>
+                    Command="{Binding ElementName=Root, Path=DataContext.NavCommand}"/>
         </Grid>
 
         <Grid Grid.Column="1"
