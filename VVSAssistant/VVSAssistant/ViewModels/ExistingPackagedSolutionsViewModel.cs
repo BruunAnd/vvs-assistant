@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using VVSAssistant.Common.ViewModels.VVSAssistant.Common.ViewModels;
 using VVSAssistant.Extensions;
@@ -13,12 +14,13 @@ namespace VVSAssistant.ViewModels
         public ExistingPackagedSolutionsViewModel()
         {
             SetupFilterableView(PackagedSolutions);
+            Console.WriteLine("new instance");
         }
 
         public override void LoadDataFromDatabase()
         {
-            // Load list of packaged solutions from database
             DbContext.PackagedSolutions.ToList().ForEach(PackagedSolutions.Add);
+            loaded = true;
         }
 
         protected override bool Filter(PackagedSolution obj)
