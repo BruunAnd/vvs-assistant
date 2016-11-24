@@ -117,7 +117,7 @@ namespace VVSAssistant.ViewModels
                 if (!SetProperty(ref _selectedAppliance, value)) return;
 
                 // Notify if property was changed
-                AddApplianceToPackageSolution.NotifyCanExecuteChanged();
+                AddApplianceToPackagedSolution.NotifyCanExecuteChanged();
                 EditAppliance.NotifyCanExecuteChanged();
                 RemoveAppliance.NotifyCanExecuteChanged();
             }
@@ -125,7 +125,7 @@ namespace VVSAssistant.ViewModels
         #endregion
 
         #region Command initializations
-        public RelayCommand AddApplianceToPackageSolution { get; }
+        public RelayCommand AddApplianceToPackagedSolution { get; }
         public RelayCommand RemoveApplianceFromPackageSolution { get; }
         public RelayCommand EditAppliance { get; }
         public RelayCommand RemoveAppliance { get; }
@@ -146,13 +146,18 @@ namespace VVSAssistant.ViewModels
 
             #region Command declarations
 
-            AddApplianceToPackageSolution = new RelayCommand(x => 
+            AddApplianceToPackagedSolution = new RelayCommand(x =>
             {
-                AppliancesInSolution.Add(SelectedAppliance);
+                if (SelectedAppliance.Type == ApplianceTypes.Boiler)
+                    RunAddBoilerDialog(SelectedAppliance);
+                else
+                    AddApplianceToSolution(SelectedAppliance);
             }, x => SelectedAppliance != null);
 
             RemoveApplianceFromPackageSolution = new RelayCommand(x =>
             {
+                if (PackagedSolution.PrimaryHeatingUnit == SelectedAppliance)
+                    PackagedSolution.PrimaryHeatingUnit = null;
                 AppliancesInSolution.Remove(SelectedAppliance);
             }, x => SelectedAppliance != null);
 
@@ -178,6 +183,11 @@ namespace VVSAssistant.ViewModels
             #endregion
         }
 
+        private void AddApplianceToSolution(Appliance appliance)
+        {
+            AppliancesInSolution.Add(appliance);
+        }
+
         private void RemoveApplianceRENAMEMEPLZ(Appliance appliance)
         {
             Appliances.Remove(appliance);
@@ -197,6 +207,26 @@ namespace VVSAssistant.ViewModels
             PackagedSolution = new PackagedSolution();
         }
 
+        private async void RunAddBoilerDialog(Appliance appliance)
+        {
+            var customDialog = new CustomDialog();
+
+            var dialogViewModel = new AddBoilerDialogViewModel("Tilføj kedel", "Vælg om den nye kedel skal være primær- eller sekundærkedel.",
+                instanceCancel => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
+                instanceCompleted =>
+                {
+                    _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
+
+                    AddApplianceToSolution(appliance);
+                    if (instanceCompleted.IsPrimaryBoiler)
+                        PackagedSolution.PrimaryHeatingUnit = appliance;
+                });
+
+            customDialog.Content = new AddBoilerDialogView() { DataContext = dialogViewModel };
+
+            await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
+        }
+
         private async void RunSaveDialog()
         {
             var customDialog = new CustomDialog();
@@ -212,6 +242,7 @@ namespace VVSAssistant.ViewModels
                 }); 
             
             customDialog.Content = new SaveDialogView { DataContext = dialogViewModel };
+
             await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
         }
 
