@@ -35,6 +35,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         [TestCase(ApplianceTypes.HeatPump, 118, 9, 100, 183, ApplianceTypes.Boiler, 94, 42, 3.19f, 72, 4, 400, "E", 300, "B", "2", 1)]
         [TestCase(ApplianceTypes.HeatPump, 158, 10, 164, 151, ApplianceTypes.Boiler, 91, 18, SENTINAL, SENTINAL, 0, 489.3f, "E", SENTINAL, null, "6", -1)]
         [TestCase(null, SENTINAL, SENTINAL, SENTINAL, SENTINAL, null, SENTINAL, SENTINAL, SENTINAL, SENTINAL, 0 , SENTINAL, null, SENTINAL, null, null, -1)]
+        [TestCase(ApplianceTypes.CHP, 140, 39, SENTINAL, SENTINAL, ApplianceTypes.Boiler, 94, 42, 3.19f, 72, 4, 400, "E", SENTINAL, null, "3", 1)]
 
         public void pack1HeatPumpAsPrimStrategyReturnsResultsEEUCalculationResult_true(ApplianceTypes PrimType, float PrimAFUE, float PrimWatt, float PrimCold, float PrimWarm, ApplianceTypes SecType, float secAFUE, float secWatt, float SolArea, float SolEff, int SolNumber, float Container1Vol, string Container1Class,
                                            float Container2Vol, string Container2Class, string TempControlClass, int IdOfSolarContainer)
@@ -48,6 +49,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         [TestCase(ApplianceTypes.HeatPump, 158, 10, 164, 151, ApplianceTypes.Boiler, 91, 18, 2.25f, 61, 6, 489.3f, "E", 741, "E", "6", 1, 164)]
         [TestCase(ApplianceTypes.HeatPump, 118, 9, 100, 183, ApplianceTypes.Boiler, 94, 42, 3.19f, 72, 4, 400, "E", 300, "B", "2", 1, 122)]
         [TestCase(ApplianceTypes.HeatPump, 158, 10, 164, 151, ApplianceTypes.Boiler, 91, 18, SENTINAL, SENTINAL, 0, 489.3f, "E", SENTINAL, null, "6", -1, 155)]
+        [TestCase(ApplianceTypes.CHP, 140, 39, SENTINAL, SENTINAL, ApplianceTypes.Boiler, 94, 42, 3.19f, 72, 4, 400, "E", SENTINAL, null, "3", 1, 142)]
         public void pack1HeatPumpAsPrimStrategyReturnsCorrectEEI_true(ApplianceTypes PrimType, float PrimAFUE, float PrimWatt, float PrimCold, float PrimWarm, ApplianceTypes SecType, float secAFUE, float secWatt, float SolArea, float SolEff, int SolNumber, float Container1Vol, string Container1Class,
                                            float Container2Vol, string Container2Class, string TempControlClass, int IdOfSolarContainer, float expectedValue)
         {
@@ -61,6 +63,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         [TestCase(ApplianceTypes.HeatPump, 158, 10, 164, 151, ApplianceTypes.Boiler, 91, 18, 2.25f, 61, 6, 489.3f, "E", 741, "E", "6", 1, 4)]
         [TestCase(ApplianceTypes.HeatPump, 118, 9, 100, 183, ApplianceTypes.Boiler, 94, 42, 3.19f, 72, 4, 400, "E", 300, "B", "2", 1, 2)]
         [TestCase(ApplianceTypes.HeatPump, 158, 10, 164, 151, ApplianceTypes.Boiler, 91, 18, SENTINAL, SENTINAL, 0, 489.3f, "E", SENTINAL, null, "6", -1, 4)]
+        [TestCase(ApplianceTypes.CHP, 140, 39, SENTINAL, SENTINAL, ApplianceTypes.Boiler, 94, 42, 3.19f, 72, 4, 400, "E", SENTINAL, null, "3", 1, 1.5f)]
         public void pack1HeatPumpAsPrimaryReturnsCorrectRegEff_true(ApplianceTypes PrimType, float PrimAFUE, float PrimWatt, float PrimCold, float PrimWarm, ApplianceTypes SecType, float secAFUE, float secWatt, float SolArea, float SolEff, int SolNumber, float Container1Vol, string Container1Class,
                                            float Container2Vol, string Container2Class, string TempControlClass, int IdOfSolarContainer, float expectedValue)
         {
@@ -74,6 +77,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         [TestCase(ApplianceTypes.HeatPump, 158, 10, 164, 151, ApplianceTypes.Boiler, 91, 18, 2.25f, 61, 6, 489.3f, "E", 741, "E", "6", 1, 6.6f)]
         [TestCase(ApplianceTypes.HeatPump, 118, 9, 100, 183, ApplianceTypes.Boiler, 94, 42, 3.19f, 72, 4, 400, "E", 300, "B", "2", 2, 9.06f)]
         [TestCase(ApplianceTypes.HeatPump, 158, 10, 164, 151, ApplianceTypes.Boiler, 91, 18, SENTINAL, SENTINAL, 0, 489.3f, "E", SENTINAL, null, "6", -1, 6.6f)]
+        [TestCase(ApplianceTypes.CHP, 140, 39, SENTINAL, SENTINAL, ApplianceTypes.Boiler, 94, 42, 3.19f, 72, 4, 400, "E", SENTINAL, null, "3", 1, 3.15f)]
         public void pack1HeatPumpAsPrimaryReturnsCorrectSecEff_true(ApplianceTypes PrimType, float PrimAFUE, float PrimWatt, float PrimCold, float PrimWarm, ApplianceTypes SecType, float secAFUE, float secWatt, float SolArea, float SolEff, int SolNumber, float Container1Vol, string Container1Class,
                                            float Container2Vol, string Container2Class, string TempControlClass, int IdOfSolarContainer, float expectedValue)
         {
@@ -87,6 +91,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         [TestCase(ApplianceTypes.HeatPump, 133, 43, 139, 136, ApplianceTypes.Boiler, 91, 18, 2.25f, 60, 2, 481, "C", 500, "B", "7", 1, 0.65f)]
         [TestCase(ApplianceTypes.HeatPump, 158, 10, 164, 151, ApplianceTypes.Boiler, 91, 18, 2.25f, 61, 6, 489.3f, "E", 741, "E", "6", 1, 8.14f)]
         [TestCase(ApplianceTypes.HeatPump, 118, 9, 100, 183, ApplianceTypes.Boiler, 94, 42, 3.19f, 72, 4, 400, "E", 300, "B", "2", 2, 10.69f)]
+        [TestCase(ApplianceTypes.CHP, 140, 39, SENTINAL, SENTINAL, ApplianceTypes.Boiler, 94, 42, 3.19f, 72, 4, 400, "E", SENTINAL, null, "3", 1, 3.84)]
         public void pack1HeatPumpAsPrimaryReturnsCorrectSolEff_true(ApplianceTypes PrimType, float PrimAFUE, float PrimWatt, float PrimCold, float PrimWarm, ApplianceTypes SecType, float secAFUE, float secWatt, float SolArea, float SolEff, int SolNumber, float Container1Vol, string Container1Class,
                                            float Container2Vol, string Container2Class, string TempControlClass, int IdOfSolarContainer, float expectedValue)
         {
