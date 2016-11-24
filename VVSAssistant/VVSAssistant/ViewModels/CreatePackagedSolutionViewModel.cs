@@ -150,7 +150,7 @@ namespace VVSAssistant.ViewModels
             AddApplianceToPackagedSolution = new RelayCommand(x =>
             {
                 if (SelectedAppliance.Type == ApplianceTypes.Boiler)
-                    RunAddBoilerDialog(SelectedAppliance);
+                    RunAddHeatingUnitDialog(SelectedAppliance);
                 else
                     AddApplianceToSolution(SelectedAppliance);
             }, x => SelectedAppliance != null);
@@ -212,27 +212,20 @@ namespace VVSAssistant.ViewModels
             PackagedSolution = new PackagedSolution();
         }
 
-        private async void RunAddBoilerDialog(Appliance appliance)
+        private async void RunAddHeatingUnitDialog(Appliance appliance)
         {
             var customDialog = new CustomDialog();
 
-            var dialogViewModel = new AddBoilerDialogViewModel("Tilføj kedel", "Vælg om den nye kedel skal være primær- eller sekundærkedel.",
-                instanceCancel => _dialogCoordinator.HideMetroDialogAsync(this, customDialog), async instanceCompleted =>
+            var dialogViewModel = new AddHeatingUnitDialogViewModel(instanceCancel => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
+                async instanceCompleted =>
                 {
                     await _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
 
                     AddApplianceToSolution(appliance);
-                    if (!instanceCompleted.IsPrimaryBoiler) return;
-                    if (PackagedSolution.PrimaryHeatingUnit != null)
-                    {
-                        // Inform the user that their previous primary heating unit will be replaced
-                        await _dialogCoordinator.ShowMessageAsync(this, "Information",
-                                $"Da du har valgt en ny primærkedel er komponentet {PackagedSolution.PrimaryHeatingUnit.Name} nu en sekundærkedel.");
-                    }
                     PackagedSolution.PrimaryHeatingUnit = appliance;
                 });
 
-            customDialog.Content = new AddBoilerDialogView() { DataContext = dialogViewModel };
+            customDialog.Content = new AddHeatingUnitDialogView { DataContext = dialogViewModel };
 
             await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
         }
@@ -330,13 +323,13 @@ namespace VVSAssistant.ViewModels
 
         private void HandleAddApplianceToPackagedSolution(Appliance appToAdd)
         {
-            if (appToAdd.DataSheet is HeatingUnitDataSheet &&
-                PackagedSolution.PrimaryHeatingUnit == null)
+            if (appToAdd.DataSheet is HeatingUnitDataSheet)
             {
                 //TODO: Implement the comment below: 
                 /* Prompt user for whether or not the heating unit is primary */
                 /* If it is primary, ask whether or not it is for water heating, 
                  * room heating, or both. */
+                RunAddHeatingUnitDialog(appToAdd);
             }
 
             if (appToAdd.DataSheet is ContainerDataSheet &&
