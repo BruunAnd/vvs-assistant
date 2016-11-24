@@ -7,6 +7,7 @@ using VVSAssistant.Common.ViewModels.VVSAssistant.Common.ViewModels;
 using VVSAssistant.ViewModels.MVVM;
 using VVSAssistant.Controls.Dialogs.ViewModels;
 using VVSAssistant.Controls.Dialogs.Views;
+using VVSAssistant.Extensions;
 using VVSAssistant.Models;
 
 namespace VVSAssistant.ViewModels
@@ -14,6 +15,84 @@ namespace VVSAssistant.ViewModels
     public class CreatePackagedSolutionViewModel : FilterableViewModelBase<Appliance>
     {
         #region Property initializations
+
+        private bool _includeHeatPumps;
+        public bool IncludeHeatPumps
+        {
+            get { return _includeHeatPumps; }
+            set
+            {
+                if (SetProperty(ref _includeHeatPumps, value))
+                    FilteredCollectionView.Refresh();
+            }
+        }
+
+        private bool _includeBoilers;
+        public bool IncludeBoilers
+        {
+            get { return _includeBoilers; }
+            set
+            {
+                if (SetProperty(ref _includeBoilers, value))
+                    FilteredCollectionView.Refresh();
+            }
+        }
+
+        private bool _includeTemperatureControllers;
+        public bool IncludeTemperatureControllers
+        {
+            get { return _includeTemperatureControllers; }
+            set
+            {
+                if (SetProperty(ref _includeTemperatureControllers, value))
+                    FilteredCollectionView.Refresh();
+            }
+        }
+
+        private bool _includeSolarPanels;
+        public bool IncludeSolarPanels
+        {
+            get { return _includeSolarPanels; }
+            set
+            {
+                if (SetProperty(ref _includeSolarPanels, value))
+                    FilteredCollectionView.Refresh();
+            }
+        }
+
+        private bool _includeContainers;
+        public bool IncludeContainers
+        {
+            get { return _includeContainers; }
+            set
+            {
+                if (SetProperty(ref _includeContainers, value))
+                    FilteredCollectionView.Refresh();
+            }
+        }
+
+        private bool _includeLowTempHeatPumps;
+        public bool IncludeLowTempHeatPumps
+        {
+            get { return _includeLowTempHeatPumps; }
+            set
+            {
+                if (SetProperty(ref _includeLowTempHeatPumps, value))
+                    FilteredCollectionView.Refresh();
+            }
+        }
+
+        private bool _includeCentralHeatingPlants;
+        public bool IncludeCentralHeatingPlants
+        {
+            get { return _includeCentralHeatingPlants; }
+            set
+            {
+                if (SetProperty(ref _includeCentralHeatingPlants, value))
+                    FilteredCollectionView.Refresh();
+            }
+        }
+
         private PackagedSolution _packagedSolution;
         public PackagedSolution PackagedSolution
         {
@@ -160,6 +239,54 @@ namespace VVSAssistant.ViewModels
 
         protected override bool Filter(Appliance obj)
         {
+            // Filter based on type first
+            if (IncludeBoilers ||
+                IncludeCentralHeatingPlants ||
+                IncludeContainers ||
+                IncludeHeatPumps ||
+                IncludeLowTempHeatPumps ||
+                IncludeSolarPanels ||
+                IncludeTemperatureControllers)
+            {
+                switch (obj.Type)
+                {
+                    case ApplianceTypes.Boiler:
+                        if (!IncludeBoilers)
+                            return false;
+                        break;
+                    case ApplianceTypes.CHP:
+                        if (!IncludeCentralHeatingPlants)
+                            return false;
+                        break;
+                    case ApplianceTypes.Container:
+                        if (!IncludeContainers)
+                            return false;
+                        break;
+                    case ApplianceTypes.Heatpump:
+                        if (!IncludeHeatPumps)
+                            return false;
+                        break;
+                    case ApplianceTypes.LowTempHeatPump:
+                        if (!IncludeLowTempHeatPumps)
+                            return false;
+                        break;
+                    case ApplianceTypes.SolarPanel:
+                        if (!IncludeSolarPanels)
+                            return false;
+                        break;
+                    case ApplianceTypes.TemperatureController:
+                        if (!IncludeTemperatureControllers)
+                            return false;
+                        break;
+                    default:
+                        return false;
+                }
+            }
+
+            // Filter based on FilterString
+            if (!obj.Name.ContainsIgnoreCase(FilterString) && !obj.Description.ContainsIgnoreCase(FilterString))
+                return false;
+
             return true;
         }
     }
