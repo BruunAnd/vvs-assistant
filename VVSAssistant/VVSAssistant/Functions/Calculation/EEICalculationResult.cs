@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VVSAssistant.Models;
 using VVSAssistant.Models.DataSheets;
 
 namespace VVSAssistant.Functions.Calculation
@@ -11,6 +12,7 @@ namespace VVSAssistant.Functions.Calculation
     public class EEICalculationResult
     {
         public IEEICalculation CalculationType { get; set; }
+        public string EEICharacters { get; set; }
         public float EEI { get; set; }
         public float PrimaryHeatingUnitAFUE { get; set; }
         public float EffectOfTemperatureRegulatorClass { get; set; }

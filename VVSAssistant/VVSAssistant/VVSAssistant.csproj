@@ -138,13 +138,13 @@
     <Compile Include="Events\VVSAssistantEvents.cs" />
     <Compile Include="Exceptions\InvalidParameterException.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Functions\Calculation\EEICharLabelChooser.cs" />
     <Compile Include="Functions\Calculation\Strategies\BoilerAsPrimary.cs" />
     <Compile Include="Functions\Calculation\Strategies\BoilerForWater.cs" />
     <Compile Include="Functions\Calculation\CalculationManager.cs" />
     <Compile Include="Functions\Calculation\EEICalculationResult.cs" />
     <Compile Include="Functions\Calculation\Strategies\HeatPumpAsPrimary.cs" />
     <Compile Include="Functions\Calculation\IEEICalculation.cs" />
-    <Compile Include="Functions\Calculation\Interfaces\ICalculationChooser.cs" />
     <Compile Include="Functions\Exporter.cs" />
     <Compile Include="Functions\UtilityClass.cs" />
     <Compile Include="Models\Appliance.cs" />
@@ -275,7 +275,9 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Functions\Calculation\Interfaces\" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\WindowsIcons-license.txt" />
   </ItemGroup>
