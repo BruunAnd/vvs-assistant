@@ -15,6 +15,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0"
                    Grid.ColumnSpan="99"
@@ -23,20 +24,20 @@
                    Text="{Binding Title}"
                    TextWrapping="Wrap"
                    TextAlignment="Center"/>
-        <TextBlock Grid.Row="0"
+        <TextBlock Grid.Row="1"
                    Grid.ColumnSpan="99"
                    Margin="0 5 0 5"
                    FontSize="14"
                    Text="{Binding Message}"
                    TextWrapping="Wrap"
                    TextAlignment="Center"/>
-        
-        <ComboBox ItemsSource="{Binding Appliances, UpdateSourceTrigger=PropertyChanged}"
+
+        <ComboBox ItemsSource="{Binding Appliances}"
                   SelectedItem="{Binding SelectedAppliance}"
-                  Text="{Binding Name}"
-                  Grid.Row="2">
+                  Grid.Row="3"
+                  Text ="{Binding Name}">
         </ComboBox>
-            <StackPanel Grid.Row="3"
+        <StackPanel Grid.Row="4"
                     Height="85"
                     HorizontalAlignment="Center"
                     Orientation="Horizontal">
@@ -45,7 +46,7 @@
                     MinWidth="80"
                     Margin="0 0 5 0"
                     Command="{Binding SaveCommand}"
-                    Content="Gem"/>
+                    Content="Acceptér"/>
             <Button x:Name="PART_NegativeButton"
                     Height="35"
                     MinWidth="80"

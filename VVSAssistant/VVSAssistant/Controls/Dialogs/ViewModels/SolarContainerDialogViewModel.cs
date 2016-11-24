@@ -20,15 +20,11 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
          * Furthermore, when a solar collector is added, and there are containers in the system, 
          * it should ask the user what container is connected to the solar collector. */
 
-        RelayCommand SaveCommand;
-        RelayCommand CloseCommand;
+        public RelayCommand SaveCommand { get; }
+        public RelayCommand CloseCommand { get; }
 
         private ObservableCollection<Appliance> _appliances;
-        public ObservableCollection<Appliance> Appliances
-        {
-            get { return _appliances; }
-            set { _appliances = value; OnPropertyChanged(); }
-        }
+        public ObservableCollection<Appliance> Appliances { get; }
 
         private Appliance _selectedAppliance;
         public Appliance SelectedAppliance
@@ -44,18 +40,21 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             set { _appliance = value; OnPropertyChanged(); }
         }
 
+        private ObservableCollection<Appliance> _appsInSolution;
         private PackagedSolution _packagedSolution;
 
         public string Title { get; }
         public string Message { get; }
 
-        public SolarContainerDialogViewModel(string title, string message, 
-                                             Appliance appliance, ObservableCollection<Appliance> appliances, PackagedSolution packagedSolution,
+        public SolarContainerDialogViewModel(string message, string title, 
+                                             Appliance appliance, ObservableCollection<Appliance> appliances, 
+                                             ObservableCollection<Appliance> appsInSolution,PackagedSolution packagedSolution,
                                              Action<SolarContainerDialogViewModel> closeHandler, Action<SolarContainerDialogViewModel> completionHandler)
         {
             Title = title;
             Message = message;
 
+            _appsInSolution = appsInSolution;
             _packagedSolution = packagedSolution;
             Appliances = appliances;
             Appliance = appliance;
@@ -74,20 +73,22 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
 
         private void HandleSaveCommand()
         {
-            if (SelectedAppliance.DataSheet is ContainerDataSheet)
+            if (SelectedAppliance == null)
             {
-                _packagedSolution.SolarContainer = SelectedAppliance; /* Container */
-                _packagedSolution.Appliances.Add(Appliance); /* Solar Collector */
+                _appsInSolution.Add(Appliance); /* Type doesn't matter in this case */
+            }
+
+            else if (SelectedAppliance.DataSheet is ContainerDataSheet)
+            {
+                _packagedSolution.SolarContainer = SelectedAppliance; /* Container, already in the PS */
+                _appsInSolution.Add(Appliance); /* Solar Collector */
             }
             else if (SelectedAppliance.DataSheet is SolarCollectorDataSheet)
             {
                 _packagedSolution.SolarContainer = Appliance; /* Container */
-                _packagedSolution.Appliances.Add(SelectedAppliance); /* Solar Collector */
+                _appsInSolution.Add(Appliance); /* Container */
             }
-            else if (SelectedAppliance == null)
-            {
-                _packagedSolution.Appliances.Add(Appliance); /* Type doesn't matter in this case */
-            }
+            
         }
 
     }
