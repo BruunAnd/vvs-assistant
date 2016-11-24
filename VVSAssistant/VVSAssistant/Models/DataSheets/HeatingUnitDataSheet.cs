@@ -9,5 +9,6 @@ namespace VVSAssistant.Models.DataSheets
         public float WattUsage { get; set; }
         public float AFUEColdClima { get; set; }
         public float AFUEWarmClima { get; set; }
+        public string InternalTempControl { get; set; }
     }
 }
