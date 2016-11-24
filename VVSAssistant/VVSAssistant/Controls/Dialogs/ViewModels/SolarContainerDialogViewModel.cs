@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using VVSAssistant.Common;
 using VVSAssistant.Models;
+using VVSAssistant.Models.DataSheets;
 using VVSAssistant.ViewModels;
 using VVSAssistant.ViewModels.MVVM;
 
@@ -61,6 +62,7 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
 
             SaveCommand = new RelayCommand(x =>
             {
+                HandleSaveCommand();
                 completionHandler(this);
             });
 
@@ -68,6 +70,24 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             {
                 closeHandler(this);
             });
+        }
+
+        private void HandleSaveCommand()
+        {
+            if (SelectedAppliance.DataSheet is ContainerDataSheet)
+            {
+                _packagedSolution.SolarContainer = SelectedAppliance; /* Container */
+                _packagedSolution.Appliances.Add(Appliance); /* Solar Collector */
+            }
+            else if (SelectedAppliance.DataSheet is SolarCollectorDataSheet)
+            {
+                _packagedSolution.SolarContainer = Appliance; /* Container */
+                _packagedSolution.Appliances.Add(SelectedAppliance); /* Solar Collector */
+            }
+            else if (SelectedAppliance == null)
+            {
+                _packagedSolution.Appliances.Add(Appliance); /* Either container or solar collector */
+            }
         }
 
     }
