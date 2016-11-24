@@ -43,8 +43,8 @@ namespace VVSAssistant.Models
         public string Name { get; set; }
         public DateTime CreationDate { get; set; }
         public virtual ICollection<ApplianceInstance> ApplianceInstances { get; set; }
-        public virtual ApplianceInstance SolarContainerInstance { get; set; }
-        public virtual ApplianceInstance PrimaryHeatingUnitInstance { get; set; }
+        public virtual ApplianceInstance SolarContainerInstance { get; private set; }
+        public virtual ApplianceInstance PrimaryHeatingUnitInstance { get; private set; }
         public string Description => string.Join(", ", Appliances);
     }
 }

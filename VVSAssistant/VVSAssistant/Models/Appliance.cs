@@ -6,6 +6,11 @@ namespace VVSAssistant.Models
 {
     public class Appliance : ICalculateable
     {
+        public override string ToString()
+        {
+            return Name;
+        }
+
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTime CreationDate { get; set; }
@@ -13,10 +18,5 @@ namespace VVSAssistant.Models
         public virtual DataSheet DataSheet { get; set; }
         public virtual UnitPrice UnitPrice { get; set; }
         public string Description => DataSheet.ToString();
-
-        public override string ToString()
-        {
-            return Name;
-        }
     }
 }
