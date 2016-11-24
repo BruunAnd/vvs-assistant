@@ -11,9 +11,6 @@ namespace VVSAssistant.Common.ViewModels
     {
         public abstract class FilterableViewModelBase<T> : ViewModelBase 
         {
-            public bool loaded = false;
-
-
             public ICollectionView CollectionView { get; set; }
 
             private string _filterString = "";
