@@ -48,7 +48,7 @@
                     </Trigger>
                 </Style.Triggers>
             </Style>
-                   
+            
             <!-- Tabcontrol styling -->
             <Style x:Key="MetroTabControl" TargetType="TabControl">
                 <Setter Property="Padding" Value="0"/>
@@ -84,6 +84,8 @@
                     </Style>
                 </Style.Resources>
             </Style>
+            
+            
         </ResourceDictionary>
 
     </Application.Resources>

@@ -50,7 +50,7 @@
                     Content="Tilbage"
                     Height="32"
                     MinWidth="120"
-                    Command="{Binding ElementName=root, Path=DataContext.NavCommand}"/>
+                    Command="{Binding ElementName=Root, Path=DataContext.NavCommand}"/>
 
             <TextBox Controls:TextBoxHelper.ClearTextButton="True" 
                      Controls:TextBoxHelper.Watermark="Søg" 
