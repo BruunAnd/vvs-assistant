@@ -85,10 +85,10 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             }
             else if (SelectedAppliance.DataSheet is SolarCollectorDataSheet)
             {
+                /* Don't need to do anything with the solar collector. */
                 _packagedSolution.SolarContainer = Appliance; /* Container */
                 _appsInSolution.Add(Appliance); /* Container */
             }
-            
         }
 
     }

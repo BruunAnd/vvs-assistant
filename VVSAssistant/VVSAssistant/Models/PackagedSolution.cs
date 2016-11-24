@@ -16,6 +16,8 @@ namespace VVSAssistant.Models
         [NotMapped]
         public Appliance SolarContainer
         {
+            //TODO: This should be a list, because it's possible for brian 
+            //to add more than one Solar Container
             get { return SolarContainerInstance?.Appliance; }    
             set { SolarContainerInstance = new ApplianceInstance(value);}
         }
