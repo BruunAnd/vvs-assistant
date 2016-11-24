@@ -114,9 +114,13 @@
     </ApplicationDefinition>
     <Compile Include="Common\NotifyPropertyChanged.cs" />
     <Compile Include="Common\ViewModels\FilterableViewModelBase.cs" />
+    <Compile Include="Controls\Dialogs\ViewModels\AddBoilerDialogViewModel.cs" />
     <Compile Include="Controls\Dialogs\ViewModels\BoilerCategoryDialogViewModel.cs" />
     <Compile Include="Controls\Dialogs\ViewModels\EditApplianceViewModel.cs" />
     <Compile Include="Controls\Dialogs\ViewModels\GenerateOfferDialogViewModel.cs" />
+    <Compile Include="Controls\Dialogs\Views\AddBoilerDialogView.xaml.cs">
+      <DependentUpon>AddBoilerDialogView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Dialogs\Views\BoilerCategoryDialogView.xaml.cs">
       <DependentUpon>BoilerCategoryDialogView.xaml</DependentUpon>
     </Compile>
@@ -182,6 +186,10 @@
     <Compile Include="Views\CreatePackagedSolutionView.xaml.cs">
       <DependentUpon>CreatePackagedSolutionView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Controls\Dialogs\Views\AddBoilerDialogView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Controls\Dialogs\Views\BoilerCategoryDialogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
