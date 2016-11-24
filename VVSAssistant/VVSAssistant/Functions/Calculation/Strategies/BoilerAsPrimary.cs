@@ -28,9 +28,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             _result.PrimaryHeatingUnitAFUE = PrimaryBoiler.AFUE;
             
             _result.EffectOfTemperatureRegulatorClass = TempControlBonus;
-            _result.EffectOfSecondaryBoiler = SecondBoilerData != null ?
-                             (SecondBoilerData.AFUE - _result.PrimaryHeatingUnitAFUE) * 0.1f
-                             : 0;
+            _result.EffectOfSecondaryBoiler = (SecondBoilerData?.AFUE - _result.PrimaryHeatingUnitAFUE) * 0.1f ?? 0;
             III = 294 / (11*PrimaryBoiler.WattUsage);
             IV = 115 / (11 * PrimaryBoiler.WattUsage);
             // Assume only one type of solarpanel pr. package

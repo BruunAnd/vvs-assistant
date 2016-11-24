@@ -71,8 +71,18 @@
     <Compile Include="FunctionsTests\CalculationTests\Strategies\BoilerForWaterAsPrimaryTests.cs" />
     <Compile Include="FunctionsTests\CalculationTests\CalculationManagerTests.cs" />
     <Compile Include="FunctionsTests\CalculationTests\Strategies\CHPTests.cs" />
+    <Compile Include="FunctionsTests\CalculationTests\Strategies\Factories\ApplianceFactory.cs" />
+    <Compile Include="FunctionsTests\CalculationTests\Strategies\Factories\ApplianceStub.cs" />
+    <Compile Include="FunctionsTests\CalculationTests\Strategies\Factories\BoilerId.cs" />
+    <Compile Include="FunctionsTests\CalculationTests\Strategies\Factories\ContainerId.cs" />
+    <Compile Include="FunctionsTests\CalculationTests\Strategies\Factories\HeatpumpId.cs" />
+    <Compile Include="FunctionsTests\CalculationTests\Strategies\Factories\PackageFactory.cs" />
+    <Compile Include="FunctionsTests\CalculationTests\Strategies\Factories\PackageStub.cs" />
+    <Compile Include="FunctionsTests\CalculationTests\Strategies\Factories\SolarPanelId.cs" />
+    <Compile Include="FunctionsTests\CalculationTests\Strategies\Factories\TempControlId.cs" />
     <Compile Include="FunctionsTests\CalculationTests\Strategies\HeatPumpAsPrimaryTests.cs" />
     <Compile Include="FunctionsTests\CalculationTests\Strategies\LowTempHeatPumpAsPrimaryTest.cs" />
+    <Compile Include="FunctionsTests\CalculationTests\Strategies\SolarStationId.cs" />
     <Compile Include="FunctionsTests\CalculationTests\UtilityClassTests.cs" />
     <Compile Include="ViewModelTests\CreateOfferViewModelTest.cs" />
     <Compile Include="ViewModelTests\MVVMTests\ObservableObjectTests.cs" />
@@ -91,6 +101,7 @@
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

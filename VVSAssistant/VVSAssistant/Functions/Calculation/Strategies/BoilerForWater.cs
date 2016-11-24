@@ -11,7 +11,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
 {
     class BoilerForWater : IEEICalculation
     {
-        public float II { get; set; }
+        private PackagedSolution _package;
         /// <summary>
         /// Calculation method for Water heating with a primary Boiler
         /// </summary>
@@ -20,18 +20,23 @@ namespace VVSAssistant.Functions.Calculation.Strategies
         /// the energy effiency index and the calculation method used </returns>
         public EEICalculationResult CalculateEEI(PackagedSolution Package)
         {
+            _package = Package;
             var result = new EEICalculationResult();
             var data = Package.PrimaryHeatingUnit.DataSheet as WaterHeatingUnitDataSheet;
+            if (PrimaryData == null || PrimaryData?.WaterHeatingEffiency == null || 
+                PrimaryData?.UseProfile == null)
+                return null;
 
-            result.WaterHeatingUseProfile = data.UseProfile;
-            result.WaterHeatingEffciency = data.WaterHeatingEffiency;
+            result.WaterHeatingEffciency = PrimaryData.WaterHeatingEffiency;
+            result.WaterHeatingUseProfile = PrimaryData.UseProfile;
+
             var Qref = _Qref[result.WaterHeatingUseProfile];
-            float Qaux = SolCalMethodQaux(data);
-            float Qnonsol = SolCalMethodQnonsol(data);
+            float Qaux = SolCalMethodQaux();
+            float Qnonsol = SolCalMethodQnonsol();
 
             float parameterOne = result.WaterHeatingEffciency;
             float parameterTwo = (float)((220 * Qref) / Qnonsol);
-            II = parameterTwo;
+            
             float parameterThree = (float)(((Qaux * 2.5) / (220 * Qref))*100); 
             result.SolarHeatContribution = (1.1f * parameterOne - 10) * parameterTwo - parameterThree - parameterOne;
 
@@ -58,14 +63,15 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             {"Oct", new QnonsolData(129f, 11.9f)}, {"Nov", new QnonsolData(80f, 5.6f)}, {"Dec", new QnonsolData(56f, 3.2f)}
         };
         // Calculates the Qaux (auxiliary electricity consumption)
-        internal float SolCalMethodQaux(WaterHeatingUnitDataSheet data)
+        internal float SolCalMethodQaux()
         {
             // 2000 active solar hours 
-            return (float)Math.Ceiling(((data.SolPumpConsumption * 2000) + (data.SolStandbyConsumption * 24 * 365)) / 1000);
+            return (float)Math.Ceiling(((SolarStation.SolPumpConsumption * 2000) + 
+                   (SolarStation.SolStandbyConsumption * 24 * 365)) / 1000);
         }
 
         // Calculates the Qnonsol (annual non-solar contribution)
-        internal float SolCalMethodQnonsol(WaterHeatingUnitDataSheet data)
+        internal float SolCalMethodQnonsol()
         {
             float Qnonsol = 0;
             // Monthly Qnonsol values, needs to be summed to get the full Qnonsol
@@ -74,18 +80,20 @@ namespace VVSAssistant.Functions.Calculation.Strategies
                 var item = MonthlyQnonsol[keyvalue];
                 // Averge temp surrounding the heat store, 20 if inside and Tout if outside
                 float Ta = 20;
-                // Try rounding some variables to fix bug
-                float etaloop = (float)((1 - ((data.N0 * data.a1) / 100)));
-                float Ac = (float)(data.a1 + data.a2 * 40);
-                float Ul = (float)((6 + 0.3f * data.Asol) / data.Asol);
-                // OBS Vsol giver måske fejl
-                float Vsol = data.Volume - data.Vbu;
-                float ccap = (float)Math.Pow(75 * data.Asol / Vsol, 0.25f);
+                
+                float etaloop = (float)((1 - ((SolarData.N0 * SolarData.a1) / 100)));
+                float Ac = (float)(SolarData.a1 + SolarData.a2 * 40);
+                float Ul = (float)((6 + 0.3f * SolarData.Asol) / SolarData.Asol);
 
-                item.Lwh = 30.5f * 0.6f * (_Qref[data.UseProfile] + 1.09f);
-                item.Y = data.Asol * data.IAM * data.N0 * etaloop * item.Qsol * (0.732f/item.Lwh);
+                //float Vsol = SolarContainerData.Volume - PrimaryData.Vbu;
+                float Vsol = (SolarContainerData.Volume) * (1 - (PrimaryData.Vbu / SolarContainerData.Volume));
+                //float Vsol = SolarContainerData.Volume + PrimaryData.Vbu;
+                float ccap = (float)Math.Pow(75 * SolarData.Asol / Vsol, 0.25f);
+
+                item.Lwh = 30.5f * 0.6f * (_Qref[PrimaryData.UseProfile] + 1.09f);
+                item.Y = SolarData.Asol * SolarData.IAM * SolarData.N0 * etaloop * item.Qsol * (0.732f/item.Lwh);
                 item.Trefw = 11.6f + 1.18f * 40 + 3.86f * 10 - 1.32f * item.Tout;
-                item.X = data.Asol * (Ac + Ul) * etaloop * (item.Trefw - item.Tout) * 
+                item.X = SolarData.Asol * (Ac + Ul) * etaloop * (item.Trefw - item.Tout) * 
                          ccap * 0.732f / item.Lwh;
 
                 float LsolW1 = (float)((item.Lwh * (1.029f*item.Y - 0.065f*item.X - 0.245f*
@@ -93,12 +101,12 @@ namespace VVSAssistant.Functions.Calculation.Strategies
                                (float)Math.Pow(item.X,2)+0.0215f*
                                (float)Math.Pow(item.Y,3))));
                 // Standing loss in W/k
-                float PsbSol = (data.StandingLoss/ 45);
-                item.Qbuf = (float)(0.732f * PsbSol * ((data.Volume - data.Vbu) / 
-                            data.Volume) * (10 + (50 * LsolW1) / item.Lwh - Ta));
+                float PsbSol = (SolarContainerData.StandingLoss/ 45);
+                item.Qbuf = (float)(0.732f * PsbSol * ((SolarContainerData.Volume - PrimaryData.Vbu) / 
+                            SolarContainerData.Volume) * (10 + (50 * LsolW1) / item.Lwh - Ta));
                 float LsolW = LsolW1 - item.Qbuf;
                 item.Qnonsol = (float)((item.Lwh - LsolW + PsbSol * 
-                               (data.Vbu / data.Volume) * (60 - Ta) * 0.732f));         
+                               (PrimaryData.Vbu / SolarContainerData.Volume) * (60 - Ta) * 0.732f));         
 
                 Qnonsol += item.Qnonsol;
             }
@@ -111,7 +119,23 @@ namespace VVSAssistant.Functions.Calculation.Strategies
         {
             return 0.0f;
         }
-        
+
+        #region Data Getters
+        public SolarCollectorDataSheet SolarData { get
+            { return _package.Appliances.FirstOrDefault(item =>
+                    item.Type == ApplianceTypes.SolarPanel)?.DataSheet
+                    as SolarCollectorDataSheet; } }
+        public SolarStationDataSheet SolarStation { get
+            { return _package?.Appliances?.FirstOrDefault(item =>
+                     item.Type == ApplianceTypes.SolarStation)?.DataSheet
+                     as SolarStationDataSheet; } }
+        public HeatingUnitDataSheet PrimaryData { get
+            { return _package?.PrimaryHeatingUnit?.DataSheet
+                     as HeatingUnitDataSheet ?? null; } }
+        public ContainerDataSheet SolarContainerData { get
+            { return _package.SolarContainer.DataSheet as ContainerDataSheet; } }
+        #endregion
+
         private class QnonsolData
         {
             public QnonsolData(float Qsol, float Tout)
