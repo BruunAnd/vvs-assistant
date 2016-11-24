@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using VVSAssistant.Functions.Calculation.Interfaces;
 using VVSAssistant.Functions.Calculation.Strategies;
 using VVSAssistant.Models;
+using VVSAssistant.Models.DataSheets;
 
 namespace VVSAssistant.Functions.Calculation
 {
@@ -17,45 +17,38 @@ namespace VVSAssistant.Functions.Calculation
         /// </summary>
         /// <param name="package"></param>
         /// <returns>Calculation strategy</returns>
-        public IEEICalculation SelectCalculationStreategy(PackagedSolution package)
+        public List<IEEICalculation> SelectCalculationStreategy(PackagedSolution package)
         {
+
+            List<IEEICalculation> Calculations = new List<IEEICalculation>();
+            
+            
             var primaryType = package.PrimaryHeatingUnit.Type;
 
             switch (package.PrimaryHeatingUnit.Type)
             {
                 case ApplianceTypes.HeatPump:
-                    return new HeatPumpAsPrimary();
+                     Calculations.Add(new HeatPumpAsPrimary());
+                    break;
                 case ApplianceTypes.Boiler:
+                     Calculations.Add(new BoilerAsPrimary());
                     if (IsBoilerForWater(package))
-                        return new BoilerForWater();
-                    else
-                        return new BoilerAsPrimary();
+                        Calculations.Add(new BoilerForWater());
+                    break;
                 case ApplianceTypes.LowTempHeatPump:
-                    return new HeatPumpAsPrimary();
-                case default(ApplianceTypes):
-                    if (package.Appliances.Any(item => item.Type == ApplianceTypes.Boiler))
-                        return new HeatPumpAsPrimary();
-                    else
-                        return null;
+                    Calculations.Add(new HeatPumpAsPrimary());
+                    break;
                 default:
                     return null;
             }
+
+            return Calculations;
         }
         private bool IsBoilerForWater(PackagedSolution package)
         {
-            var primaryType = package.PrimaryHeatingUnit.Type;
 
-            bool ContainsSolarPanel = package.Appliances.SingleOrDefault(solarPanel =>
-                                       solarPanel.Type == ApplianceTypes.SolarPanel) != null;
+            return ((package.PrimaryHeatingUnit.DataSheet as HeatingUnitDataSheet).WaterHeatingEffiency > 0);
 
-            bool DoesNotContainsOtherTypes = package.Appliances.FirstOrDefault(item =>
-                                       item.Type != ApplianceTypes.SolarPanel &&
-                                       item != package.PrimaryHeatingUnit && 
-                                       item.Type != ApplianceTypes.Container) == null;
-
-            bool OnlyContainsSolarPanels = ContainsSolarPanel && DoesNotContainsOtherTypes;
-
-            return primaryType == ApplianceTypes.Boiler && OnlyContainsSolarPanels;
         } 
     }
 }

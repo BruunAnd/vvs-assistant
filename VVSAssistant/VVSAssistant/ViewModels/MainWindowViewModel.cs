@@ -1,9 +1,12 @@
-﻿using System;
-using MahApps.Metro.Controls;
+﻿using System.IO.Compression;
+using System.Linq;
+using System.Windows;
+using Microsoft.Win32;
 using VVSAssistant.ViewModels.MVVM;
 using MahApps.Metro.Controls.Dialogs;
 using VVSAssistant.Common;
 using VVSAssistant.Common.ViewModels;
+using VVSAssistant.Functions;
 
 namespace VVSAssistant.ViewModels
 {
@@ -16,8 +19,36 @@ namespace VVSAssistant.ViewModels
                 var str = x as string;
                 OnNav(str);
             });
+
+            DatabaseImport = new RelayCommand(x =>
+            {
+                var dlg = new OpenFileDialog {Filter = "Zip filer (.zip)|*.zip"};
+                dlg.FileOk += ValidateDatabaseFile;
+                var result = dlg.ShowDialog();
+                if (result == true) DataUtil.Database.Import(dlg.FileName);
+                DatabaseExport.NotifyCanExecuteChanged();
+            });
+
+            DatabaseExport = new RelayCommand(x =>
+            {
+                var dlg = new SaveFileDialog {Filter = "Zip filer (.zip)|*.zip", FileName = "database", DefaultExt = ".zip"};
+                var result = dlg.ShowDialog();
+                if (result == true) DataUtil.Database.Export(dlg.FileName);
+            }, x => DataUtil.Database.Exists());
         }
-        
+
+        private void ValidateDatabaseFile(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            var dlg = sender as OpenFileDialog;
+
+            using (var archive = ZipFile.OpenRead(dlg.FileName))
+            {
+                if (archive.Entries.FirstOrDefault(x => x.Name == DataUtil.Database.Name()) != null) return;
+                MessageBox.Show("Den valgte .zip fil indeholder ikke en gyldig database fil.", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
+                e.Cancel = true;
+            }
+        }
+
         private ViewModelBase _currentViewModel;
         public ViewModelBase CurrentViewModel
         {
@@ -25,13 +56,17 @@ namespace VVSAssistant.ViewModels
             set
             {
                 SetProperty(ref _currentViewModel, value);
-                OnPropertyChanged("Transition");
             }
         }
         
-        public RelayCommand NavCommand { get; private set; }
+        public RelayCommand NavCommand { get; }
+        public RelayCommand DatabaseImport { get; }
+        public RelayCommand DatabaseExport { get; }
+        public RelayCommand ImportVVSCatalogue { get; }
+        public RelayCommand ImportSalesCatalogue { get; }
+        
 
-        public TransitionType Transition => CurrentViewModel == null ? TransitionType.Down : TransitionType.Up;
+
 
         private void OnNav(string destination)
         {
