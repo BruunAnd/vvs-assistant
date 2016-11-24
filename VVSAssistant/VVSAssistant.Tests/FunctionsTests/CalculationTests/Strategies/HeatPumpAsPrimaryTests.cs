@@ -225,7 +225,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             //    {
             //        PrimaryHeatingUnit = new Appliance()
             //        {
-            //            Name = "Compress 5000",
+            //            DatabaseName = "Compress 5000",
             //            Type = PrimType,
             //            DataSheet = new HeatingUnitDataSheet() { AFUE = PrimAFUE, WattUsage = PrimWatt, AFUEColdClima = PrimCold, AFUEWarmClima = PrimWarm }
             //        }
@@ -234,7 +234,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             //    CurrentPack.Appliances = new ApplianceList(new List<Appliance>() {
             //        new Appliance()
             //        {
-            //            Name = "Logano Plus",
+            //            DatabaseName = "Logano Plus",
             //            Type = SecType,
             //            DataSheet = new HeatingUnitDataSheet() { AFUE = secAFUE, WattUsage = secWatt }
             //        },
@@ -242,20 +242,20 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             //        new Appliance()
             //        {
             //            Id = 1,
-            //            Name = "BST",
+            //            DatabaseName = "BST",
             //            Type = ApplianceTypes.Container,
             //            DataSheet = new ContainerDataSheet() {Volume = Container1Vol, Classification = Container1Class }
             //        },
             //        new Appliance()
             //        {
             //            Id = 2,
-            //            Name = "Logalux",
+            //            DatabaseName = "Logalux",
             //            Type = ApplianceTypes.Container,
             //            DataSheet = new ContainerDataSheet() {Volume = Container2Vol, Classification = Container2Class}
             //        },
             //        new Appliance()
             //        {
-            //            Name = "CW400",
+            //            DatabaseName = "CW400",
             //            Type = ApplianceTypes.TemperatureController,
             //            DataSheet = new TemperatureControllerDataSheet() {Class = TempControlClass}
             //        }
@@ -265,7 +265,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             //    {
             //        Appliance SolarCollector = new Appliance()
             //        {
-            //            Name = "Logasol SKN",
+            //            DatabaseName = "Logasol SKN",
             //            Type = ApplianceTypes.SolarPanel,
             //            DataSheet = new SolarCollectorDataSheet() { Area = SolArea, Efficency = SolEff }
             //        };
