@@ -61,11 +61,11 @@ namespace VVSAssistant
                     Name = "Vultorp XP",
                     Type = ApplianceTypes.Container
                 };
-                var heatPumpDataSheet = new HeatingUnitDataSheet()
+                var dataSheet = new ContainerDataSheet()
                 {
                     Price = 150
                 };
-                appliance.DataSheet = heatPumpDataSheet;
+                appliance.DataSheet = dataSheet;
                 var unitPrice = new UnitPrice()
                 {
                     UnitCostPrice = 150,
@@ -80,17 +80,57 @@ namespace VVSAssistant
                     Name = "MegaBoiler2000",
                     Type = ApplianceTypes.Boiler
                 };
-                var heatPumpDataSheet2 = new HeatingUnitDataSheet()
+                var dataSheet2 = new HeatingUnitDataSheet()
                 {
                     Price = 120
                 };
-                appliance2.DataSheet = heatPumpDataSheet2;
+                appliance2.DataSheet = dataSheet2;
                 var unitPrice2 = new UnitPrice()
                 {                    
                     UnitCostPrice = 120,
                     Quantity = 1
                 };
                 appliance2.UnitPrice = unitPrice2;
+
+                //Third appliance
+                var appliance3 = new Appliance()
+                {
+                    CreationDate = DateTime.Now,
+                    Name = "DatSolar",
+                    Type = ApplianceTypes.SolarPanel
+                };
+                var heatPumpDataSheet3 = new SolarCollectorDataSheet()
+                {
+                    Price = 120
+                };
+                appliance3.DataSheet = heatPumpDataSheet3;
+                var unitPrice3 = new UnitPrice()
+                {
+                    UnitCostPrice = 120,
+                    Quantity = 1
+                };
+                appliance3.UnitPrice = unitPrice3;
+                db.Appliances.Add(appliance3);
+
+                //Fourth appliance
+                var appliance4 = new Appliance()
+                {
+                    CreationDate = DateTime.Now,
+                    Name = "DatTempController",
+                    Type = ApplianceTypes.TemperatureController
+                };
+                var heatPumpDataSheet4 = new TemperatureControllerDataSheet()
+                {
+                    Price = 120
+                };
+                appliance4.DataSheet = heatPumpDataSheet4;
+                var unitPrice4 = new UnitPrice()
+                {
+                    UnitCostPrice = 120,
+                    Quantity = 1
+                };
+                appliance4.UnitPrice = unitPrice4;
+                db.Appliances.Add(appliance4);
 
                 packagedSolution.Appliances.Add(appliance);
                 packagedSolution.Appliances.Add(appliance2);
