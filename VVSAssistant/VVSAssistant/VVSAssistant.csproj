@@ -114,12 +114,12 @@
     </ApplicationDefinition>
     <Compile Include="Common\NotifyPropertyChanged.cs" />
     <Compile Include="Common\ViewModels\FilterableViewModelBase.cs" />
-    <Compile Include="Controls\Dialogs\ViewModels\AddBoilerDialogViewModel.cs" />
+    <Compile Include="Controls\Dialogs\ViewModels\AddHeatingUnitDialogViewModel.cs" />
     <Compile Include="Controls\Dialogs\ViewModels\EditApplianceViewModel.cs" />
     <Compile Include="Controls\Dialogs\ViewModels\GenerateOfferDialogViewModel.cs" />
     <Compile Include="Controls\Dialogs\ViewModels\SolarContainerDialogViewModel.cs" />
-    <Compile Include="Controls\Dialogs\Views\AddBoilerDialogView.xaml.cs">
-      <DependentUpon>AddBoilerDialogView.xaml</DependentUpon>
+    <Compile Include="Controls\Dialogs\Views\AddHeatingUnitDialogView.xaml.cs">
+      <DependentUpon>AddHeatingUnitDialogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Dialogs\Views\EditApplianceView.xaml.cs">
       <DependentUpon>EditApplianceView.xaml</DependentUpon>
@@ -187,7 +187,7 @@
     <Compile Include="Views\CreatePackagedSolutionView.xaml.cs">
       <DependentUpon>CreatePackagedSolutionView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Controls\Dialogs\Views\AddBoilerDialogView.xaml">
+    <Page Include="Controls\Dialogs\Views\AddHeatingUnitDialogView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
