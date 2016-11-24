@@ -21,6 +21,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         [TestCase(35, 10, 158)]
         [TestCase(45, 2.72f, 114)]
         [TestCase(70, 2.72f, 164)]
+        [TestCase(35, 2.72f, 94)]
         public void SolCalMethodQaux(float pumpConsumption, float standbyConsumption, float expected)
         {
             var package = new PackagedSolution() { PrimaryHeatingUnit = new Appliance() { DataSheet = new WaterHeatingUnitDataSheet()} };
@@ -34,8 +35,10 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             Assert.AreEqual(result, expected);
         }
         [Test]
+        // Skal være 3075 for SolarContribution bliver rigtig
         [TestCase(2,3082)]
         [TestCase(3, 3108)]
+        [TestCase(4,3082)]
         public void SolcalMethodQnonsol_CalculatesQnonsol(int packageId, float expected)
         {
             var package = new PackagedSolutionFactory().GetPackagedSolution(packageId);
@@ -48,6 +51,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
 
         [Test]
         [TestCase(2,82)]
+        [TestCase(4,82)]
         public void CalculateEEI_CorrectEnergiEfficiency(int packageId, float expected)
         {
             var package = new PackagedSolutionFactory().GetPackagedSolution(packageId);
@@ -59,6 +63,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         }
         [Test]
         [TestCase(2,17.65f)]
+        [TestCase(4, 21.82f)]
         public void CalculateEEI_CorrectSolarContribution(int packageId, float expected)
         {
             var package = new PackagedSolutionFactory().GetPackagedSolution(packageId);
@@ -66,12 +71,13 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             var calculation = new BoilerForWater();
             var result = calculation.CalculateEEI(package);
             var EEI = Math.Round(result.SolarHeatContribution, 2);
-            // fejl skal være margin på 0.1
+            // fejl margin skal være på 0.1
             Assert.IsTrue(expected + 0.3f >= EEI && EEI >= expected - 0.3f);
         }
         [Test]
         [TestCase(2,100)]
         [TestCase(1,111)]
+        [TestCase(4, 104)]
         public void CalculateEEI_CalculatesEEICompletePackagedSolution(int packageId, float expected)
         {
             var package = new PackagedSolutionFactory().GetPackagedSolution(packageId);
@@ -83,6 +89,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         }
         [Test]
         [TestCase(2,107)]
+        [TestCase(4,113)]
         public void CalculateEEI_CorrectWarmerEEI(int packageId, float expected)
         {
             var package = new PackagedSolutionFactory().GetPackagedSolution(packageId);
@@ -94,6 +101,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         }
         [Test]
         [TestCase(2,96)]
+        [TestCase(4, 99)]
         public void CalculateEEI_CorrectColderEEI(int packageId, float expected)
         {
             var package = new PackagedSolutionFactory().GetPackagedSolution(packageId);
@@ -124,6 +132,18 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                     datasheet = new DataSheetStub(2.25f, 0.766f, 3.22f, 0.015f, 0.92f, 500f,
                                              20f, 80f, 70, 2.72f, UseProfileType.XL, 82f);
                     break;
+                case 4:
+                    datasheet = new DataSheetStub(2.25f, 0.766f, 3.22f, 0.015f, 0.92f, 500f,
+                                             0f, 80f, 35, 2.72f, UseProfileType.XL, 82f);
+                    break;
+                case 5:
+                    datasheet = new DataSheetStub(2.25f, 0.766f, 3.22f, 0.015f, 0.92f, 500f,
+                                             34f, 80f, 30, 2.72f, UseProfileType.XL, 85f);
+                    break;
+                case 6:
+                    datasheet = new DataSheetStub(2.25f, 0.766f, 3.22f, 0.015f, 0.92f, 500f,
+                                             0f, 80f, 30, 2.72f, UseProfileType.XL, 82f);
+                    break;
                 default:
                     return null;
             }
@@ -142,6 +162,10 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                     return new PackagedSolutionStub(2);
                 case 3:
                     return new PackagedSolutionStub(3);
+                case 4:
+                    return new PackagedSolutionStub(4);
+                case 5:
+                    return new PackagedSolutionStub(6);
                 default:
                     return null;
             }

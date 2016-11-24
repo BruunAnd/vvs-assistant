@@ -150,6 +150,16 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                     return null;
             }
         }
+        public Appliance GetHeatpump(int id)
+        {
+            switch (id)
+            {
+                case 1:
+                    return null;
+                default:
+                    return null;
+            }
+        }
     }
     class BoilerStub : Appliance
     {

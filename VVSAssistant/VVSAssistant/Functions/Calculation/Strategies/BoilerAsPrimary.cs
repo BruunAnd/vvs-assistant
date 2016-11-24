@@ -15,6 +15,11 @@ namespace VVSAssistant.Functions.Calculation.Strategies
         private float IV;
         private EEICalculationResult _result = new EEICalculationResult();
         private PackagedSolution _package;
+        /// <summary>
+        /// EEI Calculation for packaged solution with a boiler as primary heating unit
+        /// </summary>
+        /// <param name="Package"></param>
+        /// <returns>EEICalculationResult which are the EEI and all the varibales in between</returns>
         public EEICalculationResult CalculateEEI(PackagedSolution Package)
         {
             _package = Package;
@@ -45,7 +50,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
          * and primary boiler, and performing linear interpolation on the table values
          * defined in the calculation documents */
          // bool container defines whether the package non solar container
-        internal float HeatpumpContribution(bool container)
+        private float HeatpumpContribution(bool container)
         {
             var heatpumpData = HeatpumpDataSheet;
             if (heatpumpData == null)
@@ -65,7 +70,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             return _package?.Appliances.Any(item => item.Type == ApplianceTypes.Container
                                             && item != _package?.SolarContainer) ?? false;
         }
-        internal float AdjustedContribution(float heatpumpContribution, float solarContribution)
+        private float AdjustedContribution(float heatpumpContribution, float solarContribution)
         {
             float value = heatpumpContribution > 0 ? heatpumpContribution : solarContribution;
             return (value * 0.5f);

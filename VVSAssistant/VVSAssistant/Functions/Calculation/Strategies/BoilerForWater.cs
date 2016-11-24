@@ -74,6 +74,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
                 var item = MonthlyQnonsol[keyvalue];
                 // Averge temp surrounding the heat store, 20 if inside and Tout if outside
                 float Ta = 20;
+                // Try rounding some variables to fix bug
                 float etaloop = (float)((1 - ((data.N0 * data.a1) / 100)));
                 float Ac = (float)(data.a1 + data.a2 * 40);
                 float Ul = (float)((6 + 0.3f * data.Asol) / data.Asol);
@@ -92,7 +93,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
                                (float)Math.Pow(item.X,2)+0.0215f*
                                (float)Math.Pow(item.Y,3))));
                 // Standing loss in W/k
-                float PsbSol = (data.StandingLoss * 24) / 1000;
+                float PsbSol = (data.StandingLoss/ 45);
                 item.Qbuf = (float)(0.732f * PsbSol * ((data.Volume - data.Vbu) / 
                             data.Volume) * (10 + (50 * LsolW1) / item.Lwh - Ta));
                 float LsolW = LsolW1 - item.Qbuf;
