@@ -14,7 +14,6 @@ namespace VVSAssistant.ViewModels
         public ExistingPackagedSolutionsViewModel()
         {
             SetupFilterableView(PackagedSolutions);
-            Console.WriteLine("new instance");
         }
 
         public override void LoadDataFromDatabase()

@@ -16,6 +16,12 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
     public class BoilerForWaterAsPrimaryTests
     {
         [Test]
+        public void WaterPrimaryCalculateEEI_GetNulled()
+        {
+
+        }
+
+        [Test]
         [TestCase(15, 2, 48)]
         [TestCase(10,5, 64)]
         [TestCase(35, 10, 158)]
@@ -52,7 +58,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         [Test]
         [TestCase(2,82)]
         [TestCase(4,82)]
-        public void CalculateEEI_CorrectEnergiEfficiency(int packageId, float expected)
+        public void WaterPrimaryCalculateEEI_CorrectEnergiEfficiency(int packageId, float expected)
         {
             var package = new PackagedSolutionFactory().GetPackagedSolution(packageId);
             var data = package.PrimaryHeatingUnit.DataSheet as WaterHeatingUnitDataSheet;
@@ -64,7 +70,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         [Test]
         [TestCase(2,17.65f)]
         [TestCase(4, 21.82f)]
-        public void CalculateEEI_CorrectSolarContribution(int packageId, float expected)
+        public void WaterPrimaryCalculateEEI_CorrectSolarContribution(int packageId, float expected)
         {
             var package = new PackagedSolutionFactory().GetPackagedSolution(packageId);
             var data = package.PrimaryHeatingUnit.DataSheet as WaterHeatingUnitDataSheet;
@@ -77,7 +83,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         [Test]
         [TestCase(2,100)]
         [TestCase(4, 104)]
-        public void CalculateEEI_CalculatesEEICompletePackagedSolution(int packageId, float expected)
+        public void WaterPrimaryCalculateEEI_CalculatesEEICompletePackagedSolution(int packageId, float expected)
         {
             var package = new PackagedSolutionFactory().GetPackagedSolution(packageId);
             var data = package.PrimaryHeatingUnit.DataSheet as WaterHeatingUnitDataSheet;
@@ -89,7 +95,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         [Test]
         [TestCase(2,107)]
         [TestCase(4,113)]
-        public void CalculateEEI_CorrectWarmerEEI(int packageId, float expected)
+        public void WaterPrimaryCalculateEEI_CorrectWarmerEEI(int packageId, float expected)
         {
             var package = new PackagedSolutionFactory().GetPackagedSolution(packageId);
             var data = package.PrimaryHeatingUnit.DataSheet as WaterHeatingUnitDataSheet;
@@ -101,7 +107,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         [Test]
         [TestCase(2,96)]
         [TestCase(4, 99)]
-        public void CalculateEEI_CorrectColderEEI(int packageId, float expected)
+        public void WaterPrimaryCalculateEEI_CorrectColderEEI(int packageId, float expected)
         {
             var package = new PackagedSolutionFactory().GetPackagedSolution(packageId);
             var data = package.PrimaryHeatingUnit.DataSheet as WaterHeatingUnitDataSheet;
