@@ -20,7 +20,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests
             var package = new PackagedSolution() { PrimaryHeatingUnit = new Appliance() { Type = ApplianceTypes.Boiler } };
             var calcManager = new CalculationManager();
 
-            Assert.IsTrue(typeof(IEEICalculation).IsAssignableFrom(calcManager.SelectCalculationStreategy(package).GetType()));
+            Assert.IsTrue(typeof(IEEICalculation).IsAssignableFrom(calcManager.SelectCalculationStreategies(package).GetType()));
         }
 
         // Integration Test between Appliance and CalculationSelector
@@ -41,7 +41,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests
             package.Appliances.Add(new Appliance() { Type = secondApplianceType});
 
             //Assert
-            Assert.AreEqual(calcManager.SelectCalculationStreategy(package).GetType(), EEICalculation);
+            Assert.AreEqual(calcManager.SelectCalculationStreategies(package).GetType(), EEICalculation);
         }
     }
 }
