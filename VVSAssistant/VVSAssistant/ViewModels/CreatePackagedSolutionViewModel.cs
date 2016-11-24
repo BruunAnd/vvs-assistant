@@ -237,6 +237,26 @@ namespace VVSAssistant.ViewModels
             await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
         }
 
+        private async void RunSolarContainerDialog(Appliance appliance, ObservableCollection<Appliance> appliances)
+        {
+            var customDialog = new CustomDialog();
+
+            var dialogViewModel = new SolarContainerDialogViewModel("Er denne behol", "Vælg om den nye kedel skal være primær- eller sekundærkedel.",
+                instanceCancel => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
+                instanceCompleted =>
+                {
+                    _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
+
+                    AddApplianceToSolution(appliance);
+                    if (instanceCompleted.IsPrimaryBoiler)
+                        PackagedSolution.PrimaryHeatingUnit = appliance;
+                });
+
+            customDialog.Content = new AddBoilerDialogView() { DataContext = dialogViewModel };
+
+            await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
+        }
+
         private async void RunSaveDialog()
         {
             var customDialog = new CustomDialog();

@@ -36,19 +36,28 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             set { _selectedAppliance = value; OnPropertyChanged(); }
         }
 
+        private Appliance _appliance;
+        public Appliance Appliance
+        {
+            get { return _appliance; }
+            set { _appliance = value; OnPropertyChanged(); }
+        }
+
         private PackagedSolution _packagedSolution;
 
         public string Title { get; }
         public string Message { get; }
 
-        public SolarContainerDialogViewModel(string title, string message, ObservableCollection<Appliance> appliances, PackagedSolution packagedSolution,
+        public SolarContainerDialogViewModel(string title, string message, 
+                                             Appliance appliance, ObservableCollection<Appliance> appliances, PackagedSolution packagedSolution,
                                              Action<SolarContainerDialogViewModel> closeHandler, Action<SolarContainerDialogViewModel> completionHandler)
         {
             Title = title;
             Message = message;
 
-            Appliances = appliances;
             _packagedSolution = packagedSolution;
+            Appliances = appliances;
+            Appliance = appliance;
 
             SaveCommand = new RelayCommand(x =>
             {
