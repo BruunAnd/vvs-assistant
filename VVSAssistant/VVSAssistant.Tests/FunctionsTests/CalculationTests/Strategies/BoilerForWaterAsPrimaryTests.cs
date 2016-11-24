@@ -16,6 +16,12 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
     public class BoilerForWaterAsPrimaryTests
     {
         [Test]
+        public void WaterPrimaryCalculateEEI_GetNulled()
+        {
+
+        }
+
+        [Test]
         [TestCase(15, 2, 48)]
         [TestCase(10,5, 64)]
         [TestCase(35, 10, 158)]
@@ -36,9 +42,9 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         }
         [Test]
         // Skal være 3075 for SolarContribution bliver rigtig
-        [TestCase(2,3082)]
-        [TestCase(3, 3108)]
-        [TestCase(4,3082)]
+        [TestCase(2,3074)]
+        [TestCase(3, 3099)]
+        [TestCase(4,3074)]
         public void SolcalMethodQnonsol_CalculatesQnonsol(int packageId, float expected)
         {
             var package = new PackagedSolutionFactory().GetPackagedSolution(packageId);
@@ -52,7 +58,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         [Test]
         [TestCase(2,82)]
         [TestCase(4,82)]
-        public void CalculateEEI_CorrectEnergiEfficiency(int packageId, float expected)
+        public void WaterPrimaryCalculateEEI_CorrectEnergiEfficiency(int packageId, float expected)
         {
             var package = new PackagedSolutionFactory().GetPackagedSolution(packageId);
             var data = package.PrimaryHeatingUnit.DataSheet as WaterHeatingUnitDataSheet;
@@ -64,21 +70,20 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         [Test]
         [TestCase(2,17.65f)]
         [TestCase(4, 21.82f)]
-        public void CalculateEEI_CorrectSolarContribution(int packageId, float expected)
+        public void WaterPrimaryCalculateEEI_CorrectSolarContribution(int packageId, float expected)
         {
             var package = new PackagedSolutionFactory().GetPackagedSolution(packageId);
             var data = package.PrimaryHeatingUnit.DataSheet as WaterHeatingUnitDataSheet;
             var calculation = new BoilerForWater();
             var result = calculation.CalculateEEI(package);
             var EEI = Math.Round(result.SolarHeatContribution, 2);
-            // fejl margin skal være på 0.1
-            Assert.IsTrue(expected + 0.3f >= EEI && EEI >= expected - 0.3f);
+            
+            Assert.IsTrue(expected + 0.1f >= EEI && EEI >= expected - 0.1f);
         }
         [Test]
         [TestCase(2,100)]
-        [TestCase(1,111)]
         [TestCase(4, 104)]
-        public void CalculateEEI_CalculatesEEICompletePackagedSolution(int packageId, float expected)
+        public void WaterPrimaryCalculateEEI_CalculatesEEICompletePackagedSolution(int packageId, float expected)
         {
             var package = new PackagedSolutionFactory().GetPackagedSolution(packageId);
             var data = package.PrimaryHeatingUnit.DataSheet as WaterHeatingUnitDataSheet;
@@ -90,7 +95,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         [Test]
         [TestCase(2,107)]
         [TestCase(4,113)]
-        public void CalculateEEI_CorrectWarmerEEI(int packageId, float expected)
+        public void WaterPrimaryCalculateEEI_CorrectWarmerEEI(int packageId, float expected)
         {
             var package = new PackagedSolutionFactory().GetPackagedSolution(packageId);
             var data = package.PrimaryHeatingUnit.DataSheet as WaterHeatingUnitDataSheet;
@@ -102,7 +107,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         [Test]
         [TestCase(2,96)]
         [TestCase(4, 99)]
-        public void CalculateEEI_CorrectColderEEI(int packageId, float expected)
+        public void WaterPrimaryCalculateEEI_CorrectColderEEI(int packageId, float expected)
         {
             var package = new PackagedSolutionFactory().GetPackagedSolution(packageId);
             var data = package.PrimaryHeatingUnit.DataSheet as WaterHeatingUnitDataSheet;

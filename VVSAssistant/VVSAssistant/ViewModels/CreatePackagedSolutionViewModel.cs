@@ -7,13 +7,93 @@ using VVSAssistant.Common.ViewModels.VVSAssistant.Common.ViewModels;
 using VVSAssistant.ViewModels.MVVM;
 using VVSAssistant.Controls.Dialogs.ViewModels;
 using VVSAssistant.Controls.Dialogs.Views;
+using VVSAssistant.Extensions;
 using VVSAssistant.Models;
+using VVSAssistant.Models.DataSheets;
 
 namespace VVSAssistant.ViewModels
 {
     public class CreatePackagedSolutionViewModel : FilterableViewModelBase<Appliance>
     {
         #region Property initializations
+
+        private bool _includeHeatPumps;
+        public bool IncludeHeatPumps
+        {
+            get { return _includeHeatPumps; }
+            set
+            {
+                if (SetProperty(ref _includeHeatPumps, value))
+                    FilteredCollectionView.Refresh();
+            }
+        }
+
+        private bool _includeBoilers;
+        public bool IncludeBoilers
+        {
+            get { return _includeBoilers; }
+            set
+            {
+                if (SetProperty(ref _includeBoilers, value))
+                    FilteredCollectionView.Refresh();
+            }
+        }
+
+        private bool _includeTemperatureControllers;
+        public bool IncludeTemperatureControllers
+        {
+            get { return _includeTemperatureControllers; }
+            set
+            {
+                if (SetProperty(ref _includeTemperatureControllers, value))
+                    FilteredCollectionView.Refresh();
+            }
+        }
+
+        private bool _includeSolarPanels;
+        public bool IncludeSolarPanels
+        {
+            get { return _includeSolarPanels; }
+            set
+            {
+                if (SetProperty(ref _includeSolarPanels, value))
+                    FilteredCollectionView.Refresh();
+            }
+        }
+
+        private bool _includeContainers;
+        public bool IncludeContainers
+        {
+            get { return _includeContainers; }
+            set
+            {
+                if (SetProperty(ref _includeContainers, value))
+                    FilteredCollectionView.Refresh();
+            }
+        }
+
+        private bool _includeLowTempHeatPumps;
+        public bool IncludeLowTempHeatPumps
+        {
+            get { return _includeLowTempHeatPumps; }
+            set
+            {
+                if (SetProperty(ref _includeLowTempHeatPumps, value))
+                    FilteredCollectionView.Refresh();
+            }
+        }
+
+        private bool _includeCentralHeatingPlants;
+        public bool IncludeCentralHeatingPlants
+        {
+            get { return _includeCentralHeatingPlants; }
+            set
+            {
+                if (SetProperty(ref _includeCentralHeatingPlants, value))
+                    FilteredCollectionView.Refresh();
+            }
+        }
+
         private PackagedSolution _packagedSolution;
         public PackagedSolution PackagedSolution
         {
@@ -38,16 +118,17 @@ namespace VVSAssistant.ViewModels
                 if (!SetProperty(ref _selectedAppliance, value)) return;
 
                 // Notify if property was changed
-                AddApplianceToPackageSolution.NotifyCanExecuteChanged();
+                AddApplianceToPackagedSolution.NotifyCanExecuteChanged();
                 EditAppliance.NotifyCanExecuteChanged();
                 RemoveAppliance.NotifyCanExecuteChanged();
+                OnPropertyChanged();
             }
         }
         #endregion
 
         #region Command initializations
-        public RelayCommand AddApplianceToPackageSolution { get; }
-        public RelayCommand RemoveApplianceFromPackageSolution { get; }
+        public RelayCommand AddApplianceToPackagedSolution { get; }
+        public RelayCommand RemoveApplianceFromPackagedSolution { get; }
         public RelayCommand EditAppliance { get; }
         public RelayCommand RemoveAppliance { get; }
         public RelayCommand NewPackageSolution { get; }
@@ -56,7 +137,7 @@ namespace VVSAssistant.ViewModels
 
         #region Collections
         public ObservableCollection<Appliance> Appliances { get; } = new ObservableCollection<Appliance>();
-        public ObservableCollection<Appliance> AppliancesInSolution { get; set; }
+        public ObservableCollection<Appliance> AppliancesInSolution { get; set; } = new ObservableCollection<Appliance>();
         #endregion
 
         public CreatePackagedSolutionViewModel(IDialogCoordinator dialogCoordinator)
@@ -67,13 +148,14 @@ namespace VVSAssistant.ViewModels
 
             #region Command declarations
 
-            AddApplianceToPackageSolution = new RelayCommand(x => 
-            {
-                AppliancesInSolution.Add(SelectedAppliance);
-            }, x => SelectedAppliance != null);
+            AddApplianceToPackagedSolution = new RelayCommand(
+                x => HandleAddApplianceToPackagedSolution(SelectedAppliance), 
+                x => SelectedAppliance != null);
 
-            RemoveApplianceFromPackageSolution = new RelayCommand(x =>
+            RemoveApplianceFromPackagedSolution = new RelayCommand(x =>
             {
+                if (PackagedSolution.PrimaryHeatingUnit == SelectedAppliance)
+                    PackagedSolution.PrimaryHeatingUnit = null;
                 AppliancesInSolution.Remove(SelectedAppliance);
             }, x => SelectedAppliance != null);
 
@@ -99,6 +181,11 @@ namespace VVSAssistant.ViewModels
             #endregion
         }
 
+        private void AddApplianceToSolution(Appliance appliance)
+        {
+            AppliancesInSolution.Add(appliance);
+        }
+
         private void RemoveApplianceRENAMEMEPLZ(Appliance appliance)
         {
             Appliances.Remove(appliance);
@@ -109,6 +196,10 @@ namespace VVSAssistant.ViewModels
 
         private void SaveCurrentPackagedSolution()
         {
+            /* IMPORTANT 
+             * A packaged solution should not be saved if there exists
+             *  a solar collector without a container tied to it. */
+
             PackagedSolution.CreationDate = DateTime.Now;
             PackagedSolution.Appliances = new ApplianceList(AppliancesInSolution.ToList());
 
@@ -116,6 +207,45 @@ namespace VVSAssistant.ViewModels
             DbContext.SaveChanges();
 
             PackagedSolution = new PackagedSolution();
+        }
+
+        private async void RunAddHeatingUnitDialog(Appliance appliance)
+        {
+            var customDialog = new CustomDialog();
+
+            var dialogViewModel = new AddHeatingUnitDialogViewModel(instanceCancel => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
+                async instanceCompleted =>
+                {
+                    await _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
+
+                    AddApplianceToSolution(appliance);
+                    if (!instanceCompleted.IsPrimaryBoiler) return;
+                    if (PackagedSolution.PrimaryHeatingUnit != null)
+                    {
+                        // Inform the user that their previous primary heating unit will be replaced
+                        await _dialogCoordinator.ShowMessageAsync(this, "Information",
+                                $"Da du har valgt en ny primærkedel er komponentet {PackagedSolution.PrimaryHeatingUnit.Name} nu en sekundærkedel.");
+                        // todo set purpose of heating unit
+                    }
+                    PackagedSolution.PrimaryHeatingUnit = appliance;
+                });
+
+            customDialog.Content = new AddHeatingUnitDialogView { DataContext = dialogViewModel };
+
+            await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
+        }
+
+        private async void RunSolarContainerDialog(string message, string title, Appliance appliance, ObservableCollection<Appliance> appliances)
+        {
+            var customDialog = new CustomDialog();
+
+            var dialogViewModel = new SolarContainerDialogViewModel(message, title, appliance, appliances, AppliancesInSolution, PackagedSolution,
+                closeHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
+                completionHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog) );
+
+            customDialog.Content = new SolarContainerDialogView { DataContext = dialogViewModel };
+
+            await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
         }
 
         private async void RunSaveDialog()
@@ -133,6 +263,7 @@ namespace VVSAssistant.ViewModels
                 }); 
             
             customDialog.Content = new SaveDialogView { DataContext = dialogViewModel };
+
             await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
         }
 
@@ -160,7 +291,89 @@ namespace VVSAssistant.ViewModels
 
         protected override bool Filter(Appliance obj)
         {
-            return true;
+            // Filter based on type first
+            if (IncludeBoilers ||
+                IncludeCentralHeatingPlants ||
+                IncludeContainers ||
+                IncludeHeatPumps ||
+                IncludeLowTempHeatPumps ||
+                IncludeSolarPanels ||
+                IncludeTemperatureControllers)
+            {
+                switch (obj.Type)
+                {
+                    case ApplianceTypes.Boiler:
+                        if (!IncludeBoilers)
+                            return false;
+                        break;
+                    case ApplianceTypes.CHP:
+                        if (!IncludeCentralHeatingPlants)
+                            return false;
+                        break;
+                    case ApplianceTypes.Container:
+                        if (!IncludeContainers)
+                            return false;
+                        break;
+                    case ApplianceTypes.HeatPump:
+                        if (!IncludeHeatPumps)
+                            return false;
+                        break;
+                    case ApplianceTypes.LowTempHeatPump:
+                        if (!IncludeLowTempHeatPumps)
+                            return false;
+                        break;
+                    case ApplianceTypes.SolarPanel:
+                        if (!IncludeSolarPanels)
+                            return false;
+                        break;
+                    case ApplianceTypes.TemperatureController:
+                        if (!IncludeTemperatureControllers)
+                            return false;
+                        break;
+                    default:
+                        return false;
+                }
+            }
+
+            // Filter based on FilterString
+            return obj.Name.ContainsIgnoreCase(FilterString) || obj.Description.ContainsIgnoreCase(FilterString);
+        }
+
+        private void HandleAddApplianceToPackagedSolution(Appliance appToAdd)
+        {
+            if (appToAdd.DataSheet is HeatingUnitDataSheet)
+            {
+                /* Prompt user for whether or not the heating unit is primary */
+                /* If it is primary, ask whether or not it is for water heating, 
+                 * room heating, or both. */
+                RunAddHeatingUnitDialog(appToAdd);
+            }
+
+            else if (appToAdd.DataSheet is ContainerDataSheet &&
+                AppliancesInSolution.Any(a => a.DataSheet is SolarCollectorDataSheet))
+            {
+                /* Prompt the user for whether or not the container is tied to any of the solar collector. */
+                var title = "Vælg solfangeren som denne beholder er forbundet til";
+                var message = "Hvis beholderen ikke er forbundet til en solfanger, tryk på \"Acceptér\"";
+                var appliances = new ObservableCollection<Appliance>(AppliancesInSolution.Where
+                                                 (a => a.DataSheet is SolarCollectorDataSheet));
+                RunSolarContainerDialog(message, title, appToAdd, appliances);
+            }
+            else if (appToAdd.DataSheet is SolarCollectorDataSheet &&
+                AppliancesInSolution.Any(a => a.DataSheet is ContainerDataSheet))
+            {
+                /* Prompt the user for whether or not any of the containers are tied to the solar collector */
+                var title = "Vælg beholderen som denne solfanger er forbundet til ";
+                var message = "Hvis solfangeren ikke er forbundet til en beholder, tryk på \"Acceptér\"";
+                var appliances = new ObservableCollection<Appliance>(AppliancesInSolution.Where
+                                                 (a => a.DataSheet is ContainerDataSheet));
+                RunSolarContainerDialog(message, title, appToAdd, appliances);
+            }
+            else
+            {
+                Console.WriteLine("All checks passed, adding to packaged solution with no window.");
+                AddApplianceToSolution(appToAdd);
+            }
         }
     }
 }

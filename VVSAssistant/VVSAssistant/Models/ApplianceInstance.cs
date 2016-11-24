@@ -12,7 +12,7 @@
         public ApplianceInstance(Appliance appliance)
         {
             Appliance = appliance;
-            DataSheet = appliance.DataSheet;
+            DataSheet = appliance?.DataSheet;
         }
 
         public int Id { get; set; }

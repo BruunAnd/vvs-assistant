@@ -4,15 +4,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:VVSAssistant.Views"
     xmlns:viewModels="clr-namespace:VVSAssistant.ViewModels"
-    xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-    xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+    xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
     mc:Ignorable="d" 
     d:DesignHeight="600" d:DesignWidth="1080"
     d:DataContext="{d:DesignInstance viewModels:CreatePackagedSolutionViewModel}"
-    Dialog:DialogParticipation.Register="{Binding}"
->
+    dialog:DialogParticipation.Register="{Binding}">
 
     <Grid Background="White">
         <Grid.ColumnDefinitions>
@@ -52,8 +50,8 @@
                     MinWidth="120"
                     Command="{Binding ElementName=Root, Path=DataContext.NavCommand}"/>
 
-            <TextBox Controls:TextBoxHelper.ClearTextButton="True" 
-                     Controls:TextBoxHelper.Watermark="Søg" 
+            <TextBox controls:TextBoxHelper.ClearTextButton="True" 
+                     controls:TextBoxHelper.Watermark="Søg" 
                      Grid.Column="3"
                      Height="24"
                      Text="{Binding FilterString, UpdateSourceTrigger=PropertyChanged}"/>
@@ -62,7 +60,7 @@
                     VerticalAlignment="Center" 
                     HorizontalAlignment="Right"
                     Content="Opret komponent"
-                    Command="{Binding AddApplianceToPackageSolution}"
+                    Command="{Binding AddApplianceToPackagedSolution}"
                     CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"/>
         </Grid>
 
@@ -82,14 +80,14 @@
             <DataGrid Name="AppliancesDataGrid" Grid.Column="0"
                       Grid.Row="1" 
                       AutoGenerateColumns="False" 
-                      ItemsSource="{Binding CollectionView}"
+                      ItemsSource="{Binding FilteredCollectionView}"
                       SelectedItem="{Binding SelectedAppliance}"
                       SelectionMode="Single">
 
                 <DataGrid.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Føj til pakke"
-                                  Command="{Binding AddApplianceToPackageSolution}"/>
+                                  Command="{Binding AddApplianceToPackagedSolution}"/>
                         <MenuItem Header="Redigér"
                                   Command="{Binding EditAppliance}"/>
                         <MenuItem Header="Slet"
@@ -99,7 +97,7 @@
 
                 <DataGrid.InputBindings>
                     <MouseBinding MouseAction="LeftDoubleClick"
-                                  Command="{Binding AddApplianceToPackageSolution}"/>
+                                  Command="{Binding AddApplianceToPackagedSolution}"/>
                 </DataGrid.InputBindings>
 
                 <DataGrid.Columns>
@@ -139,7 +137,7 @@
                       SelectedItem="{Binding SelectedAppliance}" >
                 <DataGrid.InputBindings>
                     <MouseBinding MouseAction="LeftDoubleClick"
-                                  Command="{Binding RemoveApplianceFromPackageSolution}"/>
+                                  Command="{Binding RemoveApplianceFromPackagedSolution}"/>
                 </DataGrid.InputBindings>
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Name}"
@@ -197,13 +195,13 @@
                 </StackPanel.Resources>
                 <TextBlock TextWrapping="Wrap" 
                            Text="Søg efter komponenter af følgende typer"/>
-                <CheckBox Content="Oliekedel"/>
-                <CheckBox Content="Varmepumpe"/>
-                <CheckBox Content="Temperaturstyring"/>
-                <CheckBox Content="Solvarmestation"/>
-                <CheckBox Content="Solfanger"/>
-                <CheckBox Content="Varmtvandsbeholder"/>
-                <CheckBox Content="Bufferbeholder"/>
+                <CheckBox Content="Varmepumpe" IsChecked="{Binding IncludeHeatPumps}"/>
+                <CheckBox Content="Lavtemperatur varmepumpe" IsChecked="{Binding IncludeLowTempHeatPumps}"/>
+                <CheckBox Content="Kraftvarmeværk" IsChecked="{Binding IncludeCentralHeatingPlants}"/>
+                <CheckBox Content="Kedel" IsChecked="{Binding IncludeBoilers}"/>
+                <CheckBox Content="Temperaturstyring" IsChecked="{Binding IncludeTemperatureControllers}"/>
+                <CheckBox Content="Solfanger" IsChecked="{Binding IncludeSolarPanels}"/>
+                <CheckBox Content="Beholder" IsChecked="{Binding IncludeContainers}"/>
 
                 <TextBlock TextWrapping="Wrap" 
                            Text="Vælg minimum energimærkning for komponenterne i søgningen"/>

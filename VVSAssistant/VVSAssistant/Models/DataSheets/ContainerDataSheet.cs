@@ -16,5 +16,6 @@ namespace VVSAssistant.Models.DataSheets
         };
         public float Volume { get; set; }
         public string Classification { get; set; }
+        public float StandingLoss { get; set; }
     }
 }

@@ -15,6 +15,8 @@ namespace VVSAssistant.Models.DataSheets
         /* Boiler data VAND VARMER */
         public float WaterHeatingEffiency { get; set; }
         public UseProfileType UseProfile { get; set; }
+        // Ikke sol-relateret beholder volume
+        public float Vbu { get; set; }
 
         //SOLCAL method Parameters
 
@@ -36,18 +38,11 @@ namespace VVSAssistant.Models.DataSheets
         /* Container Data */
         public float Volume { get; set; }
 
-        /* Non-Solar unit */
-        // Ikke sol-relateret beholder volume
-        public float Vbu { get; set; }
         public float StandingLoss { get; set; }
 
         /* Solar Station */
         public float SolPumpConsumption { get; set; }
         public float SolStandbyConsumption { get; set; }
 
-    }
-    public enum UseProfileType
-    {
-        XXXS = 1, XXS, XS, S, M, L, XL, XXL
     }
 }

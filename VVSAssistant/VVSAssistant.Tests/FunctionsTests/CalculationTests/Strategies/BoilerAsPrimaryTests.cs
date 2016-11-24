@@ -15,18 +15,35 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
     [TestFixture]
     public class BoilerAsPrimaryStrategyTests
     {
-        //[Test]
-        public void PrimaryBoiler_PrimaryPackageNull_ReturnsNull()
+        [Test]
+        public void PrimaryBoilerCalculateEEI_PrimaryPackageNull_ReturnsNull()
         {
-            var package = new PackageFactory().GetPackage(1);
+            var package = new PackageFactory().GetPackage(2);
             package.PrimaryHeatingUnit = null;
             var calculation = new BoilerAsPrimary();
             var result = calculation.CalculateEEI(package);
             Assert.AreEqual(result, null);
         }
         [Test]
-        [TestCase(1,91)]
-        public void CalculateEEI_CorrectAFUEContribution(int packageId, float expected)
+        public void PrimaryBoilerCalculateEEI_PrimarySolarContainerNull_ReturnsNull()
+        {
+            var package = new PackageFactory().GetPackage(2);
+            package.SolarContainer = null;
+            var calculation = new BoilerAsPrimary();
+            var result = calculation.CalculateEEI(package);
+            Assert.AreEqual(result.SolarHeatContribution, 0);
+        }
+        [Test]
+        public void PrimaryBoilerCalculateEEI_AllAboutThemNulls()
+        {
+            var package = new PackageFactory().GetPackage(3);
+            var calculation = new BoilerAsPrimary();
+            var result = calculation.CalculateEEI(package);
+            Assert.AreEqual(result.EEI, (package.PrimaryHeatingUnit.DataSheet as HeatingUnitDataSheet).AFUE);
+        }
+        [Test]
+        [TestCase(2,91)]
+        public void PrimaryBoilerCalculateEEI_CorrectAFUEContribution(int packageId, float expected)
         {
             var package = new PackageFactory().GetPackage(packageId);
             var calculation = new BoilerAsPrimary();
@@ -37,9 +54,8 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             Assert.IsTrue(expected <= AFUE+0.1f && expected <= AFUE+0.1f);
         }
         [Test]
-        //tempcontributio should be expected 3
-        [TestCase(1,3)]
-        public void CalculateEEI_CorrectTempContribution(int packageid, float expected)
+        [TestCase(2,3)]
+        public void PrimaryBoilerCalculateEEI_CorrectTempContribution(int packageid, float expected)
         {
             var package = new PackageFactory().GetPackage(packageid);
             var calculation = new BoilerAsPrimary();
@@ -48,8 +64,8 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             Assert.AreEqual(expected, (float)Math.Round(result.EffectOfTemperatureRegulatorClass,1));
         }
         [Test]
-        [TestCase(1, 1, 0.2f)]
-        public void CalculateEEI_CorrectSecondBoilerContribution(int packageId, int boilerId, float expected)
+        [TestCase(2, 1, 0.2f)]
+        public void PrimaryBoilerCalculateEEI_CorrectSecondBoilerContribution(int packageId, int boilerId, float expected)
         {
             var package = new PackageFactory().GetPackage(packageId);
             var calculation = new BoilerAsPrimary();
@@ -60,8 +76,8 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             Assert.IsTrue(expected <= secBoiler + 0.1f && expected <= secBoiler + 0.1f);
         }
         [Test]
-        [TestCase(1,1.69f)]
-        public void CalculateEEI_CorrectSolarContribution(int packageId, float expected)
+        [TestCase(2,1.69f)]
+        public void PrimaryBoilerCalculateEEI_CorrectSolarContribution(int packageId, float expected)
         {
             var package = new PackageFactory().GetPackage(packageId);
             var calculation = new BoilerAsPrimary();
@@ -72,8 +88,8 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             Assert.IsTrue(expected <= solar + 0.1f && expected <= solar + 0.1f);
         }
         [Test]
-        [TestCase(1,0)]
-        public void CalculateEEI_CorrectHeatpumpContribution(int packageId,float expected)
+        [TestCase(2,0)]
+        public void PrimaryBoilerCalculateEEI_CorrectHeatpumpContribution(int packageId,float expected)
         {
             var package = new PackageFactory().GetPackage(packageId);
             var calculation = new BoilerAsPrimary();
@@ -82,8 +98,8 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             Assert.AreEqual(expected, (float)Math.Round(result.EffectOfSecondaryHeatPump, 2));
         }
         [Test]
-        [TestCase(1,0)]
-        public void CalculateEEI_CorrectAdjustedContribution(int packageId, float expected)
+        [TestCase(2,0)]
+        public void PrimaryBoilerCalculateEEI_CorrectAdjustedContribution(int packageId, float expected)
         {
             var package = new PackageFactory().GetPackage(packageId);
             var calculation = new BoilerAsPrimary();
@@ -94,12 +110,12 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             Assert.IsTrue(expected <= adjusted + 0.1f && expected <= adjusted + 0.1f);
         }
         [Test]
-        [TestCase(1,2, 95f)]
-        public void CalculateEEI_CorrecrOverallResult(int packageId, int boilerId,float expected)
+        [TestCase(1,BoilerId.Condens5000, 95f)]
+        public void PrimaryBoilerCalculateEEI_CorrecrOverallResult(int packageId, BoilerId id,float expected)
         {
             var package = new PackageFactory().GetPackage(packageId);
             var calculation = new BoilerAsPrimary();
-            package.Appliances.Add(new ApplianceFactory().GetBoiler(boilerId));
+            package.Appliances.Add(new ApplianceFactory().GetBoiler(id) ?? new Appliance());
             var result = new EEICalculationResult();
             result = calculation.CalculateEEI(package);
             var EEI = Math.Round(result.EEI);
@@ -107,8 +123,8 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             Assert.IsTrue(expected <= EEI + 1f && expected <= EEI + 1f);
         }
         [Test]
-        [TestCase(1,0)]
-        public void CalculateEEI_CorrectLowTempEEI(int packageId, float expected)
+        [TestCase(2,0)]
+        public void PrimaryBoilerCalculateEEI_CorrectLowTempEEI(int packageId, float expected)
         {
             var package = new PackageFactory().GetPackage(packageId);
             var calculation = new BoilerAsPrimary();
@@ -126,7 +142,13 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             switch (id)
             {
                 case 1:
-                    return new PackageStub();
+                    return new PackageStub(BoilerId.LoganoSB150, ContainerId.ClassBHighVolume, BoilerId.Cerapur, SolarPanelId.LogasolSKN,
+                                           0, ContainerId.ClassBHighVolume, TempControlId.FB100);
+                case 2:
+                    return new PackageStub(BoilerId.LoganoSB150, ContainerId.ClassBHighVolume, BoilerId.Cerapur, SolarPanelId.LogasolSKN, 
+                                           0,ContainerId.ClassBHighVolume, TempControlId.FB100);
+                case 3:
+                    return new PackageStub(BoilerId.LoganoSB150, 0,0,0,0,0,0);
                 default:
                     return null;
             }
@@ -134,94 +156,111 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
     }
     class ApplianceFactory
     {
-        public Appliance GetBoiler(int id)
+        public Appliance GetBoiler(BoilerId id)
         {
             switch (id)
             {
-                case 1:
-                    return new BoilerStub("Cerapur", new HeatingUnitDataSheet()
+                case BoilerId.Cerapur:
+                    return new ApplianceStub("Cerapur", new HeatingUnitDataSheet()
                     { WattUsage = 20, AFUE = 93, AFUEColdClima = 98.2f, AFUEWarmClima = 87.8f },
                     ApplianceTypes.Boiler);
-                case 2:
-                    return new BoilerStub("Cerapur", new HeatingUnitDataSheet()
-                    { WattUsage = 20, AFUE = 93, AFUEColdClima = 98.2f, AFUEWarmClima = 87.8f },
-                    ApplianceTypes.Heatpump);
-                default:
+                case BoilerId.Condens5000:
                     return null;
+                case BoilerId.LoganoSB150:
+                    return new ApplianceStub("LoganoPlusSB105", new HeatingUnitDataSheet()
+                    { AFUE = 91, WattUsage = 18, AFUEColdClima = 99.2f, AFUEWarmClima = 92.5f },
+                    ApplianceTypes.HeatPump);
+                default:
+                    return new Appliance();
             }
         }
-        public Appliance GetHeatpump(int id)
+        public Appliance GetHeatpump(HeatpumpId id)
         {
             switch (id)
             {
-                case 1:
-                    return null;
                 default:
-                    return null;
+                    return new Appliance();
+            }
+        }
+        public Appliance GetSolarPanel(SolarPanelId id)
+        {
+            switch (id)
+            {
+                case SolarPanelId.LogasolSKN:
+                    return new ApplianceStub("LogasolSKN", new SolarCollectorDataSheet()
+                    { Area = 2.25f, Efficency = 60 }, ApplianceTypes.SolarPanel);
+                default:
+                    return new Appliance();
+            }
+        }
+        public Appliance GetContainer(ContainerId id)
+        {
+            switch (id)
+            {
+                case ContainerId.ClassBHighVolume:
+                    return new ApplianceStub("SomeContiner", new ContainerDataSheet()
+                    { Volume = 500, Classification = "B" }, ApplianceTypes.Container);
+                default:
+                    return new Appliance();
+            }
+        }
+        public Appliance GetTempControl(TempControlId id)
+        {
+            switch (id)
+            {
+                case TempControlId.FB100:
+                    return new ApplianceStub("FB100", new TemperatureControllerDataSheet()
+                    { Class = "5" }, ApplianceTypes.TemperatureController);
+                default:
+                    return new Appliance();
             }
         }
     }
-    class BoilerStub : Appliance
+    #region Id's
+    public enum ContainerId
+    { ClassBHighVolume = 1}
+    public enum HeatpumpId
+    { }
+    public enum SolarPanelId
+    { LogasolSKN = 1 }
+    public enum TempControlId
+    { FB100 = 1}
+    public enum BoilerId
+    { Cerapur = 1, Condens5000, LoganoSB150 }
+    #endregion
+    class ApplianceStub : Appliance
     {
-        public BoilerStub(string name, HeatingUnitDataSheet datasheet, ApplianceTypes type)
+        public ApplianceStub(string name, HeatingUnitDataSheet datasheet, ApplianceTypes type)
         {
-            Name = name;
-            DataSheet = datasheet;
-            Type = type;
+            Name = name; DataSheet = datasheet; Type = type;
+        }
+        public ApplianceStub(string name, ContainerDataSheet datasheet, ApplianceTypes type)
+        {
+            Name = name; DataSheet = datasheet; Type = type;
+        }
+        public ApplianceStub(string name, SolarCollectorDataSheet datasheet, ApplianceTypes type)
+        {
+            Name = name; DataSheet = datasheet; Type = type;
+        }
+        public ApplianceStub(string name, TemperatureControllerDataSheet datasheet, ApplianceTypes type)
+        {
+            Name = name; DataSheet = datasheet; Type = type;
         }
     }
     class PackageStub : PackagedSolution
     {
         public int Id { get; set; }
-        public PackageStub()
+        public PackageStub(BoilerId priBoiler, ContainerId solarContain, BoilerId? secBoiler, SolarPanelId? solar, 
+                           HeatpumpId? heatpump, ContainerId? container, TempControlId? tempControl)
         {
-            Id = 1;
-            PrimaryHeatingUnit = new Appliance()
-            {
-                Name = "Logano Plus SB105",
-                DataSheet = new HeatingUnitDataSheet()
-                { AFUE = 91, WattUsage = 18, AFUEColdClima = 99.2f, AFUEWarmClima = 92.5f },
-                Type = ApplianceTypes.Boiler,
-                Id = 1
-            };
-            SolarContainer = new Appliance()
-            {
-                Name = "Some Container",
-                Type = ApplianceTypes.Container,
-                DataSheet = new ContainerDataSheet()
-                { Volume = 500, Classification = "B" }
-            };
-            Appliances = new ApplianceList(new List<Appliance>()
-            {
-                new Appliance()
-                {
-                    Name = "Logasol SKN",
-                    DataSheet = new SolarCollectorDataSheet()
-                    { Area = 2.25f, Efficency=60},
-                    Type = ApplianceTypes.SolarPanel
-                },
-                new Appliance()
-                {
-                    Name = "Some Container",
-                    Type = ApplianceTypes.Container,
-                    DataSheet = new ContainerDataSheet()
-                    {Volume=500, Classification="B" }
-                },
-                new Appliance()
-                {
-                    Name = "Cerapur",
-                    DataSheet = new HeatingUnitDataSheet()
-                    { WattUsage=20, AFUE=93, AFUEColdClima=98.2f, AFUEWarmClima=87.8f},
-                    Type = ApplianceTypes.Boiler
-                },
-                new Appliance()
-                {
-                    Name = "FB 100",
-                    DataSheet = new TemperatureControllerDataSheet()
-                    { Class = "5"},
-                    Type = ApplianceTypes.TemperatureController
-                }
-            });
+            var factory = new ApplianceFactory();
+            PrimaryHeatingUnit = factory.GetBoiler((priBoiler));
+            SolarContainer = factory.GetContainer((solarContain));
+            Appliances.Add(factory.GetBoiler(secBoiler == null ? 0 : secBoiler.Value));
+            Appliances.Add(factory.GetSolarPanel(solar == null ? 0 : solar.Value));
+            Appliances.Add(factory.GetHeatpump(heatpump == null ? 0: heatpump.Value));
+            Appliances.Add(factory.GetContainer(container == null ? 0 : container.Value));
+            Appliances.Add(factory.GetTempControl(tempControl == null ? 0 : tempControl.Value));
         }
     }
     #endregion
