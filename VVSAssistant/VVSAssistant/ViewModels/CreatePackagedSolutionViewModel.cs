@@ -9,6 +9,7 @@ using VVSAssistant.Controls.Dialogs.ViewModels;
 using VVSAssistant.Controls.Dialogs.Views;
 using VVSAssistant.Extensions;
 using VVSAssistant.Models;
+using VVSAssistant.Models.DataSheets;
 
 namespace VVSAssistant.ViewModels
 {
@@ -188,6 +189,10 @@ namespace VVSAssistant.ViewModels
 
         private void SaveCurrentPackagedSolution()
         {
+            /* IMPORTANT 
+             * A packaged solution should not be saved if there exists
+             *  a solar collector without a container tied to it. */
+
             PackagedSolution.CreationDate = DateTime.Now;
             PackagedSolution.Appliances = new ApplianceList(AppliancesInSolution.ToList());
 
@@ -288,6 +293,30 @@ namespace VVSAssistant.ViewModels
                 return false;
 
             return true;
+        }
+
+        private void HandleAddApplianceToPackagedSolution(Appliance appToAdd)
+        {
+            if (appToAdd.DataSheet is HeatingUnitDataSheet &&
+                PackagedSolution.PrimaryHeatingUnit == null)
+            {
+                //TODO: Implement the comment below: 
+                /* Prompt user for whether or not the heating unit is primary */
+                /* If it is primary, ask whether or not it is for water heating, 
+                 * room heating, or both. */
+            }
+
+            if (appToAdd.DataSheet is ContainerDataSheet &&
+                PackagedSolution.Appliances.ContainsWhere(a => a.DataSheet is SolarCollectorDataSheet))
+            {
+                /* Prompt the user for whether or not the container is tied to any of the solar collector. */
+            }
+
+            if (appToAdd.DataSheet is SolarCollectorDataSheet &&
+                PackagedSolution.Appliances.ContainsWhere(a => a.DataSheet is ContainerDataSheet))
+            {
+                /* Prompt the user for whether or not any of the containers are tied to the solar collector */
+            }
         }
     }
 }
