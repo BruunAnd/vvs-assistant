@@ -49,11 +49,71 @@
     </Window.Resources>
 
     <Grid>
-        <Grid>
-            <WrapPanel HorizontalAlignment="Center" 
-                   VerticalAlignment="Center">
+        <Grid HorizontalAlignment="Center"
+              VerticalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <WrapPanel Grid.Row="0">
                 <controls:Tile 
                        Style="{StaticResource NavigationTileStyle}"
+                       Command="{Binding ImportVVSCatalogue}"
+                       Title="Importer VVS katalog">
+                    <Rectangle Width="64" 
+                           Height="64"
+                           Fill="{StaticResource IdealForegroundColorBrush}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Visual="{StaticResource appbar_book}" Stretch="Fill" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </controls:Tile>
+
+                <controls:Tile 
+                       Style="{StaticResource NavigationTileStyle}"
+                       Command="{Binding ImportSalesCatalogue}"
+                       Title="Importer rabatfil">
+                    <Rectangle Width="64" 
+                           Height="64"
+                           Fill="{StaticResource IdealForegroundColorBrush}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Visual="{StaticResource appbar_percent_off}" Stretch="Fill" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </controls:Tile>
+
+                <controls:Tile 
+                       Style="{StaticResource NavigationTileStyle}"
+                       Command="{Binding DatabaseImport}"
+                       CommandParameter="Import"
+                       Title="Importer database">
+                    <Rectangle Width="64" 
+                           Height="64"
+                           Fill="{StaticResource IdealForegroundColorBrush}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Visual="{StaticResource appbar_cabinet_in}" Stretch="Fill" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </controls:Tile>
+
+                <controls:Tile 
+                       Style="{StaticResource NavigationTileStyle}"
+                       Command="{Binding DatabaseExport}"
+                       CommandParameter="Export"
+                       Title="Eksporter database">
+                    <Rectangle Width="64" 
+                           Height="64"
+                           Fill="{StaticResource IdealForegroundColorBrush}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Visual="{StaticResource appbar_cabinet_out}" Stretch="Fill" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </controls:Tile>
+            </WrapPanel>
+            <WrapPanel Grid.Row="1">
+                <controls:Tile 
+                       Style="{StaticResource NavigationTileStyle}"
+                       Command="{Binding NavCommand}"
                        CommandParameter="CreatePackagedSolutionView"
                        Title="Opret pakkeløsning">
                     <Rectangle Width="64" 
@@ -66,6 +126,7 @@
                 </controls:Tile>
                 <controls:Tile Title="Pakkeløsninger"
                            Style="{StaticResource NavigationTileStyle}"
+                           Command="{Binding NavCommand}"
                            CommandParameter="ExistingPackagedSolutionView">
                     <Rectangle Width="64" 
                            Height="64"
@@ -77,35 +138,35 @@
                 </controls:Tile>
                 <controls:Tile 
                        Style="{StaticResource NavigationTileStyle}"
+                       Command="{Binding NavCommand}"
                        CommandParameter="CreateOfferView"
                        Title="Opret tilbud">
                     <Rectangle Width="64" 
                            Height="64"
                            Fill="{StaticResource IdealForegroundColorBrush}">
                         <Rectangle.OpacityMask>
-                            <VisualBrush Visual="{StaticResource appbar_money}" Stretch="Fill" />
+                            <VisualBrush Visual="{StaticResource appbar_page_solid_add}" Stretch="Fill" />
                         </Rectangle.OpacityMask>
                     </Rectangle>
                 </controls:Tile>
                 <controls:Tile 
                        Style="{StaticResource NavigationTileStyle}"
+                       Command="{Binding NavCommand}"
                        CommandParameter="ExistingOffersView"
                        Title="Tilbud">
                     <Rectangle Width="64" 
                            Height="64"
                            Fill="{StaticResource IdealForegroundColorBrush}">
                         <Rectangle.OpacityMask>
-                            <VisualBrush Visual="{StaticResource appbar_book_open_writing}" Stretch="Fill" />
+                            <VisualBrush Visual="{StaticResource appbar_cabinet_files_variant}" Stretch="Fill" />
                         </Rectangle.OpacityMask>
                     </Rectangle>
                 </controls:Tile>
             </WrapPanel>
+            
 
         </Grid>
-        <controls:TransitioningContentControl Content = "{Binding CurrentViewModel}">
-            <controls:TransitioningContentControl.Triggers>
-            </controls:TransitioningContentControl.Triggers>
-        </controls:TransitioningContentControl>
+        <controls:TransitioningContentControl Content = "{Binding CurrentViewModel}"/>
     </Grid>
     
 

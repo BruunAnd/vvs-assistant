@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VVSAssistant.Database;
 using VVSAssistant.Models;
 
 namespace VVSAssistant.Functions
@@ -18,5 +19,6 @@ namespace VVSAssistant.Functions
         {
 
         }
+        
     }
 }
