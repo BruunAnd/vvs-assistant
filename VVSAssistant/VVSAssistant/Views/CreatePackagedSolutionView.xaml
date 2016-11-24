@@ -137,7 +137,7 @@
                       SelectedItem="{Binding SelectedAppliance}" >
                 <DataGrid.InputBindings>
                     <MouseBinding MouseAction="LeftDoubleClick"
-                                  Command="{Binding RemoveApplianceFromPackageSolution}"/>
+                                  Command="{Binding RemoveApplianceFromPackagedSolution}"/>
                 </DataGrid.InputBindings>
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Name}"

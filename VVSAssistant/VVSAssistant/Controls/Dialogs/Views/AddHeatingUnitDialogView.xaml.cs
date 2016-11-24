@@ -18,9 +18,9 @@ namespace VVSAssistant.Controls.Dialogs.Views
     /// <summary>
     /// Interaction logic for TwoOptionDialogView.xaml
     /// </summary>
-    public partial class AddBoilerDialogView : UserControl
+    public partial class AddHeatingUnitDialogView : UserControl
     {
-        public AddBoilerDialogView()
+        public AddHeatingUnitDialogView()
         {
             InitializeComponent();
         }

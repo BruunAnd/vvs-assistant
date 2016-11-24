@@ -16,14 +16,14 @@ namespace VVSAssistant.Models
         [NotMapped]
         public Appliance SolarContainer
         {
-            get { return SolarContainerInstance.Appliance; }    
+            get { return SolarContainerInstance?.Appliance; }    
             set { SolarContainerInstance = new ApplianceInstance(value);}
         }
 
         [NotMapped]
         public Appliance PrimaryHeatingUnit
         {
-            get { return PrimaryHeatingUnitInstance.Appliance; }
+            get { return PrimaryHeatingUnitInstance?.Appliance; }
             set { PrimaryHeatingUnitInstance = new ApplianceInstance(value); }
         }
 
@@ -43,8 +43,8 @@ namespace VVSAssistant.Models
         public string Name { get; set; }
         public DateTime CreationDate { get; set; }
         public virtual ICollection<ApplianceInstance> ApplianceInstances { get; set; }
-        public virtual ApplianceInstance SolarContainerInstance { get; set; }
-        public virtual ApplianceInstance PrimaryHeatingUnitInstance { get; set; }
+        public virtual ApplianceInstance SolarContainerInstance { get; private set; }
+        public virtual ApplianceInstance PrimaryHeatingUnitInstance { get; private set; }
         public string Description => string.Join(", ", Appliances);
     }
 }

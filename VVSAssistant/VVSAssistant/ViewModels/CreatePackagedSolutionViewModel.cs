@@ -9,6 +9,7 @@ using VVSAssistant.Controls.Dialogs.ViewModels;
 using VVSAssistant.Controls.Dialogs.Views;
 using VVSAssistant.Extensions;
 using VVSAssistant.Models;
+using VVSAssistant.Models.DataSheets;
 
 namespace VVSAssistant.ViewModels
 {
@@ -126,7 +127,7 @@ namespace VVSAssistant.ViewModels
 
         #region Command initializations
         public RelayCommand AddApplianceToPackagedSolution { get; }
-        public RelayCommand RemoveApplianceFromPackageSolution { get; }
+        public RelayCommand RemoveApplianceFromPackagedSolution { get; }
         public RelayCommand EditAppliance { get; }
         public RelayCommand RemoveAppliance { get; }
         public RelayCommand NewPackageSolution { get; }
@@ -146,15 +147,11 @@ namespace VVSAssistant.ViewModels
 
             #region Command declarations
 
-            AddApplianceToPackagedSolution = new RelayCommand(x =>
-            {
-                if (SelectedAppliance.Type == ApplianceTypes.Boiler)
-                    RunAddBoilerDialog(SelectedAppliance);
-                else
-                    AddApplianceToSolution(SelectedAppliance);
-            }, x => SelectedAppliance != null);
+            AddApplianceToPackagedSolution = new RelayCommand(
+                x => HandleAddApplianceToPackagedSolution(SelectedAppliance), 
+                x => SelectedAppliance != null);
 
-            RemoveApplianceFromPackageSolution = new RelayCommand(x =>
+            RemoveApplianceFromPackagedSolution = new RelayCommand(x =>
             {
                 if (PackagedSolution.PrimaryHeatingUnit == SelectedAppliance)
                     PackagedSolution.PrimaryHeatingUnit = null;
@@ -198,6 +195,10 @@ namespace VVSAssistant.ViewModels
 
         private void SaveCurrentPackagedSolution()
         {
+            /* IMPORTANT 
+             * A packaged solution should not be saved if there exists
+             *  a solar collector without a container tied to it. */
+
             PackagedSolution.CreationDate = DateTime.Now;
             PackagedSolution.Appliances = new ApplianceList(AppliancesInSolution.ToList());
 
@@ -211,18 +212,37 @@ namespace VVSAssistant.ViewModels
         {
             var customDialog = new CustomDialog();
 
-            var dialogViewModel = new AddBoilerDialogViewModel("Tilføj kedel", "Vælg om den nye kedel skal være primær- eller sekundærkedel.",
-                instanceCancel => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
-                instanceCompleted =>
+            var dialogViewModel = new AddHeatingUnitDialogViewModel(instanceCancel => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
+                async instanceCompleted =>
                 {
-                    _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
+                    await _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
 
                     AddApplianceToSolution(appliance);
-                    if (instanceCompleted.IsPrimaryBoiler)
-                        PackagedSolution.PrimaryHeatingUnit = appliance;
+                    if (!instanceCompleted.IsPrimaryBoiler) return;
+                    if (PackagedSolution.PrimaryHeatingUnit != null)
+                    {
+                        // Inform the user that their previous primary heating unit will be replaced
+                        await _dialogCoordinator.ShowMessageAsync(this, "Information",
+                                $"Da du har valgt en ny primærkedel er komponentet {PackagedSolution.PrimaryHeatingUnit.Name} nu en sekundærkedel.");
+                        // todo set purpose of heating unit
+                    }
+                    PackagedSolution.PrimaryHeatingUnit = appliance;
                 });
 
-            customDialog.Content = new AddBoilerDialogView() { DataContext = dialogViewModel };
+            customDialog.Content = new AddHeatingUnitDialogView { DataContext = dialogViewModel };
+
+            await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
+        }
+
+        private async void RunSolarContainerDialog(string message, string title, Appliance appliance, ObservableCollection<Appliance> appliances)
+        {
+            var customDialog = new CustomDialog();
+
+            var dialogViewModel = new SolarContainerDialogViewModel(message, title, appliance, appliances, PackagedSolution,
+                closeHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
+                completionHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog) );
+
+            customDialog.Content = new SolarContainerDialogView { DataContext = dialogViewModel };
 
             await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
         }
@@ -315,10 +335,41 @@ namespace VVSAssistant.ViewModels
             }
 
             // Filter based on FilterString
-            if (!obj.Name.ContainsIgnoreCase(FilterString) && !obj.Description.ContainsIgnoreCase(FilterString))
-                return false;
+            return obj.Name.ContainsIgnoreCase(FilterString) || obj.Description.ContainsIgnoreCase(FilterString);
+        }
 
-            return true;
+        private void HandleAddApplianceToPackagedSolution(Appliance appToAdd)
+        {
+            if (appToAdd.DataSheet is HeatingUnitDataSheet &&
+                PackagedSolution.PrimaryHeatingUnit == null)
+            {
+                //TODO: Implement the comment below: 
+                /* Prompt user for whether or not the heating unit is primary */
+                /* If it is primary, ask whether or not it is for water heating, 
+                 * room heating, or both. */
+            }
+
+            if (appToAdd.DataSheet is ContainerDataSheet &&
+                PackagedSolution.Appliances.ContainsWhere(a => a.DataSheet is SolarCollectorDataSheet))
+            {
+                /* Prompt the user for whether or not the container is tied to any of the solar collector. */
+                string title = "Vælg solfangeren som denne beholder er forbundet til.";
+                string message = "Hvis beholderen ikke er forbundet til en solfanger, tryk på \"Acceptér\".";
+                var appliances = PackagedSolution.Appliances.Where
+                                                 (a => a.DataSheet is SolarCollectorDataSheet) as ObservableCollection<Appliance>;
+                RunSolarContainerDialog(message, title, appToAdd, appliances);
+            }
+
+            if (appToAdd.DataSheet is SolarCollectorDataSheet &&
+                PackagedSolution.Appliances.ContainsWhere(a => a.DataSheet is ContainerDataSheet))
+            {
+                /* Prompt the user for whether or not any of the containers are tied to the solar collector */
+                string title = "Vælg beholderen som denne solfanger er forbundet til. ";
+                string message = "Hvis solfangeren ikke er forbundet til en beholder, tryk på \"Acceptér\".";
+                var appliances = PackagedSolution.Appliances.Where
+                                                 (a => a.DataSheet is SolarCollectorDataSheet) as ObservableCollection<Appliance>;
+                RunSolarContainerDialog(message, title, appToAdd, appliances);
+            }
         }
     }
 }

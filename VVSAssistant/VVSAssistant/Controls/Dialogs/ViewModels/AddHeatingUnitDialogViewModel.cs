@@ -9,7 +9,7 @@ using VVSAssistant.ViewModels.MVVM;
 
 namespace VVSAssistant.Controls.Dialogs.ViewModels
 {
-    public class AddBoilerDialogViewModel : NotifyPropertyChanged
+    public class AddHeatingUnitDialogViewModel : NotifyPropertyChanged
     {
         public RelayCommand SaveCommand { get;  }
         public RelayCommand CloseCommand { get; }
@@ -39,15 +39,35 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             }
         }
 
-        public AddBoilerDialogViewModel(string title, string message, Action<AddBoilerDialogViewModel> closeHandler, Action<AddBoilerDialogViewModel> completionHandler)
+        private bool _isUsedForRoomHeating;
+        public bool IsUsedForRoomHeating
         {
-            Title = title;
-            Message = message;
+            get { return _isUsedForRoomHeating; }
+            set
+            {
+                SetProperty(ref _isUsedForRoomHeating, value);
+                SaveCommand.NotifyCanExecuteChanged();
+            }
+        }
 
+        private bool _isUsedForWaterHeating;
+        public bool IsUsedForWaterHeating
+        {
+            get { return _isUsedForWaterHeating; }
+            set
+            {
+                SetProperty(ref _isUsedForWaterHeating, value);
+                SaveCommand.NotifyCanExecuteChanged();
+            }
+        }
+
+
+        public AddHeatingUnitDialogViewModel(Action<AddHeatingUnitDialogViewModel> closeHandler, Action<AddHeatingUnitDialogViewModel> completionHandler)
+        {
             SaveCommand = new RelayCommand(x =>
             {
                 completionHandler(this);
-            }, x => IsPrimaryBoiler || IsSecondaryBoiler);
+            }, x => IsSecondaryBoiler || (IsPrimaryBoiler && (IsUsedForRoomHeating || IsUsedForWaterHeating)));
 
 
             CloseCommand = new RelayCommand(x =>

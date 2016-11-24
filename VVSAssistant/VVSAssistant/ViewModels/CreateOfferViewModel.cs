@@ -162,7 +162,7 @@ namespace VVSAssistant.ViewModels
         public async void RunGenerateOfferDialog()
         {
             var customDialog = new CustomDialog();
-            var dialogViewModel = new GenerateOfferDialogViewModel(Offer, _clients, _dialogCoordinator, 
+            var dialogViewModel = new GenerateOfferDialogViewModel(Offer, _clients, 
                 closeHandler =>
                 {
                     // Closes the dialog

@@ -24,7 +24,7 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
         public RelayCommand CloseCommand { get; }
         public RelayCommand SaveCommand { get; }
 
-        public GenerateOfferDialogViewModel(Offer offer, ObservableCollection<Client> clients, IDialogCoordinator dialogCoordinator, 
+        public GenerateOfferDialogViewModel(Offer offer, ObservableCollection<Client> clients, 
                                             Action<GenerateOfferDialogViewModel> closeHandler, Action<GenerateOfferDialogViewModel> completionHandler)
         {
             Offer = offer;

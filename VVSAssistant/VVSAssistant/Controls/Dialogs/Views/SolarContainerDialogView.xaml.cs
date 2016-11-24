@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace VVSAssistant.Controls.Dialogs.Views
 {
     /// <summary>
-    /// Interaction logic for BoilerCategoryDialogView.xaml
+    /// Interaction logic for SolarContainerDialog.xaml
     /// </summary>
-    public partial class BoilerCategoryDialogView : UserControl
+    public partial class SolarContainerDialogView : UserControl
     {
-        public BoilerCategoryDialogView()
+        public SolarContainerDialogView()
         {
             InitializeComponent();
         }
