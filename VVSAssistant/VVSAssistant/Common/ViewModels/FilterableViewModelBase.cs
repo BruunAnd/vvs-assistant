@@ -8,7 +8,7 @@
     {
         public abstract class FilterableViewModelBase<T> : ViewModelBase 
         {
-            public ICollectionView CollectionView { get; private set; }
+            public ICollectionView FilteredCollectionView { get; private set; }
 
             private string _filterString = "";
             public string FilterString
@@ -18,15 +18,15 @@
                 {
                     if (_filterString.Equals(value)) return;
                     _filterString = value;
-                    CollectionView.Refresh();
+                    FilteredCollectionView.Refresh();
                     OnPropertyChanged();
                 }
             }
 
             protected void SetupFilterableView(ICollection<T> dataSource)
             {
-                CollectionView = CollectionViewSource.GetDefaultView(dataSource);
-                CollectionView.Filter = obj => Filter((T)obj);
+                FilteredCollectionView = CollectionViewSource.GetDefaultView(dataSource);
+                FilteredCollectionView.Filter = obj => Filter((T)obj);
             }
 
             protected abstract bool Filter(T obj);

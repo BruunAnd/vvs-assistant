@@ -7,6 +7,7 @@ using VVSAssistant.Common.ViewModels.VVSAssistant.Common.ViewModels;
 using VVSAssistant.ViewModels.MVVM;
 using VVSAssistant.Controls.Dialogs.ViewModels;
 using VVSAssistant.Controls.Dialogs.Views;
+using VVSAssistant.Extensions;
 using VVSAssistant.Models;
 
 namespace VVSAssistant.ViewModels
@@ -14,6 +15,84 @@ namespace VVSAssistant.ViewModels
     public class CreatePackagedSolutionViewModel : FilterableViewModelBase<Appliance>
     {
         #region Property initializations
+
+        private bool _includeHeatPumps;
+        public bool IncludeHeatPumps
+        {
+            get { return _includeHeatPumps; }
+            set
+            {
+                if (SetProperty(ref _includeHeatPumps, value))
+                    FilteredCollectionView.Refresh();
+            }
+        }
+
+        private bool _includeBoilers;
+        public bool IncludeBoilers
+        {
+            get { return _includeBoilers; }
+            set
+            {
+                if (SetProperty(ref _includeBoilers, value))
+                    FilteredCollectionView.Refresh();
+            }
+        }
+
+        private bool _includeTemperatureControllers;
+        public bool IncludeTemperatureControllers
+        {
+            get { return _includeTemperatureControllers; }
+            set
+            {
+                if (SetProperty(ref _includeTemperatureControllers, value))
+                    FilteredCollectionView.Refresh();
+            }
+        }
+
+        private bool _includeSolarPanels;
+        public bool IncludeSolarPanels
+        {
+            get { return _includeSolarPanels; }
+            set
+            {
+                if (SetProperty(ref _includeSolarPanels, value))
+                    FilteredCollectionView.Refresh();
+            }
+        }
+
+        private bool _includeContainers;
+        public bool IncludeContainers
+        {
+            get { return _includeContainers; }
+            set
+            {
+                if (SetProperty(ref _includeContainers, value))
+                    FilteredCollectionView.Refresh();
+            }
+        }
+
+        private bool _includeLowTempHeatPumps;
+        public bool IncludeLowTempHeatPumps
+        {
+            get { return _includeLowTempHeatPumps; }
+            set
+            {
+                if (SetProperty(ref _includeLowTempHeatPumps, value))
+                    FilteredCollectionView.Refresh();
+            }
+        }
+
+        private bool _includeCentralHeatingPlants;
+        public bool IncludeCentralHeatingPlants
+        {
+            get { return _includeCentralHeatingPlants; }
+            set
+            {
+                if (SetProperty(ref _includeCentralHeatingPlants, value))
+                    FilteredCollectionView.Refresh();
+            }
+        }
+
         private PackagedSolution _packagedSolution;
         public PackagedSolution PackagedSolution
         {
@@ -38,7 +117,7 @@ namespace VVSAssistant.ViewModels
                 if (!SetProperty(ref _selectedAppliance, value)) return;
 
                 // Notify if property was changed
-                AddApplianceToPackageSolution.NotifyCanExecuteChanged();
+                AddApplianceToPackagedSolution.NotifyCanExecuteChanged();
                 EditAppliance.NotifyCanExecuteChanged();
                 RemoveAppliance.NotifyCanExecuteChanged();
             }
@@ -46,7 +125,7 @@ namespace VVSAssistant.ViewModels
         #endregion
 
         #region Command initializations
-        public RelayCommand AddApplianceToPackageSolution { get; }
+        public RelayCommand AddApplianceToPackagedSolution { get; }
         public RelayCommand RemoveApplianceFromPackageSolution { get; }
         public RelayCommand EditAppliance { get; }
         public RelayCommand RemoveAppliance { get; }
@@ -67,13 +146,18 @@ namespace VVSAssistant.ViewModels
 
             #region Command declarations
 
-            AddApplianceToPackageSolution = new RelayCommand(x => 
+            AddApplianceToPackagedSolution = new RelayCommand(x =>
             {
-                AppliancesInSolution.Add(SelectedAppliance);
+                if (SelectedAppliance.Type == ApplianceTypes.Boiler)
+                    RunAddBoilerDialog(SelectedAppliance);
+                else
+                    AddApplianceToSolution(SelectedAppliance);
             }, x => SelectedAppliance != null);
 
             RemoveApplianceFromPackageSolution = new RelayCommand(x =>
             {
+                if (PackagedSolution.PrimaryHeatingUnit == SelectedAppliance)
+                    PackagedSolution.PrimaryHeatingUnit = null;
                 AppliancesInSolution.Remove(SelectedAppliance);
             }, x => SelectedAppliance != null);
 
@@ -99,6 +183,11 @@ namespace VVSAssistant.ViewModels
             #endregion
         }
 
+        private void AddApplianceToSolution(Appliance appliance)
+        {
+            AppliancesInSolution.Add(appliance);
+        }
+
         private void RemoveApplianceRENAMEMEPLZ(Appliance appliance)
         {
             Appliances.Remove(appliance);
@@ -118,6 +207,26 @@ namespace VVSAssistant.ViewModels
             PackagedSolution = new PackagedSolution();
         }
 
+        private async void RunAddBoilerDialog(Appliance appliance)
+        {
+            var customDialog = new CustomDialog();
+
+            var dialogViewModel = new AddBoilerDialogViewModel("Tilføj kedel", "Vælg om den nye kedel skal være primær- eller sekundærkedel.",
+                instanceCancel => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
+                instanceCompleted =>
+                {
+                    _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
+
+                    AddApplianceToSolution(appliance);
+                    if (instanceCompleted.IsPrimaryBoiler)
+                        PackagedSolution.PrimaryHeatingUnit = appliance;
+                });
+
+            customDialog.Content = new AddBoilerDialogView() { DataContext = dialogViewModel };
+
+            await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
+        }
+
         private async void RunSaveDialog()
         {
             var customDialog = new CustomDialog();
@@ -133,6 +242,7 @@ namespace VVSAssistant.ViewModels
                 }); 
             
             customDialog.Content = new SaveDialogView { DataContext = dialogViewModel };
+
             await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
         }
 
@@ -160,6 +270,54 @@ namespace VVSAssistant.ViewModels
 
         protected override bool Filter(Appliance obj)
         {
+            // Filter based on type first
+            if (IncludeBoilers ||
+                IncludeCentralHeatingPlants ||
+                IncludeContainers ||
+                IncludeHeatPumps ||
+                IncludeLowTempHeatPumps ||
+                IncludeSolarPanels ||
+                IncludeTemperatureControllers)
+            {
+                switch (obj.Type)
+                {
+                    case ApplianceTypes.Boiler:
+                        if (!IncludeBoilers)
+                            return false;
+                        break;
+                    case ApplianceTypes.CHP:
+                        if (!IncludeCentralHeatingPlants)
+                            return false;
+                        break;
+                    case ApplianceTypes.Container:
+                        if (!IncludeContainers)
+                            return false;
+                        break;
+                    case ApplianceTypes.Heatpump:
+                        if (!IncludeHeatPumps)
+                            return false;
+                        break;
+                    case ApplianceTypes.LowTempHeatPump:
+                        if (!IncludeLowTempHeatPumps)
+                            return false;
+                        break;
+                    case ApplianceTypes.SolarPanel:
+                        if (!IncludeSolarPanels)
+                            return false;
+                        break;
+                    case ApplianceTypes.TemperatureController:
+                        if (!IncludeTemperatureControllers)
+                            return false;
+                        break;
+                    default:
+                        return false;
+                }
+            }
+
+            // Filter based on FilterString
+            if (!obj.Name.ContainsIgnoreCase(FilterString) && !obj.Description.ContainsIgnoreCase(FilterString))
+                return false;
+
             return true;
         }
     }
