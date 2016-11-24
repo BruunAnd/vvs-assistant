@@ -141,6 +141,7 @@
     <Compile Include="Exceptions\InvalidParameterException.cs" />
     <Compile Include="Extensions\ObservableExtension.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Functions\Calculation\EEICharLabelChooser.cs" />
     <Compile Include="Functions\Calculation\Strategies\BoilerAsPrimary.cs" />
     <Compile Include="Functions\Calculation\Strategies\BoilerForWater.cs" />
     <Compile Include="Functions\Calculation\CalculationManager.cs" />
