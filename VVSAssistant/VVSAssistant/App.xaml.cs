@@ -61,11 +61,11 @@ namespace VVSAssistant
                     Name = "Vultorp XP",
                     Type = ApplianceTypes.Container
                 };
-                var heatPumpDataSheet = new HeatingUnitDataSheet()
+                var dataSheet = new ContainerDataSheet()
                 {
                     Price = 150
                 };
-                appliance.DataSheet = heatPumpDataSheet;
+                appliance.DataSheet = dataSheet;
                 var unitPrice = new UnitPrice()
                 {
                     UnitCostPrice = 150,
@@ -80,11 +80,11 @@ namespace VVSAssistant
                     Name = "MegaBoiler2000",
                     Type = ApplianceTypes.Boiler
                 };
-                var heatPumpDataSheet2 = new HeatingUnitDataSheet()
+                var dataSheet2 = new HeatingUnitDataSheet()
                 {
                     Price = 120
                 };
-                appliance2.DataSheet = heatPumpDataSheet2;
+                appliance2.DataSheet = dataSheet2;
                 var unitPrice2 = new UnitPrice()
                 {                    
                     UnitCostPrice = 120,
