@@ -86,7 +86,7 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             }
             else if (SelectedAppliance == null)
             {
-                _packagedSolution.Appliances.Add(Appliance); /* Either container or solar collector */
+                _packagedSolution.Appliances.Add(Appliance); /* Type doesn't matter in this case */
             }
         }
 
