@@ -83,10 +83,8 @@ namespace VVSAssistant.Models
 
         public bool ContainsWhere(Predicate<ApplianceInstance> predicate)
         {
-            if (BackingList.Find(a => predicate(a)) != null)
-                return true;
-            else
-                return false;
+            return BackingList.Find(a => predicate(a)) != null;
         }
     }
 }
+ 

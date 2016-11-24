@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using VVSAssistant.Common;
 using VVSAssistant.Models;
+using VVSAssistant.Models.DataSheets;
 using VVSAssistant.ViewModels;
 using VVSAssistant.ViewModels.MVVM;
 
@@ -36,22 +37,32 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             set { _selectedAppliance = value; OnPropertyChanged(); }
         }
 
+        private Appliance _appliance;
+        public Appliance Appliance
+        {
+            get { return _appliance; }
+            set { _appliance = value; OnPropertyChanged(); }
+        }
+
         private PackagedSolution _packagedSolution;
 
         public string Title { get; }
         public string Message { get; }
 
-        public SolarContainerDialogViewModel(string title, string message, ObservableCollection<Appliance> appliances, PackagedSolution packagedSolution,
+        public SolarContainerDialogViewModel(string title, string message, 
+                                             Appliance appliance, ObservableCollection<Appliance> appliances, PackagedSolution packagedSolution,
                                              Action<SolarContainerDialogViewModel> closeHandler, Action<SolarContainerDialogViewModel> completionHandler)
         {
             Title = title;
             Message = message;
 
-            Appliances = appliances;
             _packagedSolution = packagedSolution;
+            Appliances = appliances;
+            Appliance = appliance;
 
             SaveCommand = new RelayCommand(x =>
             {
+                HandleSaveCommand();
                 completionHandler(this);
             });
 
@@ -59,6 +70,24 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             {
                 closeHandler(this);
             });
+        }
+
+        private void HandleSaveCommand()
+        {
+            if (SelectedAppliance.DataSheet is ContainerDataSheet)
+            {
+                _packagedSolution.SolarContainer = SelectedAppliance; /* Container */
+                _packagedSolution.Appliances.Add(Appliance); /* Solar Collector */
+            }
+            else if (SelectedAppliance.DataSheet is SolarCollectorDataSheet)
+            {
+                _packagedSolution.SolarContainer = Appliance; /* Container */
+                _packagedSolution.Appliances.Add(SelectedAppliance); /* Solar Collector */
+            }
+            else if (SelectedAppliance == null)
+            {
+                _packagedSolution.Appliances.Add(Appliance); /* Either container or solar collector */
+            }
         }
 
     }
