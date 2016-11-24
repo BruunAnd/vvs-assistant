@@ -41,7 +41,6 @@
                 <Setter Property="HorizontalTitleAlignment" Value="Center" />
                 <Setter Property="Width" Value="200" />
                 <Setter Property="Height" Value="200" />
-                <Setter Property="Command" Value="{Binding NavCommand}" />
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
                         <Setter Property="BorderThickness" Value="1.0" />

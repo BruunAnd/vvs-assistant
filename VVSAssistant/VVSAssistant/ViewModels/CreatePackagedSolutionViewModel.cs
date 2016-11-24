@@ -121,6 +121,7 @@ namespace VVSAssistant.ViewModels
                 AddApplianceToPackagedSolution.NotifyCanExecuteChanged();
                 EditAppliance.NotifyCanExecuteChanged();
                 RemoveAppliance.NotifyCanExecuteChanged();
+                OnPropertyChanged();
             }
         }
         #endregion
@@ -136,7 +137,7 @@ namespace VVSAssistant.ViewModels
 
         #region Collections
         public ObservableCollection<Appliance> Appliances { get; } = new ObservableCollection<Appliance>();
-        public ObservableCollection<Appliance> AppliancesInSolution { get; set; }
+        public ObservableCollection<Appliance> AppliancesInSolution { get; set; } = new ObservableCollection<Appliance>();
         #endregion
 
         public CreatePackagedSolutionViewModel(IDialogCoordinator dialogCoordinator)
@@ -238,7 +239,7 @@ namespace VVSAssistant.ViewModels
         {
             var customDialog = new CustomDialog();
 
-            var dialogViewModel = new SolarContainerDialogViewModel(message, title, appliance, appliances, PackagedSolution,
+            var dialogViewModel = new SolarContainerDialogViewModel(message, title, appliance, appliances, AppliancesInSolution, PackagedSolution,
                 closeHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
                 completionHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog) );
 
@@ -342,34 +343,35 @@ namespace VVSAssistant.ViewModels
         {
             if (appToAdd.DataSheet is HeatingUnitDataSheet)
             {
-                //TODO: Implement the comment below: 
                 /* Prompt user for whether or not the heating unit is primary */
                 /* If it is primary, ask whether or not it is for water heating, 
                  * room heating, or both. */
                 RunAddHeatingUnitDialog(appToAdd);
             }
+
             else if (appToAdd.DataSheet is ContainerDataSheet &&
-                PackagedSolution.Appliances.ContainsWhere(a => a.DataSheet is SolarCollectorDataSheet))
+                AppliancesInSolution.Any(a => a.DataSheet is SolarCollectorDataSheet))
             {
                 /* Prompt the user for whether or not the container is tied to any of the solar collector. */
-                var title = "Vælg solfangeren som denne beholder er forbundet til.";
-                var message = "Hvis beholderen ikke er forbundet til en solfanger, tryk på \"Acceptér\".";
-                var appliances = PackagedSolution.Appliances.Where
-                                                 (a => a.DataSheet is SolarCollectorDataSheet) as ObservableCollection<Appliance>;
+                var title = "Vælg solfangeren som denne beholder er forbundet til";
+                var message = "Hvis beholderen ikke er forbundet til en solfanger, tryk på \"Acceptér\"";
+                var appliances = new ObservableCollection<Appliance>(AppliancesInSolution.Where
+                                                 (a => a.DataSheet is SolarCollectorDataSheet));
                 RunSolarContainerDialog(message, title, appToAdd, appliances);
             }
             else if (appToAdd.DataSheet is SolarCollectorDataSheet &&
-                PackagedSolution.Appliances.ContainsWhere(a => a.DataSheet is ContainerDataSheet))
+                AppliancesInSolution.Any(a => a.DataSheet is ContainerDataSheet))
             {
                 /* Prompt the user for whether or not any of the containers are tied to the solar collector */
-                var title = "Vælg beholderen som denne solfanger er forbundet til. ";
-                var message = "Hvis solfangeren ikke er forbundet til en beholder, tryk på \"Acceptér\".";
-                var appliances = PackagedSolution.Appliances.Where
-                                                 (a => a.DataSheet is SolarCollectorDataSheet) as ObservableCollection<Appliance>;
+                var title = "Vælg beholderen som denne solfanger er forbundet til ";
+                var message = "Hvis solfangeren ikke er forbundet til en beholder, tryk på \"Acceptér\"";
+                var appliances = new ObservableCollection<Appliance>(AppliancesInSolution.Where
+                                                 (a => a.DataSheet is ContainerDataSheet));
                 RunSolarContainerDialog(message, title, appToAdd, appliances);
             }
             else
             {
+                Console.WriteLine("All checks passed, adding to packaged solution with no window.");
                 AddApplianceToSolution(appToAdd);
             }
         }
