@@ -25,7 +25,7 @@ namespace VVSAssistant.ViewModels
                 var dlg = new OpenFileDialog {Filter = "Zip filer (.zip)|*.zip"};
                 dlg.FileOk += ValidateDatabaseFile;
                 var result = dlg.ShowDialog();
-                if (result == true) DatabasePortation.Import(dlg.FileName);
+                if (result == true) DataUtil.Database.Import(dlg.FileName);
                 DatabaseExport.NotifyCanExecuteChanged();
             });
 
@@ -33,8 +33,8 @@ namespace VVSAssistant.ViewModels
             {
                 var dlg = new SaveFileDialog {Filter = "Zip filer (.zip)|*.zip", FileName = "database", DefaultExt = ".zip"};
                 var result = dlg.ShowDialog();
-                if (result == true) DatabasePortation.Export(dlg.FileName);
-            }, x => DatabasePortation.Exists());
+                if (result == true) DataUtil.Database.Export(dlg.FileName);
+            }, x => DataUtil.Database.Exists());
         }
 
         private void ValidateDatabaseFile(object sender, System.ComponentModel.CancelEventArgs e)
@@ -43,7 +43,7 @@ namespace VVSAssistant.ViewModels
 
             using (var archive = ZipFile.OpenRead(dlg.FileName))
             {
-                if (archive.Entries.FirstOrDefault(x => x.Name == DatabasePortation.Name()) != null) return;
+                if (archive.Entries.FirstOrDefault(x => x.Name == DataUtil.Database.Name()) != null) return;
                 MessageBox.Show("Den valgte .zip fil indeholder ikke en gyldig database fil.", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
                 e.Cancel = true;
             }

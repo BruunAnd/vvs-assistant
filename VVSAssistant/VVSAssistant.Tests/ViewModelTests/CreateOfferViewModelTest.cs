@@ -27,7 +27,7 @@ namespace VVSAssistant.Tests.ViewModelTests
             ///* Client Setup */
             //_testClient = new ClientViewModel(new Client());
             //_testClient.ClientInformation.Address = "test";
-            //_testClient.ClientInformation.Name = "test";
+            //_testClient.ClientInformation.DatabaseName = "test";
             //_testClient.ClientInformation.Email = "test";
             //_testClient.ClientInformation.PhoneNumber = "test";
             //_testClient.Offers = new System.Collections.ObjectModel.ObservableCollection<OfferViewModel>();
@@ -36,28 +36,28 @@ namespace VVSAssistant.Tests.ViewModelTests
 
             ///* Appliance 1 setup */
             //_testAppliance1 = new ApplianceViewModel(new Appliance());
-            //_testAppliance1.Name = "test";
+            //_testAppliance1.DatabaseName = "test";
             //_testAppliance1.Type = ApplianceTypes.Container;
 
             ///* Appliance 2 setup */
             //_testAppliance2 = new ApplianceViewModel(new Appliance());
-            //_testAppliance1.Name = "test";
+            //_testAppliance1.DatabaseName = "test";
             //_testAppliance1.Type = ApplianceTypes.Boiler;
 
             ///* Packaged solution setup */
             //_testPackSol = new PackagedSolutionViewModel(new PackagedSolution());
             //_testPackSol.Appliances.Add(_testAppliance1);
             //_testPackSol.Appliances.Add(_testAppliance2);
-            //_testPackSol.Name = "test";
+            //_testPackSol.DatabaseName = "test";
         }
         /*
         [Test]
         public void InformationAssignmentTest()
         {
-            testModel.Offer.Client.ClientInformation.Name = "Anders";
+            testModel.Offer.Client.ClientInformation.DatabaseName = "Anders";
             testModel.Offer.PackagedSolution.Appliances.Add(_testAppliance1);
 
-            Assert.AreEqual(testModel.Offer.Client.ClientInformation.Name, "Anders");
+            Assert.AreEqual(testModel.Offer.Client.ClientInformation.DatabaseName, "Anders");
             Assert.AreEqual(testModel.Offer.PackagedSolution.Appliances[0], _testAppliance1);
         }
 
@@ -65,15 +65,15 @@ namespace VVSAssistant.Tests.ViewModelTests
         public void ObjectAssignmentTest()
         {
             testModel.Offer.Client = _testClient;
-            Assert.AreEqual(testModel.Offer.Client.ClientInformation.Name, "test");
+            Assert.AreEqual(testModel.Offer.Client.ClientInformation.DatabaseName, "test");
         }
 
         [Test]
         public void ValueAndObjectAssignment()
         {
-            testModel.Offer.Client.ClientInformation.Name = "Anders";
+            testModel.Offer.Client.ClientInformation.DatabaseName = "Anders";
             testModel.Offer.Client = _testClient;
-            Assert.AreEqual(testModel.Offer.Client.ClientInformation.Name, "test");
+            Assert.AreEqual(testModel.Offer.Client.ClientInformation.DatabaseName, "test");
         }
 
         [Test]
