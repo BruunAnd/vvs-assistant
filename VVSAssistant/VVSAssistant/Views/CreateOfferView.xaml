@@ -3,14 +3,12 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:VVSAssistant.Views"
       xmlns:viewModels="clr-namespace:VVSAssistant.ViewModels"
-      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-      xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+      xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
       mc:Ignorable="d" 
-      d:DataContext="{d:DesignInstance viewModels:CreatePackagedSolutionViewModel}"
+      d:DataContext="{d:DesignInstance viewModels:CreateOfferViewModel}"
       d:DesignHeight="600" d:DesignWidth="1080"
-      Dialog:DialogParticipation.Register="{Binding}">
+      dialog:DialogParticipation.Register="{Binding}">
 
     <Grid Background="White">
         <Grid.ColumnDefinitions>
@@ -43,7 +41,7 @@
                     Height="32"
                     MinWidth="120"
                     Content="Tilbage"
-                    Command="{Binding ElementName=root, Path=DataContext.NavCommand}"/>
+                    Command="{Binding ElementName=Root, Path=DataContext.NavCommand}"/>
         </Grid>
 
         <Grid Grid.Column="1"
