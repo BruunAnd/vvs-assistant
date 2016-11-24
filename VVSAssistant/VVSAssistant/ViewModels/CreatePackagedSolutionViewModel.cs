@@ -126,7 +126,7 @@ namespace VVSAssistant.ViewModels
 
         #region Command initializations
         public RelayCommand AddApplianceToPackagedSolution { get; }
-        public RelayCommand RemoveApplianceFromPackageSolution { get; }
+        public RelayCommand RemoveApplianceFromPackagedSolution { get; }
         public RelayCommand EditAppliance { get; }
         public RelayCommand RemoveAppliance { get; }
         public RelayCommand NewPackageSolution { get; }
@@ -154,7 +154,7 @@ namespace VVSAssistant.ViewModels
                     AddApplianceToSolution(SelectedAppliance);
             }, x => SelectedAppliance != null);
 
-            RemoveApplianceFromPackageSolution = new RelayCommand(x =>
+            RemoveApplianceFromPackagedSolution = new RelayCommand(x =>
             {
                 if (PackagedSolution.PrimaryHeatingUnit == SelectedAppliance)
                     PackagedSolution.PrimaryHeatingUnit = null;
@@ -212,14 +212,19 @@ namespace VVSAssistant.ViewModels
             var customDialog = new CustomDialog();
 
             var dialogViewModel = new AddBoilerDialogViewModel("Tilføj kedel", "Vælg om den nye kedel skal være primær- eller sekundærkedel.",
-                instanceCancel => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
-                instanceCompleted =>
+                instanceCancel => _dialogCoordinator.HideMetroDialogAsync(this, customDialog), async instanceCompleted =>
                 {
-                    _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
+                    await _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
 
                     AddApplianceToSolution(appliance);
-                    if (instanceCompleted.IsPrimaryBoiler)
-                        PackagedSolution.PrimaryHeatingUnit = appliance;
+                    if (!instanceCompleted.IsPrimaryBoiler) return;
+                    if (PackagedSolution.PrimaryHeatingUnit != null)
+                    {
+                        // Inform the user that their previous primary heating unit will be replaced
+                        await _dialogCoordinator.ShowMessageAsync(this, "Information",
+                                $"Da du har valgt en ny primærkedel er komponentet {PackagedSolution.PrimaryHeatingUnit.Name} nu en sekundærkedel.");
+                    }
+                    PackagedSolution.PrimaryHeatingUnit = appliance;
                 });
 
             customDialog.Content = new AddBoilerDialogView() { DataContext = dialogViewModel };
@@ -315,10 +320,7 @@ namespace VVSAssistant.ViewModels
             }
 
             // Filter based on FilterString
-            if (!obj.Name.ContainsIgnoreCase(FilterString) && !obj.Description.ContainsIgnoreCase(FilterString))
-                return false;
-
-            return true;
+            return obj.Name.ContainsIgnoreCase(FilterString) || obj.Description.ContainsIgnoreCase(FilterString);
         }
     }
 }

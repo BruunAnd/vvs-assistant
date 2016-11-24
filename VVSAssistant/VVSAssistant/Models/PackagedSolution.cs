@@ -16,14 +16,14 @@ namespace VVSAssistant.Models
         [NotMapped]
         public Appliance SolarContainer
         {
-            get { return SolarContainerInstance.Appliance; }    
+            get { return SolarContainerInstance?.Appliance; }    
             set { SolarContainerInstance = new ApplianceInstance(value);}
         }
 
         [NotMapped]
         public Appliance PrimaryHeatingUnit
         {
-            get { return PrimaryHeatingUnitInstance.Appliance; }
+            get { return PrimaryHeatingUnitInstance?.Appliance; }
             set { PrimaryHeatingUnitInstance = new ApplianceInstance(value); }
         }
 
