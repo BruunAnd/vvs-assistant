@@ -24,7 +24,7 @@ namespace VVSAssistant.Common.ViewModels
             DbContext?.Dispose();
         }
 
-        public abstract void Initialize();
+        public abstract void LoadDataFromDatabase();
 
         /// <summary>
         /// Validates a property based on its DataAnnotations

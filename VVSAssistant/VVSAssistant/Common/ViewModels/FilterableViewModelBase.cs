@@ -1,6 +1,4 @@
-﻿using VVSAssistant.ViewModels.Interfaces;
-
-namespace VVSAssistant.Common.ViewModels
+﻿namespace VVSAssistant.Common.ViewModels
 {
     using System.Collections.Generic;
     using System.ComponentModel;
@@ -10,7 +8,7 @@ namespace VVSAssistant.Common.ViewModels
     {
         public abstract class FilterableViewModelBase<T> : ViewModelBase 
         {
-            public ICollectionView CollectionView { get; set; }
+            public ICollectionView CollectionView { get; private set; }
 
             private string _filterString = "";
             public string FilterString

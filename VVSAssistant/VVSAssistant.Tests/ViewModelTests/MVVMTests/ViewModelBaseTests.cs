@@ -41,5 +41,10 @@ namespace VVSAssistant.Tests.ViewModelTests.MVVMTests
 
         [System.ComponentModel.DataAnnotations.Range(1,10, ErrorMessage="Range")]
         public int RangeTest { get; set; }
+
+        public override void LoadDataFromDatabase()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

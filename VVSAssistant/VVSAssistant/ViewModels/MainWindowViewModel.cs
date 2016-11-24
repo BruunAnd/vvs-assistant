@@ -1,4 +1,6 @@
-﻿using VVSAssistant.ViewModels.MVVM;
+﻿using System;
+using MahApps.Metro.Controls;
+using VVSAssistant.ViewModels.MVVM;
 using MahApps.Metro.Controls.Dialogs;
 using VVSAssistant.Common;
 using VVSAssistant.Common.ViewModels;
@@ -7,7 +9,6 @@ namespace VVSAssistant.ViewModels
 {
     internal class MainWindowViewModel : NotifyPropertyChanged
     {
-        
         public MainWindowViewModel()
         {
             NavCommand = new RelayCommand(x =>
@@ -18,14 +19,19 @@ namespace VVSAssistant.ViewModels
         }
         
         private ViewModelBase _currentViewModel;
-
         public ViewModelBase CurrentViewModel
         {
             get { return _currentViewModel; }
-            set { SetProperty(ref _currentViewModel, value); }
+            set
+            {
+                SetProperty(ref _currentViewModel, value);
+                OnPropertyChanged("Transition");
+            }
         }
         
         public RelayCommand NavCommand { get; private set; }
+
+        public TransitionType Transition => CurrentViewModel == null ? TransitionType.Down : TransitionType.Up;
 
         private void OnNav(string destination)
         {
@@ -33,25 +39,25 @@ namespace VVSAssistant.ViewModels
 
             switch (destination)
             {
-                case ("ExistingPackagedSolutionView"):
+                case "ExistingPackagedSolutionView":
                     CurrentViewModel = new ExistingPackagedSolutionsViewModel();
                     break;
-                case ("CreatePackagedSolutionView"):
+                case "CreatePackagedSolutionView":
                     CurrentViewModel = new CreatePackagedSolutionViewModel(new DialogCoordinator());
                     break;
-                case ("ExistingOffersView"):
+                case "ExistingOffersView":
                     CurrentViewModel = new ExistingOffersViewModel();
                     break;
-                case ("CreateOfferView"):
+                case "CreateOfferView":
                     CurrentViewModel = new CreateOfferViewModel(new DialogCoordinator());
                     break;
                 default:
                     CurrentViewModel = null;
-                    break;
+                    return; // Don't open dataconnection
             }
 
             CurrentViewModel?.OpenDataConnection();
-            CurrentViewModel?.Initialize();
+            CurrentViewModel?.LoadDataFromDatabase();
         }
     }
 }

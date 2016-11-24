@@ -2,15 +2,12 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:VVSAssistant.Views"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:viewModels="clr-namespace:VVSAssistant.ViewModels"
-      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
       mc:Ignorable="d" 
-      d:DesignHeight="600" d:DesignWidth="1080">
-    <ContentControl.DataContext>
-        <viewModels:ExistingOffersViewModel/>
-    </ContentControl.DataContext>
+      d:DesignHeight="600" d:DesignWidth="1080"
+      d:DataContext="{d:DesignInstance viewModels:ExistingOffersViewModel}">
+
     <Grid Background="White">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
@@ -45,20 +42,20 @@
 
         <Grid Grid.Column="1" 
               Grid.Row="2">
-
-            <DataGrid AutoGenerateColumns="False">
+            <DataGrid AutoGenerateColumns="False"
+                      ItemsSource="{Binding Offers, UpdateSourceTrigger=PropertyChanged}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding ID}"
+                    <DataGridTextColumn Binding="{Binding Id}"
                                         Header="#"
                                         Width="40"
                                         CanUserReorder="False"
                                         CanUserResize="False"/>
-                    <DataGridTextColumn Binding="{Binding Name}"
-                                        Header="Navn"
+                    <DataGridTextColumn Binding ="{Binding OfferInformation.Title, UpdateSourceTrigger=PropertyChanged}"
+                                        Header="Titel"
                                         MinWidth="100"
                                         Width="1.5*"
                                         CanUserReorder="False"/>
-                    <DataGridTextColumn Binding="{Binding Date}"
+                    <DataGridTextColumn Binding="{Binding CreationDate}"
                                         Header="Dato"
                                         MinWidth="50"
                                         Width="1*"

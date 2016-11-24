@@ -14,10 +14,10 @@ namespace VVSAssistant.Tests.ViewModelTests
     class CreateOfferViewModelTest
     {
         private CreateOfferViewModel testModel;
-        private ClientViewModel _testClient;
+        /*private ClientViewModel _testClient;
         private PackagedSolutionViewModel _testPackSol;
         private ApplianceViewModel _testAppliance1;
-        private ApplianceViewModel _testAppliance2;
+        private ApplianceViewModel _testAppliance2;*/
 
         [SetUp]
         public void Setup()
@@ -50,7 +50,7 @@ namespace VVSAssistant.Tests.ViewModelTests
             //_testPackSol.Appliances.Add(_testAppliance2);
             //_testPackSol.Name = "test";
         }
-
+        /*
         [Test]
         public void InformationAssignmentTest()
         {
@@ -92,7 +92,7 @@ namespace VVSAssistant.Tests.ViewModelTests
             Assert.IsTrue(testModel.VerifyNeededInformation());
 
         }
-
+        */
         /* Mr. Gorbachev, */ [TearDown] /* this wall*/
         public void TearDown()
         {

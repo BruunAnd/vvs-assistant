@@ -127,6 +127,7 @@
     </Compile>
     <Compile Include="Controls\Dialogs\ViewModels\SaveDialogViewModel.cs" />
     <Compile Include="Database\AssistantContext.cs" />
+    <Compile Include="Events\VVSAssistantEvents.cs" />
     <Compile Include="Exceptions\InvalidParameterException.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Functions\Calculation\Strategies\BoilerAsPrimary.cs" />
@@ -140,6 +141,7 @@
     <Compile Include="Functions\UtilityClass.cs" />
     <Compile Include="Models\Appliance.cs" />
     <Compile Include="Models\ApplianceInstance.cs" />
+    <Compile Include="Models\ApplianceList.cs" />
     <Compile Include="Models\ApplianceTypes.cs" />
     <Compile Include="Models\Client.cs" />
     <Compile Include="Models\ClientInformation.cs" />

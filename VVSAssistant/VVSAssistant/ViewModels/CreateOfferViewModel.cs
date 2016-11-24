@@ -14,15 +14,22 @@ using System.Windows;
 using System.Windows.Input;
 using System.Collections.Specialized;
 using VVSAssistant.Common.ViewModels;
+using VVSAssistant.Events;
 
 namespace VVSAssistant.ViewModels
 {
     class CreateOfferViewModel : ViewModelBase
     {
+        #region Properties
         public RelayCommand PrintNewOffer { get; }
         public RelayCommand SolutionDoubleClicked { get; }
         public RelayCommand CreateNewOffer { get; }
-        public ObservableCollection<PackagedSolution> PackagedSolutions { get; }
+        private ObservableCollection<PackagedSolution> _packagedSolutions;
+        public ObservableCollection<PackagedSolution> PackagedSolutions
+        {
+            get { return _packagedSolutions; }
+            set { _packagedSolutions = value; OnPropertyChanged(); }
+        }
         private ObservableCollection<Client> _clients;
         private Offer _offer;
         public Offer Offer
@@ -50,7 +57,15 @@ namespace VVSAssistant.ViewModels
         public PackagedSolution SelectedPackagedSolution
         {
             get { return Offer.PackagedSolution; }
-            set { Offer.PackagedSolution = value; OnPropertyChanged(); }
+            set
+            {
+                Offer.PackagedSolution = value;
+                if (value != null)
+                {
+                    AppliancesInPackagedSolution = new ObservableCollection<Appliance>(value.Appliances);
+                }
+                OnPropertyChanged();
+            }
         }
         private ObservableCollection<Material> _materialsInOffer;
         public ObservableCollection<Material> MaterialsInOffer
@@ -65,17 +80,21 @@ namespace VVSAssistant.ViewModels
             get { return _salariesInOffer; }
             set { _salariesInOffer = value; OnPropertyChanged(); }
         }
+        private ObservableCollection<Appliance> _appliancesInPackagedSolution;
+        public ObservableCollection<Appliance> AppliancesInPackagedSolution
+        {
+            get { return _appliancesInPackagedSolution; }
+            set { _appliancesInPackagedSolution = value; OnPropertyChanged(); }
+        }
+        #endregion
 
         public CreateOfferViewModel(IDialogCoordinator coordinator)
         {
-            #region Properties and fields
-
             _offer = new Offer();
             _dialogCoordinator = coordinator;
             PackagedSolutions = new ObservableCollection<PackagedSolution>();
-            #endregion
-
-            #region Commands
+            MaterialsInOffer = new ObservableCollection<Material>();
+            SalariesInOffer = new ObservableCollection<Salary>();
 
             /* Tied to "print offer" button in bottom left corner. 
              * Disabled if VerifyOfferHasRequiredInformation returns false. */
@@ -87,30 +106,18 @@ namespace VVSAssistant.ViewModels
              * in the list of packaged solutions. When this happens, property 
              * "SelectedPackagedSolution" is set to the clicked Packaged Solution. */
             SolutionDoubleClicked = new RelayCommand
-                        (x => OnSolutionDoubleClicked()); 
+                        (x => OnSolutionDoubleClicked(),
+                         x => SelectedPackagedSolution != null); 
 
             /* When the "nyt tilbud" button in bottom left corner is pressed. 
              * Nullifies all offer properties and changes view to list of packaged solutions. */
             CreateNewOffer = new RelayCommand
                         ( x => SetInitialSettings()); 
 
-            #endregion
-
-            SetInitialSettings();
-
-            #region Events
             MaterialsInOffer.CollectionChanged += NotifyOfferContentsChanged;
             SalariesInOffer.CollectionChanged += NotifyOfferContentsChanged;
-            #endregion
-
-            #region Fetch from database
-
-            using (var dbContext = new AssistantContext())
-            {
-                dbContext.PackagedSolutions.ToList().ForEach(p => PackagedSolutions.Add(new PackagedSolution()));
-            }
-
-            #endregion
+            //VVSAssistantEvents.SaveOfferButtonPressedEventHandler += SaveOfferToDatabase;
+            SetInitialSettings();
         }
 
         #region Methods
@@ -155,11 +162,19 @@ namespace VVSAssistant.ViewModels
         public async void RunGenerateOfferDialog()
         {
             var customDialog = new CustomDialog();
-            var dialogViewModel = new GenerateOfferDialogViewModel(Offer, _clients, _dialogCoordinator, instance =>
-            {
-                // Makes it possible to close the dialog.
-                _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
-            });
+            var dialogViewModel = new GenerateOfferDialogViewModel(Offer, _clients, _dialogCoordinator, 
+                closeHandler =>
+                {
+                    // Closes the dialog
+                    _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
+                }, 
+                completionHandler =>
+                {
+                    // Closes the dialog and saves the offer to database
+                    _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
+                    SaveOfferToDatabase(Offer);
+                });
+
             customDialog.Content = new GenerateOfferDialogView { DataContext = dialogViewModel };
             await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
         }
@@ -170,13 +185,22 @@ namespace VVSAssistant.ViewModels
             PrintNewOffer.NotifyCanExecuteChanged();
         }
 
-        public override void Initialize()
+        public override void LoadDataFromDatabase()
         {
-            throw new NotImplementedException();
+            DbContext.PackagedSolutions.ToList().ForEach(p => PackagedSolutions.Add(p));
         }
 
-
+        private void SaveOfferToDatabase(Offer offer)
+        {
+            offer.Salaries = SalariesInOffer.ToList();
+            offer.Materials = MaterialsInOffer.ToList();
+            offer.CreationDate = DateTime.Now;
+            offer.Client.CreationDate = DateTime.Now;
+            /* Everything else has been set by reference */
+            /* Save it to the database */
+            DbContext.Offers.Add(offer);
+            DbContext.SaveChanges();
+        }
         #endregion
-
     }
 }

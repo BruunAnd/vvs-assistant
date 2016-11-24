@@ -11,43 +11,6 @@ namespace VVSAssistant.Database
         {
         }
 
-        public void Seed()
-        {
-            var loganoPlusAppliance = new Appliance
-            {
-                Name = "Logano Plus",
-                CreationDate = DateTime.Now,
-                Type = ApplianceTypes.Boiler,
-                DataSheet = new HeatingUnitDataSheet {AFUE = 91, WattUsage = 18}
-            };
-
-            var loganoSknAppliance = new Appliance
-            {
-                Name = "Logasol SKN",
-                CreationDate = DateTime.Now,
-                Type = ApplianceTypes.SolarPanel,
-                DataSheet = new SolarCollectorDataSheet {Area = 2.25f, Efficency = 60}
-            };
-
-            var bstAppliance = new Appliance
-            {
-                Name = "BST",
-                CreationDate = DateTime.Now,
-                Type = ApplianceTypes.Container,
-                DataSheet = new ContainerDataSheet {Volume = 481, Classification = "C"}
-            };
-
-            // Create example packaged solution
-            var packagedSolution = new PackagedSolution()
-            {
-                Name = "Example Solution",
-                CreationDate = DateTime.Now
-            };
-            packagedSolution.Appliances.Add(bstAppliance);
-            packagedSolution.Appliances.Add(loganoPlusAppliance);
-            packagedSolution.Appliances.Add(loganoSknAppliance);
-        }
-
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<PackagedSolution>().HasMany(s => s.ApplianceInstances).WithRequired();
@@ -68,6 +31,10 @@ namespace VVSAssistant.Database
             // Create a table for each unitprice type
             modelBuilder.Entity<Salary>().ToTable("Salaries");
             modelBuilder.Entity<Material>().ToTable("Materials");
+
+            // Map Offer
+            modelBuilder.Entity<Offer>().HasMany(o => o.Materials).WithRequired();
+            modelBuilder.Entity<Offer>().HasMany(o => o.Salaries).WithRequired();
         }
 
         public DbSet<Client> Clients { get; set; }

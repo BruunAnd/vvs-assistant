@@ -47,10 +47,7 @@
                 <StackPanel Orientation="Vertical">
                     <Label Content="Navn på kunde:"/>
                     <ComboBox IsTextSearchEnabled="True"
-                      TextSearch.TextPath="{Binding ClientInformation.Name}"
-                      ItemsSource="{Binding Clients}"
                       Text="{Binding Offer.Client.ClientInformation.Name, UpdateSourceTrigger=PropertyChanged}"
-                      SelectedItem="{Binding SelectedClient}"
                       IsEditable="True"/>
 
                     <Label Content="Adresse:"/>

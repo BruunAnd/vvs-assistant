@@ -43,6 +43,7 @@ namespace VVSAssistant
                 var offerInformation = new OfferInformation()
                 {
                     Intro = "Example intro",
+                    Title = "Example Title"
                 };
                 offer.OfferInformation = offerInformation;
                 var packagedSolution = new PackagedSolution()
@@ -50,6 +51,8 @@ namespace VVSAssistant
                     CreationDate = DateTime.Now,
                     Name = "Example Solution"
                 };
+
+                db.PackagedSolutions.Add(packagedSolution);
 
                 //First appliance
                 var appliance = new Appliance()
@@ -92,7 +95,21 @@ namespace VVSAssistant
                 packagedSolution.Appliances.Add(appliance);
                 packagedSolution.Appliances.Add(appliance2);
 
+                var material = new Material()
+                {
+                    UnitCostPrice = 150,
+                    UnitSalesPrice = 180
+                };
+
+                var salary = new Salary()
+                {
+                    UnitSalesPrice = 180,
+                    UnitCostPrice = 150
+                };
+
                 offer.PackagedSolution = packagedSolution;
+                offer.Materials.Add(material);
+                offer.Salaries.Add(salary);
                 db.Offers.Add(offer);
                 db.SaveChanges();
             }

@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using VVSAssistant.Common.ViewModels.VVSAssistant.Common.ViewModels;
 using VVSAssistant.Extensions;
@@ -8,17 +9,18 @@ namespace VVSAssistant.ViewModels
 {
     internal class ExistingPackagedSolutionsViewModel : FilterableViewModelBase<PackagedSolution>
     {
-        public ObservableCollection<PackagedSolution> PackagedSolutions { get; set; }
+        public ObservableCollection<PackagedSolution> PackagedSolutions { get; } = new ObservableCollection<PackagedSolution>();
 
         public ExistingPackagedSolutionsViewModel()
         {
             SetupFilterableView(PackagedSolutions);
+            Console.WriteLine("new instance");
         }
 
-        public override void Initialize()
+        public override void LoadDataFromDatabase()
         {
-            // Load list of packaged solutions from database
             DbContext.PackagedSolutions.ToList().ForEach(PackagedSolutions.Add);
+            loaded = true;
         }
 
         protected override bool Filter(PackagedSolution obj)

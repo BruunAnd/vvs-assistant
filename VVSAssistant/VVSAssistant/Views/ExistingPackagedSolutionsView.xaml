@@ -2,15 +2,12 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:VVSAssistant.Views"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:viewModels="clr-namespace:VVSAssistant.ViewModels"
-      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+      xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
       mc:Ignorable="d" 
-      d:DesignHeight="600" d:DesignWidth="1080">
-    <UserControl.DataContext>
-        <viewModels:ExistingPackagedSolutionsViewModel/>
-    </UserControl.DataContext>
+      d:DesignHeight="600" d:DesignWidth="1080"
+      d:DataContext="{d:DesignInstance viewModels:ExistingPackagedSolutionsViewModel}">
 
     <Grid Background="White">
         <Grid.ColumnDefinitions>
@@ -45,8 +42,8 @@
                     Content="Tilbage"
                     Command="{Binding ElementName=Root, Path=DataContext.NavCommand}"/>
 
-            <TextBox Controls:TextBoxHelper.ClearTextButton="True" 
-                     Controls:TextBoxHelper.Watermark="Søg" 
+            <TextBox controls:TextBoxHelper.ClearTextButton="True" 
+                     controls:TextBoxHelper.Watermark="Søg" 
                      Grid.Column="3"
                      Height="24"
                      Text="{Binding FilterString, UpdateSourceTrigger=PropertyChanged}"/>
