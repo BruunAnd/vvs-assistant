@@ -147,13 +147,9 @@ namespace VVSAssistant.ViewModels
 
             #region Command declarations
 
-            AddApplianceToPackagedSolution = new RelayCommand(x =>
-            {
-                if (SelectedAppliance.Type == ApplianceTypes.Boiler)
-                    RunAddBoilerDialog(SelectedAppliance);
-                else
-                    AddApplianceToSolution(SelectedAppliance);
-            }, x => SelectedAppliance != null);
+            AddApplianceToPackagedSolution = new RelayCommand(
+                x => HandleAddApplianceToPackagedSolution(SelectedAppliance), 
+                x => SelectedAppliance != null);
 
             RemoveApplianceFromPackagedSolution = new RelayCommand(x =>
             {
