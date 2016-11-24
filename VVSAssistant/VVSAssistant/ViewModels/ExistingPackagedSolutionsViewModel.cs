@@ -20,7 +20,6 @@ namespace VVSAssistant.ViewModels
         public override void LoadDataFromDatabase()
         {
             DbContext.PackagedSolutions.ToList().ForEach(PackagedSolutions.Add);
-            loaded = true;
         }
 
         protected override bool Filter(PackagedSolution obj)

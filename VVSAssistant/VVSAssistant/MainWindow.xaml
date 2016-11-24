@@ -102,7 +102,10 @@
             </WrapPanel>
 
         </Grid>
-        <controls:TransitioningContentControl Content = "{Binding CurrentViewModel}"/>
+        <controls:TransitioningContentControl Content = "{Binding CurrentViewModel}">
+            <controls:TransitioningContentControl.Triggers>
+            </controls:TransitioningContentControl.Triggers>
+        </controls:TransitioningContentControl>
     </Grid>
     
 
