@@ -46,5 +46,6 @@ namespace VVSAssistant.Database
         public DbSet<UnitPrice> UnitPrices { get; set; }
         public DbSet<DataSheet> DataSheets { get; set; }
         public DbSet<ApplianceInstance> ApplianceInstances { get; set; }
+        public DbSet<Material> Materials { get; set; }
     }
 }
