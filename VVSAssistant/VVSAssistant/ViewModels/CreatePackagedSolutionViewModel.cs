@@ -62,6 +62,17 @@ namespace VVSAssistant.ViewModels
             }
         }
 
+        private bool _includeSolarStations;
+        public bool IncludeSolarStations
+        {
+            get { return _includeSolarStations; }
+            set
+            {
+                if (SetProperty(ref _includeSolarStations, value))
+                    FilteredCollectionView.Refresh();
+            }
+        }
+
         private bool _includeContainers;
         public bool IncludeContainers
         {
@@ -132,8 +143,8 @@ namespace VVSAssistant.ViewModels
         public RelayCommand RemoveApplianceFromPackagedSolutionCommand { get; }
         public RelayCommand EditApplianceCommand { get; }
         public RelayCommand RemoveApplianceCommand { get; }
-        public RelayCommand NewPackageSolutionCommand { get; }
-        public RelayCommand SaveDialogCommand { get; }
+        public RelayCommand NewPackagedSolutionCommand { get; }
+        public RelayCommand SaveDialog { get; }
         #endregion
 
         #region Collections
@@ -167,19 +178,34 @@ namespace VVSAssistant.ViewModels
 
             RemoveApplianceCommand = new RelayCommand(x =>
             {
-                RemoveAppliance(SelectedAppliance);
+                RemoveApplianceRENAMEMEPLZ(SelectedAppliance);
             }, x => SelectedAppliance != null);
 
-            NewPackageSolutionCommand = new RelayCommand(x =>
+            NewPackagedSolutionCommand = new RelayCommand(x =>
             {
-                AppliancesInSolution.Clear();
-            }, x => PackagedSolution.Appliances.Any());
+                CreateNewPackagedSolution();
+            }, x => AppliancesInSolution.Any());
 
-            SaveDialogCommand = new RelayCommand(x =>
+            SaveDialog = new RelayCommand(x =>
             {
                 RunSaveDialog();
             }, x => AppliancesInSolution.Any());
             #endregion
+        }
+
+        private async void CreateNewPackagedSolution()
+        {
+            if (AppliancesInSolution.Any())
+            {
+                var result = await _dialogCoordinator.ShowMessageAsync(this, "Ny pakkeløsning",
+                                "Hvis du opretter en ny pakkeløsning mister du arbejdet på din nuværende pakkeløsning. Vil du fortsætte?",
+                                MessageDialogStyle.AffirmativeAndNegative);
+                if (result == MessageDialogResult.Negative)
+                    return;
+            }
+
+            PackagedSolution = new PackagedSolution();
+            AppliancesInSolution.Clear();
         }
 
         private void AddApplianceToSolution(Appliance appliance)
@@ -187,7 +213,7 @@ namespace VVSAssistant.ViewModels
             AppliancesInSolution.Add(appliance);
         }
 
-        private async void RemoveAppliance(Appliance appliance)
+        private async void RemoveApplianceRENAMEMEPLZ(Appliance appliance)
         {
             // Check if the appliance is used in any packaged solutions
             var conflictingSolutions = DbContext.PackagedSolutions.Where(s => s.ApplianceInstances.Any(a => a.Appliance.Id == appliance.Id)).ToList();
@@ -297,8 +323,8 @@ namespace VVSAssistant.ViewModels
         
         private void PackageSolutionAppliances_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            NewPackageSolutionCommand.NotifyCanExecuteChanged();
-            SaveDialogCommand.NotifyCanExecuteChanged();
+            NewPackagedSolutionCommand.NotifyCanExecuteChanged();
+            SaveDialog.NotifyCanExecuteChanged();
         }
 
         public override void LoadDataFromDatabase()
@@ -345,6 +371,10 @@ namespace VVSAssistant.ViewModels
                         break;
                     case ApplianceTypes.TemperatureController:
                         if (!IncludeTemperatureControllers)
+                            return false;
+                        break;
+                    case ApplianceTypes.SolarStation:
+                        if (!IncludeSolarStations)
                             return false;
                         break;
                     default:

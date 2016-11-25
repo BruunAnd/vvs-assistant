@@ -162,7 +162,7 @@
 
                 <Button Margin="0 5 0 0"
                         Content="Ny pakkeløsning"
-                        Command="{Binding NewPackageSolutionCommand}"
+                        Command="{Binding NewPackagedSolutionCommand}"
                         />
 
                 <Button Margin="0 5 0 0" 
@@ -176,8 +176,7 @@
         <Grid Grid.Column="1" 
               Grid.Row="2" 
               Background="{StaticResource AccentColorBrush}">
-            <StackPanel Grid.Column="1" 
-                        Grid.Row="2">
+            <StackPanel>
                 <StackPanel.Resources>
                     <Style TargetType="{x:Type TextBlock}">
                         <Setter Property="Margin" 
@@ -201,6 +200,7 @@
                 <CheckBox Content="Kedel" IsChecked="{Binding IncludeBoilers}"/>
                 <CheckBox Content="Temperaturstyring" IsChecked="{Binding IncludeTemperatureControllers}"/>
                 <CheckBox Content="Solfanger" IsChecked="{Binding IncludeSolarPanels}"/>
+                <CheckBox Content="Solstation" IsChecked="{Binding IncludeSolarStations}"/>
                 <CheckBox Content="Beholder" IsChecked="{Binding IncludeContainers}"/>
 
                 <TextBlock TextWrapping="Wrap" 
