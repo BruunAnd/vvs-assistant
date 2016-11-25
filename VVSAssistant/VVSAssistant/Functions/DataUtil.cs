@@ -78,7 +78,7 @@ namespace VVSAssistant.Functions
                     DataParser(line, materials);
                 }
                 reader.Close();
-                //UpdateDatabase(materials);
+                // UpdateDatabase(materials);
                 return true;
             }
 
@@ -99,7 +99,6 @@ namespace VVSAssistant.Functions
                         entity.SpecificationsType = mat.SpecificationsType;
                     }
                 }
-                
                 dcontext.SaveChanges();
                 dcontext.Dispose();
             }
