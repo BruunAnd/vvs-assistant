@@ -44,6 +44,9 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 case PackagedSolutionId.PrimaryBoilerW1Solar:
                     return new PackageStub(BoilerId.EuroPurUnitSolarWater, ContainerId.ClassBHighVolume, 0,
                         SolarPanelId.LogasolSKNWater, 1, 0, 0, 0);
+                case PackagedSolutionId.PrimaryHeatPump6Solars:
+                    return new PackageStub(HeatpumpId.Compress7000, ContainerId.BST50080 ,BoilerId.LoganoSB150,
+                        SolarPanelId.LogasolSKNWater, 6, ContainerId.SW750, TempControlId.CW400);
                 default:
                     return null;
             }
@@ -54,6 +57,6 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         PrimaryBoilerOHeatPump = 1, PrimaryBoilerSame, PrimaryBoilerNulls, WaterHeatingEuroACUSBT1003,
         WaterHeatingEuroACUSBT653, WaterHeatingCondens9000SBT353, WaterHeatingEuroSolarSBT353,
         PrimaryWaterBoilerOSolar, PrimaryWaterBoilerNull, PrimaryBoilerWHeatPump, PirmaryBoilerW3Solar,
-        PrimaryBoilerW1Solar       
+        PrimaryBoilerW1Solar, PrimaryHeatPump6Solars       
     }
 }
