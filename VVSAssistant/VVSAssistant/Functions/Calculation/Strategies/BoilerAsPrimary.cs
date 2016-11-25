@@ -35,11 +35,11 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             _result.SolarHeatContribution = SolarPanels != null && SolarContainerData != null ? 
                                             (III * SolarPanels.Area + IV * (SolarContainerData.Volume/1000)) * 
                                              0.9f * (SolarCollectorData.Efficency/100)*SolarContainerClass 
-                                             : 0;
+                                             : default(float);
             _result.EffectOfSecondaryHeatPump = HeatpumpContribution(HasNonSolarContainer());
             _result.AdjustedContribution = _result.EffectOfSecondaryHeatPump > 0 && _result.SolarHeatContribution > 0
                                            ? AdjustedContribution(_result.EffectOfSecondaryHeatPump, _result.SolarHeatContribution)
-                                           : 0;
+                                           : default(float);
 
             _result.EEI = _result.PrimaryHeatingUnitAFUE + _result.EffectOfTemperatureRegulatorClass
                           - _result.EffectOfSecondaryBoiler + _result.SolarHeatContribution +

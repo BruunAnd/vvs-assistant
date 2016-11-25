@@ -55,6 +55,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         }
         [Test]
         [TestCase(PackagedSolutionId.PrimaryBoilerOHeatPump,3)]
+        [TestCase(PackagedSolutionId.PrimaryBoilerWHeatPump, 3)]
         public void PrimaryBoilerCalculateEEI_CorrectTempContribution(PackagedSolutionId id, float expected)
         {
             var package = new PackageFactory().GetPackage(id);
@@ -65,6 +66,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         }
         [Test]
         [TestCase(PackagedSolutionId.PrimaryBoilerOHeatPump, 1, 0.2f)]
+        [TestCase(PackagedSolutionId.PrimaryBoilerWHeatPump, 1, 0.2f)]
         public void PrimaryBoilerCalculateEEI_CorrectSecondBoilerContribution(PackagedSolutionId id, int boilerId, float expected)
         {
             var package = new PackageFactory().GetPackage(id);
@@ -77,6 +79,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         }
         [Test]
         [TestCase(PackagedSolutionId.PrimaryBoilerOHeatPump,1.69f)]
+        [TestCase(PackagedSolutionId.PrimaryBoilerWHeatPump, 1.69f)]
         public void PrimaryBoilerCalculateEEI_CorrectSolarContribution(PackagedSolutionId id, float expected)
         {
             var package = new PackageFactory().GetPackage(id);

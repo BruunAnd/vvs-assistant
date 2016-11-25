@@ -34,6 +34,10 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                     return new PackageStub(BoilerId.EuroPurACUWater, ContainerId.ClassBHighVolume,0,0);
                 case PackagedSolutionId.PrimaryWaterBoilerNull:
                     return new PackageStub(BoilerId.EuroPurACUWater, 0,0, 0);
+                case PackagedSolutionId.PrimaryBoilerWHeatPump:
+                    return new PackageStub(BoilerId.LoganoSB150, ContainerId.ClassBHighVolume,
+                        BoilerId.Cerapur, SolarPanelId.LogasolSKN,
+                        HeatpumpId.Compress7000, ContainerId.ClassBHighVolume, TempControlId.FB100);
                 default:
                     return null;
             }
@@ -43,6 +47,6 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
     {
         PrimaryBoilerOHeatPump = 1, PrimaryBoilerSame, PrimaryBoilerNulls, WaterHeatingEuroACUSBT1003,
         WaterHeatingEuroACUSBT653, WaterHeatingCondens9000SBT353, WaterHeatingEuroSolarSBT353,
-        PrimaryWaterBoilerOSolar, PrimaryWaterBoilerNull       
+        PrimaryWaterBoilerOSolar, PrimaryWaterBoilerNull, PrimaryBoilerWHeatPump       
     }
 }

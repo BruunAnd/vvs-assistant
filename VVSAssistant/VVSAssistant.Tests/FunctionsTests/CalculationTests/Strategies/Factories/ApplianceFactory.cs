@@ -27,7 +27,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 case BoilerId.Condens9000Water:
                     return new ApplianceStub("Condens9000Water", new HeatingUnitDataSheet()
                     { AFUE = 94, WattUsage = 29, AFUEColdClima = 98.7f, AFUEWarmClima = 88.5f,
-                      WaterHeatingEffiency=82, UseProfile = UseProfileType.XL, Vbu=0},
+                      WaterHeatingEffiency=82, UseProfile = UseProfileType.XL, Vbu=1},
                         ApplianceTypes.HeatPump);
                 case BoilerId.EuroPurUnitSolarWater:
                      return new ApplianceStub("EuroPurUnitSolar", new HeatingUnitDataSheet()
@@ -91,7 +91,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             {
                 case ContainerId.ClassBHighVolume:
                     return new ApplianceStub("SomeContiner", new ContainerDataSheet()
-                        { Volume = 500, Classification = "B", StandingLoss=80 }, ApplianceTypes.Container);
+                        { Volume = 500, Classification = "B",StandingLoss=80}, ApplianceTypes.Container);
                 default:
                     return new Appliance();
             }

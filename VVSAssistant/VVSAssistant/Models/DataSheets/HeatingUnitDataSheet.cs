@@ -14,6 +14,11 @@ namespace VVSAssistant.Models.DataSheets
         /* Boiler data for WaterPrimaryBoiler Calculation */
         public float WaterHeatingEffiency { get; set; }
         public UseProfileType UseProfile { get; set; }
+
+        public float StandingLoss { get; set; }
+        // Norminal volume
+        public float Vnorm { get; set; }
+
         // Ikke sol-relateret beholder volume
         public float Vbu { get; set; }
     }
