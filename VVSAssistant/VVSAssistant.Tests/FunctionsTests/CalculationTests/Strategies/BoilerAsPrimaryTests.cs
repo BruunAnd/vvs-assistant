@@ -120,17 +120,30 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         [TestCase(PackagedSolutionId.PrimaryBoilerOHeatPump,BoilerId.Condens5000, 95f)]
         [TestCase(PackagedSolutionId.PrimaryBoilerWHeatPump, 0, 154)]
         [TestCase(PackagedSolutionId.PrimaryBoilerNulls, 0, 91)]
-        //[TestCase(PackagedSolutionId.PirmaryBoilerW3Solar, 0, 96)]
-        //[TestCase(PackagedSolutionId.PrimaryBoilerW1Solar, 0, 93)]
+        [TestCase(PackagedSolutionId.PirmaryBoilerW3Solar, BoilerId.LoganoSB150, 96)]
+        [TestCase(PackagedSolutionId.PrimaryBoilerW1Solar, BoilerId.LoganoSB150, 93)]
         public void PrimaryBoilerCalculateEEI_CorrecrOverallResult(PackagedSolutionId packId, BoilerId id,float expected)
         {
             var package = new PackageFactory().GetPackage(packId);
             var calculation = new BoilerAsPrimary();
-            package.Appliances.Add(new ApplianceFactory().GetBoiler(id) ?? new Appliance());
+            //package.Appliances.Add(new ApplianceFactory().GetBoiler(id) ?? new Appliance());
+            if (id == BoilerId.LoganoSB150)
+                package.PrimaryHeatingUnit = new ApplianceFactory().GetBoiler(id);
             var result = new EEICalculationResult();
             result = calculation.CalculateEEI(package);
             var EEI = Math.Round(result.EEI);
             Assert.IsTrue(expected <= EEI + 1f && expected >= EEI - 1f);
+        }
+        [Test]
+        [TestCase(PackagedSolutionId.PirmaryBoilerW3Solar, 0, 6.75f)]
+        public void PrimaryBoilerCalculateEEI_CorrecrSolarPanelArea(PackagedSolutionId packId, BoilerId id, float expected)
+        {
+            var package = new PackageFactory().GetPackage(packId);
+            var calculation = new BoilerAsPrimary();
+            var result = new EEICalculationResult();
+            result = calculation.CalculateEEI(package);
+            var area = calculation.SolarPanelArea;
+            Assert.AreEqual(area, expected);
         }
         [Test]
         [TestCase(PackagedSolutionId.PrimaryBoilerOHeatPump,0)]
@@ -143,6 +156,20 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             var lowTemp = result.PackagedSolutionAtColdTemperaturesAFUE;
 
             Assert.IsTrue(expected <= lowTemp + 1f && expected >= lowTemp - 1f);
+        }
+        [Test]
+        [TestCase(PackagedSolutionId.PrimaryBoilerOHeatPump, ContainerId.SM500, 95f)]
+        public void PrimaryBoilerCalculateEEI_CorrecrOverallResultWContainer(PackagedSolutionId packId, ContainerId id, float expected)
+        {
+            var package = new PackageFactory().GetPackage(packId);
+            var calculation = new BoilerAsPrimary();
+            //package.Appliances.Add(new ApplianceFactory().GetBoiler(id) ?? new Appliance());
+            if (id == ContainerId.SM500)
+                package.Appliances.Add(new ApplianceFactory().GetContainer(id));
+            var result = new EEICalculationResult();
+            result = calculation.CalculateEEI(package);
+            var EEI = Math.Round(result.EEI);
+            Assert.IsTrue(expected <= EEI + 1f && expected >= EEI - 1f);
         }
     }
 }

@@ -46,6 +46,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
                           - _result.EffectOfSecondaryBoiler + _result.SolarHeatContribution -
                           _result.EffectOfSecondaryHeatPump - _result.AdjustedContribution;
             _result.PackagedSolutionAtColdTemperaturesAFUE = II != default(float) ? _result.EEI + (50 * II) : 0;
+            _result.EEICharacters = EEICharLabelChooser.EEIChar(ApplianceTypes.Boiler, _result.EEI, 1);
             return _result;
         }
 
@@ -90,6 +91,13 @@ namespace VVSAssistant.Functions.Calculation.Strategies
                     area += (item?.DataSheet as SolarCollectorDataSheet).Area;
                 }
                 return area;
+            }
+        }
+        internal float ContainerVolume
+        {
+            get
+            {
+                return 0;
             }
         }
         internal HeatingUnitDataSheet PrimaryBoiler { get {return _package?.PrimaryHeatingUnit?.

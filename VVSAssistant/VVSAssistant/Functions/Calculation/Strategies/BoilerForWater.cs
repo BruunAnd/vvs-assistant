@@ -45,7 +45,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
 
             result.PackagedSolutionAtColdTemperaturesAFUE = result.EEI - 0.2f * result.SolarHeatContribution;
             result.PackagedSolutionAtWarmTemperaturesAFUE = result.EEI + 0.4f * result.SolarHeatContribution;
-
+            result.EEICharacters = EEICharLabelChooser.EEIChar(ApplianceTypes.Boiler, result.EEI, 1);
             result.CalculationType = this;
 
             return result;
