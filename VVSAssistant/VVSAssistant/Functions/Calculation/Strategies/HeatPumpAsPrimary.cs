@@ -32,15 +32,16 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             IEnumerable<Appliance> TempControllers = PackagedSolution.Appliances.Where(TempControl => TempControl.Type == ApplianceTypes.TemperatureController);
 
            
-            if (TempControllers.Count() > 0)
-            {
-                Results.EffectOfTemperatureRegulatorClass = TemperatureControllerDataSheet.ClassBonus[(TempControllers.FirstOrDefault()?.DataSheet as TemperatureControllerDataSheet).Class];
-            }
-            else if (PrimaryUnit.InternalTempControl != null)
+           
+            if (PrimaryUnit.InternalTempControl != null)
             {
                 Results.EffectOfTemperatureRegulatorClass = TemperatureControllerDataSheet.ClassBonus[PrimaryUnit.InternalTempControl];
             }
-            
+            else if (TempControllers.Count() > 0)
+            {
+                Results.EffectOfTemperatureRegulatorClass = TemperatureControllerDataSheet.ClassBonus[(TempControllers.FirstOrDefault()?.DataSheet as TemperatureControllerDataSheet).Class];
+            }
+
             //finding a solarCollector
             IEnumerable<Appliance> Solars = PackagedSolution.Appliances.Where(Solar => Solar.Type == ApplianceTypes.SolarPanel);
             

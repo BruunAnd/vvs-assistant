@@ -13,8 +13,6 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                     return new ApplianceStub("Cerapur", new HeatingUnitDataSheet()
                             { WattUsage = 20, AFUE = 93, AFUEColdClima = 98.2f, AFUEWarmClima = 87.8f },
                         ApplianceTypes.Boiler);
-                case BoilerId.Condens5000:
-                    return null;
                 case BoilerId.LoganoSB150:
                     return new ApplianceStub("LoganoPlusSB105", new HeatingUnitDataSheet()
                             { AFUE = 91, WattUsage = 18, AFUEColdClima = 99.2f, AFUEWarmClima = 92.5f },
@@ -62,6 +60,12 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 case HeatpumpId.Compress7000:
                     return new ApplianceStub("Compress7000", new HeatingUnitDataSheet()
                     { AFUE=158, AFUEColdClima=164, AFUEWarmClima=151, WattUsage=10}, ApplianceTypes.HeatPump);
+                case HeatpumpId.Vitocal200S:
+                    return new ApplianceStub("Vitocal 200-S", new HeatingUnitDataSheet()
+                    { AFUE = 118, AFUEColdClima = 100, AFUEWarmClima = 183, WattUsage = 9, InternalTempControl = "2" }, ApplianceTypes.HeatPump);
+                case HeatpumpId.Compress5000:
+                    return new ApplianceStub("Vitocal 200-S", new HeatingUnitDataSheet()
+                    { AFUE = 133, AFUEColdClima = 139, AFUEWarmClima = 136, WattUsage = 43, InternalTempControl = "7" }, ApplianceTypes.HeatPump);
                 default:
                     return new Appliance();
             }
@@ -81,6 +85,9 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                     return new ApplianceStub("FKC25", new SolarCollectorDataSheet()
                     { Area = 2.25f,Efficency = 61,Asol = 2.25f,N0 = 0.766f,a1 = 3.22f,
                       a2 = 0.015f,IAM = 0.92f}, ApplianceTypes.SolarPanel);
+                case SolarPanelId.Vitosol300T:
+                    return new ApplianceStub("Vitosol 300-T", new SolarCollectorDataSheet()
+                    { Area = 3.19f, Efficency = 72 }, ApplianceTypes.SolarPanel);
                 default:
                     return new Appliance();
             }
@@ -92,6 +99,18 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 case ContainerId.ClassBHighVolume:
                     return new ApplianceStub("SomeContiner", new ContainerDataSheet()
                         { Volume = 500, Classification = "B",StandingLoss=80}, ApplianceTypes.Container);
+                case ContainerId.BST500:
+                    return new ApplianceStub("BST 500", new ContainerDataSheet()
+                    { Volume = 481, Classification = "C", StandingLoss = 100 }, ApplianceTypes.Container);
+                case ContainerId.SM500:
+                    return new ApplianceStub("SM 500", new ContainerDataSheet()
+                    { Volume = 500, Classification = "B", StandingLoss = 80 }, ApplianceTypes.Container);
+                case ContainerId.Vitocell140E:
+                    return new ApplianceStub("Vitocell 140-E", new ContainerDataSheet()
+                    { Volume = 400, Classification = "B", StandingLoss = 75 }, ApplianceTypes.Container);
+                case ContainerId.Vitocell300B:
+                    return new ApplianceStub("Vitocell 300-B", new ContainerDataSheet()
+                    { Volume = 300, Classification = "C", StandingLoss = 80 }, ApplianceTypes.Container);
                 default:
                     return new Appliance();
             }
@@ -103,6 +122,21 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 case TempControlId.FB100:
                     return new ApplianceStub("FB100", new TemperatureControllerDataSheet()
                         { Class = "5" }, ApplianceTypes.TemperatureController);
+                case TempControlId.CW400:
+                    return new ApplianceStub("CW400", new TemperatureControllerDataSheet()
+                    { Class = "6" }, ApplianceTypes.TemperatureController);
+                default:
+                    return new Appliance();
+            }
+        }
+
+        public Appliance GetCHP(CHPId id)
+        {
+            switch (id)
+            {
+                case CHPId.Vitobloc200:
+                    return new ApplianceStub("Vitobloc 200", new HeatingUnitDataSheet()
+                        { AFUE=140, WattUsage=39}, ApplianceTypes.CHP);
                 default:
                     return new Appliance();
             }
