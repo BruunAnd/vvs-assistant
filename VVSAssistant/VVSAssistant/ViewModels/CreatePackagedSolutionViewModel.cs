@@ -335,13 +335,8 @@ namespace VVSAssistant.ViewModels
         protected override bool Filter(Appliance obj)
         {
             // Filter based on type first
-            if (IncludeBoilers ||
-                IncludeCentralHeatingPlants ||
-                IncludeContainers ||
-                IncludeHeatPumps ||
-                IncludeLowTempHeatPumps ||
-                IncludeSolarPanels ||
-                IncludeTemperatureControllers)
+            if (IncludeBoilers || IncludeCentralHeatingPlants || IncludeContainers || IncludeHeatPumps
+                || IncludeLowTempHeatPumps || IncludeSolarPanels || IncludeTemperatureControllers)
             {
                 switch (obj.Type)
                 {
@@ -395,7 +390,6 @@ namespace VVSAssistant.ViewModels
                  * room heating, or both. */
                 RunAddHeatingUnitDialog(appToAdd);
             }
-
             else if (appToAdd.DataSheet is ContainerDataSheet &&
                 AppliancesInSolution.Any(a => a.DataSheet is SolarCollectorDataSheet))
             {
