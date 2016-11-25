@@ -16,22 +16,22 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 case BoilerId.LoganoSB150:
                     return new ApplianceStub("LoganoPlusSB105", new HeatingUnitDataSheet()
                             { AFUE = 91, WattUsage = 18, AFUEColdClima = 99.2f, AFUEWarmClima = 92.5f },
-                        ApplianceTypes.HeatPump);
+                        ApplianceTypes.Boiler);
                 case BoilerId.EuroPurACUWater:
                     return new ApplianceStub("EuroPurACUWater", new HeatingUnitDataSheet()
                     { AFUE = 91, WattUsage = 18, AFUEColdClima = 96.5f, AFUEWarmClima = 87.7f,
                       WaterHeatingEffiency=82, UseProfile = UseProfileType.XL, Vbu = 0},
-                        ApplianceTypes.HeatPump);
+                        ApplianceTypes.Boiler);
                 case BoilerId.Condens9000Water:
                     return new ApplianceStub("Condens9000Water", new HeatingUnitDataSheet()
                     { AFUE = 94, WattUsage = 29, AFUEColdClima = 98.7f, AFUEWarmClima = 88.5f,
                       WaterHeatingEffiency=82, UseProfile = UseProfileType.XL, Vbu=1},
-                        ApplianceTypes.HeatPump);
+                        ApplianceTypes.Boiler);
                 case BoilerId.EuroPurUnitSolarWater:
                      return new ApplianceStub("EuroPurUnitSolar", new HeatingUnitDataSheet()
                     { AFUE = 92, WattUsage = 13, AFUEColdClima = 98.1f, AFUEWarmClima = 87.8f,
                       WaterHeatingEffiency=85, UseProfile = UseProfileType.XL, Vbu=34},
-                        ApplianceTypes.HeatPump);
+                        ApplianceTypes.Boiler);
                 default:
                     return new Appliance();
             }
@@ -111,6 +111,12 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 case ContainerId.Vitocell300B:
                     return new ApplianceStub("Vitocell 300-B", new ContainerDataSheet()
                     { Volume = 300, Classification = "C", StandingLoss = 80 }, ApplianceTypes.Container);
+                case ContainerId.BST50080:
+                    return new ApplianceStub("BST 500/80", new ContainerDataSheet()
+                    { Volume = 489.3f, Classification = "E", StandingLoss = 163 }, ApplianceTypes.Container);
+                case ContainerId.SW750:
+                    return new ApplianceStub("BST 500/80", new ContainerDataSheet()
+                    { Volume = 741f, Classification = "E", StandingLoss = 179 }, ApplianceTypes.Container);
                 default:
                     return new Appliance();
             }

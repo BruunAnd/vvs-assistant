@@ -27,6 +27,7 @@ namespace VVSAssistant.Functions.Calculation
 
             switch (package.PrimaryHeatingUnit.Type)
             {
+                case ApplianceTypes.CHP:
                 case ApplianceTypes.HeatPump:
                      Calculations.Add(new HeatPumpAsPrimary());
                     break;
