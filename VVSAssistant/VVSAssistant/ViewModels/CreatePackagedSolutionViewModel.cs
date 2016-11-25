@@ -145,6 +145,7 @@ namespace VVSAssistant.ViewModels
         public RelayCommand RemoveApplianceCommand { get; }
         public RelayCommand NewPackagedSolutionCommand { get; }
         public RelayCommand SaveDialog { get; }
+        public RelayCommand CreateNewAppliance { get; }
         #endregion
 
         #region Collections
@@ -190,6 +191,18 @@ namespace VVSAssistant.ViewModels
             {
                 RunSaveDialog();
             }, x => AppliancesInSolution.Any());
+
+            CreateNewAppliance = new RelayCommand(x => { }
+            /* Make a flyout that enables you to make a new appliance. 
+                 * Bind the appliance properties that should be set to the 
+                 * FullDataSeet property in here. When the type has been chosen, 
+                 * notify FullDataSheet, and it will set the visibilities on the
+                 *  proper properties to "visible". When all information has been
+                 *  entered, make a new datasheet that matches the chosen type.
+                 *  Use reflection to go through all property names in the new
+                 *  datasheet, and set their value equal to the property in 
+                 *  FullDataSheet.PropertyWithThatName.Value. */
+            );
             #endregion
         }
 
