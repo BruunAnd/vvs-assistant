@@ -32,15 +32,16 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             IEnumerable<Appliance> TempControllers = PackagedSolution.Appliances.Where(TempControl => TempControl.Type == ApplianceTypes.TemperatureController);
 
            
-            if (TempControllers.Count() > 0)
-            {
-                Results.EffectOfTemperatureRegulatorClass = TemperatureControllerDataSheet.ClassBonus[(TempControllers.FirstOrDefault()?.DataSheet as TemperatureControllerDataSheet).Class];
-            }
-            else if (PrimaryUnit.InternalTempControl != null)
+           
+            if (PrimaryUnit.InternalTempControl != null)
             {
                 Results.EffectOfTemperatureRegulatorClass = TemperatureControllerDataSheet.ClassBonus[PrimaryUnit.InternalTempControl];
             }
-            
+            else if (TempControllers.Count() > 0)
+            {
+                Results.EffectOfTemperatureRegulatorClass = TemperatureControllerDataSheet.ClassBonus[(TempControllers.FirstOrDefault()?.DataSheet as TemperatureControllerDataSheet).Class];
+            }
+
             //finding a solarCollector
             IEnumerable<Appliance> Solars = PackagedSolution.Appliances.Where(Solar => Solar.Type == ApplianceTypes.SolarPanel);
             
@@ -86,7 +87,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
                 Results.SolarHeatContribution = (float)Math.Round((III * Results.SolarCollectorArea + IV * Results.ContainerVolume) * SolarContributionFactor * (Results.SolarCollectorEffectiveness / 100) * Results.ContainerClassification, 2);
             }
             Results.EEI = (float)Math.Round(Results.PrimaryHeatingUnitAFUE + Results.EffectOfTemperatureRegulatorClass - Results.EffectOfSecondaryBoiler + Results.SolarHeatContribution);
-            Results.EEICharacters = EEICharLabelChooser.EEIChar(PackagedSolution.PrimaryHeatingUnit.Type, Results.EEI);
+            Results.EEICharacters = EEICharLabelChooser.EEIChar(PackagedSolution.PrimaryHeatingUnit.Type, Results.EEI, 1);
 
             //Calculating for colder and warmer climates
             if (PackagedSolution.PrimaryHeatingUnit.Type != ApplianceTypes.CHP)

@@ -45,7 +45,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
 
             result.PackagedSolutionAtColdTemperaturesAFUE = result.EEI - 0.2f * result.SolarHeatContribution;
             result.PackagedSolutionAtWarmTemperaturesAFUE = result.EEI + 0.4f * result.SolarHeatContribution;
-
+            result.EEICharacters = EEICharLabelChooser.EEIChar(ApplianceTypes.Boiler, result.EEI, 1);
             result.CalculationType = this;
 
             return result;
@@ -114,9 +114,10 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             return Qnonsol;
         }
         // Calculates the Qnonsol (annual non-solar contribution)
-        /*internal float SolCalMethodQnonsol()
+        internal float SolCalMethodQnonsol2()
         {
             float Qnonsol = 0;
+            float Vsol = PrimaryData.Vnorm > 0 ? PrimaryData.Vnorm - PrimaryData.Vbu: SolarContainerData.Volume;
             // Monthly Qnonsol values, needs to be summed to get the full Qnonsol
             foreach (var keyvalue in MonthlyQnonsol.Keys)
             {
@@ -128,7 +129,6 @@ namespace VVSAssistant.Functions.Calculation.Strategies
                 float Ac = (float)(SolarData.a1 + SolarData.a2 * 40);
                 float Ul = (float)((6 + 0.3f * SolarData.Asol) / SolarData.Asol);
                 
-                float Vsol = SolarContainerData.Volume;
                 float ccap = (float)Math.Pow(75 * SolarData.Asol / Vsol, 0.25f);
 
                 item.Lwh = 30.5f * 0.6f * (_Qref[PrimaryData.UseProfile] + 1.09f);
@@ -143,7 +143,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
                                (float)Math.Pow(item.Y,3))));
                 // Standing loss in W/k
                 float PsbSol = (PrimaryData.StandingLoss/ 45);
-                item.Qbuf = (float)(0.732f * PsbSol * ((PrimaryData.Vnorm - PrimaryData.Vbu) / 
+                item.Qbuf = (float)(0.732f * PsbSol * ((Vsol) / 
                             PrimaryData.Vnorm) * (10 + (50 * LsolW1) / item.Lwh - Ta));
                 float LsolW = LsolW1 - item.Qbuf;
                 item.Qnonsol = (float)((item.Lwh - LsolW + PsbSol * 
@@ -153,7 +153,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             }
 
             return Qnonsol;
-        }*/
+        }
 
         // Solar panel plants and conventional water heaters
         internal float SolicsMethode(WaterHeatingUnitDataSheet data)

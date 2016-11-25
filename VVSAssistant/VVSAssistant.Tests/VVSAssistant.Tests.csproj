@@ -75,6 +75,7 @@
     <Compile Include="FunctionsTests\CalculationTests\Strategies\Factories\ApplianceFactory.cs" />
     <Compile Include="FunctionsTests\CalculationTests\Strategies\Factories\ApplianceStub.cs" />
     <Compile Include="FunctionsTests\CalculationTests\Strategies\Factories\BoilerId.cs" />
+    <Compile Include="FunctionsTests\CalculationTests\Strategies\Factories\CHPId.cs" />
     <Compile Include="FunctionsTests\CalculationTests\Strategies\Factories\ContainerId.cs" />
     <Compile Include="FunctionsTests\CalculationTests\Strategies\Factories\HeatpumpId.cs" />
     <Compile Include="FunctionsTests\CalculationTests\Strategies\Factories\PackageFactory.cs" />

@@ -17,7 +17,7 @@ namespace VVSAssistant.Functions.Calculation
         /// </summary>
         /// <param name="package"></param>
         /// <returns>Calculation strategy</returns>
-        public List<IEEICalculation> SelectCalculationStreategy(PackagedSolution package)
+        public List<IEEICalculation> SelectCalculationStrategy(PackagedSolution package)
         {
 
             List<IEEICalculation> Calculations = new List<IEEICalculation>();
@@ -27,6 +27,7 @@ namespace VVSAssistant.Functions.Calculation
 
             switch (package.PrimaryHeatingUnit.Type)
             {
+                case ApplianceTypes.CHP:
                 case ApplianceTypes.HeatPump:
                      Calculations.Add(new HeatPumpAsPrimary());
                     break;

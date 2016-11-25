@@ -26,14 +26,15 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             if (PrimaryBoiler == null)
                 return null;
             _result.PrimaryHeatingUnitAFUE = PrimaryBoiler.AFUE;
-            
-            _result.EffectOfTemperatureRegulatorClass = TempControlBonus;
+
+            _result.EffectOfTemperatureRegulatorClass = PrimaryBoiler.InternalTempControl == null ? TempControlBonus :
+                                         TemperatureControllerDataSheet.ClassBonus[PrimaryBoiler.InternalTempControl];
             _result.EffectOfSecondaryBoiler = (SecondBoilerData?.AFUE - _result.PrimaryHeatingUnitAFUE) * 0.1f ?? 0;
             III = 294 / (11*PrimaryBoiler.WattUsage);
             IV = 115 / (11 * PrimaryBoiler.WattUsage);
             // Assume only one type of solarpanel pr. package
             _result.SolarHeatContribution = SolarPanels != null && SolarContainerData != null ? 
-                                            (III * SolarPanels.Area + IV * (SolarContainerData.Volume/1000)) * 
+                                            (III * SolarPanelArea + IV * (SolarContainerData.Volume/1000)) * 
                                              0.9f * (SolarCollectorData.Efficency/100)*SolarContainerClass 
                                              : default(float);
             _result.EffectOfSecondaryHeatPump = -HeatpumpContribution(HasNonSolarContainer());
@@ -44,7 +45,8 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             _result.EEI = _result.PrimaryHeatingUnitAFUE + _result.EffectOfTemperatureRegulatorClass
                           - _result.EffectOfSecondaryBoiler + _result.SolarHeatContribution -
                           _result.EffectOfSecondaryHeatPump - _result.AdjustedContribution;
-            _result.PackagedSolutionAtColdTemperaturesAFUE = _result.EEI * (50 * _result.EffectOfSecondaryHeatPump);
+            _result.PackagedSolutionAtColdTemperaturesAFUE = II != default(float) ? _result.EEI + (50 * II) : 0;
+            _result.EEICharacters = EEICharLabelChooser.EEIChar(ApplianceTypes.Boiler, _result.EEI, 1);
             return _result;
         }
 
@@ -78,6 +80,26 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             return (value * 0.5f);
         }
         #region Properties Data Getters
+        internal float SolarPanelArea
+        {
+            get
+            {
+                float area = 0;
+                var panels =_package.Appliances.Where(item => item.Type == ApplianceTypes.SolarPanel);
+                foreach (var item in panels)
+                {
+                    area += (item?.DataSheet as SolarCollectorDataSheet).Area;
+                }
+                return area;
+            }
+        }
+        internal float ContainerVolume
+        {
+            get
+            {
+                return 0;
+            }
+        }
         internal HeatingUnitDataSheet PrimaryBoiler { get {return _package?.PrimaryHeatingUnit?.
                                                       DataSheet as HeatingUnitDataSheet; } }
         internal float TempControlBonus { get { return TemperatureControllerDataSheet.ClassBonus

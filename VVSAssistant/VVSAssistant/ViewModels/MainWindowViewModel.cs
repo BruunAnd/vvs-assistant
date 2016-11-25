@@ -1,4 +1,4 @@
-﻿using System.IO;
+﻿using System.Data.Entity;
 using System.IO.Compression;
 using System.Linq;
 using System.Windows;
@@ -7,6 +7,7 @@ using VVSAssistant.ViewModels.MVVM;
 using MahApps.Metro.Controls.Dialogs;
 using VVSAssistant.Common;
 using VVSAssistant.Common.ViewModels;
+using VVSAssistant.Database;
 using VVSAssistant.Functions;
 
 namespace VVSAssistant.ViewModels
@@ -36,23 +37,6 @@ namespace VVSAssistant.ViewModels
                 var result = dlg.ShowDialog();
                 if (result == true) DataUtil.Database.Export(dlg.FileName);
             }, x => DataUtil.Database.Exists());
-
-            ImportVVSCatalogue = new RelayCommand(x =>
-            {
-                var dlg = new OpenFileDialog {Filter = "VVS katalog (.DAT)|*.DAT"};
-                dlg.FileOk += ValidateVVSCatalogueFile;
-                var result = dlg.ShowDialog();
-                if (result == true) DataUtil.VVSCatalogue.Import(dlg.FileName);
-            });
-        }
-
-        private void ValidateVVSCatalogueFile(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            var dlg = sender as OpenFileDialog;
-            if (DataUtil.VVSCatalogue.ValidateFormat(dlg.FileName)) return;
-            MessageBox.Show("Den valgte .DAT fil er ikke et VVS katalog.", "Ugyldig fil", MessageBoxButton.OK,
-                MessageBoxImage.Error);
-            e.Cancel = true;
         }
 
         private void ValidateDatabaseFile(object sender, System.ComponentModel.CancelEventArgs e)
@@ -62,7 +46,7 @@ namespace VVSAssistant.ViewModels
             using (var archive = ZipFile.OpenRead(dlg.FileName))
             {
                 if (archive.Entries.FirstOrDefault(x => x.Name == DataUtil.Database.Name()) != null) return;
-                MessageBox.Show("Den valgte .zip fil indeholder ikke en gyldig database fil.", "Ugyldig fil", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Den valgte .zip fil indeholder ikke en gyldig database fil.", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
                 e.Cancel = true;
             }
         }
@@ -83,9 +67,6 @@ namespace VVSAssistant.ViewModels
         public RelayCommand ImportVVSCatalogue { get; }
         public RelayCommand ImportSalesCatalogue { get; }
         
-
-
-
         private void OnNav(string destination)
         {
             CurrentViewModel?.CloseDataConnection();
