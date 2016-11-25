@@ -1,4 +1,5 @@
-﻿using System.IO.Compression;
+﻿using System.Data.Entity;
+using System.IO.Compression;
 using System.Linq;
 using System.Windows;
 using Microsoft.Win32;
@@ -6,6 +7,7 @@ using VVSAssistant.ViewModels.MVVM;
 using MahApps.Metro.Controls.Dialogs;
 using VVSAssistant.Common;
 using VVSAssistant.Common.ViewModels;
+using VVSAssistant.Database;
 using VVSAssistant.Functions;
 
 namespace VVSAssistant.ViewModels
@@ -65,9 +67,6 @@ namespace VVSAssistant.ViewModels
         public RelayCommand ImportVVSCatalogue { get; }
         public RelayCommand ImportSalesCatalogue { get; }
         
-
-
-
         private void OnNav(string destination)
         {
             CurrentViewModel?.CloseDataConnection();

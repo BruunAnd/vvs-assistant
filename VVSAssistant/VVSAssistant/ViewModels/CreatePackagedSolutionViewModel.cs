@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Collections.Specialized;
@@ -118,21 +119,21 @@ namespace VVSAssistant.ViewModels
                 if (!SetProperty(ref _selectedAppliance, value)) return;
 
                 // Notify if property was changed
-                AddApplianceToPackagedSolution.NotifyCanExecuteChanged();
-                EditAppliance.NotifyCanExecuteChanged();
-                RemoveAppliance.NotifyCanExecuteChanged();
+                AddApplianceToPackagedSolutionCommand.NotifyCanExecuteChanged();
+                EditApplianceCommand.NotifyCanExecuteChanged();
+                RemoveApplianceCommand.NotifyCanExecuteChanged();
                 OnPropertyChanged();
             }
         }
         #endregion
 
         #region Command initializations
-        public RelayCommand AddApplianceToPackagedSolution { get; }
-        public RelayCommand RemoveApplianceFromPackagedSolution { get; }
-        public RelayCommand EditAppliance { get; }
-        public RelayCommand RemoveAppliance { get; }
-        public RelayCommand NewPackageSolution { get; }
-        public RelayCommand SaveDialog { get; }
+        public RelayCommand AddApplianceToPackagedSolutionCommand { get; }
+        public RelayCommand RemoveApplianceFromPackagedSolutionCommand { get; }
+        public RelayCommand EditApplianceCommand { get; }
+        public RelayCommand RemoveApplianceCommand { get; }
+        public RelayCommand NewPackageSolutionCommand { get; }
+        public RelayCommand SaveDialogCommand { get; }
         #endregion
 
         #region Collections
@@ -148,33 +149,33 @@ namespace VVSAssistant.ViewModels
 
             #region Command declarations
 
-            AddApplianceToPackagedSolution = new RelayCommand(
+            AddApplianceToPackagedSolutionCommand = new RelayCommand(
                 x => HandleAddApplianceToPackagedSolution(SelectedAppliance), 
                 x => SelectedAppliance != null);
 
-            RemoveApplianceFromPackagedSolution = new RelayCommand(x =>
+            RemoveApplianceFromPackagedSolutionCommand = new RelayCommand(x =>
             {
                 if (PackagedSolution.PrimaryHeatingUnit == SelectedAppliance)
                     PackagedSolution.PrimaryHeatingUnit = null;
                 AppliancesInSolution.Remove(SelectedAppliance);
             }, x => SelectedAppliance != null);
 
-            EditAppliance = new RelayCommand(x =>
+            EditApplianceCommand = new RelayCommand(x =>
             {
                 RunEditDialog();
             }, x => SelectedAppliance != null);
 
-            RemoveAppliance = new RelayCommand(x =>
+            RemoveApplianceCommand = new RelayCommand(x =>
             {
-                RemoveApplianceRENAMEMEPLZ(SelectedAppliance);
+                RemoveAppliance(SelectedAppliance);
             }, x => SelectedAppliance != null);
 
-            NewPackageSolution = new RelayCommand(x =>
+            NewPackageSolutionCommand = new RelayCommand(x =>
             {
                 AppliancesInSolution.Clear();
             }, x => PackagedSolution.Appliances.Any());
 
-            SaveDialog = new RelayCommand(x =>
+            SaveDialogCommand = new RelayCommand(x =>
             {
                 RunSaveDialog();
             }, x => AppliancesInSolution.Any());
@@ -186,10 +187,26 @@ namespace VVSAssistant.ViewModels
             AppliancesInSolution.Add(appliance);
         }
 
-        private void RemoveApplianceRENAMEMEPLZ(Appliance appliance)
+        private async void RemoveAppliance(Appliance appliance)
         {
+            // Check if the appliance is used in any packaged solutions
+            var conflictingSolutions = DbContext.PackagedSolutions.Where(s => s.ApplianceInstances.Any(a => a.Appliance.Id == appliance.Id)).ToList();
+            if (conflictingSolutions.Count > 0)
+            {
+                var formattedSolutionString = string.Join("\n", conflictingSolutions.Select(x => $"- {x.Name}"));
+                await _dialogCoordinator.ShowMessageAsync(this, "Fejl",
+                    $"Komponentet kan ikke slettes, da det findes i følgende pakkeløsninger:\n{formattedSolutionString}");
+                return;
+            }
+
+            // Remove from current solution
+            if (AppliancesInSolution.Contains(appliance))
+                AppliancesInSolution.Remove(appliance);
+
+            // Remove from visual list of appliances
             Appliances.Remove(appliance);
 
+            // Remove from database
             DbContext.Appliances.Remove(appliance);
             DbContext.SaveChanges();
         }
@@ -280,8 +297,8 @@ namespace VVSAssistant.ViewModels
         
         private void PackageSolutionAppliances_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            NewPackageSolution.NotifyCanExecuteChanged();
-            SaveDialog.NotifyCanExecuteChanged();
+            NewPackageSolutionCommand.NotifyCanExecuteChanged();
+            SaveDialogCommand.NotifyCanExecuteChanged();
         }
 
         public override void LoadDataFromDatabase()
