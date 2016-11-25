@@ -119,6 +119,9 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         [Test]
         [TestCase(PackagedSolutionId.PrimaryBoilerOHeatPump,BoilerId.Condens5000, 95f)]
         [TestCase(PackagedSolutionId.PrimaryBoilerWHeatPump, 0, 154)]
+        [TestCase(PackagedSolutionId.PrimaryBoilerNulls, 0, 91)]
+        //[TestCase(PackagedSolutionId.PirmaryBoilerW3Solar, 0, 96)]
+        //[TestCase(PackagedSolutionId.PrimaryBoilerW1Solar, 0, 93)]
         public void PrimaryBoilerCalculateEEI_CorrecrOverallResult(PackagedSolutionId packId, BoilerId id,float expected)
         {
             var package = new PackageFactory().GetPackage(packId);
@@ -131,6 +134,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         }
         [Test]
         [TestCase(PackagedSolutionId.PrimaryBoilerOHeatPump,0)]
+        [TestCase(PackagedSolutionId.PrimaryBoilerWHeatPump, 200.3f)]
         public void PrimaryBoilerCalculateEEI_CorrectLowTempEEI(PackagedSolutionId id, float expected)
         {
             var package = new PackageFactory().GetPackage(id);
@@ -138,7 +142,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             var result = calculation.CalculateEEI(package);
             var lowTemp = result.PackagedSolutionAtColdTemperaturesAFUE;
 
-            Assert.IsTrue(expected <= lowTemp + 0.1f && expected <= lowTemp + 0.1f);
+            Assert.IsTrue(expected <= lowTemp + 1f && expected >= lowTemp - 1f);
         }
     }
 }
