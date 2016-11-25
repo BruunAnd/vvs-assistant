@@ -36,7 +36,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                     return new PackageStub(BoilerId.EuroPurACUWater, 0,0, 0);
                 case PackagedSolutionId.PrimaryBoilerWHeatPump:
                     return new PackageStub(BoilerId.LoganoSB150, ContainerId.ClassBHighVolume,
-                        BoilerId.Cerapur, SolarPanelId.LogasolSKN,
+                        0, SolarPanelId.LogasolSKN,
                         HeatpumpId.Compress7000, ContainerId.ClassBHighVolume, TempControlId.FB100);
                 default:
                     return null;

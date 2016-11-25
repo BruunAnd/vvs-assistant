@@ -36,13 +36,13 @@ namespace VVSAssistant.Functions.Calculation.Strategies
                                             (III * SolarPanels.Area + IV * (SolarContainerData.Volume/1000)) * 
                                              0.9f * (SolarCollectorData.Efficency/100)*SolarContainerClass 
                                              : default(float);
-            _result.EffectOfSecondaryHeatPump = HeatpumpContribution(HasNonSolarContainer());
-            _result.AdjustedContribution = _result.EffectOfSecondaryHeatPump > 0 && _result.SolarHeatContribution > 0
+            _result.EffectOfSecondaryHeatPump = -HeatpumpContribution(HasNonSolarContainer());
+            _result.AdjustedContribution = _result.EffectOfSecondaryHeatPump != 0 && _result.SolarHeatContribution != 0
                                            ? AdjustedContribution(_result.EffectOfSecondaryHeatPump, _result.SolarHeatContribution)
                                            : default(float);
 
             _result.EEI = _result.PrimaryHeatingUnitAFUE + _result.EffectOfTemperatureRegulatorClass
-                          - _result.EffectOfSecondaryBoiler + _result.SolarHeatContribution +
+                          - _result.EffectOfSecondaryBoiler + _result.SolarHeatContribution -
                           _result.EffectOfSecondaryHeatPump - _result.AdjustedContribution;
             _result.PackagedSolutionAtColdTemperaturesAFUE = _result.EEI * (50 * _result.EffectOfSecondaryHeatPump);
             return _result;
@@ -74,7 +74,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
         }
         private float AdjustedContribution(float heatpumpContribution, float solarContribution)
         {
-            float value = heatpumpContribution > 0 ? heatpumpContribution : solarContribution;
+            float value = -heatpumpContribution > solarContribution ? solarContribution : heatpumpContribution;
             return (value * 0.5f);
         }
         #region Properties Data Getters
