@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Collections.Specialized;
@@ -61,6 +62,17 @@ namespace VVSAssistant.ViewModels
             }
         }
 
+        private bool _includeSolarStations;
+        public bool IncludeSolarStations
+        {
+            get { return _includeSolarStations; }
+            set
+            {
+                if (SetProperty(ref _includeSolarStations, value))
+                    FilteredCollectionView.Refresh();
+            }
+        }
+
         private bool _includeContainers;
         public bool IncludeContainers
         {
@@ -118,21 +130,22 @@ namespace VVSAssistant.ViewModels
                 if (!SetProperty(ref _selectedAppliance, value)) return;
 
                 // Notify if property was changed
-                AddApplianceToPackagedSolution.NotifyCanExecuteChanged();
-                EditAppliance.NotifyCanExecuteChanged();
-                RemoveAppliance.NotifyCanExecuteChanged();
+                AddApplianceToPackagedSolutionCommand.NotifyCanExecuteChanged();
+                EditApplianceCommand.NotifyCanExecuteChanged();
+                RemoveApplianceCommand.NotifyCanExecuteChanged();
                 OnPropertyChanged();
             }
         }
         #endregion
 
         #region Command initializations
-        public RelayCommand AddApplianceToPackagedSolution { get; }
-        public RelayCommand RemoveApplianceFromPackagedSolution { get; }
-        public RelayCommand EditAppliance { get; }
-        public RelayCommand RemoveAppliance { get; }
-        public RelayCommand NewPackageSolution { get; }
+        public RelayCommand AddApplianceToPackagedSolutionCommand { get; }
+        public RelayCommand RemoveApplianceFromPackagedSolutionCommand { get; }
+        public RelayCommand EditApplianceCommand { get; }
+        public RelayCommand RemoveApplianceCommand { get; }
+        public RelayCommand NewPackagedSolutionCommand { get; }
         public RelayCommand SaveDialog { get; }
+        public RelayCommand CreateNewAppliance { get; }
         #endregion
 
         #region Collections
@@ -148,37 +161,64 @@ namespace VVSAssistant.ViewModels
 
             #region Command declarations
 
-            AddApplianceToPackagedSolution = new RelayCommand(
+            AddApplianceToPackagedSolutionCommand = new RelayCommand(
                 x => HandleAddApplianceToPackagedSolution(SelectedAppliance), 
                 x => SelectedAppliance != null);
 
-            RemoveApplianceFromPackagedSolution = new RelayCommand(x =>
+            RemoveApplianceFromPackagedSolutionCommand = new RelayCommand(x =>
             {
                 if (PackagedSolution.PrimaryHeatingUnit == SelectedAppliance)
                     PackagedSolution.PrimaryHeatingUnit = null;
                 AppliancesInSolution.Remove(SelectedAppliance);
             }, x => SelectedAppliance != null);
 
-            EditAppliance = new RelayCommand(x =>
+            EditApplianceCommand = new RelayCommand(x =>
             {
                 RunEditDialog();
             }, x => SelectedAppliance != null);
 
-            RemoveAppliance = new RelayCommand(x =>
+            RemoveApplianceCommand = new RelayCommand(x =>
             {
                 RemoveApplianceRENAMEMEPLZ(SelectedAppliance);
             }, x => SelectedAppliance != null);
 
-            NewPackageSolution = new RelayCommand(x =>
+            NewPackagedSolutionCommand = new RelayCommand(x =>
             {
-                AppliancesInSolution.Clear();
-            }, x => PackagedSolution.Appliances.Any());
+                CreateNewPackagedSolution();
+            }, x => AppliancesInSolution.Any());
 
             SaveDialog = new RelayCommand(x =>
             {
                 RunSaveDialog();
             }, x => AppliancesInSolution.Any());
+
+            CreateNewAppliance = new RelayCommand(x => { }
+            /* Make a dialog that enables you to make a new appliance. 
+                 * Bind the appliance properties that should be set to the 
+                 * FullDataSeet property in here. When the type has been chosen, 
+                 * notify FullDataSheet, and it will set the visibilities on the
+                 *  proper properties to "visible". When all information has been
+                 *  entered, make a new datasheet that matches the chosen type.
+                 *  Use reflection to go through all property names in the new
+                 *  datasheet, and set their value equal to the property in 
+                 *  FullDataSheet.PropertyWithThatName.Value. */
+            );
             #endregion
+        }
+
+        private async void CreateNewPackagedSolution()
+        {
+            if (AppliancesInSolution.Any())
+            {
+                var result = await _dialogCoordinator.ShowMessageAsync(this, "Ny pakkeløsning",
+                                "Hvis du opretter en ny pakkeløsning mister du arbejdet på din nuværende pakkeløsning. Vil du fortsætte?",
+                                MessageDialogStyle.AffirmativeAndNegative);
+                if (result == MessageDialogResult.Negative)
+                    return;
+            }
+
+            PackagedSolution = new PackagedSolution();
+            AppliancesInSolution.Clear();
         }
 
         private void AddApplianceToSolution(Appliance appliance)
@@ -186,10 +226,26 @@ namespace VVSAssistant.ViewModels
             AppliancesInSolution.Add(appliance);
         }
 
-        private void RemoveApplianceRENAMEMEPLZ(Appliance appliance)
+        private async void RemoveApplianceRENAMEMEPLZ(Appliance appliance)
         {
+            // Check if the appliance is used in any packaged solutions
+            var conflictingSolutions = DbContext.PackagedSolutions.Where(s => s.ApplianceInstances.Any(a => a.Appliance.Id == appliance.Id)).ToList();
+            if (conflictingSolutions.Count > 0)
+            {
+                var formattedSolutionString = string.Join("\n", conflictingSolutions.Select(x => $"- {x.Name}"));
+                await _dialogCoordinator.ShowMessageAsync(this, "Fejl",
+                    $"Komponentet kan ikke slettes, da det findes i følgende pakkeløsninger:\n{formattedSolutionString}");
+                return;
+            }
+
+            // Remove from current solution
+            if (AppliancesInSolution.Contains(appliance))
+                AppliancesInSolution.Remove(appliance);
+
+            // Remove from visual list of appliances
             Appliances.Remove(appliance);
 
+            // Remove from database
             DbContext.Appliances.Remove(appliance);
             DbContext.SaveChanges();
         }
@@ -280,7 +336,7 @@ namespace VVSAssistant.ViewModels
         
         private void PackageSolutionAppliances_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            NewPackageSolution.NotifyCanExecuteChanged();
+            NewPackagedSolutionCommand.NotifyCanExecuteChanged();
             SaveDialog.NotifyCanExecuteChanged();
         }
 
@@ -292,13 +348,8 @@ namespace VVSAssistant.ViewModels
         protected override bool Filter(Appliance obj)
         {
             // Filter based on type first
-            if (IncludeBoilers ||
-                IncludeCentralHeatingPlants ||
-                IncludeContainers ||
-                IncludeHeatPumps ||
-                IncludeLowTempHeatPumps ||
-                IncludeSolarPanels ||
-                IncludeTemperatureControllers)
+            if (IncludeBoilers || IncludeCentralHeatingPlants || IncludeContainers || IncludeHeatPumps
+                || IncludeLowTempHeatPumps || IncludeSolarPanels || IncludeTemperatureControllers)
             {
                 switch (obj.Type)
                 {
@@ -330,6 +381,10 @@ namespace VVSAssistant.ViewModels
                         if (!IncludeTemperatureControllers)
                             return false;
                         break;
+                    case ApplianceTypes.SolarStation:
+                        if (!IncludeSolarStations)
+                            return false;
+                        break;
                     default:
                         return false;
                 }
@@ -348,7 +403,6 @@ namespace VVSAssistant.ViewModels
                  * room heating, or both. */
                 RunAddHeatingUnitDialog(appToAdd);
             }
-
             else if (appToAdd.DataSheet is ContainerDataSheet &&
                 AppliancesInSolution.Any(a => a.DataSheet is SolarCollectorDataSheet))
             {
