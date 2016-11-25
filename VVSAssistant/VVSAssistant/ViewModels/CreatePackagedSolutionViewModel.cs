@@ -193,7 +193,7 @@ namespace VVSAssistant.ViewModels
             }, x => AppliancesInSolution.Any());
 
             CreateNewAppliance = new RelayCommand(x => { }
-            /* Make a flyout that enables you to make a new appliance. 
+            /* Make a dialog that enables you to make a new appliance. 
                  * Bind the appliance properties that should be set to the 
                  * FullDataSeet property in here. When the type has been chosen, 
                  * notify FullDataSheet, and it will set the visibilities on the
