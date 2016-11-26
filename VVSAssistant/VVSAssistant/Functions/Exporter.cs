@@ -14,7 +14,6 @@ namespace VVSAssistant.Functions
         {
 
         }
-
         public void ExportEnergyLabel()
         {
 

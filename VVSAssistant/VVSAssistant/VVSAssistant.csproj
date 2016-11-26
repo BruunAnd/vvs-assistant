@@ -65,6 +65,18 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="EntityFramework.BulkInsert, Version=6.0.2.8, Culture=neutral, PublicKeyToken=630a17433349cb76, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.BulkInsert-ef6.6.0.2.8\lib\Net45\EntityFramework.BulkInsert.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.BulkInsert.SqlServerCe, Version=6.0.1.0, Culture=neutral, PublicKeyToken=630a17433349cb76, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.BulkInsert.SqlServerCe.6.0.2\lib\net45\EntityFramework.BulkInsert.SqlServerCe.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.MappingAPI, Version=6.1.0.9, Culture=neutral, PublicKeyToken=7ee2e825d201459e, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.MappingAPI.6.1.0.9\lib\net45\EntityFramework.MappingAPI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
@@ -141,11 +153,15 @@
     <Compile Include="Common\NotifyPropertyChanged.cs" />
     <Compile Include="Common\ViewModels\FilterableViewModelBase.cs" />
     <Compile Include="Controls\Dialogs\ViewModels\AddHeatingUnitDialogViewModel.cs" />
+    <Compile Include="Controls\Dialogs\ViewModels\CreateApplianceDialogViewModel.cs" />
     <Compile Include="Controls\Dialogs\ViewModels\EditApplianceViewModel.cs" />
     <Compile Include="Controls\Dialogs\ViewModels\GenerateOfferDialogViewModel.cs" />
     <Compile Include="Controls\Dialogs\ViewModels\SolarContainerDialogViewModel.cs" />
     <Compile Include="Controls\Dialogs\Views\AddHeatingUnitDialogView.xaml.cs">
       <DependentUpon>AddHeatingUnitDialogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Dialogs\Views\CreateApplianceDialogView.xaml.cs">
+      <DependentUpon>CreateApplianceDialogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Dialogs\Views\EditApplianceView.xaml.cs">
       <DependentUpon>EditApplianceView.xaml</DependentUpon>
@@ -220,6 +236,10 @@
     <Page Include="Controls\Dialogs\Views\AddHeatingUnitDialogView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Dialogs\Views\CreateApplianceDialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Dialogs\Views\EditApplianceView.xaml">
       <SubType>Designer</SubType>

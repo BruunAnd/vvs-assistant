@@ -60,8 +60,7 @@
                     VerticalAlignment="Center" 
                     HorizontalAlignment="Right"
                     Content="Opret komponent"
-                    Command="{Binding AddApplianceToPackagedSolutionCommand}"
-                    CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"/>
+                    Command="{Binding CreateNewAppliance}"/>
         </Grid>
 
         <Grid Grid.Column="3" Grid.Row="2">
@@ -80,7 +79,7 @@
             <DataGrid Name="AppliancesDataGrid" Grid.Column="0"
                       Grid.Row="1" 
                       AutoGenerateColumns="False" 
-                      ItemsSource="{Binding FilteredCollectionView}"
+                      ItemsSource="{Binding FilteredCollectionView, UpdateSourceTrigger=PropertyChanged}"
                       SelectedItem="{Binding SelectedAppliance}"
                       SelectionMode="Single">
 

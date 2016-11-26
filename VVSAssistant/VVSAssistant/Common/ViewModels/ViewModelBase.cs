@@ -9,7 +9,7 @@ namespace VVSAssistant.Common.ViewModels
 {
     public abstract class ViewModelBase : NotifyPropertyChanged, IDataErrorInfo
     {
-        public AssistantContext DbContext { get; set; }
+        public AssistantContext DbContext { get; private set; }
         public string this[string propName] => ValidateProperty(propName);
 
         public void OpenDataConnection()

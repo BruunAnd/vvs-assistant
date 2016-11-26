@@ -33,8 +33,8 @@ namespace VVSAssistant.Database
             modelBuilder.Entity<Material>().ToTable("Materials");
 
             // Map Offer
-            modelBuilder.Entity<Offer>().HasMany(o => o.Materials).WithRequired();
-            modelBuilder.Entity<Offer>().HasMany(o => o.Salaries).WithRequired();
+            modelBuilder.Entity<Offer>().HasMany(o => o.Materials).WithOptional();
+            modelBuilder.Entity<Offer>().HasMany(o => o.Salaries).WithOptional();
         }
 
         public DbSet<Client> Clients { get; set; }
@@ -46,5 +46,6 @@ namespace VVSAssistant.Database
         public DbSet<UnitPrice> UnitPrices { get; set; }
         public DbSet<DataSheet> DataSheets { get; set; }
         public DbSet<ApplianceInstance> ApplianceInstances { get; set; }
+        public DbSet<Material> Materials { get; set; }
     }
 }

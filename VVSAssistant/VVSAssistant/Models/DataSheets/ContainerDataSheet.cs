@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace VVSAssistant.Models.DataSheets
 {
-    [DisplayName(@"Beholder, datablad")]
+    [DisplayName(@"Datablad for beholder")]
     class ContainerDataSheet : DataSheet
     {
         [NotMapped]
@@ -21,7 +21,16 @@ namespace VVSAssistant.Models.DataSheets
         public float Volume { get; set; }
         [DisplayName(@"Klassificering")]
         public string Classification { get; set; }
-        [DisplayName(@"Stående tab (lel)")]
+        [DisplayName(@"Stilstandstab")]
         public float StandingLoss { get; set; }
+        public bool isWaterContainer { get; set; }
+        public bool isBufferContainer { get; set; }
+        public bool isBivalent { get; set; }
+        public bool isMonovalent { get; set; }
+
+        public override string ToString()
+        {
+            return $"Beholder: Volume: {Volume} m^3, energiklasse: {Classification}, stilstandstab: {StandingLoss}";
+        }
     }
 }
