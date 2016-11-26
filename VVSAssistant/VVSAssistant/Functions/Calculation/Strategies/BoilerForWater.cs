@@ -71,6 +71,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
                    (SolarStation.SolStandbyConsumption * 24 * 365)) / 1000);
             return Qaux;
         }
+        // Calculates the Qnonsol (annual non-solar contribution)
         internal float SolCalMethodQnonsol()
         {
             float Qnonsol = 0;
@@ -87,7 +88,8 @@ namespace VVSAssistant.Functions.Calculation.Strategies
                 float Ac = (float)(SolarData.a1 + SolarData.a2 * 40);
                 float Ul = (float)((6 + 0.3f * SolarData.Asol) / SolarData.Asol);
 
-                float Vsol = SolarContainerData.Volume - PrimaryData.Vbu;
+                //float Vsol = SolarContainerData.Volume - PrimaryData.Vbu;
+                float Vsol = SolarContainerData.Volume * (1 - 1 * (PrimaryData.Vbu / SolarContainerData.Volume));
                 float ccap = (float)Math.Pow(75 * SolarData.Asol / Vsol, 0.25f);
 
                 item.Lwh = 30.5f * 0.6f * (_Qref[PrimaryData.UseProfile] + 1.09f);
@@ -107,47 +109,6 @@ namespace VVSAssistant.Functions.Calculation.Strategies
                 float LsolW = LsolW1 - item.Qbuf;
                 item.Qnonsol = (float)((item.Lwh - LsolW + PsbSol *
                                (PrimaryData.Vbu / SolarContainerData.Volume) * (60 - Ta) * 0.732f));
-
-                Qnonsol += item.Qnonsol;
-            }
-
-            return Qnonsol;
-        }
-        // Calculates the Qnonsol (annual non-solar contribution)
-        internal float SolCalMethodQnonsol2()
-        {
-            float Qnonsol = 0;
-            float Vsol = PrimaryData.Vnorm > 0 ? PrimaryData.Vnorm - PrimaryData.Vbu: SolarContainerData.Volume;
-            // Monthly Qnonsol values, needs to be summed to get the full Qnonsol
-            foreach (var keyvalue in MonthlyQnonsol.Keys)
-            {
-                var item = MonthlyQnonsol[keyvalue];
-                // Averge temp surrounding the heat store, 20 if inside and Tout if outside
-                float Ta = 20;
-                
-                float etaloop = (float)((1 - ((SolarData.N0 * SolarData.a1) / 100)));
-                float Ac = (float)(SolarData.a1 + SolarData.a2 * 40);
-                float Ul = (float)((6 + 0.3f * SolarData.Asol) / SolarData.Asol);
-                
-                float ccap = (float)Math.Pow(75 * SolarData.Asol / Vsol, 0.25f);
-
-                item.Lwh = 30.5f * 0.6f * (_Qref[PrimaryData.UseProfile] + 1.09f);
-                item.Y = SolarData.Asol * SolarData.IAM * SolarData.N0 * etaloop * item.Qsol * (0.732f/item.Lwh);
-                item.Trefw = 11.6f + 1.18f * 40 + 3.86f * 10 - 1.32f * item.Tout;
-                item.X = SolarData.Asol * (Ac + Ul) * etaloop * (item.Trefw - item.Tout) * 
-                         ccap * 0.732f / item.Lwh;
-
-                float LsolW1 = (float)((item.Lwh * (1.029f*item.Y - 0.065f*item.X - 0.245f*
-                               (float)Math.Pow(item.Y, 2) + 0.0018f * 
-                               (float)Math.Pow(item.X,2)+0.0215f*
-                               (float)Math.Pow(item.Y,3))));
-                // Standing loss in W/k
-                float PsbSol = (PrimaryData.StandingLoss/ 45);
-                item.Qbuf = (float)(0.732f * PsbSol * ((Vsol) / 
-                            PrimaryData.Vnorm) * (10 + (50 * LsolW1) / item.Lwh - Ta));
-                float LsolW = LsolW1 - item.Qbuf;
-                item.Qnonsol = (float)((item.Lwh - LsolW + PsbSol * 
-                               (PrimaryData.Vbu / PrimaryData.Vnorm) * (60 - Ta) * 0.732f));         
 
                 Qnonsol += item.Qnonsol;
             }
