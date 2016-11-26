@@ -33,6 +33,11 @@ namespace VVSAssistant.Models.DataSheets
         // Ikke sol-relateret beholder volume
         [DisplayName(@"Ikke-solrelateret beholdervolumen")]
         public float Vbu { get; set; }
+
+        public override string ToString()
+        {
+            return $"Varmeenhed: AFUE: {AFUE}, Wattforbrug: {WattUsage}, eff. ved vandopvarmning: {WaterHeatingEffiency}, forbrugsprofil: {UseProfile}";
+        }
     }
     public enum UseProfileType
     {
