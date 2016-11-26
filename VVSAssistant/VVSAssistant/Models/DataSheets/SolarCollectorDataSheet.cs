@@ -28,5 +28,7 @@ namespace VVSAssistant.Models.DataSheets
         // Incidence Angle Modifier 
         [DisplayName(@"Indfaldsvinkel korrektionsfaktor")]
         public float IAM { get; set; }
+        public bool isRoomHeater { get; set; }
+        public bool isWaterHeater { get; set; }
     }
 }

@@ -34,6 +34,10 @@ namespace VVSAssistant.Models.DataSheets
         [DisplayName(@"Ikke-solrelateret beholdervolumen")]
         public float Vbu { get; set; }
 
+        //TODO: Maybe find some better names for these two
+        public bool isRoomHeater { get; set; }
+        public bool isWaterHeater { get; set; }
+
         public override string ToString()
         {
             return $"Varmeenhed: AFUE: {AFUE}, Wattforbrug: {WattUsage}, eff. ved vandopvarmning: {WaterHeatingEffiency}, forbrugsprofil: {UseProfile}";

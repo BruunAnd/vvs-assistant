@@ -23,6 +23,10 @@ namespace VVSAssistant.Models.DataSheets
         public string Classification { get; set; }
         [DisplayName(@"Stilstandstab")]
         public float StandingLoss { get; set; }
+        public bool isWaterContainer { get; set; }
+        public bool isBufferContainer { get; set; }
+        public bool isBivalent { get; set; }
+        public bool isMonovalent { get; set; }
 
         public override string ToString()
         {
