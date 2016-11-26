@@ -44,26 +44,29 @@
                            MinHeight="150"/>
         <StackPanel Grid.Row="4" 
                     Visibility="{Binding IsHeatingOrSolar, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolToVisibilityConverter}}">
-            <Label Content="Specificér brug (kan godt være begge dele):"/>
+            <Label Content="Specificér brug (kan godt være begge dele):" FontWeight="Bold"/>
             <CheckBox Content="Rumopvarmning"
-                      IsChecked="{Binding NewAppliance.DataSheet.isRoomHeater}" />
+                      IsChecked="{Binding NewAppliance.DataSheet.isRoomHeater}"
+                      Margin="0 0 0 10"/>
             <CheckBox Content="Vandopvarmning"
                       IsChecked="{Binding NewAppliance.DataSheet.isWaterHeater}"/>
         </StackPanel>
 
         <StackPanel Grid.Row="4" 
                     Visibility="{Binding IsContainer, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolToVisibilityConverter}}">
-            <Label Content="Specificér brug:"/>
+            <Label Content="Specificér brug:" FontWeight="Bold"/>
             <RadioButton Content="Varmtvandsbeholder"
-                         IsChecked="{Binding IsWaterContainer}" />
+                         IsChecked="{Binding IsWaterContainer}"
+                         Margin="0 0 0 10"/>
             <RadioButton Content="BufferBeholder"
                          IsChecked="{Binding NewAppliance.DataSheet.isBufferContainer}"/>
         </StackPanel>
         <StackPanel Grid.Row="5" 
                     Visibility="{Binding IsWaterContainer, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolToVisibilityConverter}}">
-            <Label Content="Specificér type af varmtvandsbeholder:"/>
+            <Label Content="Specificér type af varmtvandsbeholder:" FontWeight="Bold"/>
             <RadioButton Content="Monovalent"
-                         IsChecked="{Binding NewAppliance.DataSheet.isMonovalent}" />
+                         IsChecked="{Binding NewAppliance.DataSheet.isMonovalent}"
+                         Margin="0 0 0 10"/>
             <RadioButton Content="Bivalent"
                          IsChecked="{Binding NewAppliance.DataSheet.isBivalent}"/>
         </StackPanel>
