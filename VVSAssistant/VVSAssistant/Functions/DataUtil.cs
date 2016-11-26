@@ -8,6 +8,7 @@ using System.Data.Entity.Migrations;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
+using EntityFramework.BulkInsert.Extensions;
 using VVSAssistant.Database;
 using VVSAssistant.Models;
 
@@ -78,19 +79,23 @@ namespace VVSAssistant.Functions
                     DataParser(line, materials);
                 }
                 reader.Close();
-                // UpdateDatabase(materials);
+                UpdateDatabase(materials);
                 return true;
             }
 
             private static void UpdateDatabase(List<Material> materials)
             {
                 var dcontext = new AssistantContext();
+                // We don't want to query the database for each new material, so we create a local copy of the list
+                var existingMaterials = dcontext.Materials.ToList();
+                // We want to bulk insert, so we make a list of new materials to be added
+                var newMaterials = new List<Material>();
                 foreach (var mat in materials)
                 {
-                    var entity = dcontext.Materials.FirstOrDefault(x => x.VvsNumber.Equals(mat.VvsNumber));
+                    var entity = existingMaterials.FirstOrDefault(x => x.VvsNumber != null && x.VvsNumber.Equals(mat.VvsNumber));
                     if (entity == null)
                     {
-                        dcontext.Materials.Add(mat);
+                        newMaterials.Add(mat);
                     }
                     else
                     {
@@ -99,6 +104,9 @@ namespace VVSAssistant.Functions
                         entity.SpecificationsType = mat.SpecificationsType;
                     }
                 }
+
+                // Make bulk insert
+                dcontext.BulkInsert(newMaterials);
                 dcontext.SaveChanges();
                 dcontext.Dispose();
             }
