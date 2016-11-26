@@ -35,6 +35,39 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             set { _newAppliance = value; OnPropertyChanged(); }
         }
 
+        private bool isHeatingOrSolar = false;
+        public bool IsHeatingOrSolar
+        {
+            get { return isHeatingOrSolar; }
+            set { isHeatingOrSolar = value; OnPropertyChanged(); }
+        }
+
+        private bool isContainer = false;
+        public bool IsContainer
+        {
+            get { return isContainer; }
+            set { isContainer = value; OnPropertyChanged(); }
+        }
+
+        public bool IsWaterContainer
+        {
+            get
+            {
+                if (NewAppliance.DataSheet != null)
+                    return (NewAppliance.DataSheet as ContainerDataSheet).isWaterContainer;
+                else
+                    return false;
+            }
+            set
+            {
+                if (NewAppliance.DataSheet != null)
+                {
+                    (NewAppliance.DataSheet as ContainerDataSheet).isWaterContainer = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public void OnTypeChosen()
         {
             switch (ChosenType)
@@ -42,26 +75,32 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
                 case "Varmepumpe":
                     _newAppliance.Type = ApplianceTypes.HeatPump;
                     _newAppliance.DataSheet = new HeatingUnitDataSheet();
+                    IsHeatingOrSolar = true;
                     break;
                 case "Lavtemperatursvarmepumpe":
                     _newAppliance.Type = ApplianceTypes.LowTempHeatPump;
                     _newAppliance.DataSheet = new HeatingUnitDataSheet();
+                    IsHeatingOrSolar = true;
                     break;
                 case "Kraftvarmeanlæg":
                     _newAppliance.Type = ApplianceTypes.CHP;
                     _newAppliance.DataSheet = new HeatingUnitDataSheet();
+                    IsHeatingOrSolar = true;
                     break;
                 case "Kedel":
                     _newAppliance.Type = ApplianceTypes.Boiler;
                     _newAppliance.DataSheet = new HeatingUnitDataSheet();
+                    IsHeatingOrSolar = true;
                     break;
                 case "Beholder":
                     _newAppliance.Type = ApplianceTypes.Container;
                     _newAppliance.DataSheet = new ContainerDataSheet();
+                    IsContainer = true;
                     break;
                 case "Solpanel":
                     _newAppliance.Type = ApplianceTypes.SolarPanel;
                     _newAppliance.DataSheet = new SolarCollectorDataSheet();
+                    IsHeatingOrSolar = true;
                     break;
                 case "Solstation":
                     _newAppliance.Type = ApplianceTypes.SolarStation;

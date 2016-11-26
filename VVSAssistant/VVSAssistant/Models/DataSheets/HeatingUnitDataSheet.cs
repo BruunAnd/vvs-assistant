@@ -35,7 +35,10 @@ namespace VVSAssistant.Models.DataSheets
         public float Vbu { get; set; }
 
         //TODO: Maybe find some better names for these two
+        //TODO: Make example text appear in the text boxes when creating a new appliance so the user won't enter invalid info.
+        [Browsable(false)]
         public bool isRoomHeater { get; set; }
+        [Browsable(false)]
         public bool isWaterHeater { get; set; }
 
         public override string ToString()
