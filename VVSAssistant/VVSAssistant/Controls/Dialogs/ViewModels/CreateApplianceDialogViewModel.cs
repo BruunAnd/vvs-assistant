@@ -6,10 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VVSAssistant.Common;
+using VVSAssistant.Common.ViewModels;
 using VVSAssistant.Models;
 using VVSAssistant.Models.DataSheets;
 using VVSAssistant.ViewModels;
-using VVSAssistant.ViewModels.MVVM;
 using VVSAssistant.Events;
 
 namespace VVSAssistant.Controls.Dialogs.ViewModels

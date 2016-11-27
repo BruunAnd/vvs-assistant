@@ -34,7 +34,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             IV = 115 / (11 * PrimaryBoiler.WattUsage);
             // Assume only one type of solarpanel pr. package
             _result.SolarHeatContribution = SolarPanels != null && SolarContainerData != null ? 
-                                            (III * SolarPanelArea + IV * (SolarContainerData.Volume/1000)) * 
+                                            (III * SolarPanelArea + IV * (SolarContainerVolume/1000)) * 
                                              0.9f * (SolarCollectorData.Efficency/100)*SolarContainerClass 
                                              : default(float);
             _result.EffectOfSecondaryHeatPump = -HeatpumpContribution(HasNonSolarContainer());
@@ -71,7 +71,25 @@ namespace VVSAssistant.Functions.Calculation.Strategies
         }
         private bool HasNonSolarContainer()
         {
-            return _package?.SolarContainers.Count > 0;
+            var containers = _package.Appliances.Where(item => item.Type == ApplianceTypes.Container);
+            var solarContainers = _package.SolarContainers;
+            foreach (var item in containers)
+            {
+                bool ans = false;
+                foreach (var solar in solarContainers)
+                {
+                    if (item != solar)
+                        ans = true;
+                    else
+                    {
+                        ans = false;
+                        break;
+                    }
+                }
+                if (ans)
+                    return true;
+            }
+            return false;
         }
         private float AdjustedContribution(float heatpumpContribution, float solarContribution)
         {
@@ -83,20 +101,34 @@ namespace VVSAssistant.Functions.Calculation.Strategies
         {
             get
             {
-                float area = 0;
-                var panels =_package.Appliances.Where(item => item.Type == ApplianceTypes.SolarPanel);
-                foreach (var item in panels)
+                float ans = 0;
+                var solarPanels = _package.Appliances.Where(item =>
+                    item.Type == ApplianceTypes.SolarPanel &&
+                    (item?.DataSheet as SolarCollectorDataSheet).isRoomHeater);
+                foreach (var item in solarPanels)
                 {
-                    area += (item?.DataSheet as SolarCollectorDataSheet).Area;
+                    ans += (item.DataSheet as SolarCollectorDataSheet).Area;
                 }
-                return area;
+                return ans;
             }
         }
-        internal float ContainerVolume
+        public float SolarContainerVolume
         {
             get
             {
-                return 0;
+                float ans = 0;
+                ans = SolarContainerData != null ? SolarContainerData.Volume * NumSolarContainers : 0;
+                return ans;
+            }
+        }
+        internal float NumSolarContainers
+        {
+            get
+            {
+                int ans = 0;
+                ans = _package.SolarContainers.Where(item =>
+                    (item.DataSheet as ContainerDataSheet).isBivalent).Count();
+                return ans;
             }
         }
         internal HeatingUnitDataSheet PrimaryBoiler { get {return _package?.PrimaryHeatingUnit?.

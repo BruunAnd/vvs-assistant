@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Threading;
-using VVSAssistant.ViewModels.MVVM;
-using MahApps.Metro.Controls.Dialogs;
-using VVSAssistant.ViewModels;
-using System.Threading.Tasks;
 using VVSAssistant.Common;
 using VVSAssistant.Common.ViewModels;
 
