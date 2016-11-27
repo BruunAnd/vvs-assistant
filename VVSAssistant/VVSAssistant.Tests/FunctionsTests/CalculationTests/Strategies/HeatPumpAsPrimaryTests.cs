@@ -179,7 +179,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                     CurrentPack.Appliances.Add(SolarCollector);
                 }
 
-                CurrentPack.SolarContainer = CurrentPack.Appliances?.FirstOrDefault(solCon => solCon.Type == ApplianceTypes.Container && solCon.Id == IdOfSolarContainer);
+                CurrentPack.SolarContainers.Add(CurrentPack.Appliances?.FirstOrDefault(solCon => solCon.Type == ApplianceTypes.Container && solCon.Id == IdOfSolarContainer));
             }
    
             

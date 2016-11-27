@@ -113,7 +113,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             {
                 return true;
             }
-            else if (_package.Appliances.Where(Container => Container.Type == ApplianceTypes.Container && _package.SolarContainers.Count() == 0).Count() > 0)
+            else if (_package.SolarContainers.Count() < Containers.Count())
             {
                 return true;
             }
