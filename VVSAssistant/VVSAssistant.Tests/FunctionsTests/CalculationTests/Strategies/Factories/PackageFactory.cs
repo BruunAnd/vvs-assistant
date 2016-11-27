@@ -50,6 +50,15 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 case PackagedSolutionId.PrimaryPurUnitSolarWater:
                     return new PackageStub(BoilerId.EuroPurUnitSolarWater, 0,
                         SolarPanelId.LogasolSKNWater, 1, 0);
+                case PackagedSolutionId.PrimaryPurUnitSolarWaterWStation:
+                    return new PackageStub(BoilerId.EuroPurUnitSolarWater, 0,
+                        SolarPanelId.LogasolSKNWater, 1, SolarStationId.SBT1003);
+                case PackagedSolutionId.PrimaryCondens1Container:
+                    return new PackageStub(BoilerId.Condens5000, ContainerId.ClassBHighVolume, 1, 
+                        SolarPanelId.LogasolSKNWater, 1, SolarStationId.SBT1003);
+                case PackagedSolutionId.PrimaryCondens3Container:
+                    return new PackageStub(BoilerId.Condens5000, ContainerId.ClassBHighVolume, 3,
+                        SolarPanelId.LogasolSKNWater, 1, SolarStationId.SBT1003);
                 default:
                     return null;
             }
@@ -60,6 +69,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         PrimaryBoilerOHeatPump = 1, PrimaryBoilerSame, PrimaryBoilerNulls, WaterHeatingEuroACUSBT1003,
         WaterHeatingEuroACUSBT653, WaterHeatingCondens9000SBT353, WaterHeatingEuroSolarSBT353,
         PrimaryWaterBoilerOSolar, PrimaryWaterBoilerNull, PrimaryBoilerWHeatPump, PirmaryBoilerW3Solar,
-        PrimaryBoilerW1Solar, PrimaryHeatPump6Solars, PrimaryPurUnitSolarWater   
+        PrimaryBoilerW1Solar, PrimaryHeatPump6Solars, PrimaryPurUnitSolarWater, PrimaryPurUnitSolarWaterWStation,
+        PrimaryCondens1Container, PrimaryCondens3Container
     }
 }

@@ -55,19 +55,29 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             Assert.IsTrue(expected + 0.1f >= EEI && EEI >= expected - 0.1f);
         }
         [Test]
-        [TestCase(PackagedSolutionId.WaterHeatingEuroACUSBT1003,20.63f)]
-        [TestCase(PackagedSolutionId.WaterHeatingEuroACUSBT653, 21.82f)]
-        [TestCase(PackagedSolutionId.WaterHeatingCondens9000SBT353, 22.42f)]
+        [TestCase(PackagedSolutionId.WaterHeatingEuroACUSBT1003,0.1f,20.63f)]
+        [TestCase(PackagedSolutionId.WaterHeatingEuroACUSBT653, 0.1f,21.82f)]
+        [TestCase(PackagedSolutionId.WaterHeatingCondens9000SBT353,0.1f, 22.42f)]
+        [TestCase(PackagedSolutionId.PrimaryPurUnitSolarWater, 1.0f,21.45f)]
+        [TestCase(PackagedSolutionId.PrimaryCondens1Container, 1, 14.67f)]
+        [TestCase(PackagedSolutionId.PrimaryCondens3Container, 1, 13.65f)]
         // Test med Vbu over 0 virker ikke
-        //[TestCase(PackagedSolutionId.WaterHeatingEuroSolarSBT353, 17.21f)]
-        public void WaterPrimaryCalculateEEI_CorrectSolarContribution(PackagedSolutionId packageId, float expected)
+        //[TestCase(PackagedSolutionId.WaterHeatingEuroSolarSBT353, 1,17.21f)]
+        public void WaterPrimaryCalculateEEI_CorrectSolarContribution(PackagedSolutionId packageId, float errorMargin, float expected)
         {
             var package = new PackageFactory().GetPackage(packageId);
+            var containers = package.Appliances.Where(item => item.Type == ApplianceTypes.Container);
+            foreach (var item in containers)
+            {
+                var data = item.DataSheet as ContainerDataSheet;
+                data.isBivalent = true;
+                data.isWaterContainer = true;
+            }
             var calculation = new BoilerForWater();
             var result = calculation.CalculateEEI(package);
             var EEI = Math.Round(result.SolarHeatContribution, 3);
-            //Assert.AreEqual(EEI, expected);
-            Assert.IsTrue(expected + 0.1f >= EEI && EEI >= expected - 0.1f);
+            Assert.AreEqual(EEI, expected);
+            Assert.IsTrue(expected + errorMargin >= EEI && EEI >= expected - errorMargin);
         }
         [Test]
         [TestCase(PackagedSolutionId.WaterHeatingEuroACUSBT1003, 1,103)]
@@ -76,13 +86,22 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         [TestCase(PackagedSolutionId.PrimaryWaterBoilerNull,1,82)]
         [TestCase(PackagedSolutionId.PrimaryWaterBoilerOSolar,1,82)]
         [TestCase(PackagedSolutionId.PrimaryPurUnitSolarWater, 1, 106)]
-        public void WaterPrimaryCalculateEEI_CalculatesEEICompletePackagedSolution(PackagedSolutionId packageId, int errormargin,float expected)
+        [TestCase(PackagedSolutionId.PrimaryPurUnitSolarWaterWStation, 1, 100)]
+        [TestCase(PackagedSolutionId.PrimaryCondens1Container, 1, 93)]
+        [TestCase(PackagedSolutionId.PrimaryCondens3Container, 1, 92)]
+        public void WaterPrimaryCalculateEEI_CalculatesEEICompletePackagedSolution(PackagedSolutionId packageId, float errormargin,float expected)
         {
             var package = new PackageFactory().GetPackage(packageId);
+            var containers = package.Appliances.Where(item => item.Type == ApplianceTypes.Container);
+            foreach (var item in containers)
+            {
+                var data = item.DataSheet as ContainerDataSheet;
+                data.isBivalent = true;
+                data.isWaterContainer = true;
+            }
             var calculation = new BoilerForWater();
             var result = calculation.CalculateEEI(package);
             var EEI = (float)Math.Round(result.EEI);
-            Assert.AreEqual(EEI, expected);
             Assert.IsTrue(expected+errormargin >= EEI && EEI >= expected-errormargin);
         }
         [Test]

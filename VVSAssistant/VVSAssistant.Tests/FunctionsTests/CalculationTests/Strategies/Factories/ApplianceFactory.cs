@@ -30,8 +30,12 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 case BoilerId.EuroPurUnitSolarWater:
                      return new ApplianceStub("EuroPurUnitSolar", new HeatingUnitDataSheet()
                     { AFUE = 92, WattUsage = 13, AFUEColdClima = 98.1f, AFUEWarmClima = 87.8f,
-                      WaterHeatingEffiency=85, UseProfile = UseProfileType.XL, Vbu=34},
-                        ApplianceTypes.Boiler);
+                      WaterHeatingEffiency=85, UseProfile = UseProfileType.XL, Vbu=34, StandingLoss=92.5f
+                     ,Vnorm = 204, Psb=4}, ApplianceTypes.Boiler);
+                case BoilerId.Condens5000:
+                    return new ApplianceStub("Condens5000", new HeatingUnitDataSheet()
+                    { UseProfile = UseProfileType.XXL, WattUsage=24, Vbu=110, Psb=2, WaterHeatingEffiency=78,
+                        isWaterHeater =true, isRoomHeater=true, AFUEColdClima = 98, AFUEWarmClima=87.8f}, ApplianceTypes.Boiler);
                 default:
                     return new Appliance();
             }
