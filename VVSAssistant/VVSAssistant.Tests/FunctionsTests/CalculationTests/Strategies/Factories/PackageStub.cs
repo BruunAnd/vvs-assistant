@@ -10,7 +10,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         {
             var factory = new ApplianceFactory();
             PrimaryHeatingUnit = factory.GetBoiler((priBoiler));
-            SolarContainer = factory.GetContainer((solarContain));
+            SolarContainers.Add(factory.GetContainer((solarContain)));
             Appliances.Add(factory.GetBoiler(secBoiler ?? 0));
             for (int i = 0; i < numberOfSolars; i++)
             {
@@ -25,7 +25,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         {
             var factory = new ApplianceFactory();
             PrimaryHeatingUnit = factory.GetBoiler((priBoiler));
-            SolarContainer = factory.GetContainer((solarContainer));
+            SolarContainers.Add(factory.GetContainer((solarContainer)));
             for (int i = 0; i < numberOfSolars; i++)
             {
                 Appliances.Add(factory.GetSolarPanel(solar ?? 0));
@@ -38,7 +38,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         {
             var factory = new ApplianceFactory();
             PrimaryHeatingUnit = factory.GetHeatpump((priPump));
-            SolarContainer = factory.GetContainer((solarContain));
+            SolarContainers.Add(factory.GetContainer((solarContain)));
             Appliances.Add(factory.GetBoiler(secBoiler ?? 0));
 
             for (int i = 0; i < numberOfSolars; i++)
@@ -55,7 +55,10 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             var factory = new ApplianceFactory();
             PrimaryHeatingUnit = factory.GetHeatpump((priPump));
             Appliances.Add(factory.GetBoiler(secBoiler ?? 0));
-            SolarContainer = factory.GetContainer(solarContainer);
+            for (int i = 0; i < numContainers; i++)
+            {
+                SolarContainers.Add(factory.GetContainer(solarContainer));
+            }
             for (int i = 0; i < numberOfSolars; i++)
             {
                 Appliances.Add(factory.GetSolarPanel(solar ?? 0));
@@ -71,7 +74,10 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         {
             var factory = new ApplianceFactory();
             PrimaryHeatingUnit = factory.GetBoiler(primary);
-            SolarContainer = factory.GetContainer(solarContainer);
+            for (int i = 0; i < numContainers; i++)
+            {
+                SolarContainers.Add(factory.GetContainer(solarContainer));
+            }
             for (int i = 0; i < numberOfSolars; i++)
             {
                 Appliances.Add(factory.GetSolarPanel(solar ?? 0));
@@ -85,7 +91,10 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         {
             var factory = new ApplianceFactory();
             PrimaryHeatingUnit = factory.GetBoiler(primary);
-            SolarContainer = factory.GetContainer(solarContainer);
+            for (int i = 0; i < numContainers; i++)
+            {
+                SolarContainers.Add(factory.GetContainer(solarContainer));
+            }
             for (int i = 0; i < numberOfSolars; i++)
             {
                 Appliances.Add(factory.GetSolarPanel(solar ?? 0));
