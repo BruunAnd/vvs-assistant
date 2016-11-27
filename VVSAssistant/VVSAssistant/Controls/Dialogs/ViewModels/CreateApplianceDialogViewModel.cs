@@ -36,6 +36,15 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             set { _newAppliance = value; OnPropertyChanged(); }
         }
 
+        private DataSheet _oldDataSheet;
+        public DataSheet OldDataSheet
+        {
+            get { return _oldDataSheet; }
+            set { _oldDataSheet = value; OnPropertyChanged(); }
+        }
+
+        public bool IsNewAppliance { get; set; }
+
         private bool isHeatingOrSolar = false;
         public bool IsHeatingOrSolar
         {
@@ -54,14 +63,16 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
         {
             get
             {
-                if (NewAppliance.DataSheet != null)
+                if (IsContainer == false)
+                    return false;
+                if (NewAppliance.DataSheet != null && NewAppliance.DataSheet is ContainerDataSheet)
                     return (NewAppliance.DataSheet as ContainerDataSheet).isWaterContainer;
                 else
                     return false;
             }
             set
             {
-                if (NewAppliance.DataSheet != null)
+                if (NewAppliance.DataSheet != null && NewAppliance.DataSheet is ContainerDataSheet)
                 {
                     (NewAppliance.DataSheet as ContainerDataSheet).isWaterContainer = value;
                     OnPropertyChanged();
@@ -113,11 +124,14 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             VVSAssistantEvents.OnDataSheetChanged(NewAppliance.DataSheet);
         }
 
-        public CreateApplianceDialogViewModel(Appliance newAppliance, Action<CreateApplianceDialogViewModel> closeHandler, Action<CreateApplianceDialogViewModel> completionHandler)
+        public CreateApplianceDialogViewModel(Appliance newAppliance, bool isNewAppliance, Action<CreateApplianceDialogViewModel> closeHandler, 
+                                              Action<CreateApplianceDialogViewModel> completionHandler)
         {
             NewAppliance = newAppliance;
             CloseCommand = new RelayCommand(x =>
             {
+                if (!IsNewAppliance)
+                    NewAppliance.DataSheet = OldDataSheet;
                 closeHandler(this);
             });
 
@@ -126,24 +140,41 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
                 completionHandler(this);
             });
 
+            IsNewAppliance = isNewAppliance;
+            if (!IsNewAppliance)
+            {
+                OnPropertyChanged("IsNewAppliance");
+                HandleExistingAppliance(NewAppliance);
+            }
+
             VVSAssistantEvents.DataSheetChangedEventHandler += HandleDataSheetChanged;
         }
 
         private void HasAnyNullProperties(object obj)
         {
-
+            
         }
 
+        private void HandleExistingAppliance(Appliance appliance)
+        {
+            OldDataSheet = appliance.DataSheet.MakeCopy() as DataSheet;
+            VVSAssistantEvents.OnDataSheetChanged(NewAppliance.DataSheet);
+        }
+
+        /* When a new type is chosen in the dialog, switch visibilities */
         private void HandleDataSheetChanged(DataSheet dataSheet)
         {
             if (dataSheet is HeatingUnitDataSheet ||
                 dataSheet is SolarCollectorDataSheet)
             {
                 IsHeatingOrSolar = true;
+                IsContainer = false;
+                OnPropertyChanged("IsWaterContainer");
             }
             else if (dataSheet is ContainerDataSheet)
             {
                 IsContainer = true;
+                IsHeatingOrSolar = false;
                 IsWaterContainer = false; /* We don't know this yet, so just default it */
             }
         }

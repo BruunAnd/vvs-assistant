@@ -26,7 +26,8 @@
             <TextBox Text="{Binding NewAppliance.Name}"/>
             <Label Content="Vælg komponenttype:"/>
             <ComboBox ItemsSource="{Binding Types}"
-                      SelectedItem="{Binding ChosenType, UpdateSourceTrigger=PropertyChanged}">
+                      SelectedItem="{Binding ChosenType, UpdateSourceTrigger=PropertyChanged}"
+                      Visibility="{Binding isNewAppliance, Converter={StaticResource BoolToVisibilityConverter}}">
             </ComboBox>
         </StackPanel>
         <xctk:PropertyGrid Grid.Row="3"

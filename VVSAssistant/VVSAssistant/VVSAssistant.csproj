@@ -182,6 +182,7 @@
     <Compile Include="Extensions\ObservableExtension.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Functions\Calculation\EEICharLabelChooser.cs" />
+    <Compile Include="Models\Interfaces\ICopyable.cs" />
     <Compile Include="Functions\Calculation\PackageDataManager.cs" />
     <Compile Include="Functions\Calculation\Strategies\BoilerAsPrimary.cs" />
     <Compile Include="Functions\Calculation\Strategies\BoilerForWater.cs" />

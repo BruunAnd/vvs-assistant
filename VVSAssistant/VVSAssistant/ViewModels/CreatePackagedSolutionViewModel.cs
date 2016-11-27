@@ -321,18 +321,28 @@ namespace VVSAssistant.ViewModels
         {
             var customDialog = new CustomDialog();
 
-            var dialogViewModel = new EditApplianceViewModel(SelectedAppliance, instanceCancel => _dialogCoordinator.HideMetroDialogAsync(this, customDialog), instanceCompleted => _dialogCoordinator.HideMetroDialogAsync(this, customDialog));
+            var dialogViewModel = new CreateApplianceDialogViewModel(SelectedAppliance, false,
+                                      instanceCancel => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
+                                      instanceCompleted =>
+                                      {
+                                          _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
+                                          foreach (var appliance in Appliances)
+                                          {
+                                              FilteredCollectionView.Refresh();
+                                          }
+                                      });
 
-            customDialog.Content = new EditApplianceView { DataContext = dialogViewModel };
+            customDialog.Content = new CreateApplianceDialogView { DataContext = dialogViewModel };
 
             await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
+            
         }
 
         private async void RunCreateApplianceDialog()
         {
             var customDialog = new CustomDialog();
             var newAppliance = new Appliance();
-            var dialogViewModel = new CreateApplianceDialogViewModel(newAppliance,
+            var dialogViewModel = new CreateApplianceDialogViewModel(newAppliance, true,
                 closeHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
                 completionHandler => 
                 {
