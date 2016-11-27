@@ -10,6 +10,7 @@ using VVSAssistant.Models;
 using VVSAssistant.Models.DataSheets;
 using VVSAssistant.ViewModels;
 using VVSAssistant.ViewModels.MVVM;
+using VVSAssistant.Events;
 
 namespace VVSAssistant.Controls.Dialogs.ViewModels
 {
@@ -75,32 +76,26 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
                 case "Varmepumpe":
                     _newAppliance.Type = ApplianceTypes.HeatPump;
                     _newAppliance.DataSheet = new HeatingUnitDataSheet();
-                    IsHeatingOrSolar = true;
                     break;
                 case "Lavtemperatursvarmepumpe":
                     _newAppliance.Type = ApplianceTypes.LowTempHeatPump;
                     _newAppliance.DataSheet = new HeatingUnitDataSheet();
-                    IsHeatingOrSolar = true;
                     break;
                 case "Kraftvarmeanlæg":
                     _newAppliance.Type = ApplianceTypes.CHP;
                     _newAppliance.DataSheet = new HeatingUnitDataSheet();
-                    IsHeatingOrSolar = true;
                     break;
                 case "Kedel":
                     _newAppliance.Type = ApplianceTypes.Boiler;
                     _newAppliance.DataSheet = new HeatingUnitDataSheet();
-                    IsHeatingOrSolar = true;
                     break;
                 case "Beholder":
                     _newAppliance.Type = ApplianceTypes.Container;
                     _newAppliance.DataSheet = new ContainerDataSheet();
-                    IsContainer = true;
                     break;
                 case "Solpanel":
                     _newAppliance.Type = ApplianceTypes.SolarPanel;
                     _newAppliance.DataSheet = new SolarCollectorDataSheet();
-                    IsHeatingOrSolar = true;
                     break;
                 case "Solstation":
                     _newAppliance.Type = ApplianceTypes.SolarStation;
@@ -115,6 +110,7 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
                     break;
             }
             OnPropertyChanged("NewAppliance");
+            VVSAssistantEvents.OnDataSheetChanged(NewAppliance.DataSheet);
         }
 
         public CreateApplianceDialogViewModel(Appliance newAppliance, Action<CreateApplianceDialogViewModel> closeHandler, Action<CreateApplianceDialogViewModel> completionHandler)
@@ -129,11 +125,33 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             {
                 completionHandler(this);
             });
+
+            VVSAssistantEvents.DataSheetChangedEventHandler += HandleDataSheetChanged;
         }
 
         private void HasAnyNullProperties(object obj)
         {
 
+        }
+
+        private void HandleDataSheetChanged(DataSheet dataSheet)
+        {
+            if (dataSheet is HeatingUnitDataSheet ||
+                dataSheet is SolarCollectorDataSheet)
+            {
+                IsHeatingOrSolar = true;
+            }
+            else if (dataSheet is ContainerDataSheet)
+            {
+                IsContainer = true;
+                IsWaterContainer = false; /* We don't know this yet, so just default it */
+            }
+            else
+            {
+                //IsHeatingOrSolar = false;
+                //IsContainer = false;
+                //IsWaterContainer = false;
+            }
         }
     }
 }

@@ -16,5 +16,13 @@ namespace VVSAssistant.Events
         {
             SaveOfferButtonPressedEventHandler?.Invoke(offer);
         }
+
+        /* When the DataSheet (type) of a new appliance is changed during creation */
+        public delegate void DataSheetChanged(DataSheet dataSheet);
+        public static event DataSheetChanged DataSheetChangedEventHandler;
+        public static void OnDataSheetChanged(DataSheet dataSheet)
+        {
+            DataSheetChangedEventHandler?.Invoke(dataSheet);
+        }
     }
 }
