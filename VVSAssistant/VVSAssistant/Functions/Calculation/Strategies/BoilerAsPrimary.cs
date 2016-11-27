@@ -13,6 +13,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
         private EEICalculationResult _result = new EEICalculationResult();
         private PackagedSolution _package;
         private PackageDataManager _packageData;
+        float II;
         /// <summary>
         /// EEI Calculation for packaged solution with a boiler as primary heating unit
         /// </summary>
@@ -82,7 +83,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
                 relationship = heatpumpData.WattUsage / (PrimaryBoiler.WattUsage + heatpumpData.WattUsage);
             else
                 return 0;
-            float II = UtilityClass.GetWeighting(relationship, container, false);
+            II = UtilityClass.GetWeighting(relationship, container, false);
             _result.SecondaryHeatPumpAFUE = heatpumpData.AFUE;
             return (heatpumpData.AFUE - PrimaryBoiler.AFUE) * II;
         }
