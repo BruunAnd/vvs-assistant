@@ -119,7 +119,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         {
             var package = new PackageFactory().GetPackage(Id);
             float WarmAFUE = HeatPumpStrategy.CalculateEEI(package).PackagedSolutionAtWarmTemperaturesAFUE;
-            //Assert.AreEqual(ColdAFUE, expectedValue);
+            //Assert.AreEqual(WarmAFUE, expectedValue);
             Assert.IsTrue(WarmAFUE <= expectedValue + 1 && WarmAFUE >= expectedValue - 1);
         }
 
