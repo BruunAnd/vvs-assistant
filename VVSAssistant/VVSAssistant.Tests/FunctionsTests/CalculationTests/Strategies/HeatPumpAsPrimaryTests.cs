@@ -14,9 +14,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
     [TestFixture]
     public class HeatPumpAsPrimaryStrategyTests
     {
-        PackagedSolution CurrentPack;
         HeatPumpAsPrimary HeatPumpStrategy = new HeatPumpAsPrimary();
-        const float SENTINAL = -1;
 
         [SetUp]
         public void Setup()
@@ -26,7 +24,6 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         [TearDown]
         public void TearDown()
         {
-            CurrentPack = null;
         }
 
         [Test]
@@ -52,6 +49,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         {
             var package = new PackageFactory().GetPackage(Id);
             float EEI = HeatPumpStrategy.CalculateEEI(package).EEI;
+            //Assert.AreEqual(EEI, expectedValue);
             Assert.IsTrue(EEI <= expectedValue + 1 && EEI >= expectedValue - 1);
         }
 
@@ -97,6 +95,34 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             Assert.AreEqual(solarContribution, expectedValue);
             //Assert.IsTrue(solarContribution <= expectedValue + 0.1f && solarContribution >= expectedValue - 0.1f);
         }
+
+
+        [Test]
+        [TestCase(PackagedSolutionId.PrimaryHeatPump2Solar, 139)]
+        [TestCase(PackagedSolutionId.PrimaryHeatPump6Solars, 170)]
+        [TestCase(PackagedSolutionId.PrimaryHeatPump4Solars, 104)]
+        [TestCase(PackagedSolutionId.PrimaryHeatPumpNoSolars, 161)]
+        public void HeatPumpAsPrimStrategyReturnsCorrectColdAFUE_true(PackagedSolutionId Id, float expectedValue)
+        {
+            var package = new PackageFactory().GetPackage(Id);
+            float ColdAFUE = HeatPumpStrategy.CalculateEEI(package).PackagedSolutionAtColdTemperaturesAFUE;
+            //Assert.AreEqual(ColdAFUE, expectedValue);
+            Assert.IsTrue(ColdAFUE <= expectedValue + 1 && ColdAFUE >= expectedValue - 1);
+        }
+
+        [Test]
+        [TestCase(PackagedSolutionId.PrimaryHeatPump2Solar, 136)]
+        [TestCase(PackagedSolutionId.PrimaryHeatPump6Solars, 157)]
+        [TestCase(PackagedSolutionId.PrimaryHeatPump4Solars, 187)]
+        [TestCase(PackagedSolutionId.PrimaryHeatPumpNoSolars, 148)]
+        public void HeatPumpAsPrimStrategyReturnsCorrectWarmAFUE_true(PackagedSolutionId Id, float expectedValue)
+        {
+            var package = new PackageFactory().GetPackage(Id);
+            float WarmAFUE = HeatPumpStrategy.CalculateEEI(package).PackagedSolutionAtWarmTemperaturesAFUE;
+            //Assert.AreEqual(ColdAFUE, expectedValue);
+            Assert.IsTrue(WarmAFUE <= expectedValue + 1 && WarmAFUE >= expectedValue - 1);
+        }
+
     }
 
  }

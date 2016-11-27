@@ -72,7 +72,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                     { AFUE = 118, AFUEColdClima = 100, AFUEWarmClima = 183, WattUsage = 9, InternalTempControl = "2" }, ApplianceTypes.HeatPump);
                 case HeatpumpId.Compress5000:
                     return new ApplianceStub("Vitocal 200-S", new HeatingUnitDataSheet()
-                    { AFUE = 133, AFUEColdClima = 139, AFUEWarmClima = 136, WattUsage = 43, InternalTempControl = "7" }, ApplianceTypes.HeatPump);
+                    { AFUE = 133, AFUEColdClima = 135, AFUEWarmClima = 132, WattUsage = 43, InternalTempControl = "7" }, ApplianceTypes.HeatPump);
                 default:
                     return new Appliance();
             }

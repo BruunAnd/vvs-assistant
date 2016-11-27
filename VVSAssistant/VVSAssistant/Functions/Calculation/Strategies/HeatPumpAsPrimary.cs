@@ -59,7 +59,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
                 II = UtilityClass.GetWeighting(heatingUnitRelationship, HasNonSolarContainer(PackagedSolution, Solars), true);
 
 
-                Results.EffectOfSecondaryBoiler = (float)Math.Round(Math.Abs(((SecondaryBoiler.AFUE - PrimaryUnit.AFUE) * II) * 100)) / 100;
+                Results.EffectOfSecondaryBoiler = Math.Abs((float)Math.Round((SecondaryBoiler.AFUE - PrimaryUnit.AFUE) * II,2));
             }
 
 
@@ -98,8 +98,8 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             //Calculating for colder and warmer climates
             if (PackagedSolution.PrimaryHeatingUnit.Type != ApplianceTypes.CHP)
             {
-                Results.PackagedSolutionAtColdTemperaturesAFUE = (PackagedSolution.PrimaryHeatingUnit.DataSheet as HeatingUnitDataSheet).AFUEColdClima;
-                Results.PackagedSolutionAtWarmTemperaturesAFUE = (PackagedSolution.PrimaryHeatingUnit.DataSheet as HeatingUnitDataSheet).AFUEWarmClima;
+                Results.PackagedSolutionAtColdTemperaturesAFUE = Results.EEI-(PrimaryUnit.AFUE-PrimaryUnit.AFUEColdClima);
+                Results.PackagedSolutionAtWarmTemperaturesAFUE = Results.EEI + (PrimaryUnit.AFUEWarmClima - PrimaryUnit.AFUE);
             }
 
             return Results;
