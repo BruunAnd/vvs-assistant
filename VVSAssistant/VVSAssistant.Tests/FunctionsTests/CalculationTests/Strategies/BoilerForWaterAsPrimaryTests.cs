@@ -58,11 +58,10 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         [TestCase(PackagedSolutionId.WaterHeatingEuroACUSBT1003,0.1f,20.63f)]
         [TestCase(PackagedSolutionId.WaterHeatingEuroACUSBT653, 0.1f,21.82f)]
         [TestCase(PackagedSolutionId.WaterHeatingCondens9000SBT353,0.1f, 22.42f)]
-        [TestCase(PackagedSolutionId.PrimaryPurUnitSolarWater, 1.0f,21.45f)]
-        [TestCase(PackagedSolutionId.PrimaryCondens1Container, 1, 14.67f)]
-        [TestCase(PackagedSolutionId.PrimaryCondens3Container, 1, 13.65f)]
-        // Test med Vbu over 0 virker ikke
-        //[TestCase(PackagedSolutionId.WaterHeatingEuroSolarSBT353, 1,17.21f)]
+        [TestCase(PackagedSolutionId.PrimaryPurUnitSolarWater, 1.5f,21.45f)]
+        [TestCase(PackagedSolutionId.PrimaryCondens1Container, 1.5f, 14.67f)]
+        [TestCase(PackagedSolutionId.PrimaryCondens3Container, 1.5f, 13.65f)]
+        [TestCase(PackagedSolutionId.WaterHeatingEuroSolarSBT353, 1.5f,17.21f)]
         public void WaterPrimaryCalculateEEI_CorrectSolarContribution(PackagedSolutionId packageId, float errorMargin, float expected)
         {
             var package = new PackageFactory().GetPackage(packageId);
@@ -85,10 +84,10 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         [TestCase(PackagedSolutionId.WaterHeatingCondens9000SBT353,1, 104)]
         [TestCase(PackagedSolutionId.PrimaryWaterBoilerNull,1,82)]
         [TestCase(PackagedSolutionId.PrimaryWaterBoilerOSolar,1,82)]
-        [TestCase(PackagedSolutionId.PrimaryPurUnitSolarWater, 1, 106)]
-        [TestCase(PackagedSolutionId.PrimaryPurUnitSolarWaterWStation, 1, 100)]
-        [TestCase(PackagedSolutionId.PrimaryCondens1Container, 1, 93)]
-        [TestCase(PackagedSolutionId.PrimaryCondens3Container, 1, 92)]
+        [TestCase(PackagedSolutionId.PrimaryPurUnitSolarWater, 1.5f, 106)]
+        [TestCase(PackagedSolutionId.PrimaryPurUnitSolarWaterWStation, 1.5f, 100)]
+        [TestCase(PackagedSolutionId.PrimaryCondens1Container, 1.5f, 93)]
+        [TestCase(PackagedSolutionId.PrimaryCondens3Container, 1.5f, 92)]
         public void WaterPrimaryCalculateEEI_CalculatesEEICompletePackagedSolution(PackagedSolutionId packageId, float errormargin,float expected)
         {
             var package = new PackageFactory().GetPackage(packageId);

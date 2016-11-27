@@ -32,7 +32,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
 
             var Qref = _Qref[result.WaterHeatingUseProfile];
             float Qaux = SolCalMethodQaux();
-            float Qnonsol = SolCalMethodQnonsol();
+            float Qnonsol = (float)Math.Round(SolCalMethodQnonsol(),2);
 
             float parameterOne = result.WaterHeatingEffciency;
             float parameterTwo = Qnonsol != 0 ? (float)((220 * Qref) / Qnonsol) : 0;
@@ -47,7 +47,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             result.PackagedSolutionAtWarmTemperaturesAFUE = result.EEI + 0.4f * result.SolarHeatContribution;
             result.EEICharacters = EEICharLabelChooser.EEIChar(ApplianceTypes.Boiler, result.EEI, 1);
             result.CalculationType = this;
-
+            result.EEICharacters = EEICharLabelChooser.EEIChar(result.WaterHeatingUseProfile, result.EEI, 1.5f);
             return result;
         }
 
