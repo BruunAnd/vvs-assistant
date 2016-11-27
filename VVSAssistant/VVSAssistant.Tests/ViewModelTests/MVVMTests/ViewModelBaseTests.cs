@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
-using VVSAssistant.ViewModels.MVVM;
 using System.ComponentModel.DataAnnotations;
 using VVSAssistant.Common.ViewModels;
 
@@ -18,8 +13,7 @@ namespace VVSAssistant.Tests.ViewModelTests.MVVMTests
         [TestCase("Value", null)]
         public void ViewModelBaseIndexer_ValidateRequiredProperty(string value, string expectedError)
         {
-            var vmstub = new ViewModelStub();
-            vmstub.RequiredPropertyTest = value;
+            var vmstub = new ViewModelStub {RequiredPropertyTest = value};
             Assert.AreEqual(vmstub["RequiredPropertyTest"], expectedError);
         }
         [Test]
@@ -28,8 +22,7 @@ namespace VVSAssistant.Tests.ViewModelTests.MVVMTests
         [TestCase(5, null)]
         public void ViewModelBaseIndexer_ValidateRequiredProperty(int value, string expectedError)
         {
-            var vmstub = new ViewModelStub();
-            vmstub.RangeTest = value;
+            var vmstub = new ViewModelStub {RangeTest = value};
             Assert.AreEqual(vmstub["RangeTest"], expectedError);
         }
     }

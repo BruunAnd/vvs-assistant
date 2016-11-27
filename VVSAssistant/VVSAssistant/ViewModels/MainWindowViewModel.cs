@@ -3,7 +3,6 @@ using System.IO.Compression;
 using System.Linq;
 using System.Windows;
 using Microsoft.Win32;
-using VVSAssistant.ViewModels.MVVM;
 using MahApps.Metro.Controls.Dialogs;
 using VVSAssistant.Common;
 using VVSAssistant.Common.ViewModels;
@@ -38,12 +37,12 @@ namespace VVSAssistant.ViewModels
                 if (result == true) DataUtil.Database.Export(dlg.FileName);
             }, x => DataUtil.Database.Exists());
 
-            ImportVVSCatalogue = new RelayCommand(x =>
+            ImportVvsCatalogue = new RelayCommand(x =>
             {
                 var dlg = new OpenFileDialog { Filter = "VVS katalog fil (.DAT)|*.DAT" };
                 dlg.FileOk += ValidateVVSCatalogue;
                 var result = dlg.ShowDialog();
-                if (result == true) DataUtil.VVSCatalogue.Import(dlg.FileName);
+                if (result == true) DataUtil.VvsCatalogue.Import(dlg.FileName);
             }
                 
 
@@ -53,7 +52,7 @@ namespace VVSAssistant.ViewModels
         private void ValidateVVSCatalogue(object sender, System.ComponentModel.CancelEventArgs e)
         {
             var dlg = sender as OpenFileDialog;
-            if (DataUtil.VVSCatalogue.ValidateFormat(dlg.FileName)) return;
+            if (DataUtil.VvsCatalogue.ValidateFormat(dlg.FileName)) return;
             MessageBox.Show("Den valgte .DAT fil indeholder ikke et gyldigt VVS katalog.", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
             e.Cancel = true;
         }
@@ -83,7 +82,7 @@ namespace VVSAssistant.ViewModels
         public RelayCommand NavCommand { get; }
         public RelayCommand DatabaseImport { get; }
         public RelayCommand DatabaseExport { get; }
-        public RelayCommand ImportVVSCatalogue { get; }
+        public RelayCommand ImportVvsCatalogue { get; }
         public RelayCommand ImportSalesCatalogue { get; }
         
         private void OnNav(string destination)
