@@ -67,7 +67,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
         private float SolCalMethodQaux()
         {
             float SolpumpConconsumption = PumpConsumption;
-            float SolstandbyConsumption = StandbyConcumption;
+            float SolstandbyConsumption = StandbyConsumption;
             // 2000 active solar hours 
             float Qaux = SolpumpConconsumption <= 0 || SolstandbyConsumption <= 0 ? 
                          0 :
@@ -172,7 +172,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
                 return ans;
             }
         }
-        public float StandbyConcumption
+        public float StandbyConsumption
         {
             get
             {

@@ -71,7 +71,25 @@ namespace VVSAssistant.Functions.Calculation.Strategies
         }
         private bool HasNonSolarContainer()
         {
-            return _package?.SolarContainers.Count > 0;
+            var containers = _package.Appliances.Where(item => item.Type == ApplianceTypes.Container);
+            var solarContainers = _package.SolarContainers;
+            foreach (var item in containers)
+            {
+                bool ans = false;
+                foreach (var solar in solarContainers)
+                {
+                    if (item != solar)
+                        ans = true;
+                    else
+                    {
+                        ans = false;
+                        break;
+                    }
+                }
+                if (ans)
+                    return true;
+            }
+            return false;
         }
         private float AdjustedContribution(float heatpumpContribution, float solarContribution)
         {
