@@ -93,6 +93,7 @@
       <HintPath>..\packages\MahApps.Metro.SimpleChildWindow.1.3.0\lib\net45\MahApps.Metro.SimpleChildWindow.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="ReachFramework" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
@@ -103,6 +104,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Printing" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -222,6 +224,7 @@
     <Compile Include="Common\ViewModels\ViewModelBase.cs" />
     <Compile Include="Common\ViewModels\RelayCommand.cs" />
     <Compile Include="Models\UnitPrice.cs" />
+    <Compile Include="ViewModels\PdfLabelExportViewModel.cs" />
     <Compile Include="Views\CreateOfferView.xaml.cs">
       <DependentUpon>CreateOfferView.xaml</DependentUpon>
     </Compile>
@@ -233,6 +236,9 @@
     </Compile>
     <Compile Include="Views\CreatePackagedSolutionView.xaml.cs">
       <DependentUpon>CreatePackagedSolutionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PdfLabelLayout.xaml.cs">
+      <DependentUpon>PdfLabelLayout.xaml</DependentUpon>
     </Compile>
     <Page Include="Controls\Dialogs\Views\AddHeatingUnitDialogView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -294,6 +300,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\PdfLabelLayout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -326,7 +336,17 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Image\Asset 3.png" />
+    <Resource Include="Image\CONTROL.png" />
+    <Resource Include="Image\Fleches toutes Aplus_CALIBRI_2.png" />
+    <Resource Include="Image\header_energy.png" />
+    <Resource Include="Image\heat-generator.png" />
+    <Resource Include="Image\PictosDG tren_radiator-2.png" />
+    <Resource Include="Image\SOLAR COLLECTOR.png" />
+    <Resource Include="Image\Tap.png" />
+    <Resource Include="Image\watertank.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\WindowsIcons-license.txt" />
   </ItemGroup>
