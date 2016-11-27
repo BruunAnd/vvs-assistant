@@ -36,6 +36,9 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                     return new ApplianceStub("Condens5000", new HeatingUnitDataSheet()
                     { UseProfile = UseProfileType.XXL, WattUsage=24, Vbu=110, Psb=2, WaterHeatingEffiency=78,
                         isWaterHeater =true, isRoomHeater=true, AFUEColdClima = 98, AFUEWarmClima=87.8f}, ApplianceTypes.Boiler);
+                case BoilerId.Vitodens200:
+                    return new ApplianceStub("LoganoPlusSB105", new HeatingUnitDataSheet()
+                    { AFUE = 94, WattUsage = 42}, ApplianceTypes.Boiler);
                 default:
                     return new Appliance();
             }
@@ -146,7 +149,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             {
                 case CHPId.Vitobloc200:
                     return new ApplianceStub("Vitobloc 200", new HeatingUnitDataSheet()
-                        { AFUE=140, WattUsage=39}, ApplianceTypes.CHP);
+                        { AFUE=140, WattUsage=39, InternalTempControl = "3"}, ApplianceTypes.CHP);
                 default:
                     return new Appliance();
             }

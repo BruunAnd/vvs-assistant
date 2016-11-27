@@ -59,6 +59,17 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 case PackagedSolutionId.PrimaryCondens3Container:
                     return new PackageStub(BoilerId.Condens5000, ContainerId.ClassBHighVolume, 3,
                         SolarPanelId.LogasolSKNWater, 1, SolarStationId.SBT1003);
+                case PackagedSolutionId.PrimaryHeatPump2Solar:
+                    return new PackageStub(HeatpumpId.Compress5000, ContainerId.BST500, BoilerId.LoganoSB150,
+                        SolarPanelId.LogasolSKNWater, 2, ContainerId.SM500, TempControlId.CW400); 
+                case PackagedSolutionId.PrimaryHeatPump4Solars:
+                    return new PackageStub(HeatpumpId.Vitocal200S, ContainerId.Vitocell140E, BoilerId.Vitodens200,
+                        SolarPanelId.Vitosol300T, 4, ContainerId.Vitocell300B, null);
+                case PackagedSolutionId.PrimaryHeatPumpNoSolars:
+                    return new PackageStub(HeatpumpId.Compress7000, null , BoilerId.LoganoSB150, null, 0, ContainerId.SW750, TempControlId.CW400);
+                case PackagedSolutionId.PrimaryCHP4Solars:
+                    return new PackageStub(CHPId.Vitobloc200, ContainerId.BST50080, BoilerId.Vitodens200,
+                        SolarPanelId.LogasolSKNWater, 4, null, null);
                 default:
                     return null;
             }
@@ -70,6 +81,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         WaterHeatingEuroACUSBT653, WaterHeatingCondens9000SBT353, WaterHeatingEuroSolarSBT353,
         PrimaryWaterBoilerOSolar, PrimaryWaterBoilerNull, PrimaryBoilerWHeatPump, PirmaryBoilerW3Solar,
         PrimaryBoilerW1Solar, PrimaryHeatPump6Solars, PrimaryPurUnitSolarWater, PrimaryPurUnitSolarWaterWStation,
-        PrimaryCondens1Container, PrimaryCondens3Container
+        PrimaryCondens1Container, PrimaryCondens3Container, PrimaryHeatPump2Solar, PrimaryHeatPump4Solars, PrimaryHeatPumpNoSolars,
+            PrimaryCHP4Solars,
     }
 }
