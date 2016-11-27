@@ -146,12 +146,6 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
                 IsContainer = true;
                 IsWaterContainer = false; /* We don't know this yet, so just default it */
             }
-            else
-            {
-                //IsHeatingOrSolar = false;
-                //IsContainer = false;
-                //IsWaterContainer = false;
-            }
         }
     }
 }
