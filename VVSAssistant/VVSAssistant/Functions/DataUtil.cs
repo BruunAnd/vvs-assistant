@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Configuration;
-using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
-using EntityFramework.BulkInsert.Extensions;
 using VVSAssistant.Database;
 using VVSAssistant.Models;
 
@@ -63,7 +61,7 @@ namespace VVSAssistant.Functions
             }
         }
 
-        public static class VVSCatalogue
+        public static class VvsCatalogue
         {
             public static bool Import(string src)
             {
@@ -83,32 +81,50 @@ namespace VVSAssistant.Functions
                 return true;
             }
 
-            private static void UpdateDatabase(List<Material> materials)
+            private static void UpdateDatabase(IEnumerable<Material> materials)
             {
-                var dcontext = new AssistantContext();
-                // We don't want to query the database for each new material, so we create a local copy of the list
-                var existingMaterials = dcontext.Materials.ToList();
-                // We want to bulk insert, so we make a list of new materials to be added
-                var newMaterials = new List<Material>();
-                foreach (var mat in materials)
-                {
-                    var entity = existingMaterials.FirstOrDefault(x => x.VvsNumber != null && x.VvsNumber.Equals(mat.VvsNumber));
-                    if (entity == null)
-                    {
-                        newMaterials.Add(mat);
-                    }
-                    else
-                    {
-                        entity.Name = mat.Name;
-                        entity.UnitSalesPrice = mat.UnitSalesPrice;
-                        entity.SpecificationsType = mat.SpecificationsType;
-                    }
-                }
+                var context = new AssistantContext();
 
-                // Make bulk insert
-                dcontext.BulkInsert(newMaterials);
-                dcontext.SaveChanges();
-                dcontext.Dispose();
+                var existingMaterials = context.Materials.ToList();
+                
+                try
+                {
+                    context.Configuration.AutoDetectChangesEnabled = false;
+
+                    var count = 0;
+                    foreach (var mat in materials)
+                    {
+                        ++count;
+                        var entity = existingMaterials.FirstOrDefault(x => x.VvsNumber != null && x.VvsNumber.Equals(mat.VvsNumber));
+
+                        if(entity == null)
+                        {
+                            context.Materials.Add(mat);
+                        }
+                        else
+                        {
+                            if (!entity.Name.Equals(mat.Name) || !entity.UnitSalesPrice.Equals(mat.UnitSalesPrice) || !entity.SpecificationsType.Equals(mat.SpecificationsType))
+                            {
+                                context.Entry(entity).Property(x => x.Name).CurrentValue = mat.Name;
+                                context.Entry(entity).Property(x => x.UnitSalesPrice).CurrentValue = mat.UnitSalesPrice;
+                                context.Entry(entity).Property(x => x.SpecificationsType).CurrentValue = mat.SpecificationsType;
+                            }
+                        }
+
+                        if (count % 1000 != 0) continue;
+                        context.SaveChanges();
+                        context.Dispose();
+                        context = new AssistantContext();
+                        context.Configuration.AutoDetectChangesEnabled = false;
+                        Console.WriteLine(count);
+                    }
+
+                    context.SaveChanges();
+                }
+                finally
+                {
+                    context.Dispose();
+                }
             }
 
             private enum EntityProperty
@@ -121,7 +137,7 @@ namespace VVSAssistant.Functions
             }
             
 
-            private static void DataParser(string line, List<Material> materials)
+            private static void DataParser(string line, ICollection<Material> materials)
             {
                 var values = ProcessLine(line);
                 materials.Add(new Material
@@ -137,7 +153,7 @@ namespace VVSAssistant.Functions
             {
                 var values = line.Split(',');
 
-                int j = 0;
+                var j = 0;
                 for (var i = 0; i < values.Length; i++)
                 {
                     if (values[i].StartsWith("\"") && !values[i].EndsWith("\""))

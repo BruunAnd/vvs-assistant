@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using VVSAssistant.ViewModels.MVVM;
 using VVSAssistant.Exceptions;
 using VVSAssistant.Models;
 using System.Reflection;

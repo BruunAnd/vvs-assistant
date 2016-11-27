@@ -58,7 +58,7 @@
             <WrapPanel Grid.Row="0">
                 <controls:Tile 
                        Style="{StaticResource NavigationTileStyle}"
-                       Command="{Binding ImportVVSCatalogue}"
+                       Command="{Binding ImportVvsCatalogue}"
                        Title="Importer VVS katalog">
                     <Rectangle Width="64" 
                            Height="64"

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace VVSAssistant.ViewModels.MVVM
+namespace VVSAssistant.Common.ViewModels
 {
     /// <summary>
     /// This is what commands in the View are bound to.
