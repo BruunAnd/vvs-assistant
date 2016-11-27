@@ -184,6 +184,7 @@
     <Compile Include="Extensions\ObservableExtension.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Functions\Calculation\EEICharLabelChooser.cs" />
+    <Compile Include="Functions\DatabasePortation.cs" />
     <Compile Include="Models\Interfaces\ICopyable.cs" />
     <Compile Include="Functions\Calculation\PackageDataManager.cs" />
     <Compile Include="Functions\Calculation\Strategies\BoilerAsPrimary.cs" />
@@ -193,7 +194,7 @@
     <Compile Include="Functions\Calculation\Strategies\HeatPumpAsPrimary.cs" />
     <Compile Include="Functions\Calculation\IEEICalculation.cs" />
     <Compile Include="Functions\Calculation\Interfaces\ICalculationChooser.cs" />
-    <Compile Include="Functions\DataUtil.cs" />
+    <Compile Include="Functions\VvsCatalogueImporter.cs" />
     <Compile Include="Functions\Exporter.cs" />
     <Compile Include="Functions\UtilityClass.cs" />
     <Compile Include="Models\Appliance.cs" />
