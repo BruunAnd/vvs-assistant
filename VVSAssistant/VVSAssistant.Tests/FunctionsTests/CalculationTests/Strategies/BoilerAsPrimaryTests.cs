@@ -247,33 +247,6 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             Assert.IsTrue(expected <= EEI + 1f && expected >= EEI - 1f);
         }
         [Test]
-        [TestCase(PackagedSolutionId.PirmaryBoilerW3Solar, 0, 6.75f)]
-        public void PrimaryBoilerCalculateEEI_CorrecrSolarPanelArea(PackagedSolutionId packId, BoilerId id, float expected)
-        {
-            var package = new PackageFactory().GetPackage(packId);
-            var calculation = new BoilerAsPrimary();
-            var containers = package.SolarContainers;
-            foreach (var item in containers)
-            {
-                var data = item?.DataSheet as ContainerDataSheet;
-                if (data == null)
-                    break;
-                data.isBivalent = true;
-            }
-            var panels = package.Appliances.Where(item => item.Type == ApplianceTypes.SolarPanel);
-            foreach (var item in panels)
-            {
-                var data = item?.DataSheet as SolarCollectorDataSheet;
-                if (data == null)
-                    break;
-                data.isRoomHeater = true;
-            }
-            var result = new EEICalculationResult();
-            result = calculation.CalculateEEI(package);
-            var area = calculation.SolarPanelArea;
-            Assert.AreEqual(area, expected);
-        }
-        [Test]
         [TestCase(PackagedSolutionId.PrimaryBoilerOHeatPump,0)]
         [TestCase(PackagedSolutionId.PrimaryBoilerWHeatPump, 200.3f)]
         public void PrimaryBoilerCalculateEEI_CorrectLowTempEEI(PackagedSolutionId id, float expected)

@@ -12,6 +12,8 @@ namespace VVSAssistant.Functions.Calculation.Strategies
     class BoilerForWater : IEEICalculation
     {
         private PackagedSolution _package;
+        private PackageDataManager _packageData;
+        private EEICalculationResult _result = new EEICalculationResult();
         /// <summary>
         /// Calculation method for Water heating with a primary Boiler
         /// </summary>
@@ -21,34 +23,34 @@ namespace VVSAssistant.Functions.Calculation.Strategies
         public EEICalculationResult CalculateEEI(PackagedSolution Package)
         {
             _package = Package;
-            var result = new EEICalculationResult();
-            var data = Package.PrimaryHeatingUnit.DataSheet as WaterHeatingUnitDataSheet;
+            _packageData = new PackageDataManager(_package);
+            var data = PrimaryData;
             if (PrimaryData == null || PrimaryData?.WaterHeatingEffiency == null || 
                 PrimaryData?.UseProfile == null)
                 return null;
 
-            result.WaterHeatingEffciency = PrimaryData.WaterHeatingEffiency;
-            result.WaterHeatingUseProfile = PrimaryData.UseProfile;
+            _result.WaterHeatingEffciency = PrimaryData.WaterHeatingEffiency;
+            _result.WaterHeatingUseProfile = PrimaryData.UseProfile;
 
-            var Qref = _Qref[result.WaterHeatingUseProfile];
+            var Qref = _Qref[_result.WaterHeatingUseProfile];
             float Qaux = SolCalMethodQaux();
             float Qnonsol = SolCalMethodQnonsol();
 
-            float parameterOne = result.WaterHeatingEffciency;
+            float parameterOne = _result.WaterHeatingEffciency;
             float parameterTwo = Qnonsol != 0 ? (float)((220 * Qref) / Qnonsol) : 0;
             
             float parameterThree =  Qaux != 0 ? (float)(((Qaux * 2.5) / (220 * Qref))*100) : 0; 
-            result.SolarHeatContribution = Qaux == 0 || Qnonsol == 0 ? 0:
+            _result.SolarHeatContribution = Qaux == 0 || Qnonsol == 0 ? 0:
                 (1.1f * parameterOne - 10) * parameterTwo - parameterThree - parameterOne;
 
-            result.EEI = (float)(result.SolarHeatContribution + parameterOne);
+            _result.EEI = (float)(_result.SolarHeatContribution + parameterOne);
 
-            result.PackagedSolutionAtColdTemperaturesAFUE = result.EEI - 0.2f * result.SolarHeatContribution;
-            result.PackagedSolutionAtWarmTemperaturesAFUE = result.EEI + 0.4f * result.SolarHeatContribution;
-            result.EEICharacters = EEICharLabelChooser.EEIChar(ApplianceTypes.Boiler, result.EEI, 1);
-            result.CalculationType = this;
-            result.EEICharacters = EEICharLabelChooser.EEIChar(result.WaterHeatingUseProfile, result.EEI, 1.5f);
-            return result;
+            _result.PackagedSolutionAtColdTemperaturesAFUE = _result.EEI - 0.2f * _result.SolarHeatContribution;
+            _result.PackagedSolutionAtWarmTemperaturesAFUE = _result.EEI + 0.4f * _result.SolarHeatContribution;
+            _result.EEICharacters = EEICharLabelChooser.EEIChar(ApplianceTypes.Boiler, _result.EEI, 1);
+            _result.CalculationType = this;
+            _result.EEICharacters = EEICharLabelChooser.EEIChar(_result.WaterHeatingUseProfile, _result.EEI, 1.5f);
+            return _result;
         }
 
         private Dictionary<UseProfileType, float> _Qref = new Dictionary<UseProfileType, float>()
@@ -79,14 +81,14 @@ namespace VVSAssistant.Functions.Calculation.Strategies
         private float SolCalMethodQnonsol()
         {
             float Qnonsol = 0;
-            float Area = SolarArea;
-            float Vnorm = 0;
-            float Psbsol = 0;
+            float Area = _packageData.SolarPanelArea(x => x.isWaterHeater == true);
             // Vbu is used in the getter properties, and used as zero for the rest of the calculation
-            // since no documentation speciefies how to use the Vbu value elsewhere.
+            // since no documentation properly speciefies how to use the Vbu value elsewhere.
             float Vbu = 0;
-            Vnorm = VnormPackage;
-            Psbsol = PsbsolPackage;
+            float Vnorm = VnormPackage;
+            float Psbsol = PsbsolPackage;
+            var SolarData = _packageData.SolarPanelData;
+            var PrimaryData = _packageData.PrimaryUnit;
             if (Vnorm <= 0 || Psbsol <= 0 || SolarData == null)
                 return 0;
             // Monthly Qnonsol values, needs to be summed to get the full Qnonsol
@@ -128,97 +130,64 @@ namespace VVSAssistant.Functions.Calculation.Strategies
         }
 
         // Solar panel plants and conventional water heaters
-        internal float SolicsMethode(WaterHeatingUnitDataSheet data)
+        private float SolicsMethode(WaterHeatingUnitDataSheet data)
         {
             return 0.0f;
         }
 
-        #region Data Getters
-        public SolarCollectorDataSheet SolarData { get
-            { return _package.Appliances.FirstOrDefault(item =>
-                    item.Type == ApplianceTypes.SolarPanel)?.DataSheet
-                    as SolarCollectorDataSheet; } }
-        public SolarStationDataSheet SolarStation { get
-            { return _package?.Appliances?.FirstOrDefault(item =>
-                     item.Type == ApplianceTypes.SolarStation)?.DataSheet
-                     as SolarStationDataSheet ?? null; } }
-        public HeatingUnitDataSheet PrimaryData { get
-            { return _package?.PrimaryHeatingUnit?.DataSheet
-                     as HeatingUnitDataSheet ?? null; } }
-        public ContainerDataSheet SolarContainerData { get
-            { return _package?.SolarContainers[0]?.DataSheet as ContainerDataSheet ?? null; } }
-        public float PumpConsumption
+        public HeatingUnitDataSheet PrimaryData => 
+            _package?.PrimaryHeatingUnit?.DataSheet as HeatingUnitDataSheet;
+
+        private float PumpConsumption
         {
             get
             {
                 float ans = 0;
+                var stationData = _packageData.SolarStationData;
                 ans += PrimaryData.Vnorm > 0 ? PrimaryData.WattUsage : 0;
-                ans += SolarStation != null ? SolarStation.SolPumpConsumption : 0;
+                ans += stationData?.SolPumpConsumption ?? 0;
                 return ans;
             }
         }
-        public float StandbyConsumption
+        private float StandbyConsumption
         {
             get
             {
                 float ans = 0;
+                var stationData = _packageData.SolarStationData;
                 ans += PrimaryData.Vnorm > 0 ? PrimaryData.Psb : 0;
-                ans += SolarStation != null ? SolarStation.SolStandbyConsumption : 0;
+                ans += stationData?.SolStandbyConsumption ?? 0;
                 return ans;
             }
         }
-        public float VnormPackage
+        private float VnormPackage
         {
             get
             {
                 float ans = 0;
                 ans += PrimaryData.Vnorm > 0 ? PrimaryData.Vnorm : 0;
                 ans -= PrimaryData.Vnorm > 0 ? PrimaryData.Vbu : 0;
-                if(ans == 0)
-                ans += SolarContainerData != null ? 
-                    SolarContainerData.Volume *  NumSolarContainers: 0;
+                ans += _packageData.SolarContainerVolume(container =>
+                    container.isBivalent == true && container.isWaterContainer == true);
                 return ans;
             }
         }
-        public float PsbsolPackage
+        private float PsbsolPackage
         {
             get
             {
                 float ans = 0;
                 ans += PrimaryData.Vnorm > 0 ? PrimaryData.StandingLoss / 45 : 0;
-                if(ans == 0)
-                ans += SolarContainerData != null ? 
-                    (SolarContainerData.StandingLoss / 45) * NumSolarContainers: 0;
-                return ans;
-            }
-        }
-        public int NumSolarContainers
-        {
-            get
-            {
-                int ans = 0;
-                ans = _package.SolarContainers.Where(item => 
-                    (item.DataSheet as ContainerDataSheet).isBivalent && 
-                    (item.DataSheet as ContainerDataSheet).isWaterContainer).Count();
-                return ans;
-            }
-        }
-        public float SolarArea
-        {
-            get
-            {
-                float ans = 0;
-                var solarPanels = _package.Appliances.Where(item =>
-                    item.Type == ApplianceTypes.SolarPanel &&
-                    (item?.DataSheet as SolarCollectorDataSheet).isWaterHeater);
-                foreach (var item in solarPanels)
+                var solarContains = _packageData.SolarContainers(container =>
+                    container.isWaterContainer == true && container.isBivalent == true);
+                foreach (var item in solarContains)
                 {
-                    ans += (item?.DataSheet as SolarCollectorDataSheet).Area;
+                    ans += (item?.DataSheet as ContainerDataSheet)?.StandingLoss / 45 ?? 0;
+                    //ans += SolarContainerData?.StandingLoss / 45 ?? 0;
                 }
                 return ans;
             }
         }
-        #endregion
 
         private class QnonsolData
         {
