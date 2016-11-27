@@ -84,7 +84,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
                 float solarContainerVolume = 0;
                 foreach (Appliance Container in PackagedSolution.SolarContainers)
                 {
-                    solarContainerVolume = (Container.DataSheet as ContainerDataSheet).Volume + solarContainerVolume;
+                    solarContainerVolume += (Container.DataSheet as ContainerDataSheet).Volume;
                 }
                 Results.ContainerVolume = solarContainerVolume / 1000;
                 Results.SolarCollectorEffectiveness = (Solars.FirstOrDefault()?.DataSheet as SolarCollectorDataSheet).Efficency;

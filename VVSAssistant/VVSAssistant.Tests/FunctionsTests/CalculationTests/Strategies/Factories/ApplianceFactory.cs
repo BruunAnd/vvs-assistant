@@ -95,6 +95,9 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 case SolarPanelId.Vitosol300T:
                     return new ApplianceStub("Vitosol 300-T", new SolarCollectorDataSheet()
                     { Area = 3.19f, Efficency = 72 }, ApplianceTypes.SolarPanel);
+                case SolarPanelId.LogasolSKN40:
+                    return new ApplianceStub("Logasol SKN 4.0", new SolarCollectorDataSheet()
+                    { Area = 2.25f, Efficency = 61 }, ApplianceTypes.SolarPanel);
                 default:
                     return new Appliance();
             }
