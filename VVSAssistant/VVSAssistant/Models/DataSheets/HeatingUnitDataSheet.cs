@@ -34,7 +34,7 @@ namespace VVSAssistant.Models.DataSheets
         [DisplayName(@"Ikke-solrelateret beholdervolumen")]
         public float Vbu { get; set; }
 
-        [DisplayName(@"Varmetab ved standby")]
+        [DisplayName(@"Elforbrug i standbytilstand")]
         public float Psb { get; set; }
 
         //TODO: Maybe find some better names for these two
