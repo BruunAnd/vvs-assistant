@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VVSAssistant.Models;
+using VVSAssistant.Models.DataSheets;
 
 namespace VVSAssistant.Functions.Calculation
 {
@@ -13,6 +14,13 @@ namespace VVSAssistant.Functions.Calculation
         public PackageDataManager(PackagedSolution package)
         {
             _package = package;
+        }
+        public HeatingUnitDataSheet PrimaryUnit
+        {
+            get
+            {
+                return _package?.PrimaryHeatingUnit.DataSheet as HeatingUnitDataSheet;
+            }
         }
     }
 }

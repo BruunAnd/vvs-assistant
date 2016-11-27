@@ -126,8 +126,11 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             get
             {
                 int ans = 0;
-                ans = _package.SolarContainers.Where(item =>
-                    (item.DataSheet as ContainerDataSheet).isBivalent).Count();
+                ans = _package.SolarContainers.Count(item =>
+                {
+                    var containerDataSheet = item?.DataSheet as ContainerDataSheet;
+                    return containerDataSheet != null && containerDataSheet.isBivalent;
+                });
                 return ans;
             }
         }
