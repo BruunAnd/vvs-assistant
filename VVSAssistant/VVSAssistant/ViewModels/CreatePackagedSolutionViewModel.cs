@@ -327,9 +327,7 @@ namespace VVSAssistant.ViewModels
                                       {
                                           _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
                                           foreach (var appliance in Appliances)
-                                          {
                                               FilteredCollectionView.Refresh();
-                                          }
                                       });
 
             customDialog.Content = new CreateApplianceDialogView { DataContext = dialogViewModel };

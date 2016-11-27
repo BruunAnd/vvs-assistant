@@ -154,7 +154,6 @@
     <Compile Include="Common\ViewModels\FilterableViewModelBase.cs" />
     <Compile Include="Controls\Dialogs\ViewModels\AddHeatingUnitDialogViewModel.cs" />
     <Compile Include="Controls\Dialogs\ViewModels\CreateApplianceDialogViewModel.cs" />
-    <Compile Include="Controls\Dialogs\ViewModels\EditApplianceViewModel.cs" />
     <Compile Include="Controls\Dialogs\ViewModels\GenerateOfferDialogViewModel.cs" />
     <Compile Include="Controls\Dialogs\ViewModels\SolarContainerDialogViewModel.cs" />
     <Compile Include="Controls\Dialogs\Views\AddHeatingUnitDialogView.xaml.cs">
