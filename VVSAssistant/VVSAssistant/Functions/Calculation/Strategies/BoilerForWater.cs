@@ -79,29 +79,14 @@ namespace VVSAssistant.Functions.Calculation.Strategies
         private float SolCalMethodQnonsol()
         {
             float Qnonsol = 0;
+            float Area = SolarArea;
             float Vnorm = 0;
-            float Vbu = 0;
             float Psbsol = 0;
-            if(PrimaryData.Vnorm > 0)
-            {
-                Vnorm = PrimaryData.Vnorm - PrimaryData.Vbu;
-                Psbsol = PrimaryData.StandingLoss/45;
-            }
-            else
-            {
-                Vnorm = SolarContainerData != null ? SolarContainerData.Volume : 0;
-                Psbsol = SolarContainerData != null ? SolarContainerData.StandingLoss / 45 : 0;
-                int num = _package.Appliances.Where(item => item.Type == ApplianceTypes.Container &&
-                           (item?.DataSheet as ContainerDataSheet).isWaterContainer &&
-                           (item?.DataSheet as ContainerDataSheet).isBivalent).Count();
-                if (num>1)
-                {
-                    Vnorm *= num;
-                    Psbsol *= num;
-                }
-            }
-            //Vnorm = VnormPackage;
-            //Psbsol = PsbsolPackage;
+            // Vbu is used in the getter properties, and used as zero for the rest of the calculation
+            // since no documentation speciefies how to use the Vbu value elsewhere.
+            float Vbu = 0;
+            Vnorm = VnormPackage;
+            Psbsol = PsbsolPackage;
             if (Vnorm <= 0 || Psbsol <= 0 || SolarData == null)
                 return 0;
             // Monthly Qnonsol values, needs to be summed to get the full Qnonsol
@@ -113,16 +98,16 @@ namespace VVSAssistant.Functions.Calculation.Strategies
 
                 float etaloop = (float)((1 - ((SolarData.N0 * SolarData.a1) / 100)));
                 float Ac = (float)(SolarData.a1 + SolarData.a2 * 40);
-                float Ul = (float)((6 + 0.3f * SolarData.Asol) / SolarData.Asol);
+                float Ul = (float)((6 + 0.3f * Area) / Area);
                 
                 float Vsol = Vnorm * (1 - 1 * (Vbu / Vnorm));
                 //Vnorm = Vnorm - Vbu;
-                float ccap = (float)Math.Pow(75 * SolarData.Asol / Vsol, 0.25f);
+                float ccap = (float)Math.Pow(75 * Area / Vsol, 0.25f);
 
                 item.Lwh = 30.5f * 0.6f * (_Qref[PrimaryData.UseProfile] + 1.09f);
-                item.Y = SolarData.Asol * SolarData.IAM * SolarData.N0 * etaloop * item.Qsol * (0.732f / item.Lwh);
+                item.Y = Area * SolarData.IAM * SolarData.N0 * etaloop * item.Qsol * (0.732f / item.Lwh);
                 item.Trefw = 11.6f + 1.18f * 40 + 3.86f * 10 - 1.32f * item.Tout;
-                item.X = SolarData.Asol * (Ac + Ul) * etaloop * (item.Trefw - item.Tout) *
+                item.X = Area * (Ac + Ul) * etaloop * (item.Trefw - item.Tout) *
                          ccap * 0.732f / item.Lwh;
 
                 float LsolW1 = (float)((item.Lwh * (1.029f * item.Y - 0.065f * item.X - 0.245f *
@@ -189,9 +174,9 @@ namespace VVSAssistant.Functions.Calculation.Strategies
                 float ans = 0;
                 ans += PrimaryData.Vnorm > 0 ? PrimaryData.Vnorm : 0;
                 ans -= PrimaryData.Vnorm > 0 ? PrimaryData.Vbu : 0;
-                
+                if(ans == 0)
                 ans += SolarContainerData != null ? 
-                    SolarContainerData.Volume * NumSolarContainers: 0;
+                    SolarContainerData.Volume *  NumSolarContainers: 0;
                 return ans;
             }
         }
@@ -201,9 +186,9 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             {
                 float ans = 0;
                 ans += PrimaryData.Vnorm > 0 ? PrimaryData.StandingLoss / 45 : 0;
-                
+                if(ans == 0)
                 ans += SolarContainerData != null ? 
-                    (SolarContainerData.StandingLoss / 45) * NumSolarContainers : 0;
+                    (SolarContainerData.StandingLoss / 45) * NumSolarContainers: 0;
                 return ans;
             }
         }
@@ -212,10 +197,9 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             get
             {
                 int ans = 0;
-                ans = _package.Appliances.Where(item =>
-                           item.Type == ApplianceTypes.Container &&
-                           (item.DataSheet as ContainerDataSheet).isWaterContainer &&
-                           (item.DataSheet as ContainerDataSheet).isBivalent).Count();
+                ans = _package.SolarContainers.Where(item => 
+                    (item.DataSheet as ContainerDataSheet).isBivalent && 
+                    (item.DataSheet as ContainerDataSheet).isWaterContainer).Count();
                 return ans;
             }
         }
@@ -224,6 +208,13 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             get
             {
                 float ans = 0;
+                var solarPanels = _package.Appliances.Where(item =>
+                    item.Type == ApplianceTypes.SolarPanel &&
+                    (item?.DataSheet as SolarCollectorDataSheet).isWaterHeater);
+                foreach (var item in solarPanels)
+                {
+                    ans += (item?.DataSheet as SolarCollectorDataSheet).Asol;
+                }
                 return ans;
             }
         }
