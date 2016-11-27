@@ -213,7 +213,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
                     (item?.DataSheet as SolarCollectorDataSheet).isWaterHeater);
                 foreach (var item in solarPanels)
                 {
-                    ans += (item?.DataSheet as SolarCollectorDataSheet).Asol;
+                    ans += (item?.DataSheet as SolarCollectorDataSheet).Area;
                 }
                 return ans;
             }
