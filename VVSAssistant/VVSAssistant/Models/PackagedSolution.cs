@@ -11,15 +11,19 @@ namespace VVSAssistant.Models
         public PackagedSolution()
         {
             ApplianceInstances = new List<ApplianceInstance>();
+            SolarContainerInstances = new List<ApplianceInstance>();
         }
 
+        private ApplianceList _solarContainers;
         [NotMapped]
-        public Appliance SolarContainer
+        public ApplianceList SolarContainers
         {
-            //TODO: This should be a list, because it's possible for brian 
-            //to add more than one Solar Container
-            get { return SolarContainerInstance?.Appliance; }    
-            set { SolarContainerInstance = new ApplianceInstance(value);}
+            get { return _solarContainers ?? (_solarContainers = new ApplianceList((List<ApplianceInstance>)SolarContainerInstances)); }
+            set
+            {
+                _solarContainers = value;
+                SolarContainerInstances = _applianceList.BackingList;
+            }
         }
 
         [NotMapped]
@@ -44,6 +48,7 @@ namespace VVSAssistant.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTime CreationDate { get; set; }
+        public virtual ICollection<ApplianceInstance> SolarContainerInstances { get; set; }
         public virtual ICollection<ApplianceInstance> ApplianceInstances { get; set; }
         public virtual ApplianceInstance SolarContainerInstance { get; private set; }
         public virtual ApplianceInstance PrimaryHeatingUnitInstance { get; private set; }

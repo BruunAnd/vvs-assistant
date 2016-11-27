@@ -32,7 +32,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
 
             var Qref = _Qref[result.WaterHeatingUseProfile];
             float Qaux = SolCalMethodQaux();
-            float Qnonsol = (float)Math.Round(SolCalMethodQnonsol(),2);
+            float Qnonsol = SolCalMethodQnonsol();
 
             float parameterOne = result.WaterHeatingEffciency;
             float parameterTwo = Qnonsol != 0 ? (float)((220 * Qref) / Qnonsol) : 0;
@@ -64,29 +64,19 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             {"Oct", new QnonsolData(129f, 11.9f)}, {"Nov", new QnonsolData(80f, 5.6f)}, {"Dec", new QnonsolData(56f, 3.2f)}
         };
         // Calculates the Qaux (auxiliary electricity consumption)
-        internal float SolCalMethodQaux()
+        private float SolCalMethodQaux()
         {
-            float SolpumpConconsumption = 0;
-            float SolstandbyConsumption = 0;
-            if(PrimaryData.Vnorm > 0)
-            {
-                SolpumpConconsumption = PrimaryData.WattUsage;
-                SolstandbyConsumption = PrimaryData.Psb;
-            }
-            if(SolarStation != null)
-            {
-                SolpumpConconsumption += SolarStation.SolPumpConsumption;
-                SolstandbyConsumption += SolarStation.SolStandbyConsumption;
-            }
-            if (SolpumpConconsumption <= 0 || SolstandbyConsumption <= 0)
-                return 0;
+            float SolpumpConconsumption = PumpConsumption;
+            float SolstandbyConsumption = StandbyConsumption;
             // 2000 active solar hours 
-            float Qaux = (float)Math.Ceiling(((SolpumpConconsumption * 2000) +
-                   (SolstandbyConsumption * 24 * 365)) / 1000);
+            float Qaux = SolpumpConconsumption <= 0 || SolstandbyConsumption <= 0 ? 
+                         0 :
+                         (float)Math.Ceiling(((SolpumpConconsumption * 2000) +
+                         (SolstandbyConsumption * 24 * 365)) / 1000);
             return Qaux;
         }
         // Calculates the Qnonsol (annual non-solar contribution)
-        internal float SolCalMethodQnonsol()
+        private float SolCalMethodQnonsol()
         {
             float Qnonsol = 0;
             float Vnorm = 0;
@@ -110,6 +100,8 @@ namespace VVSAssistant.Functions.Calculation.Strategies
                     Psbsol *= num;
                 }
             }
+            //Vnorm = VnormPackage;
+            //Psbsol = PsbsolPackage;
             if (Vnorm <= 0 || Psbsol <= 0 || SolarData == null)
                 return 0;
             // Monthly Qnonsol values, needs to be summed to get the full Qnonsol
@@ -169,7 +161,72 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             { return _package?.PrimaryHeatingUnit?.DataSheet
                      as HeatingUnitDataSheet ?? null; } }
         public ContainerDataSheet SolarContainerData { get
-            { return _package?.SolarContainer?.DataSheet as ContainerDataSheet ?? null; } }
+            { return _package?.SolarContainers[0]?.DataSheet as ContainerDataSheet ?? null; } }
+        public float PumpConsumption
+        {
+            get
+            {
+                float ans = 0;
+                ans += PrimaryData.Vnorm > 0 ? PrimaryData.WattUsage : 0;
+                ans += SolarStation != null ? SolarStation.SolPumpConsumption : 0;
+                return ans;
+            }
+        }
+        public float StandbyConsumption
+        {
+            get
+            {
+                float ans = 0;
+                ans += PrimaryData.Vnorm > 0 ? PrimaryData.Psb : 0;
+                ans += SolarStation != null ? SolarStation.SolStandbyConsumption : 0;
+                return ans;
+            }
+        }
+        public float VnormPackage
+        {
+            get
+            {
+                float ans = 0;
+                ans += PrimaryData.Vnorm > 0 ? PrimaryData.Vnorm : 0;
+                ans -= PrimaryData.Vnorm > 0 ? PrimaryData.Vbu : 0;
+                
+                ans += SolarContainerData != null ? 
+                    SolarContainerData.Volume * NumSolarContainers: 0;
+                return ans;
+            }
+        }
+        public float PsbsolPackage
+        {
+            get
+            {
+                float ans = 0;
+                ans += PrimaryData.Vnorm > 0 ? PrimaryData.StandingLoss / 45 : 0;
+                
+                ans += SolarContainerData != null ? 
+                    (SolarContainerData.StandingLoss / 45) * NumSolarContainers : 0;
+                return ans;
+            }
+        }
+        public int NumSolarContainers
+        {
+            get
+            {
+                int ans = 0;
+                ans = _package.Appliances.Where(item =>
+                           item.Type == ApplianceTypes.Container &&
+                           (item.DataSheet as ContainerDataSheet).isWaterContainer &&
+                           (item.DataSheet as ContainerDataSheet).isBivalent).Count();
+                return ans;
+            }
+        }
+        public float SolarArea
+        {
+            get
+            {
+                float ans = 0;
+                return ans;
+            }
+        }
         #endregion
 
         private class QnonsolData

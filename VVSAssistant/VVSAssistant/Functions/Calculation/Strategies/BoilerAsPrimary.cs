@@ -71,8 +71,25 @@ namespace VVSAssistant.Functions.Calculation.Strategies
         }
         private bool HasNonSolarContainer()
         {
-            return _package?.Appliances.Any(item => item.Type == ApplianceTypes.Container
-                                            && item != _package?.SolarContainer) ?? false;
+            var containers = _package.Appliances.Where(item => item.Type == ApplianceTypes.Container);
+            var solarContainers = _package.SolarContainers;
+            foreach (var item in containers)
+            {
+                bool ans = false;
+                foreach (var solar in solarContainers)
+                {
+                    if (item != solar)
+                        ans = true;
+                    else
+                    {
+                        ans = false;
+                        break;
+                    }
+                }
+                if (ans)
+                    return true;
+            }
+            return false;
         }
         private float AdjustedContribution(float heatpumpContribution, float solarContribution)
         {
@@ -114,13 +131,13 @@ namespace VVSAssistant.Functions.Calculation.Strategies
                                                       SolarCollectorDataSheet; } }
         internal Appliance SupplementaryHeatpump { get { return null; } }
         internal float SolarContainerClass { get { return ContainerDataSheet.ClassificationClass[
-                                             (_package?.SolarContainer?.DataSheet
+                                             (_package?.SolarContainers[0]?.DataSheet
                                              as ContainerDataSheet).Classification ?? "0"]; } }
         internal ContainerDataSheet SolarContainerData
         {
             get
             {
-                return _package?.SolarContainer?.DataSheet as ContainerDataSheet;
+                return _package?.SolarContainers[0]?.DataSheet as ContainerDataSheet;
             }
         }
         internal SolarCollectorDataSheet SolarCollectorData

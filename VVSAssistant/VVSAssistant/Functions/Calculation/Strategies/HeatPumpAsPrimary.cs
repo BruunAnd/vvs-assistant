@@ -64,7 +64,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
 
 
             //Calculating effect of solarcollector
-            if (Solars.Count() != 0)
+            if (Solars.Count() != 0 && PackagedSolution.SolarContainers.Count() != 0)
             {
                 if (PackagedSolution.PrimaryHeatingUnit.Type == ApplianceTypes.CHP)
                     SolarContributionFactor = 0.7f;
@@ -80,9 +80,15 @@ namespace VVSAssistant.Functions.Calculation.Strategies
                     AreaOfSolars = (solar.DataSheet as SolarCollectorDataSheet).Area + AreaOfSolars;
                 }
                 Results.SolarCollectorArea = AreaOfSolars;
-                Results.ContainerVolume = ((PackagedSolution.SolarContainer.DataSheet as ContainerDataSheet).Volume) / 1000;
+
+                float solarContainerVolume = 0;
+                foreach (Appliance Container in PackagedSolution.SolarContainers)
+                {
+                    solarContainerVolume = (Container.DataSheet as ContainerDataSheet).Volume + solarContainerVolume;
+                }
+                Results.ContainerVolume = solarContainerVolume / 1000;
                 Results.SolarCollectorEffectiveness = (Solars.FirstOrDefault()?.DataSheet as SolarCollectorDataSheet).Efficency;
-                Results.ContainerClassification = ContainerDataSheet.ClassificationClass[(PackagedSolution.SolarContainer.DataSheet as ContainerDataSheet).Classification];
+                Results.ContainerClassification = ContainerDataSheet.ClassificationClass[(PackagedSolution.SolarContainers[0].DataSheet as ContainerDataSheet).Classification];
 
                 Results.SolarHeatContribution = (float)Math.Round((III * Results.SolarCollectorArea + IV * Results.ContainerVolume) * SolarContributionFactor * (Results.SolarCollectorEffectiveness / 100) * Results.ContainerClassification, 2);
             }
@@ -107,7 +113,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             {
                 return true;
             }
-            else if (_package.Appliances.Where(Container => Container.Type == ApplianceTypes.Container && _package.SolarContainer != Container).Count() > 0)
+            else if (_package.SolarContainers.Count() < Containers.Count())
             {
                 return true;
             }
