@@ -76,6 +76,8 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                     return new PackageStub(HeatpumpId.Vitocal350A, ContainerId.Vitocell140E950l, null, SolarPanelId.Vitosol200TSP2A, 6, null, 0);
                 case PackagedSolutionId.Brian3:
                     return new PackageStub(BoilerId.LoganoSB150, null, 0, null, 0, HeatpumpId.Compress6000AW5, null, null);
+                case PackagedSolutionId.Brian5:
+                    return new PackageStub(BoilerId.LoganoSB150, ContainerId.BST5006, SolarPanelId.LogasolSKN40, 4, SolarStationId.SBT1603);
                 default:
                     return null;
             }
@@ -88,6 +90,6 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         PrimaryWaterBoilerOSolar, PrimaryWaterBoilerNull, PrimaryBoilerWHeatPump, PirmaryBoilerW3Solar,
         PrimaryBoilerW1Solar, PrimaryHeatPump6Solars, PrimaryPurUnitSolarWater, PrimaryPurUnitSolarWaterWStation,
         PrimaryCondens1Container, PrimaryCondens3Container, PrimaryHeatPump2Solar, PrimaryHeatPump4Solars, PrimaryHeatPumpNoSolars,
-            PrimaryCHP4Solars, Brian1, Brian2, Brian3,
+            PrimaryCHP4Solars, Brian1, Brian2, Brian3, Brian5,
     }
 }

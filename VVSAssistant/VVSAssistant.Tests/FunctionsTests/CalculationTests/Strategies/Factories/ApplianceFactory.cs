@@ -60,6 +60,9 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 case SolarStationId.SBT353:
                     return new ApplianceStub("SBT35-3", new SolarStationDataSheet()
                     { SolStandbyConsumption = 2.72f, SolPumpConsumption = 30f }, ApplianceTypes.SolarStation);
+                case SolarStationId.SBT1603:
+                    return new ApplianceStub("SBT160-3", new SolarStationDataSheet()
+                    { SolStandbyConsumption = 2.72f, SolPumpConsumption = 70f }, ApplianceTypes.SolarStation);
                 default:
                     return new Appliance();
             }
@@ -141,11 +144,14 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                     return new ApplianceStub("BST 500/80", new ContainerDataSheet()
                     { Volume = 489.3f, Classification = "E", StandingLoss = 163 }, ApplianceTypes.Container);
                 case ContainerId.SW750:
-                    return new ApplianceStub("BST 500/80", new ContainerDataSheet()
+                    return new ApplianceStub("SW 750", new ContainerDataSheet()
                     { Volume = 741f, Classification = "E", StandingLoss = 179 }, ApplianceTypes.Container);
                 case ContainerId.CERA110L:
                     return new ApplianceStub("BST 500/80", new ContainerDataSheet()
                     { Volume = 93.0f, Classification = "C", StandingLoss = 50 }, ApplianceTypes.Container);
+                case ContainerId.BST5006:
+                    return new ApplianceStub("BST 500-6", new ContainerDataSheet()
+                    { Volume = 495.0f, Classification = "b", StandingLoss = 82 }, ApplianceTypes.Container);
                 default:
                     return new Appliance();
             }

@@ -82,6 +82,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests
         [TestCase(PackagedSolutionId.Brian1, 98)]
         [TestCase(PackagedSolutionId.Brian2, 127)]
         [TestCase(PackagedSolutionId.Brian3, 115)]
+        [TestCase(PackagedSolutionId.Brian5, 97)]
         public void SelectCalculationStrategyReturnsCorrectEEI(PackagedSolutionId packID, float expectedValue)
         {
             var package = new PackageFactory().GetPackage(packID);
@@ -94,6 +95,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests
         [Test]
         [TestCase(PackagedSolutionId.Brian1, 5.3f)]
         [TestCase(PackagedSolutionId.Brian2, 13.05f)]
+        [TestCase(PackagedSolutionId.Brian5, 6.45f)]
         public void SelectCalculationStrategyReturnsCorrectSolEff(PackagedSolutionId packID, float expectedValue)
         {
             var package = new PackageFactory().GetPackage(packID);
