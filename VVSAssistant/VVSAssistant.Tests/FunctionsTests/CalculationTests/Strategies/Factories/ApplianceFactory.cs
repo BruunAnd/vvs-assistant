@@ -186,5 +186,17 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                     return new Appliance();
             }
         }
+        public Appliance GetWaterHeater(WaterHeaterId id)
+        {
+            switch (id)
+            {
+                case WaterHeaterId.Compress3000:
+                    return new ApplianceStub("Compress3000", new HeatingUnitDataSheet()
+                    { Vnorm = 260, Vbu=20, StandingLoss=159, WaterHeatingEffiency=95, AFUEColdClima=83, AFUEWarmClima=114,
+                      isWaterHeater=true, UseProfile = UseProfileType.XL}, ApplianceTypes.WaterHeater);
+                default:
+                    return new Appliance();
+            }
+        }
     }
 }

@@ -24,13 +24,11 @@ namespace VVSAssistant.Functions.Calculation.Strategies
         {
             _package = Package;
             _packageData = new PackageDataManager(_package);
-            var data = PrimaryData;
-            if (PrimaryData == null || PrimaryData?.WaterHeatingEffiency == null || 
-                PrimaryData?.UseProfile == null)
+            if (PrimaryData == null)
                 return null;
-
-            _result.WaterHeatingEffciency = PrimaryData.WaterHeatingEffiency;
-            _result.WaterHeatingUseProfile = PrimaryData.UseProfile;
+            var data = WaterHeater == null ? PrimaryData : WaterHeater;
+            _result.WaterHeatingEffciency = data.WaterHeatingEffiency;
+            _result.WaterHeatingUseProfile = data.UseProfile;
 
             var Qref = _Qref[_result.WaterHeatingUseProfile];
             float Qaux = SolCalMethodQaux();
@@ -106,7 +104,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
                 //Vnorm = Vnorm - Vbu;
                 float ccap = (float)Math.Pow(75 * Area / Vsol, 0.25f);
 
-                item.Lwh = 30.5f * 0.6f * (_Qref[PrimaryData.UseProfile] + 1.09f);
+                item.Lwh = 30.5f * 0.6f * (_Qref[_result.WaterHeatingUseProfile] + 1.09f);
                 item.Y = Area * SolarData.IAM * SolarData.N0 * etaloop * item.Qsol * (0.732f / item.Lwh);
                 item.Trefw = 11.6f + 1.18f * 40 + 3.86f * 10 - 1.32f * item.Tout;
                 item.X = Area * (Ac + Ul) * etaloop * (item.Trefw - item.Tout) *

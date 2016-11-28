@@ -21,6 +21,21 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             Appliances.Add(factory.GetContainer(container ?? 0));
             Appliances.Add(factory.GetTempControl(tempControl ?? 0));
         }
+        public PackageStub(BoilerId priBoiler, ContainerId? solarContain, WaterHeaterId waterHeater, SolarPanelId? solar, 
+            int numberOfSolars, SolarStationId solarStation, TempControlId? tempControl)
+        {
+            var factory = new ApplianceFactory();
+            PrimaryHeatingUnit = factory.GetBoiler((priBoiler));
+            SolarContainers.Add(factory.GetContainer((solarContain ?? 0)));
+            Appliances.Add(factory.GetContainer(solarContain ?? 0));
+            for (int i = 0; i < numberOfSolars; i++)
+            {
+                Appliances.Add(factory.GetSolarPanel(solar ?? 0));
+            }
+            Appliances.Add(factory.GetWaterHeater(waterHeater));
+            Appliances.Add(factory.GetSolarStation(solarStation));
+            Appliances.Add(factory.GetTempControl(tempControl ?? 0));
+        }
         public PackageStub(BoilerId priBoiler, ContainerId? solarContainer, SolarPanelId? solar, int numberOfSolars,
             SolarStationId? solarStation)
         {
