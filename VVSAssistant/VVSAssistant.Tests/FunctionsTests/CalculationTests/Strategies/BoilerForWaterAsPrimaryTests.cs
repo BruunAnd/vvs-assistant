@@ -69,6 +69,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         [TestCase(PackagedSolutionId.PrimaryPurUnitSolarWaterWStation, 1f, 100)]
         [TestCase(PackagedSolutionId.PrimaryCondens1Container, 1f, 93)]
         [TestCase(PackagedSolutionId.PrimaryCondens3Container, 1f, 92)]
+        [TestCase(PackagedSolutionId.WaterHeaterTest, 1f, 116)]
         public void WaterPrimaryCalculateEEI_CalculatesEEICompletePackagedSolution(PackagedSolutionId packageId, float errormargin,float expected)
         {
             var package = new PackageFactory().GetPackage(packageId);
