@@ -150,8 +150,10 @@
                         VerticalAlignment="Bottom">
                 <DockPanel>
                     <Label Content="Aktuelt energimærke"/>
-                    <Label HorizontalAlignment="Right" 
-                           Content="{Binding EEIResult, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Label HorizontalAlignment="Center" 
+                           Content="{Binding EEIResult, UpdateSourceTrigger=PropertyChanged}"
+                           FontWeight="Bold"
+                           FontSize="28"/>
                 </DockPanel>
                 <DockPanel>
                     <Label Content="Næste energimærke"/>

@@ -35,19 +35,19 @@ namespace VVSAssistant.ViewModels
 
         public double TotalSalesPrice => SalariesInOffer.Sum(salary => salary.SalesPrice)
                                          + MaterialsInOffer.Sum(material => material.SalesPrice)
-                                         + AppliancesInPackagedSolution.Sum(appliance => appliance.UnitPrice.SalesPrice);
+                                         + AppliancesInPackagedSolution.Sum(appliance => appliance.SalesPrice);
 
         public double TotalCostPrice => SalariesInOffer.Sum(salary => salary.CostPrice)
                                          + MaterialsInOffer.Sum(material => material.CostPrice)
-                                         + AppliancesInPackagedSolution.Sum(appliance => appliance.UnitPrice.CostPrice);
+                                         + AppliancesInPackagedSolution.Sum(appliance => appliance.CostPrice);
 
         public double TotalContributionMargin => SalariesInOffer.Sum(salary => salary.ContributionMargin)
                                          + MaterialsInOffer.Sum(material => material.ContributionMargin)
-                                         + AppliancesInPackagedSolution.Sum(appliance => appliance.UnitPrice.ContributionMargin);
+                                         + AppliancesInPackagedSolution.Sum(appliance => appliance.ContributionMargin);
 
-        public double AppliancesSalesPrice => AppliancesInPackagedSolution.Sum(appliance => appliance.UnitPrice.SalesPrice);
-        public double AppliancesCostPrice => AppliancesInPackagedSolution.Sum(appliance => appliance.UnitPrice.CostPrice);
-        public double AppliancesContributionMargin => AppliancesInPackagedSolution.Sum(appliance => appliance.UnitPrice.ContributionMargin);
+        public double AppliancesSalesPrice => AppliancesInPackagedSolution.Sum(appliance => appliance.SalesPrice);
+        public double AppliancesCostPrice => AppliancesInPackagedSolution.Sum(appliance => appliance.CostPrice);
+        public double AppliancesContributionMargin => AppliancesInPackagedSolution.Sum(appliance => appliance.ContributionMargin);
 
         public double SalariesSalesPrice => SalariesInOffer.Sum(x => x.SalesPrice);
         public double SalariesCostPrice => SalariesInOffer.Sum(x => x.CostPrice);
