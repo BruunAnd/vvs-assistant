@@ -260,7 +260,7 @@ namespace VVSAssistant
             // get datasheet test
             using (var ctx = new AssistantContext())
             {
-                ctx.DataSheets.ToList().ForEach(sheet => Console.WriteLine(sheet is HeatingUnitDataSheet));
+                //ctx.DataSheets.ToList().ForEach(sheet => Console.WriteLine(sheet is HeatingUnitDataSheet));
             }
         }
     }
