@@ -15,6 +15,14 @@ namespace Final.Model
     };
     class Appliance
     {
+        private DateTime _creationDate;
+        public DateTime CreationDate
+        {
+            get { return _creationDate; }
+            set { _creationDate = value; }
+        }
+
+
         private int _id;
         public int Id
         {

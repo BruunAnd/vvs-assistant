@@ -8,6 +8,14 @@ namespace Final.Model
 {
     class Client
     {
+        private DateTime _creationDate;
+
+        public DateTime CreationDate
+        {
+            get { return CreationDate; }
+            set { CreationDate = value; }
+        }
+
         public virtual ClientInformation ClientInformation { get; set; }
     }
 }

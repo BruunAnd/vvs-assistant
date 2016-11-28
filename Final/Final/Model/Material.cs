@@ -8,5 +8,6 @@ namespace Final.Model
 {
     class Material
     {
+        /* Material info */
     }
 }
