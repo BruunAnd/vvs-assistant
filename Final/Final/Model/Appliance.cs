@@ -37,11 +37,11 @@ namespace Final.Model
             set { _name = value; }
         }
 
+        /* Can only be set once */
         private ApplianceTypes _type;
         public ApplianceTypes Type
         {
             get { return _type; }
-            set { _type = value; }
         }
 
 

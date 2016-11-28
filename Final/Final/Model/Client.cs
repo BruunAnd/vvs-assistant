@@ -12,8 +12,8 @@ namespace Final.Model
 
         public DateTime CreationDate
         {
-            get { return CreationDate; }
-            set { CreationDate = value; }
+            get { return _creationDate; }
+            set { _creationDate = value; }
         }
 
         public virtual ClientInformation ClientInformation { get; set; }

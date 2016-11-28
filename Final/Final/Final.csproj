@@ -69,6 +69,16 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\Appliance.cs" />
+    <Compile Include="Model\Client.cs" />
+    <Compile Include="Model\ClientInformation.cs" />
+    <Compile Include="Model\Data sheets\DataSheet.cs" />
+    <Compile Include="Model\EnergyLabel.cs" />
+    <Compile Include="Model\Material.cs" />
+    <Compile Include="Model\Offer.cs" />
+    <Compile Include="Model\OfferInformation.cs" />
+    <Compile Include="Model\PackagedSolution.cs" />
+    <Compile Include="Model\Salary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
