@@ -174,18 +174,13 @@
                               SelectionMode="Single"
                               ItemsSource="{Binding MaterialsInOffer}">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding VvsNumber}"
-                                                Header="VVS Nr."
-                                                MinWidth="100"
-                                                Width="1*"
-                                                CanUserReorder="False"/>
                             <DataGridTextColumn Binding="{Binding Name}"
                                                 Header="Beskrivelse"
                                                 MinWidth="100"
                                                 Width="1.5*"
                                                 CanUserReorder="False"/>
                             <DataGridTextColumn Binding="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}"
-                                                Header="Timer"
+                                                Header="Mængde"
                                                 MinWidth="50"
                                                 Width="1*"
                                                 CanUserReorder="False"/>
@@ -195,7 +190,7 @@
                                                 Width="1*"
                                                 CanUserReorder="False"/>
 
-                            <DataGridTextColumn Binding="{Binding Reference.CostPrice, UpdateSourceTrigger=PropertyChanged}" 
+                            <DataGridTextColumn Binding="{Binding CostPrice, UpdateSourceTrigger=PropertyChanged}" 
                                                 Header="Kostpris"
                                                 IsReadOnly="True"  
                                                 MinWidth="100"
@@ -233,42 +228,37 @@
                 <DockPanel>
                     <Label Content="Salgspris"/>
                     <Label HorizontalAlignment="Right" 
-                           Content="0"/>
-                </DockPanel>
-                <DockPanel>
-                    <Label Content="Salgspris inkl. moms"/>
-                    <Label HorizontalAlignment="Right" 
-                           Content="0"/>
+                           Content="{Binding TotalSalesPrice}"/>
                 </DockPanel>
                 <DockPanel>
                     <Label Content="Kostpris"/>
                     <Label HorizontalAlignment="Right" 
-                           Content="0"/>
+                           Content="{Binding TotalCostPrice}"/>
                 </DockPanel>
 
                 <DockPanel>
                     <Label Content="Dækningsbidrag"/>
                     <Label HorizontalAlignment="Right" 
-                           Content="0"/>
+                           Content="{Binding TotalContributionMargin}"/>
                 </DockPanel>
 
                 <Label Content="Komponenter"/>
                 <DockPanel>
                     <Label Content="Salgspris"/>
                     <Label HorizontalAlignment="Right" 
-                           Content="0"/>
+                           Content="{Binding AppliancesSalesPrice}"/>
                 </DockPanel>
 
                 <DockPanel>
                     <Label Content="Kostpris"/> 
                     <Label HorizontalAlignment="Right" 
-                           Content="0"/>
+                           Content="{Binding AppliancesCostPrice}"/>
                 </DockPanel>
 
                 <DockPanel>
                     <Label Content="Dækningsbidrag"/>
                     <Label HorizontalAlignment="Right"
-                           Content="0"/>
+                           Content="{Binding AppliancesContributionMargin}"/>
                 </DockPanel>
 
                 <Label Content="Løn"/>
@@ -276,19 +266,19 @@
                 <DockPanel>
                     <Label Content="Salgspris"/>
                     <Label HorizontalAlignment="Right" 
-                           Content="0"/>
+                           Content="{Binding SalariesSalesPrice}"/>
                 </DockPanel>
 
                 <DockPanel>
                     <Label Content="Kostpris"/>
                     <Label HorizontalAlignment="Right" 
-                           Content="0"/>
+                           Content="{Binding SalariesCostPrice}"/>
                 </DockPanel>
 
                 <DockPanel>
                     <Label Content="Dækningsbidrag"/>
                     <Label HorizontalAlignment="Right" 
-                           Content="0"/>
+                           Content="{Binding SalariesContributionMargin}"/>
                 </DockPanel>
 
                 <Label Content="Materialer"/>
@@ -296,19 +286,19 @@
                 <DockPanel>
                     <Label Content="Salgspris"/>
                     <Label HorizontalAlignment="Right"
-                           Content="0"/>
+                           Content="{Binding MaterialsSalesPrice}"/>
                 </DockPanel>
 
                 <DockPanel>
                     <Label Content="Kostpris"/> 
                     <Label HorizontalAlignment="Right" 
-                           Content="0"/>
+                           Content="{Binding MaterialsCostPrice}"/>
                 </DockPanel>
 
                 <DockPanel>
                     <Label Content="Dækningsbidrag"/>
                     <Label HorizontalAlignment="Right" 
-                           Content="0"/>
+                           Content="{Binding MaterialsContributionMargin}"/>
                 </DockPanel>
             </StackPanel>
             

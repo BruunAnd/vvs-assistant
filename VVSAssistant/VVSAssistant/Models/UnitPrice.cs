@@ -11,7 +11,7 @@ namespace VVSAssistant.Models
         public int Quantity
         {
             get { return _quantity; }
-            set { SetProperty<int>(ref _quantity, value); OnPropertyChanged("CostPrice"); OnPropertyChanged("SalesPrice"); }
+            set { SetProperty(ref _quantity, value); OnPropertyChanged("CostPrice"); OnPropertyChanged("SalesPrice"); OnPropertyChanged("ContributionMargin"); }
         }
         
         // Update CostPrice if the UnitCostPrice is changed.
@@ -19,7 +19,7 @@ namespace VVSAssistant.Models
         public double UnitCostPrice
         {
             get { return _unitCostPrice; }
-            set { SetProperty<double>(ref _unitCostPrice, value); OnPropertyChanged("CostPrice"); }
+            set { SetProperty(ref _unitCostPrice, value); OnPropertyChanged("CostPrice"); OnPropertyChanged("ContributionMargin"); }
         }
 
         // Update SalesPrice if the UnitSalesPrice is changed.
@@ -27,7 +27,7 @@ namespace VVSAssistant.Models
         public double UnitSalesPrice
         {
             get { return _unitSalesPrice; }
-            set { SetProperty<double>(ref _unitSalesPrice, value); OnPropertyChanged("SalesPrice"); }
+            set { SetProperty(ref _unitSalesPrice, value); OnPropertyChanged("SalesPrice"); OnPropertyChanged("ContributionMargin"); }
         }
 
         public double SalesPrice => Math.Abs(UnitSalesPrice * Quantity);

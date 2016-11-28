@@ -12,6 +12,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using VVSAssistant.Common.ViewModels;
 using VVSAssistant.Events;
 
@@ -29,6 +30,33 @@ namespace VVSAssistant.ViewModels
             get { return _packagedSolutions; }
             set { _packagedSolutions = value; OnPropertyChanged(); }
         }
+
+        public double TotalSalesPrice => SalariesInOffer.Sum(salary => salary.SalesPrice)
+                                         + MaterialsInOffer.Sum(material => material.SalesPrice)
+                                         + AppliancesInPackagedSolution.Sum(appliance => appliance.UnitPrice.SalesPrice);
+
+        public double TotalCostPrice => SalariesInOffer.Sum(salary => salary.CostPrice)
+                                         + MaterialsInOffer.Sum(material => material.CostPrice)
+                                         + AppliancesInPackagedSolution.Sum(appliance => appliance.UnitPrice.CostPrice);
+
+        public double TotalContributionMargin => SalariesInOffer.Sum(salary => salary.ContributionMargin)
+                                         + MaterialsInOffer.Sum(material => material.ContributionMargin)
+                                         + AppliancesInPackagedSolution.Sum(appliance => appliance.UnitPrice.ContributionMargin);
+
+        public double AppliancesSalesPrice => AppliancesInPackagedSolution.Sum(appliance => appliance.UnitPrice.SalesPrice);
+        public double AppliancesCostPrice => AppliancesInPackagedSolution.Sum(appliance => appliance.UnitPrice.CostPrice);
+        public double AppliancesContributionMargin => AppliancesInPackagedSolution.Sum(appliance => appliance.UnitPrice.ContributionMargin);
+
+        public double SalariesSalesPrice => SalariesInOffer.Sum(x => x.SalesPrice);
+        public double SalariesCostPrice => SalariesInOffer.Sum(x => x.CostPrice);
+        public double SalariesContributionMargin => SalariesInOffer.Sum(x => x.ContributionMargin);
+
+
+        public double MaterialsSalesPrice => MaterialsInOffer.Sum(x => x.SalesPrice);
+        public double MaterialsCostPrice => MaterialsInOffer.Sum(x => x.CostPrice);
+        public double MaterialsContributionMargin => MaterialsInOffer.Sum(x => x.ContributionMargin);
+
+
         private ObservableCollection<Client> _clients;
         private Offer _offer;
         public Offer Offer
@@ -94,6 +122,7 @@ namespace VVSAssistant.ViewModels
             PackagedSolutions = new ObservableCollection<PackagedSolution>();
             MaterialsInOffer = new ObservableCollection<Material>();
             SalariesInOffer = new ObservableCollection<Salary>();
+            AppliancesInPackagedSolution = new ObservableCollection<Appliance>();
 
             /* Tied to "print offer" button in bottom left corner. 
              * Disabled if VerifyOfferHasRequiredInformation returns false. */
@@ -112,9 +141,10 @@ namespace VVSAssistant.ViewModels
              * Nullifies all offer properties and changes view to list of packaged solutions. */
             CreateNewOffer = new RelayCommand
                         ( x => SetInitialSettings()); 
-
+            
             MaterialsInOffer.CollectionChanged += NotifyOfferContentsChanged;
             SalariesInOffer.CollectionChanged += NotifyOfferContentsChanged;
+            AppliancesInPackagedSolution.CollectionChanged += NotifyOfferContentsChanged;
             //VVSAssistantEvents.SaveOfferButtonPressedEventHandler += SaveOfferToDatabase;
             SetInitialSettings();
         }
@@ -181,6 +211,33 @@ namespace VVSAssistant.ViewModels
         /* When items are added to Offer.Materials and Offer.Salaries */
         private void NotifyOfferContentsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
+            if (e != null)
+            {
+                if (e.OldItems != null)
+                    foreach (INotifyPropertyChanged item in e.OldItems)
+                        item.PropertyChanged -= OfferContentsPropertyChanged;
+
+                if (e.NewItems != null)
+                    foreach (INotifyPropertyChanged item in e.NewItems)
+                        item.PropertyChanged += OfferContentsPropertyChanged;
+            }
+
+        }
+
+        private void OfferContentsPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged("TotalSalesPrice");
+            OnPropertyChanged("TotalCostPrice");
+            OnPropertyChanged("TotalContributionMargin");
+            OnPropertyChanged("AppliancesSalesPrice");
+            OnPropertyChanged("AppliancesCostPrice");
+            OnPropertyChanged("AppliancesContributionMargin");
+            OnPropertyChanged("SalariesSalesPrice");
+            OnPropertyChanged("SalariesCostPrice");
+            OnPropertyChanged("SalariesContributionMargin");
+            OnPropertyChanged("MaterialsSalesPrice");
+            OnPropertyChanged("MaterialsCostPrice");
+            OnPropertyChanged("MaterialsContributionMargin");
             PrintNewOffer.NotifyCanExecuteChanged();
         }
 
