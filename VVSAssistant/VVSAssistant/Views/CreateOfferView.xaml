@@ -180,7 +180,6 @@
                                                 Width="1*"
                                                 CanUserReorder="False"/>
                             <DataGridTextColumn Binding="{Binding Name}"
-                                                x:Name="Name"
                                                 Header="Beskrivelse"
                                                 MinWidth="100"
                                                 Width="1.5*"
