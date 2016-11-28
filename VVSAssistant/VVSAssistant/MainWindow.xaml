@@ -58,32 +58,6 @@
             <WrapPanel Grid.Row="0">
                 <controls:Tile 
                        Style="{StaticResource NavigationTileStyle}"
-                       Command="{Binding ImportVVSCatalogue}"
-                       Title="Importer VVS katalog">
-                    <Rectangle Width="64" 
-                           Height="64"
-                           Fill="{StaticResource IdealForegroundColorBrush}">
-                        <Rectangle.OpacityMask>
-                            <VisualBrush Visual="{StaticResource appbar_book}" Stretch="Fill" />
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-                </controls:Tile>
-
-                <controls:Tile 
-                       Style="{StaticResource NavigationTileStyle}"
-                       Command="{Binding ImportSalesCatalogue}"
-                       Title="Importer rabatfil">
-                    <Rectangle Width="64" 
-                           Height="64"
-                           Fill="{StaticResource IdealForegroundColorBrush}">
-                        <Rectangle.OpacityMask>
-                            <VisualBrush Visual="{StaticResource appbar_percent_off}" Stretch="Fill" />
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-                </controls:Tile>
-
-                <controls:Tile 
-                       Style="{StaticResource NavigationTileStyle}"
                        Command="{Binding DatabaseImport}"
                        CommandParameter="Import"
                        Title="Importer database">

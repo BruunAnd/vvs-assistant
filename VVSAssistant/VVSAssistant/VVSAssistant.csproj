@@ -65,6 +65,18 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="EntityFramework.BulkInsert, Version=6.0.2.8, Culture=neutral, PublicKeyToken=630a17433349cb76, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.BulkInsert-ef6.6.0.2.8\lib\Net45\EntityFramework.BulkInsert.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.BulkInsert.SqlServerCe, Version=6.0.1.0, Culture=neutral, PublicKeyToken=630a17433349cb76, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.BulkInsert.SqlServerCe.6.0.2\lib\net45\EntityFramework.BulkInsert.SqlServerCe.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.MappingAPI, Version=6.1.0.9, Culture=neutral, PublicKeyToken=7ee2e825d201459e, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.MappingAPI.6.1.0.9\lib\net45\EntityFramework.MappingAPI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
@@ -73,12 +85,17 @@
       <HintPath>..\packages\EntityFramework.SqlServerCompact.6.1.3\lib\net45\EntityFramework.SqlServerCompact.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="ErikEJ.SqlCe40, Version=2.1.6.14, Culture=neutral, PublicKeyToken=03b0b5a60fec3719, processorArchitecture=MSIL">
+      <HintPath>..\packages\ErikEJ.SqlCeBulkCopy.2.1.6.15\lib\net40\ErikEJ.SqlCe40.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.3.0.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.3.0\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MahApps.Metro.SimpleChildWindow, Version=1.3.0.0, Culture=neutral, PublicKeyToken=bbbfdff7f500a992, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.SimpleChildWindow.1.3.0\lib\net45\MahApps.Metro.SimpleChildWindow.dll</HintPath>
+    <Reference Include="ReachFramework" />
+    <Reference Include="Salient.Data, Version=1.0.0.0, Culture=neutral, PublicKeyToken=03b0b5a60fec3719, processorArchitecture=MSIL">
+      <HintPath>..\packages\ErikEJ.SqlCeBulkCopy.2.1.6.15\lib\net40\Salient.Data.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -91,6 +108,8 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Printing" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.3.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -108,6 +127,34 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Wpf.AvalonDock, Version=2.9.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.9\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=2.9.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.9\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=2.9.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.9\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=2.9.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.9\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.DataGrid, Version=2.9.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.9\lib\net40\Xceed.Wpf.DataGrid.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=2.9.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.9\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Z.EntityFramework.Extensions, Version=3.10.20.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Z.EntityFramework.Extensions.3.10.20\lib\net45\Z.EntityFramework.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -117,11 +164,14 @@
     <Compile Include="Common\NotifyPropertyChanged.cs" />
     <Compile Include="Common\ViewModels\FilterableViewModelBase.cs" />
     <Compile Include="Controls\Dialogs\ViewModels\AddHeatingUnitDialogViewModel.cs" />
-    <Compile Include="Controls\Dialogs\ViewModels\EditApplianceViewModel.cs" />
+    <Compile Include="Controls\Dialogs\ViewModels\CreateApplianceDialogViewModel.cs" />
     <Compile Include="Controls\Dialogs\ViewModels\GenerateOfferDialogViewModel.cs" />
     <Compile Include="Controls\Dialogs\ViewModels\SolarContainerDialogViewModel.cs" />
     <Compile Include="Controls\Dialogs\Views\AddHeatingUnitDialogView.xaml.cs">
       <DependentUpon>AddHeatingUnitDialogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Dialogs\Views\CreateApplianceDialogView.xaml.cs">
+      <DependentUpon>CreateApplianceDialogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Dialogs\Views\EditApplianceView.xaml.cs">
       <DependentUpon>EditApplianceView.xaml</DependentUpon>
@@ -142,6 +192,9 @@
     <Compile Include="Extensions\ObservableExtension.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Functions\Calculation\EEICharLabelChooser.cs" />
+    <Compile Include="Functions\DataUtil.cs" />
+    <Compile Include="Models\Interfaces\ICopyable.cs" />
+    <Compile Include="Functions\Calculation\PackageDataManager.cs" />
     <Compile Include="Functions\Calculation\Strategies\BoilerAsPrimary.cs" />
     <Compile Include="Functions\Calculation\Strategies\BoilerForWater.cs" />
     <Compile Include="Functions\Calculation\CalculationManager.cs" />
@@ -149,7 +202,6 @@
     <Compile Include="Functions\Calculation\Strategies\HeatPumpAsPrimary.cs" />
     <Compile Include="Functions\Calculation\IEEICalculation.cs" />
     <Compile Include="Functions\Calculation\Interfaces\ICalculationChooser.cs" />
-    <Compile Include="Functions\DataUtil.cs" />
     <Compile Include="Functions\Exporter.cs" />
     <Compile Include="Functions\UtilityClass.cs" />
     <Compile Include="Models\Appliance.cs" />
@@ -162,9 +214,9 @@
     <Compile Include="Models\DataSheets\ContainerDataSheet.cs" />
     <Compile Include="Models\DataSheets\HeatingUnitDataSheet.cs" />
     <Compile Include="Models\DataSheets\SolarStationDataSheet.cs" />
-    <Compile Include="Models\DataSheets\WaterHeatingUnitDataSheet.cs" />
     <Compile Include="Models\Interfaces\ICalculatable.cs" />
     <Compile Include="Models\Material.cs" />
+    <Compile Include="Models\MaterialReference.cs" />
     <Compile Include="Models\Offer.cs" />
     <Compile Include="Models\OfferInformation.cs" />
     <Compile Include="Models\PackagedSolution.cs" />
@@ -180,6 +232,8 @@
     <Compile Include="Common\ViewModels\ViewModelBase.cs" />
     <Compile Include="Common\ViewModels\RelayCommand.cs" />
     <Compile Include="Models\UnitPrice.cs" />
+    <Compile Include="ViewModels\PdfLabelExportViewModel.cs" />
+    <Compile Include="ViewModels\PdfOfferExportViewModel.cs" />
     <Compile Include="Views\CreateOfferView.xaml.cs">
       <DependentUpon>CreateOfferView.xaml</DependentUpon>
     </Compile>
@@ -192,9 +246,19 @@
     <Compile Include="Views\CreatePackagedSolutionView.xaml.cs">
       <DependentUpon>CreatePackagedSolutionView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\PdfLabelLayout.xaml.cs">
+      <DependentUpon>PdfLabelLayout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PdfOfferLayout.xaml.cs">
+      <DependentUpon>PdfOfferLayout.xaml</DependentUpon>
+    </Compile>
     <Page Include="Controls\Dialogs\Views\AddHeatingUnitDialogView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Dialogs\Views\CreateApplianceDialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Dialogs\Views\EditApplianceView.xaml">
       <SubType>Designer</SubType>
@@ -248,6 +312,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\PdfLabelLayout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\PdfOfferLayout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -280,7 +352,17 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Image\Asset 3.png" />
+    <Resource Include="Image\CONTROL.png" />
+    <Resource Include="Image\Fleches toutes Aplus_CALIBRI_2.png" />
+    <Resource Include="Image\header_energy.png" />
+    <Resource Include="Image\heat-generator.png" />
+    <Resource Include="Image\PictosDG tren_radiator-2.png" />
+    <Resource Include="Image\SOLAR COLLECTOR.png" />
+    <Resource Include="Image\Tap.png" />
+    <Resource Include="Image\watertank.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\WindowsIcons-license.txt" />
   </ItemGroup>
@@ -302,6 +384,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

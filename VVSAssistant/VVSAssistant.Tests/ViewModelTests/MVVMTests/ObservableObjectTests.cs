@@ -7,7 +7,6 @@ using NUnit.Framework;
 using Moq;
 using VVSAssistant.Common;
 using VVSAssistant.ViewModels;
-using VVSAssistant.ViewModels.MVVM;
 
 namespace VVSAssistant.Tests.ViewModelTests.MVVMTests
 {

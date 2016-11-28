@@ -5,7 +5,8 @@ namespace VVSAssistant.Models
 {
     public class Material : UnitPrice
     {
-        public int VvsNumber { get; set; }
+        public string SpecificationsType { get; set; }
+
         public string Name { get; set; }
     }
 }

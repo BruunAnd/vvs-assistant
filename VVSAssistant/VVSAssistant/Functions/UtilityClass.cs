@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace VVSAssistant.Functions.Calculation
+namespace VVSAssistant.Functions
 {
     public static class UtilityClass
     {
@@ -23,18 +18,11 @@ namespace VVSAssistant.Functions.Calculation
 
             if(hasContainer == true)
             {
-                if (PrimIsHeatPump)
-                    Array = PrimHeatWithContainer;
-                else
-                    Array = PrimBoilWithContainer;
+                Array = PrimIsHeatPump ? PrimHeatWithContainer : PrimBoilWithContainer;
             }
             else
             {
-                if (PrimIsHeatPump)
-                    Array = PrimHeatNoContainer;
-                else
-                    Array = PrimBoilNoContainer;
-
+                Array = PrimIsHeatPump ? PrimHeatNoContainer : PrimBoilNoContainer;
             }
 
             float output = 0.0f;

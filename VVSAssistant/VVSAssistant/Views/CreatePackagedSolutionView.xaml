@@ -60,8 +60,7 @@
                     VerticalAlignment="Center" 
                     HorizontalAlignment="Right"
                     Content="Opret komponent"
-                    Command="{Binding AddApplianceToPackagedSolution}"
-                    CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"/>
+                    Command="{Binding CreateNewAppliance}"/>
         </Grid>
 
         <Grid Grid.Column="3" Grid.Row="2">
@@ -80,24 +79,24 @@
             <DataGrid Name="AppliancesDataGrid" Grid.Column="0"
                       Grid.Row="1" 
                       AutoGenerateColumns="False" 
-                      ItemsSource="{Binding FilteredCollectionView}"
+                      ItemsSource="{Binding FilteredCollectionView, UpdateSourceTrigger=PropertyChanged}"
                       SelectedItem="{Binding SelectedAppliance}"
                       SelectionMode="Single">
 
                 <DataGrid.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Føj til pakke"
-                                  Command="{Binding AddApplianceToPackagedSolution}"/>
+                                  Command="{Binding AddApplianceToPackagedSolutionCommand}"/>
                         <MenuItem Header="Redigér"
-                                  Command="{Binding EditAppliance}"/>
+                                  Command="{Binding EditApplianceCommand}"/>
                         <MenuItem Header="Slet"
-                                  Command="{Binding RemoveAppliance}"/>
+                                  Command="{Binding RemoveApplianceCommand}"/>
                     </ContextMenu>
                 </DataGrid.ContextMenu>
 
                 <DataGrid.InputBindings>
                     <MouseBinding MouseAction="LeftDoubleClick"
-                                  Command="{Binding AddApplianceToPackagedSolution}"/>
+                                  Command="{Binding AddApplianceToPackagedSolutionCommand}"/>
                 </DataGrid.InputBindings>
 
                 <DataGrid.Columns>
@@ -137,7 +136,7 @@
                       SelectedItem="{Binding SelectedAppliance}" >
                 <DataGrid.InputBindings>
                     <MouseBinding MouseAction="LeftDoubleClick"
-                                  Command="{Binding RemoveApplianceFromPackagedSolution}"/>
+                                  Command="{Binding RemoveApplianceFromPackagedSolutionCommand}"/>
                 </DataGrid.InputBindings>
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Name}"
@@ -151,8 +150,10 @@
                         VerticalAlignment="Bottom">
                 <DockPanel>
                     <Label Content="Aktuelt energimærke"/>
-                    <Label HorizontalAlignment="Right" 
-                           Content="93%"/>
+                    <Label HorizontalAlignment="Center" 
+                           Content="{Binding EEIResult, UpdateSourceTrigger=PropertyChanged}"
+                           FontWeight="Bold"
+                           FontSize="28"/>
                 </DockPanel>
                 <DockPanel>
                     <Label Content="Næste energimærke"/>
@@ -162,22 +163,22 @@
 
                 <Button Margin="0 5 0 0"
                         Content="Ny pakkeløsning"
-                        Command="{Binding NewPackageSolution}"
+                        Command="{Binding NewPackagedSolutionCommand}"
                         />
 
                 <Button Margin="0 5 0 0" 
                         Content="Gem pakkeløsning"
                         Command="{Binding SaveDialog}"/>
                 <Button Margin="0 5 0 0" 
-                        Content="Print pakkelabel"/>
+                        Content="Print pakkelabel"
+                        Command="{Binding PdfExport}"/>
             </StackPanel>
         </Grid>
 
         <Grid Grid.Column="1" 
               Grid.Row="2" 
               Background="{StaticResource AccentColorBrush}">
-            <StackPanel Grid.Column="1" 
-                        Grid.Row="2">
+            <StackPanel>
                 <StackPanel.Resources>
                     <Style TargetType="{x:Type TextBlock}">
                         <Setter Property="Margin" 
@@ -201,6 +202,7 @@
                 <CheckBox Content="Kedel" IsChecked="{Binding IncludeBoilers}"/>
                 <CheckBox Content="Temperaturstyring" IsChecked="{Binding IncludeTemperatureControllers}"/>
                 <CheckBox Content="Solfanger" IsChecked="{Binding IncludeSolarPanels}"/>
+                <CheckBox Content="Solstation" IsChecked="{Binding IncludeSolarStations}"/>
                 <CheckBox Content="Beholder" IsChecked="{Binding IncludeContainers}"/>
 
                 <TextBlock TextWrapping="Wrap" 

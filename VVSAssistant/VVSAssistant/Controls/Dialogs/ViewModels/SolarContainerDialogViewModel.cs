@@ -6,10 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VVSAssistant.Common;
+using VVSAssistant.Common.ViewModels;
 using VVSAssistant.Models;
 using VVSAssistant.Models.DataSheets;
 using VVSAssistant.ViewModels;
-using VVSAssistant.ViewModels.MVVM;
 
 namespace VVSAssistant.Controls.Dialogs.ViewModels
 {
@@ -40,8 +40,8 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             set { _appliance = value; OnPropertyChanged(); }
         }
 
-        private ObservableCollection<Appliance> _appsInSolution;
-        private PackagedSolution _packagedSolution;
+        private readonly ObservableCollection<Appliance> _appsInSolution;
+        private readonly PackagedSolution _packagedSolution;
 
         public string Title { get; }
         public string Message { get; }
@@ -80,13 +80,13 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
 
             else if (SelectedAppliance.DataSheet is ContainerDataSheet)
             {
-                _packagedSolution.SolarContainer = SelectedAppliance; /* Container, already in the PS */
+                _packagedSolution.SolarContainers.Add(SelectedAppliance); /* Container, already in the PS */
                 _appsInSolution.Add(Appliance); /* Solar Collector */
             }
             else if (SelectedAppliance.DataSheet is SolarCollectorDataSheet)
             {
                 /* Don't need to do anything with the solar collector. */
-                _packagedSolution.SolarContainer = Appliance; /* Container */
+                _packagedSolution.SolarContainers.Add(Appliance); /* Container */
                 _appsInSolution.Add(Appliance); /* Container */
             }
         }

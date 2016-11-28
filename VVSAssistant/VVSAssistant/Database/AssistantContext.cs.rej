@@ -1,0 +1,11 @@
+diff a/VVSAssistant/VVSAssistant/Database/AssistantContext.cs b/VVSAssistant/VVSAssistant/Database/AssistantContext.cs	(rejected hunks)
+@@ -36,6 +36,9 @@
+             // Map Offer
+             modelBuilder.Entity<Offer>().HasMany(o => o.Materials).WithOptional();
+             modelBuilder.Entity<Offer>().HasMany(o => o.Salaries).WithOptional();
++
++            // Map Materials with MaterialReferences
++            modelBuilder.Entity<Material>().HasRequired(m => m.Reference).WithMany();
+         }
+ 
+         public DbSet<Client> Clients { get; set; }

@@ -1,11 +1,12 @@
-﻿using System.IO.Compression;
+﻿using System.Data.Entity;
+using System.IO.Compression;
 using System.Linq;
 using System.Windows;
 using Microsoft.Win32;
-using VVSAssistant.ViewModels.MVVM;
 using MahApps.Metro.Controls.Dialogs;
 using VVSAssistant.Common;
 using VVSAssistant.Common.ViewModels;
+using VVSAssistant.Database;
 using VVSAssistant.Functions;
 
 namespace VVSAssistant.ViewModels
@@ -35,7 +36,9 @@ namespace VVSAssistant.ViewModels
                 var result = dlg.ShowDialog();
                 if (result == true) DataUtil.Database.Export(dlg.FileName);
             }, x => DataUtil.Database.Exists());
+            
         }
+        
 
         private void ValidateDatabaseFile(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -62,12 +65,9 @@ namespace VVSAssistant.ViewModels
         public RelayCommand NavCommand { get; }
         public RelayCommand DatabaseImport { get; }
         public RelayCommand DatabaseExport { get; }
-        public RelayCommand ImportVVSCatalogue { get; }
+        public RelayCommand ImportVvsCatalogue { get; }
         public RelayCommand ImportSalesCatalogue { get; }
         
-
-
-
         private void OnNav(string destination)
         {
             CurrentViewModel?.CloseDataConnection();

@@ -5,7 +5,7 @@ using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 using VVSAssistant.Common;
-using VVSAssistant.ViewModels.MVVM;
+using VVSAssistant.Common.ViewModels;
 
 namespace VVSAssistant.Controls.Dialogs.ViewModels
 {

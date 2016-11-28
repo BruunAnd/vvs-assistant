@@ -17,16 +17,13 @@ namespace VVSAssistant.Functions.Calculation
         /// </summary>
         /// <param name="package"></param>
         /// <returns>Calculation strategy</returns>
-        public List<IEEICalculation> SelectCalculationStreategy(PackagedSolution package)
+        public List<IEEICalculation> SelectCalculationStrategy(PackagedSolution package)
         {
-
             List<IEEICalculation> Calculations = new List<IEEICalculation>();
-            
-            
-            var primaryType = package.PrimaryHeatingUnit.Type;
-
-            switch (package.PrimaryHeatingUnit.Type)
+                   
+            switch (package.PrimaryHeatingUnit?.Type ?? 0)
             {
+                case ApplianceTypes.CHP:
                 case ApplianceTypes.HeatPump:
                      Calculations.Add(new HeatPumpAsPrimary());
                     break;
@@ -41,6 +38,7 @@ namespace VVSAssistant.Functions.Calculation
                 default:
                     return null;
             }
+
 
             return Calculations;
         }
