@@ -63,13 +63,19 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                     return new PackageStub(HeatpumpId.Compress5000, ContainerId.BST500, BoilerId.LoganoSB150,
                         SolarPanelId.LogasolSKNWater, 2, ContainerId.SM500, TempControlId.CW400); 
                 case PackagedSolutionId.PrimaryHeatPump4Solars:
-                    return new PackageStub(HeatpumpId.Vitocal200S, ContainerId.Vitocell140E, BoilerId.Vitodens200,
+                    return new PackageStub(HeatpumpId.Vitocal200S, ContainerId.Vitocell140E400l, BoilerId.Vitodens200,
                         SolarPanelId.Vitosol300T, 4, ContainerId.Vitocell300B, null);
                 case PackagedSolutionId.PrimaryHeatPumpNoSolars:
                     return new PackageStub(HeatpumpId.Compress7000, null , BoilerId.LoganoSB150, null, 0, ContainerId.SW750, TempControlId.CW400);
                 case PackagedSolutionId.PrimaryCHP4Solars:
-                    return new PackageStub(CHPId.Vitobloc200, ContainerId.Vitocell140E, BoilerId.Vitodens200,
+                    return new PackageStub(CHPId.Vitobloc200, ContainerId.Vitocell140E400l, BoilerId.Vitodens200,
                         SolarPanelId.Vitosol300T, 4, null, null);
+                case PackagedSolutionId.Brian1:
+                    return new PackageStub(BoilerId.Vitoladens300W, ContainerId.Vitocell140E950l, null, SolarPanelId.Vitosol200T, 5, null, 0, 0);
+                case PackagedSolutionId.Brian2:
+                    return new PackageStub(HeatpumpId.Vitocal350A, ContainerId.Vitocell140E950l, null, SolarPanelId.Vitosol200TSP2A, 6, null, 0);
+                case PackagedSolutionId.Brian3:
+                    return new PackageStub(BoilerId.LoganoSB150, null, 0, null, 0, HeatpumpId.Compress6000AW5, null, null);
                 default:
                     return null;
             }
@@ -82,6 +88,6 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         PrimaryWaterBoilerOSolar, PrimaryWaterBoilerNull, PrimaryBoilerWHeatPump, PirmaryBoilerW3Solar,
         PrimaryBoilerW1Solar, PrimaryHeatPump6Solars, PrimaryPurUnitSolarWater, PrimaryPurUnitSolarWaterWStation,
         PrimaryCondens1Container, PrimaryCondens3Container, PrimaryHeatPump2Solar, PrimaryHeatPump4Solars, PrimaryHeatPumpNoSolars,
-            PrimaryCHP4Solars,
+            PrimaryCHP4Solars, Brian1, Brian2, Brian3,
     }
 }

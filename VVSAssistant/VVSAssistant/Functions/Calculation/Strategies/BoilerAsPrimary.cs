@@ -54,8 +54,10 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             float solarPanelArea = _packageData.SolarPanelArea(panel =>
                                     panel.isRoomHeater == true);
             float solarContainerVolume = _packageData.SolarContainerVolume(container =>
-                                         !container.isWaterContainer && container.isBivalent == true);
+                                         !container.isWaterContainer);
 
+            _result.ContainerVolume = solarContainerVolume;
+            _result.SolarCollectorArea = solarPanelArea;
             float ans = 0;
             float III = 294 / (11 * PrimaryBoiler.WattUsage);
             float IV = 115 / (11 * PrimaryBoiler.WattUsage);
