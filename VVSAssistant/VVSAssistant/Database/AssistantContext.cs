@@ -27,7 +27,6 @@ namespace VVSAssistant.Database
             modelBuilder.Entity<SolarCollectorDataSheet>().ToTable("SolarCollectorDataSheets");
             modelBuilder.Entity<SolarStationDataSheet>().ToTable("SolarStationDataSheets");
             modelBuilder.Entity<TemperatureControllerDataSheet>().ToTable("TemperatureControllerDataSheet");
-            modelBuilder.Entity<WaterHeatingUnitDataSheet>().ToTable("WaterHeatingUnitDataSheets");
 
             // Create a table for each unitprice type
             modelBuilder.Entity<Salary>().ToTable("Salaries");

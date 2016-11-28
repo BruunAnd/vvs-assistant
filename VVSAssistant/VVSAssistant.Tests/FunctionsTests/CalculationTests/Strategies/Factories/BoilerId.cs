@@ -2,5 +2,5 @@
 {
     public enum BoilerId
     { Cerapur = 1, Condens5000, LoganoSB150, EuroPurACUWater, Condens9000Water
-      , EuroPurUnitSolarWater, Vitodens200}
+      , EuroPurUnitSolarWater, Vitodens200, Vitoladens300W}
 }
