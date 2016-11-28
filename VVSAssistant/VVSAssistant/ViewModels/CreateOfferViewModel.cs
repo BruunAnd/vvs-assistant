@@ -1,53 +1,45 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using VVSAssistant.Exceptions;
 using VVSAssistant.Models;
-using System.Reflection;
 using MahApps.Metro.Controls.Dialogs;
 using VVSAssistant.Controls.Dialogs.ViewModels;
 using VVSAssistant.Controls.Dialogs.Views;
-using VVSAssistant.Database;
 using System.Linq;
-using System.Windows;
-using System.Windows.Input;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using VVSAssistant.Common.ViewModels;
-using VVSAssistant.Events;
 using VVSAssistant.Functions;
 
 namespace VVSAssistant.ViewModels
 {
-    class CreateOfferViewModel : ViewModelBase
+    internal class CreateOfferViewModel : ViewModelBase
     {
-        #region Properties
-        public RelayCommand PrintNewOffer { get; }
-        public RelayCommand SolutionDoubleClicked { get; }
-        public RelayCommand CreateNewOffer { get; }
-        public RelayCommand SaveOffer { get; }
-        private ObservableCollection<PackagedSolution> _packagedSolutions;
-        public ObservableCollection<PackagedSolution> PackagedSolutions
-        {
-            get { return _packagedSolutions; }
-            set { _packagedSolutions = value; OnPropertyChanged(); }
-        }
+        #region RelayCommands
+
+        public RelayCommand PrintOfferCmd { get; }
+        public RelayCommand PackagedSolutionDoubleClickedCmd { get; }
+        public RelayCommand CreateNewOfferCmd { get; }
+        public RelayCommand SaveOfferCmd { get; }
+
+        #endregion
+
+        #region Calculated properties
 
         public double TotalSalesPrice => SalariesInOffer.Sum(salary => salary.SalesPrice)
                                          + MaterialsInOffer.Sum(material => material.SalesPrice)
-                                         + AppliancesInPackagedSolution.Sum(appliance => appliance.SalesPrice);
+                                         + AppliancesInOffer.Sum(appliance => appliance.SalesPrice);
 
         public double TotalCostPrice => SalariesInOffer.Sum(salary => salary.CostPrice)
                                          + MaterialsInOffer.Sum(material => material.CostPrice)
-                                         + AppliancesInPackagedSolution.Sum(appliance => appliance.CostPrice);
+                                         + AppliancesInOffer.Sum(appliance => appliance.CostPrice);
 
         public double TotalContributionMargin => SalariesInOffer.Sum(salary => salary.ContributionMargin)
                                          + MaterialsInOffer.Sum(material => material.ContributionMargin)
-                                         + AppliancesInPackagedSolution.Sum(appliance => appliance.ContributionMargin);
+                                         + AppliancesInOffer.Sum(appliance => appliance.ContributionMargin);
 
-        public double AppliancesSalesPrice => AppliancesInPackagedSolution.Sum(appliance => appliance.SalesPrice);
-        public double AppliancesCostPrice => AppliancesInPackagedSolution.Sum(appliance => appliance.CostPrice);
-        public double AppliancesContributionMargin => AppliancesInPackagedSolution.Sum(appliance => appliance.ContributionMargin);
+        public double AppliancesSalesPrice => AppliancesInOffer.Sum(appliance => appliance.SalesPrice);
+        public double AppliancesCostPrice => AppliancesInOffer.Sum(appliance => appliance.CostPrice);
+        public double AppliancesContributionMargin => AppliancesInOffer.Sum(appliance => appliance.ContributionMargin);
 
         public double SalariesSalesPrice => SalariesInOffer.Sum(x => x.SalesPrice);
         public double SalariesCostPrice => SalariesInOffer.Sum(x => x.CostPrice);
@@ -58,101 +50,103 @@ namespace VVSAssistant.ViewModels
         public double MaterialsCostPrice => MaterialsInOffer.Sum(x => x.CostPrice);
         public double MaterialsContributionMargin => MaterialsInOffer.Sum(x => x.ContributionMargin);
 
+        #endregion
 
-        private ObservableCollection<Client> _clients;
-        private Offer _offer;
-        public Offer Offer
-        {
-            get { return _offer; }
-            set
-            {
-                _offer = value;
-                OnPropertyChanged();
-            }
-        }
-        private IDialogCoordinator _dialogCoordinator;
+        #region Collections
+
+
+        public ObservableCollection<PackagedSolution> PackagedSolutions { get; set; }
+
+        public ObservableCollection<Material> MaterialsInOffer { get; set; }
+
+        public ObservableCollection<Salary> SalariesInOffer { get; set; }
+
+        public ObservableCollection<Appliance> AppliancesInOffer { get; set; }
+
+        #endregion
+
+        #region Properties
+
+
+        public Offer Offer { get; set; }
+
+        private readonly IDialogCoordinator _dialogCoordinator;
+
         private bool _isComponentTabVisible;
         public bool IsComponentTabVisible
         {
             get { return _isComponentTabVisible; }
             set { _isComponentTabVisible = value; OnPropertyChanged(); }
         }
+
         private bool _arePackagedSolutionsVisible;
         public bool ArePackagedSolutionsVisible
         {
             get { return _arePackagedSolutionsVisible; }
             set { _arePackagedSolutionsVisible = value; OnPropertyChanged(); }
         }
+
+        /// <summary>
+        /// When a PackagedSolution is selected in the PackagedSolution list,
+        /// it will automaticly bind to this property. In the setter, we first
+        /// make sure that the property is not null, if it is, we return and do nothing.
+        /// The current offers packaged solution is set to the selected packaged solution,
+        /// and each appliance is added to the list of appliances in the offer. Last but not least,
+        /// we raise a notifier that the property has been changed.
+        /// </summary>
         public PackagedSolution SelectedPackagedSolution
         {
             get { return Offer.PackagedSolution; }
             set
             {
+                if (value == null) return;
                 Offer.PackagedSolution = value;
-                if (value != null)
-                {
-                    AppliancesInPackagedSolution = new ObservableCollection<Appliance>(value.Appliances);
-                }
+                foreach (var appliance in value.Appliances)
+                    AppliancesInOffer.Add(appliance);
                 OnPropertyChanged();
             }
         }
-        private ObservableCollection<Material> _materialsInOffer;
-        public ObservableCollection<Material> MaterialsInOffer
-        {
-            get { return _materialsInOffer; }
-            set { _materialsInOffer = value; OnPropertyChanged(); }
-        }
 
-        private ObservableCollection<Salary> _salariesInOffer;
-        public ObservableCollection<Salary> SalariesInOffer
-        {
-            get { return _salariesInOffer; }
-            set { _salariesInOffer = value; OnPropertyChanged(); }
-        }
-        private ObservableCollection<Appliance> _appliancesInPackagedSolution;
-        public ObservableCollection<Appliance> AppliancesInPackagedSolution
-        {
-            get { return _appliancesInPackagedSolution; }
-            set { _appliancesInPackagedSolution = value; OnPropertyChanged(); }
-        }
         #endregion
+
 
         public CreateOfferViewModel(IDialogCoordinator coordinator)
         {
-            _offer = new Offer();
+
             _dialogCoordinator = coordinator;
             PackagedSolutions = new ObservableCollection<PackagedSolution>();
             MaterialsInOffer = new ObservableCollection<Material>();
             SalariesInOffer = new ObservableCollection<Salary>();
-            AppliancesInPackagedSolution = new ObservableCollection<Appliance>();
+            AppliancesInOffer = new ObservableCollection<Appliance>();
+            
+            // Assign notifier to the collections we want to monitor.
+            MaterialsInOffer.CollectionChanged += NotifyOfferContentsChanged;
+            SalariesInOffer.CollectionChanged += NotifyOfferContentsChanged;
+            AppliancesInOffer.CollectionChanged += NotifyOfferContentsChanged;
 
             /* Tied to "print offer" button in bottom left corner. 
              * Disabled if VerifyOfferHasRequiredInformation returns false. */
-            PrintNewOffer = new RelayCommand
+            PrintOfferCmd = new RelayCommand
                         (x => PrintOfferDialog(), 
                          x => VerifyOfferHasRequiredInformation()); 
 
             /* Tied to the action of double clicking a packaged solution's info 
              * in the list of packaged solutions. When this happens, property 
              * "SelectedPackagedSolution" is set to the clicked Packaged Solution. */
-            SolutionDoubleClicked = new RelayCommand
+            PackagedSolutionDoubleClickedCmd = new RelayCommand
                         (x => OnSolutionDoubleClicked(),
                          x => SelectedPackagedSolution != null); 
 
-            /* When the "Gem tilbud" button is pressed, saves the offer if offer has the required information 
-             todo add dialog to name the offer */
-            SaveOffer = new RelayCommand
-                        (x => SaveOfferToDatabase(Offer),
+            /* Doing the same as print offer, todo: figure out what we want to accomplish here */
+            SaveOfferCmd = new RelayCommand
+                        (x => PrintOfferDialog(),
                          x => VerifyOfferHasRequiredInformation());
 
             /* When the "nyt tilbud" button in bottom left corner is pressed. 
              * Nullifies all offer properties and changes view to list of packaged solutions. */
-            CreateNewOffer = new RelayCommand
+            CreateNewOfferCmd = new RelayCommand
                         ( x => SetInitialSettings()); 
             
-            MaterialsInOffer.CollectionChanged += NotifyOfferContentsChanged;
-            SalariesInOffer.CollectionChanged += NotifyOfferContentsChanged;
-            AppliancesInPackagedSolution.CollectionChanged += NotifyOfferContentsChanged;
             SetInitialSettings();
         }
 
@@ -166,17 +160,14 @@ namespace VVSAssistant.ViewModels
 
             Offer = new Offer();
             SelectedPackagedSolution = null;
-            PrintNewOffer.NotifyCanExecuteChanged();
+            PrintOfferCmd.NotifyCanExecuteChanged();
         }
 
         public bool VerifyOfferHasRequiredInformation()
         {
-            if (Offer.PackagedSolution != null &&
-                SalariesInOffer.Count   != 0    &&
-                MaterialsInOffer.Count  != 0 )
-                return true;
-            else
-                return false;
+            return Offer.PackagedSolution != null &&
+                   SalariesInOffer.Count   != 0    &&
+                   MaterialsInOffer.Count  != 0;
         }
 
         /* Enables the Component, Salary, and Materials view, and prepares
@@ -185,7 +176,7 @@ namespace VVSAssistant.ViewModels
         {
             IsComponentTabVisible = true;
             ArePackagedSolutionsVisible = false;
-            PrintNewOffer.NotifyCanExecuteChanged();
+            PrintOfferCmd.NotifyCanExecuteChanged();
         }
 
         /* Opens offer creation dialog */
@@ -198,7 +189,7 @@ namespace VVSAssistant.ViewModels
         public async void RunGenerateOfferDialog()
         {
             var customDialog = new CustomDialog();
-            var dialogViewModel = new GenerateOfferDialogViewModel(Offer, _clients, 
+            var dialogViewModel = new GenerateOfferDialogViewModel(Offer, 
                 closeHandler =>
                 {
                     // Closes the dialog
@@ -209,23 +200,26 @@ namespace VVSAssistant.ViewModels
                     // Closes the dialog and saves the offer to database
                     _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
                     SaveOfferToDatabase(Offer);
-                    Exporter e = new Exporter();
+                    var e = new Exporter();
                     e.ExportOffer(Offer);
                 });
 
             customDialog.Content = new GenerateOfferDialogView { DataContext = dialogViewModel };
             await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
         }
+        
 
-        /* When items are added to Offer.Materials and Offer.Salaries */
         private void NotifyOfferContentsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
+            
             if (e == null) return;
 
+            // Remove eventlistener from deleted properties.
             if (e.OldItems != null)
                 foreach (INotifyPropertyChanged item in e.OldItems)
                     item.PropertyChanged -= OfferContentsPropertyChanged;
 
+            // Bind a method to run if a property changed in any of the observed classes.
             if (e.NewItems == null) return;
 
             foreach (INotifyPropertyChanged item in e.NewItems)
@@ -237,17 +231,21 @@ namespace VVSAssistant.ViewModels
             OnPropertyChanged("TotalSalesPrice");
             OnPropertyChanged("TotalCostPrice");
             OnPropertyChanged("TotalContributionMargin");
+
             OnPropertyChanged("AppliancesSalesPrice");
             OnPropertyChanged("AppliancesCostPrice");
             OnPropertyChanged("AppliancesContributionMargin");
+
             OnPropertyChanged("SalariesSalesPrice");
             OnPropertyChanged("SalariesCostPrice");
             OnPropertyChanged("SalariesContributionMargin");
+
             OnPropertyChanged("MaterialsSalesPrice");
             OnPropertyChanged("MaterialsCostPrice");
             OnPropertyChanged("MaterialsContributionMargin");
-            PrintNewOffer.NotifyCanExecuteChanged();
-            SaveOffer.NotifyCanExecuteChanged();
+
+            PrintOfferCmd.NotifyCanExecuteChanged();
+            SaveOfferCmd.NotifyCanExecuteChanged();
         }
 
         public override void LoadDataFromDatabase()

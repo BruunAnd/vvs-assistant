@@ -46,9 +46,7 @@
             <DockPanel DockPanel.Dock="Top">
                 <StackPanel Orientation="Vertical">
                     <Label Content="Navn på kunde:"/>
-                    <ComboBox IsTextSearchEnabled="True"
-                      Text="{Binding Offer.Client.ClientInformation.Name, UpdateSourceTrigger=PropertyChanged}"
-                      IsEditable="True"/>
+                    <TextBox Text="{Binding Offer.Client.ClientInformation.Name, UpdateSourceTrigger=PropertyChanged}"/>
 
                     <Label Content="Adresse:"/>
                     <TextBox Text="{Binding Offer.Client.ClientInformation.Address, UpdateSourceTrigger=PropertyChanged}" />

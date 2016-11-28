@@ -19,20 +19,18 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             get { return _offer; }
             set { _offer = value; OnPropertyChanged(); }
         }
-        public ObservableCollection<Client> Clients;
+
         public RelayCommand CloseCommand { get; }
         public RelayCommand SaveCommand { get; }
 
-        public GenerateOfferDialogViewModel(Offer offer, ObservableCollection<Client> clients, 
-                                            Action<GenerateOfferDialogViewModel> closeHandler, Action<GenerateOfferDialogViewModel> completionHandler)
+        public GenerateOfferDialogViewModel(Offer offer, Action<GenerateOfferDialogViewModel> closeHandler, Action<GenerateOfferDialogViewModel> completionHandler)
         {
             Offer = offer;
             Offer.Client = new Client() { ClientInformation = new ClientInformation()};
             Offer.OfferInformation = new OfferInformation();
             Offer.Client.ClientInformation.PropertyChanged += OfferInformationChanged;
             Offer.OfferInformation.PropertyChanged += OfferInformationChanged;
-
-            Clients = clients;
+            
             SaveCommand = new RelayCommand(x =>
             {
                 completionHandler(this);

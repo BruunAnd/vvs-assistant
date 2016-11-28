@@ -50,15 +50,15 @@
                 <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
             </Grid.Resources>
             <!-- Packaged solution -->
-            <DataGrid AutoGenerateColumns="False" Name="packagedSolutionDataGrid"
+            <DataGrid AutoGenerateColumns="False" Name="PackagedSolutionDataGrid"
                       Visibility="{Binding ArePackagedSolutionsVisible, 
                                    Converter={StaticResource BoolToVisibilityConverter},
                                    UpdateSourceTrigger=PropertyChanged}"
                       ItemsSource="{Binding PackagedSolutions, UpdateSourceTrigger=PropertyChanged}"
                       SelectedItem="{Binding SelectedPackagedSolution}">
                 <DataGrid.InputBindings>
-                    <MouseBinding Gesture="LeftDoubleClick" Command="{Binding SolutionDoubleClicked}"
-                                                            CommandParameter="{Binding ElementName=packagedSolutionDataGrid,Path=SelectedItem}"/>
+                    <MouseBinding Gesture="LeftDoubleClick" Command="{Binding PackagedSolutionDoubleClickedCmd}"
+                                                            CommandParameter="{Binding ElementName=PackagedSolutionDataGrid,Path=SelectedItem}"/>
                 </DataGrid.InputBindings>
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Name}" 
@@ -81,10 +81,11 @@
                                      UpdateSourceTrigger=PropertyChanged}">
                 <TabItem Header="Komponenter">
                     <DataGrid AutoGenerateColumns="False"
-                              ItemsSource="{Binding AppliancesInPackagedSolution, UpdateSourceTrigger=PropertyChanged}"
+                              ItemsSource="{Binding AppliancesInOffer, UpdateSourceTrigger=PropertyChanged}"
                               IsReadOnly="False"
                               SelectionUnit="Cell"
-                              SelectionMode="Single">
+                              SelectionMode="Single"
+                              CanUserAddRows="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn Binding="{Binding Name}"
                                                 Header="Navn"
@@ -315,17 +316,17 @@
                 <Button Margin="5,5,5,5"
                         Grid.Row="0"
                         Grid.Column="0"
-                        Command="{Binding CreateNewOffer}"
+                        Command="{Binding CreateNewOfferCmd}"
                         Content="Nyt tilbud"/>
                 <Button Margin="5,5,5,5" 
                         Grid.Row="0" 
                         Grid.Column="1"
-                        Command="{Binding SaveOffer}"
+                        Command="{Binding SaveOfferCmd}"
                         Content="Gem tilbud"/>
                 <Button Margin="5,5,5,5" 
                         Grid.Row="1" 
                         Grid.ColumnSpan="2" Grid.Column="0"
-                        Command="{Binding PrintNewOffer}"
+                        Command="{Binding PrintOfferCmd}"
                         Content="Print tilbud"/>
             </Grid>
         </Grid>

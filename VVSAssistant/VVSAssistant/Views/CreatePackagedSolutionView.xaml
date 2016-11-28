@@ -60,7 +60,7 @@
                     VerticalAlignment="Center" 
                     HorizontalAlignment="Right"
                     Content="Opret komponent"
-                    Command="{Binding CreateNewAppliance}"/>
+                    Command="{Binding CreateNewApplianceCmd}"/>
         </Grid>
 
         <Grid Grid.Column="3" Grid.Row="2">
@@ -86,17 +86,17 @@
                 <DataGrid.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Føj til pakke"
-                                  Command="{Binding AddApplianceToPackagedSolutionCommand}"/>
+                                  Command="{Binding AddApplianceToPackagedSolutionCmd}"/>
                         <MenuItem Header="Redigér"
-                                  Command="{Binding EditApplianceCommand}"/>
+                                  Command="{Binding EditApplianceCmd}"/>
                         <MenuItem Header="Slet"
-                                  Command="{Binding RemoveApplianceCommand}"/>
+                                  Command="{Binding RemoveApplianceCmd}"/>
                     </ContextMenu>
                 </DataGrid.ContextMenu>
 
                 <DataGrid.InputBindings>
                     <MouseBinding MouseAction="LeftDoubleClick"
-                                  Command="{Binding AddApplianceToPackagedSolutionCommand}"/>
+                                  Command="{Binding AddApplianceToPackagedSolutionCmd}"/>
                 </DataGrid.InputBindings>
 
                 <DataGrid.Columns>
@@ -132,11 +132,11 @@
                       Grid.Row="1" 
                       IsReadOnly="true" 
                       AutoGenerateColumns="False" 
-                      ItemsSource="{Binding AppliancesInSolution}"
+                      ItemsSource="{Binding AppliancesInPackagedSolution}"
                       SelectedItem="{Binding SelectedAppliance}" >
                 <DataGrid.InputBindings>
                     <MouseBinding MouseAction="LeftDoubleClick"
-                                  Command="{Binding RemoveApplianceFromPackagedSolutionCommand}"/>
+                                  Command="{Binding RemoveApplianceFromPackagedSolutionCmd}"/>
                 </DataGrid.InputBindings>
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Name}"
@@ -151,7 +151,7 @@
                 <DockPanel>
                     <Label Content="Aktuelt energimærke"/>
                     <Label HorizontalAlignment="Center" 
-                           Content="{Binding EEIResult, UpdateSourceTrigger=PropertyChanged}"
+                           Content="{Binding EeiResult, UpdateSourceTrigger=PropertyChanged}"
                            FontWeight="Bold"
                            FontSize="28"/>
                 </DockPanel>
@@ -163,15 +163,15 @@
 
                 <Button Margin="0 5 0 0"
                         Content="Ny pakkeløsning"
-                        Command="{Binding NewPackagedSolutionCommand}"
+                        Command="{Binding NewPackagedSolutionCmd}"
                         />
 
                 <Button Margin="0 5 0 0" 
                         Content="Gem pakkeløsning"
-                        Command="{Binding SaveDialog}"/>
+                        Command="{Binding SavePackagedSolutionCmd}"/>
                 <Button Margin="0 5 0 0" 
                         Content="Print pakkelabel"
-                        Command="{Binding PdfExport}"/>
+                        Command="{Binding PdfExportCmd}"/>
             </StackPanel>
         </Grid>
 

@@ -17,7 +17,7 @@ namespace VVSAssistant.ViewModels
 {
     public class CreatePackagedSolutionViewModel : FilterableViewModelBase<Appliance>
     {
-        #region Property initializations
+        #region Inclusion properties
 
         private bool _includeHeatPumps;
         public bool IncludeHeatPumps
@@ -107,19 +107,11 @@ namespace VVSAssistant.ViewModels
             }
         }
 
-        private PackagedSolution _packagedSolution;
-        public PackagedSolution PackagedSolution
-        {
-            get { return _packagedSolution; }
-            set
-            {
-                _packagedSolution = value;
-                AppliancesInSolution = new ObservableCollection<Appliance>();
-                AppliancesInSolution.CollectionChanged += PackageSolutionAppliances_CollectionChanged;
-            }
+        #endregion
 
-        }
+        #region Base properties
 
+        public PackagedSolution PackagedSolution { get; set; }
         private readonly IDialogCoordinator _dialogCoordinator;
 
         private Appliance _selectedAppliance;
@@ -131,118 +123,144 @@ namespace VVSAssistant.ViewModels
                 if (!SetProperty(ref _selectedAppliance, value)) return;
 
                 // Notify if property was changed
-                AddApplianceToPackagedSolutionCommand.NotifyCanExecuteChanged();
-                EditApplianceCommand.NotifyCanExecuteChanged();
-                RemoveApplianceCommand.NotifyCanExecuteChanged();
+                AddApplianceToPackagedSolutionCmd.NotifyCanExecuteChanged();
+                EditApplianceCmd.NotifyCanExecuteChanged();
+                RemoveApplianceCmd.NotifyCanExecuteChanged();
                 OnPropertyChanged();
             }
         }
 
-        private string _EEIResult;
-        public string EEIResult
+        private string _eeiResult;
+        public string EeiResult
         {
-            get { return _EEIResult; }
-            set { _EEIResult = value; OnPropertyChanged(); }
+            get { return _eeiResult; }
+            set { _eeiResult = value; OnPropertyChanged(); }
         }
-        private CalculationManager _calculationManager;
+        private readonly CalculationManager _calculationManager;
+        
         #endregion
 
-        #region Command initializations
-        public RelayCommand AddApplianceToPackagedSolutionCommand { get; }
-        public RelayCommand RemoveApplianceFromPackagedSolutionCommand { get; }
-        public RelayCommand EditApplianceCommand { get; }
-        public RelayCommand RemoveApplianceCommand { get; }
-        public RelayCommand NewPackagedSolutionCommand { get; }
-        public RelayCommand SaveDialog { get; }
-        public RelayCommand CreateNewAppliance { get; }
-        public RelayCommand PdfExport { get; }
+        #region Commands
+
+        public RelayCommand AddApplianceToPackagedSolutionCmd { get; }
+        public RelayCommand RemoveApplianceFromPackagedSolutionCmd { get; }
+        public RelayCommand EditApplianceCmd { get; }
+        public RelayCommand RemoveApplianceCmd { get; }
+        public RelayCommand NewPackagedSolutionCmd { get; }
+        public RelayCommand SavePackagedSolutionCmd { get; }
+        public RelayCommand CreateNewApplianceCmd { get; }
+        public RelayCommand PdfExportCmd { get; }
+
         #endregion
 
         #region Collections
-        public ObservableCollection<Appliance> Appliances { get; } = new ObservableCollection<Appliance>();
-        public ObservableCollection<Appliance> AppliancesInSolution { get; set; } = new ObservableCollection<Appliance>();
+
+        public ObservableCollection<Appliance> Appliances { get; }
+        public ObservableCollection<Appliance> AppliancesInPackagedSolution { get; set; }
+
         #endregion
 
         public CreatePackagedSolutionViewModel(IDialogCoordinator dialogCoordinator)
         {
+            #region Initialize collections
+            
+            Appliances = new ObservableCollection<Appliance>();
             SetupFilterableView(Appliances);
+            AppliancesInPackagedSolution = new ObservableCollection<Appliance>();
+
+            #endregion
+
+            #region Initialize properties
+
             PackagedSolution = new PackagedSolution();
             _calculationManager = new CalculationManager();
             _dialogCoordinator = dialogCoordinator;
 
+            #endregion
+
+            #region Bind event listeners
+
+            AppliancesInPackagedSolution.CollectionChanged += PackageSolutionAppliances_CollectionChanged;
+
+            #endregion
+
             #region Command declarations
 
-            AddApplianceToPackagedSolutionCommand = new RelayCommand(
+            AddApplianceToPackagedSolutionCmd = new RelayCommand(
                 x => HandleAddApplianceToPackagedSolution(SelectedAppliance), 
                 x => SelectedAppliance != null);
 
-            RemoveApplianceFromPackagedSolutionCommand = new RelayCommand(x =>
+            RemoveApplianceFromPackagedSolutionCmd = new RelayCommand(x =>
             {
                 if (PackagedSolution.PrimaryHeatingUnit == SelectedAppliance)
                     PackagedSolution.PrimaryHeatingUnit = null;
-                AppliancesInSolution.Remove(SelectedAppliance);
+                AppliancesInPackagedSolution.Remove(SelectedAppliance);
             }, x => SelectedAppliance != null);
 
-            EditApplianceCommand = new RelayCommand(x =>
+            EditApplianceCmd = new RelayCommand(x =>
             {
                 RunEditDialog();
             }, x => SelectedAppliance != null);
 
-            RemoveApplianceCommand = new RelayCommand(x =>
+            RemoveApplianceCmd = new RelayCommand(x =>
             {
-                RemoveApplianceRENAMEMEPLZ(SelectedAppliance);
+                DropAppliance(SelectedAppliance);
             }, x => SelectedAppliance != null);
 
-            NewPackagedSolutionCommand = new RelayCommand(x =>
+            NewPackagedSolutionCmd = new RelayCommand(x =>
             {
                 CreateNewPackagedSolution();
-            }, x => AppliancesInSolution.Any());
+            }, x => AppliancesInPackagedSolution.Any());
 
-            SaveDialog = new RelayCommand(x =>
+            SavePackagedSolutionCmd = new RelayCommand(x =>
             {
                 if (string.IsNullOrEmpty(PackagedSolution.Name))
                     RunSaveDialog();
                 else
                     SaveCurrentPackagedSolution();
-            }, x => AppliancesInSolution.Any());
+            }, x => AppliancesInPackagedSolution.Any());
 
-            CreateNewAppliance = new RelayCommand(x => 
+            CreateNewApplianceCmd = new RelayCommand(x => 
             {
                 RunCreateApplianceDialog();
             }
             );
-            PdfExport = new RelayCommand(x =>
+            PdfExportCmd = new RelayCommand(x =>
             {
-                PackagedSolution.Appliances = new ApplianceList(AppliancesInSolution.ToList());
-                Exporter e = new Exporter();
+                PackagedSolution.Appliances = new ApplianceList(AppliancesInPackagedSolution.ToList());
+                var e = new Exporter();
                 e.ExportEnergyLabel(PackagedSolution);
             });
             #endregion
         }
 
+        #region Methods
+
+
         private async void CreateNewPackagedSolution()
         {
-            if (AppliancesInSolution.Any())
-            {
-                var result = await _dialogCoordinator.ShowMessageAsync(this, "Ny pakkeløsning",
-                                "Hvis du opretter en ny pakkeløsning mister du arbejdet på din nuværende pakkeløsning. Vil du fortsætte?",
-                                MessageDialogStyle.AffirmativeAndNegative);
-                if (result == MessageDialogResult.Negative)
-                    return;
-                else
-                    AppliancesInSolution.Clear();
-            }
+            if (!AppliancesInPackagedSolution.Any()) return;
 
+            var result = await _dialogCoordinator.ShowMessageAsync(this, "Ny pakkeløsning",
+                "Hvis du opretter en ny pakkeløsning mister du arbejdet på din nuværende pakkeløsning. Vil du fortsætte?",
+                MessageDialogStyle.AffirmativeAndNegative);
+
+            if (result == MessageDialogResult.Negative) return;
+
+            AppliancesInPackagedSolution.Clear();
             PackagedSolution = new PackagedSolution();
-            AppliancesInSolution.Clear();
         }
 
-        private void AddApplianceToSolution(Appliance appliance)
+        private void AddApplianceToPackagedSolution(Appliance appliance)
         {
-            AppliancesInSolution.Add(appliance);
+            AppliancesInPackagedSolution.Add(appliance);
         }
 
-        private async void RemoveApplianceRENAMEMEPLZ(Appliance appliance)
+        /// <summary>
+        /// Drops an appliance from the database and removes it from the displayed list in the UI
+        /// </summary>
+        /// <param name="appliance"></param>
+        private async void DropAppliance(Appliance appliance)
         {
             // Check if the appliance is used in any packaged solutions
             var conflictingSolutions = DbContext.PackagedSolutions.Where(s => s.ApplianceInstances.Any(a => a.Appliance.Id == appliance.Id)).ToList();
@@ -255,8 +273,8 @@ namespace VVSAssistant.ViewModels
             }
 
             // Remove from current solution
-            if (AppliancesInSolution.Contains(appliance))
-                AppliancesInSolution.Remove(appliance);
+            if (AppliancesInPackagedSolution.Contains(appliance))
+                AppliancesInPackagedSolution.Remove(appliance);
 
             // Remove from visual list of appliances
             Appliances.Remove(appliance);
@@ -276,14 +294,14 @@ namespace VVSAssistant.ViewModels
             if (packSol != null) //It's already in the DB
             {
                 PackagedSolution.Appliances.Clear();
-                AppliancesInSolution.ToList().ForEach(appliance => PackagedSolution.Appliances.Add(appliance));
+                AppliancesInPackagedSolution.ToList().ForEach(appliance => PackagedSolution.Appliances.Add(appliance));
                 DbContext.Entry(packSol).CurrentValues.SetValues(PackagedSolution);
             }
             else //Hasn't been saved yet
             {
                 PackagedSolution.CreationDate = DateTime.Now;
-                PackagedSolution.Appliances = new ApplianceList(AppliancesInSolution.ToList());
-                DbContext.PackagedSolutions.Add(PackagedSolution); 
+                PackagedSolution.Appliances = new ApplianceList(AppliancesInPackagedSolution.ToList());
+                DbContext.PackagedSolutions.Add(PackagedSolution);
             }
 
             DbContext.SaveChanges();
@@ -298,7 +316,7 @@ namespace VVSAssistant.ViewModels
                 {
                     await _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
 
-                    AddApplianceToSolution(appliance);
+                    AddApplianceToPackagedSolution(appliance);
                     if (!instanceCompleted.IsPrimaryBoiler) return;
                     if (PackagedSolution.PrimaryHeatingUnit != null)
                     {
@@ -319,9 +337,9 @@ namespace VVSAssistant.ViewModels
         {
             var customDialog = new CustomDialog();
 
-            var dialogViewModel = new SolarContainerDialogViewModel(message, title, appliance, appliances, AppliancesInSolution, PackagedSolution,
+            var dialogViewModel = new SolarContainerDialogViewModel(message, title, appliance, appliances, AppliancesInPackagedSolution, PackagedSolution,
                 closeHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
-                completionHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog) );
+                completionHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog));
 
             customDialog.Content = new SolarContainerDialogView { DataContext = dialogViewModel };
 
@@ -340,8 +358,8 @@ namespace VVSAssistant.ViewModels
                     PackagedSolution.Name = instanceCompleted.Input;
                     OnPropertyChanged("PackagedSolution.Name");
                     SaveCurrentPackagedSolution();
-                }); 
-            
+                });
+
             customDialog.Content = new SaveDialogView { DataContext = dialogViewModel };
 
             await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
@@ -371,7 +389,7 @@ namespace VVSAssistant.ViewModels
             var newAppliance = new Appliance();
             var dialogViewModel = new CreateApplianceDialogViewModel(newAppliance, true,
                 closeHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
-                completionHandler => 
+                completionHandler =>
                 {
                     DbContext.Appliances.Add(newAppliance);
                     Appliances.Add(newAppliance);
@@ -385,8 +403,8 @@ namespace VVSAssistant.ViewModels
 
         private void PackageSolutionAppliances_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            NewPackagedSolutionCommand.NotifyCanExecuteChanged();
-            SaveDialog.NotifyCanExecuteChanged();
+            NewPackagedSolutionCmd.NotifyCanExecuteChanged();
+            SavePackagedSolutionCmd.NotifyCanExecuteChanged();
         }
 
         public override void LoadDataFromDatabase()
@@ -453,44 +471,39 @@ namespace VVSAssistant.ViewModels
                 RunAddHeatingUnitDialog(appToAdd);
             }
             else if (appToAdd.DataSheet is ContainerDataSheet &&
-                AppliancesInSolution.Any(a => a.DataSheet is SolarCollectorDataSheet))
+                AppliancesInPackagedSolution.Any(a => a.DataSheet is SolarCollectorDataSheet))
             {
                 /* Prompt the user for whether or not the container is tied to any of the solar collector. */
                 var title = "Vælg solfangeren som denne beholder er forbundet til";
                 var message = "Hvis beholderen ikke er forbundet til en solfanger, tryk på \"Acceptér\"";
-                var appliances = new ObservableCollection<Appliance>(AppliancesInSolution.Where
+                var appliances = new ObservableCollection<Appliance>(AppliancesInPackagedSolution.Where
                                                  (a => a.DataSheet is SolarCollectorDataSheet));
                 RunSolarContainerDialog(message, title, appToAdd, appliances);
             }
             else if (appToAdd.DataSheet is SolarCollectorDataSheet &&
-                AppliancesInSolution.Any(a => a.DataSheet is ContainerDataSheet))
+                AppliancesInPackagedSolution.Any(a => a.DataSheet is ContainerDataSheet))
             {
                 /* Prompt the user for whether or not any of the containers are tied to the solar collector */
                 var title = "Vælg beholderen som denne solfanger er forbundet til ";
                 var message = "Hvis solfangeren ikke er forbundet til en beholder, tryk på \"Acceptér\"";
-                var appliances = new ObservableCollection<Appliance>(AppliancesInSolution.Where
+                var appliances = new ObservableCollection<Appliance>(AppliancesInPackagedSolution.Where
                                                  (a => a.DataSheet is ContainerDataSheet));
                 RunSolarContainerDialog(message, title, appToAdd, appliances);
             }
             else
             {
-                AddApplianceToSolution(appToAdd);
+                AddApplianceToPackagedSolution(appToAdd);
             }
-            UpdateEEI();
+            UpdateEei();
         }
 
-        private void UpdateEEI()
+        private void UpdateEei()
         {
             var results = _calculationManager.SelectCalculationStrategy(PackagedSolution);
-            if (results != null)
-            {
-                //TODO: There could be several calculations here, idk.
-                EEIResult = results[0].CalculateEEI(PackagedSolution).EEICharacters;
-            }
-            else
-            {
-                EEIResult = "N/A";
-            }
+            EeiResult = results != null ? results[0].CalculateEEI(PackagedSolution).EEICharacters : "N/A";
         }
+
+        #endregion
+
     }
 }

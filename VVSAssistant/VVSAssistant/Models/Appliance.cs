@@ -20,6 +20,7 @@ namespace VVSAssistant.Models
             Name = name;
             DataSheet = datasheet;
             Type = type;
+            Quantity = 1;
         }
 
         public Appliance()
