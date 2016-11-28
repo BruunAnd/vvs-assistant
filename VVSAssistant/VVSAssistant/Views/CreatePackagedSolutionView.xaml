@@ -168,7 +168,8 @@
                         Content="Gem pakkeløsning"
                         Command="{Binding SaveDialogCommand}"/>
                 <Button Margin="0 5 0 0" 
-                        Content="Print pakkelabel"/>
+                        Content="Print pakkelabel"
+                        Command="{Binding PdfExport}"/>
             </StackPanel>
         </Grid>
 

@@ -81,9 +81,9 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         {
             switch (id)
             {
-                case SolarPanelId.LogasolSKN:
-                    return new ApplianceStub("LogasolSKN", new SolarCollectorDataSheet()
-                        { Area = 2.25f, Efficency = 60 }, ApplianceTypes.SolarPanel);
+                //case SolarPanelId.LogasolSKN:
+                //    return new ApplianceStub("LogasolSKN", new SolarCollectorDataSheet()
+                //        { Area = 2.25f, Efficency = 60 }, ApplianceTypes.SolarPanel);
                 case SolarPanelId.LogasolSKNWater:
                     return new ApplianceStub("LogasolSKN", new SolarCollectorDataSheet()
                     { Area = 2.25f, Efficency = 60, Asol = 2.25f, N0 = 0.766f, a1 = 3.22f,

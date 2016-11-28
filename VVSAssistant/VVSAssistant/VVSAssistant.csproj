@@ -236,6 +236,7 @@
     <Compile Include="Common\ViewModels\RelayCommand.cs" />
     <Compile Include="Models\UnitPrice.cs" />
     <Compile Include="ViewModels\PdfLabelExportViewModel.cs" />
+    <Compile Include="ViewModels\PdfOfferExportViewModel.cs" />
     <Compile Include="Views\CreateOfferView.xaml.cs">
       <DependentUpon>CreateOfferView.xaml</DependentUpon>
     </Compile>
@@ -250,6 +251,9 @@
     </Compile>
     <Compile Include="Views\PdfLabelLayout.xaml.cs">
       <DependentUpon>PdfLabelLayout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PdfOfferLayout.xaml.cs">
+      <DependentUpon>PdfOfferLayout.xaml</DependentUpon>
     </Compile>
     <Page Include="Controls\Dialogs\Views\AddHeatingUnitDialogView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -312,6 +316,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PdfLabelLayout.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\PdfOfferLayout.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

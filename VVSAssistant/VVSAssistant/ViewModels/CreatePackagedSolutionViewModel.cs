@@ -8,6 +8,7 @@ using VVSAssistant.Common.ViewModels.VVSAssistant.Common.ViewModels;
 using VVSAssistant.Controls.Dialogs.ViewModels;
 using VVSAssistant.Controls.Dialogs.Views;
 using VVSAssistant.Extensions;
+using VVSAssistant.Functions;
 using VVSAssistant.Models;
 using VVSAssistant.Models.DataSheets;
 
@@ -145,6 +146,7 @@ namespace VVSAssistant.ViewModels
         public RelayCommand NewPackagedSolutionCommand { get; }
         public RelayCommand SaveDialog { get; }
         public RelayCommand CreateNewAppliance { get; }
+        public RelayCommand PdfExport { get; }
         #endregion
 
         #region Collections
@@ -196,6 +198,13 @@ namespace VVSAssistant.ViewModels
                 RunCreateApplianceDialog();
             }
             );
+            PdfExport = new RelayCommand(x =>
+            {
+                PackagedSolution.Appliances = new ApplianceList(AppliancesInSolution.ToList());
+                Exporter e = new Exporter();
+                e.ExportEnergyLabel(PackagedSolution);
+            }
+);
             #endregion
         }
 
@@ -208,6 +217,8 @@ namespace VVSAssistant.ViewModels
                                 MessageDialogStyle.AffirmativeAndNegative);
                 if (result == MessageDialogResult.Negative)
                     return;
+                else
+                    AppliancesInSolution.Clear();
             }
 
             PackagedSolution = new PackagedSolution();

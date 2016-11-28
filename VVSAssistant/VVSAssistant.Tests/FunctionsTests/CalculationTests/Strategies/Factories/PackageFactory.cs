@@ -10,11 +10,11 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             {
                 case PackagedSolutionId.PrimaryBoilerOHeatPump:
                     return new PackageStub(BoilerId.LoganoSB150, ContainerId.ClassBHighVolume, 
-                        BoilerId.Cerapur, SolarPanelId.LogasolSKN, 1,
+                        BoilerId.Cerapur, SolarPanelId.LogasolSKNWater, 1,
                         0, ContainerId.ClassBHighVolume, TempControlId.FB100);
                 case PackagedSolutionId.PrimaryBoilerSame:
                     return new PackageStub(BoilerId.LoganoSB150, ContainerId.ClassBHighVolume, 
-                        BoilerId.Cerapur, SolarPanelId.LogasolSKN, 1,
+                        BoilerId.Cerapur, SolarPanelId.LogasolSKNWater, 1,
                         0,ContainerId.ClassBHighVolume, TempControlId.FB100);
                 case PackagedSolutionId.PrimaryBoilerNulls:
                     return new PackageStub(BoilerId.LoganoSB150, 0, 0,0,1,0,0,0);
@@ -36,7 +36,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                     return new PackageStub(BoilerId.EuroPurACUWater, 0,0, 0,0);
                 case PackagedSolutionId.PrimaryBoilerWHeatPump:
                     return new PackageStub(BoilerId.LoganoSB150, ContainerId.ClassBHighVolume,
-                        0, SolarPanelId.LogasolSKN, 1,
+                        0, SolarPanelId.LogasolSKNWater, 1,
                         HeatpumpId.Compress7000, ContainerId.ClassBHighVolume, TempControlId.FB100);
                 case PackagedSolutionId.PirmaryBoilerW3Solar:
                     return new PackageStub(BoilerId.EuroPurUnitSolarWater, ContainerId.ClassBHighVolume, 0,
