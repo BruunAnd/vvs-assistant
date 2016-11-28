@@ -5,10 +5,8 @@ using System.Linq;
 using System.Text;
 using EntityFramework.BulkInsert.Extensions;
 using EntityFramework.BulkInsert.SqlServerCe;
-using ErikEJ.SqlCe;
 using VVSAssistant.Database;
 using VVSAssistant.Models;
-using Z.BulkOperations;
 
 namespace VVSAssistant.Functions
 {
@@ -24,14 +22,14 @@ namespace VVSAssistant.Functions
                     return false;
                 }
                 var reader = new StreamReader(File.OpenRead(src));
-                var materials = new List<Material>();
+                var materialReferences = new List<MaterialReference>();
                 while (!reader.EndOfStream)
                 {
                     var line = reader.ReadLine();
-                    DataParser(line, materials);
+                    DataParser(line, materialReferences);
                 }
                 reader.Close();
-                UpdateDatabase(materials);
+                UpdateDatabase(materialReferences);
                 return true;
             }
 
@@ -43,12 +41,12 @@ namespace VVSAssistant.Functions
                 return values.Length == 8;
             }
 
-            private static void UpdateDatabase(IEnumerable<Material> materials)
+            private static void UpdateDatabase(IEnumerable<MaterialReference> materialReferences)
             {
-                var connection = new AssistantContext().Database.Connection;
-                connection.Open();
-                var bulk = new BulkOperation(connection) {DestinationTableName = "Materials"};
-                bulk.BulkInsert(materials);
+                //var connection = new AssistantContext().Database.Connection;
+                //connection.Open();
+                //var bulk = new BulkOperation(connection) { DestinationTableName = "Materials" };
+                //bulk.BulkInsert(materials);
                 //using (var ctx = new AssistantContext())
                 //{
                 //    using (var bcp = new SqlCeBulkCopy(ctx.Database.Connection.ConnectionString))
@@ -111,18 +109,18 @@ namespace VVSAssistant.Functions
 
             }
             
-            private static void DataParser(string line, ICollection<Material> materials)
+            private static void DataParser(string line, ICollection<MaterialReference> materialReferences)
             {
                 // Process and retrieve values from the read line.
                 var values = ProcessLine(line);
 
                 // Add a new material to the list of materials.
-                materials.Add(new Material
+                materialReferences.Add(new MaterialReference()
                 {
                     VvsNumber = values[(int)EntityProperty.Id],
                     SpecificationsType = values[(int)EntityProperty.SpecType],
                     Name = values[(int)EntityProperty.Name],
-                    UnitCostPrice = double.Parse(values[(int)EntityProperty.ListPrice])
+                    CostPrice = double.Parse(values[(int)EntityProperty.ListPrice])
                 });
             }
 
