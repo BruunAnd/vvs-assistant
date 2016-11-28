@@ -107,7 +107,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                     { Area = 3.19f, Efficency = 72 }, ApplianceTypes.SolarPanel);
                 case SolarPanelId.LogasolSKN40:
                     return new ApplianceStub("Logasol SKN 4.0", new SolarCollectorDataSheet()
-                    { Area = 2.25f, Efficency = 61 }, ApplianceTypes.SolarPanel);
+                    { Area = 2.25f, Efficency = 61, isRoomHeater = true }, ApplianceTypes.SolarPanel);
                 case SolarPanelId.Vitosol200T:
                     return new ApplianceStub("Vitosol 200-T", new SolarCollectorDataSheet()
                     { Area = 1.33f, Efficency = 67.5f, isRoomHeater = true}, ApplianceTypes.SolarPanel);
@@ -151,7 +151,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                     { Volume = 93.0f, Classification = "C", StandingLoss = 50 }, ApplianceTypes.Container);
                 case ContainerId.BST5006:
                     return new ApplianceStub("BST 500-6", new ContainerDataSheet()
-                    { Volume = 495.0f, Classification = "b", StandingLoss = 82 }, ApplianceTypes.Container);
+                    { Volume = 495.0f, Classification = "B", StandingLoss = 82 }, ApplianceTypes.Container);
                 default:
                     return new Appliance();
             }
