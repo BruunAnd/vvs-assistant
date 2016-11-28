@@ -166,7 +166,7 @@
 
                 <Button Margin="0 5 0 0" 
                         Content="Gem pakkeløsning"
-                        Command="{Binding SaveDialogCommand}"/>
+                        Command="{Binding SaveDialog}"/>
                 <Button Margin="0 5 0 0" 
                         Content="Print pakkelabel"
                         Command="{Binding PdfExport}"/>
