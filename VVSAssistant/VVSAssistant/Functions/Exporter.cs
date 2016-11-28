@@ -1,35 +1,83 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Printing;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Annotations;
+using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Markup;
+using System.Windows.Media;
 using System.Windows.Xps;
 using System.Windows.Xps.Packaging;
 using VVSAssistant.Functions.Calculation;
 using VVSAssistant.Models;
+using VVSAssistant.Models.DataSheets;
 using VVSAssistant.ViewModels;
 using VVSAssistant.Views;
 
 namespace VVSAssistant.Functions
 {
-    internal class Exporter
+    class Exporter
     {
-        private PdfLabelExportViewModel _vm;
-        public void ExportOffer(Offer offer)
+        private PdfLabelExportViewModel vm;
+        public void ExportOffer()
         {
 
-        }
+            Console.WriteLine("Print Offer pdf == Done");
+
+
+        var path = "PdfOffer.xps";
+        FixedDocument fixedDoc = new FixedDocument();
+        PageContent pageContent = new PageContent();
+        FixedPage fixedPage = new FixedPage();
+        fixedPage.Height = 11.69 * 96;
+        fixedPage.Width = 8.27 * 96;
+            var pageSize = new Size(8.5 * 96.0, 11.0 * 96.0);
+            PdfOfferLayout v = new PdfOfferLayout();
+        PdfOfferExportViewModel vmOffer = new PdfOfferExportViewModel();
+
+        v.DataContext = vmOffer;
+        v.UpdateLayout();
+        v.Height = pageSize.Height;
+        v.Width = pageSize.Width;
+        v.UpdateLayout();
+        
+        fixedPage.Children.Add(v);
+        ((System.Windows.Markup.IAddChild)pageContent).AddChild(fixedPage);
+        fixedDoc.Pages.Add(pageContent);
+
+
+            if (File.Exists(path))
+            File.Delete(path);
+        XpsDocument xpsd = new XpsDocument(path, FileAccess.ReadWrite);
+        XpsDocumentWriter xw = XpsDocument.CreateXpsDocumentWriter(xpsd);
+        xw.Write(fixedDoc);
+        xpsd.Close();
+
+    }
 
         public void ExportEnergyLabel(PackagedSolution packaged)
         {
-            var cm = new CalculationManager();
+            List<EEICalculationResult> result = new List<EEICalculationResult>();
+
+            CalculationManager cm = new CalculationManager();
             var cal = cm.SelectCalculationStrategy(packaged);
+            if (cal == null)
+            {
+                return;
+            }
+            foreach (var VARIABLE in cal)
+            {
+                result.Add(VARIABLE.CalculateEEI(packaged));
+            }
+            
 
-            var result = cal.Select(variable => variable.CalculateEEI(packaged)).ToList();
-
-
-            Console.WriteLine("Print pdf == Done");
+            Console.WriteLine("Print Label pdf == Done");
             Console.WriteLine("Count " + result.Count);
             //Console.WriteLine("Index 0 " + result[0].WaterHeatingUseProfile);
             //Console.WriteLine(result[0].PrimaryHeatingUnitAFUE);
@@ -51,30 +99,28 @@ namespace VVSAssistant.Functions
                 Console.WriteLine("EEI Water " + EEICharLabelChooser.EEIChar(ApplianceTypes.Boiler, result[1].WaterHeatingEffciency));
             }
 
-            const string path = "PdfEnergylabel.xps";
-            var fixedDoc = new FixedDocument();
-            var pageContent = new PageContent();
-            var fixedPage = new FixedPage
-            {
-                Height = 11.69*96,
-                Width = 8.27*96
-            };
+            var path = "PdfEnergylabel.xps";
+            FixedDocument fixedDoc = new FixedDocument();
+            PageContent pageContent = new PageContent();
+            FixedPage fixedPage = new FixedPage();
+            fixedPage.Height = 11.69 * 96;
+            fixedPage.Width = 8.27 * 96;
             var pageSize = new Size(8.5 * 96.0, 11.0 * 96.0);
 
-            var v = new PdfLabelLayout();
-            _vm = new PdfLabelExportViewModel();
+            PdfLabelLayout v = new PdfLabelLayout();
+            vm = new PdfLabelExportViewModel();
 
             
 
             switch (result.Count)
             {
-                case 1: SetUpLabelTwo(packaged ,result); break;
-                case 2: SetUpLabelOne(packaged, result[0]); break;
+                case 2: SetUpLabelTwo(packaged ,result); break;
+                case 1: SetUpLabelOne(packaged, result[0]); break;
                 default: return;
             }
 
 
-            v.DataContext = _vm;
+            v.DataContext = vm;
             v.UpdateLayout();
             v.Height = pageSize.Height;
             v.Width = pageSize.Width;
@@ -83,29 +129,27 @@ namespace VVSAssistant.Functions
             fixedPage.Children.Add(v);
             ((System.Windows.Markup.IAddChild)pageContent).AddChild(fixedPage);
             fixedDoc.Pages.Add(pageContent);
-            //Ny side
-            fixedDoc.Pages.Add(pageContent);
 
             if (File.Exists(path))
                 File.Delete(path);
-            var xpsd = new XpsDocument(path, FileAccess.ReadWrite);
-            var xw = XpsDocument.CreateXpsDocumentWriter(xpsd);
+            XpsDocument xpsd = new XpsDocument(path, FileAccess.ReadWrite);
+            XpsDocumentWriter xw = XpsDocument.CreateXpsDocumentWriter(xpsd);
             xw.Write(fixedDoc);
             xpsd.Close();
         }
 
-        private void SetUpLabelTwo(PackagedSolution packaged, IReadOnlyList<EEICalculationResult> result)
+        private void SetUpLabelTwo(PackagedSolution packaged, List<EEICalculationResult> result)
         {
-            _vm.CompNameText = "Hjøring VVS";
-            _vm.LabelOne = (false) ? "Visible" : "Collapsed";
-            _vm.LabelTwo = (true) ? "Visible" : "Collapsed";
+            vm.CompNameText = "Hjøring VVS";
+            vm.LabelOne = (false) ? "Visible" : "Collapsed";
+            vm.LabelTwo = (true) ? "Visible" : "Collapsed";
 
-            _vm.SolarIncluded = (packaged.Appliances.Any(item => item.Type == ApplianceTypes.SolarPanel)) ? "Visible" : "Hidden";
-            _vm.WatertankIncluded = (packaged.Appliances.Any(item => item.Type == ApplianceTypes.Container)) ? "Visible" : "Hidden";
-            _vm.TempControleIncluded = (packaged.Appliances.Any(item => item.Type == ApplianceTypes.TemperatureController)) ? "Visible" : "Hidden";
-            _vm.HeaterIncluded = (packaged.Appliances.Any(item => item.Type == ApplianceTypes.CHP)) ? "Visible" : "Hidden";//Skal kigges på
+            vm.SolarIncluded = (packaged.Appliances.Any(item => item.Type == ApplianceTypes.SolarPanel)) ? "Visible" : "Hidden";
+            vm.WatertankIncluded = (packaged.Appliances.Any(item => item.Type == ApplianceTypes.Container)) ? "Visible" : "Hidden";
+            vm.TempControleIncluded = (packaged.Appliances.Any(item => item.Type == ApplianceTypes.TemperatureController)) ? "Visible" : "Hidden";
+            vm.HeaterIncluded = (packaged.Appliances.Any(item => item.Type == ApplianceTypes.CHP)) ? "Visible" : "Hidden";//Skal kigges på
 
-            _vm.TapValue = result[1].WaterHeatingUseProfile.ToString();
+            vm.TapValue = result[1].WaterHeatingUseProfile.ToString();
             SelectArrowValue(1, result[0].EEICharacters);
             SelectArrowValue(2, result[1].EEICharacters);
             SelectArrowValue(3, EEICharLabelChooser.EEIChar(ApplianceTypes.Boiler, result[0].PrimaryHeatingUnitAFUE));
@@ -114,14 +158,14 @@ namespace VVSAssistant.Functions
 
         private void SetUpLabelOne(PackagedSolution packaged, EEICalculationResult result)
         {
-            _vm.CompNameText = "Hjøring VVS";
-            _vm.LabelOne = (true) ? "Visible" : "Collapsed";
-            _vm.LabelTwo = (false) ? "Visible" : "Collapsed";
+            vm.CompNameText = "Hjøring VVS";
+            vm.LabelOne = (true) ? "Visible" : "Collapsed";
+            vm.LabelTwo = (false) ? "Visible" : "Collapsed";
 
-            _vm.SolarIncluded = (packaged.Appliances.Any(item => item.Type == ApplianceTypes.SolarPanel)) ? "Visible" : "Hidden";
-            _vm.WatertankIncluded = (packaged.Appliances.Any(item => item.Type == ApplianceTypes.Container)) ? "Visible" : "Hidden";
-            _vm.TempControleIncluded = (packaged.Appliances.Any(item => item.Type == ApplianceTypes.TemperatureController)) ? "Visible" : "Hidden";
-            _vm.HeaterIncluded = (packaged.Appliances.Any(item => item.Type == ApplianceTypes.CHP)) ? "Visible" : "Hidden";//Skal kigges på
+            vm.SolarIncluded = (packaged.Appliances.Any(item => item.Type == ApplianceTypes.SolarPanel)) ? "Visible" : "Hidden";
+            vm.WatertankIncluded = (packaged.Appliances.Any(item => item.Type == ApplianceTypes.Container)) ? "Visible" : "Hidden";
+            vm.TempControleIncluded = (packaged.Appliances.Any(item => item.Type == ApplianceTypes.TemperatureController)) ? "Visible" : "Hidden";
+            vm.HeaterIncluded = (packaged.Appliances.Any(item => item.Type == ApplianceTypes.CHP)) ? "Visible" : "Hidden";//Skal kigges på
 
             SelectArrowValue(3, EEICharLabelChooser.EEIChar(ApplianceTypes.Boiler, result.PrimaryHeatingUnitAFUE));
             SelectArrowValue(5, result.EEICharacters);
@@ -130,12 +174,12 @@ namespace VVSAssistant.Functions
         {
             int arrowPlace;
             string letterOnArrow;
-            var plusOnArrow = "";
+            string PlusOnArrow = "";
             switch (label)
             {
-                case "A+++": letterOnArrow = "A"; plusOnArrow = "+++"; arrowPlace = 1; break;
-                case "A++": letterOnArrow = "A"; plusOnArrow = "++"; arrowPlace = 2; break;
-                case "A+": letterOnArrow = "A"; plusOnArrow = "+"; arrowPlace = 3; break;
+                case "A+++": letterOnArrow = "A"; PlusOnArrow = "+++"; arrowPlace = 1; break;
+                case "A++": letterOnArrow = "A"; PlusOnArrow = "++"; arrowPlace = 2; break;
+                case "A+": letterOnArrow = "A"; PlusOnArrow = "+"; arrowPlace = 3; break;
                 case "A": letterOnArrow = "A"; arrowPlace = 4; break;
                 case "B": letterOnArrow = "B"; arrowPlace = 5; break;
                 case "C": letterOnArrow = "C"; arrowPlace = 6; break;
@@ -145,52 +189,54 @@ namespace VVSAssistant.Functions
                 case "G": letterOnArrow = "G"; arrowPlace = 10; break;
                 default: return;
             }
-            switch (arrow)
+            if (arrow == 1)
             {
-                case 1:
-                    SetArrowOneLabelTwo(arrowPlace, letterOnArrow, plusOnArrow);
-                    break;
-                case 2:
-                    SetArrowTwoLabelTwo(arrowPlace, letterOnArrow, plusOnArrow);
-                    break;
-                case 3:
-                    SetAnnualWaterHeatingEfficiency(letterOnArrow, plusOnArrow);
-                    break;
-                case 4:
-                    SetAnnualHeatingEfficiency(letterOnArrow, plusOnArrow);
-                    break;
-                case 5:
-                    SetEeiArrowLebelOne(arrowPlace, letterOnArrow, plusOnArrow);
-                    break;
+                SetArrowOneLabelTwo(arrowPlace, letterOnArrow, PlusOnArrow);
+            }
+            else if (arrow == 2)
+            {
+                SetArrowTwoLabelTwo(arrowPlace, letterOnArrow, PlusOnArrow);
+            }
+            else if (arrow == 3)
+            {
+                SetAnnualWaterHeatingEfficiency(letterOnArrow, PlusOnArrow);
+            }
+            else if (arrow == 4)
+            {
+                SetAnnualHeatingEfficiency(letterOnArrow, PlusOnArrow);
+            }
+            else if (arrow == 5)
+            {
+                SetEEIArrowLebelOne(arrowPlace, letterOnArrow, PlusOnArrow);
             }
         }
         private void SetArrowOneLabelTwo(int arrowPlace, string arrowLetter, string arrowPlus)
         {
-            _vm.tabeOneArrow = arrowPlace;
-            _vm.tabeOneArrowLetter = arrowLetter;
-            _vm.tabeOneArrowPlus = arrowPlus;
+            vm.tabeOneArrow = arrowPlace;
+            vm.tabeOneArrowLetter = arrowLetter;
+            vm.tabeOneArrowPlus = arrowPlus;
         }
         private void SetArrowTwoLabelTwo(int arrowPlace, string arrowLetter, string arrowPlus)
         {
-            _vm.tabeTwoArrow = arrowPlace;
-            _vm.tabeTwoArrowLetter = arrowLetter;
-            _vm.tabeTwoArrowPlus = arrowPlus;
+            vm.tabeTwoArrow = arrowPlace;
+            vm.tabeTwoArrowLetter = arrowLetter;
+            vm.tabeTwoArrowPlus = arrowPlus;
         }
         private void SetAnnualWaterHeatingEfficiency(string arrowLetter, string arrowPlus)
         {
-            _vm.waterHeatingModeLetter = arrowLetter;
-            _vm.waterHeatingModePlus = arrowPlus;
+            vm.waterHeatingModeLetter = arrowLetter;
+            vm.waterHeatingModePlus = arrowPlus;
         }
         private void SetAnnualHeatingEfficiency(string arrowLetter, string arrowPlus)
         {
-            _vm.annualEfficiencyLetter = arrowLetter;
-            _vm.annualEfficiencyPlus = arrowPlus;
+            vm.annualEfficiencyLetter = arrowLetter;
+            vm.annualEfficiencyPlus = arrowPlus;
         }
-        private void SetEeiArrowLebelOne(int arrowPlace, string arrowLetter, string arrowPlus)
+        private void SetEEIArrowLebelOne(int arrowPlace, string arrowLetter, string arrowPlus)
         {
-            _vm.labelTwoTabeOneArrow = arrowPlace;
-            _vm.labelTwoTabeOneArrowLetter = arrowLetter;
-            _vm.labelTwoTabeOneArrowPlus = arrowPlus;
+            vm.labelTwoTabeOneArrow = arrowPlace;
+            vm.labelTwoTabeOneArrowLetter = arrowLetter;
+            vm.labelTwoTabeOneArrowPlus = arrowPlus;
         }
 
     }
