@@ -190,7 +190,10 @@ namespace VVSAssistant.ViewModels
 
             SaveDialog = new RelayCommand(x =>
             {
-                RunSaveDialog();
+                if (string.IsNullOrEmpty(PackagedSolution.Name))
+                    RunSaveDialog();
+                else
+                    SaveCurrentPackagedSolution();
             }, x => AppliancesInSolution.Any());
 
             CreateNewAppliance = new RelayCommand(x => 
@@ -217,6 +220,8 @@ namespace VVSAssistant.ViewModels
                                 MessageDialogStyle.AffirmativeAndNegative);
                 if (result == MessageDialogResult.Negative)
                     return;
+                else
+                    AppliancesInSolution.Clear();
             }
 
             PackagedSolution = new PackagedSolution();
@@ -258,13 +263,21 @@ namespace VVSAssistant.ViewModels
              * A packaged solution should not be saved if there exists
              *  a solar collector without a container tied to it. */
 
-            PackagedSolution.CreationDate = DateTime.Now;
-            PackagedSolution.Appliances = new ApplianceList(AppliancesInSolution.ToList());
+            var packSol = DbContext.PackagedSolutions.SingleOrDefault(p => p.Id == PackagedSolution.Id);
+            if (packSol != null) //It's already in the DB
+            {
+                PackagedSolution.Appliances.Clear();
+                AppliancesInSolution.ToList().ForEach(appliance => PackagedSolution.Appliances.Add(appliance));
+                DbContext.Entry(packSol).CurrentValues.SetValues(PackagedSolution);
+            }
+            else //Hasn't been saved yet
+            {
+                PackagedSolution.CreationDate = DateTime.Now;
+                PackagedSolution.Appliances = new ApplianceList(AppliancesInSolution.ToList());
+                DbContext.PackagedSolutions.Add(PackagedSolution); 
+            }
 
-            DbContext.PackagedSolutions.Add(PackagedSolution);
             DbContext.SaveChanges();
-
-            PackagedSolution = new PackagedSolution();
         }
 
         private async void RunAddHeatingUnitDialog(Appliance appliance)
@@ -316,7 +329,7 @@ namespace VVSAssistant.ViewModels
                 {
                     _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
                     PackagedSolution.Name = instanceCompleted.Input;
-
+                    OnPropertyChanged("PackagedSolution.Name");
                     SaveCurrentPackagedSolution();
                 }); 
             
