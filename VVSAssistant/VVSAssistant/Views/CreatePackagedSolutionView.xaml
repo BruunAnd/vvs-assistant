@@ -151,7 +151,7 @@
                 <DockPanel>
                     <Label Content="Aktuelt energimærke"/>
                     <Label HorizontalAlignment="Right" 
-                           Content="93%"/>
+                           Content="{Binding EEIResult, UpdateSourceTrigger=PropertyChanged}"/>
                 </DockPanel>
                 <DockPanel>
                     <Label Content="Næste energimærke"/>

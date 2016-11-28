@@ -11,6 +11,7 @@ using VVSAssistant.Extensions;
 using VVSAssistant.Functions;
 using VVSAssistant.Models;
 using VVSAssistant.Models.DataSheets;
+using VVSAssistant.Functions.Calculation;
 
 namespace VVSAssistant.ViewModels
 {
@@ -136,6 +137,14 @@ namespace VVSAssistant.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        private string _EEIResult;
+        public string EEIResult
+        {
+            get { return _EEIResult; }
+            set { _EEIResult = value; OnPropertyChanged(); }
+        }
+        private CalculationManager _calculationManager;
         #endregion
 
         #region Command initializations
@@ -158,6 +167,7 @@ namespace VVSAssistant.ViewModels
         {
             SetupFilterableView(Appliances);
             PackagedSolution = new PackagedSolution();
+            _calculationManager = new CalculationManager();
             _dialogCoordinator = dialogCoordinator;
 
             #region Command declarations
@@ -206,8 +216,7 @@ namespace VVSAssistant.ViewModels
                 PackagedSolution.Appliances = new ApplianceList(AppliancesInSolution.ToList());
                 Exporter e = new Exporter();
                 e.ExportEnergyLabel(PackagedSolution);
-            }
-);
+            });
             #endregion
         }
 
@@ -354,7 +363,6 @@ namespace VVSAssistant.ViewModels
             customDialog.Content = new CreateApplianceDialogView { DataContext = dialogViewModel };
 
             await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
-            
         }
 
         private async void RunCreateApplianceDialog()
@@ -367,7 +375,6 @@ namespace VVSAssistant.ViewModels
                 {
                     DbContext.Appliances.Add(newAppliance);
                     Appliances.Add(newAppliance);
-                    AppliancesInSolution.Add(newAppliance);
                     _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
                 });
 
@@ -467,8 +474,22 @@ namespace VVSAssistant.ViewModels
             }
             else
             {
-                Console.WriteLine("All checks passed, adding to packaged solution with no window.");
                 AddApplianceToSolution(appToAdd);
+            }
+            UpdateEEI();
+        }
+
+        private void UpdateEEI()
+        {
+            var results = _calculationManager.SelectCalculationStrategy(PackagedSolution);
+            if (results != null)
+            {
+                //TODO: There could be several calculations here, idk.
+                EEIResult = results[0].CalculateEEI(PackagedSolution).EEICharacters;
+            }
+            else
+            {
+                EEIResult = "N/A";
             }
         }
     }

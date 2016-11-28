@@ -9,11 +9,6 @@ namespace VVSAssistant.Models
 {
     public class Appliance : ICalculateable, ICopyable
     {
-        public override string ToString()
-        {
-            return Name;
-        }
-
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTime CreationDate { get; set; }
@@ -22,6 +17,21 @@ namespace VVSAssistant.Models
         public virtual UnitPrice UnitPrice { get; set; }
         public string Description => DataSheet.ToString();
 
+        public Appliance(string name, DataSheet datasheet, ApplianceTypes type)
+        {
+            Name = name;
+            DataSheet = datasheet;
+            Type = type;
+        }
+
+        public Appliance()
+        {
+        }
+
+        public override string ToString()
+        {
+            return Name;
+        }
         public object MakeCopy()
         {
             var copy = Activator.CreateInstance(this.GetType()); //New object of same type
