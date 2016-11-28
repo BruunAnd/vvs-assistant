@@ -203,7 +203,6 @@
     <Compile Include="Functions\Calculation\Strategies\HeatPumpAsPrimary.cs" />
     <Compile Include="Functions\Calculation\IEEICalculation.cs" />
     <Compile Include="Functions\Calculation\Interfaces\ICalculationChooser.cs" />
-    <Compile Include="Functions\VvsCatalogueImporter.cs" />
     <Compile Include="Functions\Exporter.cs" />
     <Compile Include="Functions\UtilityClass.cs" />
     <Compile Include="Models\Appliance.cs" />
@@ -216,7 +215,6 @@
     <Compile Include="Models\DataSheets\ContainerDataSheet.cs" />
     <Compile Include="Models\DataSheets\HeatingUnitDataSheet.cs" />
     <Compile Include="Models\DataSheets\SolarStationDataSheet.cs" />
-    <Compile Include="Models\DataSheets\WaterHeatingUnitDataSheet.cs" />
     <Compile Include="Models\Interfaces\ICalculatable.cs" />
     <Compile Include="Models\Material.cs" />
     <Compile Include="Models\MaterialReference.cs" />

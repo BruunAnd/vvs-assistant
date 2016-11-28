@@ -8,12 +8,11 @@ namespace VVSAssistant.Database
     {
         public AssistantContext() : base("AssistantDatabaseConnectionString")
         {
-            
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<PackagedSolution>().HasMany(s => s.ApplianceInstances).WithRequired();
+            modelBuilder.Entity<PackagedSolution>().HasMany(s => s.ApplianceInstances);
             modelBuilder.Entity<PackagedSolution>().HasOptional(s => s.SolarContainerInstance);
             modelBuilder.Entity<PackagedSolution>().HasOptional(s => s.PrimaryHeatingUnitInstance);
 
@@ -27,18 +26,17 @@ namespace VVSAssistant.Database
             modelBuilder.Entity<SolarCollectorDataSheet>().ToTable("SolarCollectorDataSheets");
             modelBuilder.Entity<SolarStationDataSheet>().ToTable("SolarStationDataSheets");
             modelBuilder.Entity<TemperatureControllerDataSheet>().ToTable("TemperatureControllerDataSheet");
-            modelBuilder.Entity<WaterHeatingUnitDataSheet>().ToTable("WaterHeatingUnitDataSheets");
 
             // Create a table for each unitprice type
             modelBuilder.Entity<Salary>().ToTable("Salaries");
             modelBuilder.Entity<Material>().ToTable("Materials");
 
+            // Map ApplianceInstance
+            modelBuilder.Entity<ApplianceInstance>().HasRequired(a => a.Appliance).WithMany();
+
             // Map Offer
             modelBuilder.Entity<Offer>().HasMany(o => o.Materials).WithOptional();
             modelBuilder.Entity<Offer>().HasMany(o => o.Salaries).WithOptional();
-
-            // Map Materials with MaterialReferences
-            modelBuilder.Entity<Material>().HasRequired(m => m.Reference).WithMany();
         }
 
         public DbSet<Client> Clients { get; set; }
@@ -51,6 +49,5 @@ namespace VVSAssistant.Database
         public DbSet<DataSheet> DataSheets { get; set; }
         public DbSet<ApplianceInstance> ApplianceInstances { get; set; }
         public DbSet<Material> Materials { get; set; }
-        public DbSet<MaterialReference> MaterialReferences { get; set; }
     }
 }

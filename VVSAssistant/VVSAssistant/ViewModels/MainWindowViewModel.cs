@@ -36,26 +36,9 @@ namespace VVSAssistant.ViewModels
                 var result = dlg.ShowDialog();
                 if (result == true) DataUtil.Database.Export(dlg.FileName);
             }, x => DataUtil.Database.Exists());
-
-            ImportVvsCatalogue = new RelayCommand(x =>
-            {
-                var dlg = new OpenFileDialog { Filter = "VVS katalog fil (.DAT)|*.DAT" };
-                dlg.FileOk += ValidateVVSCatalogue;
-                var result = dlg.ShowDialog();
-                if (result == true) DataUtil.VvsCatalogue.Import(dlg.FileName);
-            }
-                
-
-            );
+            
         }
-
-        private void ValidateVVSCatalogue(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            var dlg = sender as OpenFileDialog;
-            if (DataUtil.VvsCatalogue.ValidateFormat(dlg.FileName)) return;
-            MessageBox.Show("Den valgte .DAT fil indeholder ikke et gyldigt VVS katalog.", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
-            e.Cancel = true;
-        }
+        
 
         private void ValidateDatabaseFile(object sender, System.ComponentModel.CancelEventArgs e)
         {

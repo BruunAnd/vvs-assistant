@@ -128,15 +128,12 @@ namespace VVSAssistant.Functions.Calculation.Strategies
 
             return Qnonsol;
         }
-
-        // Solar panel plants and conventional water heaters
-        private float SolicsMethode(WaterHeatingUnitDataSheet data)
-        {
-            return 0.0f;
-        }
-
+        
         public HeatingUnitDataSheet PrimaryData => 
             _package?.PrimaryHeatingUnit?.DataSheet as HeatingUnitDataSheet;
+        public HeatingUnitDataSheet WaterHeater =>
+            _package.Appliances.FirstOrDefault(item => 
+                item?.Type == ApplianceTypes.WaterHeater)?.DataSheet as HeatingUnitDataSheet;
 
         private float PumpConsumption
         {
@@ -167,6 +164,8 @@ namespace VVSAssistant.Functions.Calculation.Strategies
                 float ans = 0;
                 ans += PrimaryData.Vnorm > 0 ? PrimaryData.Vnorm : 0;
                 ans -= PrimaryData.Vnorm > 0 ? PrimaryData.Vbu : 0;
+                ans += ans == 0 && WaterHeater != null ? WaterHeater.Vnorm : 0;
+                ans -= ans == 0 && WaterHeater != null ? WaterHeater.Vbu : 0;
                 ans += _packageData.SolarContainerVolume(container =>
                     container.isBivalent == true && container.isWaterContainer == true);
                 return ans;
@@ -178,6 +177,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             {
                 float ans = 0;
                 ans += PrimaryData.Vnorm > 0 ? PrimaryData.StandingLoss / 45 : 0;
+                ans += ans == 0 && WaterHeater != null ? WaterHeater.StandingLoss / 45 : 0;
                 var solarContains = _packageData.SolarContainers(container =>
                     container.isWaterContainer == true && container.isBivalent == true);
                 foreach (var item in solarContains)
