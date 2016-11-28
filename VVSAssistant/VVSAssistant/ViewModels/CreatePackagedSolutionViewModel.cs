@@ -270,7 +270,7 @@ namespace VVSAssistant.ViewModels
                 AppliancesInSolution.ToList().ForEach(appliance => PackagedSolution.Appliances.Add(appliance));
                 DbContext.Entry(packSol).CurrentValues.SetValues(PackagedSolution);
             }
-            else //Hasn't been savedd yet
+            else //Hasn't been saved yet
             {
                 PackagedSolution.CreationDate = DateTime.Now;
                 PackagedSolution.Appliances = new ApplianceList(AppliancesInSolution.ToList());
