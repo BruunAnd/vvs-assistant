@@ -22,10 +22,16 @@ namespace VVSAssistant.ViewModels
 
 
 
-        public ApplianceList applianceList { get; set; }
-        public ICollection<Material> materialsList { get; set; }
-        public DateTime creationDate { get; set; } // Ikke helt færdig!
-        public string offerName { get; set; }
-        public double totalSalesPrice { get; set; }
+        public ApplianceList ApplianceList { get; set; }
+        public ICollection<Material> MaterialsList { get; set; }
+        public DateTime CreationDate { get; set; } // Ikke helt færdig!
+        public string OfferName { get; set; }
+        public double TotalSalesPrice { get; set; }
+        public string ClientName { get; set; }
+        public string ClientAdresse { get; set; }
+        public string ClientCity { get; set; }
+        public string IntroText { get; set; }
+        public string OutroText { get; set; }
+        public string Moms { get; set; }
     }
 }

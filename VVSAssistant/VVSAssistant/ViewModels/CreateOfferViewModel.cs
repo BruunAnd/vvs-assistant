@@ -15,6 +15,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using VVSAssistant.Common.ViewModels;
 using VVSAssistant.Events;
+using VVSAssistant.Functions;
 
 namespace VVSAssistant.ViewModels
 {
@@ -202,6 +203,8 @@ namespace VVSAssistant.ViewModels
                     // Closes the dialog and saves the offer to database
                     _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
                     SaveOfferToDatabase(Offer);
+                    Exporter e = new Exporter();
+                    e.ExportOffer(Offer);
                 });
 
             customDialog.Content = new GenerateOfferDialogView { DataContext = dialogViewModel };

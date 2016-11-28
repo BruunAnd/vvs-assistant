@@ -32,22 +32,26 @@ namespace VVSAssistant.Functions
             public string Plus { get; set; }
         }
 
-        public void ExportOffer(PackagedSolution packaged)
+        public void ExportOffer(Offer offer)
         {
-            Offer offer = new Offer();
-            Material m = new Material();
-            m.Name = "test";
-            offer.Materials.Add(m);
+
             Console.WriteLine("Print Offer pdf == Done");
-            Console.WriteLine(packaged.Appliances.Count);
+            Console.WriteLine(offer.PackagedSolution.Appliances.Count);
             var path = "PdfOffer.xps";
             FixedDocument fixedDoc = new FixedDocument();
             PdfOfferExportViewModel vmOffer = new PdfOfferExportViewModel();
-            vmOffer.applianceList = packaged.Appliances;
-            vmOffer.materialsList = offer.Materials;
-            vmOffer.creationDate = DateTime.Now;
-            vmOffer.offerName = "Tilbud Vandværksvej 18";
-            //vmOffer.totalSalesPrice = offer.TotalSalesPrice;
+            vmOffer.ApplianceList = offer.PackagedSolution.Appliances;
+            vmOffer.MaterialsList = offer.Materials;
+            vmOffer.CreationDate = offer.CreationDate;
+            vmOffer.OfferName = offer.OfferInformation.Title;
+            vmOffer.ClientName = offer.Client.ClientInformation.Name;
+            vmOffer.ClientAdresse = offer.Client.ClientInformation.Address;
+            vmOffer.ClientCity = offer.Client.ClientInformation.Address; //TODO: ClientCity
+            vmOffer.IntroText = offer.OfferInformation.Intro;
+            vmOffer.OutroText = offer.OfferInformation.Outro;
+        
+            vmOffer.TotalSalesPrice = offer.TotalSalesPrice;
+            vmOffer.Moms = ((offer.OfferInformation.ApplyTax) ? "inkl. moms" : "Eks. moms");
             #region PageOneToThree
             //PageOne
             PdfOfferLayout pageOne = new PdfOfferLayout();
