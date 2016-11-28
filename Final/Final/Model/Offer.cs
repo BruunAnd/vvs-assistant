@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Final.Model
 {
-    class Offer
+    public class Offer
     {
         public virtual PackagedSolution PackagedSolution { get; set; }
         public virtual Client Client { get; set; }

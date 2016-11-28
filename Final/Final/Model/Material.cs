@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Final.Model
 {
-    class Material
+    public class Material
     {
     }
 }

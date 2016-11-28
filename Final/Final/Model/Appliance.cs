@@ -13,7 +13,7 @@ namespace Final.Model
         Container,
         Solar
     };
-    class Appliance
+    public class Appliance
     {
         private int _id;
         public int Id

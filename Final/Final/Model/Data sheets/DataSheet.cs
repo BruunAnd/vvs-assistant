@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Final.Model.Data_sheets
 {
-    class DataSheet
+    public class DataSheet
     {
         /* Appliance information */
     }

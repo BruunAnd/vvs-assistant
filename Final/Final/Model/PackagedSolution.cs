@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Final.Model
 {
-    class PackagedSolution
+    public class PackagedSolution
     {
         private int _id;
         public int Id
