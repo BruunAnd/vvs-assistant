@@ -137,7 +137,11 @@ namespace VVSAssistant
                 var material = new Material()
                 {
                     UnitCostPrice = 150,
-                    UnitSalesPrice = 180
+                    UnitSalesPrice = 180,
+                    Reference = new MaterialReference()
+                    {
+                        Name = "Rør"
+                    }
                 };
 
                 var salary = new Salary()

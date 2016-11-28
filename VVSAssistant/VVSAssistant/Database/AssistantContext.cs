@@ -36,6 +36,9 @@ namespace VVSAssistant.Database
             // Map Offer
             modelBuilder.Entity<Offer>().HasMany(o => o.Materials).WithOptional();
             modelBuilder.Entity<Offer>().HasMany(o => o.Salaries).WithOptional();
+
+            // Map Materials with MaterialReferences
+            modelBuilder.Entity<Material>().HasRequired(m => m.Reference).WithMany();
         }
 
         public DbSet<Client> Clients { get; set; }
@@ -48,5 +51,6 @@ namespace VVSAssistant.Database
         public DbSet<DataSheet> DataSheets { get; set; }
         public DbSet<ApplianceInstance> ApplianceInstances { get; set; }
         public DbSet<Material> Materials { get; set; }
+        public DbSet<MaterialReference> MaterialReferences { get; set; }
     }
 }

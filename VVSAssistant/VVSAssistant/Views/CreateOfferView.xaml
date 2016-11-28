@@ -180,6 +180,7 @@
                                                 Width="1*"
                                                 CanUserReorder="False"/>
                             <DataGridTextColumn Binding="{Binding Name}"
+                                                x:Name="Name"
                                                 Header="Beskrivelse"
                                                 MinWidth="100"
                                                 Width="1.5*"
@@ -195,7 +196,7 @@
                                                 Width="1*"
                                                 CanUserReorder="False"/>
 
-                            <DataGridTextColumn Binding="{Binding CostPrice, UpdateSourceTrigger=PropertyChanged}" 
+                            <DataGridTextColumn Binding="{Binding Reference.CostPrice, UpdateSourceTrigger=PropertyChanged}" 
                                                 Header="Kostpris"
                                                 IsReadOnly="True"  
                                                 MinWidth="100"
