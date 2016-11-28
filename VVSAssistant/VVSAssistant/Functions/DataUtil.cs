@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace VVSAssistant.Functions
 {
-    public static partial class DataUtil
+    public static class DataUtil
     {
         public static string AssemblyDirectory
         {

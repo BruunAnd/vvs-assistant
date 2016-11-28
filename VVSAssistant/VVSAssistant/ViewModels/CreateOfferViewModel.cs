@@ -25,6 +25,7 @@ namespace VVSAssistant.ViewModels
         public RelayCommand PrintNewOffer { get; }
         public RelayCommand SolutionDoubleClicked { get; }
         public RelayCommand CreateNewOffer { get; }
+        public RelayCommand SaveOffer { get; }
         private ObservableCollection<PackagedSolution> _packagedSolutions;
         public ObservableCollection<PackagedSolution> PackagedSolutions
         {
@@ -70,17 +71,17 @@ namespace VVSAssistant.ViewModels
             }
         }
         private IDialogCoordinator _dialogCoordinator;
-        private bool isComponentTabVisible;
+        private bool _isComponentTabVisible;
         public bool IsComponentTabVisible
         {
-            get { return isComponentTabVisible; }
-            set { isComponentTabVisible = value; OnPropertyChanged(); }
+            get { return _isComponentTabVisible; }
+            set { _isComponentTabVisible = value; OnPropertyChanged(); }
         }
-        private bool arePackagedSolutionsVisible;
+        private bool _arePackagedSolutionsVisible;
         public bool ArePackagedSolutionsVisible
         {
-            get { return arePackagedSolutionsVisible; }
-            set { arePackagedSolutionsVisible = value; OnPropertyChanged(); }
+            get { return _arePackagedSolutionsVisible; }
+            set { _arePackagedSolutionsVisible = value; OnPropertyChanged(); }
         }
         public PackagedSolution SelectedPackagedSolution
         {
@@ -138,6 +139,12 @@ namespace VVSAssistant.ViewModels
                         (x => OnSolutionDoubleClicked(),
                          x => SelectedPackagedSolution != null); 
 
+            /* When the "Gem tilbud" button is pressed, saves the offer if offer has the required information 
+             todo add dialog to name the offer */
+            SaveOffer = new RelayCommand
+                        (x => SaveOfferToDatabase(Offer),
+                         x => VerifyOfferHasRequiredInformation());
+
             /* When the "nyt tilbud" button in bottom left corner is pressed. 
              * Nullifies all offer properties and changes view to list of packaged solutions. */
             CreateNewOffer = new RelayCommand
@@ -146,7 +153,6 @@ namespace VVSAssistant.ViewModels
             MaterialsInOffer.CollectionChanged += NotifyOfferContentsChanged;
             SalariesInOffer.CollectionChanged += NotifyOfferContentsChanged;
             AppliancesInPackagedSolution.CollectionChanged += NotifyOfferContentsChanged;
-            //VVSAssistantEvents.SaveOfferButtonPressedEventHandler += SaveOfferToDatabase;
             SetInitialSettings();
         }
 
@@ -214,17 +220,16 @@ namespace VVSAssistant.ViewModels
         /* When items are added to Offer.Materials and Offer.Salaries */
         private void NotifyOfferContentsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (e != null)
-            {
-                if (e.OldItems != null)
-                    foreach (INotifyPropertyChanged item in e.OldItems)
-                        item.PropertyChanged -= OfferContentsPropertyChanged;
+            if (e == null) return;
 
-                if (e.NewItems != null)
-                    foreach (INotifyPropertyChanged item in e.NewItems)
-                        item.PropertyChanged += OfferContentsPropertyChanged;
-            }
+            if (e.OldItems != null)
+                foreach (INotifyPropertyChanged item in e.OldItems)
+                    item.PropertyChanged -= OfferContentsPropertyChanged;
 
+            if (e.NewItems == null) return;
+
+            foreach (INotifyPropertyChanged item in e.NewItems)
+                item.PropertyChanged += OfferContentsPropertyChanged;
         }
 
         private void OfferContentsPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -242,6 +247,7 @@ namespace VVSAssistant.ViewModels
             OnPropertyChanged("MaterialsCostPrice");
             OnPropertyChanged("MaterialsContributionMargin");
             PrintNewOffer.NotifyCanExecuteChanged();
+            SaveOffer.NotifyCanExecuteChanged();
         }
 
         public override void LoadDataFromDatabase()
@@ -255,8 +261,6 @@ namespace VVSAssistant.ViewModels
             offer.Materials = MaterialsInOffer.ToList();
             offer.CreationDate = DateTime.Now;
             offer.Client.CreationDate = DateTime.Now;
-            /* Everything else has been set by reference */
-            /* Save it to the database */
             DbContext.Offers.Add(offer);
             DbContext.SaveChanges();
         }
