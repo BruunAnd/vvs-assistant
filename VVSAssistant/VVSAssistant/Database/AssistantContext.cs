@@ -8,6 +8,7 @@ namespace VVSAssistant.Database
     {
         public AssistantContext() : base("AssistantDatabaseConnectionString")
         {
+            
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
