@@ -217,6 +217,8 @@ namespace VVSAssistant.ViewModels
                                 MessageDialogStyle.AffirmativeAndNegative);
                 if (result == MessageDialogResult.Negative)
                     return;
+                else
+                    AppliancesInSolution.Clear();
             }
 
             PackagedSolution = new PackagedSolution();
