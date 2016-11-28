@@ -14,9 +14,9 @@ namespace VVSAssistant.Models
 
         public double TotalSalesPrice => Salaries.Sum(salary => salary.SalesPrice)
                                          + Materials.Sum(material => material.SalesPrice)
-                                         + PackagedSolution.Appliances.Sum(appliance => appliance.UnitPrice.SalesPrice);
+                                         + PackagedSolution.Appliances.Sum(appliance => appliance.SalesPrice);
 
-        public double AppliancesSalesPrice => PackagedSolution.Appliances.Sum(appliance => appliance.UnitPrice.SalesPrice);
+        public double AppliancesSalesPrice => PackagedSolution.Appliances.Sum(appliance => appliance.SalesPrice);
         public double MaterialsSalesPrice => Materials.Sum(material => material.SalesPrice);
         public double SalariesSalesPrice => Salaries.Sum(salary => salary.SalesPrice);
 

@@ -7,14 +7,13 @@ using VVSAssistant.Models.Interfaces;
 
 namespace VVSAssistant.Models
 {
-    public class Appliance : ICalculateable, ICopyable
+    public class Appliance : UnitPrice, ICalculateable, ICopyable
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTime CreationDate { get; set; }
         public ApplianceTypes Type { get; set; }
         public virtual DataSheet DataSheet { get; set; }
-        public virtual UnitPrice UnitPrice { get; set; }
         public string Description => DataSheet.ToString();
 
         public Appliance(string name, DataSheet datasheet, ApplianceTypes type)
