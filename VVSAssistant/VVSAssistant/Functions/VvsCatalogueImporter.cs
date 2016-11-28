@@ -1,12 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using EntityFramework.BulkInsert.Extensions;
+using EntityFramework.BulkInsert.SqlServerCe;
+using ErikEJ.SqlCe;
 using VVSAssistant.Database;
 using VVSAssistant.Models;
+using Z.BulkOperations;
 
 namespace VVSAssistant.Functions
 {
+
     public static partial class DataUtil
     {
         public static class VvsCatalogue
@@ -39,54 +45,61 @@ namespace VVSAssistant.Functions
 
             private static void UpdateDatabase(IEnumerable<Material> materials)
             {
+                var connection = new AssistantContext().Database.Connection;
+                connection.Open();
+                var bulk = new BulkOperation(connection) {DestinationTableName = "Materials"};
+                bulk.BulkInsert(materials);
+                //using (var ctx = new AssistantContext())
+                //{
+                //    using (var bcp = new SqlCeBulkCopy(ctx.Database.Connection.ConnectionString))
+                //    {
+                //        bcp.WriteToServer(materials);
 
-                var context = new AssistantContext();
-                // Get a list of materials already in the database.
-                var existingMaterials = context.Materials.ToList();
-                
-                try
-                {
-                    // Disable autodetectchanges to avoid validation of every line.
-                    context.Configuration.AutoDetectChangesEnabled = false;
-                    
-                    var count = 0;
-                    foreach (var mat in materials)
-                    {
-                        ++count;
-                        // Check if an entity in the database has a matching VVS number with an entity in the parsed list, otherwise set to null.
-                        var entity = existingMaterials.FirstOrDefault(x => x.VvsNumber != null && x.VvsNumber.Equals(mat.VvsNumber));
+                //        foreach (var k in ctx.Materials)
+                //        {
+                //            Console.WriteLine(k.Name);
+                //        }
+                //    }
+                //}
 
-                        // If no entity matches the VVS number add it to the databse.
-                        if(entity == null)
-                        {
-                            context.Materials.Add(mat);
-                        }
-                        else
-                        {
-                            // Entity with matching VVS number exists in the database, so check if values need to be updated.
-                            if (!entity.Name.Equals(mat.Name) || !entity.UnitCostPrice.Equals(mat.UnitSalesPrice) || !entity.SpecificationsType.Equals(mat.SpecificationsType))
-                            {
-                                // Update the values for the entity.
-                                context.Entry(entity).Property(x => x.Name).CurrentValue = mat.Name;
-                                context.Entry(entity).Property(x => x.UnitCostPrice).CurrentValue = mat.UnitCostPrice;
-                                context.Entry(entity).Property(x => x.SpecificationsType).CurrentValue = mat.SpecificationsType;
-                            }
-                        }
+                //var context = new AssistantContext();
+                //EntityFramework.BulkInsert.ProviderFactory.Register<SqlCeBulkInsertProvider>("System.Data.SqlServerCe.SqlCeConnection");
+                //context.BulkInsert(materials);
+                //context.Dispose();
+                //context = new AssistantContext();
+                //foreach (var k in context.Materials)
+                //{
+                //    Console.WriteLine(k.Name);
+                //}
 
-                        // Save and dispose the database assistant at every 1000th element to speed up the process.
-                        if (count % 1000 != 0) continue;
-                        context.SaveChanges();
-                        context.Dispose();
-                        context = new AssistantContext();
-                        context.Configuration.AutoDetectChangesEnabled = false;
-                    }
-                }
-                finally
-                {
-                    // Save changes and dispose.
-                    context.SaveChanges();
-                    context.Dispose();
-                }
+
+
+                //try
+                //{
+                //    // Empty all rows in the database.
+                //    context.Database.ExecuteSqlCommand("DELETE FROM Materials");
+                //    context.Configuration.AutoDetectChangesEnabled = false;
+
+                //    var count = 0;
+                //    foreach (var mat in materials)
+                //    {
+                //        ++count;
+                //        context.Materials.Add(mat);
+                //        if (count % 1000 != 0) continue;
+                //        context.SaveChanges();
+                //        context.Dispose();
+                //        context = new AssistantContext();
+                //        context.Configuration.AutoDetectChangesEnabled = false;
+                //    }
+
+                //    context.SaveChanges();
+                //}
+                //finally
+                //{
+                //    context.Dispose();
+                //}
+
+
             }
 
             private enum EntityProperty
