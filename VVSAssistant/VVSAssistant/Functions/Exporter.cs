@@ -101,7 +101,7 @@ namespace VVSAssistant.Functions
         {
 
             if (File.Exists(path))
-                File.Delete(path);
+                File.Delete(path); //TODO: Notify that the user should close all PDFs before doing this
             XpsDocument xpsd = new XpsDocument(path, FileAccess.ReadWrite);
             XpsDocumentWriter xw = XpsDocument.CreateXpsDocumentWriter(xpsd);
             xw.Write(fixedDocument);

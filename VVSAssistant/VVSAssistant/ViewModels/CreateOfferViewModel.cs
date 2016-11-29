@@ -128,7 +128,16 @@ namespace VVSAssistant.ViewModels
             /* Tied to "print offer" button in bottom left corner. 
              * Disabled if VerifyOfferHasRequiredInformation returns false. */
             PrintOfferCmd = new RelayCommand
-                        (x => PrintOfferDialog(), 
+                        (x => 
+                        {
+                            if (DbContext.Offers.SingleOrDefault(o => o.Id == Offer.Id) == null) //Not saved
+                            {
+                                SaveOfferDialog();
+                                ExportOffer();
+                            }
+                            else
+                                ExportOffer();
+                        }, 
                          x => VerifyOfferHasRequiredInformation()); 
 
             /* Tied to the action of double clicking a packaged solution's info 
@@ -139,7 +148,7 @@ namespace VVSAssistant.ViewModels
 
             /* Doing the same as print offer, todo: figure out what we want to accomplish here */
             SaveOfferCmd = new RelayCommand
-                        (x => PrintOfferDialog(),
+                        (x => SaveOfferDialog(),
                          x => VerifyOfferHasRequiredInformation());
 
             /* When the "nyt tilbud" button in bottom left corner is pressed. 
@@ -193,7 +202,7 @@ namespace VVSAssistant.ViewModels
         }
 
         /* Opens offer creation dialog */
-        public void PrintOfferDialog()
+        public void SaveOfferDialog()
         {
             RunGenerateOfferDialog();
         }
@@ -212,13 +221,19 @@ namespace VVSAssistant.ViewModels
                 {
                     // Closes the dialog and saves the offer to database
                     _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
+                    Offer.TotalCostPrice = TotalCostPrice;
+                    Offer.TotalContributionMargin = TotalContributionMargin;
                     SaveOfferToDatabase(Offer);
-                    var e = new Exporter();
-                    e.ExportOffer(Offer);
                 });
 
             customDialog.Content = new GenerateOfferDialogView { DataContext = dialogViewModel };
             await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
+        }
+
+        public void ExportOffer()
+        {
+            var e = new Exporter();
+            e.ExportOffer(Offer);
         }
         
 
