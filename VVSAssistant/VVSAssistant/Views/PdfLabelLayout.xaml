@@ -139,14 +139,14 @@
                            Source="/Image/Fleches toutes Aplus_CALIBRI_2.png"
                            Margin="130,26,84,112"
                            Stretch="Fill"/>
-                        <TextBlock Text="{Binding waterHeatingModeLetter}"
+                        <TextBlock Text="{Binding WaterHeatingModeLetter}"
                                Margin="147,30,110,113"
                                Foreground="White"
                                FontSize="28"
                                FontWeight="Bold"
                                FontFamily="Calibri"/>
 
-                        <TextBlock Text="{Binding waterHeatingModePlus}"
+                        <TextBlock Text="{Binding WaterHeatingModePlus}"
                                Margin="160,24,84,113"
                                Foreground="White"
                                FontSize="24"
@@ -158,13 +158,13 @@
                            Source="/Image/Fleches toutes Aplus_CALIBRI_2.png"
                            Margin="130,99,84,38"
                            Stretch="Fill"/>
-                        <TextBlock Text="{Binding annualEfficiencyLetter}"
+                        <TextBlock Text="{Binding AnnualEfficiencyLetter}"
                                Margin="147,105,112,38"
                                Foreground="White"
                                FontSize="28"
                                FontWeight="Bold"
                                FontFamily="Calibri"/>
-                        <TextBlock Text="{Binding annualEfficiencyPlus}"
+                        <TextBlock Text="{Binding AnnualEfficiencyPlus}"
                                Margin="160,99,84,44"
                                Foreground="White"
                                FontSize="24"
@@ -362,7 +362,7 @@
                                 <RowDefinition Height="24"/>
                             </Grid.RowDefinitions>
 
-                            <Canvas Grid.Row="{Binding tabeOneArrow}"
+                            <Canvas Grid.Row="{Binding TabelOneArrow}"
                                 Grid.Column="1"
                                 VerticalAlignment="Center">
                                 <Image 
@@ -372,14 +372,14 @@
                            Height="1.5cm"
                            Source="/Image/Fleches toutes Aplus_CALIBRI_2.png"
                            Stretch="Fill"/>
-                                <TextBlock Text="{Binding tabeOneArrowLetter}"
+                                <TextBlock Text="{Binding TabelOneArrowLetter}"
                                Canvas.Left="25"
                                Canvas.Bottom="15"
                                Foreground="White"
                                FontSize="28"
                                FontWeight="Bold"
                                FontFamily="Calibri"/>
-                                <TextBlock Text="{Binding tabeOneArrowPlus}"
+                                <TextBlock Text="{Binding TabelOneArrowPlus}"
                                Canvas.Left="40"
                                Canvas.Bottom="25"
                                Foreground="White"
@@ -435,7 +435,7 @@
                                 <RowDefinition Height="1*"/>
                                 <RowDefinition Height="24"/>
                             </Grid.RowDefinitions>
-                            <Canvas Grid.Row="{Binding tabeTwoArrow}"
+                            <Canvas Grid.Row="{Binding TabelTwoArrow}"
                                     Grid.Column="1"
                                     VerticalAlignment="Center">
                                 <Image 
@@ -448,7 +448,7 @@
                                 <TextBlock
                               Canvas.Left="25"
                             Canvas.Bottom="15"
-                               Text="{Binding tabeTwoArrowLetter}"
+                               Text="{Binding TabelTwoArrowLetter}"
                                Foreground="White"
                                FontSize="28"
                                FontWeight="Bold"
@@ -459,7 +459,7 @@
                                Foreground="White"
                                FontSize="24"
                                FontWeight="Bold"
-                               FontFamily="Calibri"><Run Text="{Binding tabeTwoArrowPlus}"/></TextBlock>
+                               FontFamily="Calibri"><Run Text="{Binding TabelTwoArrowPlus}"/></TextBlock>
                             </Canvas>
                         </Grid>
                     </Grid>
@@ -701,7 +701,7 @@
                                 <RowDefinition Height="1*"/>
                                 <RowDefinition Height="30"/>
                             </Grid.RowDefinitions>
-                            <Canvas Grid.Row="{Binding labelTwoTabeOneArrow}"
+                            <Canvas Grid.Row="{Binding LabelTwoTabeOneArrow}"
                                 Grid.Column="1">
                                 <Image 
                             Canvas.Left="0"
@@ -710,14 +710,14 @@
                            Height="1.5cm"
                            Source="/Image/Fleches toutes Aplus_CALIBRI_2.png"
                            Stretch="Fill"/>
-                                <TextBlock Text="{Binding labelTwoTabeOneArrowLetter}"
+                                <TextBlock Text="{Binding LabelTwoTabeOneArrowLetter}"
                                Canvas.Left="25"
                                Canvas.Bottom="15"
                                Foreground="White"
                                FontSize="28"
                                FontWeight="Bold"
                                FontFamily="Calibri"/>
-                                <TextBlock Text="{Binding tabeOneArrowPlus}"
+                                <TextBlock Text="{Binding TabelOneArrowPlus}"
                                Canvas.Left="40"
                                Canvas.Bottom="25"
                                Foreground="White"
