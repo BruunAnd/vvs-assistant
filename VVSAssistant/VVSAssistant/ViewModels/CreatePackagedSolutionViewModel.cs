@@ -107,6 +107,17 @@ namespace VVSAssistant.ViewModels
             }
         }
 
+        private bool _includeWaterHeaters;
+        public bool IncludeWaterHeaters
+        {
+            get { return _includeWaterHeaters; }
+            set
+            {
+                if (SetProperty(ref _includeWaterHeaters, value))
+                    FilteredCollectionView.Refresh();
+            }
+        }
+
         #endregion
 
         #region Base properties
@@ -331,7 +342,6 @@ namespace VVSAssistant.ViewModels
 
                     if (instanceCompleted.IsPrimaryBoiler)
                     {
-                        PackagedSolution.PrimaryHeatingUnit = appliance;
                         if (PackagedSolution.PrimaryHeatingUnit != null)
                         {
                             // Inform the user that their previous primary heating unit will be replaced
@@ -339,6 +349,7 @@ namespace VVSAssistant.ViewModels
                                     $"Da du har valgt en ny primærkedel er komponentet {PackagedSolution.PrimaryHeatingUnit.Name} nu en sekundærkedel.");
                             // todo set purpose of heating unit   
                         }
+                        PackagedSolution.PrimaryHeatingUnit = appliance;
                     }
                     AddApplianceToPackagedSolution(appliance);
                 });
@@ -366,14 +377,14 @@ namespace VVSAssistant.ViewModels
             var customDialog = new CustomDialog();
 
             var dialogViewModel = new SaveDialogViewModel("Gem pakkeløsning", "Navn:",
-                instanceCancel => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
-                instanceCompleted =>
-                {
-                    _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
-                    PackagedSolution.Name = instanceCompleted.Input;
-                    OnPropertyChanged("PackagedSolution.Name");
-                    SaveCurrentPackagedSolution();
-                });
+                                      instanceCancel => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
+                                      instanceCompleted =>
+                                      {
+                                          _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
+                                          PackagedSolution.Name = instanceCompleted.Input;
+                                          OnPropertyChanged("PackagedSolution.Name");
+                                          SaveCurrentPackagedSolution();
+                                      });
 
             customDialog.Content = new SaveDialogView { DataContext = dialogViewModel };
 
@@ -432,7 +443,7 @@ namespace VVSAssistant.ViewModels
         {
             // Filter based on type first
             if (IncludeBoilers || IncludeCentralHeatingPlants || IncludeContainers || IncludeHeatPumps
-                || IncludeLowTempHeatPumps || IncludeSolarPanels || IncludeTemperatureControllers)
+                || IncludeLowTempHeatPumps || IncludeSolarPanels || IncludeTemperatureControllers || IncludeWaterHeaters)
             {
                 switch (obj.Type)
                 {
@@ -466,6 +477,10 @@ namespace VVSAssistant.ViewModels
                         break;
                     case ApplianceTypes.SolarStation:
                         if (!IncludeSolarStations)
+                            return false;
+                        break;
+                    case ApplianceTypes.WaterHeater:
+                        if (!IncludeWaterHeaters)
                             return false;
                         break;
                     default:
