@@ -200,7 +200,9 @@ namespace VVSAssistant.ViewModels
             {
                 if (PackagedSolution.PrimaryHeatingUnit == SelectedAppliance)
                     PackagedSolution.PrimaryHeatingUnit = null;
+                
                 AppliancesInPackagedSolution.Remove(SelectedAppliance);
+                
             }, x => SelectedAppliance != null);
 
             EditApplianceCmd = new RelayCommand(x =>
@@ -322,7 +324,6 @@ namespace VVSAssistant.ViewModels
                 {
                     await _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
 
-                    AddApplianceToPackagedSolution(appliance);
                     if (!instanceCompleted.IsPrimaryBoiler) return;
                     if (PackagedSolution.PrimaryHeatingUnit != null)
                     {
@@ -332,6 +333,7 @@ namespace VVSAssistant.ViewModels
                         // todo set purpose of heating unit
                     }
                     PackagedSolution.PrimaryHeatingUnit = appliance;
+                    AddApplianceToPackagedSolution(appliance);
                 });
 
             customDialog.Content = new AddHeatingUnitDialogView { DataContext = dialogViewModel };
@@ -409,6 +411,7 @@ namespace VVSAssistant.ViewModels
 
         private void PackageSolutionAppliances_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
+            UpdateEei();
             NewPackagedSolutionCmd.NotifyCanExecuteChanged();
             SavePackagedSolutionCmd.NotifyCanExecuteChanged();
         }
@@ -500,11 +503,11 @@ namespace VVSAssistant.ViewModels
             {
                 AddApplianceToPackagedSolution(appToAdd);
             }
-            UpdateEei();
         }
 
         private void UpdateEei()
         {
+            PackagedSolution.Appliances = new ApplianceList(AppliancesInPackagedSolution.ToList());
             var results = _calculationManager.SelectCalculationStrategy(PackagedSolution);
             EeiResult = results != null ? results[0].CalculateEEI(PackagedSolution).EEICharacters : "N/A";
         }
