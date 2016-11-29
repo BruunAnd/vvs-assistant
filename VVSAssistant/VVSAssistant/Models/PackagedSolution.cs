@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Reflection;
 using VVSAssistant.Functions.Calculation.Interfaces;
+using VVSAssistant.ValueConverters;
 
 namespace VVSAssistant.Models
 {

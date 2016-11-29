@@ -141,7 +141,7 @@
                                   Command="{Binding RemoveApplianceFromPackagedSolutionCmd}"/>
                 </DataGrid.InputBindings>
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding Name}"
+                    <DataGridTextColumn Binding="{Binding}"
                                         Header="Navn"
                                         Width="*"/>
                 </DataGrid.Columns>
