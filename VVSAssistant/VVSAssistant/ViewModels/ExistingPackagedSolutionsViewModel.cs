@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using MahApps.Metro.Controls.Dialogs;
+using VVSAssistant.Common;
 using VVSAssistant.Common.ViewModels;
 using VVSAssistant.Common.ViewModels.VVSAssistant.Common.ViewModels;
 using VVSAssistant.Extensions;
@@ -17,13 +18,10 @@ namespace VVSAssistant.ViewModels
             get { return _selectedPackagedSolution; }
             set
             {
-                if (!SetProperty(ref _selectedPackagedSolution, value)) return;
-
-                // Notify if property was changed
+                SetProperty(ref _selectedPackagedSolution, value);
                 CreatePackagedSolutionCopyCmd?.NotifyCanExecuteChanged();
                 PrintCalculationCmd?.NotifyCanExecuteChanged();
                 DropPackagedSolutionCmd?.NotifyCanExecuteChanged();
-                OnPropertyChanged();
             }
         }
 
@@ -39,10 +37,21 @@ namespace VVSAssistant.ViewModels
             _dialogCoordinator = dialogCoordinator;
             SetupFilterableView(PackagedSolutions);
 
+            CreatePackagedSolutionCopyCmd = new RelayCommand(x =>
+            {
+                NavigationService.NavigateTo(new CreatePackagedSolutionViewModel(dialogCoordinator, SelectedPackagedSolution));
+            }, x => SelectedPackagedSolution != null);
+
             DropPackagedSolutionCmd = new RelayCommand(x =>
             {
                 DropPackagedSolution(SelectedPackagedSolution);
             }, x => SelectedPackagedSolution != null);
+            
+            PrintCalculationCmd = new RelayCommand(x =>
+            {
+                // TODO Make PackagedSolution aggregate calculation
+                throw new NotImplementedException();
+            });
         }
 
         private async void DropPackagedSolution(PackagedSolution packagedSolution)

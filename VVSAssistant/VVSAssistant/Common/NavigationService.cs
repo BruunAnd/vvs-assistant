@@ -43,7 +43,6 @@ namespace VVSAssistant.Common
             return true;
         }
 
-
         public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
         public static void OnStaticPropertyChanged(string propName)
         {

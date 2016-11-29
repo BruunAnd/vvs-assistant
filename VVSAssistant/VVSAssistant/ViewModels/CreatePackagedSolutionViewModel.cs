@@ -197,7 +197,7 @@ namespace VVSAssistant.ViewModels
 
             if (existingPackagedSolution != null)
             {
-                foreach(var app in existingPackagedSolution.Appliances) PackagedSolution.Appliances.Add(app);
+                foreach(var app in existingPackagedSolution.Appliances) AppliancesInPackagedSolution.Add(app);
             }
 
             #endregion

@@ -42,7 +42,8 @@
                     Height="32"
                     MinWidth="120"
                     Content="Tilbage"
-                    Command="{Binding ElementName=Root, Path=DataContext.NavCommand}"/>
+                    Command="{Binding ElementName=Root, Path=DataContext.NavCommand}"
+                    CommandParameter="GoBack"/>
 
             <TextBox controls:TextBoxHelper.ClearTextButton="True" 
                      controls:TextBoxHelper.Watermark="Søg" 
@@ -69,7 +70,13 @@
                                   Command="{Binding DropPackagedSolutionCmd}"/>
                     </ContextMenu>
                 </DataGrid.ContextMenu>
-                
+
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow" BasedOn="{StaticResource MetroDataGridRow}">
+                        <Setter Property="ToolTip" Value="Højreklik for valgmuligheder"/>
+                    </Style>
+                </DataGrid.RowStyle>
+
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Name}" 
                                         Header="Navn" 
