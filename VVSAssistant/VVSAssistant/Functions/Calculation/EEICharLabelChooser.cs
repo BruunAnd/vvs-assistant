@@ -18,34 +18,34 @@ namespace VVSAssistant.Functions.Calculation
         static List<float> UserTypeXL = new List<float> { 27, 30, 35, 38, 55, 80, 123, 160, 200 };
         static List<float> UserTypeXXL = new List<float> { 28, 32, 36, 40, 60, 85, 131, 170, 213 };
 
-        static public string EEIChar(ApplianceTypes PrimaryHeat, float CalcEII, float uncertainty = 0)
+        static public List<string> EEIChar(ApplianceTypes PrimaryHeat, float CalcEII, float uncertainty = 0)
         {
             switch (PrimaryHeat)
             {
                 case ApplianceTypes.HeatPump:
                 case ApplianceTypes.Boiler:
                 case ApplianceTypes.CHP:
-                    return Labels[getLabel(PrimPumpOrBoilOrCHP, CalcEII, uncertainty)];
+                    return new List<string> { Labels[getLabel(PrimPumpOrBoilOrCHP, CalcEII, uncertainty)],  getToNext(PrimPumpOrBoilOrCHP, CalcEII, getLabel(PrimPumpOrBoilOrCHP, CalcEII, uncertainty)) };
                 case ApplianceTypes.LowTempHeatPump:
-                    return Labels[getLabel(LowHeatPump, CalcEII, uncertainty)];
+                    return new List<string> { Labels[getLabel(LowHeatPump, CalcEII, uncertainty)], getToNext(PrimPumpOrBoilOrCHP, CalcEII, getLabel(LowHeatPump, CalcEII, uncertainty)) };
                 default:
                     return null;
             }
 
         }
 
-        static public string EEIChar(UseProfileType TypeOfUser, float CalcEEI, float uncertainty = 0)
+        static public List<string> EEIChar(UseProfileType TypeOfUser, float CalcEEI, float uncertainty = 0)
         {
             switch (TypeOfUser)
             {
                 case UseProfileType.M:
-                    return Labels[getLabel(UserTypeM, CalcEEI, uncertainty)];
+                    return new List<string> { Labels[getLabel(UserTypeM, CalcEEI, uncertainty)], getToNext(UserTypeM, CalcEEI, getLabel(UserTypeM, CalcEEI, uncertainty))};
                 case UseProfileType.L:
-                    return Labels[getLabel(UserTypeL, CalcEEI, uncertainty)];
+                    return new List<string> { Labels[getLabel(UserTypeL, CalcEEI, uncertainty)], getToNext(UserTypeL, CalcEEI, getLabel(UserTypeL, CalcEEI, uncertainty)) };
                 case UseProfileType.XL:
-                    return Labels[getLabel(UserTypeXL, CalcEEI, uncertainty)];
+                    return new List<string> { Labels[getLabel(UserTypeXL, CalcEEI, uncertainty)], getToNext(UserTypeXL, CalcEEI, getLabel(UserTypeXL, CalcEEI, uncertainty)) };
                 case UseProfileType.XXL:
-                    return Labels[getLabel(UserTypeXXL, CalcEEI, uncertainty)];
+                    return new List<string> { Labels[getLabel(UserTypeXXL, CalcEEI, uncertainty)], getToNext(UserTypeXXL, CalcEEI, getLabel(UserTypeXXL, CalcEEI, uncertainty)) };
                 default:
                     return null;
             }
@@ -63,6 +63,14 @@ namespace VVSAssistant.Functions.Calculation
                 index++;
             }
             return index;
+        }
+
+        static private string getToNext(List<float> list, float calcEEI, int index)
+        {
+            if (calcEEI > list[8])
+                return "0%";
+            else
+                return (list[index + 1] - calcEEI).ToString() + "%";
         }
     }
 }

@@ -45,9 +45,9 @@ namespace VVSAssistant.Functions.Calculation.Strategies
 
             _result.PackagedSolutionAtColdTemperaturesAFUE = _result.EEI - 0.2f * _result.SolarHeatContribution;
             _result.PackagedSolutionAtWarmTemperaturesAFUE = _result.EEI + 0.4f * _result.SolarHeatContribution;
-            _result.EEICharacters = EEICharLabelChooser.EEIChar(ApplianceTypes.Boiler, _result.EEI, 1);
             _result.CalculationType = _packageData.CalculationStrategyType(_package, _result);
-            _result.EEICharacters = EEICharLabelChooser.EEIChar(_result.WaterHeatingUseProfile, _result.EEI, 1.5f);
+            _result.EEICharacters = EEICharLabelChooser.EEIChar(_result.WaterHeatingUseProfile, _result.EEI, 1.5f)[0];
+            _result.ToNextLabel = EEICharLabelChooser.EEIChar(_result.WaterHeatingUseProfile, _result.EEI, 1.5f)[1];
             return _result;
         }
 

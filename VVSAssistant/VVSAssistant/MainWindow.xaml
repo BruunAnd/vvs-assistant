@@ -120,6 +120,20 @@
                                 </Rectangle.OpacityMask>
                             </Rectangle>
                         </controls:Tile>
+
+                        <controls:Tile 
+                       Style="{StaticResource NavigationTileStyle}"
+                       Command="{Binding RunOfferSettingsDialogCmd}"
+                       Title="Tilbudsindstillinger">
+                            <Rectangle Width="64" 
+                           Height="64"
+                           Fill="{StaticResource IdealForegroundColorBrush}">
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Visual="{StaticResource appbar_cog}" Stretch="Fill" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </controls:Tile>
+                        
                     </WrapPanel>
                 </TabItem>
             </TabControl>
