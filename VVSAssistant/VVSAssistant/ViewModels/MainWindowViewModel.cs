@@ -10,6 +10,8 @@ using VVSAssistant.Common;
 using VVSAssistant.Common.ViewModels;
 using VVSAssistant.Database;
 using VVSAssistant.Functions;
+using VVSAssistant.Controls.Dialogs.Views;
+using VVSAssistant.Controls.Dialogs.ViewModels;
 
 namespace VVSAssistant.ViewModels
 {
@@ -38,11 +40,16 @@ namespace VVSAssistant.ViewModels
                 var result = dlg.ShowDialog();
                 if (result == true) DataUtil.Database.Export(dlg.FileName);
             }, x => DataUtil.Database.Exists());
+
+            RunOfferSettingsDialogCmd = new RelayCommand(x =>
+           {
+               OpenOfferSettingsDialog();
+           });
             
         }
         
 
-        private void ValidateDatabaseFile(object sender, System.ComponentModel.CancelEventArgs e)
+        private void ValidateDatabaseFile(object sender, CancelEventArgs e)
         {
             var dlg = sender as OpenFileDialog;
 
@@ -69,7 +76,9 @@ namespace VVSAssistant.ViewModels
         public RelayCommand NavCommand { get; }
         public RelayCommand DatabaseImport { get; }
         public RelayCommand DatabaseExport { get; }
-        
+        public RelayCommand RunOfferSettingsDialogCmd { get; }
+
+
         private void OnNav(string destination)
         {
             switch (destination)
@@ -92,6 +101,18 @@ namespace VVSAssistant.ViewModels
                 default:
                     return; 
             }
+        }
+
+        private async void OpenOfferSettingsDialog()
+        {
+            var customDialog = new CustomDialog();
+            var _dialogCoordinator = new DialogCoordinator();
+            var dialogViewModel = new CompanyInfoDialogViewModel(instanceCancel => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
+                instanceCompleted => _dialogCoordinator.HideMetroDialogAsync(this, customDialog));
+
+            customDialog.Content = new CompanyInfoDialogView { DataContext = dialogViewModel };
+
+            await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
         }
     }
 }
