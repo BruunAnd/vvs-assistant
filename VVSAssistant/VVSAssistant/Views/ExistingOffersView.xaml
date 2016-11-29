@@ -4,10 +4,16 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:viewModels="clr-namespace:VVSAssistant.ViewModels"
+      xmlns:valueConverters="clr-namespace:VVSAssistant.ValueConverters"
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="1080"
       d:DataContext="{d:DesignInstance viewModels:ExistingOffersViewModel}">
 
+    <ContentControl.Resources>
+        <valueConverters:PriceConverter x:Key="PriceConverter" />
+        <valueConverters:DateTimeConverter x:Key="DateTimeConverter" />
+    </ContentControl.Resources>
+    
     <Grid Background="White">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
@@ -70,28 +76,29 @@
                                         Header="#"
                                         Width="40"
                                         CanUserReorder="False"
-                                        CanUserResize="False"/>
+                                        CanUserResize="False"
+                                        IsReadOnly="True"/>
                     <DataGridTextColumn Binding ="{Binding OfferInformation.Title, UpdateSourceTrigger=PropertyChanged}"
                                         Header="Titel"
                                         MinWidth="100"
                                         Width="1.5*"
                                         CanUserReorder="False"/>
-                    <DataGridTextColumn Binding="{Binding CreationDate}"
+                    <DataGridTextColumn Binding="{Binding CreationDate, Converter={StaticResource DateTimeConverter}}"
                                         Header="Dato"
                                         MinWidth="50"
                                         Width="1*"
                                         CanUserReorder="False"/>
-                    <DataGridTextColumn Binding="{Binding TotalCostPrice}"
+                    <DataGridTextColumn Binding="{Binding TotalCostPrice, Converter={StaticResource PriceConverter}}"
                                         Header="Kostpris"
                                         MinWidth="100"
                                         Width="1*"
                                         CanUserReorder="False"/>
-                    <DataGridTextColumn Binding="{Binding TotalSalesPrice}"
+                    <DataGridTextColumn Binding="{Binding TotalSalesPrice, Converter={StaticResource PriceConverter}}"
                                         Header="Salgspris"
                                         MinWidth="100"
                                         Width="1*"
                                         CanUserReorder="False"/>
-                    <DataGridTextColumn Binding="{Binding TotalContributionMargin}"
+                    <DataGridTextColumn Binding="{Binding TotalContributionMargin, Converter={StaticResource PriceConverter}}"
                                         Header="Dækningsbidrag"
                                         MinWidth="100"
                                         Width="1*"
