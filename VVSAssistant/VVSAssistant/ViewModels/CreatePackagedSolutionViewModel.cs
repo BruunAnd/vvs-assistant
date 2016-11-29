@@ -136,9 +136,9 @@ namespace VVSAssistant.ViewModels
                 if (!SetProperty(ref _selectedAppliance, value)) return;
 
                 // Notify if property was changed
-                AddApplianceToPackagedSolutionCmd.NotifyCanExecuteChanged();
-                EditApplianceCmd.NotifyCanExecuteChanged();
-                RemoveApplianceCmd.NotifyCanExecuteChanged();
+                AddApplianceToPackagedSolutionCmd?.NotifyCanExecuteChanged();
+                EditApplianceCmd?.NotifyCanExecuteChanged();
+                RemoveApplianceCmd?.NotifyCanExecuteChanged();
                 OnPropertyChanged();
             }
         }

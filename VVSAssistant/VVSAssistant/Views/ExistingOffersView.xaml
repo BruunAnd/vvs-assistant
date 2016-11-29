@@ -43,7 +43,17 @@
         <Grid Grid.Column="1" 
               Grid.Row="2">
             <DataGrid AutoGenerateColumns="False"
-                      ItemsSource="{Binding Offers, UpdateSourceTrigger=PropertyChanged}">
+                      ItemsSource="{Binding Offers, UpdateSourceTrigger=PropertyChanged}"
+                      SelectedItem="{Binding SelectedOffer}"
+                      SelectionMode="Single">
+
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Slet"
+                                  Command="{Binding DropOfferCmd}"/>
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+                
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Id}"
                                         Header="#"

@@ -5,9 +5,11 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:viewModels="clr-namespace:VVSAssistant.ViewModels"
       xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+      xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="1080"
-      d:DataContext="{d:DesignInstance viewModels:ExistingPackagedSolutionsViewModel}">
+      d:DataContext="{d:DesignInstance viewModels:ExistingPackagedSolutionsViewModel}"
+      dialogs:DialogParticipation.Register="{Binding}">
 
     <Grid Background="White">
         <Grid.ColumnDefinitions>
@@ -53,8 +55,10 @@
               Grid.Row="2">
 
             <DataGrid AutoGenerateColumns="False"
-                      ItemsSource="{Binding FilteredCollectionView}">
-                
+                      ItemsSource="{Binding FilteredCollectionView}"
+                      SelectedItem="{Binding SelectedPackagedSolution}"
+                      SelectionMode="Single">
+
                 <DataGrid.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Føj til pakke"
