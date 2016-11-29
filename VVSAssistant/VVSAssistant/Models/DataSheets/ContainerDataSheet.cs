@@ -45,15 +45,15 @@ namespace VVSAssistant.Models.DataSheets
             string Monovalent = "";
 
             if (isWaterContainer == true)
-                waterContainer = ", varmtvandsbeholder";
+                waterContainer = ", Varmtvandsbeholder";
             if (isBufferContainer == true)
-                bufferContainer = ", bufferbeholder";
+                bufferContainer = ", Bufferbeholder";
             if (isBivalent == true)
                 Bivalent = ", Bivalent";
             if (isMonovalent == true)
                 Monovalent = ", Monovalent";
 
-            return $"Volume: {Volume}L, energiklasse: {Classification}, stilstandstab: {StandingLoss}W{waterContainer}{bufferContainer}{Bivalent}{Monovalent}";
+            return $"Volume: {Volume}L, Energiklasse: {Classification}, Stilstandstab: {StandingLoss}W{waterContainer}{bufferContainer}{Bivalent}{Monovalent}";
         }
     }
 }

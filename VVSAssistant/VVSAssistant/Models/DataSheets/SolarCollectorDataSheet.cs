@@ -14,8 +14,6 @@ namespace VVSAssistant.Models.DataSheets
         public float Area { get; set; }
         [DisplayName(@"Energieffektivitet")]
         public float Efficency { get; set; }
-        // Solfanger area
-        public float Asol { get; set; }
         // Zero loss efficiency
         [DisplayName(@"Effektivitet ved nulbelastning")]
         public float N0 { get; set; }
@@ -57,7 +55,7 @@ namespace VVSAssistant.Models.DataSheets
 
 
 
-            return $"Areal: {Area}m\u00b2, Energieffektivitet: {Efficency}%{room}{water}";
+            return $"Areal: {Area}m\u00b2, Energieffektivitet: {Efficency}%{room}{water}{N0String}{a1String}{a2String}{IAMString}";
         }
     }
 }

@@ -164,7 +164,6 @@ namespace VVSAssistant
                 {
                     Area = 2.25f,
                     Efficency = 60,
-                    Asol = 2.25f,
                     N0 = 0.766f,
                     a1 = 3.22f,
                     a2 = 0.015f,
@@ -175,7 +174,6 @@ namespace VVSAssistant
                 {
                     Area = 2.25f,
                     Efficency = 61,
-                    Asol = 2.25f,
                     N0 = 0.766f,
                     a1 = 3.22f,
                     a2 = 0.015f,
