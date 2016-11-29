@@ -26,9 +26,11 @@ namespace VVSAssistant.ViewModels
         {
             _offers = new ObservableCollection<Offer>();
             OpenOfferInCreateOfferViewModel = new RelayCommand(x =>
-            {
-                NavigationService.NavigateTo(new CreateOfferViewModel(coordinator, SelectedOffer));
-            }, x => SelectedOffer != null
+                {
+                    var createOfferViewModel = new CreateOfferViewModel(coordinator);
+                    NavigationService.NavigateTo(createOfferViewModel);
+                    createOfferViewModel.LoadExistingOffer(SelectedOffer.Id);
+                }, x => SelectedOffer != null
             );
         }
 

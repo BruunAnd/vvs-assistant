@@ -110,33 +110,13 @@ namespace VVSAssistant.ViewModels
 
         #endregion
 
-        public CreateOfferViewModel(IDialogCoordinator coordinator) : this(coordinator, null)
-        {
-
-        }
-
-        public CreateOfferViewModel(IDialogCoordinator coordinator, Offer existingOffer)
+        public CreateOfferViewModel(IDialogCoordinator coordinator)
         {
             SetInitialSettings();
 
-            /* If an existing offer is passed, jump straight 
-             * to the component-salary-materials window */
-            if (existingOffer != null)
-            {
-                Offer = existingOffer;
-                MaterialsInOffer = new ObservableCollection<Material>(Offer.Materials);
-                SalariesInOffer = new ObservableCollection<Salary>(Offer.Salaries);
-                AppliancesInOffer = new ObservableCollection<Appliance>();
-                foreach (Appliance app in Offer.PackagedSolution.Appliances) AppliancesInOffer.Add(app);
-                ArePackagedSolutionsVisible = false;
-                IsComponentTabVisible = true;
-            }
-            else
-            {
-                MaterialsInOffer = new ObservableCollection<Material>();
-                SalariesInOffer = new ObservableCollection<Salary>();
-                AppliancesInOffer = new ObservableCollection<Appliance>();
-            }
+            MaterialsInOffer = new ObservableCollection<Material>();
+            SalariesInOffer = new ObservableCollection<Salary>();
+            AppliancesInOffer = new ObservableCollection<Appliance>();
 
             _dialogCoordinator = coordinator;
             PackagedSolutions = new ObservableCollection<PackagedSolution>();
@@ -301,6 +281,29 @@ namespace VVSAssistant.ViewModels
         public override void LoadDataFromDatabase()
         {
             DbContext.PackagedSolutions.ToList().ForEach(p => PackagedSolutions.Add(p));
+        }
+
+        public void LoadExistingOffer(int existingOfferId)
+        {
+            var existingOffer = DbContext.Offers.FirstOrDefault(o => o.Id == existingOfferId);
+            if (existingOffer == null) return;
+
+            Offer.PackagedSolution = existingOffer.PackagedSolution;
+
+            // Load appliances
+            foreach (var appliance in existingOffer.PackagedSolution.Appliances)
+                AppliancesInOffer.Add(appliance);
+
+            // Load materials
+            foreach (var material in existingOffer.Materials)
+                MaterialsInOffer.Add(material);
+
+            // Load salaries
+            foreach (var salary in existingOffer.Salaries)
+                SalariesInOffer.Add(salary);
+
+            ArePackagedSolutionsVisible = false;
+            IsComponentTabVisible = true;
         }
 
         private void SaveOfferToDatabase(Offer offer)
