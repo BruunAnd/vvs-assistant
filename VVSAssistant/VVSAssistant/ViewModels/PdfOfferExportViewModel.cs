@@ -24,6 +24,7 @@ namespace VVSAssistant.ViewModels
 
         public ApplianceList ApplianceList { get; set; }
         public ICollection<Material> MaterialsList { get; set; }
+        public ICollection<Salary> SalaryList { get; set; }
         public DateTime CreationDate { get; set; } // Ikke helt færdig!
         public string OfferName { get; set; }
         public double TotalSalesPrice { get; set; }

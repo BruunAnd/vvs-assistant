@@ -197,7 +197,7 @@
                 </Grid.RowDefinitions>
                 <DataGrid Name="OfferContentDataGdrid" Grid.Column="0" Grid.Row="0"
                       AutoGenerateColumns="False" GridLinesVisibility="None"
-                           ItemsSource="{Binding MaterialsList}">
+                           ItemsSource="{Binding SalaryList}">
                     <DataGrid.Columns >
                         <DataGridTextColumn Binding="{Binding Id}"
                                             Header="Nr."
