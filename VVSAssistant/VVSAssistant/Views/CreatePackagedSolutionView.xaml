@@ -226,17 +226,6 @@
                 <CheckBox Content="Solstation" IsChecked="{Binding IncludeSolarStations}"/>
                 <CheckBox Content="Beholder" IsChecked="{Binding IncludeContainers}"/>
                 <CheckBox Content="Vandvarmer" IsChecked="{Binding IncludeWaterHeaters}"/>
-                
-                <!--<TextBlock TextWrapping="Wrap" 
-                           Text="Vælg minimum energimærkning for komponenterne i søgningen"/>
-                <ComboBox IsReadOnly="true" 
-                          Margin="5,5,5,5">
-                    <ComboBoxItem>A</ComboBoxItem>
-                    <ComboBoxItem>B</ComboBoxItem>
-                    <ComboBoxItem>C</ComboBoxItem>
-                    <ComboBoxItem>D</ComboBoxItem>
-                    <ComboBoxItem>E</ComboBoxItem>
-                </ComboBox>-->
             </StackPanel>
         </Grid>
     </Grid>
