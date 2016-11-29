@@ -437,19 +437,26 @@ namespace VVSAssistant.ViewModels
             SavePackagedSolutionCmd.NotifyCanExecuteChanged();
         }
 
-        public override async void LoadDataFromDatabase()
+        public override  void LoadDataFromDatabase()
         {
-            var appliances = await Task.Run(() => DbContext.Appliances.ToList());
-            appliances.ForEach(Appliances.Add);
+            DbContext.Appliances.ToList().ForEach(Appliances.Add);
         }
 
-        // todo rename 
-        public void LoadExistingAppliances(IEnumerable<int> existingApplianceIds)
+        public void LoadExistingPackagedSolution(int packagedSolutionId)
         {
-            foreach (var applianceId in existingApplianceIds)
-            {
-                AppliancesInPackagedSolution.Add(DbContext.Appliances.FirstOrDefault(a => a.Id == applianceId));
-            }
+            var existingPackagedSolution = DbContext.PackagedSolutions.FirstOrDefault(p => p.Id == packagedSolutionId);
+            if (existingPackagedSolution == null) return;
+
+            // Copy primary heating unit
+            PackagedSolution.PrimaryHeatingUnit = existingPackagedSolution.PrimaryHeatingUnit;
+
+            // Copy solarcontainers
+            foreach (var solarContainer in existingPackagedSolution.SolarContainers)
+                PackagedSolution.SolarContainers.Add(solarContainer);
+            
+            // Copy appliances
+            foreach (var appliance in existingPackagedSolution.Appliances)
+                AppliancesInPackagedSolution.Add(appliance);
         }
 
         protected override bool Filter(Appliance obj)

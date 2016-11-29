@@ -32,5 +32,19 @@ namespace VVSAssistant.Models.DataSheets
         public bool isRoomHeater { get; set; }
         [Browsable(false)]
         public bool isWaterHeater { get; set; }
+
+        public override string ToString()
+        {
+            string room = "";
+            string water = "";
+            if (isRoomHeater == true)
+                room = ", rumopvarmning";
+            if (isWaterHeater == true)
+                water = ", vandopvarmning";
+
+
+
+            return $"Areal: {Area}m\u00b2, Energieffektivitet: {Efficency}%{room}{water}";
+        }
     }
 }

@@ -4,12 +4,15 @@ using System.Linq;
 using VVSAssistant.Common.ViewModels;
 using VVSAssistant.Models;
 using VVSAssistant.Database;
-
+using MahApps.Metro.Controls.Dialogs;
+using VVSAssistant.Common;
 
 namespace VVSAssistant.ViewModels
 {
     public class ExistingOffersViewModel : ViewModelBase
     {
+        public RelayCommand OpenOfferInCreateOfferViewModel { get; set; }
+
         private ObservableCollection<Offer> _offers;
         public ObservableCollection<Offer> Offers
         {
@@ -17,9 +20,18 @@ namespace VVSAssistant.ViewModels
             set { _offers = value; OnPropertyChanged(); }
         }
 
-        public ExistingOffersViewModel()
+        public Offer SelectedOffer { get; set; }
+
+        public ExistingOffersViewModel(IDialogCoordinator coordinator)
         {
             _offers = new ObservableCollection<Offer>();
+            OpenOfferInCreateOfferViewModel = new RelayCommand(x =>
+                {
+                    var createOfferViewModel = new CreateOfferViewModel(coordinator);
+                    NavigationService.NavigateTo(createOfferViewModel);
+                    createOfferViewModel.LoadExistingOffer(SelectedOffer.Id);
+                }, x => SelectedOffer != null
+            );
         }
 
         public override void LoadDataFromDatabase()

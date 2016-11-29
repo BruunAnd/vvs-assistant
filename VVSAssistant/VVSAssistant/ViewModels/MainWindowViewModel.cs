@@ -81,7 +81,7 @@ namespace VVSAssistant.ViewModels
                     NavigationService.NavigateTo(new CreatePackagedSolutionViewModel(new DialogCoordinator()));
                     break;
                 case "ExistingOffersView":
-                    NavigationService.NavigateTo(new ExistingOffersViewModel());
+                    NavigationService.NavigateTo(new ExistingOffersViewModel(new DialogCoordinator()));
                     break;
                 case "CreateOfferView":
                     NavigationService.NavigateTo(new CreateOfferViewModel(new DialogCoordinator()));
