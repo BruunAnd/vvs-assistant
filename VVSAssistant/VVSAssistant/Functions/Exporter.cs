@@ -37,7 +37,7 @@ namespace VVSAssistant.Functions
 
             Console.WriteLine("Print Offer pdf == Done");
             Console.WriteLine(offer.PackagedSolution.Appliances.Count);
-            var path = "PdfOffer.xps";
+            var path = $"PdfOffer{offer.OfferInformation.Title}.xps";
             FixedDocument fixedDoc = new FixedDocument();
             PdfOfferExportViewModel vmOffer = new PdfOfferExportViewModel();
             vmOffer.ApplianceList = offer.PackagedSolution.Appliances;
