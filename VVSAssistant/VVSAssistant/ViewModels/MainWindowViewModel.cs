@@ -1,6 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using System.Data.Entity;
+﻿using System.ComponentModel;
 using System.IO.Compression;
 using System.Linq;
 using System.Windows;
@@ -8,7 +6,6 @@ using Microsoft.Win32;
 using MahApps.Metro.Controls.Dialogs;
 using VVSAssistant.Common;
 using VVSAssistant.Common.ViewModels;
-using VVSAssistant.Database;
 using VVSAssistant.Functions;
 using VVSAssistant.Controls.Dialogs.Views;
 using VVSAssistant.Controls.Dialogs.ViewModels;
@@ -49,10 +46,11 @@ namespace VVSAssistant.ViewModels
         }
         
 
-        private void ValidateDatabaseFile(object sender, CancelEventArgs e)
+        private static void ValidateDatabaseFile(object sender, CancelEventArgs e)
         {
             var dlg = sender as OpenFileDialog;
 
+            if (dlg == null) return;
             using (var archive = ZipFile.OpenRead(dlg.FileName))
             {
                 if (archive.Entries.FirstOrDefault(x => x.Name == DataUtil.Database.Name()) != null) return;
@@ -60,18 +58,6 @@ namespace VVSAssistant.ViewModels
                 e.Cancel = true;
             }
         }
-
-        //private static ViewModelBase _currentViewModel;
-        //public static ViewModelBase CurrentViewModel
-        //{
-        //    get { return _currentViewModel; }
-        //    set
-        //    {
-        //        if (value == null) return;
-        //        _currentViewModel = value;
-        //        OnStaticPropertyChanged("CurrentViewModel");
-        //    }
-        //}
         
         public RelayCommand NavCommand { get; }
         public RelayCommand DatabaseImport { get; }
@@ -106,13 +92,13 @@ namespace VVSAssistant.ViewModels
         private async void OpenOfferSettingsDialog()
         {
             var customDialog = new CustomDialog();
-            var _dialogCoordinator = new DialogCoordinator();
-            var dialogViewModel = new CompanyInfoDialogViewModel(instanceCancel => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
-                instanceCompleted => _dialogCoordinator.HideMetroDialogAsync(this, customDialog));
+            var dialogCoordinator = new DialogCoordinator();
+            var dialogViewModel = new CompanyInfoDialogViewModel(instanceCancel => dialogCoordinator.HideMetroDialogAsync(this, customDialog),
+                instanceCompleted => dialogCoordinator.HideMetroDialogAsync(this, customDialog));
 
             customDialog.Content = new CompanyInfoDialogView { DataContext = dialogViewModel };
 
-            await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
+            await dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
         }
     }
 }
