@@ -110,16 +110,17 @@ namespace VVSAssistant.ViewModels
 
         #endregion
 
-
         public CreateOfferViewModel(IDialogCoordinator coordinator)
         {
+            SetInitialSettings();
 
-            _dialogCoordinator = coordinator;
-            PackagedSolutions = new ObservableCollection<PackagedSolution>();
             MaterialsInOffer = new ObservableCollection<Material>();
             SalariesInOffer = new ObservableCollection<Salary>();
             AppliancesInOffer = new ObservableCollection<Appliance>();
-            
+
+            _dialogCoordinator = coordinator;
+            PackagedSolutions = new ObservableCollection<PackagedSolution>();
+
             // Assign notifier to the collections we want to monitor.
             MaterialsInOffer.CollectionChanged += NotifyOfferContentsChanged;
             SalariesInOffer.CollectionChanged += NotifyOfferContentsChanged;
@@ -127,7 +128,8 @@ namespace VVSAssistant.ViewModels
 
             /* Tied to "print offer" button in bottom left corner. 
              * Disabled if VerifyOfferHasRequiredInformation returns false. */
-            PrintOfferCmd = new RelayCommand(x => 
+            PrintOfferCmd = new RelayCommand
+                        (x => 
                         {
                             if (DbContext.Offers.SingleOrDefault(o => o.Id == Offer.Id) == null) //Not saved
                             {
@@ -145,21 +147,20 @@ namespace VVSAssistant.ViewModels
                         (x => OnSolutionDoubleClicked()); 
 
             /* Doing the same as print offer, todo: figure out what we want to accomplish here */
-            SaveOfferCmd = new RelayCommand(x => SaveOfferDialog(),
+            SaveOfferCmd = new RelayCommand
+                        (x => SaveOfferDialog(),
                          x => VerifyOfferHasRequiredInformation());
 
             /* When the "nyt tilbud" button in bottom left corner is pressed. 
              * Nullifies all offer properties and changes view to list of packaged solutions. */
-            CreateNewOfferCmd = new RelayCommand(x =>
+            CreateNewOfferCmd = new RelayCommand
+                (x =>
             {
                 SetInitialSettings();
                 ClearCollections();
                 PackagedSolutions.Clear();
                 LoadDataFromDatabase();
-                CreateNewOfferCmd?.NotifyCanExecuteChanged();
-            }, x => MaterialsInOffer.Any() || AppliancesInOffer.Any() || SalariesInOffer.Any());
-            
-            SetInitialSettings();
+            });
         }
 
         #region Methods
@@ -195,8 +196,7 @@ namespace VVSAssistant.ViewModels
         {
             IsComponentTabVisible = true;
             ArePackagedSolutionsVisible = false;
-            PrintOfferCmd?.NotifyCanExecuteChanged();
-            CreateNewOfferCmd?.NotifyCanExecuteChanged();
+            PrintOfferCmd.NotifyCanExecuteChanged();
         }
 
         /* Opens offer creation dialog */
@@ -255,9 +255,8 @@ namespace VVSAssistant.ViewModels
         private void OfferContentsPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             UpdateSidebarValues();
-            PrintOfferCmd?.NotifyCanExecuteChanged();
-            SaveOfferCmd?.NotifyCanExecuteChanged();
-            CreateNewOfferCmd?.NotifyCanExecuteChanged();
+            PrintOfferCmd.NotifyCanExecuteChanged();
+            SaveOfferCmd.NotifyCanExecuteChanged();
         }
 
         private void UpdateSidebarValues()
@@ -282,6 +281,29 @@ namespace VVSAssistant.ViewModels
         public override void LoadDataFromDatabase()
         {
             DbContext.PackagedSolutions.ToList().ForEach(p => PackagedSolutions.Add(p));
+        }
+
+        public void LoadExistingOffer(int existingOfferId)
+        {
+            var existingOffer = DbContext.Offers.FirstOrDefault(o => o.Id == existingOfferId);
+            if (existingOffer == null) return;
+
+            Offer.PackagedSolution = existingOffer.PackagedSolution;
+
+            // Load appliances
+            foreach (var appliance in existingOffer.PackagedSolution.Appliances)
+                AppliancesInOffer.Add(appliance);
+
+            // Load materials
+            foreach (var material in existingOffer.Materials)
+                MaterialsInOffer.Add(material);
+
+            // Load salaries
+            foreach (var salary in existingOffer.Salaries)
+                SalariesInOffer.Add(salary);
+
+            ArePackagedSolutionsVisible = false;
+            IsComponentTabVisible = true;
         }
 
         private void SaveOfferToDatabase(Offer offer)
