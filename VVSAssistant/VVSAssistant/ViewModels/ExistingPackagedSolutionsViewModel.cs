@@ -41,7 +41,7 @@ namespace VVSAssistant.ViewModels
             {
                 var createPackagedSolutionViewModel = new CreatePackagedSolutionViewModel(dialogCoordinator);
                 NavigationService.NavigateTo(createPackagedSolutionViewModel);
-                createPackagedSolutionViewModel.LoadExistingAppliances(SelectedPackagedSolution.Appliances.Select(a => a.Id));
+                createPackagedSolutionViewModel.LoadExistingPackagedSolution(SelectedPackagedSolution.Id);
             }, x => SelectedPackagedSolution != null);
 
             DropPackagedSolutionCmd = new RelayCommand(x =>
