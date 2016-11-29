@@ -162,19 +162,23 @@
                         VerticalAlignment="Bottom">
                 <DockPanel>
                     <Label Content="Energimærke ved rumopvarmning: "/>
-                    <Label HorizontalAlignment="Center" 
+                    <Label HorizontalAlignment="Right" 
                            Content="{Binding EEIResultsRoomHeating, UpdateSourceTrigger=PropertyChanged}"
                            FontWeight="Bold"
-                           Foreground="{Binding EEIResultsRoomHeating, Converter={StaticResource LetterToColorConverter}}"
-                           FontSize="28"/>
+                           Margin="0 2 0 2"
+                           Padding="10 5 10 5"
+                           Foreground="{StaticResource IdealForegroundColorBrush}"
+                           Background="{Binding EEIResultsRoomHeating, Converter={StaticResource LetterToColorConverter}}"/>
                 </DockPanel>
                 <DockPanel>
                     <Label Content="Energimærke ved vandopvarmning: "/>
-                    <Label HorizontalAlignment="Center" 
+                    <Label HorizontalAlignment="Right" 
                            Content="{Binding EEIResultsWaterHeating, UpdateSourceTrigger=PropertyChanged}"
                            FontWeight="Bold"
-                           Foreground="{Binding EEIResultsWaterHeating, Converter={StaticResource LetterToColorConverter}}"
-                           FontSize="28"/>
+                           Margin="0 2 0 2"
+                           Padding="10 5 10 5"
+                           Foreground="{StaticResource IdealForegroundColorBrush}"
+                           Background="{Binding EEIResultsWaterHeating, Converter={StaticResource LetterToColorConverter}}"/>
                 </DockPanel>
 
                 <Button Margin="0 5 0 0"
