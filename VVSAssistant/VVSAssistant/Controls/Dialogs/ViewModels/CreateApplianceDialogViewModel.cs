@@ -121,7 +121,7 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
                     break;
             }
             OnPropertyChanged("NewAppliance");
-            VVSAssistantEvents.OnDataSheetChanged(NewAppliance.DataSheet);
+            VvsAssistantEvents.OnDataSheetChanged(NewAppliance.DataSheet);
         }
 
         public CreateApplianceDialogViewModel(Appliance newAppliance, bool isNewAppliance, Action<CreateApplianceDialogViewModel> closeHandler, 
@@ -147,7 +147,7 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
                 HandleExistingAppliance(NewAppliance);
             }
 
-            VVSAssistantEvents.DataSheetChangedEventHandler += HandleDataSheetChanged;
+            VvsAssistantEvents.DataSheetChangedEventHandler += HandleDataSheetChanged;
         }
 
         private void HasAnyNullProperties(object obj)
@@ -158,7 +158,7 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
         private void HandleExistingAppliance(Appliance appliance)
         {
             OldDataSheet = appliance.DataSheet.MakeCopy() as DataSheet;
-            VVSAssistantEvents.OnDataSheetChanged(NewAppliance.DataSheet);
+            VvsAssistantEvents.OnDataSheetChanged(NewAppliance.DataSheet);
         }
 
         /* When a new type is chosen in the dialog, switch visibilities */

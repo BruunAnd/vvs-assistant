@@ -104,6 +104,7 @@ namespace VVSAssistant.ViewModels
                 foreach (var appliance in value.Appliances)
                     AppliancesInOffer.Add(appliance);
                 OnPropertyChanged();
+                UpdateSidebarValues();
             }
         }
 
@@ -134,8 +135,7 @@ namespace VVSAssistant.ViewModels
              * in the list of packaged solutions. When this happens, property 
              * "SelectedPackagedSolution" is set to the clicked Packaged Solution. */
             PackagedSolutionDoubleClickedCmd = new RelayCommand
-                        (x => OnSolutionDoubleClicked(),
-                         x => SelectedPackagedSolution != null); 
+                        (x => OnSolutionDoubleClicked()); 
 
             /* Doing the same as print offer, todo: figure out what we want to accomplish here */
             SaveOfferCmd = new RelayCommand
@@ -145,7 +145,13 @@ namespace VVSAssistant.ViewModels
             /* When the "nyt tilbud" button in bottom left corner is pressed. 
              * Nullifies all offer properties and changes view to list of packaged solutions. */
             CreateNewOfferCmd = new RelayCommand
-                        ( x => SetInitialSettings()); 
+                (x =>
+            {
+                SetInitialSettings();
+                ClearCollections();
+                PackagedSolutions.Clear();
+                LoadDataFromDatabase();
+            });
             
             SetInitialSettings();
         }
@@ -157,10 +163,17 @@ namespace VVSAssistant.ViewModels
         {
             ArePackagedSolutionsVisible = true;
             IsComponentTabVisible = false;
-
             Offer = new Offer();
-            SelectedPackagedSolution = null;
-            PrintOfferCmd.NotifyCanExecuteChanged();
+            UpdateSidebarValues();
+        }
+
+        public void ClearCollections()
+        {
+            // Setting to a new collection instance as clearing the collection causes 
+            // the packaged solutions appliance list to be cleared in runtime (reference values). *Important
+            AppliancesInOffer.Clear();
+            MaterialsInOffer.Clear();
+            SalariesInOffer.Clear();
         }
 
         public bool VerifyOfferHasRequiredInformation()
@@ -228,6 +241,13 @@ namespace VVSAssistant.ViewModels
 
         private void OfferContentsPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            UpdateSidebarValues();
+            PrintOfferCmd.NotifyCanExecuteChanged();
+            SaveOfferCmd.NotifyCanExecuteChanged();
+        }
+
+        private void UpdateSidebarValues()
+        {
             OnPropertyChanged("TotalSalesPrice");
             OnPropertyChanged("TotalCostPrice");
             OnPropertyChanged("TotalContributionMargin");
@@ -243,9 +263,6 @@ namespace VVSAssistant.ViewModels
             OnPropertyChanged("MaterialsSalesPrice");
             OnPropertyChanged("MaterialsCostPrice");
             OnPropertyChanged("MaterialsContributionMargin");
-
-            PrintOfferCmd.NotifyCanExecuteChanged();
-            SaveOfferCmd.NotifyCanExecuteChanged();
         }
 
         public override void LoadDataFromDatabase()

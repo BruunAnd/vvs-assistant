@@ -225,7 +225,7 @@
               Grid.Row="2">
             <StackPanel Orientation="Vertical">
 
-                <Label Content="Projekt resultat"/>
+                <Label Style="{StaticResource LabelHeader}" Content="Projekt resultat"/>
                 <DockPanel>
                     <Label Content="Salgspris"/>
                     <Label HorizontalAlignment="Right" 
@@ -243,7 +243,7 @@
                            Content="{Binding TotalContributionMargin}"/>
                 </DockPanel>
 
-                <Label Content="Komponenter"/>
+                <Label Style="{StaticResource LabelHeader}" Content="Komponenter"/>
                 <DockPanel>
                     <Label Content="Salgspris"/>
                     <Label HorizontalAlignment="Right" 
@@ -262,7 +262,7 @@
                            Content="{Binding AppliancesContributionMargin}"/>
                 </DockPanel>
 
-                <Label Content="Løn"/>
+                <Label Style="{StaticResource LabelHeader}" Content="Løn"/>
 
                 <DockPanel>
                     <Label Content="Salgspris"/>
@@ -282,7 +282,7 @@
                            Content="{Binding SalariesContributionMargin}"/>
                 </DockPanel>
 
-                <Label Content="Materialer"/>
+                <Label Style="{StaticResource LabelHeader}" Content="Materialer"/>
 
                 <DockPanel>
                     <Label Content="Salgspris"/>

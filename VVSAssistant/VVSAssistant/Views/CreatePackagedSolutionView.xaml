@@ -78,7 +78,9 @@
 
             <DataGrid Name="AppliancesDataGrid" Grid.Column="0"
                       Grid.Row="1" 
-                      AutoGenerateColumns="False" 
+                      AutoGenerateColumns="False"
+                      HorizontalScrollBarVisibility="Auto"
+                      ColumnWidth="Auto"
                       ItemsSource="{Binding FilteredCollectionView, UpdateSourceTrigger=PropertyChanged}"
                       SelectedItem="{Binding SelectedAppliance}"
                       SelectionMode="Single">
@@ -98,19 +100,14 @@
                     <MouseBinding MouseAction="LeftDoubleClick"
                                   Command="{Binding AddApplianceToPackagedSolutionCmd}"/>
                 </DataGrid.InputBindings>
-
                 <DataGrid.Columns>
+
                     <DataGridTextColumn Binding="{Binding Name}" 
-                                        Header="Navn" 
-                                        Width="2*"/>
-
+                                        Header="Navn"/>
                     <DataGridTextColumn Binding="{Binding Type}" 
-                                        Header="Type" 
-                                        Width="2*"/>
-
+                                        Header="Type"/>
                     <DataGridTextColumn Binding="{Binding Description}"  
-                                        Header="Beskrivelse" 
-                                        Width="3*"/>
+                                        Header="Beskrivelse"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>

@@ -7,7 +7,7 @@ using VVSAssistant.Models;
 
 namespace VVSAssistant.Events
 {
-    public static class VVSAssistantEvents
+    public static class VvsAssistantEvents
     {
         /* When the "Gem" button in the GenerateOfferDialogView is pressed */
         public delegate void SaveOfferButtonPressed(Offer offer);

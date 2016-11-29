@@ -35,6 +35,13 @@
                 <Setter Property="IsReadOnly" Value="True"/>
             </Style>
             
+            <Style TargetType="Label" x:Key="LabelHeader">
+                <Setter Property="Margin" Value="0 0 0 5"/>
+                <Setter Property="Padding" Value="5"/>
+                <Setter Property="Background" Value="{StaticResource AccentColorBrush}"/>
+                <Setter Property="Foreground" Value="{StaticResource IdealForegroundColorBrush}"/>
+            </Style>
+            
             <!-- Tile styling -->
             <Style TargetType="controls:Tile" x:Key="NavigationTileStyle">
                 <Setter Property="TitleFontSize" Value="14" />

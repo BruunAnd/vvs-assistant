@@ -9,29 +9,10 @@
     mc:Ignorable="d"     
     x:Name="Root"
     xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-    ShowIconOnTitleBar="True"
-    Title="VVS Assistant" MinHeight="600" MinWidth="1080" Height="600" Width="1080">
+    Title="VVS Assistant" MinHeight="650" MinWidth="1080" Height="650" Width="1080">
     <Window.DataContext>
         <viewModels:MainWindowViewModel/>
     </Window.DataContext>
-
-    <controls:MetroWindow.IconTemplate>
-        <DataTemplate>
-            <Grid Width="{TemplateBinding Width}"
-                  Height="{TemplateBinding Height}"
-                  Background="{StaticResource AccentBaseColorBrush}"
-                  RenderOptions.EdgeMode="Aliased"
-                  RenderOptions.BitmapScalingMode="HighQuality">
-                <Grid Margin="5">
-                    <Rectangle Fill="{StaticResource IdealForegroundColorBrush}">
-                        <Rectangle.OpacityMask>
-                            <VisualBrush Visual="{StaticResource appbar_tree_leaf}"/>
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-                </Grid>
-            </Grid>
-        </DataTemplate>
-    </controls:MetroWindow.IconTemplate>
 
     <Window.Resources>
         <DataTemplate DataType="{x:Type viewModels:CreatePackagedSolutionViewModel}">
@@ -49,95 +30,98 @@
     </Window.Resources>
 
     <Grid>
-        <Grid HorizontalAlignment="Center"
-              VerticalAlignment="Center">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <WrapPanel Grid.Row="0">
-                <controls:Tile 
-                       Style="{StaticResource NavigationTileStyle}"
-                       Command="{Binding DatabaseImport}"
-                       CommandParameter="Import"
-                       Title="Importer database">
-                    <Rectangle Width="64" 
-                           Height="64"
-                           Fill="{StaticResource IdealForegroundColorBrush}">
-                        <Rectangle.OpacityMask>
-                            <VisualBrush Visual="{StaticResource appbar_cabinet_in}" Stretch="Fill" />
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-                </controls:Tile>
-
-                <controls:Tile 
-                       Style="{StaticResource NavigationTileStyle}"
-                       Command="{Binding DatabaseExport}"
-                       CommandParameter="Export"
-                       Title="Eksporter database">
-                    <Rectangle Width="64" 
-                           Height="64"
-                           Fill="{StaticResource IdealForegroundColorBrush}">
-                        <Rectangle.OpacityMask>
-                            <VisualBrush Visual="{StaticResource appbar_cabinet_out}" Stretch="Fill" />
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-                </controls:Tile>
-            </WrapPanel>
-            <WrapPanel Grid.Row="1">
-                <controls:Tile 
+            <TabControl>
+                <TabItem Header="Startside">
+                    <WrapPanel HorizontalAlignment="Left" VerticalAlignment="Top">
+                        <controls:Tile 
                        Style="{StaticResource NavigationTileStyle}"
                        Command="{Binding NavCommand}"
                        CommandParameter="CreatePackagedSolutionView"
                        Title="Opret pakkeløsning">
-                    <Rectangle Width="64" 
+                            <Rectangle Width="64" 
                            Height="64"
                            Fill="{StaticResource IdealForegroundColorBrush}">
-                        <Rectangle.OpacityMask>
-                            <VisualBrush Visual="{StaticResource appbar_layer_add}" Stretch="Fill" />
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-                </controls:Tile>
-                <controls:Tile Title="Pakkeløsninger"
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Visual="{StaticResource appbar_layer_add}" Stretch="Fill" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </controls:Tile>
+                        <controls:Tile Title="Pakkeløsninger"
                            Style="{StaticResource NavigationTileStyle}"
                            Command="{Binding NavCommand}"
                            CommandParameter="ExistingPackagedSolutionView">
-                    <Rectangle Width="64" 
+                            <Rectangle Width="64" 
                            Height="64"
                            Fill="{StaticResource IdealForegroundColorBrush}">
-                        <Rectangle.OpacityMask>
-                            <VisualBrush Visual="{StaticResource appbar_box_layered}" Stretch="Fill" />
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-                </controls:Tile>
-                <controls:Tile 
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Visual="{StaticResource appbar_box_layered}" Stretch="Fill" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </controls:Tile>
+                        <controls:Tile 
                        Style="{StaticResource NavigationTileStyle}"
                        Command="{Binding NavCommand}"
                        CommandParameter="CreateOfferView"
                        Title="Opret tilbud">
-                    <Rectangle Width="64" 
+                            <Rectangle Width="64" 
                            Height="64"
                            Fill="{StaticResource IdealForegroundColorBrush}">
-                        <Rectangle.OpacityMask>
-                            <VisualBrush Visual="{StaticResource appbar_page_solid_add}" Stretch="Fill" />
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-                </controls:Tile>
-                <controls:Tile 
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Visual="{StaticResource appbar_page_solid_add}" Stretch="Fill" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </controls:Tile>
+                        <controls:Tile 
                        Style="{StaticResource NavigationTileStyle}"
                        Command="{Binding NavCommand}"
                        CommandParameter="ExistingOffersView"
                        Title="Tilbud">
-                    <Rectangle Width="64" 
+                            <Rectangle Width="64" 
                            Height="64"
                            Fill="{StaticResource IdealForegroundColorBrush}">
-                        <Rectangle.OpacityMask>
-                            <VisualBrush Visual="{StaticResource appbar_cabinet_files_variant}" Stretch="Fill" />
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-                </controls:Tile>
-            </WrapPanel>
-            
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Visual="{StaticResource appbar_cabinet_files_variant}" Stretch="Fill" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </controls:Tile>
+                    </WrapPanel>
+                </TabItem>
+                <TabItem Header="Indstillinger">
+                    <WrapPanel HorizontalAlignment="Left" VerticalAlignment="Top">
+                        <controls:Tile 
+                       Style="{StaticResource NavigationTileStyle}"
+                       Command="{Binding DatabaseImport}"
+                       CommandParameter="Import"
+                       Title="Importer database">
+                            <Rectangle Width="64" 
+                           Height="64"
+                           Fill="{StaticResource IdealForegroundColorBrush}">
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Visual="{StaticResource appbar_cabinet_in}" Stretch="Fill" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </controls:Tile>
+
+                        <controls:Tile 
+                       Style="{StaticResource NavigationTileStyle}"
+                       Command="{Binding DatabaseExport}"
+                       CommandParameter="Export"
+                       Title="Eksporter database">
+                            <Rectangle Width="64" 
+                           Height="64"
+                           Fill="{StaticResource IdealForegroundColorBrush}">
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Visual="{StaticResource appbar_cabinet_out}" Stretch="Fill" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </controls:Tile>
+                    </WrapPanel>
+                </TabItem>
+            </TabControl>
 
         </Grid>
         <controls:TransitioningContentControl Content = "{Binding CurrentViewModel}"/>
