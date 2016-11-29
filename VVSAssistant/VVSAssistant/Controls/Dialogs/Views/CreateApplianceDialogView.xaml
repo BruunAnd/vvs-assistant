@@ -45,7 +45,7 @@
                            MinHeight="150"/>
         <StackPanel Grid.Row="4" 
                     Visibility="{Binding IsHeatingOrSolar, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolToVisibilityConverter}}">
-            <Label Content="Specificér brug (kan godt være begge dele):" FontWeight="Bold"/>
+            <Label Content="Specificér brug (kan være begge dele):" FontWeight="Bold"/>
             <CheckBox Content="Rumopvarmning"
                       IsChecked="{Binding NewAppliance.DataSheet.isRoomHeater}"
                       Margin="0 0 0 10"/>
