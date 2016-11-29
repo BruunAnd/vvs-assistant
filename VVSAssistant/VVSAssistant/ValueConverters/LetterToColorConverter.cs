@@ -30,10 +30,12 @@ namespace VVSAssistant.ValueConverters
                     case "F":
                     case "G":
                         return new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
+                    default:
+                        return new SolidColorBrush(Color.FromArgb(255,255,255,255));
                 }
             }
 
-            return new SolidColorBrush(Colors.Black);
+            return new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

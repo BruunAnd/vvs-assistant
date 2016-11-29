@@ -14,5 +14,10 @@ namespace VVSAssistant.Models.DataSheets
         public float SolPumpConsumption { get; set; }
         [DisplayName(@"Elforbrug i standbytilstand")]
         public float SolStandbyConsumption { get; set; }
+
+        public override string ToString()
+        {
+            return $"Elforbrug til pumpe: {SolPumpConsumption}W, Elforbrug i standbytilstand: {SolStandbyConsumption}W";
+        }
     }
 }
