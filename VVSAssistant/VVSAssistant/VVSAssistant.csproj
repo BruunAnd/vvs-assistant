@@ -174,9 +174,6 @@
     <Compile Include="Controls\Dialogs\Views\CreateApplianceDialogView.xaml.cs">
       <DependentUpon>CreateApplianceDialogView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Dialogs\Views\EditApplianceView.xaml.cs">
-      <DependentUpon>EditApplianceView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\Dialogs\Views\GenerateOfferDialogView.xaml.cs">
       <DependentUpon>GenerateOfferDialogView.xaml</DependentUpon>
     </Compile>
@@ -267,10 +264,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\Dialogs\Views\CreateApplianceDialogView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\Dialogs\Views\EditApplianceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
