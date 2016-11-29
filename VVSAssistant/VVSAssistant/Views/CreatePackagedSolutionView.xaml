@@ -207,7 +207,7 @@
                 <CheckBox Content="Beholder" IsChecked="{Binding IncludeContainers}"/>
                 <CheckBox Content="Vandvarmer" IsChecked="{Binding IncludeWaterHeaters}"/>
                 
-                <TextBlock TextWrapping="Wrap" 
+                <!--<TextBlock TextWrapping="Wrap" 
                            Text="Vælg minimum energimærkning for komponenterne i søgningen"/>
                 <ComboBox IsReadOnly="true" 
                           Margin="5,5,5,5">
@@ -216,7 +216,7 @@
                     <ComboBoxItem>C</ComboBoxItem>
                     <ComboBoxItem>D</ComboBoxItem>
                     <ComboBoxItem>E</ComboBoxItem>
-                </ComboBox>
+                </ComboBox>-->
             </StackPanel>
         </Grid>
     </Grid>
