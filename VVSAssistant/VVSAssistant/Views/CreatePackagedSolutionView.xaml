@@ -16,9 +16,11 @@
     <ContentControl.Resources>
         <valueConverters:ApplianceTypeConverter x:Key="ApplianceTypeConverter" />
         <valueConverters:LetterToColorConverter x:Key="LetterToColorConverter" />
+        <valueConverters:DescriptionConverter x:Key="CommaToNewlineConverter"/>
         <Style x:Key="ApplianceCell" TargetType="DataGridCell" 
                BasedOn="{StaticResource {x:Type DataGridCell}}">
-            <Setter Property="ToolTip" Value="{Binding Description}" />
+            <Setter Property="ToolTip" Value="{Binding Description,
+                Converter={StaticResource CommaToNewlineConverter}}"/>
         </Style>
     </ContentControl.Resources>
     <Grid Background="White">
@@ -100,6 +102,9 @@
                         <Setter Property="ToolTip" Value="Højreklik for valgmuligheder"/>
                     </Style>
                 </DataGrid.RowStyle>
+                <DataGrid.CellStyle>
+                    <Style TargetType="DataGridCell" BasedOn="{StaticResource ApplianceCell}"/>
+                </DataGrid.CellStyle>
                 <DataGrid.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Føj til pakke"
