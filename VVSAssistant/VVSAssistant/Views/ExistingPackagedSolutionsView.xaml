@@ -54,6 +54,18 @@
 
             <DataGrid AutoGenerateColumns="False"
                       ItemsSource="{Binding FilteredCollectionView}">
+                
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Føj til pakke"
+                                  Command="{Binding CreatePackagedSolutionCopyCmd}"/>
+                        <MenuItem Header="Redigér"
+                                  Command="{Binding PrintCalculationCmd}"/>
+                        <MenuItem Header="Slet"
+                                  Command="{Binding DropPackagedSolutionCmd}"/>
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+                
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Name}" 
                                         Header="Navn" 

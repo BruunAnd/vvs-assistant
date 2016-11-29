@@ -75,7 +75,7 @@ namespace VVSAssistant.ViewModels
             switch (destination)
             {
                 case "ExistingPackagedSolutionView":
-                    CurrentViewModel = new ExistingPackagedSolutionsViewModel();
+                    CurrentViewModel = new ExistingPackagedSolutionsViewModel(new DialogCoordinator());
                     break;
                 case "CreatePackagedSolutionView":
                     CurrentViewModel = new CreatePackagedSolutionViewModel(new DialogCoordinator());
