@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
@@ -12,8 +13,14 @@ namespace VVSAssistant.ValueConverters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            CultureInfo customCulture = (System.Globalization.CultureInfo)
+                        System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
+            customCulture.NumberFormat.NumberDecimalSeparator = ".";
+            System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
+
             string description = value as string;
-            return description.Replace(',', '\n');
+            description = description.Replace(',', '\n').Insert(0, " ");
+            return description;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
