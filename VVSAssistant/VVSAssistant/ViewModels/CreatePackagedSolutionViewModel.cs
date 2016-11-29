@@ -326,7 +326,6 @@ namespace VVSAssistant.ViewModels
 
                     if (instanceCompleted.IsPrimaryBoiler)
                     {
-                        PackagedSolution.PrimaryHeatingUnit = appliance;
                         if (PackagedSolution.PrimaryHeatingUnit != null)
                         {
                             // Inform the user that their previous primary heating unit will be replaced
@@ -334,6 +333,7 @@ namespace VVSAssistant.ViewModels
                                     $"Da du har valgt en ny primærkedel er komponentet {PackagedSolution.PrimaryHeatingUnit.Name} nu en sekundærkedel.");
                             // todo set purpose of heating unit   
                         }
+                        PackagedSolution.PrimaryHeatingUnit = appliance;
                     }
                     AddApplianceToPackagedSolution(appliance);
                 });
