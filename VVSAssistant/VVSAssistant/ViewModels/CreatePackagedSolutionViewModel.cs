@@ -318,8 +318,7 @@ namespace VVSAssistant.ViewModels
                 {
                     await _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
 
-                    if (!instanceCompleted.IsPrimaryBoiler) return;
-                    if (PackagedSolution.PrimaryHeatingUnit != null)
+                    if (instanceCompleted.IsPrimaryBoiler && PackagedSolution.PrimaryHeatingUnit != null)
                     {
                         // Inform the user that their previous primary heating unit will be replaced
                         await _dialogCoordinator.ShowMessageAsync(this, "Information",
