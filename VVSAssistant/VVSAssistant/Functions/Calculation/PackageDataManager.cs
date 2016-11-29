@@ -155,8 +155,10 @@ namespace VVSAssistant.Functions.Calculation
                 foreach (var solar in solarContainers)
                 {
                     if (item != solar)
+                    {
                         ans = true;
-                    else
+                    }
+                    else if(item == solar)
                     {
                         ans = false;
                         break;

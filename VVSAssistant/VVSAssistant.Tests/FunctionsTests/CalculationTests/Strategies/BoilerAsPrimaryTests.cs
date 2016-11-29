@@ -180,7 +180,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             var result = new EEICalculationResult();
             result = calculation.CalculateEEI(package);
 
-            float contribution = (float)Math.Round(result.EffectOfSecondaryHeatPump, 2);
+            float contribution = (float)(result.EffectOfSecondaryHeatPump);
             // Kan ikke få fejl margin på 0.1 endnu
             Assert.IsTrue(expected <= contribution + 0.2f && expected >= contribution - 0.2f);
         }
