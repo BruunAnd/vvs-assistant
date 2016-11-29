@@ -236,7 +236,7 @@ namespace VVSAssistant
                 db.Appliances.Add(new Appliance("Vitobloc 200", new HeatingUnitDataSheet()
                 { AFUE = 140, WattUsage = 39, InternalTempControl = "3" }, ApplianceTypes.CHP)
                 { CreationDate = DateTime.Now, UnitCostPrice = 150 });
-                db.Appliances.Add(new Appliance("Compress3000", new HeatingUnitDataSheet()
+                packagedSolution.Appliances.Add(new Appliance("Compress3000", new HeatingUnitDataSheet()
                 {
                     Vnorm = 260,
                     Vbu = 20,
