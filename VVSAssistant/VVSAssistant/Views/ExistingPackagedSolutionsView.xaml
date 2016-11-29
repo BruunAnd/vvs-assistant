@@ -6,11 +6,15 @@
       xmlns:viewModels="clr-namespace:VVSAssistant.ViewModels"
       xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
       xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+      xmlns:valueConverters="clr-namespace:VVSAssistant.ValueConverters"
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="1080"
       d:DataContext="{d:DesignInstance viewModels:ExistingPackagedSolutionsViewModel}"
       dialogs:DialogParticipation.Register="{Binding}">
 
+    <UserControl.Resources>
+        <valueConverters:DateTimeConverter x:Key="DateTimeConverter"/>
+    </UserControl.Resources>
     <Grid Background="White">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
@@ -75,7 +79,7 @@
                                         Header="Navn" 
                                         Width="2*"/>
 
-                    <DataGridTextColumn Binding="{Binding CreationDate}" 
+                    <DataGridTextColumn Binding="{Binding CreationDate, Converter={StaticResource DateTimeConverter}}" 
                                         Header="Dato" 
                                         Width="2*"/>
                     
