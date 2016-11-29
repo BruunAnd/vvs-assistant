@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Collections.Specialized;
@@ -181,13 +182,7 @@ namespace VVSAssistant.ViewModels
 
         #endregion
 
-        public CreatePackagedSolutionViewModel(IDialogCoordinator dialogCoordinator) : this(dialogCoordinator, null)
-        {
-           
-        }
-
-        public CreatePackagedSolutionViewModel(IDialogCoordinator dialogCoordinator,
-            PackagedSolution existingPackagedSolution)
+        public CreatePackagedSolutionViewModel(IDialogCoordinator dialogCoordinator)
         {
             #region Initialize collections
 
@@ -202,11 +197,6 @@ namespace VVSAssistant.ViewModels
             _calculationManager = new CalculationManager();
             _dialogCoordinator = dialogCoordinator;
             PackagedSolution = new PackagedSolution();
-
-            if (existingPackagedSolution != null)
-            {
-                foreach(var app in existingPackagedSolution.Appliances) AppliancesInPackagedSolution.Add(app);
-            }
 
             #endregion
 
@@ -451,6 +441,15 @@ namespace VVSAssistant.ViewModels
         {
             var appliances = await Task.Run(() => DbContext.Appliances.ToList());
             appliances.ForEach(Appliances.Add);
+        }
+
+        // todo rename 
+        public void LoadExistingAppliances(IEnumerable<int> existingApplianceIds)
+        {
+            foreach (var applianceId in existingApplianceIds)
+            {
+                AppliancesInPackagedSolution.Add(DbContext.Appliances.FirstOrDefault(a => a.Id == applianceId));
+            }
         }
 
         protected override bool Filter(Appliance obj)
