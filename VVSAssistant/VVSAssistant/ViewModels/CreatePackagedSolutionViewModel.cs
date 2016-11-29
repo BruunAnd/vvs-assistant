@@ -144,15 +144,15 @@ namespace VVSAssistant.ViewModels
             }
         }
 
-        private string _eeiResult;
-        public string EEIResultsRoomHeating
+        private EEICalculationResult _eeiResult;
+        public EEICalculationResult EEIResultsRoomHeating
         {
             get { return _eeiResult; }
             set { _eeiResult = value; OnPropertyChanged(); }
         }
 
-        private string _eeiResultSecondary;
-        public string EEIResultsWaterHeating
+        private EEICalculationResult _eeiResultSecondary;
+        public EEICalculationResult EEIResultsWaterHeating
         {
             get { return _eeiResultSecondary; }
             set { _eeiResultSecondary = value; OnPropertyChanged(); }
@@ -273,6 +273,8 @@ namespace VVSAssistant.ViewModels
 
             AppliancesInPackagedSolution.Clear();
             PackagedSolution = new PackagedSolution();
+            EEIResultsRoomHeating = new EEICalculationResult();
+            EEIResultsWaterHeating = new EEICalculationResult();
         }
 
         private void AddApplianceToPackagedSolution(Appliance appliance)
@@ -553,13 +555,13 @@ namespace VVSAssistant.ViewModels
             var results = _calculationManager.SelectCalculationStrategy(PackagedSolution);
             if (results != null && results.Count > 1)
             {
-                EEIResultsRoomHeating = results[0].CalculateEEI(PackagedSolution).EEICharacters;
-                EEIResultsWaterHeating = results[1].CalculateEEI(PackagedSolution).EEICharacters;
+                EEIResultsRoomHeating = results[0].CalculateEEI(PackagedSolution);
+                EEIResultsWaterHeating = results[1].CalculateEEI(PackagedSolution);
             }
             else
             {
-                EEIResultsRoomHeating = results != null ? results[0].CalculateEEI(PackagedSolution).EEICharacters : "N/A";
-                EEIResultsWaterHeating = "N/A";
+                EEIResultsRoomHeating = results != null ? results[0].CalculateEEI(PackagedSolution) : null;
+                EEIResultsWaterHeating = null;
             }
         }
 
