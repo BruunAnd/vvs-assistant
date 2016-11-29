@@ -5,11 +5,15 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:viewModels="clr-namespace:VVSAssistant.ViewModels"
       xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+      xmlns:valueConverters="clr-namespace:VVSAssistant.ValueConverters"
       mc:Ignorable="d" 
       d:DataContext="{d:DesignInstance viewModels:CreateOfferViewModel}"
       d:DesignHeight="600" d:DesignWidth="1080"
       dialog:DialogParticipation.Register="{Binding}">
 
+    <ContentControl.Resources>
+        <valueConverters:PriceConverter x:Key="PriceConverter"/>
+    </ContentControl.Resources>
     <Grid Background="White">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
@@ -109,7 +113,7 @@
                                                 MinWidth="100"
                                                 Width="1*"
                                                 CanUserReorder="False"/>
-                            <DataGridTextColumn Binding="{Binding ContributionMargin, UpdateSourceTrigger=PropertyChanged}" 
+                            <DataGridTextColumn Binding="{Binding ContributionMargin, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource PriceConverter}}" 
                                                 Header="Samlet DB" 
                                                 IsReadOnly="True"
                                                 MinWidth="100"
@@ -142,7 +146,7 @@
                                                 Width="1*"
                                                 CanUserReorder="False"/>
 
-                            <DataGridTextColumn Binding="{Binding CostPrice, UpdateSourceTrigger=PropertyChanged}" 
+                            <DataGridTextColumn Binding="{Binding CostPrice, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource PriceConverter}}" 
                                                 Header="Kostpris"
                                                 IsReadOnly="True"  
                                                 MinWidth="100"
@@ -153,13 +157,13 @@
                                                 MinWidth="100"
                                                 Width="1*"
                                                 CanUserReorder="False"/>
-                            <DataGridTextColumn Binding="{Binding SalesPrice, UpdateSourceTrigger=PropertyChanged}" 
+                            <DataGridTextColumn Binding="{Binding SalesPrice, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource PriceConverter}}" 
                                                 Header="Salgspris"
                                                 IsReadOnly="True"  
                                                 MinWidth="100"
                                                 Width="1*"
                                                 CanUserReorder="False"/>
-                            <DataGridTextColumn Binding="{Binding ContributionMargin, UpdateSourceTrigger=PropertyChanged}" 
+                            <DataGridTextColumn Binding="{Binding ContributionMargin, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource PriceConverter}}" 
                                                 Header="Samlet DB" 
                                                 IsReadOnly="True"
                                                 MinWidth="100"
@@ -191,7 +195,7 @@
                                                 Width="1*"
                                                 CanUserReorder="False"/>
 
-                            <DataGridTextColumn Binding="{Binding CostPrice, UpdateSourceTrigger=PropertyChanged}" 
+                            <DataGridTextColumn Binding="{Binding CostPrice, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource PriceConverter}}" 
                                                 Header="Kostpris"
                                                 IsReadOnly="True"  
                                                 MinWidth="100"
@@ -202,13 +206,13 @@
                                                 MinWidth="100"
                                                 Width="1*"
                                                 CanUserReorder="False"/>
-                            <DataGridTextColumn Binding="{Binding SalesPrice, UpdateSourceTrigger=PropertyChanged}" 
+                            <DataGridTextColumn Binding="{Binding SalesPrice, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource PriceConverter}}" 
                                                 Header="Salgspris"
                                                 IsReadOnly="True"  
                                                 MinWidth="100"
                                                 Width="1*"
                                                 CanUserReorder="False"/>
-                            <DataGridTextColumn Binding="{Binding ContributionMargin, UpdateSourceTrigger=PropertyChanged}" 
+                            <DataGridTextColumn Binding="{Binding ContributionMargin, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource PriceConverter}}" 
                                                 Header="Samlet DB" 
                                                 IsReadOnly="True"
                                                 MinWidth="100"
@@ -229,37 +233,37 @@
                 <DockPanel>
                     <Label Content="Salgspris"/>
                     <Label HorizontalAlignment="Right" 
-                           Content="{Binding TotalSalesPrice}"/>
+                           Content="{Binding TotalSalesPrice, Converter={StaticResource PriceConverter}}"/>
                 </DockPanel>
                 <DockPanel>
                     <Label Content="Kostpris"/>
                     <Label HorizontalAlignment="Right" 
-                           Content="{Binding TotalCostPrice}"/>
+                           Content="{Binding TotalCostPrice, Converter={StaticResource PriceConverter}}"/>
                 </DockPanel>
 
                 <DockPanel>
                     <Label Content="Dækningsbidrag"/>
                     <Label HorizontalAlignment="Right" 
-                           Content="{Binding TotalContributionMargin}"/>
+                           Content="{Binding TotalContributionMargin, Converter={StaticResource PriceConverter}}"/>
                 </DockPanel>
 
                 <Label Style="{StaticResource LabelHeader}" Content="Komponenter"/>
                 <DockPanel>
                     <Label Content="Salgspris"/>
                     <Label HorizontalAlignment="Right" 
-                           Content="{Binding AppliancesSalesPrice}"/>
+                           Content="{Binding AppliancesSalesPrice, Converter={StaticResource PriceConverter}}"/>
                 </DockPanel>
 
                 <DockPanel>
                     <Label Content="Kostpris"/> 
                     <Label HorizontalAlignment="Right" 
-                           Content="{Binding AppliancesCostPrice}"/>
+                           Content="{Binding AppliancesCostPrice, Converter={StaticResource PriceConverter}}"/>
                 </DockPanel>
 
                 <DockPanel>
                     <Label Content="Dækningsbidrag"/>
                     <Label HorizontalAlignment="Right"
-                           Content="{Binding AppliancesContributionMargin}"/>
+                           Content="{Binding AppliancesContributionMargin, Converter={StaticResource PriceConverter}}"/>
                 </DockPanel>
 
                 <Label Style="{StaticResource LabelHeader}" Content="Løn"/>
@@ -267,19 +271,19 @@
                 <DockPanel>
                     <Label Content="Salgspris"/>
                     <Label HorizontalAlignment="Right" 
-                           Content="{Binding SalariesSalesPrice}"/>
+                           Content="{Binding SalariesSalesPrice, Converter={StaticResource PriceConverter}}"/>
                 </DockPanel>
 
                 <DockPanel>
                     <Label Content="Kostpris"/>
                     <Label HorizontalAlignment="Right" 
-                           Content="{Binding SalariesCostPrice}"/>
+                           Content="{Binding SalariesCostPrice, Converter={StaticResource PriceConverter}}"/>
                 </DockPanel>
 
                 <DockPanel>
                     <Label Content="Dækningsbidrag"/>
                     <Label HorizontalAlignment="Right" 
-                           Content="{Binding SalariesContributionMargin}"/>
+                           Content="{Binding SalariesContributionMargin, Converter={StaticResource PriceConverter}}"/>
                 </DockPanel>
 
                 <Label Style="{StaticResource LabelHeader}" Content="Materialer"/>
@@ -287,19 +291,19 @@
                 <DockPanel>
                     <Label Content="Salgspris"/>
                     <Label HorizontalAlignment="Right"
-                           Content="{Binding MaterialsSalesPrice}"/>
+                           Content="{Binding MaterialsSalesPrice, Converter={StaticResource PriceConverter}}"/>
                 </DockPanel>
 
                 <DockPanel>
                     <Label Content="Kostpris"/> 
                     <Label HorizontalAlignment="Right" 
-                           Content="{Binding MaterialsCostPrice}"/>
+                           Content="{Binding MaterialsCostPrice, Converter={StaticResource PriceConverter}}"/>
                 </DockPanel>
 
                 <DockPanel>
                     <Label Content="Dækningsbidrag"/>
                     <Label HorizontalAlignment="Right" 
-                           Content="{Binding MaterialsContributionMargin}"/>
+                           Content="{Binding MaterialsContributionMargin, Converter={StaticResource PriceConverter}}"/>
                 </DockPanel>
             </StackPanel>
             
