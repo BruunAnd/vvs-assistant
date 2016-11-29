@@ -160,7 +160,7 @@ namespace VVSAssistant.ViewModels
 
         #endregion
 
-        public CreatePackagedSolutionViewModel(IDialogCoordinator dialogCoordinator) : this(dialogCoordinator, new PackagedSolution())
+        public CreatePackagedSolutionViewModel(IDialogCoordinator dialogCoordinator) : this(dialogCoordinator, null)
         {
            
         }
@@ -180,7 +180,12 @@ namespace VVSAssistant.ViewModels
 
             _calculationManager = new CalculationManager();
             _dialogCoordinator = dialogCoordinator;
-            PackagedSolution = existingPackagedSolution;
+            PackagedSolution = new PackagedSolution();
+
+            if (existingPackagedSolution != null)
+            {
+                foreach(var app in existingPackagedSolution.Appliances) PackagedSolution.Appliances.Add(app);
+            }
 
             #endregion
 
