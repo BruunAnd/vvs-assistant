@@ -398,13 +398,13 @@ namespace VVSAssistant.ViewModels
             var customDialog = new CustomDialog();
             var newAppliance = new Appliance();
             var dialogViewModel = new CreateApplianceDialogViewModel(newAppliance, true,
-                closeHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
-                completionHandler =>
-                {
-                    DbContext.Appliances.Add(newAppliance);
-                    Appliances.Add(newAppliance);
-                    _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
-                });
+                                      closeHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
+                                      completionHandler =>
+                                      {
+                                          DbContext.Appliances.Add(newAppliance);
+                                          Appliances.Add(newAppliance);
+                                          _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
+                                      });
 
             customDialog.Content = new CreateApplianceDialogView { DataContext = dialogViewModel };
 
