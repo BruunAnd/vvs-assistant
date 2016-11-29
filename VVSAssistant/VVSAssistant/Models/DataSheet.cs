@@ -13,9 +13,10 @@ namespace VVSAssistant.Models
         [Browsable(false)]
         public int Id { get; set; }
 
-        [Category("Andet")]
         [DisplayName(@"Pris")]
+        [Description(@"eksempel")]
         public double Price { get; set; }
+
         public virtual object MakeCopy()
         {
             var copy = Activator.CreateInstance(this.GetType());
