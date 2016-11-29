@@ -183,39 +183,49 @@ namespace VVSAssistant.Functions
                 default: return;
             }
 
-            vm.PrimAnnualEfficiency = result.PrimaryHeatingUnitAFUE.ToString();
-            vm.TemperatureControleclass = result.EffectOfTemperatureRegulatorClass.ToString();
-            vm.SupBoilerAnnualEfficiency = result.SecondaryBoilerAFUE.ToString();
-            vm.SupBoilerTotal = result.EffectOfSecondaryBoiler.ToString();
+            vm.PrimAnnualEfficiency = CheckforNull(result.PrimaryHeatingUnitAFUE);
+            vm.TemperatureControleclass = CheckforNull(result.EffectOfTemperatureRegulatorClass);
+            vm.SupBoilerAnnualEfficiency = CheckforNull(result.SecondaryBoilerAFUE);
+            vm.SupBoilerTotal = CheckforNull(result.EffectOfSecondaryBoiler);
 
-            vm.SolarM2 = result.SolarCollectorArea.ToString();
-            vm.SolarM3 = result.ContainerVolume.ToString();
-            vm.SolarEfficiency = result.SolarCollectorEffectiveness.ToString();
-            vm.SolarClass = result.ContainerClassification.ToString();
-            vm.SolarTotal = result.SolarHeatContribution.ToString();
+            vm.SolarM2 = CheckforNull(result.SolarCollectorArea);
+            vm.SolarM3 = CheckforNull(result.ContainerVolume);
+            vm.SolarEfficiency = CheckforNull(result.SolarCollectorEffectiveness);//
+            vm.SolarClass = CheckforNull(result.ContainerClassification);//
+            vm.SolarTotal = CheckforNull(result.SolarHeatContribution);
 
-            vm.PackagedAnnualEfficiencyEEILabel = 0;//////////
-            vm.ResultOne = result.PackagedSolutionAtColdTemperaturesAFUE.ToString();
+            vm.PackagedAnnualEfficiencyEEILabel = SelectValue(result.EEICharacters);
+            vm.ResultOne = CheckforNull(result.PackagedSolutionAtColdTemperaturesAFUE);
+        }
+
+        private string CheckforNull(float value)
+        {
+            if (value == 0)
+            {
+                return "";
+            }
+            return Math.Round(value, 2).ToString();
+            
         }
 
         private void CalPageOne(PdfCalculationViewModel vm, EEICalculationResult result)
         {
             vm.PageOne = (true) ? "Visible" : "Collapsed";
-            vm.ResultTwo = result.PackagedSolutionAtWarmTemperaturesAFUE.ToString();
+            vm.ResultTwo = CheckforNull(result.PackagedSolutionAtWarmTemperaturesAFUE);
             vm.PackagedAnnualEfficiencyAverageClima = "N/A";
         }
         private void CalPageTwo(PdfCalculationViewModel vm, EEICalculationResult result)
         {
             vm.PageTwo = (true) ? "Visible" : "Collapsed";
-            vm.SupHeatingUnitAnnualEfficiency = result.EffectOfSecondaryHeatPump.ToString();
-            vm.SupHeatingUnitTotal = result.SecondaryHeatPumpAFUE.ToString();
-            vm.SolarContributionAndSupHeatingUnitTotal = result.AdjustedContribution.ToString();
-            vm.PackagedAnnualEfficiencyRoomHeating = result.EEI.ToString();
+            vm.SupHeatingUnitAnnualEfficiency = CheckforNull(result.EffectOfSecondaryHeatPump);
+            vm.SupHeatingUnitTotal = CheckforNull(result.SecondaryHeatPumpAFUE);
+            vm.SolarContributionAndSupHeatingUnitTotal = CheckforNull(result.AdjustedContribution);
+            vm.PackagedAnnualEfficiencyRoomHeating = CheckforNull(result.EEI);
         }
         private void CalPageThree(PdfCalculationViewModel vm, EEICalculationResult result)
         {
             vm.Pagethree = (true) ? "Visible" : "Collapsed";
-            vm.PackagedAnnualEfficiencyRoomHeating = result.EEI.ToString();
+            vm.PackagedAnnualEfficiencyRoomHeating = CheckforNull(result.EEI);
         }
         private void CalPageFour(PdfCalculationViewModel vm, EEICalculationResult result)
         {
@@ -227,6 +237,26 @@ namespace VVSAssistant.Functions
             vm.PageFive = (true) ? "Visible" : "Collapsed";
             vm.UseProfile = "N/A";
             vm.AnnualWaterheatingEfficiency = "N/A";
+        }
+
+        private int SelectValue(string label)
+        {
+            int value;
+            switch (label)
+            {
+                case "A+++": value = 10; break;
+                case "A++": value = 9; break;
+                case "A+": value = 8; break;
+                case "A": value = 7; break;
+                case "B": value = 6; break;
+                case "C": value = 5; break;
+                case "D": value = 4; break;
+                case "E": value = 3; break;
+                case "F": value = 2; break;
+                case "G": value = 1; break;
+                default:  value = 0; break;
+            }
+            return value;
         }
 
         private void SetUpLabelTwo(PackagedSolution packaged, List<EEICalculationResult> result, PdfLabelExportViewModel vm)
