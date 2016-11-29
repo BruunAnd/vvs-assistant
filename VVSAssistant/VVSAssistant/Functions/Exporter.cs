@@ -253,11 +253,11 @@ namespace VVSAssistant.Functions
             vm.TabelTwoArrowLetter = data.Letter;
             vm.TabelTwoArrowPlus = data.Plus;
 
-            data = SelectArrowValue(EEICharLabelChooser.EEIChar(ApplianceTypes.Boiler, result[0].PrimaryHeatingUnitAFUE));
+            data = SelectArrowValue(EEICharLabelChooser.EEIChar(ApplianceTypes.Boiler, result[0].PrimaryHeatingUnitAFUE)[0]);
             vm.WaterHeatingModeLetter = data.Letter;
             vm.WaterHeatingModePlus = data.Plus;
 
-            data = SelectArrowValue(EEICharLabelChooser.EEIChar(ApplianceTypes.Boiler, result[1].PrimaryHeatingUnitAFUE));
+            data = SelectArrowValue(EEICharLabelChooser.EEIChar(ApplianceTypes.Boiler, result[1].PrimaryHeatingUnitAFUE)[0]);
             vm.AnnualEfficiencyLetter = data.Letter;
             vm.AnnualEfficiencyPlus = data.Plus;
         }
@@ -277,8 +277,7 @@ namespace VVSAssistant.Functions
             vm.LabelTwoTabeOneArrow = data.location;
             vm.LabelTwoTabeOneArrowLetter = data.Letter;
             vm.LabelTwoTabeOneArrowPlus = data.Plus;
-
-            data = SelectArrowValue(EEICharLabelChooser.EEIChar(ApplianceTypes.Boiler, result.PrimaryHeatingUnitAFUE));
+            data = SelectArrowValue(EEICharLabelChooser.EEIChar(ApplianceTypes.Boiler, result.PrimaryHeatingUnitAFUE)[0]);
             vm.AnnualEfficiencyLetter = data.Letter;
             vm.AnnualEfficiencyPlus = data.Plus;
         }
