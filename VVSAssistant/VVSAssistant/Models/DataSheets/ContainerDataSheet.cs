@@ -35,9 +35,25 @@ namespace VVSAssistant.Models.DataSheets
         [Browsable(false)]
         public bool isMonovalent { get; set; }
 
+
+
         public override string ToString()
         {
-            return $"Beholder: Volume: {Volume} L, energiklasse: {Classification}, stilstandstab: {StandingLoss}";
+            string waterContainer = "";
+            string bufferContainer = "";
+            string Bivalent = "";
+            string Monovalent = "";
+
+            if (isWaterContainer == true)
+                waterContainer = ", varmtvandsbeholder";
+            if (isBufferContainer == true)
+                bufferContainer = ", bufferbeholder";
+            if (isBivalent == true)
+                Bivalent = ", Bivalent";
+            if (isMonovalent == true)
+                Monovalent = ", Monovalent";
+
+            return $"Volume: {Volume}L, energiklasse: {Classification}, stilstandstab: {StandingLoss}W{waterContainer}{bufferContainer}{Bivalent}{Monovalent}";
         }
     }
 }

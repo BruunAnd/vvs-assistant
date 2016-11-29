@@ -7,6 +7,7 @@ using VVSAssistant.Common.ViewModels;
 using VVSAssistant.Common.ViewModels.VVSAssistant.Common.ViewModels;
 using VVSAssistant.Extensions;
 using VVSAssistant.Models;
+using VVSAssistant.Functions;
 
 namespace VVSAssistant.ViewModels
 {
@@ -51,9 +52,9 @@ namespace VVSAssistant.ViewModels
             
             PrintCalculationCmd = new RelayCommand(x =>
             {
-                // TODO Make PackagedSolution aggregate calculation
-                throw new NotImplementedException();
-            });
+                var e = new Exporter();
+                e.ExportEnergyLabel(SelectedPackagedSolution);
+            }, x => SelectedPackagedSolution != null);
         }
 
         private async void DropPackagedSolution(PackagedSolution packagedSolution)

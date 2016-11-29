@@ -46,7 +46,16 @@ namespace VVSAssistant.Models.DataSheets
 
         public override string ToString()
         {
-            return $"Varmeenhed: AFUE: {AFUE}, Wattforbrug: {WattUsage}, eff. ved vandopvarmning: {WaterHeatingEffiency}, forbrugsprofil: {UseProfile}";
+            string userProfileString = "";
+            string WaterHeatEffString = "";
+
+            if (UseProfile != 0)
+                userProfileString = $", forbrugsprofil: {UseProfile}";
+            if (WaterHeatingEffiency != 0)
+                WaterHeatEffString = $", effektivitet ved vandopvarmning: {WaterHeatingEffiency}%";
+
+
+            return $"Årsvirkningsgrad: {AFUE}%, Wattforbrug: {WattUsage}kW{userProfileString}{WaterHeatEffString}";
         }
     }
     public enum UseProfileType
