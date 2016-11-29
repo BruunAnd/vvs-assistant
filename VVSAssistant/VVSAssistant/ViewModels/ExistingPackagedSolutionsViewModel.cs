@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using MahApps.Metro.Controls.Dialogs;
-using VVSAssistant.Common;
 using VVSAssistant.Common.ViewModels;
 using VVSAssistant.Common.ViewModels.VVSAssistant.Common.ViewModels;
 using VVSAssistant.Extensions;
@@ -12,9 +11,24 @@ namespace VVSAssistant.ViewModels
 {
     internal class ExistingPackagedSolutionsViewModel : FilterableViewModelBase<PackagedSolution>
     {
+        private PackagedSolution _selectedPackagedSolution;
+        public PackagedSolution SelectedPackagedSolution
+        {
+            get { return _selectedPackagedSolution; }
+            set
+            {
+                if (!SetProperty(ref _selectedPackagedSolution, value)) return;
+
+                // Notify if property was changed
+                CreatePackagedSolutionCopyCmd?.NotifyCanExecuteChanged();
+                PrintCalculationCmd?.NotifyCanExecuteChanged();
+                DropPackagedSolutionCmd?.NotifyCanExecuteChanged();
+                OnPropertyChanged();
+            }
+        }
+
         public ObservableCollection<PackagedSolution> PackagedSolutions { get; } = new ObservableCollection<PackagedSolution>();
         private readonly IDialogCoordinator _dialogCoordinator;
-        public PackagedSolution SelectedPackagedSolution { get; set; }
 
         public RelayCommand CreatePackagedSolutionCopyCmd { get; }
         public RelayCommand PrintCalculationCmd { get; }
@@ -25,7 +39,29 @@ namespace VVSAssistant.ViewModels
             _dialogCoordinator = dialogCoordinator;
             SetupFilterableView(PackagedSolutions);
 
-            CreatePackagedSolutionCopyCmd = new RelayCommand(x => NavigationService.NavigateTo(new CreatePackagedSolutionViewModel(dialogCoordinator, SelectedPackagedSolution)));
+            DropPackagedSolutionCmd = new RelayCommand(x =>
+            {
+                DropPackagedSolution(SelectedPackagedSolution);
+            }, x => SelectedPackagedSolution != null);
+        }
+
+        private async void DropPackagedSolution(PackagedSolution packagedSolution)
+        {
+            var conflictingOffersList = DbContext.Offers.Where(o => o.PackagedSolution.Id == packagedSolution.Id).ToList();
+
+            if (conflictingOffersList.Any())
+            {
+                var formattedOffersString = string.Join("\n", conflictingOffersList.Select(x => $"- {x.OfferInformation.Title} ({x.CreationDate})"));
+                await _dialogCoordinator.ShowMessageAsync(this, "Fejl",
+                    $"Pakkeløsningen kan ikke slettes, da den findes i følgende tilbud:\n{formattedOffersString}");
+            }
+            else
+            {
+                PackagedSolutions.Remove(packagedSolution);
+
+                DbContext.PackagedSolutions.Remove(packagedSolution);
+                DbContext.SaveChanges();
+            }
         }
 
         public override void LoadDataFromDatabase()

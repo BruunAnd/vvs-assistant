@@ -37,7 +37,7 @@ namespace VVSAssistant.Models.DataSheets
 
         public override string ToString()
         {
-            return $"Beholder: Volume: {Volume} m^3, energiklasse: {Classification}, stilstandstab: {StandingLoss}";
+            return $"Beholder: Volume: {Volume} L, energiklasse: {Classification}, stilstandstab: {StandingLoss}";
         }
     }
 }

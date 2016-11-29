@@ -2,6 +2,8 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Collections.Specialized;
+using System.Data.Entity;
+using System.Threading.Tasks;
 using MahApps.Metro.Controls.Dialogs;
 using VVSAssistant.Common.ViewModels;
 using VVSAssistant.Common.ViewModels.VVSAssistant.Common.ViewModels;
@@ -134,9 +136,9 @@ namespace VVSAssistant.ViewModels
                 if (!SetProperty(ref _selectedAppliance, value)) return;
 
                 // Notify if property was changed
-                AddApplianceToPackagedSolutionCmd.NotifyCanExecuteChanged();
-                EditApplianceCmd.NotifyCanExecuteChanged();
-                RemoveApplianceCmd.NotifyCanExecuteChanged();
+                AddApplianceToPackagedSolutionCmd?.NotifyCanExecuteChanged();
+                EditApplianceCmd?.NotifyCanExecuteChanged();
+                RemoveApplianceCmd?.NotifyCanExecuteChanged();
                 OnPropertyChanged();
             }
         }
@@ -434,9 +436,10 @@ namespace VVSAssistant.ViewModels
             SavePackagedSolutionCmd.NotifyCanExecuteChanged();
         }
 
-        public override void LoadDataFromDatabase()
+        public override async void LoadDataFromDatabase()
         {
-            DbContext.Appliances.ToList().ForEach(Appliances.Add);
+            var appliances = await Task.Run(() => DbContext.Appliances.ToList());
+            appliances.ForEach(Appliances.Add);
         }
 
         protected override bool Filter(Appliance obj)

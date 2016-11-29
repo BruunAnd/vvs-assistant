@@ -5,9 +5,11 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:viewModels="clr-namespace:VVSAssistant.ViewModels"
       xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+      xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="1080"
-      d:DataContext="{d:DesignInstance viewModels:ExistingPackagedSolutionsViewModel}">
+      d:DataContext="{d:DesignInstance viewModels:ExistingPackagedSolutionsViewModel}"
+      dialogs:DialogParticipation.Register="{Binding}">
 
     <Grid Background="White">
         <Grid.ColumnDefinitions>
@@ -40,8 +42,7 @@
                     Height="32"
                     MinWidth="120"
                     Content="Tilbage"
-                    Command="{Binding ElementName=Root, Path=DataContext.NavCommand}"
-                    CommandParameter="GoBack"/>
+                    Command="{Binding ElementName=Root, Path=DataContext.NavCommand}"/>
 
             <TextBox controls:TextBoxHelper.ClearTextButton="True" 
                      controls:TextBoxHelper.Watermark="Søg" 
@@ -55,23 +56,20 @@
 
             <DataGrid AutoGenerateColumns="False"
                       ItemsSource="{Binding FilteredCollectionView}"
-                      SelectedItem="{Binding SelectedPackagedSolution}">
+                      SelectedItem="{Binding SelectedPackagedSolution}"
+                      SelectionMode="Single">
+
                 <DataGrid.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Opret ny kopi"
+                        <MenuItem Header="Føj til pakke"
                                   Command="{Binding CreatePackagedSolutionCopyCmd}"/>
-                        <MenuItem Header="Print pakkelabel"
+                        <MenuItem Header="Redigér"
                                   Command="{Binding PrintCalculationCmd}"/>
                         <MenuItem Header="Slet"
                                   Command="{Binding DropPackagedSolutionCmd}"/>
                     </ContextMenu>
                 </DataGrid.ContextMenu>
-
-                <DataGrid.InputBindings>
-                    <MouseBinding MouseAction="LeftDoubleClick"
-                                  Command="{Binding Create}"/>
-                </DataGrid.InputBindings>
-
+                
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Name}" 
                                         Header="Navn" 

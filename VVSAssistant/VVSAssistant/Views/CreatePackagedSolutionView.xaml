@@ -15,6 +15,7 @@
 
     <ContentControl.Resources>
         <valueConverters:ApplianceTypeConverter x:Key="ApplianceTypeConverter" />
+        <valueConverters:LetterToColorConverter x:Key="LetterToColorConverter" />
     </ContentControl.Resources>
     <Grid Background="White">
         <Grid.ColumnDefinitions>
@@ -141,7 +142,7 @@
                                   Command="{Binding RemoveApplianceFromPackagedSolutionCmd}"/>
                 </DataGrid.InputBindings>
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding Name}"
+                    <DataGridTextColumn Binding="{Binding}"
                                         Header="Navn"
                                         Width="*"/>
                 </DataGrid.Columns>
@@ -155,6 +156,7 @@
                     <Label HorizontalAlignment="Center" 
                            Content="{Binding EeiResult, UpdateSourceTrigger=PropertyChanged}"
                            FontWeight="Bold"
+                           Foreground="{Binding EeiResult, Converter={StaticResource LetterToColorConverter}}"
                            FontSize="28"/>
                 </DockPanel>
                 <DockPanel>
@@ -208,7 +210,7 @@
                 <CheckBox Content="Beholder" IsChecked="{Binding IncludeContainers}"/>
                 <CheckBox Content="Vandvarmer" IsChecked="{Binding IncludeWaterHeaters}"/>
                 
-                <TextBlock TextWrapping="Wrap" 
+                <!--<TextBlock TextWrapping="Wrap" 
                            Text="Vælg minimum energimærkning for komponenterne i søgningen"/>
                 <ComboBox IsReadOnly="true" 
                           Margin="5,5,5,5">
@@ -217,7 +219,7 @@
                     <ComboBoxItem>C</ComboBoxItem>
                     <ComboBoxItem>D</ComboBoxItem>
                     <ComboBoxItem>E</ComboBoxItem>
-                </ComboBox>
+                </ComboBox>-->
             </StackPanel>
         </Grid>
     </Grid>

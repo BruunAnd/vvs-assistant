@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using VVSAssistant.Functions.Calculation.Interfaces;
 using VVSAssistant.Models.Interfaces;
+using VVSAssistant.ValueConverters;
 
 namespace VVSAssistant.Models
 {
@@ -29,7 +30,7 @@ namespace VVSAssistant.Models
 
         public override string ToString()
         {
-            return Name;
+            return $"{Name} ({new ApplianceTypeConverter().Convert(Type, null, null, null)})";
         }
         public object MakeCopy()
         {
