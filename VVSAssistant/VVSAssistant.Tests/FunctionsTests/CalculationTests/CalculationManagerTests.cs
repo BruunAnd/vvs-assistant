@@ -59,6 +59,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests
         [TestCase(PackagedSolutionId.PrimaryWaterBoilerOSolar)]
         [TestCase(PackagedSolutionId.WaterHeatingEuroSolarSBT353)]
         [TestCase(PackagedSolutionId.WaterHeatingEuroACUSBT653)]
+        [TestCase(PackagedSolutionId.AndersTest)]
         public void SelectCalculationStrategyReturnsSecondCalc(PackagedSolutionId packID)
         {
             var package = new PackageFactory().GetPackage(packID);

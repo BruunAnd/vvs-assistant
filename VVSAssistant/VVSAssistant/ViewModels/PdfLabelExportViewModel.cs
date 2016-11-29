@@ -23,37 +23,37 @@ namespace VVSAssistant.ViewModels
         public string TempControleIncluded { get; set; }
         public string HeaterIncluded { get; set; }
 
-        private int _tabeOneArrow;
-        public int tabeOneArrow
+        private int _tabelOneArrow;
+        public int TabelOneArrow
         {
-            get { return _tabeOneArrow + 1; }
-            set { _tabeOneArrow = value; }
+            get { return _tabelOneArrow + 1; }
+            set { _tabelOneArrow = value; }
         }
-        private int _tabeTwoArrow;
-        public int tabeTwoArrow
+        private int _tabelTwoArrow;
+        public int TabelTwoArrow
         {
-            get { return _tabeTwoArrow + 1; }
+            get { return _tabelTwoArrow + 1; }
             set {
                 {
-                    _tabeTwoArrow = value;
+                    _tabelTwoArrow = value;
                 }
             }
         }
-        public string tabeOneArrowLetter { get; set; }
-        public string tabeOneArrowPlus { get; set; }
-        public string tabeTwoArrowLetter { get; set; }
-        public string tabeTwoArrowPlus { get; set; }
+        public string TabelOneArrowLetter { get; set; }
+        public string TabelOneArrowPlus { get; set; }
+        public string TabelTwoArrowLetter { get; set; }
+        public string TabelTwoArrowPlus { get; set; }
         
-        public string waterHeatingModeLetter { get; set; }
-        public string waterHeatingModePlus { get; set; }
-        public string annualEfficiencyLetter { get; set; }
-        public string annualEfficiencyPlus { get; set; }
+        public string WaterHeatingModeLetter { get; set; }
+        public string WaterHeatingModePlus { get; set; }
+        public string AnnualEfficiencyLetter { get; set; }
+        public string AnnualEfficiencyPlus { get; set; }
 
 
         public string LabelTwo { get; set; }
-        public int labelTwoTabeOneArrow { get; set; }
-        public string labelTwoTabeOneArrowLetter { get; set; }
-        public string labelTwoTabeOneArrowPlus { get; set; }
+        public int LabelTwoTabeOneArrow { get; set; }
+        public string LabelTwoTabeOneArrowLetter { get; set; }
+        public string LabelTwoTabeOneArrowPlus { get; set; }
 
         public PdfLabelExportViewModel()
         {

@@ -122,7 +122,6 @@ namespace VVSAssistant.Functions
             {
                 result.Add(VARIABLE.CalculateEEI(packaged));
             }
-
 #region Debug
             Console.WriteLine("Print Label pdf == Done");
             Console.WriteLine("Count " + result.Count);
@@ -158,7 +157,18 @@ namespace VVSAssistant.Functions
                 default: return;
             }
             fixedDoc.Pages.Add(createPageContent(v, vm));
+
+            PdfCalculationLayout calculationLayout = new PdfCalculationLayout();
+            PdfCalculationViewModel calculationViewModel = new PdfCalculationViewModel();
+            SetUpCalculationLayout();
+            fixedDoc.Pages.Add(createPageContent(calculationLayout, calculationViewModel));
+
             SaveXpsFile(path, fixedDoc);
+        }
+
+        private void SetUpCalculationLayout()
+        {
+            
         }
 
         private void SetUpLabelTwo(PackagedSolution packaged, List<EEICalculationResult> result, PdfLabelExportViewModel vm)
@@ -176,22 +186,22 @@ namespace VVSAssistant.Functions
             vm.TapValue = result[1].WaterHeatingUseProfile.ToString();
 
             data = SelectArrowValue(result[0].EEICharacters);
-            vm.tabeOneArrow = data.location;
-            vm.tabeOneArrowLetter = data.Letter;
-            vm.tabeOneArrowPlus = data.Plus;
+            vm.TabelOneArrow = data.location;
+            vm.TabelOneArrowLetter = data.Letter;
+            vm.TabelOneArrowPlus = data.Plus;
 
             data = SelectArrowValue(result[1].EEICharacters);
-            vm.tabeTwoArrow = data.location;
-            vm.tabeTwoArrowLetter = data.Letter;
-            vm.tabeTwoArrowPlus = data.Plus;
+            vm.TabelTwoArrow = data.location;
+            vm.TabelTwoArrowLetter = data.Letter;
+            vm.TabelTwoArrowPlus = data.Plus;
 
             data = SelectArrowValue(EEICharLabelChooser.EEIChar(ApplianceTypes.Boiler, result[0].PrimaryHeatingUnitAFUE));
-            vm.waterHeatingModeLetter = data.Letter;
-            vm.waterHeatingModePlus = data.Plus;
+            vm.WaterHeatingModeLetter = data.Letter;
+            vm.WaterHeatingModePlus = data.Plus;
 
             data = SelectArrowValue(EEICharLabelChooser.EEIChar(ApplianceTypes.Boiler, result[1].PrimaryHeatingUnitAFUE));
-            vm.annualEfficiencyLetter = data.Letter;
-            vm.annualEfficiencyPlus = data.Plus;
+            vm.AnnualEfficiencyLetter = data.Letter;
+            vm.AnnualEfficiencyPlus = data.Plus;
         }
         private void SetUpLabelOne(PackagedSolution packaged, EEICalculationResult result, PdfLabelExportViewModel vm)
         {
@@ -206,13 +216,13 @@ namespace VVSAssistant.Functions
             vm.HeaterIncluded = (packaged.Appliances.Any(item => item.Type == ApplianceTypes.CHP)) ? "Visible" : "Hidden";//Skal kigges på
 
             data = SelectArrowValue(result.EEICharacters);
-            vm.labelTwoTabeOneArrow = data.location;
-            vm.labelTwoTabeOneArrowLetter = data.Letter;
-            vm.labelTwoTabeOneArrowPlus = data.Plus;
+            vm.LabelTwoTabeOneArrow = data.location;
+            vm.LabelTwoTabeOneArrowLetter = data.Letter;
+            vm.LabelTwoTabeOneArrowPlus = data.Plus;
 
             data = SelectArrowValue(EEICharLabelChooser.EEIChar(ApplianceTypes.Boiler, result.PrimaryHeatingUnitAFUE));
-            vm.annualEfficiencyLetter = data.Letter;
-            vm.annualEfficiencyPlus = data.Plus;
+            vm.AnnualEfficiencyLetter = data.Letter;
+            vm.AnnualEfficiencyPlus = data.Plus;
         }
         private ArrowData SelectArrowValue(string label)
         {

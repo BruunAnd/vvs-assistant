@@ -16,6 +16,10 @@
     <ContentControl.Resources>
         <valueConverters:ApplianceTypeConverter x:Key="ApplianceTypeConverter" />
         <valueConverters:LetterToColorConverter x:Key="LetterToColorConverter" />
+        <Style x:Key="ApplianceCell" TargetType="DataGridCell" 
+               BasedOn="{StaticResource {x:Type DataGridCell}}">
+            <Setter Property="ToolTip" Value="{Binding Description}" />
+        </Style>
     </ContentControl.Resources>
     <Grid Background="White">
         <Grid.ColumnDefinitions>
@@ -24,7 +28,7 @@
             <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="225"/>
+            <ColumnDefinition Width="300"/>
             <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -149,7 +153,7 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding}"
                                         Header="Navn"
-                                        Width="*"/>
+                                        Width="*" CellStyle="{StaticResource ApplianceCell}"/>
                 </DataGrid.Columns>
             </DataGrid>
 
@@ -157,7 +161,7 @@
                         Orientation="Vertical" 
                         VerticalAlignment="Bottom">
                 <DockPanel>
-                    <Label Content="Aktuelt energimærke"/>
+                    <Label Content="Energimærke ved rumopvarmning: "/>
                     <Label HorizontalAlignment="Center" 
                            Content="{Binding EeiResult, UpdateSourceTrigger=PropertyChanged}"
                            FontWeight="Bold"
@@ -165,9 +169,12 @@
                            FontSize="28"/>
                 </DockPanel>
                 <DockPanel>
-                    <Label Content="Næste energimærke"/>
-                    <Label HorizontalAlignment="Right" 
-                           Content="+5%"/>
+                    <Label Content="Energimærke ved vandopvarmning: "/>
+                    <Label HorizontalAlignment="Center" 
+                           Content="{Binding EeiResultSecondary, UpdateSourceTrigger=PropertyChanged}"
+                           FontWeight="Bold"
+                           Foreground="{Binding EeiResultSecondary, Converter={StaticResource LetterToColorConverter}}"
+                           FontSize="28"/>
                 </DockPanel>
 
                 <Button Margin="0 5 0 0"

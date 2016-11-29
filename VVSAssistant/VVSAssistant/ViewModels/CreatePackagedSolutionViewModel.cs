@@ -149,6 +149,14 @@ namespace VVSAssistant.ViewModels
             get { return _eeiResult; }
             set { _eeiResult = value; OnPropertyChanged(); }
         }
+
+        private string _eeiResultSecondary;
+        public string EeiResultSecondary
+        {
+            get { return _eeiResultSecondary; }
+            set { _eeiResultSecondary = value; OnPropertyChanged(); }
+        }
+
         private readonly CalculationManager _calculationManager;
         
         #endregion
@@ -351,6 +359,9 @@ namespace VVSAssistant.ViewModels
                                     $"Da du har valgt en ny primærkedel er komponentet {PackagedSolution.PrimaryHeatingUnit.Name} nu en sekundærkedel.");
                             // todo set purpose of heating unit   
                         }
+
+                        (appliance.DataSheet as HeatingUnitDataSheet).isRoomHeater = instanceCompleted.IsUsedForRoomHeating ? true : false;
+                        (appliance.DataSheet as HeatingUnitDataSheet).isWaterHeater = instanceCompleted.IsUsedForWaterHeating ? true : false;
                         PackagedSolution.PrimaryHeatingUnit = appliance;
                     }
                     AddApplianceToPackagedSolution(appliance);
@@ -366,8 +377,8 @@ namespace VVSAssistant.ViewModels
             var customDialog = new CustomDialog();
 
             var dialogViewModel = new SolarContainerDialogViewModel(message, title, appliance, appliances, AppliancesInPackagedSolution, PackagedSolution,
-                closeHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
-                completionHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog));
+                                                                    closeHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
+                                                                    completionHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog));
 
             customDialog.Content = new SolarContainerDialogView { DataContext = dialogViewModel };
 
@@ -534,7 +545,16 @@ namespace VVSAssistant.ViewModels
         {
             PackagedSolution.Appliances = new ApplianceList(AppliancesInPackagedSolution.ToList());
             var results = _calculationManager.SelectCalculationStrategy(PackagedSolution);
-            EeiResult = results != null ? results[0].CalculateEEI(PackagedSolution).EEICharacters : "N/A";
+            if (results != null && results.Count > 1)
+            {
+                EeiResult = results[0].CalculateEEI(PackagedSolution).EEICharacters;
+                EeiResultSecondary = results[1].CalculateEEI(PackagedSolution).EEICharacters;
+            }
+            else
+            {
+                EeiResult = results != null ? results[0].CalculateEEI(PackagedSolution).EEICharacters : "N/A";
+                EeiResultSecondary = "N/A";
+            }
         }
 
         #endregion

@@ -81,6 +81,8 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 case PackagedSolutionId.WaterHeaterTest:
                     return new PackageStub(BoilerId.LoganoSB150, 0, WaterHeaterId.Compress3000, 
                         SolarPanelId.LogasolSKNWater, 1, SolarStationId.SBT1003, TempControlId.CW400);
+                case PackagedSolutionId.AndersTest:
+                    return new PackageStub(BoilerId.Cerapur, null, null, 0, null);
                 default:
                     return null;
             }
@@ -93,6 +95,6 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         PrimaryWaterBoilerOSolar, PrimaryWaterBoilerNull, PrimaryBoilerWHeatPump, PirmaryBoilerW3Solar,
         PrimaryBoilerW1Solar, PrimaryHeatPump6Solars, PrimaryPurUnitSolarWater, PrimaryPurUnitSolarWaterWStation,
         PrimaryCondens1Container, PrimaryCondens3Container, PrimaryHeatPump2Solar, PrimaryHeatPump4Solars, PrimaryHeatPumpNoSolars,
-            PrimaryCHP4Solars, Brian1, Brian2, Brian3, Brian5, WaterHeaterTest
+            PrimaryCHP4Solars, Brian1, Brian2, Brian3, Brian5, WaterHeaterTest, AndersTest
     }
 }
