@@ -324,15 +324,17 @@ namespace VVSAssistant.ViewModels
                 {
                     await _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
 
-                    if (!instanceCompleted.IsPrimaryBoiler) return;
-                    if (PackagedSolution.PrimaryHeatingUnit != null)
+                    if (instanceCompleted.IsPrimaryBoiler)
                     {
-                        // Inform the user that their previous primary heating unit will be replaced
-                        await _dialogCoordinator.ShowMessageAsync(this, "Information",
-                                $"Da du har valgt en ny primærkedel er komponentet {PackagedSolution.PrimaryHeatingUnit.Name} nu en sekundærkedel.");
-                        // todo set purpose of heating unit
+                        PackagedSolution.PrimaryHeatingUnit = appliance;
+                        if (PackagedSolution.PrimaryHeatingUnit != null)
+                        {
+                            // Inform the user that their previous primary heating unit will be replaced
+                            await _dialogCoordinator.ShowMessageAsync(this, "Information",
+                                    $"Da du har valgt en ny primærkedel er komponentet {PackagedSolution.PrimaryHeatingUnit.Name} nu en sekundærkedel.");
+                            // todo set purpose of heating unit   
+                        }
                     }
-                    PackagedSolution.PrimaryHeatingUnit = appliance;
                     AddApplianceToPackagedSolution(appliance);
                 });
 
@@ -396,13 +398,13 @@ namespace VVSAssistant.ViewModels
             var customDialog = new CustomDialog();
             var newAppliance = new Appliance();
             var dialogViewModel = new CreateApplianceDialogViewModel(newAppliance, true,
-                closeHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
-                completionHandler =>
-                {
-                    DbContext.Appliances.Add(newAppliance);
-                    Appliances.Add(newAppliance);
-                    _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
-                });
+                                      closeHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
+                                      completionHandler =>
+                                      {
+                                          DbContext.Appliances.Add(newAppliance);
+                                          Appliances.Add(newAppliance);
+                                          _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
+                                      });
 
             customDialog.Content = new CreateApplianceDialogView { DataContext = dialogViewModel };
 
