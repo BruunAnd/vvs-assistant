@@ -107,6 +107,17 @@ namespace VVSAssistant.ViewModels
             }
         }
 
+        private bool _includeWaterHeaters;
+        public bool IncludeWaterHeaters
+        {
+            get { return _includeWaterHeaters; }
+            set
+            {
+                if (SetProperty(ref _includeWaterHeaters, value))
+                    FilteredCollectionView.Refresh();
+            }
+        }
+
         #endregion
 
         #region Base properties
@@ -427,7 +438,7 @@ namespace VVSAssistant.ViewModels
         {
             // Filter based on type first
             if (IncludeBoilers || IncludeCentralHeatingPlants || IncludeContainers || IncludeHeatPumps
-                || IncludeLowTempHeatPumps || IncludeSolarPanels || IncludeTemperatureControllers)
+                || IncludeLowTempHeatPumps || IncludeSolarPanels || IncludeTemperatureControllers || IncludeWaterHeaters)
             {
                 switch (obj.Type)
                 {
@@ -461,6 +472,10 @@ namespace VVSAssistant.ViewModels
                         break;
                     case ApplianceTypes.SolarStation:
                         if (!IncludeSolarStations)
+                            return false;
+                        break;
+                    case ApplianceTypes.WaterHeater:
+                        if (!IncludeWaterHeaters)
                             return false;
                         break;
                     default:

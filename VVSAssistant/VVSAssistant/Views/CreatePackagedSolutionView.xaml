@@ -7,11 +7,15 @@
     xmlns:viewModels="clr-namespace:VVSAssistant.ViewModels"
     xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
     xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+    xmlns:valueConverters="clr-namespace:VVSAssistant.ValueConverters"
     mc:Ignorable="d" 
     d:DesignHeight="600" d:DesignWidth="1080"
     d:DataContext="{d:DesignInstance viewModels:CreatePackagedSolutionViewModel}"
     dialog:DialogParticipation.Register="{Binding}">
 
+    <ContentControl.Resources>
+        <valueConverters:ApplianceTypeConverter x:Key="ApplianceTypeConverter" />
+    </ContentControl.Resources>
     <Grid Background="White">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
@@ -104,7 +108,7 @@
 
                     <DataGridTextColumn Binding="{Binding Name}" 
                                         Header="Navn"/>
-                    <DataGridTextColumn Binding="{Binding Type}" 
+                    <DataGridTextColumn Binding="{Binding Type, Converter={StaticResource ApplianceTypeConverter}}" 
                                         Header="Type"/>
                     <DataGridTextColumn Binding="{Binding Description}"  
                                         Header="Beskrivelse"/>
@@ -201,7 +205,8 @@
                 <CheckBox Content="Solfanger" IsChecked="{Binding IncludeSolarPanels}"/>
                 <CheckBox Content="Solstation" IsChecked="{Binding IncludeSolarStations}"/>
                 <CheckBox Content="Beholder" IsChecked="{Binding IncludeContainers}"/>
-
+                <CheckBox Content="Vandvarmer" IsChecked="{Binding IncludeWaterHeaters}"/>
+                
                 <TextBlock TextWrapping="Wrap" 
                            Text="Vælg minimum energimærkning for komponenterne i søgningen"/>
                 <ComboBox IsReadOnly="true" 
