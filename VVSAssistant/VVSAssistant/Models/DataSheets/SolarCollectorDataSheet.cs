@@ -20,7 +20,7 @@ namespace VVSAssistant.Models.DataSheets
         [DisplayName(@"Effektivitet ved nulbelastning")]
         public float N0 { get; set; }
         // First order heat loss coll
-        [DisplayName(@"1. Ordens koefficient")]
+        [DisplayName(@"1. Ordens koefficient")]// w/(m^2 K)
         public float a1 { get; set; }
         // Second order heat loss coll
         [DisplayName(@"2. Ordens koefficient")]
@@ -37,10 +37,23 @@ namespace VVSAssistant.Models.DataSheets
         {
             string room = "";
             string water = "";
+            string N0String = "";
+            string a1String = "";
+            string a2String = "";
+            string IAMString = "";
             if (isRoomHeater == true)
                 room = ", rumopvarmning";
             if (isWaterHeater == true)
                 water = ", vandopvarmning";
+            if (N0 != 0)
+                N0String = $", Effektivitet ved nulbelastning: {N0}";
+            if (a1 != 0)
+                a1String = $", 1. Ordens koefficient: {a1} W/(m\u00b2 K)";
+            if (a2 != 0)
+                a2String = $", 2. Ordens koefficient: {a2}";
+            if (IAM != 0)
+                IAMString = $", Indfaldsvinkel korrektionsfaktor: {IAM}";
+
 
 
 
