@@ -124,19 +124,23 @@ namespace VVSAssistant.ViewModels
             if (existingOffer != null)
             {
                 Offer = existingOffer;
-                MaterialsInOffer = Offer.Materials as ObservableCollection<Material>;
-                SalariesInOffer = Offer.Salaries as ObservableCollection<Salary>;
+                MaterialsInOffer = new ObservableCollection<Material>(Offer.Materials);
+                SalariesInOffer = new ObservableCollection<Salary>(Offer.Salaries);
+                AppliancesInOffer = new ObservableCollection<Appliance>();
                 foreach (Appliance app in Offer.PackagedSolution.Appliances) AppliancesInOffer.Add(app);
                 ArePackagedSolutionsVisible = false;
                 IsComponentTabVisible = true;
             }
+            else
+            {
+                MaterialsInOffer = new ObservableCollection<Material>();
+                SalariesInOffer = new ObservableCollection<Salary>();
+                AppliancesInOffer = new ObservableCollection<Appliance>();
+            }
 
             _dialogCoordinator = coordinator;
             PackagedSolutions = new ObservableCollection<PackagedSolution>();
-            MaterialsInOffer = new ObservableCollection<Material>();
-            SalariesInOffer = new ObservableCollection<Salary>();
-            AppliancesInOffer = new ObservableCollection<Appliance>();
-            
+
             // Assign notifier to the collections we want to monitor.
             MaterialsInOffer.CollectionChanged += NotifyOfferContentsChanged;
             SalariesInOffer.CollectionChanged += NotifyOfferContentsChanged;
@@ -154,8 +158,7 @@ namespace VVSAssistant.ViewModels
                             }
                             else
                                 ExportOffer();
-                        }, 
-                         x => VerifyOfferHasRequiredInformation()); 
+                        }, x => VerifyOfferHasRequiredInformation()); 
 
             /* Tied to the action of double clicking a packaged solution's info 
              * in the list of packaged solutions. When this happens, property 
