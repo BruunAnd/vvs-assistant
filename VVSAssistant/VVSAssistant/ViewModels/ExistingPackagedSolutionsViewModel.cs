@@ -39,7 +39,9 @@ namespace VVSAssistant.ViewModels
 
             CreatePackagedSolutionCopyCmd = new RelayCommand(x =>
             {
-                NavigationService.NavigateTo(new CreatePackagedSolutionViewModel(dialogCoordinator, SelectedPackagedSolution));
+                var createPackagedSolutionViewModel = new CreatePackagedSolutionViewModel(dialogCoordinator);
+                NavigationService.NavigateTo(createPackagedSolutionViewModel);
+                createPackagedSolutionViewModel.LoadExistingAppliances(SelectedPackagedSolution.Appliances.Select(a => a.Id));
             }, x => SelectedPackagedSolution != null);
 
             DropPackagedSolutionCmd = new RelayCommand(x =>

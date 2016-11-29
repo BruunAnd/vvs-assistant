@@ -66,11 +66,11 @@
 
                 <DataGrid.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Føj til pakke"
+                        <MenuItem Header="Føj til ny pakke"
                                   Command="{Binding CreatePackagedSolutionCopyCmd}"/>
-                        <MenuItem Header="Redigér"
+                        <MenuItem Header="Print pakkelabel"
                                   Command="{Binding PrintCalculationCmd}"/>
-                        <MenuItem Header="Slet"
+                        <MenuItem Header="Slet pakke"
                                   Command="{Binding DropPackagedSolutionCmd}"/>
                     </ContextMenu>
                 </DataGrid.ContextMenu>

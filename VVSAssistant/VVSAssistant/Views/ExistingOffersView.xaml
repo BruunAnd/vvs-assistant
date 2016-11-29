@@ -50,11 +50,21 @@
 
                 <DataGrid.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Slet"
+                        <MenuItem Header="Føj til nyt tilbud"
+                                  Command="{Binding OpenOfferInCreateOfferViewModel}"/>
+                        <MenuItem Header="Print pakkelabel"
+                                  Command="{Binding PrintOfferCmd}"/>
+                        <MenuItem Header="Slet tilbud"
                                   Command="{Binding DropOfferCmd}"/>
                     </ContextMenu>
                 </DataGrid.ContextMenu>
-                
+
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow" BasedOn="{StaticResource MetroDataGridRow}">
+                        <Setter Property="ToolTip" Value="Højreklik for valgmuligheder"/>
+                    </Style>
+                </DataGrid.RowStyle>
+
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Id}"
                                         Header="#"

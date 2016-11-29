@@ -30,6 +30,7 @@ namespace VVSAssistant.Database
             // Create a table for each unitprice type
             modelBuilder.Entity<Salary>().ToTable("Salaries");
             modelBuilder.Entity<Material>().ToTable("Materials");
+            modelBuilder.Entity<Appliance>().ToTable("Appliances");
 
             // Map ApplianceInstance
             modelBuilder.Entity<ApplianceInstance>().HasRequired(a => a.Appliance).WithMany();
