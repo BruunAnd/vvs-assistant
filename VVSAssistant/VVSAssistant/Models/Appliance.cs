@@ -9,7 +9,7 @@ namespace VVSAssistant.Models
 {
     public class Appliance : UnitPrice, ICalculateable, ICopyable
     {
-        public int Id { get; set; }
+        // public int Id { get; set; }
         public string Name { get; set; }
         public DateTime CreationDate { get; set; }
         public ApplianceTypes Type { get; set; }
@@ -32,6 +32,7 @@ namespace VVSAssistant.Models
         {
             return $"{Name} ({new ApplianceTypeConverter().Convert(Type, null, null, null)})";
         }
+
         public object MakeCopy()
         {
             var copy = Activator.CreateInstance(this.GetType()); //New object of same type
