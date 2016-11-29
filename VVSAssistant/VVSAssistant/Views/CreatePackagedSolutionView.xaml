@@ -162,19 +162,24 @@
                         VerticalAlignment="Bottom">
                 <DockPanel>
                     <Label Content="Energimærke ved rumopvarmning: "/>
-                    <Label HorizontalAlignment="Center" 
+                    <Label HorizontalAlignment="Right" 
+                           Background="{Binding EeiResult, Converter={StaticResource LetterToColorConverter}}"
                            Content="{Binding EeiResult, UpdateSourceTrigger=PropertyChanged}"
+                           Margin="0 2 0 2"
                            FontWeight="Bold"
-                           Foreground="{Binding EeiResult, Converter={StaticResource LetterToColorConverter}}"
-                           FontSize="28"/>
+                           Foreground="{StaticResource IdealForegroundColorBrush}"
+                           Padding="10 5 10 5"/>
                 </DockPanel>
                 <DockPanel>
                     <Label Content="Energimærke ved vandopvarmning: "/>
-                    <Label HorizontalAlignment="Center" 
+                    
+                    <Label HorizontalAlignment="Right"
+                           Background="{Binding EeiResultSecondary, Converter={StaticResource LetterToColorConverter}}"
                            Content="{Binding EeiResultSecondary, UpdateSourceTrigger=PropertyChanged}"
+                           Margin="0 2 0 2"
                            FontWeight="Bold"
-                           Foreground="{Binding EeiResultSecondary, Converter={StaticResource LetterToColorConverter}}"
-                           FontSize="28"/>
+                           Foreground="{StaticResource IdealForegroundColorBrush}"
+                           Padding="10 5 10 5"/>
                 </DockPanel>
 
                 <Button Margin="0 5 0 0"
@@ -221,17 +226,6 @@
                 <CheckBox Content="Solstation" IsChecked="{Binding IncludeSolarStations}"/>
                 <CheckBox Content="Beholder" IsChecked="{Binding IncludeContainers}"/>
                 <CheckBox Content="Vandvarmer" IsChecked="{Binding IncludeWaterHeaters}"/>
-                
-                <!--<TextBlock TextWrapping="Wrap" 
-                           Text="Vælg minimum energimærkning for komponenterne i søgningen"/>
-                <ComboBox IsReadOnly="true" 
-                          Margin="5,5,5,5">
-                    <ComboBoxItem>A</ComboBoxItem>
-                    <ComboBoxItem>B</ComboBoxItem>
-                    <ComboBoxItem>C</ComboBoxItem>
-                    <ComboBoxItem>D</ComboBoxItem>
-                    <ComboBoxItem>E</ComboBoxItem>
-                </ComboBox>-->
             </StackPanel>
         </Grid>
     </Grid>
