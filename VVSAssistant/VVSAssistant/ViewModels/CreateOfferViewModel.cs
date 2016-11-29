@@ -110,9 +110,26 @@ namespace VVSAssistant.ViewModels
 
         #endregion
 
-
-        public CreateOfferViewModel(IDialogCoordinator coordinator)
+        public CreateOfferViewModel(IDialogCoordinator coordinator) : this(coordinator, null)
         {
+
+        }
+
+        public CreateOfferViewModel(IDialogCoordinator coordinator, Offer existingOffer)
+        {
+            SetInitialSettings();
+
+            /* If an existing offer is passed, jump straight 
+             * to the component-salary-materials window */
+            if (existingOffer != null)
+            {
+                Offer = existingOffer;
+                MaterialsInOffer = Offer.Materials as ObservableCollection<Material>;
+                SalariesInOffer = Offer.Salaries as ObservableCollection<Salary>;
+                foreach (Appliance app in Offer.PackagedSolution.Appliances) AppliancesInOffer.Add(app);
+                ArePackagedSolutionsVisible = false;
+                IsComponentTabVisible = true;
+            }
 
             _dialogCoordinator = coordinator;
             PackagedSolutions = new ObservableCollection<PackagedSolution>();
@@ -127,7 +144,8 @@ namespace VVSAssistant.ViewModels
 
             /* Tied to "print offer" button in bottom left corner. 
              * Disabled if VerifyOfferHasRequiredInformation returns false. */
-            PrintOfferCmd = new RelayCommand(x => 
+            PrintOfferCmd = new RelayCommand
+                        (x => 
                         {
                             if (DbContext.Offers.SingleOrDefault(o => o.Id == Offer.Id) == null) //Not saved
                             {
@@ -136,29 +154,30 @@ namespace VVSAssistant.ViewModels
                             }
                             else
                                 ExportOffer();
-                        }, x => VerifyOfferHasRequiredInformation()); 
+                        }, 
+                         x => VerifyOfferHasRequiredInformation()); 
 
             /* Tied to the action of double clicking a packaged solution's info 
              * in the list of packaged solutions. When this happens, property 
              * "SelectedPackagedSolution" is set to the clicked Packaged Solution. */
-            PackagedSolutionDoubleClickedCmd = new RelayCommand(x => OnSolutionDoubleClicked()); 
+            PackagedSolutionDoubleClickedCmd = new RelayCommand
+                        (x => OnSolutionDoubleClicked()); 
 
             /* Doing the same as print offer, todo: figure out what we want to accomplish here */
-            SaveOfferCmd = new RelayCommand(x => SaveOfferDialog(),
+            SaveOfferCmd = new RelayCommand
+                        (x => SaveOfferDialog(),
                          x => VerifyOfferHasRequiredInformation());
 
             /* When the "nyt tilbud" button in bottom left corner is pressed. 
              * Nullifies all offer properties and changes view to list of packaged solutions. */
-            CreateNewOfferCmd = new RelayCommand(x =>
+            CreateNewOfferCmd = new RelayCommand
+                (x =>
             {
                 SetInitialSettings();
                 ClearCollections();
                 PackagedSolutions.Clear();
                 LoadDataFromDatabase();
-                CreateNewOfferCmd?.NotifyCanExecuteChanged();
-            }, x => MaterialsInOffer.Any() || AppliancesInOffer.Any() || SalariesInOffer.Any());
-            
-            SetInitialSettings();
+            });
         }
 
         #region Methods
@@ -194,8 +213,7 @@ namespace VVSAssistant.ViewModels
         {
             IsComponentTabVisible = true;
             ArePackagedSolutionsVisible = false;
-            PrintOfferCmd?.NotifyCanExecuteChanged();
-            CreateNewOfferCmd?.NotifyCanExecuteChanged();
+            PrintOfferCmd.NotifyCanExecuteChanged();
         }
 
         /* Opens offer creation dialog */
@@ -254,9 +272,8 @@ namespace VVSAssistant.ViewModels
         private void OfferContentsPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             UpdateSidebarValues();
-            PrintOfferCmd?.NotifyCanExecuteChanged();
-            SaveOfferCmd?.NotifyCanExecuteChanged();
-            CreateNewOfferCmd?.NotifyCanExecuteChanged();
+            PrintOfferCmd.NotifyCanExecuteChanged();
+            SaveOfferCmd.NotifyCanExecuteChanged();
         }
 
         private void UpdateSidebarValues()
