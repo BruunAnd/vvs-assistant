@@ -14,22 +14,22 @@ namespace VVSAssistant.ValueConverters
                 switch (value.ToString())
                 {
                     case "A+++":
-                        return new SolidColorBrush(Color.FromArgb(0, 0, 150, 69));
+                        return new SolidColorBrush(Color.FromArgb(255, 0, 150, 69));
                     case "A++":
-                        return new SolidColorBrush(Color.FromArgb(0, 80, 180, 74));
+                        return new SolidColorBrush(Color.FromArgb(255, 80, 180, 74));
                     case "A+":
-                        return new SolidColorBrush(Color.FromArgb(0, 157, 210, 79));
+                        return new SolidColorBrush(Color.FromArgb(255, 157, 210, 79));
                     case "A":
-                        return new SolidColorBrush(Color.FromArgb(0, 255, 255, 0));
+                        return new SolidColorBrush(Color.FromArgb(255, 255, 255, 0));
                     case "B":
-                        return new SolidColorBrush(Color.FromArgb(0, 255, 192, 0));
+                        return new SolidColorBrush(Color.FromArgb(255, 255, 192, 0));
                     case "C":
-                        return new SolidColorBrush(Color.FromArgb(0, 255, 102, 0));
+                        return new SolidColorBrush(Color.FromArgb(255, 255, 102, 0));
                     case "D":
                     case "E":
                     case "F":
                     case "G":
-                        return new SolidColorBrush(Color.FromArgb(0, 255, 0, 0));
+                        return new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
                 }
             }
 
