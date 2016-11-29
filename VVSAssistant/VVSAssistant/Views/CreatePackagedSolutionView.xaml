@@ -163,17 +163,17 @@
                 <DockPanel>
                     <Label Content="Energimærke ved rumopvarmning: "/>
                     <Label HorizontalAlignment="Center" 
-                           Content="{Binding EeiResult, UpdateSourceTrigger=PropertyChanged}"
+                           Content="{Binding EEIResultsRoomHeating, UpdateSourceTrigger=PropertyChanged}"
                            FontWeight="Bold"
-                           Foreground="{Binding EeiResult, Converter={StaticResource LetterToColorConverter}}"
+                           Foreground="{Binding EEIResultsRoomHeating, Converter={StaticResource LetterToColorConverter}}"
                            FontSize="28"/>
                 </DockPanel>
                 <DockPanel>
                     <Label Content="Energimærke ved vandopvarmning: "/>
                     <Label HorizontalAlignment="Center" 
-                           Content="{Binding EeiResultSecondary, UpdateSourceTrigger=PropertyChanged}"
+                           Content="{Binding EEIResultsWaterHeating, UpdateSourceTrigger=PropertyChanged}"
                            FontWeight="Bold"
-                           Foreground="{Binding EeiResultSecondary, Converter={StaticResource LetterToColorConverter}}"
+                           Foreground="{Binding EEIResultsWaterHeating, Converter={StaticResource LetterToColorConverter}}"
                            FontSize="28"/>
                 </DockPanel>
 

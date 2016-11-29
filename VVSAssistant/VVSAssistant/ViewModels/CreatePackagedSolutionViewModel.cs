@@ -145,14 +145,14 @@ namespace VVSAssistant.ViewModels
         }
 
         private string _eeiResult;
-        public string EeiResult
+        public string EEIResultsRoomHeating
         {
             get { return _eeiResult; }
             set { _eeiResult = value; OnPropertyChanged(); }
         }
 
         private string _eeiResultSecondary;
-        public string EeiResultSecondary
+        public string EEIResultsWaterHeating
         {
             get { return _eeiResultSecondary; }
             set { _eeiResultSecondary = value; OnPropertyChanged(); }
@@ -553,13 +553,13 @@ namespace VVSAssistant.ViewModels
             var results = _calculationManager.SelectCalculationStrategy(PackagedSolution);
             if (results != null && results.Count > 1)
             {
-                EeiResult = results[0].CalculateEEI(PackagedSolution).EEICharacters;
-                EeiResultSecondary = results[1].CalculateEEI(PackagedSolution).EEICharacters;
+                EEIResultsRoomHeating = results[0].CalculateEEI(PackagedSolution).EEICharacters;
+                EEIResultsWaterHeating = results[1].CalculateEEI(PackagedSolution).EEICharacters;
             }
             else
             {
-                EeiResult = results != null ? results[0].CalculateEEI(PackagedSolution).EEICharacters : "N/A";
-                EeiResultSecondary = "N/A";
+                EEIResultsRoomHeating = results != null ? results[0].CalculateEEI(PackagedSolution).EEICharacters : "N/A";
+                EEIResultsWaterHeating = "N/A";
             }
         }
 
