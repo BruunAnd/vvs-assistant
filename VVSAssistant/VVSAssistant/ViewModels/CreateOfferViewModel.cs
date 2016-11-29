@@ -110,9 +110,26 @@ namespace VVSAssistant.ViewModels
 
         #endregion
 
-
-        public CreateOfferViewModel(IDialogCoordinator coordinator)
+        public CreateOfferViewModel(IDialogCoordinator coordinator) : this(coordinator, null)
         {
+
+        }
+
+        public CreateOfferViewModel(IDialogCoordinator coordinator, Offer existingOffer)
+        {
+            SetInitialSettings();
+
+            /* If an existing offer is passed, jump straight 
+             * to the component-salary-materials window */
+            if (existingOffer != null)
+            {
+                Offer = existingOffer;
+                MaterialsInOffer = Offer.Materials as ObservableCollection<Material>;
+                SalariesInOffer = Offer.Salaries as ObservableCollection<Salary>;
+                foreach (Appliance app in Offer.PackagedSolution.Appliances) AppliancesInOffer.Add(app);
+                ArePackagedSolutionsVisible = false;
+                IsComponentTabVisible = true;
+            }
 
             _dialogCoordinator = coordinator;
             PackagedSolutions = new ObservableCollection<PackagedSolution>();
@@ -161,8 +178,6 @@ namespace VVSAssistant.ViewModels
                 PackagedSolutions.Clear();
                 LoadDataFromDatabase();
             });
-            
-            SetInitialSettings();
         }
 
         #region Methods
