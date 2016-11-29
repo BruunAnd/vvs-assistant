@@ -192,6 +192,7 @@
     <Compile Include="Exceptions\InvalidParameterException.cs" />
     <Compile Include="Extensions\ObservableExtension.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Functions\Calculation\CalculationType.cs" />
     <Compile Include="Functions\Calculation\EEICharLabelChooser.cs" />
     <Compile Include="Functions\DataUtil.cs" />
     <Compile Include="Models\Interfaces\ICopyable.cs" />

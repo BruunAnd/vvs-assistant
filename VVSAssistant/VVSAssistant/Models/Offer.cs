@@ -20,6 +20,9 @@ namespace VVSAssistant.Models
         public double MaterialsSalesPrice => Materials.Sum(material => material.SalesPrice);
         public double SalariesSalesPrice => Salaries.Sum(salary => salary.SalesPrice);
 
+        public double TotalCostPrice { get; set; } //Set in CreateOfferVM
+        public double TotalContributionMargin { get; set; } //Set in CreateOfferVM
+
         public int Id { get; set; }
         public DateTime CreationDate { get; set; }
         public virtual Client Client { get; set; }

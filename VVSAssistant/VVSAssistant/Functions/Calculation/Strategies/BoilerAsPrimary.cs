@@ -42,6 +42,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
                           _result.EffectOfSecondaryHeatPump - _result.AdjustedContribution;
             _result.PackagedSolutionAtColdTemperaturesAFUE = II != default(float) ? _result.EEI + (50 * II) : 0;
             _result.EEICharacters = EEICharLabelChooser.EEIChar(ApplianceTypes.Boiler, _result.EEI, 1);
+            _result.CalculationType = _packageData.CalculationStrategyType(_package, _result);
             return _result;
         }
 
