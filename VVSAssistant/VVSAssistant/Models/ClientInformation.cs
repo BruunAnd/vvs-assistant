@@ -14,7 +14,6 @@ namespace VVSAssistant.Models
         }
 
         private string _email;
-
         public string Email
         {
             get { return _email; }
@@ -22,15 +21,28 @@ namespace VVSAssistant.Models
         }
 
         private string _address;
-
         public string Address
         {
             get { return _address; }
             set { SetProperty<string>(ref _address, value); }
         }
 
-        private string _phoneNumber;
+        private string _postalCode;
+        public string PostalCode
+        {
+            get { return _postalCode; }
+            set { SetProperty<string>(ref _postalCode, value); }
+        }
 
+        private string _city;
+        public string City
+        {
+            get { return _city; }
+            set { SetProperty<string>(ref _city, value); }
+        }
+
+
+        private string _phoneNumber;
         public string PhoneNumber
         {
             get { return _phoneNumber; }

@@ -49,11 +49,17 @@
         <DockPanel Grid.Column="2" Grid.Row="1">
             <DockPanel DockPanel.Dock="Top">
                 <StackPanel Orientation="Vertical">
-                    <Label Content="Navn på kunde:"/>
-                    <TextBox Text="{Binding Offer.Client.ClientInformation.Name, UpdateSourceTrigger=PropertyChanged}"/>
-
                     <Label Content="Adresse:"/>
                     <TextBox Text="{Binding Offer.Client.ClientInformation.Address, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <Label Content="By:"/>
+                    <TextBox Text="{Binding Offer.Client.ClientInformation.City, UpdateSourceTrigger=PropertyChanged}" />
+                    
+                    <Label Content="Postnummer:"/>
+                    <TextBox Text="{Binding Offer.Client.ClientInformation.PostalCode, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <Label Content="Navn på kunde:"/>
+                    <TextBox Text="{Binding Offer.Client.ClientInformation.Name, UpdateSourceTrigger=PropertyChanged}"/>
 
                     <Label Content="Email:"/>
                     <TextBox Text="{Binding Offer.Client.ClientInformation.Email, UpdateSourceTrigger=PropertyChanged}" />
