@@ -33,11 +33,11 @@
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <TabControl>
                 <TabItem Header="Startside">
-                    <WrapPanel HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                         <controls:Tile 
                        Style="{StaticResource NavigationTileStyle}"
                        Command="{Binding NavCommand}"
@@ -92,7 +92,7 @@
                     </WrapPanel>
                 </TabItem>
                 <TabItem Header="Indstillinger">
-                    <WrapPanel HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                         <controls:Tile 
                        Style="{StaticResource NavigationTileStyle}"
                        Command="{Binding DatabaseImport}"
