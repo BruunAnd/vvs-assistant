@@ -141,8 +141,7 @@ namespace VVSAssistant.ViewModels
             /* Tied to the action of double clicking a packaged solution's info 
              * in the list of packaged solutions. When this happens, property 
              * "SelectedPackagedSolution" is set to the clicked Packaged Solution. */
-            PackagedSolutionDoubleClickedCmd = new RelayCommand
-                        (x => OnSolutionDoubleClicked()); 
+            PackagedSolutionDoubleClickedCmd = new RelayCommand(x => OnSolutionDoubleClicked()); 
 
             /* Doing the same as print offer, todo: figure out what we want to accomplish here */
             SaveOfferCmd = new RelayCommand(x => SaveOfferDialog(),
