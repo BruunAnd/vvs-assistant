@@ -127,8 +127,7 @@ namespace VVSAssistant.ViewModels
 
             /* Tied to "print offer" button in bottom left corner. 
              * Disabled if VerifyOfferHasRequiredInformation returns false. */
-            PrintOfferCmd = new RelayCommand
-                        (x => 
+            PrintOfferCmd = new RelayCommand(x => 
                         {
                             if (DbContext.Offers.SingleOrDefault(o => o.Id == Offer.Id) == null) //Not saved
                             {
@@ -137,8 +136,7 @@ namespace VVSAssistant.ViewModels
                             }
                             else
                                 ExportOffer();
-                        }, 
-                         x => VerifyOfferHasRequiredInformation()); 
+                        }, x => VerifyOfferHasRequiredInformation()); 
 
             /* Tied to the action of double clicking a packaged solution's info 
              * in the list of packaged solutions. When this happens, property 
@@ -147,14 +145,12 @@ namespace VVSAssistant.ViewModels
                         (x => OnSolutionDoubleClicked()); 
 
             /* Doing the same as print offer, todo: figure out what we want to accomplish here */
-            SaveOfferCmd = new RelayCommand
-                        (x => SaveOfferDialog(),
+            SaveOfferCmd = new RelayCommand(x => SaveOfferDialog(),
                          x => VerifyOfferHasRequiredInformation());
 
             /* When the "nyt tilbud" button in bottom left corner is pressed. 
              * Nullifies all offer properties and changes view to list of packaged solutions. */
-            CreateNewOfferCmd = new RelayCommand
-                (x =>
+            CreateNewOfferCmd = new RelayCommand(x =>
             {
                 SetInitialSettings();
                 ClearCollections();
