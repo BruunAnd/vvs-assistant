@@ -160,15 +160,73 @@ namespace VVSAssistant.Functions
 
             PdfCalculationLayout calculationLayout = new PdfCalculationLayout();
             PdfCalculationViewModel calculationViewModel = new PdfCalculationViewModel();
-            SetUpCalculationLayout();
+            SetUpCalculationLayout(calculationViewModel, result[0]);
             fixedDoc.Pages.Add(createPageContent(calculationLayout, calculationViewModel));
 
             SaveXpsFile(path, fixedDoc);
         }
 
-        private void SetUpCalculationLayout()
+        private void SetUpCalculationLayout(PdfCalculationViewModel vm, EEICalculationResult result)
         {
-            
+            vm.PageOne = (false) ? "Visible" : "Collapsed";
+            vm.PageTwo = (false) ? "Visible" : "Collapsed";
+            vm.Pagethree = (false) ? "Visible" : "Collapsed";
+            vm.PageFour = (false) ? "Visible" : "Collapsed";
+            vm.PageFive = (false) ? "Visible" : "Collapsed";
+            switch (result.CalculationType)
+            {
+                case CalculationType.PrimaryBoiler: CalPageTwo(vm, result); break;
+                case CalculationType.PrimaryCPH: CalPageThree(vm, result); break;
+                case CalculationType.PrimaryHeatPump: CalPageOne(vm, result); break;
+                case CalculationType.PrimaryLowTempHeatPump: CalPageFour(vm, result); break;
+                case CalculationType.PrimaryWaterBoiler: break;
+                default: return;
+            }
+
+            vm.PrimAnnualEfficiency = result.PrimaryHeatingUnitAFUE.ToString();
+            vm.TemperatureControleclass = result.EffectOfTemperatureRegulatorClass.ToString();
+            vm.SupBoilerAnnualEfficiency = result.SecondaryBoilerAFUE.ToString();
+            vm.SupBoilerTotal = result.EffectOfSecondaryBoiler.ToString();
+
+            vm.SolarM2 = result.SolarCollectorArea.ToString();
+            vm.SolarM3 = result.ContainerVolume.ToString();
+            vm.SolarEfficiency = result.SolarCollectorEffectiveness.ToString();
+            vm.SolarClass = result.ContainerClassification.ToString();
+            vm.SolarTotal = result.SolarHeatContribution.ToString();
+
+            vm.PackagedAnnualEfficiencyEEILabel = 0;//////////
+            vm.ResultOne = result.PackagedSolutionAtColdTemperaturesAFUE.ToString();
+        }
+
+        private void CalPageOne(PdfCalculationViewModel vm, EEICalculationResult result)
+        {
+            vm.PageOne = (true) ? "Visible" : "Collapsed";
+            vm.ResultTwo = result.PackagedSolutionAtWarmTemperaturesAFUE.ToString();
+            vm.PackagedAnnualEfficiencyAverageClima = "N/A";
+        }
+        private void CalPageTwo(PdfCalculationViewModel vm, EEICalculationResult result)
+        {
+            vm.PageTwo = (true) ? "Visible" : "Collapsed";
+            vm.SupHeatingUnitAnnualEfficiency = result.EffectOfSecondaryHeatPump.ToString();
+            vm.SupHeatingUnitTotal = result.SecondaryHeatPumpAFUE.ToString();
+            vm.SolarContributionAndSupHeatingUnitTotal = result.AdjustedContribution.ToString();
+            vm.PackagedAnnualEfficiencyRoomHeating = result.EEI.ToString();
+        }
+        private void CalPageThree(PdfCalculationViewModel vm, EEICalculationResult result)
+        {
+            vm.Pagethree = (true) ? "Visible" : "Collapsed";
+            vm.PackagedAnnualEfficiencyRoomHeating = result.EEI.ToString();
+        }
+        private void CalPageFour(PdfCalculationViewModel vm, EEICalculationResult result)
+        {
+            vm.PageFour = (true) ? "Visible" : "Collapsed";
+            vm.PackagedAnnualEfficiencyAverageClima = "N/A";
+        }
+        private void CalPageFive(PdfCalculationViewModel vm, EEICalculationResult result)
+        {
+            vm.PageFive = (true) ? "Visible" : "Collapsed";
+            vm.UseProfile = "N/A";
+            vm.AnnualWaterheatingEfficiency = "N/A";
         }
 
         private void SetUpLabelTwo(PackagedSolution packaged, List<EEICalculationResult> result, PdfLabelExportViewModel vm)

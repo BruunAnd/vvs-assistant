@@ -7,7 +7,15 @@ using System.Threading.Tasks;
 namespace VVSAssistant.ViewModels
 {
     class PdfCalculationViewModel
-    {//Page 1
+    {
+        public string PageOne { get; set; }
+        public string PageTwo { get; set; }
+        public string Pagethree { get; set; }
+        public string PageFour { get; set; }
+        public string PageFive { get; set; }
+        
+
+        //Page 1
 
         public string PackagedAnnualEfficiencyAverageClima { get; set; } // Page 4 og 1
 

@@ -27,6 +27,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
                 return null;
 
             _result.PrimaryHeatingUnitAFUE = PrimaryBoiler.AFUE;
+            _result.SecondaryBoilerAFUE = _packageData.SupplementaryBoiler?.AFUE ?? 0;
             _result.EffectOfTemperatureRegulatorClass = _packageData.TempControllerBonus;
             _result.EffectOfSecondaryBoiler = _packageData.SupplementaryBoiler != null ?
                     (_packageData.SupplementaryBoiler.AFUE - _result.PrimaryHeatingUnitAFUE) * 0.1f :
