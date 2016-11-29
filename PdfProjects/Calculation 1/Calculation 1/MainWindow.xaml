@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Calculation_1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="138.5cm" Width="21.0cm">
+        Title="MainWindow" Height="150.5cm" Width="21.0cm">
     <ScrollViewer>
         <Grid Height="138.5cm" Width="19cm">
             <Grid.RowDefinitions>
@@ -2044,7 +2044,7 @@
 
 
 
-            <Grid Grid.Column="0" Grid.Row="5" Height="27.7cm" Width="19.0cm">
+            <Grid Grid.Column="0" Grid.Row="4" Height="27.7cm" Width="19.0cm" Margin="0,0,0.11,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50"/>
                     <ColumnDefinition Width="1*"/>
@@ -2056,9 +2056,11 @@
                     <RowDefinition Height="70"/>
                     <RowDefinition Height="105"/>
                     <RowDefinition Height="70"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="15"/>
+                    <RowDefinition Height="auto"/>
                     <RowDefinition Height="1*"/>
-                    <RowDefinition Height="50"/>
-                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
 
 
@@ -2099,29 +2101,30 @@
                         <Label Grid.Column="2" Grid.Row="1" FontSize="20" FontWeight= "Bold" Content="%" Foreground="Cyan"/>
                     </Grid>
                 </Canvas>
-                <Border Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="2" Width="auto" Height="1" VerticalAlignment="Bottom" Background="Black" />
+                <Border Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Width="auto" Height="1" VerticalAlignment="Bottom" Background="Black" />
 
 
                 <Grid Grid.Column="1" Grid.Row="2">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="350"/>
-                        <ColumnDefinition Width="1.2cm"/>
                         <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="64"/>
+                        <ColumnDefinition Width="1.2cm"/>
+                        <ColumnDefinition Width="70"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="30"/>
                         <RowDefinition Height="35"/>
                         <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
-                    <Label Grid.Column="0" Grid.Row="0" FontSize="12" Content="Solvarmebidrag"/>
-                    <Label Grid.Column="0" Grid.Row="1" FontSize="12" Content="Fra solvarmekomponentens datablad"/>
-                    <Border Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" Width="2.5cm" Height="0.7cm" BorderBrush="Cyan" BorderThickness="1" Margin="235,0,0,0"/>
-                    <Label Grid.Column="0" Grid.Row="1" FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Supplerende el" Margin="0,0,-65,0"/>
-                    <Label Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" FontSize="8" FontWeight="Bold" Content="|" Margin="0,23,0,-20"/>
-                    <Label Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" FontSize="12" Content="(  1,1   x   'I'   -   10%  )   x   'II'   -   "/>
-                    <Border Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Height="1cm" Width="1cm" BorderBrush="Black" BorderThickness="2"/>
-                    <Label Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12" Content="'III'"/>
-                    <Label Grid.Column="2" Grid.Row="2" VerticalAlignment="Center" FontSize="12" Content="   -   'I'   =   "/>
+                    <Label Grid.Column="0" Grid.Row="0" FontSize="12" Content="Solvarmebidrag" Grid.ColumnSpan="2"/>
+                    <Label Grid.Column="0" Grid.Row="1" FontSize="12" Content="Fra solvarmekomponentens datablad" Grid.ColumnSpan="2"/>
+                    <Border Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="8" Width="95" Height="25" BorderBrush="Cyan" BorderThickness="1" Margin="38.5,4,45.5,4"/>
+                    <Label Grid.Column="1" Grid.Row="1" FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Supplerende el" Margin="0,4,47.5,5" Grid.ColumnSpan="3"/>
+                    <Label Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" FontSize="8" FontWeight="Bold" Content="|" Margin="16,23,16,20" Grid.RowSpan="3"/>
+                    <Label Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="12" Content="(  1,1   x   'I'   -   10%  )   x   'II'   -   " Grid.ColumnSpan="2" Margin="0,7"/>
+                    <Border Grid.Column="2" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Height="38" Width="37" BorderBrush="Black" BorderThickness="2" Margin="4,1"/>
+                    <Label Grid.Column="2" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12" Content="'III'" Margin="10,7"/>
+                    <Label Grid.Column="3" Grid.Row="2" VerticalAlignment="Center" FontSize="12" Content="   -   'I'   =   " Margin="0,7"/>
                 </Grid>
 
                 <Canvas Grid.Column="1" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,-30,0,0">
@@ -2169,19 +2172,19 @@
                 <Border Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="2" Width="auto" Height="1" VerticalAlignment="Bottom" Background="Black" />
 
 
-                <Grid Grid.Column="1" Grid.Row="4">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="30"/>
-                    <ColumnDefinition Width="40"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
+                <Grid Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
@@ -2194,14 +2197,14 @@
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
                     <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="13" FontSize="12" Content="Pakkens energieffektivitetsklasse ved vandopvarmning under gennemsnitlige klimaforhold"/>
-                    <Border Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="13" Grid.RowSpan="6" BorderBrush="Cyan" BorderThickness="2" CornerRadius="8" Margin="-10,-10,-10,-10"/>
-                    <Border Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="0.4cm" Width="0.4cm" BorderBrush="Black" BorderThickness="1"/>                   
-                    <Border Grid.Column="3" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="0.4cm" Width="0.4cm" BorderBrush="Black" BorderThickness="1"/>                   
-                    <Border Grid.Column="4" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="0.4cm" Width="0.4cm" BorderBrush="Black" BorderThickness="1"/>                   
-                    <Border Grid.Column="5" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="0.4cm" Width="0.4cm" BorderBrush="Black" BorderThickness="1"/>                   
-                    <Border Grid.Column="6" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="0.4cm" Width="0.4cm" BorderBrush="Black" BorderThickness="1"/>                   
-                    <Border Grid.Column="7" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="0.4cm" Width="0.4cm" BorderBrush="Black" BorderThickness="1"/>                   
-                    <Border Grid.Column="8" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="0.4cm" Width="0.4cm" BorderBrush="Black" BorderThickness="1"/>                  
+                    <Border Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="13" Grid.RowSpan="6" BorderBrush="Cyan" BorderThickness="2" CornerRadius="8" Margin="0,-10,0,-10"/>
+                    <Border Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="0.4cm" Width="0.4cm" BorderBrush="Black" BorderThickness="1"/>
+                    <Border Grid.Column="3" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="0.4cm" Width="0.4cm" BorderBrush="Black" BorderThickness="1"/>
+                    <Border Grid.Column="4" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="0.4cm" Width="0.4cm" BorderBrush="Black" BorderThickness="1"/>
+                    <Border Grid.Column="5" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="0.4cm" Width="0.4cm" BorderBrush="Black" BorderThickness="1"/>
+                    <Border Grid.Column="6" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="0.4cm" Width="0.4cm" BorderBrush="Black" BorderThickness="1"/>
+                    <Border Grid.Column="7" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="0.4cm" Width="0.4cm" BorderBrush="Black" BorderThickness="1"/>
+                    <Border Grid.Column="8" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="0.4cm" Width="0.4cm" BorderBrush="Black" BorderThickness="1"/>
                     <Border Grid.Column="9" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="0.4cm" Width="0.4cm" BorderBrush="Black" BorderThickness="1"/>
                     <Border Grid.Column="10" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="0.4cm" Width="0.4cm" BorderBrush="Black" BorderThickness="1"/>
                     <Border Grid.Column="11" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="0.4cm" Width="0.4cm" BorderBrush="Black" BorderThickness="1"/>
@@ -2374,12 +2377,79 @@
                     <Label Grid.Column="9" Grid.Row="6" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12" Content="≥ 131%"/>
                     <Label Grid.Column="10" Grid.Row="6" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12" Content="≥ 170%"/>
                     <Label Grid.Column="11" Grid.Row="6" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12" Content="≥ 213%"/>
-
-
-
-
                 </Grid>
 
+
+                <Grid Grid.Column="1" Grid.Row="6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="7" FontSize="12" Content="Energieffektivitet ved vandopvarmning under koldere og varmere klimaforhold"/>
+                    <Label Grid.Column="0" Grid.Row="1" FontSize="12" Content="Koldere:   "/>
+                    <Ellipse Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,0,0,-6" Fill="Cyan" Height="15" Width="15"/>
+                    <Label Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,-8,0,0" FontSize="14" FontWeight="Bold" Foreground="White" Content="3" />
+                    <Border Grid.Column="1" Grid.Row="1" Width="0.75cm" Height="0.4cm" VerticalAlignment="Bottom" BorderBrush="Black" BorderThickness="1" Margin=" 5,15,5,9"/>
+                    <Label Grid.Column="2" Grid.Row="1" FontSize="12" Content="   -   0,2   x   "/>
+                    <Ellipse Grid.Column="3" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,0,0,-6" Fill="Cyan" Height="15" Width="15"/>
+                    <Label Grid.Column="3" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,-8,0,0" FontSize="14" FontWeight="Bold" Foreground="White" Content="2" />
+                    <Border Grid.Column="3" Grid.Row="1" Width="0.75cm" Height="0.4cm" VerticalAlignment="Bottom" BorderBrush="Black" BorderThickness="1" Margin=" 5,15,5,9"/>
+                    <Label Grid.Column="4" Grid.Row="1" FontSize="12" Content="   =   "/>
+                    <Canvas Grid.Column="5" Grid.Row="1" Margin="0,0,0,0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width ="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <Border Grid.Column="1" Grid.Row="0" Width="1.5cm" Height="1cm" HorizontalAlignment="Left" VerticalAlignment="Center" BorderThickness="2" BorderBrush="Cyan" Margin="0,-5,0,0" />
+                            <Label Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="16" FontWeight="Bold" Content="93" Margin="15,-5,0,0"/>
+                            <Label Grid.Column="2" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="20" FontWeight= "Bold" Content="%" Foreground="Cyan" Margin="0,-5,-25,0"/>
+                        </Grid>
+                    </Canvas>
+                    <Label Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" FontSize="12" Content="Varmere:   "/>
+                    <Ellipse Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,0,0,-6" Fill="Cyan" Height="15" Width="15"/>
+                    <Label Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,-8,0,0" FontSize="14" FontWeight="Bold" Foreground="White" Content="3" />
+                    <Border Grid.Column="1" Grid.Row="2" Width="0.75cm" Height="0.4cm" VerticalAlignment="Bottom" BorderBrush="Black" BorderThickness="1" Margin=" 5,15,5,9"/>
+                    <Label Grid.Column="2" Grid.Row="2" VerticalAlignment="Center" FontSize="12" Content="   -   0,4   x   "/>
+                    <Ellipse Grid.Column="3" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,0,0,-6" Fill="Cyan" Height="15" Width="15"/>
+                    <Label Grid.Column="3" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,-8,0,0" FontSize="14" FontWeight="Bold" Foreground="White" Content="2" />
+                    <Border Grid.Column="3" Grid.Row="2" Width="0.75cm" Height="0.4cm" VerticalAlignment="Bottom" BorderBrush="Black" BorderThickness="1" Margin=" 5,15,5,9"/>
+                    <Label Grid.Column="4" Grid.Row="2" VerticalAlignment="Center" FontSize="12" Content="   =   "/>
+                    <Canvas Grid.Column="5" Grid.Row="2" Margin="0,5,0,0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width ="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <Border Grid.Column="1" Grid.Row="0" Width="1.5cm" Height="1cm" HorizontalAlignment="Left" VerticalAlignment="Center" BorderThickness="2" BorderBrush="Cyan" Margin="0,-5,0,0" />
+                            <Label Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="16" FontWeight="Bold" Content="93" Margin="15,-5,0,0"/>
+                            <Label Grid.Column="2" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="20" FontWeight= "Bold" Content="%" Foreground="Cyan" Margin="0,-5,-25,0"/>
+                        </Grid>
+                    </Canvas>
+                </Grid>
+
+                <Border Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="2" Width="auto" Height="1" VerticalAlignment="Bottom" Background="Black" />
+                <TextBlock Grid.Column="1" Grid.Row="8" Grid.ColumnSpan="2" FontSize="12" >
+                Den her anførte virkningsgrad for denne produktpakke svarer ikke nødvendigvis til den faktiske virkningsgrad<LineBreak/>
+                efter installation i en bygning. Den afhænger nemlig af andre faktorer som f.eks. varmetab i distributionssystemet <LineBreak/>
+                og produkternes dimensionering i forhold til bygningens størrelse og egenskaber.<LineBreak/>
+                </TextBlock>
 
 
             </Grid>
