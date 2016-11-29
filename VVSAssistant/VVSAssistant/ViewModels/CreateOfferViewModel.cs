@@ -160,7 +160,8 @@ namespace VVSAssistant.ViewModels
                 ClearCollections();
                 PackagedSolutions.Clear();
                 LoadDataFromDatabase();
-            });
+                CreateNewOfferCmd?.NotifyCanExecuteChanged();
+            }, x => MaterialsInOffer.Any() || AppliancesInOffer.Any() || SalariesInOffer.Any());
             
             SetInitialSettings();
         }
@@ -198,7 +199,8 @@ namespace VVSAssistant.ViewModels
         {
             IsComponentTabVisible = true;
             ArePackagedSolutionsVisible = false;
-            PrintOfferCmd.NotifyCanExecuteChanged();
+            PrintOfferCmd?.NotifyCanExecuteChanged();
+            CreateNewOfferCmd?.NotifyCanExecuteChanged();
         }
 
         /* Opens offer creation dialog */
@@ -257,8 +259,9 @@ namespace VVSAssistant.ViewModels
         private void OfferContentsPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             UpdateSidebarValues();
-            PrintOfferCmd.NotifyCanExecuteChanged();
-            SaveOfferCmd.NotifyCanExecuteChanged();
+            PrintOfferCmd?.NotifyCanExecuteChanged();
+            SaveOfferCmd?.NotifyCanExecuteChanged();
+            CreateNewOfferCmd?.NotifyCanExecuteChanged();
         }
 
         private void UpdateSidebarValues()
