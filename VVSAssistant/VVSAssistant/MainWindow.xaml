@@ -10,7 +10,9 @@
     mc:Ignorable="d"     
     x:Name="Root"
     xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-    Title="VVS Assistant" MinHeight="650" MinWidth="1080" Height="650" Width="1080">
+    xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+    Title="VVS Assistant" MinHeight="650" MinWidth="1080" Height="650" Width="1080"
+    dialogs:DialogParticipation.Register="{Binding}">
     <Window.DataContext>
         <viewModels:MainWindowViewModel/>
     </Window.DataContext>
