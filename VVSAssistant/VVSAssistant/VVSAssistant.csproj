@@ -224,6 +224,7 @@
     <Compile Include="Models\DataSheets\SolarCollectorDataSheet.cs" />
     <Compile Include="Models\DataSheets\TemperatureControllerDataSheet.cs" />
     <Compile Include="ValueConverters\ApplianceTypeConverter.cs" />
+    <Compile Include="ValueConverters\LetterToColorConverter.cs" />
     <Compile Include="ValueConverters\PriceConverter.cs" />
     <Compile Include="ViewModels\CreateOfferViewModel.cs" />
     <Compile Include="ViewModels\CreatePackagedSolutionViewModel.cs" />
