@@ -11,7 +11,7 @@ namespace VVSAssistant.ViewModels
 {
     public class ExistingOffersViewModel : ViewModelBase
     {
-        public RelayCommand OpenOfferInCreateOfferViewModel;
+        public RelayCommand OpenOfferInCreateOfferViewModel { get; set; }
 
         private ObservableCollection<Offer> _offers;
         public ObservableCollection<Offer> Offers
