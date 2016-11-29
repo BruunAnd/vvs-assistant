@@ -168,6 +168,7 @@
                     <Label HorizontalAlignment="Center" 
                            Content="{Binding EeiResultSecondary, UpdateSourceTrigger=PropertyChanged}"
                            FontWeight="Bold"
+                           Foreground="{Binding EeiResultSecondary, Converter={StaticResource LetterToColorConverter}}"
                            FontSize="28"/>
                 </DockPanel>
 
