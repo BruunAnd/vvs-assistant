@@ -372,14 +372,14 @@ namespace VVSAssistant.ViewModels
             var customDialog = new CustomDialog();
 
             var dialogViewModel = new SaveDialogViewModel("Gem pakkeløsning", "Navn:",
-                instanceCancel => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
-                instanceCompleted =>
-                {
-                    _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
-                    PackagedSolution.Name = instanceCompleted.Input;
-                    OnPropertyChanged("PackagedSolution.Name");
-                    SaveCurrentPackagedSolution();
-                });
+                                      instanceCancel => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
+                                      instanceCompleted =>
+                                      {
+                                          _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
+                                          PackagedSolution.Name = instanceCompleted.Input;
+                                          OnPropertyChanged("PackagedSolution.Name");
+                                          SaveCurrentPackagedSolution();
+                                      });
 
             customDialog.Content = new SaveDialogView { DataContext = dialogViewModel };
 
