@@ -101,7 +101,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
                 Results.PackagedSolutionAtColdTemperaturesAFUE = Results.EEI-(PrimaryUnit.AFUE-PrimaryUnit.AFUEColdClima);
                 Results.PackagedSolutionAtWarmTemperaturesAFUE = Results.EEI + (PrimaryUnit.AFUEWarmClima - PrimaryUnit.AFUE);
             }
-
+            Results.CalculationType = new PackageDataManager(PackagedSolution).CalculationStrategyType(PackagedSolution,Results);
             return Results;
         }
 

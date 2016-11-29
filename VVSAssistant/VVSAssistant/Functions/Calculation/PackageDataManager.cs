@@ -200,6 +200,26 @@ namespace VVSAssistant.Functions.Calculation
                     as ContainerDataSheet).Classification ?? "0"];
             }
         }
-
+        public CalculationType CalculationStrategyType(PackagedSolution package, EEICalculationResult result)
+        {
+            var primaryType = package.PrimaryHeatingUnit.Type;
+            var primaryData = PrimaryUnit;
+            switch (primaryType)
+            {
+                case ApplianceTypes.HeatPump:
+                    return CalculationType.PrimaryHeatPump;
+                case ApplianceTypes.Boiler:
+                    if (primaryData.isWaterHeater && result.WaterHeatingEffciency != default(float))
+                        return CalculationType.PrimaryWaterBoiler;
+                    else
+                        return CalculationType.PrimaryBoiler;
+                case ApplianceTypes.LowTempHeatPump:
+                    return CalculationType.PrimaryLowTempHeatPump;
+                case ApplianceTypes.CHP:
+                    return CalculationType.PrimaryCPH;
+                default:
+                    return 0;
+            }
+        }
     }
 }
