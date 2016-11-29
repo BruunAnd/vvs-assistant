@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -20,13 +21,11 @@ namespace VVSAssistant.Common
         protected bool SetProperty<T>(ref T field, T value,
             [CallerMemberName] string propname = null)
         {
-            if (!EqualityComparer<T>.Default.Equals(field, value))
-            {
-                field = value;
-                OnPropertyChanged(propname);
-                return true;
-            }
-            return false;
+            if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+            field = value;
+            OnPropertyChanged(propname);
+            return true;
         }
+
     }
 }

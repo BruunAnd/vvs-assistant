@@ -1,4 +1,6 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.ComponentModel;
+using System.Data.Entity;
 using System.IO.Compression;
 using System.Linq;
 using System.Windows;
@@ -11,7 +13,7 @@ using VVSAssistant.Functions;
 
 namespace VVSAssistant.ViewModels
 {
-    internal class MainWindowViewModel : NotifyPropertyChanged
+    public class MainWindowViewModel : NotifyPropertyChanged
     {
         public MainWindowViewModel()
         {
@@ -52,47 +54,44 @@ namespace VVSAssistant.ViewModels
             }
         }
 
-        private ViewModelBase _currentViewModel;
-        public ViewModelBase CurrentViewModel
-        {
-            get { return _currentViewModel; }
-            set
-            {
-                SetProperty(ref _currentViewModel, value);
-            }
-        }
+        //private static ViewModelBase _currentViewModel;
+        //public static ViewModelBase CurrentViewModel
+        //{
+        //    get { return _currentViewModel; }
+        //    set
+        //    {
+        //        if (value == null) return;
+        //        _currentViewModel = value;
+        //        OnStaticPropertyChanged("CurrentViewModel");
+        //    }
+        //}
         
         public RelayCommand NavCommand { get; }
         public RelayCommand DatabaseImport { get; }
         public RelayCommand DatabaseExport { get; }
-        public RelayCommand ImportVvsCatalogue { get; }
-        public RelayCommand ImportSalesCatalogue { get; }
         
         private void OnNav(string destination)
         {
-            CurrentViewModel?.CloseDataConnection();
-
             switch (destination)
             {
                 case "ExistingPackagedSolutionView":
-                    CurrentViewModel = new ExistingPackagedSolutionsViewModel(new DialogCoordinator());
+                    NavigationService.NavigateTo(new ExistingPackagedSolutionsViewModel(new DialogCoordinator()));
                     break;
                 case "CreatePackagedSolutionView":
-                    CurrentViewModel = new CreatePackagedSolutionViewModel(new DialogCoordinator());
+                    NavigationService.NavigateTo(new CreatePackagedSolutionViewModel(new DialogCoordinator()));
                     break;
                 case "ExistingOffersView":
-                    CurrentViewModel = new ExistingOffersViewModel();
+                    NavigationService.NavigateTo(new ExistingOffersViewModel());
                     break;
                 case "CreateOfferView":
-                    CurrentViewModel = new CreateOfferViewModel(new DialogCoordinator());
+                    NavigationService.NavigateTo(new CreateOfferViewModel(new DialogCoordinator()));
+                    break;
+                case "GoBack":
+                    NavigationService.GoBack();
                     break;
                 default:
-                    CurrentViewModel = null;
-                    return; // Don't open dataconnection
+                    return; 
             }
-
-            CurrentViewModel?.OpenDataConnection();
-            CurrentViewModel?.LoadDataFromDatabase();
         }
     }
 }

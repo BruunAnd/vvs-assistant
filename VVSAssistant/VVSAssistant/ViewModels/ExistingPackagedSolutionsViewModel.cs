@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using MahApps.Metro.Controls.Dialogs;
+using VVSAssistant.Common;
 using VVSAssistant.Common.ViewModels;
 using VVSAssistant.Common.ViewModels.VVSAssistant.Common.ViewModels;
 using VVSAssistant.Extensions;
@@ -13,6 +14,7 @@ namespace VVSAssistant.ViewModels
     {
         public ObservableCollection<PackagedSolution> PackagedSolutions { get; } = new ObservableCollection<PackagedSolution>();
         private readonly IDialogCoordinator _dialogCoordinator;
+        public PackagedSolution SelectedPackagedSolution { get; set; }
 
         public RelayCommand CreatePackagedSolutionCopyCmd { get; }
         public RelayCommand PrintCalculationCmd { get; }
@@ -22,6 +24,8 @@ namespace VVSAssistant.ViewModels
         {
             _dialogCoordinator = dialogCoordinator;
             SetupFilterableView(PackagedSolutions);
+
+            CreatePackagedSolutionCopyCmd = new RelayCommand(x => NavigationService.NavigateTo(new CreatePackagedSolutionViewModel(dialogCoordinator, SelectedPackagedSolution)));
         }
 
         public override void LoadDataFromDatabase()

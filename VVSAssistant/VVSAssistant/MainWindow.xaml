@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:views ="clr-namespace:VVSAssistant.Views"
     xmlns:viewModels="clr-namespace:VVSAssistant.ViewModels"
+    xmlns:common="clr-namespace:VVSAssistant.Common"
     mc:Ignorable="d"     
     x:Name="Root"
     xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
@@ -124,7 +125,7 @@
             </TabControl>
 
         </Grid>
-        <controls:TransitioningContentControl Content = "{Binding CurrentViewModel}"/>
+        <controls:TransitioningContentControl Content = "{Binding Path=(common:NavigationService.CurrentPage)}"/>
     </Grid>
     
 

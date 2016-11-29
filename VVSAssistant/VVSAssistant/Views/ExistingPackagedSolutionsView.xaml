@@ -40,7 +40,8 @@
                     Height="32"
                     MinWidth="120"
                     Content="Tilbage"
-                    Command="{Binding ElementName=Root, Path=DataContext.NavCommand}"/>
+                    Command="{Binding ElementName=Root, Path=DataContext.NavCommand}"
+                    CommandParameter="GoBack"/>
 
             <TextBox controls:TextBoxHelper.ClearTextButton="True" 
                      controls:TextBoxHelper.Watermark="Søg" 
@@ -53,19 +54,24 @@
               Grid.Row="2">
 
             <DataGrid AutoGenerateColumns="False"
-                      ItemsSource="{Binding FilteredCollectionView}">
-                
+                      ItemsSource="{Binding FilteredCollectionView}"
+                      SelectedItem="{Binding SelectedPackagedSolution}">
                 <DataGrid.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Føj til pakke"
+                        <MenuItem Header="Opret ny kopi"
                                   Command="{Binding CreatePackagedSolutionCopyCmd}"/>
-                        <MenuItem Header="Redigér"
+                        <MenuItem Header="Print pakkelabel"
                                   Command="{Binding PrintCalculationCmd}"/>
                         <MenuItem Header="Slet"
                                   Command="{Binding DropPackagedSolutionCmd}"/>
                     </ContextMenu>
                 </DataGrid.ContextMenu>
-                
+
+                <DataGrid.InputBindings>
+                    <MouseBinding MouseAction="LeftDoubleClick"
+                                  Command="{Binding Create}"/>
+                </DataGrid.InputBindings>
+
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Name}" 
                                         Header="Navn" 
