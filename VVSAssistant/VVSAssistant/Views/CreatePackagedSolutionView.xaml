@@ -183,12 +183,12 @@
                     <Label Content="Til næste energimærke: "/>
                     <Label Content="{Binding EEIResultsRoomHeating.ToNextLabel}"
                            HorizontalAlignment="Right"/>
-                    <Label Content="%"/>
                 </DockPanel>
                 <DockPanel>
                     <Label Content="Energimærke ved vandopvarmning: "/>
                     <Label Content="{Binding EEIResultsWaterHeating.EEI}"
                            HorizontalAlignment="Right"/>
+                    <Label Content="%"/>
                     <Label HorizontalAlignment="Right" 
                            Content="{Binding EEIResultsWaterHeating.EEICharacters, UpdateSourceTrigger=PropertyChanged}"
                            FontWeight="Bold"
