@@ -160,10 +160,16 @@ namespace VVSAssistant.ViewModels
 
         #endregion
 
-        public CreatePackagedSolutionViewModel(IDialogCoordinator dialogCoordinator)
+        public CreatePackagedSolutionViewModel(IDialogCoordinator dialogCoordinator) : this(dialogCoordinator, new PackagedSolution())
+        {
+           
+        }
+
+        public CreatePackagedSolutionViewModel(IDialogCoordinator dialogCoordinator,
+            PackagedSolution existingPackagedSolution)
         {
             #region Initialize collections
-            
+
             Appliances = new ObservableCollection<Appliance>();
             SetupFilterableView(Appliances);
             AppliancesInPackagedSolution = new ObservableCollection<Appliance>();
@@ -172,9 +178,9 @@ namespace VVSAssistant.ViewModels
 
             #region Initialize properties
 
-            PackagedSolution = new PackagedSolution();
             _calculationManager = new CalculationManager();
             _dialogCoordinator = dialogCoordinator;
+            PackagedSolution = existingPackagedSolution;
 
             #endregion
 
@@ -187,7 +193,7 @@ namespace VVSAssistant.ViewModels
             #region Command declarations
 
             AddApplianceToPackagedSolutionCmd = new RelayCommand(
-                x => HandleAddApplianceToPackagedSolution(SelectedAppliance), 
+                x => HandleAddApplianceToPackagedSolution(SelectedAppliance),
                 x => SelectedAppliance != null);
 
             RemoveApplianceFromPackagedSolutionCmd = new RelayCommand(x =>
@@ -220,7 +226,7 @@ namespace VVSAssistant.ViewModels
                     SaveCurrentPackagedSolution();
             }, x => AppliancesInPackagedSolution.Any());
 
-            CreateNewApplianceCmd = new RelayCommand(x => 
+            CreateNewApplianceCmd = new RelayCommand(x =>
             {
                 RunCreateApplianceDialog();
             }
