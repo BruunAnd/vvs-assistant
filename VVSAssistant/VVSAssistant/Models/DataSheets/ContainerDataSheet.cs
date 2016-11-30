@@ -20,10 +20,13 @@ namespace VVSAssistant.Models.DataSheets
         };
 
         [DisplayName(@"Volumen")]
+        [Description(@"BeholderVolumen (V) i liter")]
         public float Volume { get; set; }
         [DisplayName(@"Klassificering")]
+        [Description(@"Beholderens energiklasse skal være mellem A+ og G")]
         public string Classification { get; set; }
         [DisplayName(@"Stilstandstab")]
+        [Description(@"Beholderens stilstandstab (S) i Watt (W)")]
         public float StandingLoss { get; set; }
 
         [Browsable(false)]

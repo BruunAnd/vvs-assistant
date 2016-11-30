@@ -11,8 +11,10 @@ namespace VVSAssistant.Models.DataSheets
     class SolarStationDataSheet : DataSheet
     {
         [DisplayName(@"Elforbrug til pumpe")]
+        [Description(@"Elforbrug til pumpe (solpump) i watt (W)")]
         public float SolPumpConsumption { get; set; }
         [DisplayName(@"Elforbrug i standbytilstand")]
+        [Description(@"Elforbtug i standbytilstand (solstandby) i watt (W)")]
         public float SolStandbyConsumption { get; set; }
 
         public override string ToString()
