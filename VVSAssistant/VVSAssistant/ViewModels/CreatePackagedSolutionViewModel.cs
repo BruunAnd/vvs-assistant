@@ -579,15 +579,15 @@ namespace VVSAssistant.ViewModels
         private void UpdateEei()
         {
             PackagedSolution.Appliances = new ApplianceList(AppliancesInPackagedSolution.ToList());
-            var results = _calculationManager.SelectCalculationStrategy(PackagedSolution);
-            if (results != null && results.Count > 1)
+            PackagedSolution.UpdateEEI();
+            if (PackagedSolution.EnergyLabel != null && PackagedSolution.EnergyLabel.Count > 1)
             {
-                EEIResultsRoomHeating = results[0].CalculateEEI(PackagedSolution);
-                EEIResultsWaterHeating = results[1].CalculateEEI(PackagedSolution);
+                EEIResultsRoomHeating = PackagedSolution.EnergyLabel[0];
+                EEIResultsWaterHeating = PackagedSolution.EnergyLabel[1];
             }
             else
             {
-                EEIResultsRoomHeating = results?[0].CalculateEEI(PackagedSolution);
+                EEIResultsRoomHeating = PackagedSolution.EnergyLabel?[0];
                 EEIResultsWaterHeating = null;
             }
         }
