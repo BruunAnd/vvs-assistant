@@ -80,8 +80,8 @@ namespace VVSAssistant.Models
         public void UpdateEEI()
         {
             List<IEEICalculation> calculations = _calculationManager.SelectCalculationStrategy(this);
-            foreach (var calculation in calculations)
-                EnergyLabel.Add(calculation.CalculateEEI(this));
+            foreach (var calculation in calculations ?? Enumerable.Empty<IEEICalculation>())
+                EnergyLabel.Add(calculation?.CalculateEEI(this));
         }
     }
 }
