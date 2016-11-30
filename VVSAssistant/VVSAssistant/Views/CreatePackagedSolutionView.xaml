@@ -21,6 +21,7 @@
                BasedOn="{StaticResource {x:Type DataGridCell}}">
             <Setter Property="ToolTip" Value="{Binding Description,
                 Converter={StaticResource CommaToNewlineConverter}}"/>
+            <Setter Property="ToolTipService.ShowDuration" Value="20000"/>
         </Style>
     </ContentControl.Resources>
     <Grid Background="White">

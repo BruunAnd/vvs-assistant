@@ -13,11 +13,6 @@ namespace VVSAssistant.ValueConverters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            CultureInfo customCulture = (System.Globalization.CultureInfo)
-                        System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
-            customCulture.NumberFormat.NumberDecimalSeparator = ".";
-            System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
-
             string description = value as string;
             description = description.Replace(',', '\n').Insert(0, " ");
             return description;

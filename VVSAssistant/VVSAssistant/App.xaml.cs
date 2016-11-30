@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,8 +21,16 @@ namespace VVSAssistant
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+            InitializeCultureInfo();
             //return;
             ShittySeed();
+        }
+        private void InitializeCultureInfo()
+        {
+            CultureInfo customCulture = (CultureInfo)
+                        System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
+            customCulture.NumberFormat.NumberDecimalSeparator = ".";
+            System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
         }
 
         private void ShittySeed()
