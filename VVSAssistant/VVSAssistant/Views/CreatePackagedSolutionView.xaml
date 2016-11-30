@@ -184,10 +184,17 @@
                         </StackPanel>
                     </DockPanel>
                     <DockPanel>
-                        <Label Content="Næste energiklasse:"
-                           HorizontalAlignment="Left"/>
-                        <Label Content="{Binding EeiResultsRoomHeating.ToNextLabel}"
-                           HorizontalAlignment="Right"/>
+                        <Label Content="Næste energiklasse:"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Label Content="{Binding EeiResultsRoomHeating.ToNextLabel}"/>
+                            <Label
+                           Content="{Binding EeiResultsRoomHeating.ProceedingEEICharacter, UpdateSourceTrigger=PropertyChanged}"
+                           FontWeight="Bold"
+                           Margin="0 2 0 2"
+                           Padding="10 5 10 5"
+                           Foreground="{StaticResource IdealForegroundColorBrush}"
+                           Background="{Binding EeiResultsRoomHeating.ProceedingEEICharacter, Converter={StaticResource LetterToColorConverter}}"/>
+                        </StackPanel>
                     </DockPanel>
                 </StackPanel>
 
@@ -208,10 +215,17 @@
                         </StackPanel>
                     </DockPanel>
                     <DockPanel>
-                        <Label Content="Næste energiklasse:"
-                           HorizontalAlignment="Left"/>
-                        <Label Content="{Binding EeiResultsWaterHeating.ToNextLabel}"
-                           HorizontalAlignment="Right"/>
+                        <Label Content="Næste energiklasse:"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Label Content="{Binding EeiResultsWaterHeating.ToNextLabel}"/>
+                            <Label
+                           Content="{Binding EeiResultsWaterHeating.ProceedingEEICharacter, UpdateSourceTrigger=PropertyChanged}"
+                           FontWeight="Bold"
+                           Margin="0 2 0 2"
+                           Padding="10 5 10 5"
+                           Foreground="{StaticResource IdealForegroundColorBrush}"
+                           Background="{Binding EeiResultsWaterHeating.ProceedingEEICharacter, Converter={StaticResource LetterToColorConverter}}"/>
+                        </StackPanel>
                     </DockPanel>
                 </StackPanel>
                 
