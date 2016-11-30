@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Reflection;
@@ -15,6 +16,7 @@ namespace VVSAssistant.Models
         public PackagedSolution()
         {
             ApplianceInstances = new List<ApplianceInstance>();
+            EnergyLabel = new List<EEICalculationResult>();
             SolarContainerInstances = new List<ApplianceInstance>();
             _calculationManager = new CalculationManager();
         }
@@ -59,7 +61,7 @@ namespace VVSAssistant.Models
         public virtual ApplianceInstance PrimaryHeatingUnitInstance { get; private set; }
         public string Description => string.Join(", ", Appliances);
         private CalculationManager _calculationManager { get; set; }
-        public List<IEEICalculation> EnergyLabel => _calculationManager.SelectCalculationStrategy(this);
+        public List<EEICalculationResult> EnergyLabel { get; set; }
 
         public object MakeCopy()
         {
@@ -71,6 +73,16 @@ namespace VVSAssistant.Models
                 pi.SetValue(copy, matchingProperty.GetValue(this)); //Set the new object's property with this name to the value of the same property in this object
             }
             return copy;
+        }
+
+        /// <summary>
+        /// Recalculates the EnergyLabel property of this object.
+        /// </summary>
+        public void UpdateEEI()
+        {
+            List<IEEICalculation> calculations = _calculationManager.SelectCalculationStrategy(this);
+            foreach (var calculation in calculations)
+                EnergyLabel.Add(calculation.CalculateEEI(this));
         }
     }
 }
