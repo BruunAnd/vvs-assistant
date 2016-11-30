@@ -124,12 +124,12 @@
                         <controls:Tile 
                        Style="{StaticResource NavigationTileStyle}"
                        Command="{Binding RunOfferSettingsDialogCmd}"
-                       Title="Tilbudsindstillinger">
+                       Title="Firmaprofil">
                             <Rectangle Width="64" 
                            Height="64"
                            Fill="{StaticResource IdealForegroundColorBrush}">
                                 <Rectangle.OpacityMask>
-                                    <VisualBrush Visual="{StaticResource appbar_cog}" Stretch="Fill" />
+                                    <VisualBrush Visual="{StaticResource appbar_home_people}" Stretch="Fill" />
                                 </Rectangle.OpacityMask>
                             </Rectangle>
                         </controls:Tile>
