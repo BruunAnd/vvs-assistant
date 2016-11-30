@@ -148,14 +148,14 @@ namespace VVSAssistant.ViewModels
         }
 
         private EEICalculationResult _eeiResult;
-        public EEICalculationResult EEIResultsRoomHeating
+        public EEICalculationResult EeiResultsRoomHeating
         {
             get { return _eeiResult; }
             set { _eeiResult = value; OnPropertyChanged(); }
         }
 
         private EEICalculationResult _eeiResultSecondary;
-        public EEICalculationResult EEIResultsWaterHeating
+        public EEICalculationResult EeiResultsWaterHeating
         {
             get { return _eeiResultSecondary; }
             set { _eeiResultSecondary = value; OnPropertyChanged(); }
@@ -275,8 +275,9 @@ namespace VVSAssistant.ViewModels
 
             AppliancesInPackagedSolution.Clear();
             PackagedSolution = new PackagedSolution();
-            EEIResultsRoomHeating = new EEICalculationResult();
-            EEIResultsWaterHeating = new EEICalculationResult();
+            EeiResultsRoomHeating = new EEICalculationResult();
+            EeiResultsWaterHeating = new EEICalculationResult();
+            UpdateEei();
         }
 
         private void AddApplianceToPackagedSolution(Appliance appliance)
@@ -581,13 +582,13 @@ namespace VVSAssistant.ViewModels
             PackagedSolution.UpdateEEI();
             if (PackagedSolution.EnergyLabel != null && PackagedSolution.EnergyLabel.Count > 1)
             {
-                EEIResultsRoomHeating = PackagedSolution.EnergyLabel[0];
-                EEIResultsWaterHeating = PackagedSolution.EnergyLabel[1];
+                EeiResultsRoomHeating = PackagedSolution.EnergyLabel[0];
+                EeiResultsWaterHeating = PackagedSolution.EnergyLabel[1];
             }
             else
             {
-                EEIResultsRoomHeating = PackagedSolution.EnergyLabel?[0];
-                EEIResultsWaterHeating = null;
+                EeiResultsRoomHeating = PackagedSolution.EnergyLabel?[0];
+                EeiResultsWaterHeating = null;
             }
         }
 
