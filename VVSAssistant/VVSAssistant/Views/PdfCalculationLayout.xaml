@@ -14,10 +14,6 @@
     <Grid Height="27.7cm" Width="19cm" Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="27.7cm" />
-            <RowDefinition Height="1046.92913385827" />
-            <RowDefinition Height="27.7cm" />
-            <RowDefinition Height="27.7cm" />
-            <RowDefinition Height="27.7cm" />
         </Grid.RowDefinitions>
 
 
@@ -27,7 +23,7 @@
 
 
         <!--Page 1-->
-        <Grid Grid.Column="0" Grid.Row="0" Height="27.7cm" Width="19.0cm" Margin="10,32,-9.89,1015" Visibility="Collapsed" Grid.RowSpan="2">
+        <Grid Grid.Column="0" Grid.Row="0" Height="27.7cm" Width="19.0cm" Margin="10,32,-9.89,1015" Visibility="{Binding PageOne}" Grid.RowSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="1*"/>
@@ -497,7 +493,7 @@
 
 
         <!--Page 2-->
-        <Grid Grid.Column="0" Grid.Row="0"  Height="27.7cm" Width="19.0cm" Margin="0,0,0.11,0" Visibility="Collapsed">
+        <Grid Grid.Column="0" Grid.Row="0"  Height="27.7cm" Width="19.0cm" Margin="0,0,0.11,0" Visibility="{Binding PageTwo}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="1*"/>
@@ -1084,7 +1080,7 @@
 
 
         <!--Page 3-->
-        <Grid Grid.Column="0" Grid.Row="0" Height="27.7cm" Width="19.0cm" Visibility="Collapsed">
+        <Grid Grid.Column="0" Grid.Row="0" Height="27.7cm" Width="19.0cm" Visibility="{Binding PageThree}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="1*"/>
@@ -1495,7 +1491,7 @@
 
 
         <!--Page 4-->
-        <Grid Grid.Column="0" Grid.Row="0" Height="27.7cm" Width="19.0cm" Visibility="Collapsed">
+        <Grid Grid.Column="0" Grid.Row="0" Height="27.7cm" Width="19.0cm" Visibility="{Binding PageFour}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="1*"/>
@@ -1968,7 +1964,7 @@
 
 
         <!--Page 5-->
-        <Grid Grid.Column="0" Grid.Row="0" Height="27.7cm" Width="19.0cm" Margin="0,0,0.11,0" Visibility="Visible">
+        <Grid Grid.Column="0" Grid.Row="0" Height="27.7cm" Width="19.0cm" Margin="0,0,0.11,0" Visibility="{Binding PageFive}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="1*"/>
