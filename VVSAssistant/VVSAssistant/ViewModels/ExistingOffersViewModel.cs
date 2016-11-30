@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using VVSAssistant.Common.ViewModels;
 using VVSAssistant.Models;
 using VVSAssistant.Database;
@@ -24,19 +26,26 @@ namespace VVSAssistant.ViewModels
 
         public ExistingOffersViewModel(IDialogCoordinator coordinator)
         {
-            _offers = new ObservableCollection<Offer>();
-            OpenOfferInCreateOfferViewModel = new RelayCommand(x =>
-                {
-                    var createOfferViewModel = new CreateOfferViewModel(coordinator);
-                    NavigationService.NavigateTo(createOfferViewModel);
-                    createOfferViewModel.LoadExistingOffer(SelectedOffer.Id);
-                }, x => SelectedOffer != null
-            );
+            OpenOfferInCreateOfferViewModel = new RelayCommand(async x =>
+            {
+                var createOfferViewModel = new CreateOfferViewModel(coordinator);
+                await NavigationService.BeginNavigate(createOfferViewModel);
+                await Task.Run(() => createOfferViewModel.LoadExistingOffer(SelectedOffer.Id));
+                NavigationService.EndNavigate();
+            }, x => SelectedOffer != null);
         }
 
         public override void LoadDataFromDatabase()
         {
-            DbContext.Offers.ToList().ForEach(o => Offers.Add(o));
+            using (var ctx = new AssistantContext())
+            {
+                Offers = new ObservableCollection<Offer>(ctx.Offers
+                    .Include(o => o.Materials)
+                    .Include(o => o.Salaries)
+                    .Include(o => o.PackagedSolution.ApplianceInstances.Select(a => a.Appliance))
+                    .Include(o => o.OfferInformation)
+                    .ToList());
+            }
         }
     }
 }

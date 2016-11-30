@@ -22,7 +22,7 @@ namespace VVSAssistant
         {
             base.OnStartup(e);
             InitializeCultureInfo();
-            //return;
+            return;
             ShittySeed();
         }
         private void InitializeCultureInfo()

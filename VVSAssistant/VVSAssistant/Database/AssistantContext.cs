@@ -8,12 +8,12 @@ namespace VVSAssistant.Database
     {
         public AssistantContext() : base("AssistantDatabaseConnectionString")
         {
+            Configuration.LazyLoadingEnabled = false;
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<PackagedSolution>().HasMany(s => s.ApplianceInstances);
-            modelBuilder.Entity<PackagedSolution>().HasOptional(s => s.SolarContainerInstance);
             modelBuilder.Entity<PackagedSolution>().HasOptional(s => s.PrimaryHeatingUnitInstance);
 
             modelBuilder.Entity<Appliance>().HasRequired(a => a.DataSheet);

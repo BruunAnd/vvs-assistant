@@ -12,11 +12,11 @@
         public ApplianceInstance(Appliance appliance)
         {
             Appliance = appliance;
-            DataSheet = appliance?.DataSheet;
+            //DataSheet = appliance?.DataSheet;
         }
 
         public int Id { get; set; }
-        public virtual Appliance Appliance { get; set; }
-        public virtual DataSheet DataSheet { get; set;  }
+        public Appliance Appliance { get; set; }
+        // public DataSheet DataSheet { get; set;  }
     }
 }

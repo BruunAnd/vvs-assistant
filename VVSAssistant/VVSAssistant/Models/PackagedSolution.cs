@@ -51,10 +51,9 @@ namespace VVSAssistant.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTime CreationDate { get; set; }
-        public virtual ICollection<ApplianceInstance> SolarContainerInstances { get; set; }
-        public virtual ICollection<ApplianceInstance> ApplianceInstances { get; set; }
-        public virtual ApplianceInstance SolarContainerInstance { get; private set; }
-        public virtual ApplianceInstance PrimaryHeatingUnitInstance { get; private set; }
+        public ICollection<ApplianceInstance> SolarContainerInstances { get; set; }
+        public ICollection<ApplianceInstance> ApplianceInstances { get; set; }
+        public ApplianceInstance PrimaryHeatingUnitInstance { get; private set; }
         public string Description => string.Join(", ", Appliances);
 
         public object MakeCopy()

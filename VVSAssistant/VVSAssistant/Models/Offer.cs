@@ -25,10 +25,10 @@ namespace VVSAssistant.Models
 
         public int Id { get; set; }
         public DateTime CreationDate { get; set; }
-        public virtual Client Client { get; set; }
-        public virtual OfferInformation OfferInformation { get; set; }
-        public virtual PackagedSolution PackagedSolution { get; set; }
-        public virtual ICollection<Salary> Salaries { get; set; }
-        public virtual ICollection<Material> Materials { get; set; }
+        public Client Client { get; set; }
+        public OfferInformation OfferInformation { get; set; }
+        public PackagedSolution PackagedSolution { get; set; }
+        public ICollection<Salary> Salaries { get; set; }
+        public ICollection<Material> Materials { get; set; }
     }
 }

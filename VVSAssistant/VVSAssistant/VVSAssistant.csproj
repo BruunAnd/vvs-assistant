@@ -231,6 +231,7 @@
     <Compile Include="ValueConverters\DateTimeConverter.cs" />
     <Compile Include="ValueConverters\DescriptionConverter.cs" />
     <Compile Include="ValueConverters\LetterToColorConverter.cs" />
+    <Compile Include="ValueConverters\LoadingStateToOpacityConverter.cs" />
     <Compile Include="ValueConverters\PriceConverter.cs" />
     <Compile Include="ViewModels\CreateOfferViewModel.cs" />
     <Compile Include="ViewModels\CreatePackagedSolutionViewModel.cs" />

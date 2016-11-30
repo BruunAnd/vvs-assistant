@@ -11,6 +11,7 @@
     x:Name="Root"
     xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
     xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+    xmlns:valueConverters="clr-namespace:VVSAssistant.ValueConverters"
     Title="VVS Assistant" MinHeight="650" MinWidth="1080" Height="650" Width="1080"
     dialogs:DialogParticipation.Register="{Binding}">
     <Window.DataContext>
@@ -30,10 +31,11 @@
         <DataTemplate DataType="{x:Type viewModels:ExistingOffersViewModel}">
             <views:ExistingOffersView/>
         </DataTemplate>
+        <valueConverters:LoadingStateToOpacityConverter x:Key="LoadingStateToOpacityConverter"/>
     </Window.Resources>
 
     <Grid>
-        <Grid>
+        <Grid Opacity="{Binding IsLoading, Converter={StaticResource LoadingStateToOpacityConverter}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
@@ -141,7 +143,8 @@
             </TabControl>
 
         </Grid>
-        <controls:TransitioningContentControl Content = "{Binding Path=(common:NavigationService.CurrentPage)}"/>
+        <controls:TransitioningContentControl Content="{Binding Path=(common:NavigationService.CurrentPage)}"/>
+        <controls:ProgressRing IsActive="{Binding IsLoading}" />
     </Grid>
     
 

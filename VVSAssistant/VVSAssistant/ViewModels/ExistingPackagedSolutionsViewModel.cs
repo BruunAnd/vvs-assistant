@@ -8,6 +8,9 @@ using VVSAssistant.Common.ViewModels.VVSAssistant.Common.ViewModels;
 using VVSAssistant.Extensions;
 using VVSAssistant.Models;
 using VVSAssistant.Functions;
+using System.Data.Entity;
+using System.Threading.Tasks;
+using VVSAssistant.Database;
 
 namespace VVSAssistant.ViewModels
 {
@@ -26,7 +29,7 @@ namespace VVSAssistant.ViewModels
             }
         }
 
-        public ObservableCollection<PackagedSolution> PackagedSolutions { get; } = new ObservableCollection<PackagedSolution>();
+        public ObservableCollection<PackagedSolution> PackagedSolutions { get; set; }
         private readonly IDialogCoordinator _dialogCoordinator;
 
         public RelayCommand CreatePackagedSolutionCopyCmd { get; }
@@ -36,13 +39,13 @@ namespace VVSAssistant.ViewModels
         public ExistingPackagedSolutionsViewModel(IDialogCoordinator dialogCoordinator)
         {
             _dialogCoordinator = dialogCoordinator;
-            SetupFilterableView(PackagedSolutions);
 
-            CreatePackagedSolutionCopyCmd = new RelayCommand(x =>
+            CreatePackagedSolutionCopyCmd = new RelayCommand(async x =>
             {
                 var createPackagedSolutionViewModel = new CreatePackagedSolutionViewModel(dialogCoordinator);
-                NavigationService.NavigateTo(createPackagedSolutionViewModel);
-                createPackagedSolutionViewModel.LoadExistingPackagedSolution(SelectedPackagedSolution.Id);
+                await NavigationService.BeginNavigate(createPackagedSolutionViewModel);
+                await Task.Run(() => createPackagedSolutionViewModel.LoadExistingPackagedSolution(SelectedPackagedSolution.Id));
+                NavigationService.EndNavigate();
             }, x => SelectedPackagedSolution != null);
 
             DropPackagedSolutionCmd = new RelayCommand(x =>
@@ -59,26 +62,40 @@ namespace VVSAssistant.ViewModels
 
         private async void DropPackagedSolution(PackagedSolution packagedSolution)
         {
-            var conflictingOffersList = DbContext.Offers.Where(o => o.PackagedSolution.Id == packagedSolution.Id).ToList();
-
-            if (conflictingOffersList.Any())
+            using (var ctx = new AssistantContext())
             {
-                var formattedOffersString = string.Join("\n", conflictingOffersList.Select(x => $"- {x.OfferInformation.Title} ({x.CreationDate})"));
-                await _dialogCoordinator.ShowMessageAsync(this, "Fejl",
-                    $"Pakkeløsningen kan ikke slettes, da den findes i følgende tilbud:\n{formattedOffersString}");
+                var conflictingOffersList = ctx.Offers
+                    .Where(o => o.PackagedSolution.Id == packagedSolution.Id)
+                    .Include(o => o.OfferInformation)
+                    .ToList();
+
+                if (conflictingOffersList.Any())
+                {
+                    var formattedOffersString = string.Join("\n", conflictingOffersList.Select(x => $"- {x.OfferInformation.Title} ({x.CreationDate})"));
+                    await _dialogCoordinator.ShowMessageAsync(this, "Fejl",
+                        $"Pakkeløsningen kan ikke slettes, da den findes i følgende tilbud:\n{formattedOffersString}");
+                    return;
+                }
             }
-            else
-            {
-                PackagedSolutions.Remove(packagedSolution);
 
-                DbContext.PackagedSolutions.Remove(packagedSolution);
-                DbContext.SaveChanges();
+            // No conflicts, remove the packaged solution
+            PackagedSolutions.Remove(packagedSolution);
+
+            using (var ctx = new AssistantContext())
+            {
+                ctx.PackagedSolutions.Remove(packagedSolution);
+                ctx.SaveChanges();
             }
         }
 
         public override void LoadDataFromDatabase()
         {
-            DbContext.PackagedSolutions.ToList().ForEach(PackagedSolutions.Add);
+            using (var ctx = new AssistantContext())
+            {
+                PackagedSolutions = new ObservableCollection<PackagedSolution>(ctx.PackagedSolutions
+                    .Include(p => p.ApplianceInstances.Select(a => a.Appliance)));
+            }
+            SetupFilterableView(PackagedSolutions);
         }
 
         protected override bool Filter(PackagedSolution obj)
