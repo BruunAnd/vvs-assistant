@@ -41,12 +41,19 @@ namespace VVSAssistant.Models
             set { SetProperty<string>(ref _city, value); }
         }
 
+        private string _signature;
 
-        private string _phoneNumber;
-        public string PhoneNumber
+        public string Signature
         {
-            get { return _phoneNumber; }
-            set { SetProperty<string>(ref _phoneNumber, value); }
+            get { return _signature; }
+            set { SetProperty<string>(ref _signature, value); }
+        }
+
+        private string _companyName;
+        public string CompanyName
+        {
+            get { return _companyName; }
+            set { SetProperty<string>(ref _companyName, value); }
         }
         
     }

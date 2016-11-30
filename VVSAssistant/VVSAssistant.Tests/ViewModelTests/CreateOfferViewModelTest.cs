@@ -29,7 +29,7 @@ namespace VVSAssistant.Tests.ViewModelTests
             //_testClient.ClientInformation.Address = "test";
             //_testClient.ClientInformation.DatabaseName = "test";
             //_testClient.ClientInformation.Email = "test";
-            //_testClient.ClientInformation.PhoneNumber = "test";
+            //_testClient.ClientInformation.CompanyName = "test";
             //_testClient.Offers = new System.Collections.ObjectModel.ObservableCollection<OfferViewModel>();
             //_testClient.CreationDate = DateTime.Now;
             //_testClient.Id = 1;

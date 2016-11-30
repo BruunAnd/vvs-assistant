@@ -24,31 +24,48 @@
                    FontSize="24"
                    Text="Generer Tilbud"
                    TextWrapping="Wrap"/>
-        
-        <StackPanel Orientation="Vertical"
-                    Grid.Row="1">
-            
-            <Label Content="Navn på tilbud:"/>
-            <TextBox Grid.Row="2" 
+
+        <DockPanel Grid.Row="1" Grid.Column="0">
+            <DockPanel DockPanel.Dock="Top">
+                <StackPanel Orientation="Vertical">
+
+                    <Label Content="Tilbudsnavn:"/>
+                    <TextBox Grid.Row="2" 
                  Controls:TextBoxHelper.ClearTextButton="True"
                  Text="{Binding Offer.OfferInformation.Title, UpdateSourceTrigger=PropertyChanged}"/>
 
-            <Label Content="Indledning på følgebrev:"/>
-            <TextBox Grid.Row="4"
-                 Height="75"
+                    <Label Content="Indledning på følgebrev:"/>
+                    <TextBox Grid.Row="4"
+                 Height="78"
                  Text="{Binding Offer.OfferInformation.Intro, UpdateSourceTrigger=PropertyChanged}"
                  TextWrapping="Wrap"
                  AcceptsReturn="True"/>
 
-            <Label Content="Afslutning på følgebrev:"/>
-            <TextBox Height="75"
+                    <Label Content="Afslutning på følgebrev:"/>
+                    <TextBox Height="78"
                      Text="{Binding Offer.OfferInformation.Outro, UpdateSourceTrigger=PropertyChanged}"
                      TextWrapping="Wrap"
                      AcceptsReturn="True"/>
-        </StackPanel>
+
+                    <Label Content="Signatur:"/>
+                    <TextBox Text="{Binding Offer.OfferInformation.Signature, UpdateSourceTrigger=PropertyChanged}"/>
+
+                </StackPanel>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Bottom" Margin="0 10 0 0">
+                <CheckBox Content="Pris inkl. moms"
+                             IsChecked="{Binding Offer.OfferInformation.ApplyTax, UpdateSourceTrigger=PropertyChanged}"/>
+            </DockPanel>
+        </DockPanel>
         <DockPanel Grid.Column="2" Grid.Row="1">
             <DockPanel DockPanel.Dock="Top">
                 <StackPanel Orientation="Vertical">
+                    <Label Content="Firmanavn:"/>
+                    <TextBox Text="{Binding Offer.Client.ClientInformation.CompanyName, UpdateSourceTrigger=PropertyChanged}" />
+                    
+                    <Label Content="Kundenavn:"/>
+                    <TextBox Text="{Binding Offer.Client.ClientInformation.Name, UpdateSourceTrigger=PropertyChanged}"/>
+
                     <Label Content="Adresse:"/>
                     <TextBox Text="{Binding Offer.Client.ClientInformation.Address, UpdateSourceTrigger=PropertyChanged}" />
 
@@ -58,34 +75,32 @@
                     <Label Content="Postnummer:"/>
                     <TextBox Text="{Binding Offer.Client.ClientInformation.PostalCode, UpdateSourceTrigger=PropertyChanged}" />
 
-                    <Label Content="Navn på kunde:"/>
-                    <TextBox Text="{Binding Offer.Client.ClientInformation.Name, UpdateSourceTrigger=PropertyChanged}"/>
-
                     <Label Content="Email:"/>
                     <TextBox Text="{Binding Offer.Client.ClientInformation.Email, UpdateSourceTrigger=PropertyChanged}" />
 
-                    <Label Content="Telefon:"/>
-                    <TextBox Text="{Binding Offer.Client.ClientInformation.PhoneNumber, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </DockPanel>
 
             <DockPanel DockPanel.Dock="Bottom">
-                <DockPanel DockPanel.Dock="Left">
-                    <CheckBox Margin="0 5 0 0"
-                              Content="Pris inkl. moms"
-                              IsChecked="{Binding Offer.OfferInformation.ApplyTax, UpdateSourceTrigger=PropertyChanged}"/>
-
-                </DockPanel>
-                <DockPanel DockPanel.Dock="Right">
+                
+                <DockPanel DockPanel.Dock="Right" Margin="0 10 0 0">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <Button x:Name="PART_AffirmativeButton"
-                    Height="35"
+                        <Button x:Name="PART_PrintButton"
                     Margin="0 0 5 0"
+                    Width="75"
+                    Command="{Binding PrintCommand}"
+                    Style="{StaticResource AccentedSquareButtonStyle}"
+                    Content="Udskriv"/>
+                        <Button x:Name="PART_AffirmativeButton"
+                    Margin="0 0 5 0"
+                    Width="75"
                     Command="{Binding SaveCommand}"
+                    Style="{StaticResource AccentedSquareButtonStyle}"
                     Content="Gem"/>
                         <Button x:Name="PART_NegativeButton"
-                    Height="35"
+                    Width="75"
                     Command="{Binding CloseCommand}"
+                    Style="{DynamicResource SquareButtonStyle}"
                     Content="Fortryd"/>
                     </StackPanel>
                 </DockPanel>
