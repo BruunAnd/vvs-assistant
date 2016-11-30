@@ -16,11 +16,35 @@ namespace VVSAssistant.ViewModels
 {
     class PdfOfferExportViewModel
     {
-        public string PageOne { get; set; }
-        public string PageTwo { get; set; }
-        public string PageThree { get; set; }
+        private string _pageOne;
+        public string PageOne
+        {
+            get
+            {
+                return this._pageOne != null ? _pageOne : "Collapsed";
+            }
+            set { _pageOne = value; }
+        }
+        private string _pageTwo;
+        public string PageTwo
+        {
+            get
+            {
+                return this._pageTwo != null ? _pageTwo : "Collapsed";
+            }
+            set { _pageTwo = value; }
+        }
 
+        private string _pageThree;
+        public string PageThree
+        {
+            get
+            {
+                return this._pageThree != null ? _pageThree : "Collapsed";
 
+            }
+            set { _pageThree = value; }
+        }
 
         public ApplianceList ApplianceList { get; set; }
         public ICollection<Material> MaterialsList { get; set; }
@@ -34,5 +58,21 @@ namespace VVSAssistant.ViewModels
         public string IntroText { get; set; }
         public string OutroText { get; set; }
         public string Moms { get; set; }
+
+        public void SetUp(Offer offer)
+        {
+            ApplianceList = offer.PackagedSolution.Appliances;
+            MaterialsList = offer.Materials;
+            CreationDate = offer.CreationDate;
+            OfferName = offer.OfferInformation.Title;
+            ClientName = offer.Client.ClientInformation.Name;
+            ClientAdresse = offer.Client.ClientInformation.Address;
+            ClientCity = offer.Client.ClientInformation.Address; //TODO: ClientCity
+            IntroText = offer.OfferInformation.Intro;
+            OutroText = offer.OfferInformation.Outro;
+
+            TotalSalesPrice = offer.TotalSalesPrice;
+            Moms = ((offer.OfferInformation.ApplyTax) ? "inkl. moms" : "Eks. moms");
+        }
     }
 }

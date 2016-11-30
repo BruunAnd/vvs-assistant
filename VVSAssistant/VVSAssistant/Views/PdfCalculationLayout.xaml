@@ -1084,7 +1084,7 @@
 
 
         <!--Page 3-->
-        <Grid Grid.Column="0" Grid.Row="0" Height="27.7cm" Width="19.0cm" Visibility="{Binding Pagethree}">
+        <Grid Grid.Column="0" Grid.Row="0" Height="27.7cm" Width="19.0cm" Visibility="{Binding PageThree}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="1*"/>
