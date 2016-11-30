@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Reflection;
+using VVSAssistant.Functions.Calculation;
 using VVSAssistant.Functions.Calculation.Interfaces;
 using VVSAssistant.ValueConverters;
 
@@ -15,6 +16,7 @@ namespace VVSAssistant.Models
         {
             ApplianceInstances = new List<ApplianceInstance>();
             SolarContainerInstances = new List<ApplianceInstance>();
+            _calculationManager = new CalculationManager();
         }
 
         private ApplianceList _solarContainers;
@@ -56,6 +58,8 @@ namespace VVSAssistant.Models
         public virtual ApplianceInstance SolarContainerInstance { get; private set; }
         public virtual ApplianceInstance PrimaryHeatingUnitInstance { get; private set; }
         public string Description => string.Join(", ", Appliances);
+        private CalculationManager _calculationManager { get; set; }
+        public List<IEEICalculation> EnergyLabel => _calculationManager.SelectCalculationStrategy(this);
 
         public object MakeCopy()
         {
