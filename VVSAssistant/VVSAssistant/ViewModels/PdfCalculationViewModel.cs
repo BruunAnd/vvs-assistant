@@ -94,73 +94,77 @@ namespace VVSAssistant.ViewModels
         public int PackagedAnnualEfficiencyEEILabel { get; set; }
         public string ResultOne { get; set; }
 
-
-        public void SetUp(PdfCalculationViewModel vm, List<EEICalculationResult> results)
+        private int _packagedAnnualEfficiencyEEILabelWater;
+        public int PackagedAnnualEfficiencyEEILabelWater
         {
-            EEICalculationResult result = results[0];
+            get { return _packagedAnnualEfficiencyEEILabelWater + 1; }
+            set { _packagedAnnualEfficiencyEEILabelWater = value; }
+        }
+
+        private int _packagedWaterUseprofile;
+        public int PackagedWaterUseprofile
+        {
+            get { return _packagedWaterUseprofile + 2; }
+            set { _packagedWaterUseprofile = value; }
+        }
+
+        public void Setup(List<EEICalculationResult> results)
+        {
+            var result = results[0];
             switch (result.CalculationType)
             {
-                case CalculationType.PrimaryBoiler: CalPageTwo(vm, result); break;
-                case CalculationType.PrimaryCPH: CalPageThree(vm, result); break;
-                case CalculationType.PrimaryHeatPump: CalPageOne(vm, result); break;
-                case CalculationType.PrimaryLowTempHeatPump: CalPageFour(vm, result); break;
-                case CalculationType.PrimaryWaterBoiler: break;
+                case CalculationType.PrimaryBoiler: PageTwo = "Visible"; ; break;
+                case CalculationType.PrimaryCPH: PageThree = "Visible"; break;
+                case CalculationType.PrimaryHeatPump: PageOne = "Visible"; SetupPageOneSecResult(result); break;
+                case CalculationType.PrimaryLowTempHeatPump: PageFour = "Visible"; SetupPageOneSecResult(result); break;
+                case CalculationType.PrimaryWaterBoiler: SetupPageFiveSpecialInfo(results); break;
                 default: return;
             }
 
-            vm.PrimAnnualEfficiency = CheckforNull(result.PrimaryHeatingUnitAFUE);
-            vm.TemperatureControleclass = CheckforNull(result.EffectOfTemperatureRegulatorClass);
-            vm.SupBoilerAnnualEfficiency = CheckforNull(result.SecondaryBoilerAFUE);
-            vm.SupBoilerTotal = CheckforNull(result.EffectOfSecondaryBoiler);
+            PrimAnnualEfficiency = CheckIfZero(result.PrimaryHeatingUnitAFUE);
+            TemperatureControleclass = CheckIfZero(result.EffectOfTemperatureRegulatorClass);
+            SupBoilerAnnualEfficiency = CheckIfZero(result.SecondaryBoilerAFUE);
+            SupBoilerTotal = CheckIfZero(result.EffectOfSecondaryBoiler);
 
-            vm.SolarM2 = CheckforNull(result.SolarCollectorArea);
-            vm.SolarM3 = CheckforNull(result.ContainerVolume);
-            vm.SolarEfficiency = CheckforNull(result.SolarCollectorEffectiveness);//
-            vm.SolarClass = CheckforNull(result.ContainerClassification);//
-            vm.SolarTotal = CheckforNull(result.SolarHeatContribution);
+            SolarM2 = CheckIfZero(result.SolarCollectorArea);
+            SolarM3 = CheckIfZero(result.ContainerVolume);
+            SolarEfficiency = CheckIfZero(result.SolarCollectorEffectiveness);
+            SolarClass = CheckIfZero(result.ContainerClassification);
+            SolarTotal = CheckIfZero(result.SolarHeatContribution);
 
-            vm.PackagedAnnualEfficiencyEEILabel = SelectValue(result.EEICharacters);
-            vm.ResultOne = CheckforNull(result.PackagedSolutionAtColdTemperaturesAFUE);
+            PackagedAnnualEfficiencyEEILabel = SelectValue(result.EEICharacters);
+
+            PackagedAnnualEfficiencyRoomHeating = CheckIfZero(result.EEI);
+            SupHeatingUnitAnnualEfficiency = CheckIfZero(result.EffectOfSecondaryHeatPump);
+            SupHeatingUnitTotal = CheckIfZero(result.SecondaryHeatPumpAFUE);
+            SolarContributionAndSupHeatingUnitTotal = CheckIfZero(result.AdjustedContribution);
+
+            PackagedAnnualEfficiencyAverageClima = CheckIfZero(result.EEI);
+
+            ResultOne = CheckIfZero(result.PackagedSolutionAtColdTemperaturesAFUE);
         }
-        private string CheckforNull(float value)
+        private string CheckIfZero(float value)
         {
-            if (value == 0)
+            if (value <= 0)
             {
                 return "";
             }
             return Math.Round(value, 2).ToString();
-
         }
 
-        private void CalPageOne(PdfCalculationViewModel vm, EEICalculationResult result)
-        {
-            vm.PageOne = "Visible";
-            vm.ResultTwo = CheckforNull(result.PackagedSolutionAtWarmTemperaturesAFUE);
-            vm.PackagedAnnualEfficiencyAverageClima = CheckforNull(result.EEI);
+        private void SetupPageOneSecResult(EEICalculationResult result)
+        {   
+            ResultTwo = CheckIfZero(result.PackagedSolutionAtWarmTemperaturesAFUE);
         }
-        private void CalPageTwo(PdfCalculationViewModel vm, EEICalculationResult result)
+        private void SetupPageFiveSpecialInfo(List<EEICalculationResult> results)
         {
-            vm.PageTwo = "Visible";
-            vm.SupHeatingUnitAnnualEfficiency = CheckforNull(result.EffectOfSecondaryHeatPump);
-            vm.SupHeatingUnitTotal = CheckforNull(result.SecondaryHeatPumpAFUE);
-            vm.SolarContributionAndSupHeatingUnitTotal = CheckforNull(result.AdjustedContribution);
-            vm.PackagedAnnualEfficiencyRoomHeating = CheckforNull(result.EEI);
-        }
-        private void CalPageThree(PdfCalculationViewModel vm, EEICalculationResult result)
-        {
-            vm.PageThree = "Visible";
-            vm.PackagedAnnualEfficiencyRoomHeating = CheckforNull(result.EEI);
-        }
-        private void CalPageFour(PdfCalculationViewModel vm, EEICalculationResult result)
-        {
-            vm.PageFour = "Visible";
-            vm.PackagedAnnualEfficiencyAverageClima = "N/A";
-        }
-        private void CalPageFive(PdfCalculationViewModel vm, EEICalculationResult result)
-        {
-            vm.PageFive = "Visible";
-            vm.UseProfile = "N/A";
-            vm.AnnualWaterheatingEfficiency = "N/A";
+            PageFive = "Visible";
+            UseProfile = results[1].WaterHeatingUseProfile.ToString();
+            AnnualWaterheatingEfficiency = CheckIfZero(results[1].WaterHeatingEffciency);
+            SolarTotal = CheckIfZero(results[1].SolarHeatContribution);
+            PackagedAnnualEfficiencyAverageClima = CheckIfZero(results[1].EEI);
+            PackagedAnnualEfficiencyEEILabelWater = SelectValue(results[1].EEICharacters);
+            PackagedWaterUseprofile = SelectValue(results[1].WaterHeatingUseProfile.ToString());
         }
         private int SelectValue(string label)
         {
@@ -173,11 +177,15 @@ namespace VVSAssistant.ViewModels
                 case "A": value = 7; break;
                 case "B": value = 6; break;
                 case "C": value = 5; break;
+                case "XXL":
                 case "D": value = 4; break;
+                case "XL":
                 case "E": value = 3; break;
+                case "L":
                 case "F": value = 2; break;
+                case "M":
                 case "G": value = 1; break;
-                default: value = 0; break;
+                default: value = 1; break;
             }
             return value;
         }

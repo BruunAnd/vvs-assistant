@@ -123,11 +123,13 @@ namespace VVSAssistant.Functions
                 fixedDoc.Pages.Add(CreatePageContent(pageOne, vmOffer));
 
                 //PageTwo
+                vmOffer = new PdfOfferExportViewModel();
                 var pageTwo = new PdfOfferLayout();
                 vmOffer.PageTwo = "Visible";
                 fixedDoc.Pages.Add(CreatePageContent(pageTwo, vmOffer));
 
                 //pageThree
+                vmOffer = new PdfOfferExportViewModel();
                 var pageThree = new PdfOfferLayout();
                 vmOffer.PageThree = "Visible";
                 fixedDoc.Pages.Add(CreatePageContent(pageThree, vmOffer));
@@ -210,7 +212,7 @@ namespace VVSAssistant.Functions
 
                 var calculationLayout = new PdfCalculationLayout();
                 var calculationViewModel = new PdfCalculationViewModel();
-                calculationViewModel.SetUp(calculationViewModel, result);
+                calculationViewModel.Setup(result);
 
                 fixedDoc.Pages.Add(CreatePageContent(calculationLayout, calculationViewModel));
 

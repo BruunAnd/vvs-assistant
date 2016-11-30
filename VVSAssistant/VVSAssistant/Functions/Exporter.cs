@@ -69,7 +69,7 @@ namespace VVSAssistant.Functions
 
             var calculationLayout = new PdfCalculationLayout();
             var calculationViewModel = new PdfCalculationViewModel();
-            calculationViewModel.SetUp(calculationViewModel, result);
+            calculationViewModel.Setup(result);
 
             fixedDoc.Pages.Add(CreatePageContent(calculationLayout, calculationViewModel));
             
