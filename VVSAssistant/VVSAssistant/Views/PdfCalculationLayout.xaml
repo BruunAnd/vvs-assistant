@@ -18,7 +18,7 @@
 
 
         <!--Page 1-->
-        <Grid Grid.Column="0" Grid.Row="0" Height="27.7cm" Width="19.0cm" Margin="10,32,-9.89,1015" Visibility="{Binding PageOne}">
+        <Grid Grid.Column="0" Grid.Row="0" Height="27.7cm" Width="19.0cm" Margin="0,0,0.11,0" Visibility="{Binding PageOne}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="1*"/>
@@ -1075,7 +1075,7 @@
 
 
         <!--Page 3-->
-        <Grid Grid.Column="0" Grid.Row="0" Height="27.7cm" Width="19.0cm" Visibility="{Binding PageThree}">
+        <Grid Grid.Column="0" Grid.Row="0" Height="27.7cm" Width="19.0cm" Margin="0,0,0.11,0" Visibility="{Binding PageThree}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="1*"/>
@@ -1486,7 +1486,7 @@
 
 
         <!--Page 4-->
-        <Grid Grid.Column="0" Grid.Row="0" Height="27.7cm" Width="19.0cm" Visibility="{Binding PageFour}">
+        <Grid Grid.Column="0" Grid.Row="0" Height="27.7cm" Width="19.0cm" Margin="0,0,0.11,0" Visibility="{Binding PageFour}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="1*"/>
