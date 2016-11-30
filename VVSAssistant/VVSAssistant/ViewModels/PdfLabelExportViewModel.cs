@@ -10,10 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Markup;
 using System.Xml;
 using VVSAssistant.Functions.Calculation;
+using VVSAssistant.Models;
 
 namespace VVSAssistant.ViewModels
 {
-    class PdfLabelExportViewModel
+    internal struct ArrowData
+    {
+        public int Location { get; set; }
+        public string Letter { get; set; }
+        public string Plus { get; set; }
+    }
+
+    internal class PdfLabelExportViewModel
     {
         public string LabelOne { get; set; }
         public string CompNameText { get; set;}
@@ -55,10 +63,92 @@ namespace VVSAssistant.ViewModels
         public string LabelTwoTabeOneArrowLetter { get; set; }
         public string LabelTwoTabeOneArrowPlus { get; set; }
 
-        public PdfLabelExportViewModel()
+
+        public void Setup(PackagedSolution packaged, List<EEICalculationResult> result)
         {
+            CompNameText = CompanyInfo.CompanyName;
             
+            SolarIncluded = (packaged.Appliances.Any(item => item.Type == ApplianceTypes.SolarPanel)) ? "Visible" : "Hidden";
+            WatertankIncluded = (packaged.Appliances.Any(item => item.Type == ApplianceTypes.Container)) ? "Visible" : "Hidden";
+            TempControleIncluded = (packaged.Appliances.Any(item => item.Type == ApplianceTypes.TemperatureController)) ? "Visible" : "Hidden";
+            HeaterIncluded = (result[0].SecondaryBoilerAFUE > 0 || result[0].SecondaryHeatPumpAFUE > 0)? "Visible" : "Hidden";
+
+            switch (result.Count)
+            {
+                case 1: SetupLabelOne(result[0]); break;
+                case 2: SetupLabelTwo(result); break;
+                default: return;
+            }
         }
-}
+
+
+        private void SetupLabelTwo(IReadOnlyList<EEICalculationResult> result)
+        {
+            LabelTwo = "Visible";
+            LabelOne = "Collapsed";
+
+            var arrowData = SelectArrowValue(EEICharLabelChooser.EEIChar(ApplianceTypes.Boiler, result[1].PrimaryHeatingUnitAFUE)[0]);
+            AnnualEfficiencyLetter = arrowData.Letter;
+            AnnualEfficiencyPlus = arrowData.Plus;
+
+            arrowData = SelectArrowValue(EEICharLabelChooser.EEIChar(ApplianceTypes.Boiler, result[0].PrimaryHeatingUnitAFUE)[0]);
+            WaterHeatingModeLetter = arrowData.Letter;
+            WaterHeatingModePlus = arrowData.Plus;
+
+            TapValue = result[1].WaterHeatingUseProfile.ToString();
+
+
+            arrowData = SelectArrowValue(result[0].EEICharacters);
+            TabelOneArrow = arrowData.Location;
+            TabelOneArrowLetter = arrowData.Letter;
+            TabelOneArrowPlus = arrowData.Plus;
+
+            arrowData = SelectArrowValue(result[1].EEICharacters);
+            TabelTwoArrow = arrowData.Location;
+            TabelTwoArrowLetter = arrowData.Letter;
+            TabelTwoArrowPlus = arrowData.Plus;
+        }
+        private void SetupLabelOne(EEICalculationResult result)
+        {
+            LabelOne = "Visible";
+            LabelTwo = "Collapsed";
+            var arrowData = SelectArrowValue(EEICharLabelChooser.EEIChar(ApplianceTypes.Boiler, result.PrimaryHeatingUnitAFUE)[0]);
+            AnnualEfficiencyLetter = arrowData.Letter;
+            AnnualEfficiencyPlus = arrowData.Plus;
+
+            arrowData = SelectArrowValue(result.EEICharacters);
+            LabelTwoTabeOneArrow = arrowData.Location;
+            LabelTwoTabeOneArrowLetter = arrowData.Letter;
+            LabelTwoTabeOneArrowPlus = arrowData.Plus;
+
+        }
+        private static ArrowData SelectArrowValue(string label)
+        {
+            int arrowPlace;
+            string letterOnArrow;
+            string plusOnArrow = string.Empty;
+            switch (label)
+            {
+                case "A+++": letterOnArrow = "A"; plusOnArrow = "+++"; arrowPlace = 1; break;
+                case "A++": letterOnArrow = "A"; plusOnArrow = "++"; arrowPlace = 2; break;
+                case "A+": letterOnArrow = "A"; plusOnArrow = "+"; arrowPlace = 3; break;
+                case "A": letterOnArrow = "A"; arrowPlace = 4; break;
+                case "B": letterOnArrow = "B"; arrowPlace = 5; break;
+                case "C": letterOnArrow = "C"; arrowPlace = 6; break;
+                case "D": letterOnArrow = "D"; arrowPlace = 7; break;
+                case "E": letterOnArrow = "E"; arrowPlace = 8; break;
+                case "F": letterOnArrow = "F"; arrowPlace = 9; break;
+                case "G": letterOnArrow = "G"; arrowPlace = 10; break;
+                default: letterOnArrow = "Error"; arrowPlace = 10; break;
+            }
+            var arrowData = new ArrowData
+            {
+                Location = arrowPlace,
+                Letter = letterOnArrow,
+                Plus = plusOnArrow
+            };
+            return arrowData;
+        }
     }
+}
 

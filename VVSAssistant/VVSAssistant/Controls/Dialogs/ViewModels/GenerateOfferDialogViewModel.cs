@@ -56,16 +56,13 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
 
         private bool VerifyRequiredInformation()
         {
-            if (!string.IsNullOrEmpty(Offer.Client.ClientInformation.Name) &&
-                !string.IsNullOrEmpty(Offer.Client.ClientInformation.Email) &&
-                !string.IsNullOrEmpty(Offer.Client.ClientInformation.Address) &&
-                !string.IsNullOrEmpty(Offer.Client.ClientInformation.PhoneNumber) &&
-                !string.IsNullOrEmpty(Offer.OfferInformation.Title) &&
-                !string.IsNullOrEmpty(Offer.OfferInformation.Intro) &&
-                !string.IsNullOrEmpty(Offer.OfferInformation.Outro))
-                return true;
-            else
-                return false;
+            return !string.IsNullOrEmpty(Offer.Client.ClientInformation.Name) &&
+                   !string.IsNullOrEmpty(Offer.Client.ClientInformation.Email) &&
+                   !string.IsNullOrEmpty(Offer.Client.ClientInformation.Address) &&
+                   !string.IsNullOrEmpty(Offer.Client.ClientInformation.PhoneNumber) &&
+                   !string.IsNullOrEmpty(Offer.OfferInformation.Title) &&
+                   !string.IsNullOrEmpty(Offer.OfferInformation.Intro) &&
+                   !string.IsNullOrEmpty(Offer.OfferInformation.Outro);
         }
     }
 }

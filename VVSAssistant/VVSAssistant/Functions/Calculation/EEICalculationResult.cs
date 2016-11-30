@@ -11,6 +11,7 @@ namespace VVSAssistant.Functions.Calculation
     // Calculation dat goes here
     public class EEICalculationResult
     {
+        public int Id { get; set; }
         public CalculationType CalculationType { get; set; }
         public string EEICharacters { get; set; }
         public float EEI { get; set; }
