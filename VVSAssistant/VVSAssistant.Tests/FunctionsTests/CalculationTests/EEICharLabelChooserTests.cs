@@ -23,7 +23,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests
 
         public void LabelChooserRegularReturnscCorrectLabel_true(ApplianceTypes Type, float calcEEI, string expected)
         {
-            Assert.AreEqual(EEICharLabelChooser.EEIChar(Type, calcEEI),expected);
+            Assert.AreEqual(EEICharLabelChooser.EEIChar(Type, calcEEI)[0],expected);
         }
 
         [Test]
@@ -33,7 +33,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests
         [TestCase(UseProfileType.L, 67, "B")]
         public void LabelChooserWaterReturnscCorrectLabel_true(UseProfileType Type, float calcEEI, string expected)
         {
-            Assert.AreEqual(EEICharLabelChooser.EEIChar(Type, calcEEI), expected);
+            Assert.AreEqual(EEICharLabelChooser.EEIChar(Type, calcEEI)[0], expected);
         }
     }
 }

@@ -21,6 +21,7 @@
                BasedOn="{StaticResource {x:Type DataGridCell}}">
             <Setter Property="ToolTip" Value="{Binding Description,
                 Converter={StaticResource CommaToNewlineConverter}}"/>
+            <Setter Property="ToolTipService.ShowDuration" Value="20000"/>
         </Style>
     </ContentControl.Resources>
     <Grid Background="White">
@@ -182,7 +183,7 @@
                 <DockPanel>
                     <Label Content="Til næste energimærke: "/>
                     <Label Content="{Binding EEIResultsRoomHeating.ToNextLabel}"
-                           HorizontalAlignment="Right"/>
+                           HorizontalAlignment="Center"/>
                 </DockPanel>
                 <DockPanel>
                     <Label Content="Energimærke ved vandopvarmning: "/>
@@ -199,8 +200,8 @@
                 </DockPanel>
                 <DockPanel>
                     <Label Content="Til næste energimærke: "/>
-                    <Label Content="{Binding EEIResultsRoomHeating.ToNextLabel}"
-                           HorizontalAlignment="Right"/>
+                    <Label Content="{Binding EEIResultsWaterHeating.ToNextLabel}"
+                           HorizontalAlignment="Center"/>
                 </DockPanel>
 
                         <Button Margin="0 5 0 0"

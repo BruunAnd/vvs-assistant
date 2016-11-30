@@ -70,7 +70,7 @@ namespace VVSAssistant.Functions.Calculation
             if (calcEEI > list[8])
                 return "0%";
             else
-                return (list[index + 1] - calcEEI).ToString() + "%";
+                return (list[index]- calcEEI).ToString() + "%";
         }
     }
 }

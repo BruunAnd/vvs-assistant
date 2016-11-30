@@ -27,14 +27,14 @@ namespace VVSAssistant.Models.DataSheets
         [DisplayName(@"Stilstandstab")]
         public float StandingLoss { get; set; }
         // Norminal volume
-        [DisplayName(@"Vandinhold")]
+        [DisplayName(@"Vandinhold")] //L
         public float Vnorm { get; set; }
 
         // Ikke sol-relateret beholder volume
-        [DisplayName(@"Ikke-solrelateret beholdervolumen")]
+        [DisplayName(@"Ikke-solrelateret beholdervolumen")] //L
         public float Vbu { get; set; }
 
-        [DisplayName(@"Elforbrug i standbytilstand")]
+        [DisplayName(@"Elforbrug i standbytilstand")] //W
         public float Psb { get; set; }
 
         //TODO: Maybe find some better names for these two
@@ -46,16 +46,39 @@ namespace VVSAssistant.Models.DataSheets
 
         public override string ToString()
         {
+            string room= "";
+            string water = "";
             string userProfileString = "";
             string WaterHeatEffString = "";
+            string coldwarmString = "";
+            string tempconString = "";
+            string lossString = "";
+            string vnormString = "";
+            string vbuString = "";
+            string psbString = "";
 
+            if (isRoomHeater == true)
+                room = ", Rumopvarmning";
+            if (isWaterHeater == true)
+                water = ", Vandopvarmning";
             if (UseProfile != 0)
-                userProfileString = $", forbrugsprofil: {UseProfile}";
+                userProfileString = $", Forbrugsprofil: {UseProfile}";
             if (WaterHeatingEffiency != 0)
-                WaterHeatEffString = $", effektivitet ved vandopvarmning: {WaterHeatingEffiency}%";
+                WaterHeatEffString = $", Effektivitet ved vandopvarmning: {WaterHeatingEffiency}%";
+            if (AFUEColdClima != 0)
+                coldwarmString = $", Årvirkninsgrad i koldere klimazoner: {AFUEColdClima}%, Årvirkninsgrad i varmere klimazoner: {AFUEWarmClima}%";
+            if (InternalTempControl != null)
+                tempconString = $", Temperaturregulatorklasse: {InternalTempControl}";
+            if (StandingLoss != 0)
+                lossString = $", Stilstandstab: {StandingLoss}W";
+            if (Vnorm != 0)
+                vnormString = $", Vandindhold: {Vnorm}L";
+            if (Vbu != 0)
+                vbuString = $", Ikke-solrelateret beholdervolumen: {Vbu}L";
+            if (Psb != 0)
+                psbString = $", Elforbrug i standbytilstand {Psb}W";
 
-
-            return $"Årsvirkningsgrad: {AFUE}%, Wattforbrug: {WattUsage}kW{userProfileString}{WaterHeatEffString}";
+            return $"Årsvirkningsgrad: {AFUE}%, Wattforbrug: {WattUsage}kW{room}{water}{coldwarmString}{tempconString}{userProfileString}{WaterHeatEffString}{lossString}{vnormString}{vbuString}{psbString}";
         }
     }
     public enum UseProfileType

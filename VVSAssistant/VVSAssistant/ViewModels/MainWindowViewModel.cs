@@ -1,6 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using System.Data.Entity;
+﻿using System.ComponentModel;
 using System.IO.Compression;
 using System.Linq;
 using System.Windows;
@@ -8,8 +6,9 @@ using Microsoft.Win32;
 using MahApps.Metro.Controls.Dialogs;
 using VVSAssistant.Common;
 using VVSAssistant.Common.ViewModels;
-using VVSAssistant.Database;
 using VVSAssistant.Functions;
+using VVSAssistant.Controls.Dialogs.Views;
+using VVSAssistant.Controls.Dialogs.ViewModels;
 
 namespace VVSAssistant.ViewModels
 {
@@ -38,14 +37,20 @@ namespace VVSAssistant.ViewModels
                 var result = dlg.ShowDialog();
                 if (result == true) DataUtil.Database.Export(dlg.FileName);
             }, x => DataUtil.Database.Exists());
+
+            RunOfferSettingsDialogCmd = new RelayCommand(x =>
+           {
+               OpenOfferSettingsDialog();
+           });
             
         }
         
 
-        private void ValidateDatabaseFile(object sender, System.ComponentModel.CancelEventArgs e)
+        private static void ValidateDatabaseFile(object sender, CancelEventArgs e)
         {
             var dlg = sender as OpenFileDialog;
 
+            if (dlg == null) return;
             using (var archive = ZipFile.OpenRead(dlg.FileName))
             {
                 if (archive.Entries.FirstOrDefault(x => x.Name == DataUtil.Database.Name()) != null) return;
@@ -53,23 +58,13 @@ namespace VVSAssistant.ViewModels
                 e.Cancel = true;
             }
         }
-
-        //private static ViewModelBase _currentViewModel;
-        //public static ViewModelBase CurrentViewModel
-        //{
-        //    get { return _currentViewModel; }
-        //    set
-        //    {
-        //        if (value == null) return;
-        //        _currentViewModel = value;
-        //        OnStaticPropertyChanged("CurrentViewModel");
-        //    }
-        //}
         
         public RelayCommand NavCommand { get; }
         public RelayCommand DatabaseImport { get; }
         public RelayCommand DatabaseExport { get; }
-        
+        public RelayCommand RunOfferSettingsDialogCmd { get; }
+
+
         private void OnNav(string destination)
         {
             switch (destination)
@@ -92,6 +87,18 @@ namespace VVSAssistant.ViewModels
                 default:
                     return; 
             }
+        }
+
+        private async void OpenOfferSettingsDialog()
+        {
+            var customDialog = new CustomDialog();
+            var dialogCoordinator = new DialogCoordinator();
+            var dialogViewModel = new CompanyInfoDialogViewModel(instanceCancel => dialogCoordinator.HideMetroDialogAsync(this, customDialog),
+                instanceCompleted => dialogCoordinator.HideMetroDialogAsync(this, customDialog));
+
+            customDialog.Content = new CompanyInfoDialogView { DataContext = dialogViewModel };
+
+            await dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
         }
     }
 }
