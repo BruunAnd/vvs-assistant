@@ -112,7 +112,7 @@ namespace VVSAssistant.ViewModels
             {
                 case CalculationType.PrimaryBoiler: PageTwo = "Visible"; ; break;
                 case CalculationType.PrimaryCPH: PageThree = "Visible"; break;
-                case CalculationType.PrimaryHeatPump: PageThree = "Visible"; SetupPageOneSecResult(result); break;
+                case CalculationType.PrimaryHeatPump: PageOne = "Visible"; SetupPageOneSecResult(result); break;
                 case CalculationType.PrimaryLowTempHeatPump: PageFour = "Visible"; SetupPageOneSecResult(result); break;
                 default: return;
             }
