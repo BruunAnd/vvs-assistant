@@ -16,6 +16,8 @@ namespace VVSAssistant.ViewModels
     {
         public MainWindowViewModel()
         {
+            NavigationService.LoadingStateChanged += NavigationService_LoadingStateChanged;
+
             NavCommand = new RelayCommand(x =>
             {
                 var str = x as string;
@@ -39,12 +41,15 @@ namespace VVSAssistant.ViewModels
             }, x => DataUtil.Database.Exists());
 
             RunOfferSettingsDialogCmd = new RelayCommand(x =>
-           {
-               OpenOfferSettingsDialog();
-           });
-            
+            {
+                OpenOfferSettingsDialog();
+            });
         }
-        
+
+        private void NavigationService_LoadingStateChanged(bool isLoading)
+        {
+            IsLoading = isLoading;
+        }
 
         private static void ValidateDatabaseFile(object sender, CancelEventArgs e)
         {
@@ -64,29 +69,34 @@ namespace VVSAssistant.ViewModels
         public RelayCommand DatabaseExport { get; }
         public RelayCommand RunOfferSettingsDialogCmd { get; }
 
-
-        private void OnNav(string destination)
+        private async void OnNav(string destination)
         {
+            ViewModelBase nextPage;
+
             switch (destination)
             {
                 case "ExistingPackagedSolutionView":
-                    NavigationService.NavigateTo(new ExistingPackagedSolutionsViewModel(new DialogCoordinator()));
+                    nextPage = new ExistingPackagedSolutionsViewModel(new DialogCoordinator());
                     break;
                 case "CreatePackagedSolutionView":
-                    NavigationService.NavigateTo(new CreatePackagedSolutionViewModel(new DialogCoordinator()));
+                    nextPage = new CreatePackagedSolutionViewModel(new DialogCoordinator());
                     break;
                 case "ExistingOffersView":
-                    NavigationService.NavigateTo(new ExistingOffersViewModel(new DialogCoordinator()));
+                    nextPage = new ExistingOffersViewModel(new DialogCoordinator());
                     break;
                 case "CreateOfferView":
-                    NavigationService.NavigateTo(new CreateOfferViewModel(new DialogCoordinator()));
+                    nextPage = new CreateOfferViewModel(new DialogCoordinator());
                     break;
                 case "GoBack":
                     NavigationService.GoBack();
-                    break;
+                    return;
                 default:
                     return; 
             }
+
+            // Navigate to page
+            await NavigationService.BeginNavigate(nextPage);
+            NavigationService.EndNavigate();
         }
 
         private async void OpenOfferSettingsDialog()
@@ -99,6 +109,13 @@ namespace VVSAssistant.ViewModels
             customDialog.Content = new CompanyInfoDialogView { DataContext = dialogViewModel };
 
             await dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
+        }
+
+        private bool _isLoading;
+        public bool IsLoading
+        {
+            get { return _isLoading; }
+            set { SetProperty(ref _isLoading, value); }
         }
     }
 }

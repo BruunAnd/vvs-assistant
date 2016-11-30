@@ -7,7 +7,10 @@ using VVSAssistant.Controls.Dialogs.Views;
 using System.Linq;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using VVSAssistant.Common.ViewModels;
+using VVSAssistant.Database;
 using VVSAssistant.Functions;
 
 namespace VVSAssistant.ViewModels
@@ -128,9 +131,19 @@ namespace VVSAssistant.ViewModels
 
             /* Tied to "print offer" button in bottom left corner. 
              * Disabled if VerifyOfferHasRequiredInformation returns false. */
-            PrintOfferCmd = new RelayCommand
-                        (x => RunGenerateOfferDialog(),
-                         x => VerifyOfferHasRequiredInformation());
+            PrintOfferCmd = new RelayCommand(x => 
+                {
+                    using (var ctx = new AssistantContext())
+                    {
+                        if (ctx.Offers.SingleOrDefault(o => o.Id == Offer.Id) == null) // Not saved
+                        {
+                            SaveOfferDialog();
+                            ExportOffer();
+                        }
+                        else
+                            ExportOffer();
+                    }
+                }, x => VerifyOfferHasRequiredInformation()); 
 
             /* Tied to the action of double clicking a packaged solution's info 
              * in the list of packaged solutions. When this happens, property 
@@ -140,7 +153,7 @@ namespace VVSAssistant.ViewModels
 
             /* Doing the same as print offer, todo: figure out what we want to accomplish here */
             SaveOfferCmd = new RelayCommand
-                        (x => RunGenerateOfferDialog(),
+                        (x => SaveOfferDialog(),
                          x => VerifyOfferHasRequiredInformation());
 
             /* When the "nyt tilbud" button in bottom left corner is pressed. 
@@ -190,7 +203,12 @@ namespace VVSAssistant.ViewModels
             ArePackagedSolutionsVisible = false;
             PrintOfferCmd.NotifyCanExecuteChanged();
         }
-        
+
+        /* Opens offer creation dialog */
+        public void SaveOfferDialog()
+        {
+            RunGenerateOfferDialog();
+        }
 
         /* Called by PrintOfferDialog */
         public async void RunGenerateOfferDialog()
@@ -209,7 +227,6 @@ namespace VVSAssistant.ViewModels
                     Offer.TotalCostPrice = TotalCostPrice;
                     Offer.TotalContributionMargin = TotalContributionMargin;
                     SaveOfferToDatabase(Offer);
-                    ExportOffer();
                 });
 
             customDialog.Content = new GenerateOfferDialogView { DataContext = dialogViewModel };
@@ -218,9 +235,9 @@ namespace VVSAssistant.ViewModels
 
         public void ExportOffer()
         {
-            DataUtil.PdfOffer.Export(Offer);
+            var e = new Exporter();
+            e.ExportOffer(Offer);
         }
-        
 
         private void NotifyOfferContentsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
@@ -267,40 +284,55 @@ namespace VVSAssistant.ViewModels
 
         public override void LoadDataFromDatabase()
         {
-            DbContext.PackagedSolutions.ToList().ForEach(p => PackagedSolutions.Add(p));
+            using (var ctx = new AssistantContext())
+            {
+                PackagedSolutions = new ObservableCollection<PackagedSolution>(ctx.PackagedSolutions
+                    .Include(p => p.ApplianceInstances.Select(a => a.Appliance.DataSheet)));
+            }
         }
 
         public void LoadExistingOffer(int existingOfferId)
         {
-            var existingOffer = DbContext.Offers.FirstOrDefault(o => o.Id == existingOfferId);
-            if (existingOffer == null) return;
+            using (var ctx = new AssistantContext())
+            {
+                var existingOffer = ctx.Offers.Where(o => o.Id == existingOfferId)
+                    .Include(o => o.PackagedSolution.ApplianceInstances.Select(a => a.Appliance.DataSheet))
+                    .Include(o => o.Materials)
+                    .Include(o => o.Salaries)
+                    .FirstOrDefault();
 
-            Offer.PackagedSolution = existingOffer.PackagedSolution;
+                if (existingOffer == null) return;
 
-            // Load appliances
-            foreach (var appliance in existingOffer.PackagedSolution.Appliances)
-                AppliancesInOffer.Add(appliance);
+                Offer.PackagedSolution = existingOffer.PackagedSolution;
 
-            // Load materials
-            foreach (var material in existingOffer.Materials)
-                MaterialsInOffer.Add(material);
+                // Load appliances
+                foreach (var appliance in existingOffer.PackagedSolution.Appliances)
+                    AppliancesInOffer.Add(appliance);
 
-            // Load salaries
-            foreach (var salary in existingOffer.Salaries)
-                SalariesInOffer.Add(salary);
+                // Load materials
+                foreach (var material in existingOffer.Materials)
+                    MaterialsInOffer.Add(material);
 
-            ArePackagedSolutionsVisible = false;
-            IsComponentTabVisible = true;
+                // Load salaries
+                foreach (var salary in existingOffer.Salaries)
+                    SalariesInOffer.Add(salary);
+
+                ArePackagedSolutionsVisible = false;
+                IsComponentTabVisible = true;
+            }
         }
 
         private void SaveOfferToDatabase(Offer offer)
         {
-            offer.Salaries = SalariesInOffer.ToList();
-            offer.Materials = MaterialsInOffer.ToList();
-            offer.CreationDate = DateTime.Now;
-            offer.Client.CreationDate = DateTime.Now;
-            DbContext.Offers.Add(offer);
-            DbContext.SaveChanges();
+            using (var ctx = new AssistantContext())
+            {
+                offer.Salaries = SalariesInOffer.ToList();
+                offer.Materials = MaterialsInOffer.ToList();
+                offer.CreationDate = DateTime.Now;
+                offer.Client.CreationDate = DateTime.Now;
+                ctx.Offers.AddOrUpdate(offer);
+                ctx.SaveChanges();
+            }
         }
         #endregion
     }

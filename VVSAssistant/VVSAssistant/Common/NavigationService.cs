@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using VVSAssistant.Common.ViewModels;
 using VVSAssistant.ViewModels;
 
@@ -9,38 +10,48 @@ namespace VVSAssistant.Common
 {
     public static class NavigationService
     {
-        public static void NavigateTo(ViewModelBase page)
-        {
-            // If a dataconnection for the currentviewmodel is active, close it.
-            CurrentPage?.CloseDataConnection();
-            
-            // Navigate to page
-            CurrentPage = page;
+        public delegate void LoadingStateChangedHandler(bool isLoading);
+        public static event LoadingStateChangedHandler LoadingStateChanged;
 
-            if (page == null)
+        public static async Task BeginNavigate(ViewModelBase target)
+        {
+            // Invoke an event to indicate loading
+            LoadingStateChanged?.Invoke(true);
+
+            // On navigation to main page
+            if (target == null)
             {
                 NavigationStack.Clear();
                 return;
             }
-            
-            // Open dataconnection and load data from database
-            CurrentPage?.OpenDataConnection();
-            CurrentPage?.LoadDataFromDatabase();
+
+            // Set placeholder for next page
+            _nextPage = target;
 
             // Add page to navigation stack
-            NavigationStack.Add(page);
+            NavigationStack.Add(_nextPage);
+
+            await Task.Run(() => _nextPage?.LoadDataFromDatabase());
         }
 
-        public static bool GoBack()
+        public static void EndNavigate()
+        {
+            // Set current page and reset next page
+            CurrentPage = _nextPage;
+            _nextPage = null;
+
+            // Invoke loading event to indicate no longer loading
+            LoadingStateChanged?.Invoke(false);
+        }
+
+        public static async void GoBack()
         {
             // Navigation failed
-            if (!NavigationStack.Any()) return false;
+            if (!NavigationStack.Any()) return;
 
             NavigationStack.Remove(NavigationStack.GetEnumerator().Current);
-            NavigateTo(NavigationStack.GetEnumerator().Current);
-
-            // Navigation succeeded
-            return true;
+            await BeginNavigate(NavigationStack.GetEnumerator().Current);
+            EndNavigate();
         }
 
         public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
@@ -65,5 +76,6 @@ namespace VVSAssistant.Common
         }
 
         private static readonly ICollection<ViewModelBase> NavigationStack = new List<ViewModelBase>();
+        private static ViewModelBase _nextPage;
     }
 }

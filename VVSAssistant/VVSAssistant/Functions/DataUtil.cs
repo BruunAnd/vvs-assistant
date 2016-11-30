@@ -216,6 +216,16 @@ namespace VVSAssistant.Functions
 
                 fixedDoc.Pages.Add(CreatePageContent(calculationLayout, calculationViewModel));
 
+                if (result.Count > 1)
+                {
+                    calculationLayout = new PdfCalculationLayout();
+                    calculationViewModel = new PdfCalculationViewModel();
+                    calculationViewModel.SetupSpecialPage(result);
+                    fixedDoc.Pages.Add(CreatePageContent(calculationLayout, calculationViewModel));
+                }
+
+
+
                 RunSaveDialog(fixedDoc, packaged.Name);
             }
 

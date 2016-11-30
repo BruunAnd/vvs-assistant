@@ -4,12 +4,15 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Collections.Specialized;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
+using System.Threading;
 using System.Threading.Tasks;
 using MahApps.Metro.Controls.Dialogs;
 using VVSAssistant.Common.ViewModels;
 using VVSAssistant.Common.ViewModels.VVSAssistant.Common.ViewModels;
 using VVSAssistant.Controls.Dialogs.ViewModels;
 using VVSAssistant.Controls.Dialogs.Views;
+using VVSAssistant.Database;
 using VVSAssistant.Extensions;
 using VVSAssistant.Functions;
 using VVSAssistant.Models;
@@ -144,19 +147,21 @@ namespace VVSAssistant.ViewModels
             }
         }
 
-        private EEICalculationResult _eeiResultRoomHeating;
-        public EEICalculationResult EeiResultsRoomHeating
+        private EEICalculationResult _eeiResult;
+        public EEICalculationResult EEIResultsRoomHeating
         {
-            get { return _eeiResultRoomHeating; }
-            set { _eeiResultRoomHeating = value; OnPropertyChanged(); }
+            get { return _eeiResult; }
+            set { _eeiResult = value; OnPropertyChanged(); }
         }
 
-        private EEICalculationResult _eeiResultWaterHeating;
-        public EEICalculationResult EeiResultsWaterHeating
+        private EEICalculationResult _eeiResultSecondary;
+        public EEICalculationResult EEIResultsWaterHeating
         {
-            get { return _eeiResultWaterHeating; }
-            set { _eeiResultWaterHeating = value; OnPropertyChanged(); }
+            get { return _eeiResultSecondary; }
+            set { _eeiResultSecondary = value; OnPropertyChanged(); }
         }
+
+        private readonly CalculationManager _calculationManager;
         
         #endregion
 
@@ -175,7 +180,7 @@ namespace VVSAssistant.ViewModels
 
         #region Collections
 
-        public ObservableCollection<Appliance> Appliances { get; }
+        public ObservableCollection<Appliance> Appliances { get; set; }
         public ObservableCollection<Appliance> AppliancesInPackagedSolution { get; set; }
 
         #endregion
@@ -184,14 +189,15 @@ namespace VVSAssistant.ViewModels
         {
             #region Initialize collections
 
-            Appliances = new ObservableCollection<Appliance>();
-            SetupFilterableView(Appliances);
+            // Appliances = new ObservableCollection<Appliance>();
+            // SetupFilterableView(Appliances);
             AppliancesInPackagedSolution = new ObservableCollection<Appliance>();
 
             #endregion
 
             #region Initialize properties
 
+            _calculationManager = new CalculationManager();
             _dialogCoordinator = dialogCoordinator;
             PackagedSolution = new PackagedSolution();
 
@@ -249,7 +255,8 @@ namespace VVSAssistant.ViewModels
             PdfExportCmd = new RelayCommand(x =>
             {
                 PackagedSolution.Appliances = new ApplianceList(AppliancesInPackagedSolution.ToList());
-                DataUtil.PdfEnergyLabel.ExportEnergyLabel(PackagedSolution);
+                var e = new Exporter();
+                e.ExportEnergyLabel(PackagedSolution);
             });
             #endregion
         }
@@ -269,9 +276,8 @@ namespace VVSAssistant.ViewModels
 
             AppliancesInPackagedSolution.Clear();
             PackagedSolution = new PackagedSolution();
-            EeiResultsRoomHeating = new EEICalculationResult();
-            EeiResultsWaterHeating = new EEICalculationResult();
-            UpdateEei();
+            EEIResultsRoomHeating = new EEICalculationResult();
+            EEIResultsWaterHeating = new EEICalculationResult();
         }
 
         private void AddApplianceToPackagedSolution(Appliance appliance)
@@ -286,13 +292,16 @@ namespace VVSAssistant.ViewModels
         private async void DropAppliance(Appliance appliance)
         {
             // Check if the appliance is used in any packaged solutions
-            var conflictingSolutions = DbContext.PackagedSolutions.Where(s => s.ApplianceInstances.Any(a => a.Appliance.Id == appliance.Id)).ToList();
-            if (conflictingSolutions.Count > 0)
+            using (var ctx = new AssistantContext())
             {
-                var formattedSolutionString = string.Join("\n", conflictingSolutions.Select(x => $"- {x.Name}"));
-                await _dialogCoordinator.ShowMessageAsync(this, "Fejl",
-                    $"Komponentet kan ikke slettes, da det findes i følgende pakkeløsninger:\n{formattedSolutionString}");
-                return;
+                var conflictingSolutions = ctx.PackagedSolutions.Where(s => s.ApplianceInstances.Any(a => a.Appliance.Id == appliance.Id)).ToList();
+                if (conflictingSolutions.Count > 0)
+                {
+                    var formattedSolutionString = string.Join("\n", conflictingSolutions.Select(x => $"- {x.Name}"));
+                    await _dialogCoordinator.ShowMessageAsync(this, "Fejl",
+                        $"Komponentet kan ikke slettes, da det findes i følgende pakkeløsninger:\n{formattedSolutionString}");
+                    return;
+                }
             }
 
             // Remove from current solution
@@ -303,8 +312,11 @@ namespace VVSAssistant.ViewModels
             Appliances.Remove(appliance);
 
             // Remove from database
-            DbContext.Appliances.Remove(appliance);
-            DbContext.SaveChanges();
+            using (var ctx = new AssistantContext())
+            {
+                ctx.Appliances.Remove(appliance);
+                ctx.SaveChanges();
+            }
         }
 
         private void SaveCurrentPackagedSolution()
@@ -312,22 +324,14 @@ namespace VVSAssistant.ViewModels
             /* IMPORTANT 
              * A packaged solution should not be saved if there exists
              *  a solar collector without a container tied to it. */
-
-            var packSol = DbContext.PackagedSolutions.SingleOrDefault(p => p.Id == PackagedSolution.Id);
-            if (packSol != null) //It's already in the DB
+            using (var ctx = new AssistantContext())
             {
-                PackagedSolution.Appliances.Clear();
-                AppliancesInPackagedSolution.ToList().ForEach(appliance => PackagedSolution.Appliances.Add(appliance));
-                DbContext.Entry(packSol).CurrentValues.SetValues(PackagedSolution);
-            }
-            else //Hasn't been saved yet
-            {
-                PackagedSolution.CreationDate = DateTime.Now;
                 PackagedSolution.Appliances = new ApplianceList(AppliancesInPackagedSolution.ToList());
-                DbContext.PackagedSolutions.Add(PackagedSolution);
+                if (PackagedSolution.CreationDate == default(DateTime))
+                    PackagedSolution.CreationDate = DateTime.Now;
+                ctx.PackagedSolutions.AddOrUpdate(PackagedSolution);
+                ctx.SaveChanges();
             }
-
-            DbContext.SaveChanges();
         }
 
         private async void RunAddHeatingUnitDialog(Appliance appliance)
@@ -398,13 +402,19 @@ namespace VVSAssistant.ViewModels
             var customDialog = new CustomDialog();
 
             var dialogViewModel = new CreateApplianceDialogViewModel(SelectedAppliance, false,
-                                      instanceCancel => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
-                                      instanceCompleted =>
-                                      {
-                                          _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
-                                          foreach (var appliance in Appliances)
-                                              FilteredCollectionView.Refresh();
-                                      });
+                instanceCancel => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
+                instanceCompleted =>
+                {
+                    _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
+                    FilteredCollectionView.Refresh();
+
+                    // Update appliance changes in database
+                    using (var ctx = new AssistantContext())
+                    {
+                        ctx.Appliances.AddOrUpdate(SelectedAppliance);
+                        ctx.SaveChanges();
+                    }
+                });
 
             customDialog.Content = new CreateApplianceDialogView { DataContext = dialogViewModel };
 
@@ -416,13 +426,21 @@ namespace VVSAssistant.ViewModels
             var customDialog = new CustomDialog();
             var newAppliance = new Appliance();
             var dialogViewModel = new CreateApplianceDialogViewModel(newAppliance, true,
-                                      closeHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
-                                      completionHandler =>
-                                      {
-                                          DbContext.Appliances.Add(newAppliance);
-                                          Appliances.Add(newAppliance);
-                                          _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
-                                      });
+                closeHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
+                completionHandler =>
+                {
+                    _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
+
+                    // Save to database
+                    using (var ctx = new AssistantContext())
+                    {
+                        ctx.Appliances.Add(newAppliance);
+                        ctx.SaveChanges();
+                    }
+                                          
+                    // Add to local list
+                    Appliances.Add(newAppliance);
+                });
 
             customDialog.Content = new CreateApplianceDialogView { DataContext = dialogViewModel };
 
@@ -436,26 +454,38 @@ namespace VVSAssistant.ViewModels
             SavePackagedSolutionCmd.NotifyCanExecuteChanged();
         }
 
-        public override  void LoadDataFromDatabase()
+        public override void LoadDataFromDatabase()
         {
-            DbContext.Appliances.ToList().ForEach(Appliances.Add);
+            using (var ctx = new AssistantContext())
+            {
+                Appliances = new ObservableCollection<Appliance>(ctx.Appliances.Include(a => a.DataSheet));
+                SetupFilterableView(Appliances);
+            }
         }
 
         public void LoadExistingPackagedSolution(int packagedSolutionId)
         {
-            var existingPackagedSolution = DbContext.PackagedSolutions.FirstOrDefault(p => p.Id == packagedSolutionId);
-            if (existingPackagedSolution == null) return;
+            using (var ctx = new AssistantContext())
+            {
+                var existingPackagedSolution = ctx.PackagedSolutions.Where(p => p.Id == packagedSolutionId)
+                    .Include(s => s.SolarContainerInstances.Select(i => i.Appliance.DataSheet))
+                    .Include(s => s.PrimaryHeatingUnitInstance.Appliance.DataSheet)
+                    .Include(s => s.ApplianceInstances.Select(i => i.Appliance.DataSheet))
+                    .FirstOrDefault();
 
-            // Copy primary heating unit
-            PackagedSolution.PrimaryHeatingUnit = existingPackagedSolution.PrimaryHeatingUnit;
+                if (existingPackagedSolution == null) return;
 
-            // Copy solarcontainers
-            foreach (var solarContainer in existingPackagedSolution.SolarContainers)
-                PackagedSolution.SolarContainers.Add(solarContainer);
-            
-            // Copy appliances
-            foreach (var appliance in existingPackagedSolution.Appliances)
-                AppliancesInPackagedSolution.Add(appliance);
+                // Copy primary heating unit
+                PackagedSolution.PrimaryHeatingUnit = existingPackagedSolution.PrimaryHeatingUnit;
+
+                // Copy solarcontainers
+                foreach (var solarContainer in existingPackagedSolution.SolarContainers)
+                    PackagedSolution.SolarContainers.Add(solarContainer);
+
+                // Copy appliances
+                foreach (var appliance in existingPackagedSolution.Appliances)
+                    AppliancesInPackagedSolution.Add(appliance);
+            }
         }
 
         protected override bool Filter(Appliance obj)
@@ -549,15 +579,16 @@ namespace VVSAssistant.ViewModels
         private void UpdateEei()
         {
             PackagedSolution.Appliances = new ApplianceList(AppliancesInPackagedSolution.ToList());
+            PackagedSolution.UpdateEEI();
             if (PackagedSolution.EnergyLabel != null && PackagedSolution.EnergyLabel.Count > 1)
             {
-                EeiResultsRoomHeating = PackagedSolution.EnergyLabel[0].CalculateEEI(PackagedSolution);
-                EeiResultsWaterHeating = PackagedSolution.EnergyLabel[1].CalculateEEI(PackagedSolution);
+                EEIResultsRoomHeating = PackagedSolution.EnergyLabel[0];
+                EEIResultsWaterHeating = PackagedSolution.EnergyLabel[1];
             }
             else
             {
-                EeiResultsRoomHeating = PackagedSolution.EnergyLabel != null ? PackagedSolution.EnergyLabel[0].CalculateEEI(PackagedSolution) : null;
-                EeiResultsWaterHeating = null;
+                EEIResultsRoomHeating = PackagedSolution.EnergyLabel?[0];
+                EEIResultsWaterHeating = null;
             }
         }
 

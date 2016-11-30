@@ -85,6 +85,7 @@ namespace VVSAssistant.ViewModels
         private void SetupLabelTwo(IReadOnlyList<EEICalculationResult> result)
         {
             LabelTwo = "Visible";
+            LabelOne = "Collapsed";
 
             var arrowData = SelectArrowValue(EEICharLabelChooser.EEIChar(ApplianceTypes.Boiler, result[1].PrimaryHeatingUnitAFUE)[0]);
             AnnualEfficiencyLetter = arrowData.Letter;
@@ -110,7 +111,7 @@ namespace VVSAssistant.ViewModels
         private void SetupLabelOne(EEICalculationResult result)
         {
             LabelOne = "Visible";
-
+            LabelTwo = "Collapsed";
             var arrowData = SelectArrowValue(EEICharLabelChooser.EEIChar(ApplianceTypes.Boiler, result.PrimaryHeatingUnitAFUE)[0]);
             AnnualEfficiencyLetter = arrowData.Letter;
             AnnualEfficiencyPlus = arrowData.Plus;

@@ -9,7 +9,7 @@ using VVSAssistant.Functions.Calculation;
 
 namespace VVSAssistant.ViewModels
 {
-    class PdfCalculationViewModel
+    internal class PdfCalculationViewModel
     {
 
         private string _pageOne;
@@ -117,10 +117,28 @@ namespace VVSAssistant.ViewModels
                 case CalculationType.PrimaryCPH: PageThree = "Visible"; break;
                 case CalculationType.PrimaryHeatPump: PageOne = "Visible"; SetupPageOneSecResult(result); break;
                 case CalculationType.PrimaryLowTempHeatPump: PageFour = "Visible"; SetupPageOneSecResult(result); break;
-                case CalculationType.PrimaryWaterBoiler: SetupPageFiveSpecialInfo(results); break;
                 default: return;
             }
 
+            BasicSetup(result);
+        }
+
+        public void SetupSpecialPage(List<EEICalculationResult> results)
+        {
+            BasicSetup(results[0]);
+            SetupPageFiveSpecialInfo(results);
+
+        }
+        private string CheckIfZero(float value)
+        {
+            if (value <= 0)
+            {
+                return "";
+            }
+            return Math.Round(value, 2).ToString();
+        }
+        private void BasicSetup(EEICalculationResult result)
+        {
             PrimAnnualEfficiency = CheckIfZero(result.PrimaryHeatingUnitAFUE);
             TemperatureControleclass = CheckIfZero(result.EffectOfTemperatureRegulatorClass);
             SupBoilerAnnualEfficiency = CheckIfZero(result.SecondaryBoilerAFUE);
@@ -142,14 +160,6 @@ namespace VVSAssistant.ViewModels
             PackagedAnnualEfficiencyAverageClima = CheckIfZero(result.EEI);
 
             ResultOne = CheckIfZero(result.PackagedSolutionAtColdTemperaturesAFUE);
-        }
-        private string CheckIfZero(float value)
-        {
-            if (value <= 0)
-            {
-                return "";
-            }
-            return Math.Round(value, 2).ToString();
         }
 
         private void SetupPageOneSecResult(EEICalculationResult result)
