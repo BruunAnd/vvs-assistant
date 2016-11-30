@@ -21,11 +21,11 @@ namespace VVSAssistant.Models.DataSheets
         public float N0 { get; set; }
         // First order heat loss coll
         [DisplayName(@"1. Ordens koefficient")]// w/(m^2 K)
-        [Description(@"Værdi i W/(m^2K)")]
+        [Description(@"Værdi i W/(m\u00b2 K)")]
         public float a1 { get; set; }
         // Second order heat loss coll
         [DisplayName(@"2. Ordens koefficient")]
-        [Description(@"Værdi i W/(m^2K^2)")]
+        [Description(@"Værdi i W/(m\u00b2 K\u00b2)")]
         public float a2 { get; set; }
         // Incidence Angle Modifier 
         [DisplayName(@"Indfaldsvinkel korrektionsfaktor")]

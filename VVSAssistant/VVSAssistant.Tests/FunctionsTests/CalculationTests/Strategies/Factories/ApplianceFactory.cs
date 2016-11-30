@@ -96,7 +96,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             {
                 case SolarPanelId.LogasolSKNWater:
                     return new ApplianceStub("LogasolSKN", new SolarCollectorDataSheet()
-                    { Area = 2.25f, Efficency = 60, N0 = 0.766f, a1 = 3.22f,
+                    { Area = 2.25f, Efficency = 61, N0 = 0.766f, a1 = 3.22f,
                         a2 = 0.015f, IAM = 0.92f }, ApplianceTypes.SolarPanel);
                 case SolarPanelId.FKC25Water:
                     return new ApplianceStub("FKC25", new SolarCollectorDataSheet()
