@@ -48,6 +48,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             _result.CalculationType = _packageData.CalculationStrategyType(_package, _result);
             _result.EEICharacters = EEICharLabelChooser.EEIChar(_result.WaterHeatingUseProfile, _result.EEI, 1.5f)[0];
             _result.ToNextLabel = EEICharLabelChooser.EEIChar(_result.WaterHeatingUseProfile, _result.EEI, 1.5f)[1];
+            _result.ProceedingEEICharacter = EEICharLabelChooser.EEIChar(_result.WaterHeatingUseProfile, _result.EEI, 1.5f)[2];
             return _result;
         }
 

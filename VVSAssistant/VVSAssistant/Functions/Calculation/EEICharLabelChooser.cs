@@ -25,9 +25,11 @@ namespace VVSAssistant.Functions.Calculation
                 case ApplianceTypes.HeatPump:
                 case ApplianceTypes.Boiler:
                 case ApplianceTypes.CHP:
-                    return new List<string> { Labels[getLabel(PrimPumpOrBoilOrCHP, CalcEII, uncertainty)],  getToNext(PrimPumpOrBoilOrCHP, CalcEII, getLabel(PrimPumpOrBoilOrCHP, CalcEII, uncertainty)) };
+                    int heatBoilCHPindex = getLabel(PrimPumpOrBoilOrCHP, CalcEII, uncertainty);
+                    return new List<string> { Labels[heatBoilCHPindex],  getToNext(PrimPumpOrBoilOrCHP, CalcEII, heatBoilCHPindex), getNextLabel(heatBoilCHPindex)};
                 case ApplianceTypes.LowTempHeatPump:
-                    return new List<string> { Labels[getLabel(LowHeatPump, CalcEII, uncertainty)], getToNext(PrimPumpOrBoilOrCHP, CalcEII, getLabel(LowHeatPump, CalcEII, uncertainty)) };
+                    int lowTempIndex = getLabel(LowHeatPump, CalcEII, uncertainty);
+                    return new List<string> { Labels[lowTempIndex], getToNext(PrimPumpOrBoilOrCHP, CalcEII, lowTempIndex), getNextLabel(lowTempIndex) };
                 default:
                     return null;
             }
@@ -39,13 +41,17 @@ namespace VVSAssistant.Functions.Calculation
             switch (TypeOfUser)
             {
                 case UseProfileType.M:
-                    return new List<string> { Labels[getLabel(UserTypeM, CalcEEI, uncertainty)], getToNext(UserTypeM, CalcEEI, getLabel(UserTypeM, CalcEEI, uncertainty))};
+                    int mediumIndex = getLabel(UserTypeM, CalcEEI, uncertainty);
+                    return new List<string> { Labels[mediumIndex], getToNext(UserTypeM, CalcEEI, mediumIndex), getNextLabel(mediumIndex)};
                 case UseProfileType.L:
-                    return new List<string> { Labels[getLabel(UserTypeL, CalcEEI, uncertainty)], getToNext(UserTypeL, CalcEEI, getLabel(UserTypeL, CalcEEI, uncertainty)) };
+                    int largeIndex = getLabel(UserTypeL, CalcEEI, uncertainty);
+                    return new List<string> { Labels[largeIndex], getToNext(UserTypeL, CalcEEI, largeIndex), getNextLabel(largeIndex) };
                 case UseProfileType.XL:
-                    return new List<string> { Labels[getLabel(UserTypeXL, CalcEEI, uncertainty)], getToNext(UserTypeXL, CalcEEI, getLabel(UserTypeXL, CalcEEI, uncertainty)) };
+                    int xLargeIndex = getLabel(UserTypeXL, CalcEEI, uncertainty);
+                    return new List<string> { Labels[xLargeIndex], getToNext(UserTypeXL, CalcEEI, xLargeIndex), getNextLabel(xLargeIndex) };
                 case UseProfileType.XXL:
-                    return new List<string> { Labels[getLabel(UserTypeXXL, CalcEEI, uncertainty)], getToNext(UserTypeXXL, CalcEEI, getLabel(UserTypeXXL, CalcEEI, uncertainty)) };
+                    int xXLargeIndex = getLabel(UserTypeXXL, CalcEEI, uncertainty);
+                    return new List<string> { Labels[xXLargeIndex], getToNext(UserTypeXXL, CalcEEI, xXLargeIndex), getNextLabel(xXLargeIndex) };
                 default:
                     return null;
             }
@@ -71,6 +77,14 @@ namespace VVSAssistant.Functions.Calculation
                 return "0%";
             else
                 return (list[index]- calcEEI).ToString() + "%";
+        }
+
+        static private string getNextLabel(int index)
+        {
+            if (index < Labels.Count -1)
+                return Labels[index + 1];
+            else
+                return null;
         }
     }
 }

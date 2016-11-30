@@ -95,7 +95,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             Results.EEI = (float)Math.Round(Results.PrimaryHeatingUnitAFUE + Results.EffectOfTemperatureRegulatorClass - Results.EffectOfSecondaryBoiler + Results.SolarHeatContribution);
             Results.EEICharacters = EEICharLabelChooser.EEIChar(PackagedSolution.PrimaryHeatingUnit.Type, Results.EEI, 1)[0];
             Results.ToNextLabel = EEICharLabelChooser.EEIChar(PackagedSolution.PrimaryHeatingUnit.Type, Results.EEI, 1)[1];
-
+            Results.ProceedingEEICharacter = EEICharLabelChooser.EEIChar(PackagedSolution.PrimaryHeatingUnit.Type, Results.EEI, 1)[2];
             //Calculating for colder and warmer climates
             if (PackagedSolution.PrimaryHeatingUnit.Type != ApplianceTypes.CHP)
             {
