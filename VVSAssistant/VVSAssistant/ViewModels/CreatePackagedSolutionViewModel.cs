@@ -145,14 +145,14 @@ namespace VVSAssistant.ViewModels
         }
 
         private EEICalculationResult _eeiResultRoomHeating;
-        public EEICalculationResult EEIResultsRoomHeating
+        public EEICalculationResult EeiResultsRoomHeating
         {
             get { return _eeiResultRoomHeating; }
             set { _eeiResultRoomHeating = value; OnPropertyChanged(); }
         }
 
         private EEICalculationResult _eeiResultWaterHeating;
-        public EEICalculationResult EEIResultsWaterHeating
+        public EEICalculationResult EeiResultsWaterHeating
         {
             get { return _eeiResultWaterHeating; }
             set { _eeiResultWaterHeating = value; OnPropertyChanged(); }
@@ -269,8 +269,9 @@ namespace VVSAssistant.ViewModels
 
             AppliancesInPackagedSolution.Clear();
             PackagedSolution = new PackagedSolution();
-            EEIResultsRoomHeating = new EEICalculationResult();
-            EEIResultsWaterHeating = new EEICalculationResult();
+            EeiResultsRoomHeating = new EEICalculationResult();
+            EeiResultsWaterHeating = new EEICalculationResult();
+            UpdateEei();
         }
 
         private void AddApplianceToPackagedSolution(Appliance appliance)
@@ -550,13 +551,13 @@ namespace VVSAssistant.ViewModels
             PackagedSolution.Appliances = new ApplianceList(AppliancesInPackagedSolution.ToList());
             if (PackagedSolution.EnergyLabel != null && PackagedSolution.EnergyLabel.Count > 1)
             {
-                EEIResultsRoomHeating = PackagedSolution.EnergyLabel[0].CalculateEEI(PackagedSolution);
-                EEIResultsWaterHeating = PackagedSolution.EnergyLabel[1].CalculateEEI(PackagedSolution);
+                EeiResultsRoomHeating = PackagedSolution.EnergyLabel[0].CalculateEEI(PackagedSolution);
+                EeiResultsWaterHeating = PackagedSolution.EnergyLabel[1].CalculateEEI(PackagedSolution);
             }
             else
             {
-                EEIResultsRoomHeating = PackagedSolution.EnergyLabel != null ? PackagedSolution.EnergyLabel[0].CalculateEEI(PackagedSolution) : null;
-                EEIResultsWaterHeating = null;
+                EeiResultsRoomHeating = PackagedSolution.EnergyLabel != null ? PackagedSolution.EnergyLabel[0].CalculateEEI(PackagedSolution) : null;
+                EeiResultsWaterHeating = null;
             }
         }
 

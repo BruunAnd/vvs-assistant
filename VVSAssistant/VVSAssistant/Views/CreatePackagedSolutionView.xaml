@@ -167,47 +167,59 @@
             <StackPanel Grid.Row="3" 
                         Orientation="Vertical" 
                         VerticalAlignment="Bottom">
-                <DockPanel>
-                    <Label Content="Energimærke ved rumopvarmning: "/>
-                    <Label Content="{Binding EEIResultsRoomHeating.EEI}"
-                           HorizontalAlignment="Right"/>
-                    <Label Content="%"/>
-                    <Label HorizontalAlignment="Right" 
-                           Content="{Binding EEIResultsRoomHeating.EEICharacters, UpdateSourceTrigger=PropertyChanged}"
+                <StackPanel Orientation="Vertical" Visibility="{Binding EeiResultsRoomHeating, TargetNullValue=Collapsed}">
+                    <Label Style="{StaticResource LabelHeader}" Content="Rumopvarmning"
+                           Visibility="{Binding EeiResultsWaterHeating, TargetNullValue=Collapsed}"/>
+                    <DockPanel>
+                        <Label Content="Aktuelt energimærke:"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Label Content="{Binding EeiResultsRoomHeating.EEI}" ContentStringFormat=" {0}%"/>
+                            <Label
+                           Content="{Binding EeiResultsRoomHeating.EEICharacters, UpdateSourceTrigger=PropertyChanged}"
                            FontWeight="Bold"
                            Margin="0 2 0 2"
                            Padding="10 5 10 5"
                            Foreground="{StaticResource IdealForegroundColorBrush}"
-                           Background="{Binding EEIResultsRoomHeating.EEICharacters, Converter={StaticResource LetterToColorConverter}}"/>
-                </DockPanel>
-                <DockPanel>
-                    <Label Content="Til næste energimærke: "/>
-                    <Label Content="{Binding EEIResultsRoomHeating.ToNextLabel}"
-                           HorizontalAlignment="Center"/>
-                </DockPanel>
-                <DockPanel>
-                    <Label Content="Energimærke ved vandopvarmning: "/>
-                    <Label Content="{Binding EEIResultsWaterHeating.EEI}"
+                           Background="{Binding EeiResultsRoomHeating.EEICharacters, Converter={StaticResource LetterToColorConverter}}"/>
+                        </StackPanel>
+                    </DockPanel>
+                    <DockPanel>
+                        <Label Content="Næste energiklasse:"
+                           HorizontalAlignment="Left"/>
+                        <Label Content="{Binding EeiResultsRoomHeating.ToNextLabel}"
                            HorizontalAlignment="Right"/>
-                    <Label Content="%"/>
-                    <Label HorizontalAlignment="Right" 
-                           Content="{Binding EEIResultsWaterHeating.EEICharacters, UpdateSourceTrigger=PropertyChanged}"
-                           FontWeight="Bold"
-                           Margin="0 2 0 2"
-                           Padding="10 5 10 5"
-                           Foreground="{StaticResource IdealForegroundColorBrush}"
-                           Background="{Binding EEIResultsWaterHeating.EEICharacters, Converter={StaticResource LetterToColorConverter}}"/>
-                </DockPanel>
-                <DockPanel>
-                    <Label Content="Til næste energimærke: "/>
-                    <Label Content="{Binding EEIResultsWaterHeating.ToNextLabel}"
-                           HorizontalAlignment="Center"/>
-                </DockPanel>
+                    </DockPanel>
+                </StackPanel>
 
-                        <Button Margin="0 5 0 0"
-                        Content="Ny pakkeløsning"
-                        Command="{Binding NewPackagedSolutionCmd}"
-                        />
+                <StackPanel Orientation="Vertical" Visibility="{Binding EeiResultsWaterHeating, TargetNullValue=Collapsed}">
+                    <Label Style="{StaticResource LabelHeader}" Content="Vandopvarmning"
+                           Visibility="{Binding EeiResultsRoomHeating, TargetNullValue=Collapsed}"/>
+                    <DockPanel>
+                        <Label Content="Aktuelt energimærke:"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Label Content="{Binding EeiResultsWaterHeating.EEI}" ContentStringFormat=" {0}%"/>
+                            <Label 
+                           Content="{Binding EeiResultsWaterHeating.EEICharacters, UpdateSourceTrigger=PropertyChanged}"
+                           FontWeight="Bold"
+                           Margin="0 2 0 2"
+                           Padding="10 5 10 5"
+                           Foreground="{StaticResource IdealForegroundColorBrush}"
+                           Background="{Binding EeiResultsWaterHeating.EEICharacters, Converter={StaticResource LetterToColorConverter}}"/>
+                        </StackPanel>
+                    </DockPanel>
+                    <DockPanel>
+                        <Label Content="Næste energiklasse:"
+                           HorizontalAlignment="Left"/>
+                        <Label Content="{Binding EeiResultsWaterHeating.ToNextLabel}"
+                           HorizontalAlignment="Right"/>
+                    </DockPanel>
+                </StackPanel>
+                
+
+                <Button Margin="0 5 0 0"
+                Content="Ny pakkeløsning"
+                Command="{Binding NewPackagedSolutionCmd}"
+                />
 
                 <Button Margin="0 5 0 0" 
                         Content="Gem pakkeløsning"
@@ -252,3 +264,4 @@
         </Grid>
     </Grid>
 </ContentControl>
+
