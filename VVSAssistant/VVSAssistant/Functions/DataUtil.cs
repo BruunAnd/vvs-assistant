@@ -116,6 +116,7 @@ namespace VVSAssistant.Functions
                 //var path = $"PdfOffer.xps";
                 var fixedDoc = new FixedDocument();
                 var vmOffer = new PdfOfferExportViewModel();
+                vmOffer.SetUp(offer);
 
                 //PageOne
                 var pageOne = new PdfOfferLayout();
@@ -135,7 +136,6 @@ namespace VVSAssistant.Functions
                 fixedDoc.Pages.Add(CreatePageContent(pageThree, vmOffer));
 
                 RunSaveDialog(fixedDoc, offer.OfferInformation.Title);
-                //SaveXpsFile(path, fixedDoc);
             }
 
             private static void RunSaveDialog(FixedDocument fixedDocument, string offerTitle)
@@ -216,7 +216,26 @@ namespace VVSAssistant.Functions
 
                 fixedDoc.Pages.Add(CreatePageContent(calculationLayout, calculationViewModel));
 
-                SaveXpsFile(path, fixedDoc);
+                RunSaveDialog(fixedDoc, packaged.Name);
+            }
+
+            private static void RunSaveDialog(FixedDocument fixedDocument, string packagedSolutionName)
+            {
+                var dlg = new SaveFileDialog()
+                {
+                    Filter = "XPS-filer (.xps)|*.xps",
+                    FileName = packagedSolutionName,
+                    DefaultExt = ".xps"
+                };
+
+                var result = dlg.ShowDialog();
+                if (result == false) return;
+                if (File.Exists(dlg.FileName)) File.Delete(dlg.FileName);
+
+                var xpsd = new XpsDocument(dlg.FileName, FileAccess.ReadWrite);
+                var xw = XpsDocument.CreateXpsDocumentWriter(xpsd);
+                xw.Write(fixedDocument);
+                xpsd.Close();
             }
         }
     }
