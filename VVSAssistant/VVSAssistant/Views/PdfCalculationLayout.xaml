@@ -17,13 +17,8 @@
         </Grid.RowDefinitions>
 
 
-
-
-
-
-
         <!--Page 1-->
-        <Grid Grid.Column="0" Grid.Row="0" Height="27.7cm" Width="19.0cm" Margin="10,32,-9.89,1015" Visibility="{Binding PageOne}" Grid.RowSpan="2">
+        <Grid Grid.Column="0" Grid.Row="0" Height="27.7cm" Width="19.0cm" Margin="10,32,-9.89,1015" Visibility="{Binding PageOne}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="1*"/>

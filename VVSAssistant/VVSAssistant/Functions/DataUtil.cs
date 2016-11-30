@@ -115,10 +115,10 @@ namespace VVSAssistant.Functions
             {
                 //var path = $"PdfOffer.xps";
                 var fixedDoc = new FixedDocument();
-                var vmOffer = new PdfOfferExportViewModel();
-                vmOffer.SetUp(offer);
 
                 //PageOne
+                var vmOffer = new PdfOfferExportViewModel();
+                vmOffer.Setup(offer);
                 var pageOne = new PdfOfferLayout();
                 vmOffer.PageOne = "Visible";
                 fixedDoc.Pages.Add(CreatePageContent(pageOne, vmOffer));
@@ -126,12 +126,14 @@ namespace VVSAssistant.Functions
                 //PageTwo
                 vmOffer = new PdfOfferExportViewModel();
                 var pageTwo = new PdfOfferLayout();
+                vmOffer.Setup(offer);
                 vmOffer.PageTwo = "Visible";
                 fixedDoc.Pages.Add(CreatePageContent(pageTwo, vmOffer));
 
                 //pageThree
                 vmOffer = new PdfOfferExportViewModel();
                 var pageThree = new PdfOfferLayout();
+                vmOffer.Setup(offer);
                 vmOffer.PageThree = "Visible";
                 fixedDoc.Pages.Add(CreatePageContent(pageThree, vmOffer));
 
@@ -162,69 +164,30 @@ namespace VVSAssistant.Functions
         {
             public static void ExportEnergyLabel(PackagedSolution packaged)
             {
-
-                #region Debug
-
-                var cm = new CalculationManager();
-                var cal = cm.SelectCalculationStrategy(packaged);
-
-                if (cal == null)
-                {
-                    return;
-                }
-
-                var result = cal.Select(variable => variable.CalculateEEI(packaged)).ToList();
-
-                #endregion
-                #region Debug
-                Console.WriteLine("Print Label pdf == Done");
-                Console.WriteLine("Count " + result.Count);
-                //Console.WriteLine("Index 0 " + result[0].WaterHeatingUseProfile);
-                //Console.WriteLine(result[0].PrimaryHeatingUnitAFUE);
-                Console.WriteLine("Main for index 0 " + result[0].EEICharacters);
-                Console.WriteLine(result[0].EEI);
-                //Console.WriteLine(result[0].WaterHeatingEffciency);
-                Console.WriteLine("EEI " + EEICharLabelChooser.EEIChar(ApplianceTypes.Boiler, result[0].PrimaryHeatingUnitAFUE));
-                Console.WriteLine("EEI " + EEICharLabelChooser.EEIChar(ApplianceTypes.Boiler, result[0].WaterHeatingEffciency));
-
-                if (result.Count > 1)
-                {
-                    Console.WriteLine("------------------------------------------");
-                    Console.WriteLine("Index 1 " + result[1].WaterHeatingUseProfile);
-                    //Console.WriteLine(result[1].PrimaryHeatingUnitAFUE);
-                    Console.WriteLine("Main for index 1 " + result[1].EEICharacters);
-                    Console.WriteLine(result[1].EEI);
-                    //Console.WriteLine(result[1].WaterHeatingEffciency);
-                    Console.WriteLine("EEI Heat " + EEICharLabelChooser.EEIChar(ApplianceTypes.Boiler, result[1].PrimaryHeatingUnitAFUE));
-                    Console.WriteLine("EEI Water " + EEICharLabelChooser.EEIChar(ApplianceTypes.Boiler, result[1].WaterHeatingEffciency));
-                }
-                #endregion
-
                 var path = $"PdfOffer{packaged.Name}.xps";
 
                 var fixedDoc = new FixedDocument();
 
                 var v = new PdfLabelLayout();
                 var vm = new PdfLabelExportViewModel();
-                vm.Setup(packaged, result);
+                vm.Setup(packaged);
 
                 fixedDoc.Pages.Add(CreatePageContent(v, vm));
 
                 var calculationLayout = new PdfCalculationLayout();
                 var calculationViewModel = new PdfCalculationViewModel();
-                calculationViewModel.Setup(result);
+                calculationViewModel.Setup(packaged.EnergyLabel);
 
                 fixedDoc.Pages.Add(CreatePageContent(calculationLayout, calculationViewModel));
 
-                if (result.Count > 1)
+                Console.WriteLine("Listen "+packaged.EnergyLabel.Count);
+                if (packaged.EnergyLabel.Count > 1)
                 {
                     calculationLayout = new PdfCalculationLayout();
                     calculationViewModel = new PdfCalculationViewModel();
-                    calculationViewModel.SetupSpecialPage(result);
+                    calculationViewModel.SetupSpecialPage(packaged.EnergyLabel);
                     fixedDoc.Pages.Add(CreatePageContent(calculationLayout, calculationViewModel));
                 }
-
-
 
                 RunSaveDialog(fixedDoc, packaged.Name);
             }

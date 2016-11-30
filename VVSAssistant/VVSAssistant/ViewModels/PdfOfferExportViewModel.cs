@@ -13,7 +13,11 @@ using VVSAssistant.Functions.Calculation;
 using VVSAssistant.Models;
 
 namespace VVSAssistant.ViewModels
+
+
+
 {
+
     class PdfOfferExportViewModel
     {
         private string _pageOne;
@@ -34,7 +38,6 @@ namespace VVSAssistant.ViewModels
             }
             set { _pageTwo = value; }
         }
-
         private string _pageThree;
         public string PageThree
         {
@@ -46,33 +49,53 @@ namespace VVSAssistant.ViewModels
             set { _pageThree = value; }
         }
 
-        public ApplianceList ApplianceList { get; set; }
-        public ICollection<Material> MaterialsList { get; set; }
-        public ICollection<Salary> SalaryList { get; set; }
-        public DateTime CreationDate { get; set; } // Ikke helt færdig!
-        public string OfferName { get; set; }
+
+        public string Signatur { get; set; }
+        public string CompanyName { get; set; }
+
         public double TotalSalesPrice { get; set; }
-        public string ClientName { get; set; }
-        public string ClientAdresse { get; set; }
+        public double TotalSalesPriceInkl { get; set; }
+
+
+        public DateTime CreationDate { get; set; } // Ikke helt færdig!
+        public string OfferTitle { get; set; }
+        public string ClientName { get; set; } 
+        public string ClientStreet { get; set; }
         public string ClientCity { get; set; }
+        public string ClientCompanyName { get; set; }
+
         public string IntroText { get; set; }
         public string OutroText { get; set; }
         public string Moms { get; set; }
-
-        public void SetUp(Offer offer)
+        public double MomsAmount { get; set; }
+        public double TotalAmountEks { get; set; }
+        public double AppliancesPrice { get; set; }
+        public double SalariesPrice { get; set; }
+        public double MaterialsPrice { get; set; }
+        public void Setup(Offer offer)
         {
-            ApplianceList = offer.PackagedSolution.Appliances;
-            MaterialsList = offer.Materials;
-            CreationDate = offer.CreationDate;
-            OfferName = offer.OfferInformation.Title;
+            OfferTitle = offer.OfferInformation.Title;
+            ClientCompanyName = offer.Client.ClientInformation.CompanyName;
             ClientName = offer.Client.ClientInformation.Name;
-            ClientAdresse = offer.Client.ClientInformation.Address;
-            ClientCity = offer.Client.ClientInformation.Address; //TODO: ClientCity
+            ClientStreet = offer.Client.ClientInformation.Address;
+            ClientCity = offer.Client.ClientInformation.City + ", " + offer.Client.ClientInformation.PostalCode;
+
+            CreationDate = offer.CreationDate;
+            Signatur = offer.OfferInformation.Signature;
+            CompanyName = CompanyInfo.CompanyName;
+
             IntroText = offer.OfferInformation.Intro;
             OutroText = offer.OfferInformation.Outro;
 
-            TotalSalesPrice = offer.TotalSalesPrice;
+            TotalAmountEks = offer.TotalSalesPrice;
+            TotalSalesPriceInkl = (offer.TotalSalesPrice*1.25);
+            MomsAmount = TotalSalesPriceInkl - offer.TotalSalesPrice;
             Moms = ((offer.OfferInformation.ApplyTax) ? "inkl. moms" : "Eks. moms");
+            TotalSalesPrice = ((offer.OfferInformation.ApplyTax) ? TotalSalesPriceInkl : TotalAmountEks);
+
+            AppliancesPrice = offer.AppliancesSalesPrice;
+            SalariesPrice = offer.SalariesSalesPrice;
+            MaterialsPrice = offer.MaterialsSalesPrice;
         }
     }
 }

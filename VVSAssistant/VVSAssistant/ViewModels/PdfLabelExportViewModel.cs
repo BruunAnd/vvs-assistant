@@ -23,7 +23,16 @@ namespace VVSAssistant.ViewModels
 
     internal class PdfLabelExportViewModel
     {
-        public string LabelOne { get; set; }
+        #region Prop
+        private string _labelOne;
+        public string LabelOne
+        {
+            get
+            {
+                return this._labelOne != null ? _labelOne : "Collapsed";
+            }
+            set { _labelOne = value; }
+        }
         public string CompNameText { get; set;}
         public string TapValue { get; set; }
         public string SolarIncluded { get; set; }
@@ -57,36 +66,55 @@ namespace VVSAssistant.ViewModels
         public string AnnualEfficiencyLetter { get; set; }
         public string AnnualEfficiencyPlus { get; set; }
 
-
-        public string LabelTwo { get; set; }
+        private string _labelTwo;
+        public string LabelTwo
+        {
+            get
+            {
+                return this._labelTwo != null ? _labelTwo : "Collapsed";
+            }
+            set { _labelTwo = value; }
+        }
         public int LabelTwoTabeOneArrow { get; set; }
         public string LabelTwoTabeOneArrowLetter { get; set; }
         public string LabelTwoTabeOneArrowPlus { get; set; }
+        #endregion
 
-
-        public void Setup(PackagedSolution packaged, List<EEICalculationResult> result)
+        public void Setup(PackagedSolution packaged)
         {
             CompNameText = CompanyInfo.CompanyName;
-            
+
+            switch (packaged.EnergyLabel.Count)
+            {
+                case 1: SetupLabelOne(packaged.EnergyLabel[0]); break;
+                case 2: SetupLabelTwo(packaged.EnergyLabel); break;
+                default: return;
+            }
+
             SolarIncluded = (packaged.Appliances.Any(item => item.Type == ApplianceTypes.SolarPanel)) ? "Visible" : "Hidden";
             WatertankIncluded = (packaged.Appliances.Any(item => item.Type == ApplianceTypes.Container)) ? "Visible" : "Hidden";
             TempControleIncluded = (packaged.Appliances.Any(item => item.Type == ApplianceTypes.TemperatureController)) ? "Visible" : "Hidden";
-            HeaterIncluded = (result[0].SecondaryBoilerAFUE > 0 || result[0].SecondaryHeatPumpAFUE > 0)? "Visible" : "Hidden";
+            HeaterIncluded = (packaged.EnergyLabel[0].SecondaryBoilerAFUE > 0 || packaged.EnergyLabel[0].SecondaryHeatPumpAFUE > 0)? "Visible" : "Hidden";
 
-            switch (result.Count)
-            {
-                case 1: SetupLabelOne(result[0]); break;
-                case 2: SetupLabelTwo(result); break;
-                default: return;
-            }
+
         }
 
+        private void SetupLabelOne(EEICalculationResult result)
+        {
+            LabelOne = "Visible";
+            var arrowData = SelectArrowValue(EEICharLabelChooser.EEIChar(ApplianceTypes.Boiler, result.PrimaryHeatingUnitAFUE)[0]);
+            AnnualEfficiencyLetter = arrowData.Letter;
+            AnnualEfficiencyPlus = arrowData.Plus;
 
+            arrowData = SelectArrowValue(result.EEICharacters);
+            LabelTwoTabeOneArrow = arrowData.Location;
+            LabelTwoTabeOneArrowLetter = arrowData.Letter;
+            LabelTwoTabeOneArrowPlus = arrowData.Plus;
+
+        }
         private void SetupLabelTwo(IReadOnlyList<EEICalculationResult> result)
         {
             LabelTwo = "Visible";
-            LabelOne = "Collapsed";
-
             var arrowData = SelectArrowValue(EEICharLabelChooser.EEIChar(ApplianceTypes.Boiler, result[1].PrimaryHeatingUnitAFUE)[0]);
             AnnualEfficiencyLetter = arrowData.Letter;
             AnnualEfficiencyPlus = arrowData.Plus;
@@ -108,20 +136,7 @@ namespace VVSAssistant.ViewModels
             TabelTwoArrowLetter = arrowData.Letter;
             TabelTwoArrowPlus = arrowData.Plus;
         }
-        private void SetupLabelOne(EEICalculationResult result)
-        {
-            LabelOne = "Visible";
-            LabelTwo = "Collapsed";
-            var arrowData = SelectArrowValue(EEICharLabelChooser.EEIChar(ApplianceTypes.Boiler, result.PrimaryHeatingUnitAFUE)[0]);
-            AnnualEfficiencyLetter = arrowData.Letter;
-            AnnualEfficiencyPlus = arrowData.Plus;
 
-            arrowData = SelectArrowValue(result.EEICharacters);
-            LabelTwoTabeOneArrow = arrowData.Location;
-            LabelTwoTabeOneArrowLetter = arrowData.Letter;
-            LabelTwoTabeOneArrowPlus = arrowData.Plus;
-
-        }
         private static ArrowData SelectArrowValue(string label)
         {
             int arrowPlace;

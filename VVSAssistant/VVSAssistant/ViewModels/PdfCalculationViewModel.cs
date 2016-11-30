@@ -11,7 +11,7 @@ namespace VVSAssistant.ViewModels
 {
     internal class PdfCalculationViewModel
     {
-
+        #region Prop
         private string _pageOne;
         public string PageOne
         {
@@ -58,26 +58,22 @@ namespace VVSAssistant.ViewModels
         }
 
 
-        //Page 1
-
-        public string PackagedAnnualEfficiencyAverageClima { get; set; } // Page 4 og 1
+        public string PackagedAnnualEfficiencyAverageClima { get; set; } 
 
         public string ResultTwo { get; set; }
-        //page 2
+
         public string SupHeatingUnitAnnualEfficiency { get; set; }
         public string SupHeatingUnitTotal { get; set; }
 
         public string SolarContributionAndSupHeatingUnitTotal { get; set; }
 
-        public string PackagedAnnualEfficiencyRoomHeating { get; set; } // page 3 og 2
+        public string PackagedAnnualEfficiencyRoomHeating { get; set; }
 
-
-        //Page 5
 
         public string UseProfile { get; set; }
         public string AnnualWaterheatingEfficiency { get; set; }
 
-        //Fælles
+
         public string PrimAnnualEfficiency { get; set; }
 
         public string TemperatureControleclass { get; set; }
@@ -107,10 +103,11 @@ namespace VVSAssistant.ViewModels
             get { return _packagedWaterUseprofile + 2; }
             set { _packagedWaterUseprofile = value; }
         }
-
+        #endregion
         public void Setup(List<EEICalculationResult> results)
         {
             var result = results[0];
+            Console.WriteLine("hmm " + result.CalculationType);
             switch (result.CalculationType)
             {
                 case CalculationType.PrimaryBoiler: PageTwo = "Visible"; ; break;
@@ -119,7 +116,7 @@ namespace VVSAssistant.ViewModels
                 case CalculationType.PrimaryLowTempHeatPump: PageFour = "Visible"; SetupPageOneSecResult(result); break;
                 default: return;
             }
-
+            Console.WriteLine("hmm " + result.CalculationType);
             BasicSetup(result);
         }
 
