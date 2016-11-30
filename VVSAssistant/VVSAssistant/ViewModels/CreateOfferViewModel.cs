@@ -129,16 +129,8 @@ namespace VVSAssistant.ViewModels
             /* Tied to "print offer" button in bottom left corner. 
              * Disabled if VerifyOfferHasRequiredInformation returns false. */
             PrintOfferCmd = new RelayCommand
-                        (x => 
-                        {
-                            if (DbContext.Offers.SingleOrDefault(o => o.Id == Offer.Id) == null) //Not saved
-                            {
-                                SaveOfferDialog();
-                                ExportOffer();
-                            }
-                            else
-                                ExportOffer();
-                        }, x => VerifyOfferHasRequiredInformation()); 
+                        (x => RunGenerateOfferDialog(),
+                         x => VerifyOfferHasRequiredInformation());
 
             /* Tied to the action of double clicking a packaged solution's info 
              * in the list of packaged solutions. When this happens, property 
@@ -148,7 +140,7 @@ namespace VVSAssistant.ViewModels
 
             /* Doing the same as print offer, todo: figure out what we want to accomplish here */
             SaveOfferCmd = new RelayCommand
-                        (x => SaveOfferDialog(),
+                        (x => RunGenerateOfferDialog(),
                          x => VerifyOfferHasRequiredInformation());
 
             /* When the "nyt tilbud" button in bottom left corner is pressed. 
@@ -198,12 +190,7 @@ namespace VVSAssistant.ViewModels
             ArePackagedSolutionsVisible = false;
             PrintOfferCmd.NotifyCanExecuteChanged();
         }
-
-        /* Opens offer creation dialog */
-        public void SaveOfferDialog()
-        {
-            RunGenerateOfferDialog();
-        }
+        
 
         /* Called by PrintOfferDialog */
         public async void RunGenerateOfferDialog()
@@ -222,6 +209,7 @@ namespace VVSAssistant.ViewModels
                     Offer.TotalCostPrice = TotalCostPrice;
                     Offer.TotalContributionMargin = TotalContributionMargin;
                     SaveOfferToDatabase(Offer);
+                    ExportOffer();
                 });
 
             customDialog.Content = new GenerateOfferDialogView { DataContext = dialogViewModel };
@@ -230,8 +218,7 @@ namespace VVSAssistant.ViewModels
 
         public void ExportOffer()
         {
-            var e = new Exporter();
-            e.ExportOffer(Offer);
+            DataUtil.PdfOffer.Export(Offer);
         }
         
 
