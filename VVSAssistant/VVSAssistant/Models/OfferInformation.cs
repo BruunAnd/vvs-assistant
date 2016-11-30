@@ -15,6 +15,14 @@ namespace VVSAssistant.Models
             set { SetProperty<string>(ref _intro, value); }
         }
 
+        private string _signature;
+        public string Signature
+        {
+            get { return _signature; }
+            set { SetProperty<string>(ref _signature, value); }
+        }
+
+
         private string _outro;
         public string Outro
         {

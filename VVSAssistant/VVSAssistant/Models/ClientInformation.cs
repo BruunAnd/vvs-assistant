@@ -41,14 +41,7 @@ namespace VVSAssistant.Models
             set { SetProperty<string>(ref _city, value); }
         }
 
-        private string _signature;
-
-        public string Signature
-        {
-            get { return _signature; }
-            set { SetProperty<string>(ref _signature, value); }
-        }
-
+        
         private string _companyName;
         public string CompanyName
         {

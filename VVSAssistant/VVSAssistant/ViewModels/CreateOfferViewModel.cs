@@ -136,10 +136,7 @@ namespace VVSAssistant.ViewModels
                     using (var ctx = new AssistantContext())
                     {
                         if (ctx.Offers.SingleOrDefault(o => o.Id == Offer.Id) == null) // Not saved
-                        {
                             SaveOfferDialog();
-                            ExportOffer();
-                        }
                         else
                             ExportOffer();
                     }
@@ -227,6 +224,14 @@ namespace VVSAssistant.ViewModels
                     Offer.TotalCostPrice = TotalCostPrice;
                     Offer.TotalContributionMargin = TotalContributionMargin;
                     SaveOfferToDatabase(Offer);
+                },
+                printHandler =>
+                {
+                    _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
+                    Offer.TotalCostPrice = TotalCostPrice;
+                    Offer.TotalContributionMargin = TotalContributionMargin;
+                    SaveOfferToDatabase(Offer);
+                    ExportOffer();
                 });
 
             customDialog.Content = new GenerateOfferDialogView { DataContext = dialogViewModel };

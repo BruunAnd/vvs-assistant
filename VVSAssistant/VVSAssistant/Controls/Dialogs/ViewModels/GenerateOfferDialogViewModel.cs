@@ -22,8 +22,9 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
 
         public RelayCommand CloseCommand { get; }
         public RelayCommand SaveCommand { get; }
+        public RelayCommand PrintCommand { get; }
 
-        public GenerateOfferDialogViewModel(Offer offer, Action<GenerateOfferDialogViewModel> closeHandler, Action<GenerateOfferDialogViewModel> completionHandler)
+        public GenerateOfferDialogViewModel(Offer offer, Action<GenerateOfferDialogViewModel> closeHandler, Action<GenerateOfferDialogViewModel> completionHandler, Action<GenerateOfferDialogViewModel> printHandler)
         {
             Offer = offer;
             Offer.Client = new Client() { ClientInformation = new ClientInformation()};
@@ -31,6 +32,11 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             Offer.Client.ClientInformation.PropertyChanged += OfferInformationChanged;
             Offer.OfferInformation.PropertyChanged += OfferInformationChanged;
             
+            PrintCommand = new RelayCommand(x =>
+            {
+                printHandler(this);
+            }, x => VerifyRequiredInformation());
+
             SaveCommand = new RelayCommand(x =>
             {
                 completionHandler(this);
@@ -46,6 +52,7 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
         private void OfferInformationChanged(object sender, PropertyChangedEventArgs e)
         {
             SaveCommand.NotifyCanExecuteChanged();
+            PrintCommand.NotifyCanExecuteChanged();
         }
 
         private void CancelOfferGeneration()
@@ -62,7 +69,8 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
                    !string.IsNullOrEmpty(Offer.Client.ClientInformation.CompanyName) &&
                    !string.IsNullOrEmpty(Offer.OfferInformation.Title) &&
                    !string.IsNullOrEmpty(Offer.OfferInformation.Intro) &&
-                   !string.IsNullOrEmpty(Offer.OfferInformation.Outro);
+                   !string.IsNullOrEmpty(Offer.OfferInformation.Outro) &&
+                   !string.IsNullOrEmpty(Offer.OfferInformation.Signature);
         }
     }
 }
