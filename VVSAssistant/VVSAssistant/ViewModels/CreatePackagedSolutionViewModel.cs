@@ -491,7 +491,7 @@ namespace VVSAssistant.ViewModels
         protected override bool Filter(Appliance obj)
         {
             // Filter based on type first
-            if (IncludeBoilers || IncludeCentralHeatingPlants || IncludeContainers || IncludeHeatPumps
+            if (IncludeBoilers || IncludeCentralHeatingPlants || IncludeContainers || IncludeHeatPumps || IncludeSolarStations
                 || IncludeLowTempHeatPumps || IncludeSolarPanels || IncludeTemperatureControllers || IncludeWaterHeaters)
             {
                 switch (obj.Type)
