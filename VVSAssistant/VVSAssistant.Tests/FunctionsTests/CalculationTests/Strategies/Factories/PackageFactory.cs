@@ -85,6 +85,9 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                     return new PackageStub(BoilerId.Cerapur, null, null, 0, null);
                 case PackagedSolutionId.EuroPurWStationWPanels:
                     return new PackageStub(BoilerId.EuroPurUnitSolarWater, 0, SolarPanelId.LogasolSKNWater, 4, SolarStationId.SBT1003);
+                case PackagedSolutionId.Europur1SolarOnly:
+                    return new PackageStub(BoilerId.EuroPurUnitSolarWater, 0, 0,
+                        SolarPanelId.LogasolSKNWater, 1, 0, 0, 0);
                 default:
                     return null;
             }
@@ -97,6 +100,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         PrimaryWaterBoilerOSolar, PrimaryWaterBoilerNull, PrimaryBoilerWHeatPump, PirmaryBoilerW3Solar,
         PrimaryBoilerW1Solar, PrimaryHeatPump6Solars, PrimaryPurUnitSolarWater, PrimaryPurUnitSolarWaterWStation,
         PrimaryCondens1Container, PrimaryCondens3Container, PrimaryHeatPump2Solar, PrimaryHeatPump4Solars, PrimaryHeatPumpNoSolars,
-            PrimaryCHP4Solars, Brian1, Brian2, Brian3, Brian5, WaterHeaterTest, AndersTest, EuroPurWStationWPanels
+            PrimaryCHP4Solars, Brian1, Brian2, Brian3, Brian5, WaterHeaterTest, AndersTest, EuroPurWStationWPanels,
+        Europur1SolarOnly
     }
 }

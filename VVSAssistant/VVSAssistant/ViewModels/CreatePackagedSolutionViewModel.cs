@@ -357,6 +357,19 @@ namespace VVSAssistant.ViewModels
             }
         }
 
+        private async void RunAddSolarPanelDialog(Appliance solarPanel)
+        {
+            var customDialog = new CustomDialog();
+
+            var dialogViewModel = new AddSolarPanelDialogviewModel(solarPanel, AppliancesInPackagedSolution,
+                          closeHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
+                          completionHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog));
+
+            customDialog.Content = new AddSolarPanelDialogView { DataContext = dialogViewModel };
+
+            await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
+        }
+
         private async void RunAddHeatingUnitDialog(Appliance appliance)
         {
             var customDialog = new CustomDialog();
@@ -474,9 +487,9 @@ namespace VVSAssistant.ViewModels
 
         private void PackageSolutionAppliances_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            UpdateEei();
             NewPackagedSolutionCmd.NotifyCanExecuteChanged();
             SavePackagedSolutionCmd.NotifyCanExecuteChanged();
+            UpdateEei();
         }
 
         public override void LoadDataFromDatabase()
@@ -594,6 +607,10 @@ namespace VVSAssistant.ViewModels
                                                  (a => a.DataSheet is ContainerDataSheet));
                 RunSolarContainerDialog(message, title, appToAdd, appliances);
             }
+            /*else if(appToAdd.DataSheet is SolarCollectorDataSheet)
+            {
+                RunAddSolarPanelDialog(appToAdd);
+            }*/
             else
             {
                 AddApplianceToPackagedSolution(appToAdd);
