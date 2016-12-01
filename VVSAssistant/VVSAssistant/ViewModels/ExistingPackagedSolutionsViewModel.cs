@@ -29,18 +29,7 @@ namespace VVSAssistant.ViewModels
             }
         }
 
-        private ObservableCollection<PackagedSolution> _packagedSolutionCollection;
-        private object _packagedSolutionCollectionLock;
-        public ObservableCollection<PackagedSolution> PackagedSolutions
-        {
-            get { return _packagedSolutionCollection; }
-            set
-            {
-                _packagedSolutionCollectionLock = new object();
-                _packagedSolutionCollection = value;
-                BindingOperations.EnableCollectionSynchronization(_packagedSolutionCollection, _packagedSolutionCollectionLock);
-            }
-        }
+        public AsyncObservableCollection<PackagedSolution> PackagedSolutions { get; set; }
 
         private readonly IDialogCoordinator _dialogCoordinator;
 
@@ -52,7 +41,7 @@ namespace VVSAssistant.ViewModels
         {
             _dialogCoordinator = dialogCoordinator;
 
-            PackagedSolutions = new ObservableCollection<PackagedSolution>();
+            PackagedSolutions = new AsyncObservableCollection<PackagedSolution>();
             SetupFilterableView(PackagedSolutions);
 
             CreatePackagedSolutionCopyCmd = new RelayCommand(async x =>

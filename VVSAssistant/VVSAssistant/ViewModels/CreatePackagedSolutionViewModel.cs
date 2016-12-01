@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using MahApps.Metro.Controls.Dialogs;
+using VVSAssistant.Common;
 using VVSAssistant.Common.ViewModels;
 using VVSAssistant.Common.ViewModels.VVSAssistant.Common.ViewModels;
 using VVSAssistant.Controls.Dialogs.ViewModels;
@@ -182,20 +183,9 @@ namespace VVSAssistant.ViewModels
 
         #region Collections
 
-        private ObservableCollection<Appliance> _applianceCollection;
-        private object _applianceCollectionLock;
-        public ObservableCollection<Appliance> Appliances
-        {
-            get { return _applianceCollection; }
-            set
-            {
-                _applianceCollectionLock = new object();
-                _applianceCollection = value;
-                BindingOperations.EnableCollectionSynchronization(_applianceCollection, _applianceCollectionLock);
-            }
-        }
-
-        private ObservableCollection<Appliance> AppliancesInPackagedSolution { get;}
+        public AsyncObservableCollection<Appliance> Appliances { get; set; }
+        
+        private AsyncObservableCollection<Appliance> AppliancesInPackagedSolution { get;}
         public ICollectionView AppliancesInPackagedSolutionView { get; set; }
 
         #endregion
@@ -204,9 +194,9 @@ namespace VVSAssistant.ViewModels
         {
             #region Initialize collections
 
-            Appliances = new ObservableCollection<Appliance>();
+            Appliances = new AsyncObservableCollection<Appliance>();
             SetupFilterableView(Appliances);
-            AppliancesInPackagedSolution = new ObservableCollection<Appliance>();
+            AppliancesInPackagedSolution = new AsyncObservableCollection<Appliance>();
             AppliancesInPackagedSolutionView = CollectionViewSource.GetDefaultView(AppliancesInPackagedSolution);
 
             #endregion
@@ -354,8 +344,14 @@ namespace VVSAssistant.ViewModels
             using (var ctx = new AssistantContext())
             {
                 PackagedSolution.Appliances = new ApplianceList(AppliancesInPackagedSolution.ToList());
+
+                // Attach appliances to this DataContext (otherwise they will be duplicated)
+                foreach (var appliance in PackagedSolution.Appliances)
+                    ctx.Appliances.Attach(appliance);
+
                 if (PackagedSolution.CreationDate == default(DateTime))
                     PackagedSolution.CreationDate = DateTime.Now;
+
                 ctx.PackagedSolutions.AddOrUpdate(PackagedSolution);
                 ctx.SaveChanges();
             }
