@@ -180,7 +180,6 @@ namespace VVSAssistant.Functions
 
                 fixedDoc.Pages.Add(CreatePageContent(calculationLayout, calculationViewModel));
 
-                Console.WriteLine("Listen "+packaged.EnergyLabel.Count);
                 if (packaged.EnergyLabel.Count > 1)
                 {
                     calculationLayout = new PdfCalculationLayout();
