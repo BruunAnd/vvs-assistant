@@ -107,7 +107,6 @@ namespace VVSAssistant.ViewModels
         public void Setup(List<EEICalculationResult> results)
         {
             var result = results[0];
-            Console.WriteLine("hmm " + result.CalculationType);
             switch (result.CalculationType)
             {
                 case CalculationType.PrimaryBoiler: PageTwo = "Visible"; ; break;
@@ -116,7 +115,6 @@ namespace VVSAssistant.ViewModels
                 case CalculationType.PrimaryLowTempHeatPump: PageFour = "Visible"; SetupPageOneSecResult(result); break;
                 default: return;
             }
-            Console.WriteLine("hmm " + result.CalculationType);
             BasicSetup(result);
         }
 

@@ -174,12 +174,16 @@
     <Compile Include="Common\ViewModels\FilterableViewModelBase.cs" />
     <Compile Include="CompanyInfo.cs" />
     <Compile Include="Controls\Dialogs\ViewModels\AddHeatingUnitDialogViewModel.cs" />
+    <Compile Include="Controls\Dialogs\ViewModels\AddSolarPanelDialogviewModel.cs" />
     <Compile Include="Controls\Dialogs\ViewModels\CompanyInfoDialogViewModel.cs" />
     <Compile Include="Controls\Dialogs\ViewModels\CreateApplianceDialogViewModel.cs" />
     <Compile Include="Controls\Dialogs\ViewModels\GenerateOfferDialogViewModel.cs" />
     <Compile Include="Controls\Dialogs\ViewModels\SolarContainerDialogViewModel.cs" />
     <Compile Include="Controls\Dialogs\Views\AddHeatingUnitDialogView.xaml.cs">
       <DependentUpon>AddHeatingUnitDialogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Dialogs\Views\AddSolarPanelDialogView.xaml.cs">
+      <DependentUpon>AddSolarPanelDialogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Dialogs\Views\CompanyInfoDialogView.xaml.cs">
       <DependentUpon>CompanyInfoDialogView.xaml</DependentUpon>
@@ -274,6 +278,10 @@
       <DependentUpon>PdfOfferLayout.xaml</DependentUpon>
     </Compile>
     <Page Include="Controls\Dialogs\Views\AddHeatingUnitDialogView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Dialogs\Views\AddSolarPanelDialogView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

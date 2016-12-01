@@ -1,0 +1,37 @@
+﻿<UserControl x:Class="VVSAssistant.Controls.Dialogs.Views.AddSolarPanelDialogView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:VVSAssistant.Controls.Dialogs.Views"
+             xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             dialog:DialogParticipation.Register="{Binding}">
+    <Grid Margin="0,71,0,104">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto" MinHeight="123"/>
+            <RowDefinition Height="auto" MinHeight="3"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="Vælg hvad solpanelet bruges til" Margin="5,0,0,0"/>
+        <StackPanel Grid.Row="1" Margin="0,0,0,17">
+            <CheckBox Content="Rumopvarmning" Margin="5"/>
+            <CheckBox Content="Vandopvarmning" Margin="5"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1"
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal" Margin="0,31,0,10" Width="175">
+            <Button
+                    MinWidth="80"
+                    Margin="0,32,5,25"
+                    Command="{Binding SaveCommand}"
+                    Content="Tilføj" Width="48"/>
+            <Button
+                    MinWidth="80"
+                    Margin="5,32,5,25"
+                    Command="{Binding CloseCommand}"
+                    Content="Fortryd"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
