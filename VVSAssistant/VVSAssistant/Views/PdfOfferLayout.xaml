@@ -5,11 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:VVSAssistant.Views"
              xmlns:viewModels="clr-namespace:VVSAssistant.ViewModels"
+             xmlns:valueConverters="clr-namespace:VVSAssistant.ValueConverters"
              mc:Ignorable="d" 
              Height="27.7cm" Width="21.0cm">
     <ContentControl.DataContext>
         <viewModels:PdfOfferExportViewModel/>
     </ContentControl.DataContext>
+    <ContentControl.Resources>
+        <valueConverters:PriceConverter x:Key="PriceConverter"/>
+    </ContentControl.Resources>
     <Grid Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
@@ -65,7 +69,7 @@
                 <Label Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Right" FontFamily="Times" FontSize="14" Content="{Binding CreationDate, StringFormat=dd-MM-yyyy}"/>
                 <Label Grid.Column="0" Grid.Row="2" FontSize="15" FontWeight="Bold" Content="{Binding OfferTitle}" />
 
-                <TextBlock Grid.Row="4" FontSize="14" Visibility="Visible" Text="{Binding IntroText}"/>
+                <TextBlock Grid.Row="4" TextWrapping="Wrap" FontSize="14" Visibility="Visible" Text="{Binding IntroText}"/>
 
             </Grid>
 
@@ -75,10 +79,10 @@
                         Grid.Column="1" Grid.Row="3">
                 <Label FontFamily="Calibri" FontSize="16"
                        FontWeight="Bold">Samet pris:</Label>
-                <Label Content="{Binding TotalSalesPrice}" FontFamily="Calibri" FontSize="16"
+                <Label Content="{Binding TotalSalesPrice, Converter={StaticResource PriceConverter}}" FontFamily="Calibri" FontSize="16"
                        FontWeight="Bold"></Label>
                 <Label FontFamily="Calibri" FontSize="16"
-                       FontWeight="Bold">Kr </Label>
+                       FontWeight="Bold"> </Label>
                 <Label FontFamily="Calibri" FontSize="16"
                        FontWeight="Bold" Content="{Binding Moms}"></Label>
             </StackPanel>
@@ -108,10 +112,7 @@
                 <RowDefinition Height="70"/>
             </Grid.RowDefinitions>
             <Grid Grid.Column="1" Grid.Row="1">
-                <TextBlock FontSize="14" Text="{Binding OutroText}">
-                        <!--Hvis tilbuddet kan accepteres, bedes du/I returnere nærværende brev i underskrevet stand (navn<LineBreak/>
-                        og dato på linjen nedenfor).-->
-                </TextBlock>
+                <TextBlock TextWrapping="Wrap" FontSize="14" Text="{Binding OutroText}"/>
             </Grid>
             <Grid Grid.Column="1" Grid.Row="2">
                 <Grid.ColumnDefinitions>
@@ -168,11 +169,11 @@
                 <Label Grid.Row="0" Grid.Column="0" FontSize="16" Margin="10,0,0,0">Tekst</Label>
                 <Label Grid.Row="0" Grid.Column="1" FontSize="16" HorizontalAlignment="Right">Salgspris</Label>
                 <Label Grid.Row="1" Grid.Column="0" FontSize="16" Content="Komponenter" ></Label>
-                <Label Grid.Row="1" Grid.Column="1" FontSize="16" HorizontalAlignment="Right" Content="{Binding AppliancesPrice}"></Label>
+                <Label Grid.Row="1" Grid.Column="1" FontSize="16" HorizontalAlignment="Right" Content="{Binding AppliancesPrice, Converter={StaticResource PriceConverter}}"></Label>
                 <Label Grid.Row="2" Grid.Column="0" FontSize="16" Content="Løn" ></Label>
-                <Label Grid.Row="2" Grid.Column="1" FontSize="16" HorizontalAlignment="Right" Content="{Binding SalariesPrice}"></Label>
+                <Label Grid.Row="2" Grid.Column="1" FontSize="16" HorizontalAlignment="Right" Content="{Binding SalariesPrice, Converter={StaticResource PriceConverter}}"></Label>
                 <Label Grid.Row="3" Grid.Column="0" FontSize="16" Content="Matrialer" ></Label>
-                <Label Grid.Row="3" Grid.Column="1" FontSize="16" HorizontalAlignment="Right" Content="{Binding MaterialsPrice}"></Label>
+                <Label Grid.Row="3" Grid.Column="1" FontSize="16" HorizontalAlignment="Right" Content="{Binding MaterialsPrice, Converter={StaticResource PriceConverter}}"></Label>
 
             </Grid>
             <Grid Grid.Column="1" Grid.Row="2">
@@ -192,12 +193,12 @@
                 </Grid.RowDefinitions>
                 <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="5" Width="auto" Height="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="Black"/>
                 <Label Grid.Column="0" Grid.Row="0" FontWeight="Bold" FontSize="15" Content="Totalsum" Grid.ColumnSpan="3"/>
-                <Label Grid.Column="4" Grid.Row="0" FontWeight="Bold" FontSize="15" HorizontalAlignment="Right" Content="{Binding TotalAmountEks}"/>
+                <Label Grid.Column="4" Grid.Row="0" FontWeight="Bold" FontSize="15" HorizontalAlignment="Right" Content="{Binding TotalAmountEks, Converter={StaticResource PriceConverter}}"/>
                 <Label Grid.Column="0" Grid.Row="1" FontWeight="Bold" FontSize="15" Content="Moms (25%)" Grid.ColumnSpan="3"/>
-                <Label Grid.Column="4" Grid.Row="1" FontWeight="Bold" FontSize="15" HorizontalAlignment="Right" Content="{Binding MomsAmount}"/>
+                <Label Grid.Column="4" Grid.Row="1" FontWeight="Bold" FontSize="15" HorizontalAlignment="Right" Content="{Binding MomsAmount, Converter={StaticResource PriceConverter}}"/>
                 <Border Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="5" Width="auto" Height="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="Black"/>
                 <Label Grid.Column="0" Grid.Row="3" FontWeight="Bold" FontSize="15" Content="Totalsum inkl. moms" Grid.ColumnSpan="3"/>
-                <Label Grid.Column="4" Grid.Row="3" FontWeight="Bold" FontSize="15" HorizontalAlignment="Right" Content="{Binding TotalSalesPriceInkl}"/>
+                <Label Grid.Column="4" Grid.Row="3" FontWeight="Bold" FontSize="15" HorizontalAlignment="Right" Content="{Binding TotalSalesPriceInkl, Converter={StaticResource PriceConverter}}"/>
                 <Border Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="5" Width="auto" Height="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="Black"/>
             </Grid>
 </Grid>
