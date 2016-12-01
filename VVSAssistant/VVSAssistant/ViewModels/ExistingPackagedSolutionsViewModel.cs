@@ -9,6 +9,7 @@ using VVSAssistant.Models;
 using VVSAssistant.Functions;
 using System.Data.Entity;
 using System.Threading.Tasks;
+using System.Windows.Data;
 using VVSAssistant.Database;
 
 namespace VVSAssistant.ViewModels
@@ -28,7 +29,19 @@ namespace VVSAssistant.ViewModels
             }
         }
 
-        public ObservableCollection<PackagedSolution> PackagedSolutions { get; set; }
+        private ObservableCollection<PackagedSolution> _packagedSolutionCollection;
+        private object _packagedSolutionCollectionLock;
+        public ObservableCollection<PackagedSolution> PackagedSolutions
+        {
+            get { return _packagedSolutionCollection; }
+            set
+            {
+                _packagedSolutionCollectionLock = new object();
+                _packagedSolutionCollection = value;
+                BindingOperations.EnableCollectionSynchronization(_packagedSolutionCollection, _packagedSolutionCollectionLock);
+            }
+        }
+
         private readonly IDialogCoordinator _dialogCoordinator;
 
         public RelayCommand CreatePackagedSolutionCopyCmd { get; }
@@ -38,6 +51,9 @@ namespace VVSAssistant.ViewModels
         public ExistingPackagedSolutionsViewModel(IDialogCoordinator dialogCoordinator)
         {
             _dialogCoordinator = dialogCoordinator;
+
+            PackagedSolutions = new ObservableCollection<PackagedSolution>();
+            SetupFilterableView(PackagedSolutions);
 
             CreatePackagedSolutionCopyCmd = new RelayCommand(async x =>
             {
@@ -81,6 +97,7 @@ namespace VVSAssistant.ViewModels
 
             using (var ctx = new AssistantContext())
             {
+                ctx.PackagedSolutions.Attach(packagedSolution);
                 ctx.PackagedSolutions.Remove(packagedSolution);
                 ctx.SaveChanges();
             }
@@ -90,10 +107,9 @@ namespace VVSAssistant.ViewModels
         {
             using (var ctx = new AssistantContext())
             {
-                PackagedSolutions = new ObservableCollection<PackagedSolution>(ctx.PackagedSolutions
-                    .Include(p => p.ApplianceInstances.Select(a => a.Appliance)));
+
+                ctx.PackagedSolutions.Include(p => p.ApplianceInstances.Select(a => a.Appliance)).ToList().ForEach(PackagedSolutions.Add);
             }
-            SetupFilterableView(PackagedSolutions);
         }
 
         protected override bool Filter(PackagedSolution obj)

@@ -22,6 +22,7 @@ namespace VVSAssistant
         {
             base.OnStartup(e);
             InitializeCultureInfo();
+            //return;
             ShittySeed();
         }
         private void InitializeCultureInfo()
@@ -261,12 +262,6 @@ namespace VVSAssistant
                 offer.Salaries.Add(salary);
                 db.Offers.Add(offer);
                 db.SaveChanges();
-            }
-
-            // get datasheet test
-            using (var ctx = new AssistantContext())
-            {
-                //ctx.DataSheets.ToList().ForEach(sheet => Console.WriteLine(sheet is HeatingUnitDataSheet));
             }
         }
     }

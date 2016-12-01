@@ -18,7 +18,7 @@ namespace VVSAssistant.Models
             ApplianceInstances = new List<ApplianceInstance>();
             EnergyLabel = new List<EEICalculationResult>();
             SolarContainerInstances = new List<ApplianceInstance>();
-            _calculationManager = new CalculationManager();
+            CalculationManager = new CalculationManager();
         }
 
         private ApplianceList _solarContainers;
@@ -59,7 +59,9 @@ namespace VVSAssistant.Models
         public ICollection<ApplianceInstance> ApplianceInstances { get; set; }
         public ApplianceInstance PrimaryHeatingUnitInstance { get; private set; }
         public string Description => string.Join(", ", Appliances);
-        private CalculationManager _calculationManager { get; set; }
+        [NotMapped]
+        private CalculationManager CalculationManager { get; }
+        [NotMapped]
         public List<EEICalculationResult> EnergyLabel { get; set; }
 
         public object MakeCopy()
@@ -79,7 +81,7 @@ namespace VVSAssistant.Models
         /// </summary>
         public void UpdateEEI()
         {
-            List<IEEICalculation> calculations = _calculationManager.SelectCalculationStrategy(this);
+            List<IEEICalculation> calculations = CalculationManager.SelectCalculationStrategy(this);
             foreach (var calculation in calculations ?? Enumerable.Empty<IEEICalculation>())
                 EnergyLabel.Add(calculation?.CalculateEEI(this));
         }

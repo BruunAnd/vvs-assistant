@@ -132,31 +132,27 @@ namespace VVSAssistant.ViewModels
             /* Tied to "print offer" button in bottom left corner. 
              * Disabled if VerifyOfferHasRequiredInformation returns false. */
             PrintOfferCmd = new RelayCommand(x => 
+            {
+                using (var ctx = new AssistantContext())
                 {
-                    using (var ctx = new AssistantContext())
-                    {
-                        if (ctx.Offers.SingleOrDefault(o => o.Id == Offer.Id) == null) // Not saved
-                            SaveOfferDialog();
-                        else
-                            ExportOffer();
-                    }
-                }, x => VerifyOfferHasRequiredInformation()); 
+                    if (ctx.Offers.SingleOrDefault(o => o.Id == Offer.Id) == null) // Not saved
+                        SaveOfferDialog();
+                    else
+                        ExportOffer();
+                }
+            }, x => VerifyOfferHasRequiredInformation()); 
 
             /* Tied to the action of double clicking a packaged solution's info 
              * in the list of packaged solutions. When this happens, property 
              * "SelectedPackagedSolution" is set to the clicked Packaged Solution. */
-            PackagedSolutionDoubleClickedCmd = new RelayCommand
-                        (x => OnSolutionDoubleClicked()); 
+            PackagedSolutionDoubleClickedCmd = new RelayCommand(x => OnSolutionDoubleClicked()); 
 
             /* Doing the same as print offer, todo: figure out what we want to accomplish here */
-            SaveOfferCmd = new RelayCommand
-                        (x => SaveOfferDialog(),
-                         x => VerifyOfferHasRequiredInformation());
+            SaveOfferCmd = new RelayCommand(x => SaveOfferDialog(), x => VerifyOfferHasRequiredInformation());
 
             /* When the "nyt tilbud" button in bottom left corner is pressed. 
              * Nullifies all offer properties and changes view to list of packaged solutions. */
-            CreateNewOfferCmd = new RelayCommand
-                (x =>
+            CreateNewOfferCmd = new RelayCommand(x =>
             {
                 SetInitialSettings();
                 ClearCollections();
@@ -330,6 +326,7 @@ namespace VVSAssistant.ViewModels
         {
             using (var ctx = new AssistantContext())
             {
+                ctx.PackagedSolutions.Attach(offer.PackagedSolution);
                 offer.Salaries = SalariesInOffer.ToList();
                 offer.Materials = MaterialsInOffer.ToList();
                 offer.CreationDate = DateTime.Now;

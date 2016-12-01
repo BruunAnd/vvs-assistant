@@ -7,6 +7,7 @@ using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Data;
 using MahApps.Metro.Controls.Dialogs;
 using VVSAssistant.Common.ViewModels;
 using VVSAssistant.Common.ViewModels.VVSAssistant.Common.ViewModels;
@@ -180,7 +181,19 @@ namespace VVSAssistant.ViewModels
 
         #region Collections
 
-        public ObservableCollection<Appliance> Appliances { get; set; }
+        private ObservableCollection<Appliance> _applianceCollection;
+        private object _applianceCollectionLock;
+        public ObservableCollection<Appliance> Appliances
+        {
+            get { return _applianceCollection; }
+            set
+            {
+                _applianceCollectionLock = new object();
+                _applianceCollection = value;
+                BindingOperations.EnableCollectionSynchronization(_applianceCollection, _applianceCollectionLock);
+            }
+        }
+
         public ObservableCollection<Appliance> AppliancesInPackagedSolution { get; set; }
 
         #endregion
@@ -189,8 +202,8 @@ namespace VVSAssistant.ViewModels
         {
             #region Initialize collections
 
-            // Appliances = new ObservableCollection<Appliance>();
-            // SetupFilterableView(Appliances);
+            Appliances = new ObservableCollection<Appliance>();
+            SetupFilterableView(Appliances);
             AppliancesInPackagedSolution = new ObservableCollection<Appliance>();
 
             #endregion
@@ -314,6 +327,7 @@ namespace VVSAssistant.ViewModels
             // Remove from database
             using (var ctx = new AssistantContext())
             {
+                ctx.Appliances.Attach(appliance);
                 ctx.Appliances.Remove(appliance);
                 ctx.SaveChanges();
             }
@@ -458,8 +472,7 @@ namespace VVSAssistant.ViewModels
         {
             using (var ctx = new AssistantContext())
             {
-                Appliances = new ObservableCollection<Appliance>(ctx.Appliances.Include(a => a.DataSheet));
-                SetupFilterableView(Appliances);
+                ctx.Appliances.Include(a => a.DataSheet).ToList().ForEach(Appliances.Add);
             }
         }
 
@@ -586,7 +599,7 @@ namespace VVSAssistant.ViewModels
                 EeiResultsRoomHeating = PackagedSolution.EnergyLabel[0];
                 EeiResultsWaterHeating = PackagedSolution.EnergyLabel[1];
             }
-            else if(PackagedSolution.EnergyLabel.Count==1)
+            else if(PackagedSolution.EnergyLabel != null && PackagedSolution.EnergyLabel.Count==1)
             {
                 EeiResultsRoomHeating = PackagedSolution.EnergyLabel?[0];
                 EeiResultsWaterHeating = null;
