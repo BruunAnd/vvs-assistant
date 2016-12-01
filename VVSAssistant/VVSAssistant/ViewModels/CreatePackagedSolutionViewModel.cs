@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Threading;
@@ -194,7 +195,8 @@ namespace VVSAssistant.ViewModels
             }
         }
 
-        public ObservableCollection<Appliance> AppliancesInPackagedSolution { get; set; }
+        private ObservableCollection<Appliance> AppliancesInPackagedSolution { get;}
+        public ICollectionView AppliancesInPackagedSolutionView { get; set; }
 
         #endregion
 
@@ -205,6 +207,7 @@ namespace VVSAssistant.ViewModels
             Appliances = new ObservableCollection<Appliance>();
             SetupFilterableView(Appliances);
             AppliancesInPackagedSolution = new ObservableCollection<Appliance>();
+            AppliancesInPackagedSolutionView = CollectionViewSource.GetDefaultView(AppliancesInPackagedSolution);
 
             #endregion
 
@@ -239,7 +242,7 @@ namespace VVSAssistant.ViewModels
 
             EditApplianceCmd = new RelayCommand(x =>
             {
-                RunEditDialog();
+                RunEditApplianceDialog();
             }, x => SelectedAppliance != null);
 
             RemoveApplianceCmd = new RelayCommand(x =>
@@ -265,6 +268,7 @@ namespace VVSAssistant.ViewModels
                 RunCreateApplianceDialog();
             }
             );
+
             PdfExportCmd = new RelayCommand(x =>
             {
                 PackagedSolution.Appliances = new ApplianceList(AppliancesInPackagedSolution.ToList());
@@ -317,6 +321,14 @@ namespace VVSAssistant.ViewModels
                 }
             }
 
+            // Remove as primary heating unit
+            if (PackagedSolution.PrimaryHeatingUnit == appliance)
+                PackagedSolution.PrimaryHeatingUnit = null;
+
+            // Remove from solar containers in current solution
+            if (PackagedSolution.SolarContainers.Contains(appliance))
+                PackagedSolution.SolarContainers.Remove(appliance);
+
             // Remove from current solution
             if (AppliancesInPackagedSolution.Contains(appliance))
                 AppliancesInPackagedSolution.Remove(appliance);
@@ -327,6 +339,7 @@ namespace VVSAssistant.ViewModels
             // Remove from database
             using (var ctx = new AssistantContext())
             {
+                // Attach appliance to this context, since it was loaded using another context
                 ctx.Appliances.Attach(appliance);
                 ctx.Appliances.Remove(appliance);
                 ctx.SaveChanges();
@@ -411,7 +424,7 @@ namespace VVSAssistant.ViewModels
             await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
         }
 
-        private async void RunEditDialog()
+        private async void RunEditApplianceDialog()
         {
             var customDialog = new CustomDialog();
 
@@ -421,6 +434,7 @@ namespace VVSAssistant.ViewModels
                 {
                     _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
                     FilteredCollectionView.Refresh();
+                    AppliancesInPackagedSolutionView.Refresh();
 
                     // Update appliance changes in database
                     using (var ctx = new AssistantContext())
@@ -448,6 +462,7 @@ namespace VVSAssistant.ViewModels
                     // Save to database
                     using (var ctx = new AssistantContext())
                     {
+                        newAppliance.CreationDate = DateTime.Now;
                         ctx.Appliances.Add(newAppliance);
                         ctx.SaveChanges();
                     }

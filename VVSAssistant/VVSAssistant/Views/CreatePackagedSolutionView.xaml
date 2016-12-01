@@ -150,15 +150,19 @@
                       Grid.Row="1" 
                       IsReadOnly="true" 
                       AutoGenerateColumns="False" 
-                      ItemsSource="{Binding AppliancesInPackagedSolution}"
+                      ItemsSource="{Binding AppliancesInPackagedSolutionView}"
                       SelectedItem="{Binding SelectedAppliance}" >
                 <DataGrid.InputBindings>
                     <MouseBinding MouseAction="LeftDoubleClick"
                                   Command="{Binding RemoveApplianceFromPackagedSolutionCmd}"/>
                 </DataGrid.InputBindings>
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding}"
+                    <DataGridTextColumn Binding="{Binding Name}"
                                         Header="Navn"
+                                        Width="*" 
+                                        CellStyle="{StaticResource ApplianceCell}"/>
+                    <DataGridTextColumn Binding="{Binding Type, Converter={StaticResource ApplianceTypeConverter}}"
+                                        Header="Type"
                                         Width="*" 
                                         CellStyle="{StaticResource ApplianceCell}"/>
                 </DataGrid.Columns>
