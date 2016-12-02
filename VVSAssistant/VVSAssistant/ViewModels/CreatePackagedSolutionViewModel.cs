@@ -607,10 +607,10 @@ namespace VVSAssistant.ViewModels
                                                  (a => a.DataSheet is ContainerDataSheet));
                 RunSolarContainerDialog(message, title, appToAdd, appliances);
             }
-            /*else if(appToAdd.DataSheet is SolarCollectorDataSheet)
+            else if(appToAdd.DataSheet is SolarCollectorDataSheet)
             {
                 RunAddSolarPanelDialog(appToAdd);
-            }*/
+            }
             else
             {
                 AddApplianceToPackagedSolution(appToAdd);
