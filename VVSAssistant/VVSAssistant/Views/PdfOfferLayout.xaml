@@ -226,27 +226,36 @@
                 <Label Grid.Column="1" Grid.Row="0"
                        Grid.ColumnSpan="2" HorizontalAlignment="Right"
                        FontSize="14"
-                       Content="Mads Clausens Vej 22, 9800 Hjørring"/>
+                       Content="{Binding Adresse}"/>
                 
                 <Label Grid.Column="1" Grid.Row="1"
                        Grid.ColumnSpan="2" Margin="0,-10,0,0"
                        HorizontalAlignment="Right" FontSize="14"
-                       Content="Post@Hjørringvvs.dk "/>
-                
-                <Label Grid.Column="4" Grid.Row="0"
-                       Grid.ColumnSpan="2"
+                       Content="{Binding Email}"/>
+            <StackPanel Orientation="Horizontal" Grid.Column="4" Grid.Row="0"
+                        VerticalAlignment="Center">
+                <Label 
                        HorizontalAlignment="Left" FontSize="14"
-                       Content="Telefon 98925915 "/>
-                
-                <Label Grid.Column="5" Grid.Row="0"
-                       Grid.ColumnSpan="4" 
+                       Content="Telefon"/>
+                <Label 
                        HorizontalAlignment="Left" FontSize="14"
-                       Content="CVR. nr. 37046825 "/>
-                
-                <Label Grid.Column="4" Grid.Row="1"
+                       Content="{Binding Telephone}"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Grid.Column="5" Grid.Row="0"
+                        VerticalAlignment="Center">
+                <Label 
+                       HorizontalAlignment="Left" FontSize="14"
+                       Content="CVR. nr."/>
+                <Label 
+                       HorizontalAlignment="Left" FontSize="14"
+                       Content="{Binding CVR}"/>
+            </StackPanel>
+
+            <Label Grid.Column="4" Grid.Row="1"
                        Grid.ColumnSpan="4" Margin="0,-10,0,0" 
                        HorizontalAlignment="Left" FontSize="14"
-                       Content="http://www.hjorringvvs.dk/"/>
+                       Content="{Binding WebSite}"/>
             </Grid>
         </Grid>
 </ContentControl>

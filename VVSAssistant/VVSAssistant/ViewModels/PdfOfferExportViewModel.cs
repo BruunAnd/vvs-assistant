@@ -52,12 +52,19 @@ namespace VVSAssistant.ViewModels
 
         public string Signatur { get; set; }
         public string CompanyName { get; set; }
+        public string Adresse { get; set; }
+        public string Email { get; set; }
+        public string WebSite { get; set; }
+        public string Telephone { get; set; }
+        public string CVR { get; set; }
 
         public double TotalSalesPrice { get; set; }
         public double TotalSalesPriceInkl { get; set; }
 
 
-        public DateTime CreationDate { get; set; } // Ikke helt færdig!
+        public string CreationDate { get; set; }
+
+
         public string OfferTitle { get; set; }
         public string ClientName { get; set; } 
         public string ClientStreet { get; set; }
@@ -80,9 +87,14 @@ namespace VVSAssistant.ViewModels
             ClientStreet = offer.Client.ClientInformation.Address;
             ClientCity = offer.Client.ClientInformation.City + ", " + offer.Client.ClientInformation.PostalCode;
 
-            CreationDate = offer.CreationDate;
+            CreationDate = offer.CreationDate.ToString("dd. MMMM yyyy");
             Signatur = offer.OfferInformation.Signature;
             CompanyName = CompanyInfo.CompanyName;
+            Adresse = CompanyInfo.Address;
+            Email = CompanyInfo.Email;
+            WebSite = CompanyInfo.Website;
+            Telephone = CompanyInfo.Telephone;
+            CVR = CompanyInfo.CVR;
 
             IntroText = offer.OfferInformation.Intro;
             OutroText = offer.OfferInformation.Outro;

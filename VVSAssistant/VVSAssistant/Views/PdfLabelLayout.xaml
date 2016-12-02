@@ -12,63 +12,63 @@
         <viewModels:PdfLabelExportViewModel/>
     </ContentControl.DataContext>
     <Grid Height="27.7cm" Width="19.0cm">
-   <!--Skema 1-->
-    <Grid Grid.Row="0" Grid.Column="0" Height="27.7cm" Width="19.0cm" Visibility="{Binding LabelOne}">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.5cm"/>
-            <ColumnDefinition Width="0.4cm"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="0.4cm"/>
-            <ColumnDefinition Width="0.5cm"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="0.5cm"/>
-            <RowDefinition Height="0.4cm"/>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="0.4cm"/>
-            <RowDefinition Height="0.5cm"/>
-        </Grid.RowDefinitions>
+        <!--Skema 1-->
+        <Grid Grid.Row="0" Grid.Column="0" Height="27.7cm" Width="19.0cm" Visibility="{Binding LabelOne}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.5cm"/>
+                <ColumnDefinition Width="0.4cm"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="0.4cm"/>
+                <ColumnDefinition Width="0.5cm"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.5cm"/>
+                <RowDefinition Height="0.4cm"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="0.4cm"/>
+                <RowDefinition Height="0.5cm"/>
+            </Grid.RowDefinitions>
 
-        <Border Grid.RowSpan="3" Grid.Row="1"
+            <Border Grid.RowSpan="3" Grid.Row="1"
                 Grid.ColumnSpan="3" Grid.Column="1"
                 Background="White" 
                 BorderBrush="#00bfff"
                 BorderThickness="0.2cm" 
                 CornerRadius="10.0"/>
-        <Grid Grid.Row="2" Grid.Column="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="4cm"/>
-                <RowDefinition Height="0.7cm"/>
-                <RowDefinition Height="0.5cm"/>
-                <RowDefinition Height="1.2cm"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="0.6cm"/>
+            <Grid Grid.Row="2" Grid.Column="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="4cm"/>
+                    <RowDefinition Height="0.7cm"/>
+                    <RowDefinition Height="0.5cm"/>
+                    <RowDefinition Height="1.2cm"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="0.6cm"/>
 
-            </Grid.RowDefinitions>
-            <!-- Øverste billede -->
-            <Image Grid.Row="0"
+                </Grid.RowDefinitions>
+                <!-- Øverste billede -->
+                <Image Grid.Row="0"
                 Grid.Column="0"
                Source="/Image/header_energy.png"/>
-            <!-- navn -->
-            <Label Grid.Row="1"
+                <!-- navn -->
+                <Label Grid.Row="1"
                    Grid.Column="0"
                    Foreground="Black"
                    Content="{Binding CompNameText}" 
                    FontSize="16" 
                    FontWeight="Bold"
                    Margin="14,10,0,0" Grid.RowSpan="2">
-            </Label>
-            <!-- enkelt streg -->
-            <Border Grid.Row="2"
+                </Label>
+                <!-- enkelt streg -->
+                <Border Grid.Row="2"
                 Grid.Column="0"
                 BorderBrush="#00bfff"
                 BorderThickness="0,0,0,4" Margin="0,0,10,0">
-            </Border>
+                </Border>
 
-            <Label Grid.Row="4"
+                <Label Grid.Row="4"
                    Grid.Column="0"
                    Foreground="Black"
                    Content="2015" 
@@ -76,7 +76,7 @@
                    FontWeight="Bold"
                    Margin="-4,714,610,-3" Grid.RowSpan="2"/>
 
-            <Label Grid.Row="4"
+                <Label Grid.Row="4"
                    Grid.Column="0"
                    Foreground="Black"
                    Content="811/2013" 
@@ -84,73 +84,73 @@
                    FontWeight="Bold"
                    Margin="574,713,1,-4" Grid.RowSpan="2"/>
 
-            <!-- Skema 1 -->
-            <Grid Grid.Row="4" Grid.Column="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="4*"/>
-                    <ColumnDefinition Width="0.3cm"/>
-                    <ColumnDefinition Width="5*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="1*"/>
-                </Grid.RowDefinitions>
-
-                <Grid Grid.Row="0" Grid.Column="0">
+                <!-- Skema 1 -->
+                <Grid Grid.Row="4" Grid.Column="0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="95*"/>
-                        <ColumnDefinition Width="91*"/>
-                        <ColumnDefinition Width="98*"/>
+                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition Width="0.3cm"/>
+                        <ColumnDefinition Width="5*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="2*"/>
-                        <RowDefinition Height="0.3cm"/>
-                        <RowDefinition Height="8*"/>
+                        <RowDefinition Height="1*"/>
                     </Grid.RowDefinitions>
-                    <!-- Øverste felt venstre-->
-                    <Border Grid.Row="0"
+
+                    <Grid Grid.Row="0" Grid.Column="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="95*"/>
+                            <ColumnDefinition Width="91*"/>
+                            <ColumnDefinition Width="98*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="2*"/>
+                            <RowDefinition Height="0.3cm"/>
+                            <RowDefinition Height="8*"/>
+                        </Grid.RowDefinitions>
+                        <!-- Øverste felt venstre-->
+                        <Border Grid.Row="0"
                         Grid.Column="0"
                         Background="White" 
                         BorderBrush="#00bfff"
                         BorderThickness="4" 
                         CornerRadius="10.0" Margin="0,1,0,10" Grid.RowSpan="2" Grid.ColumnSpan="3">
-                    </Border>
+                        </Border>
 
-                    <Image
+                        <Image
                         Grid.Row="0" Grid.Column="0" Source="/Image/PictosDG tren_radiator-2.png" Stretch="Fill" Margin="5,-38,47,147" RenderTransformOrigin="-0.267,0.2"/>
 
-                    <Image Grid.Row="0" Grid.Column="1" Source="/Image/Fleches toutes Aplus_CALIBRI_2.png" Margin="69,45,33,45" Stretch="Fill" Grid.ColumnSpan="2"/>
-                    <TextBlock Text="{Binding AnnualEfficiencyLetter}" Margin="0,56,38,30" Foreground="White" FontSize="28" FontWeight="Bold" FontFamily="Calibri"
+                        <Image Grid.Row="0" Grid.Column="1" Source="/Image/Fleches toutes Aplus_CALIBRI_2.png" Margin="69,45,33,45" Stretch="Fill" Grid.ColumnSpan="2"/>
+                        <TextBlock Text="{Binding AnnualEfficiencyLetter}" Margin="0,56,38,30" Foreground="White" FontSize="28" FontWeight="Bold" FontFamily="Calibri"
                                Grid.Row="0" Grid.Column="2"/>
-                    <TextBlock Text="{Binding AnnualEfficiencyPlus}" Margin="18,46,40,18" Foreground="White" FontSize="24" FontWeight="Bold" FontFamily="Calibri"
+                        <TextBlock Text="{Binding AnnualEfficiencyPlus}" Margin="18,46,40,18" Foreground="White" FontSize="24" FontWeight="Bold" FontFamily="Calibri"
                                Grid.Row="0" Grid.Column="2"/>
 
-                    <Image Grid.Column="0" Grid.Row="0" Margin="13,29,12,0" Source="/Image/heat-generator.png" Height="82" VerticalAlignment="Top" Grid.ColumnSpan="2" />
-                    <!-- nedere felt venstre-->
-                    <Border Grid.Row="2" Grid.Column="0" Background="White" BorderBrush="#00bfff" BorderThickness="4" CornerRadius="10.0" Grid.ColumnSpan="3"/>
+                        <Image Grid.Column="0" Grid.Row="0" Margin="13,29,12,0" Source="/Image/heat-generator.png" Height="82" VerticalAlignment="Top" Grid.ColumnSpan="2" />
+                        <!-- nedere felt venstre-->
+                        <Border Grid.Row="2" Grid.Column="0" Background="White" BorderBrush="#00bfff" BorderThickness="4" CornerRadius="10.0" Grid.ColumnSpan="3"/>
 
-                    <Label Grid.Row="2" Grid.Column="0" Content="+" FontFamily="Calibri" Foreground="#00bfff" FontSize="80" Margin="10,30,25,427" FontWeight="Bold"/>
+                        <Label Grid.Row="2" Grid.Column="0" Content="+" FontFamily="Calibri" Foreground="#00bfff" FontSize="80" Margin="10,30,25,427" FontWeight="Bold"/>
 
-                    <Image Grid.Row="2" Grid.Column="0" Margin="84,43,24,444" Source="/Image/SOLAR COLLECTOR.png" Grid.ColumnSpan="2"/>
+                        <Image Grid.Row="2" Grid.Column="0" Margin="84,43,24,444" Source="/Image/SOLAR COLLECTOR.png" Grid.ColumnSpan="2"/>
 
-                    <Rectangle Grid.Row="2" Grid.Column="2" Width="1.1cm" Height="1.1cm" Stroke="#00bfff" StrokeThickness="4" Margin="22,67,35,454" RenderTransformOrigin="0.601,2.045" />
-                    <Label Grid.Row="2" Grid.Column="2" Content="X" Foreground="Black" FontSize="50" FontFamily="Calibri" FontWeight="Bold" Visibility="{Binding SolarIncluded}" Margin="24,51,37,424"/>
+                        <Rectangle Grid.Row="2" Grid.Column="2" Width="1.1cm" Height="1.1cm" Stroke="#00bfff" StrokeThickness="4" Margin="22,67,35,454" RenderTransformOrigin="0.601,2.045" />
+                        <Label Grid.Row="2" Grid.Column="2" Content="X" Foreground="Black" FontSize="50" FontFamily="Calibri" FontWeight="Bold" Visibility="{Binding SolarIncluded}" Margin="24,51,37,424"/>
 
-                    <Label Grid.Row="2" Grid.Column="0" Content="+" FontFamily="Calibri" Foreground="#00bfff" FontSize="80" Margin="10,157,37,296" FontWeight="Bold"/>
+                        <Label Grid.Row="2" Grid.Column="0" Content="+" FontFamily="Calibri" Foreground="#00bfff" FontSize="80" Margin="10,157,37,296" FontWeight="Bold"/>
 
-                    <Image Grid.Row="2" Grid.Column="0" Margin="76,169,24,312" Source="/Image/watertank.png" Grid.ColumnSpan="2"/>
+                        <Image Grid.Row="2" Grid.Column="0" Margin="76,169,24,312" Source="/Image/watertank.png" Grid.ColumnSpan="2"/>
 
-                    <Rectangle Grid.Row="2" Grid.Column="2" Width="1.1cm" Height="1.1cm" Stroke="#00bfff" StrokeThickness="4" Margin="22,194,35,327"/>
+                        <Rectangle Grid.Row="2" Grid.Column="2" Width="1.1cm" Height="1.1cm" Stroke="#00bfff" StrokeThickness="4" Margin="22,194,35,327"/>
 
-                    <Label Grid.Row="2" Grid.Column="2" Content="X" Foreground="Black" FontSize="50" FontFamily="Calibri" FontWeight="Bold" Margin="24,178,37,304" Visibility="{Binding WatertankIncluded}"/>
+                        <Label Grid.Row="2" Grid.Column="2" Content="X" Foreground="Black" FontSize="50" FontFamily="Calibri" FontWeight="Bold" Margin="24,178,37,304" Visibility="{Binding WatertankIncluded}"/>
 
-                    <Label Grid.Row="2" Grid.Column="0" Content="+" FontFamily="Calibri" Foreground="#00bfff" FontSize="80" Margin="13,293,31,159" FontWeight="Bold"/>
+                        <Label Grid.Row="2" Grid.Column="0" Content="+" FontFamily="Calibri" Foreground="#00bfff" FontSize="80" Margin="13,293,31,159" FontWeight="Bold"/>
 
-                    <Image Grid.Row="2"
+                        <Image Grid.Row="2"
                            Grid.Column="0"
                            Margin="87,319,35,158"
                            Source="/Image/CONTROL.png" Grid.ColumnSpan="2"/>
 
-                    <Rectangle Grid.Row="2"
+                        <Rectangle Grid.Row="2"
                                Grid.Column="2"
                                Width="1.1cm"
                                Height="1.1cm"
@@ -158,7 +158,7 @@
                                StrokeThickness="4" Margin="22,330,35,191" RenderTransformOrigin="0.649,4.305"
                                ></Rectangle>
 
-                    <Label Grid.Row="2"
+                        <Label Grid.Row="2"
                            Grid.Column="2"
                            Content="X"
                            Foreground="Black"
@@ -168,7 +168,7 @@
                            Margin="24,314,38,162"
                            Visibility="{Binding TempControleIncluded}"/>
 
-                    <Label Grid.Row="2"
+                        <Label Grid.Row="2"
                            Grid.Column="0"
                            Content="+"
                            FontFamily="Calibri"
@@ -177,12 +177,12 @@
                            Margin="13,421,25,31"
                            FontWeight="Bold"/>
 
-                    <Image Grid.Row="2"
+                        <Image Grid.Row="2"
                         Grid.Column="1"
                         Margin="1,438,41,43"
                         Source="/Image/heat-generator.png"/>
 
-                    <Rectangle Grid.Row="2"
+                        <Rectangle Grid.Row="2"
                                Grid.Column="2"
                                Width="1.1cm"
                                Height="1.1cm"
@@ -190,7 +190,7 @@
                                StrokeThickness="4" Margin="22,457,35,64" RenderTransformOrigin="0.505,3.68"
                                ></Rectangle>
 
-                    <Label Grid.Row="2"
+                        <Label Grid.Row="2"
                            Grid.Column="2"
                            Content="X"
                            Foreground="Black"
@@ -199,135 +199,195 @@
                            FontWeight="Bold"
                            Margin="24,441,35,37"
                            Visibility="{Binding HeaterIncluded}"/>
-                </Grid>
-                <!-- Skemaer højre side-->
-                <Grid Grid.Row="0" Grid.Column="2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="1*"/>
-                    </Grid.RowDefinitions>
-                    <Border Grid.Row="0"
+                    </Grid>
+                    <!-- Skemaer højre side-->
+                    <Grid Grid.Row="0" Grid.Column="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="0"
                 Grid.Column="0"
                 Background="White" 
                 BorderBrush="#00bfff"
                 BorderThickness="4" 
                 CornerRadius="10.0">
-                        <Image Margin="-22,-4,78,-6"
+                            <!--<Image Margin="-22,-4,78,-6"
                                Source="/Image/Asset 3.png"
-                               Stretch="Fill"/>
-                    </Border>
-                    <Grid Grid.Row="0"
+                               Stretch="Fill"/>-->
+                        </Border>
+                        <Grid Grid.Row="0"
                                 Grid.Column="0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="242"/>
-                            <ColumnDefinition Width="1*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="35"/>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="1*"/>
-                            <RowDefinition Height="30"/>
-                        </Grid.RowDefinitions>
-                        <Canvas Grid.Row="{Binding LabelTwoTabeOneArrow}"
-                                Grid.Column="1">
-                            <Image 
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="242"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="35"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="1*"/>
+                                <RowDefinition Height="30"/>
+                            </Grid.RowDefinitions>
+                            <Canvas Grid.Column="0" Grid.Row="1" Margin="10,4,0,4">
+                                <Border  Height="1.5cm" Width="80" VerticalAlignment="Center" HorizontalAlignment="Left"  Background="#00ff00"/>
+                                <Label VerticalAlignment="Center" FontSize="40" FontWeight="Bold" Content="A" FontFamily="Calibri" Foreground="White" Height="56"/>
+                                <Label VerticalAlignment="Center" FontSize="30" FontWeight="Bold" Content="+++" FontFamily="Calibri" Foreground="White" Height="56" Canvas.Left="20" Canvas.Top="-4"/>
+                                <Polygon Points="10,-22 40,5, 10,33" Fill="#00ff00" Stroke="#00ff00" Canvas.Left="70" Canvas.Top="23" />
+                            </Canvas>
+                            <Canvas Grid.Column="0" Grid.Row="2" Margin="10,4,0,4">
+                                <Border  Height="1.5cm" Width="88" VerticalAlignment="Center" HorizontalAlignment="Left"  Background="#4dff00"/>
+                                <Label VerticalAlignment="Center" FontSize="40" FontWeight="Bold" Content="A" FontFamily="Calibri" Foreground="White" Height="56"/>
+                                <Label VerticalAlignment="Center" FontSize="30" FontWeight="Bold" Content="++" FontFamily="Calibri" Foreground="White" Height="56" Canvas.Left="20" Canvas.Top="-4"/>
+                                <Polygon Points="10,-22 40,5, 10,33" Fill="#4dff00" Stroke="#4dff00" Canvas.Left="78" Canvas.Top="23" />
+                            </Canvas>
+                            <Canvas Grid.Column="0" Grid.Row="3" Margin="10,4,0,4">
+                                <Border  Height="1.5cm" Width="96" VerticalAlignment="Center" HorizontalAlignment="Left"  Background="#b3ff00"/>
+                                <Label VerticalAlignment="Center" FontSize="40" FontWeight="Bold" Content="A" FontFamily="Calibri" Foreground="White" Height="56"/>
+                                <Label VerticalAlignment="Center" FontSize="30" FontWeight="Bold" Content="+" FontFamily="Calibri" Foreground="White" Height="56" Canvas.Left="20" Canvas.Top="-4"/>
+                                <Polygon Points="10,-22 40,5, 10,33" Fill="#b3ff00" Stroke="#b3ff00" Canvas.Left="86" Canvas.Top="23" />
+                            </Canvas>
+                            <Canvas Grid.Column="0" Grid.Row="4" Margin="10,4,0,4">
+                                <Border  Height="1.5cm" Width="102" VerticalAlignment="Center" HorizontalAlignment="Left"  Background="#ffff00"/>
+                                <Label VerticalAlignment="Center" FontSize="40" FontWeight="Bold" Content="A" FontFamily="Calibri" Foreground="White" Height="56"/>
+                                <Polygon Points="10,-22 40,5, 10,33" Fill="#ffff00" Stroke="#ffff00" Canvas.Left="92" Canvas.Top="23" />
+                            </Canvas>
+                            <Canvas Grid.Column="0" Grid.Row="5" Margin="10,4,0,4">
+                                <Border  Height="1.5cm" Width="108" VerticalAlignment="Center" HorizontalAlignment="Left"  Background="#ffb300"/>
+                                <Label VerticalAlignment="Center" FontSize="40" FontWeight="Bold" Content="B" FontFamily="Calibri" Foreground="White" Height="56"/>
+                                <Polygon Points="10,-22 40,5, 10,33" Fill="#ffb300" Stroke="#ffb300" Canvas.Left="98" Canvas.Top="23" />
+                            </Canvas>
+                            <Canvas Grid.Column="0" Grid.Row="6" Margin="10,4,0,4">
+                                <Border  Height="1.5cm" Width="116" VerticalAlignment="Center" HorizontalAlignment="Left"  Background="#ff4d00"/>
+                                <Label VerticalAlignment="Center" FontSize="40" FontWeight="Bold" Content="C" FontFamily="Calibri" Foreground="White" Height="56"/>
+                                <Polygon Points="10,-22 40,5, 10,33" Fill="#ff4d00" Stroke="#ff4d00" Canvas.Left="106" Canvas.Top="23" />
+                            </Canvas>
+                            <Canvas Grid.Column="0" Grid.Row="7" Margin="10,4,0,4">
+                                <Border  Height="1.5cm" Width="124" VerticalAlignment="Center" HorizontalAlignment="Left"  Background="#ff0000"/>
+                                <Label VerticalAlignment="Center" FontSize="40" FontWeight="Bold" Content="D" FontFamily="Calibri" Foreground="White" Height="56"/>
+                                <Polygon Points="10,-22 40,5, 10,33" Fill="#ff0000" Stroke="#ff0000" Canvas.Left="114" Canvas.Top="23" />
+                            </Canvas>
+                            <Canvas Grid.Column="0" Grid.Row="8" Margin="10,4,0,4">
+                                <Border  Height="1.5cm" Width="132" VerticalAlignment="Center" HorizontalAlignment="Left"  Background="#ff0000"/>
+                                <Label VerticalAlignment="Center" FontSize="40" FontWeight="Bold" Content="E" FontFamily="Calibri" Foreground="White" Height="56"/>
+                                <Polygon Points="10,-22 40,5, 10,33" Fill="#ff0000" Stroke="#ff0000" Canvas.Left="122" Canvas.Top="23" />
+                            </Canvas>
+                            <Canvas Grid.Column="0" Grid.Row="8" Margin="10,4,0,4">
+                                <Border  Height="1.5cm" Width="140" VerticalAlignment="Center" HorizontalAlignment="Left"  Background="#ff0000"/>
+                                <Label VerticalAlignment="Center" FontSize="40" FontWeight="Bold" Content="E" FontFamily="Calibri" Foreground="White" Height="56"/>
+                                <Polygon Points="10,-22 40,5, 10,33" Fill="#ff0000" Stroke="#ff0000" Canvas.Left="130" Canvas.Top="23" />
+                            </Canvas>
+                            <Canvas Grid.Column="0" Grid.Row="9" Margin="10,4,0,4">
+                                <Border  Height="1.5cm" Width="148" VerticalAlignment="Center" HorizontalAlignment="Left"  Background="#ff0000"/>
+                                <Label VerticalAlignment="Center" FontSize="40" FontWeight="Bold" Content="F" FontFamily="Calibri" Foreground="White" Height="56"/>
+                                <Polygon Points="10,-22 40,5, 10,33" Fill="#ff0000" Stroke="#ff0000" Canvas.Left="138" Canvas.Top="23" />
+                            </Canvas>
+                            <Canvas Grid.Column="0" Grid.Row="10" Margin="10,4,0,4">
+                                <Border  Height="1.5cm" Width="156" VerticalAlignment="Center" HorizontalAlignment="Left"  Background="#ff0000"/>
+                                <Label VerticalAlignment="Center" FontSize="40" FontWeight="Bold" Content="G" FontFamily="Calibri" Foreground="White" Height="56"/>
+                                <Polygon Points="10,-22 40,5, 10,33" Fill="#ff0000" Stroke="#ff0000" Canvas.Left="146" Canvas.Top="23" />
+                            </Canvas>
+
+
+                            <Canvas Grid.Row="{Binding LabelTwoTabeOneArrow}"
+                                Grid.Column="1" Margin="0,0,0,5">
+                                <Image 
                             Canvas.Left="0"
                             Canvas.Bottom="0"
                            Width="2.5cm"
                            Height="1.5cm"
                            Source="/Image/Fleches toutes Aplus_CALIBRI_2.png"
                            Stretch="Fill"/>
-                            <TextBlock Text="{Binding LabelTwoTabeOneArrowLetter}"
+                                <TextBlock Text="{Binding LabelTwoTabeOneArrowLetter}"
                                Canvas.Left="25"
                                Canvas.Bottom="15"
                                Foreground="White"
                                FontSize="28"
                                FontWeight="Bold"
                                FontFamily="Calibri"/>
-                            <TextBlock Text="{Binding LabelTwoTabeOneArrowPlus}"
+                                <TextBlock Text="{Binding LabelTwoTabeOneArrowPlus}"
                                Canvas.Left="40"
                                Canvas.Bottom="25"
                                Foreground="White"
                                FontSize="24"
                                FontWeight="Bold"
                                FontFamily="Calibri"/>
-                        </Canvas>
+                            </Canvas>
+                        </Grid>
                     </Grid>
                 </Grid>
+
             </Grid>
-
         </Grid>
-    </Grid>
 
 
 
-    <!-- Skema 2-->
-    <Grid Height="27.7cm" Width="19.0cm" Visibility="{Binding LabelTwo}">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.5cm"/>
-            <ColumnDefinition Width="0.4cm"/>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="0.4cm"/>
-            <ColumnDefinition Width="0.5cm"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="0.5cm"/>
-            <RowDefinition Height="0.4cm"/>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="0.4cm"/>
-            <RowDefinition Height="0.5cm"/>
-        </Grid.RowDefinitions>
+        <!-- Skema 2-->
+        <Grid Grid.Row="0" Grid.Column="0" Height="27.7cm" Width="19.0cm" Visibility="{Binding LabelTwo}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.5cm"/>
+                <ColumnDefinition Width="0.4cm"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="0.4cm"/>
+                <ColumnDefinition Width="0.5cm"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.5cm"/>
+                <RowDefinition Height="0.4cm"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="0.4cm"/>
+                <RowDefinition Height="0.5cm"/>
+            </Grid.RowDefinitions>
 
-        <Border Grid.RowSpan="3" Grid.Row="1"
+            <Border Grid.RowSpan="3" Grid.Row="1"
                 Grid.ColumnSpan="3" Grid.Column="1"
                 Background="White" 
                 BorderBrush="#00bfff"
                 BorderThickness="0.2cm" 
                 CornerRadius="10.0"/>
-        <Grid Grid.Row="2" Grid.Column="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="4cm"/>
-                <RowDefinition Height="0.7cm"/>
-                <RowDefinition Height="1.2cm"/>
-                <RowDefinition Height="0.5cm"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="0.6cm"/>
+            <Grid Grid.Row="2" Grid.Column="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="4cm"/>
+                    <RowDefinition Height="0.7cm"/>
+                    <RowDefinition Height="1.2cm"/>
+                    <RowDefinition Height="0.5cm"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="0.6cm"/>
 
-            </Grid.RowDefinitions>
-            <!-- Øverste billede -->
-            <Image Grid.Row="0"
+                </Grid.RowDefinitions>
+                <!-- Øverste billede -->
+                <Image Grid.Row="0"
                 Grid.Column="0"
                Source="/Image/header_energy.png"/>
-            <!-- navn -->
-            <Label Grid.Row="1"
+                <!-- navn -->
+                <Label Grid.Row="1"
                    Grid.Column="0"
                    Foreground="Black"
                    Content="{Binding CompNameText}" 
                    FontSize="16" 
                    FontWeight="Bold"
                    Margin="14,10,0,0" Grid.RowSpan="2">
-            </Label>
-            <!-- enkelt streg -->
-            <Border Grid.Row="2"
+                </Label>
+                <!-- enkelt streg -->
+                <Border Grid.Row="2"
                 Grid.Column="0"
                 BorderBrush="#00bfff"
                 BorderThickness="0,0,0,4" Margin="0,0,10,0">
-            </Border>
+                </Border>
 
-            <Label Grid.Row="4"
+                <Label Grid.Row="4"
                    Grid.Column="0"
                    Foreground="Black"
                    Content="2015" 
@@ -335,7 +395,7 @@
                    FontWeight="Bold"
                    Margin="-4,714,610,-3" Grid.RowSpan="2"/>
 
-            <Label Grid.Row="4"
+                <Label Grid.Row="4"
                    Grid.Column="0"
                    Foreground="Black"
                    Content="811/2013" 
@@ -343,8 +403,8 @@
                    FontWeight="Bold"
                    Margin="574,713,1,-4" Grid.RowSpan="2"/>
 
-            <!-- Grid: alt med skemaere -->
-            <!-- Skema 2 -->
+                <!-- Grid: alt med skemaere -->
+                <!-- Skema 2 -->
                 <Grid Grid.Row="4" Grid.Column="0" Visibility="Visible">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="4*"/>
@@ -726,6 +786,6 @@
                     </Grid>
                 </Grid>
             </Grid>
-    </Grid>
+        </Grid>
     </Grid>
 </ContentControl>
