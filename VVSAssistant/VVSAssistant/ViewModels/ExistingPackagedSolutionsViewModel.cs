@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
+﻿using System.Linq;
 using MahApps.Metro.Controls.Dialogs;
 using VVSAssistant.Common;
 using VVSAssistant.Common.ViewModels;
@@ -9,7 +8,6 @@ using VVSAssistant.Models;
 using VVSAssistant.Functions;
 using System.Data.Entity;
 using System.Threading.Tasks;
-using System.Windows.Data;
 using VVSAssistant.Database;
 
 namespace VVSAssistant.ViewModels

@@ -1,14 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Markup;
-using System.Xml;
 using VVSAssistant.Functions.Calculation;
 using VVSAssistant.Models;
 
@@ -29,7 +20,7 @@ namespace VVSAssistant.ViewModels
         {
             get
             {
-                return this._labelOne != null ? _labelOne : "Collapsed";
+                return _labelOne ?? "Collapsed";
             }
             set { _labelOne = value; }
         }
@@ -71,7 +62,7 @@ namespace VVSAssistant.ViewModels
         {
             get
             {
-                return this._labelTwo != null ? _labelTwo : "Collapsed";
+                return _labelTwo ?? "Collapsed";
             }
             set { _labelTwo = value; }
         }

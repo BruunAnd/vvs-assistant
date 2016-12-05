@@ -124,8 +124,8 @@ namespace VVSAssistant
                     Vbu = 110,
                     Psb = 2,
                     WaterHeatingEffiency = 78,
-                    isWaterHeater = true,
-                    isRoomHeater = true,
+                    IsWaterHeater = true,
+                    IsRoomHeater = true,
                     AFUEColdClima = 98,
                     AFUEWarmClima = 87.8f
                 }, ApplianceTypes.Boiler)
@@ -188,13 +188,13 @@ namespace VVSAssistant
                 { Area = 3.19f, Efficency = 72 }, ApplianceTypes.SolarPanel)
                 { CreationDate = DateTime.Now, UnitCostPrice = 150 });
                 db.Appliances.Add(new Appliance("Logasol SKN 4.0", new SolarCollectorDataSheet()
-                { Area = 2.25f, Efficency = 61, isRoomHeater = true }, ApplianceTypes.SolarPanel)
+                { Area = 2.25f, Efficency = 61, IsRoomHeater = true }, ApplianceTypes.SolarPanel)
                 { CreationDate = DateTime.Now, UnitCostPrice = 150 });
                 db.Appliances.Add(new Appliance("Vitosol 200-T", new SolarCollectorDataSheet()
-                { Area = 1.33f, Efficency = 67.5f, isRoomHeater = true }, ApplianceTypes.SolarPanel)
+                { Area = 1.33f, Efficency = 67.5f, IsRoomHeater = true }, ApplianceTypes.SolarPanel)
                 { CreationDate = DateTime.Now, UnitCostPrice = 150 });
                 db.Appliances.Add(new Appliance("Vitosol 200-T SP2A", new SolarCollectorDataSheet()
-                { Area = 3.19f, Efficency = 67.4f, isRoomHeater = true }, ApplianceTypes.SolarPanel)
+                { Area = 3.19f, Efficency = 67.4f, IsRoomHeater = true }, ApplianceTypes.SolarPanel)
                 { CreationDate = DateTime.Now, UnitCostPrice = 150 });
                 db.Appliances.Add(new Appliance("SomeContiner", new ContainerDataSheet()
                 { Volume = 500, Classification = "B", StandingLoss = 80 }, ApplianceTypes.Container)
@@ -246,7 +246,7 @@ namespace VVSAssistant
                     WaterHeatingEffiency = 95,
                     AFUEColdClima = 83,
                     AFUEWarmClima = 114,
-                    isWaterHeater = true,
+                    IsWaterHeater = true,
                     UseProfile = UseProfileType.XL
                 }, ApplianceTypes.WaterHeater)
                 { CreationDate = DateTime.Now, UnitCostPrice = 150 });

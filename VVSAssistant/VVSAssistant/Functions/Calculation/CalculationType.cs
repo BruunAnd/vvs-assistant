@@ -10,7 +10,7 @@ namespace VVSAssistant.Functions.Calculation
     {
         PrimaryBoiler,
         PrimaryHeatPump,
-        PrimaryCPH,
+        PrimaryCHP,
         PrimaryWaterBoiler,
         PrimaryLowTempHeatPump
     }

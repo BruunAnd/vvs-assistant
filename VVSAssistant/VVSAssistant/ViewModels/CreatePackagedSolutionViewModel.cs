@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Data;
 using MahApps.Metro.Controls.Dialogs;
 using VVSAssistant.Common;
@@ -164,8 +161,6 @@ namespace VVSAssistant.ViewModels
             set { _eeiResultSecondary = value; OnPropertyChanged(); }
         }
 
-        private readonly CalculationManager _calculationManager;
-        
         #endregion
 
         #region Commands
@@ -203,7 +198,6 @@ namespace VVSAssistant.ViewModels
 
             #region Initialize properties
 
-            _calculationManager = new CalculationManager();
             _dialogCoordinator = dialogCoordinator;
             PackagedSolution = new PackagedSolution();
 
@@ -389,8 +383,8 @@ namespace VVSAssistant.ViewModels
                             // todo set purpose of heating unit   
                         }
 
-                        (appliance.DataSheet as HeatingUnitDataSheet).isRoomHeater = instanceCompleted.IsUsedForRoomHeating ? true : false;
-                        (appliance.DataSheet as HeatingUnitDataSheet).isWaterHeater = instanceCompleted.IsUsedForWaterHeating ? true : false;
+                        ((HeatingUnitDataSheet) appliance.DataSheet).IsRoomHeater = instanceCompleted.IsUsedForRoomHeating;
+                        ((HeatingUnitDataSheet) appliance.DataSheet).IsWaterHeater = instanceCompleted.IsUsedForWaterHeating;
                         PackagedSolution.PrimaryHeatingUnit = appliance;
                     }
                     AddApplianceToPackagedSolution(appliance);

@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace VVSAssistant.Models.DataSheets
 {
     [DisplayName(@"Datablad for solpanel")]
-    class SolarCollectorDataSheet : DataSheet
+    internal class SolarCollectorDataSheet : DataSheet
     {
         [DisplayName(@"Areal")]
         [Description(@"Arealet for en enkelt solfanger i kvadratmeter")]
@@ -31,29 +27,29 @@ namespace VVSAssistant.Models.DataSheets
         [DisplayName(@"Indfaldsvinkel korrektionsfaktor")]
         public float IAM { get; set; }
         [Browsable(false)]
-        public bool isRoomHeater { get; set; }
+        public bool IsRoomHeater { get; set; }
         [Browsable(false)]
-        public bool isWaterHeater { get; set; }
+        public bool IsWaterHeater { get; set; }
 
         public override string ToString()
         {
-            string room = "";
-            string water = "";
-            string N0String = "";
-            string a1String = "";
-            string a2String = "";
-            string IAMString = "";
-            if (isRoomHeater == true)
+            var room = "";
+            var water = "";
+            var N0String = "";
+            var a1String = "";
+            var a2String = "";
+            var IAMString = "";
+            if (IsRoomHeater)
                 room = ", rumopvarmning";
-            if (isWaterHeater == true)
+            if (IsWaterHeater)
                 water = ", vandopvarmning";
-            if (N0 != 0)
+            if (Math.Abs(N0) > 0)
                 N0String = $", Effektivitet ved nulbelastning: {N0}";
-            if (a1 != 0)
+            if (Math.Abs(a1) > 0)
                 a1String = $", 1. Ordens koefficient: {a1} W/(m\u00b2 K)";
-            if (a2 != 0)
+            if (Math.Abs(a2) > 0)
                 a2String = $", 2. Ordens koefficient: {a2}";
-            if (IAM != 0)
+            if (Math.Abs(IAM) > 0)
                 IAMString = $", Indfaldsvinkel korrektionsfaktor: {IAM}";
 
 

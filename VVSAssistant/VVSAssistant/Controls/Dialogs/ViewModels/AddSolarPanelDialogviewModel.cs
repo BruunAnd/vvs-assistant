@@ -42,7 +42,7 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             set
             {
                 _isWaterHeater = value;
-                SolarPanelData.isWaterHeater = _isWaterHeater;
+                SolarPanelData.IsWaterHeater = _isWaterHeater;
             }
         }
         public bool IsRoomHeater
@@ -54,7 +54,7 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             set
             {
                 _isRoomHeater = value;
-                SolarPanelData.isRoomHeater = _isRoomHeater;
+                SolarPanelData.IsRoomHeater = _isRoomHeater;
             }
         }
         private SolarCollectorDataSheet SolarPanelData => (_solarPanel?.DataSheet as SolarCollectorDataSheet);

@@ -3,12 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-             xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+             xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
              mc:Ignorable="d"
              MinHeight="200"
              MinWidth="350"
-             Dialog:DialogParticipation.Register="{Binding}">
+             dialog:DialogParticipation.Register="{Binding}">
     <Grid Margin="0 10 0 0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" MinHeight="20" />
@@ -41,13 +40,14 @@
                     Height="85"
                     HorizontalAlignment="Center"
                     Orientation="Horizontal">
-            <Button x:Name="PART_AffirmativeButton"
+            <Button x:Name="PartAffirmativeButton"
                     Height="35"
                     MinWidth="80"
                     Margin="0 0 5 0"
+                    Style="{StaticResource AccentedSquareButtonStyle}"
                     Command="{Binding SaveCommand}"
                     Content="Acceptér"/>
-            <Button x:Name="PART_NegativeButton"
+            <Button x:Name="PartNegativeButton"
                     Height="35"
                     MinWidth="80"
                     Margin="5 0 5 0"

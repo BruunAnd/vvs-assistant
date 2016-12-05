@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace VVSAssistant.Functions.Calculation.Interfaces
+﻿namespace VVSAssistant.Models.Interfaces
 {
-    interface ICopyable
+    internal interface ICopyable
     {
         object MakeCopy();
     }

@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
 namespace VVSAssistant.Models.DataSheets
 {
     [DisplayName(@"Datablad for solstation")]
-    class SolarStationDataSheet : DataSheet
+    internal class SolarStationDataSheet : DataSheet
     {
         [DisplayName(@"Elforbrug til pumpe")]
         [Description(@"Elforbrug til pumpe (solpump) i watt (W)")]

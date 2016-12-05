@@ -1,27 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using VVSAssistant.Models;
 using VVSAssistant.Models.DataSheets;
 
 namespace VVSAssistant.Functions.Calculation.Strategies
 {
-    class BoilerAsPrimary : IEEICalculation
+    internal class BoilerAsPrimary : IEEICalculation
     {
-        private EEICalculationResult _result = new EEICalculationResult();
+        private readonly EEICalculationResult _result = new EEICalculationResult();
         private PackagedSolution _package;
         private PackageDataManager _packageData;
-        float II;
+        private float _ii;
         /// <summary>
         /// EEI Calculation for packaged solution with a boiler as primary heating unit
         /// </summary>
-        /// <param name="Package"></param>
+        /// <param name="package"></param>
         /// <returns>EEICalculationResult which are the EEI and all the varibales in between</returns>
-        public EEICalculationResult CalculateEEI(PackagedSolution Package)
+        public EEICalculationResult CalculateEEI(PackagedSolution package)
         {
-            _package = Package;
+            _package = package;
             _packageData = new PackageDataManager(_package);
             if (PrimaryBoiler == null)
                 return null;
@@ -29,19 +25,17 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             _result.PrimaryHeatingUnitAFUE = PrimaryBoiler.AFUE;
             _result.SecondaryBoilerAFUE = _packageData.SupplementaryBoiler?.AFUE ?? 0;
             _result.EffectOfTemperatureRegulatorClass = _packageData.TempControllerBonus;
-            _result.EffectOfSecondaryBoiler = _packageData.SupplementaryBoiler != null ?
-                    (_packageData.SupplementaryBoiler.AFUE - _result.PrimaryHeatingUnitAFUE) * 0.1f :
-                    0;
+            _result.EffectOfSecondaryBoiler = (_packageData.SupplementaryBoiler?.AFUE - _result.PrimaryHeatingUnitAFUE) * 0.1f ?? 0;
             _result.SolarHeatContribution = SolarContribution();
             _result.EffectOfSecondaryHeatPump = -HeatpumpContribution(_packageData.HasNonSolarContainer());
-            _result.AdjustedContribution = _result.EffectOfSecondaryHeatPump != 0 && _result.SolarHeatContribution != 0
+            _result.AdjustedContribution = Math.Abs(Math.Abs(_result.EffectOfSecondaryHeatPump)) > 0 && Math.Abs(_result.SolarHeatContribution) > 0
                                            ? AdjustedContribution(_result.EffectOfSecondaryHeatPump, _result.SolarHeatContribution)
                                            : default(float);
 
             _result.EEI = _result.PrimaryHeatingUnitAFUE + _result.EffectOfTemperatureRegulatorClass
                           - _result.EffectOfSecondaryBoiler + _result.SolarHeatContribution -
                           _result.EffectOfSecondaryHeatPump - _result.AdjustedContribution;
-            _result.PackagedSolutionAtColdTemperaturesAFUE = II != default(float) ? _result.EEI + (50 * II) : 0;
+            _result.PackagedSolutionAtColdTemperaturesAFUE = Math.Abs(_ii - default(float)) > 0 ? _result.EEI + (50 * _ii) : 0;
             _result.EEICharacters = EEICharLabelChooser.EEIChar(ApplianceTypes.Boiler, _result.EEI, 1)[0];
             _result.ToNextLabel = EEICharLabelChooser.EEIChar(ApplianceTypes.Boiler, _result.EEI, 1)[1];
             _result.ProceedingEEICharacter = EEICharLabelChooser.EEIChar(ApplianceTypes.Boiler, _result.EEI, 1)[2];
@@ -54,23 +48,23 @@ namespace VVSAssistant.Functions.Calculation.Strategies
          * Heating unit */
         private float SolarContribution()
         {
-            var SolarCollectorData = _packageData.SolarPanelData;
-            float solarPanelArea = _packageData.SolarPanelArea(panel =>
-                                    panel.isRoomHeater == true);
-            float solarContainerVolume = _packageData.SolarContainerVolume(container =>
-                                         !container.isWaterContainer);
+            var solarCollectorData = _packageData.SolarPanelData;
+            var solarPanelArea = _packageData.SolarPanelArea(panel =>
+                                    panel.IsRoomHeater);
+            var solarContainerVolume = _packageData.SolarContainerVolume(container =>
+                                         !container.IsWaterContainer);
 
             _result.ContainerVolume = solarContainerVolume / 1000;
             _result.SolarCollectorArea = solarPanelArea;
             float ans = 0;
-            float III = 294 / (11 * PrimaryBoiler.WattUsage);
-            float IV = 115 / (11 * PrimaryBoiler.WattUsage);
+            var iii = 294 / (11 * PrimaryBoiler.WattUsage);
+            var iv = 115 / (11 * PrimaryBoiler.WattUsage);
 
             // Assume only one type of solarpanel pr. package
-            if (solarPanelArea != 0 && solarContainerVolume > 0)
+            if (Math.Abs(solarPanelArea) > 0 && solarContainerVolume > 0)
             {
-                ans = (III * solarPanelArea + IV * (solarContainerVolume / 1000)) *
-                    0.9f * (SolarCollectorData.Efficency / 100) * _packageData.SolarContainerClass;
+                ans = (iii * solarPanelArea + iv * (solarContainerVolume / 1000)) *
+                    0.9f * (solarCollectorData.Efficency / 100) * _packageData.SolarContainerClass;
             }
             return ans;
         }
@@ -84,14 +78,10 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             var heatpumpData = _packageData.SupplementaryHeatPump;
             if (heatpumpData == null)
                 return 0f;
-            float relationship;
-            if (heatpumpData != null)
-                relationship = heatpumpData.WattUsage / (PrimaryBoiler.WattUsage + heatpumpData.WattUsage);
-            else
-                return 0;
-            II = UtilityClass.GetWeighting(relationship, container, false);
+            var relationship = heatpumpData.WattUsage / (PrimaryBoiler.WattUsage + heatpumpData.WattUsage);
+            _ii = UtilityClass.GetWeighting(relationship, container, false);
             _result.SecondaryHeatPumpAFUE = heatpumpData.AFUE;
-            return (heatpumpData.AFUE - PrimaryBoiler.AFUE) * II;
+            return (heatpumpData.AFUE - PrimaryBoiler.AFUE) * _ii;
         }
         // Adjustes the contribution from the HeatPump and the solar system
         private float AdjustedContribution(float heatpumpContribution, float solarContribution)

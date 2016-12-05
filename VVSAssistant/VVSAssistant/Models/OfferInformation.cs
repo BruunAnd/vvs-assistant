@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using VVSAssistant.Common;
 
 namespace VVSAssistant.Models
@@ -12,14 +10,14 @@ namespace VVSAssistant.Models
         public string Intro
         {
             get { return _intro; }
-            set { SetProperty<string>(ref _intro, value); }
+            set { SetProperty(ref _intro, value); }
         }
 
         private string _signature;
         public string Signature
         {
             get { return _signature; }
-            set { SetProperty<string>(ref _signature, value); }
+            set { SetProperty(ref _signature, value); }
         }
 
 
@@ -27,19 +25,19 @@ namespace VVSAssistant.Models
         public string Outro
         {
             get { return _outro; }
-            set { SetProperty<string>(ref _outro, value); }
+            set { SetProperty(ref _outro, value); }
         }
         private string _title;
         public string Title
         {
             get { return _title; }
-            set { SetProperty<string>(ref _title, value); }
+            set { SetProperty(ref _title, value); }
         }
         private bool _applyTax;
         public bool ApplyTax
         {
             get { return _applyTax; }
-            set { SetProperty<bool>(ref _applyTax, value); }
+            set { SetProperty(ref _applyTax, value); }
         }
     }
 }

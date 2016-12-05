@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using VVSAssistant.Functions.Calculation.Interfaces;
 
 namespace VVSAssistant.Models.DataSheets
 {
     [DisplayName(@"Datablad for beholder")]
-    class ContainerDataSheet : DataSheet
+    internal class ContainerDataSheet : DataSheet
     {
         [NotMapped]
         public static Dictionary<string, float> ClassificationClass = new Dictionary<string, float>()
@@ -30,33 +24,33 @@ namespace VVSAssistant.Models.DataSheets
         public float StandingLoss { get; set; }
 
         [Browsable(false)]
-        public bool isWaterContainer { get; set; }
+        public bool IsWaterContainer { get; set; }
         [Browsable(false)]
-        public bool isBufferContainer { get; set; }
+        public bool IsBufferContainer { get; set; }
         [Browsable(false)]
-        public bool isBivalent { get; set; }
+        public bool IsBivalent { get; set; }
         [Browsable(false)]
-        public bool isMonovalent { get; set; }
+        public bool IsMonovalent { get; set; }
 
 
 
         public override string ToString()
         {
-            string waterContainer = "";
-            string bufferContainer = "";
-            string Bivalent = "";
-            string Monovalent = "";
+            var waterContainer = "";
+            var bufferContainer = "";
+            var bivalent = "";
+            var monovalent = "";
 
-            if (isWaterContainer == true)
+            if (IsWaterContainer)
                 waterContainer = ", Varmtvandsbeholder";
-            if (isBufferContainer == true)
+            if (IsBufferContainer)
                 bufferContainer = ", Bufferbeholder";
-            if (isBivalent == true)
-                Bivalent = ", Bivalent";
-            if (isMonovalent == true)
-                Monovalent = ", Monovalent";
+            if (IsBivalent)
+                bivalent = ", Bivalent";
+            if (IsMonovalent)
+                monovalent = ", Monovalent";
 
-            return $"Volume: {Volume}L, Energiklasse: {Classification}, Stilstandstab: {StandingLoss}W{waterContainer}{bufferContainer}{Bivalent}{Monovalent}";
+            return $"Volume: {Volume}L, Energiklasse: {Classification}, Stilstandstab: {StandingLoss}W{waterContainer}{bufferContainer}{bivalent}{monovalent}";
         }
     }
 }

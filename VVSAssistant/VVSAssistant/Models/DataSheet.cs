@@ -1,9 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Reflection;
-using VVSAssistant.Functions.Calculation.Interfaces;
 using VVSAssistant.Models.Interfaces;
 
 namespace VVSAssistant.Models
@@ -19,9 +16,9 @@ namespace VVSAssistant.Models
 
         public virtual object MakeCopy()
         {
-            var copy = Activator.CreateInstance(this.GetType());
-            var properties = this.GetType().GetProperties();
-            foreach (PropertyInfo pi in copy.GetType().GetProperties())
+            var copy = Activator.CreateInstance(GetType());
+            var properties = GetType().GetProperties();
+            foreach (var pi in copy.GetType().GetProperties())
             {
                 var matchingProperty = properties.First(p => p.Name == pi.Name);
                 pi.SetValue(copy, matchingProperty.GetValue(this));

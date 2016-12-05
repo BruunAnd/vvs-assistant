@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Security.AccessControl;
-using System.Text;
-using System.Threading.Tasks;
+using System.Globalization;
 using VVSAssistant.Functions.Calculation;
 
 namespace VVSAssistant.ViewModels
@@ -17,7 +13,7 @@ namespace VVSAssistant.ViewModels
         {
             get
             {
-                return this._pageOne != null ? _pageOne : "Collapsed";
+                return _pageOne ?? "Collapsed";
             }
             set { _pageOne = value; }
         }
@@ -26,7 +22,7 @@ namespace VVSAssistant.ViewModels
         {
             get
             {
-                return this._pageTwo != null ? _pageTwo : "Collapsed";
+                return _pageTwo ?? "Collapsed";
             }
             set { _pageTwo = value; }
         }
@@ -36,7 +32,7 @@ namespace VVSAssistant.ViewModels
         {
             get
             {
-                return this._pageThree != null ? _pageThree : "Collapsed";
+                return _pageThree ?? "Collapsed";
                 
             }
             set { _pageThree = value; }
@@ -45,7 +41,7 @@ namespace VVSAssistant.ViewModels
 
         public string PageFour
         {
-            get { return this._pageFour != null ? _pageFour : "Collapsed"; }
+            get { return _pageFour ?? "Collapsed"; }
             set { _pageFour = value; }
         }
 
@@ -53,7 +49,7 @@ namespace VVSAssistant.ViewModels
 
         public string PageFive
         {
-            get { return this._pageFive != null ? _pageFive : "Collapsed"; }
+            get { return _pageFive ?? "Collapsed"; }
             set { _pageFive = value; }
         }
 
@@ -109,8 +105,8 @@ namespace VVSAssistant.ViewModels
             var result = results[0];
             switch (result.CalculationType)
             {
-                case CalculationType.PrimaryBoiler: PageTwo = "Visible"; ; break;
-                case CalculationType.PrimaryCPH: PageThree = "Visible"; break;
+                case CalculationType.PrimaryBoiler: PageTwo = "Visible"; break;
+                case CalculationType.PrimaryCHP: PageThree = "Visible"; break;
                 case CalculationType.PrimaryHeatPump: PageOne = "Visible"; SetupPageOneSecResult(result); break;
                 case CalculationType.PrimaryLowTempHeatPump: PageFour = "Visible"; SetupPageOneSecResult(result); break;
                 default: return;
@@ -126,11 +122,7 @@ namespace VVSAssistant.ViewModels
         }
         private string CheckIfZero(float value)
         {
-            if (value <= 0)
-            {
-                return "";
-            }
-            return Math.Round(value, 2).ToString();
+            return value <= 0 ? "" : Math.Round(value, 2).ToString(CultureInfo.CurrentCulture);
         }
         private void BasicSetup(EEICalculationResult result)
         {
@@ -159,7 +151,6 @@ namespace VVSAssistant.ViewModels
 
         private void SetupPageOneSecResult(EEICalculationResult result)
         {
-            Console.WriteLine("Vi kommer her til");
             ResultTwo = CheckIfZero(result.PackagedSolutionAtWarmTemperaturesAFUE);
         }
         private void SetupPageFiveSpecialInfo(List<EEICalculationResult> results)

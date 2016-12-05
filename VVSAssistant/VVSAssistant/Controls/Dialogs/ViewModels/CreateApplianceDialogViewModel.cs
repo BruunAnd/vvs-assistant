@@ -7,7 +7,7 @@ using VVSAssistant.Models.DataSheets;
 
 namespace VVSAssistant.Controls.Dialogs.ViewModels
 {
-    class CreateApplianceDialogViewModel : NotifyPropertyChanged
+    internal class CreateApplianceDialogViewModel : NotifyPropertyChanged
     {
         /* When the DataSheet (type) of a new appliance is changed during creation */
         public delegate void DataSheetChanged(DataSheet dataSheet);
@@ -46,18 +46,18 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
 
         public bool IsNewAppliance { get; set; }
 
-        private bool isHeatingOrSolar = false;
+        private bool _isHeatingOrSolar;
         public bool IsHeatingOrSolar
         {
-            get { return isHeatingOrSolar; }
-            set { isHeatingOrSolar = value; OnPropertyChanged(); }
+            get { return _isHeatingOrSolar; }
+            set { _isHeatingOrSolar = value; OnPropertyChanged(); }
         }
 
-        private bool isContainer = false;
+        private bool _isContainer;
         public bool IsContainer
         {
-            get { return isContainer; }
-            set { isContainer = value; OnPropertyChanged(); }
+            get { return _isContainer; }
+            set { _isContainer = value; OnPropertyChanged(); }
         }
 
         public bool IsWaterContainer
@@ -67,7 +67,7 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
                 if (IsContainer == false)
                     return false;
                 if (NewAppliance.DataSheet != null && NewAppliance.DataSheet is ContainerDataSheet)
-                    return (NewAppliance.DataSheet as ContainerDataSheet).isWaterContainer;
+                    return (NewAppliance.DataSheet as ContainerDataSheet).IsWaterContainer;
                 else
                     return false;
             }
@@ -75,7 +75,7 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             {
                 if (NewAppliance.DataSheet != null && NewAppliance.DataSheet is ContainerDataSheet)
                 {
-                    (NewAppliance.DataSheet as ContainerDataSheet).isWaterContainer = value;
+                    (NewAppliance.DataSheet as ContainerDataSheet).IsWaterContainer = value;
                     OnPropertyChanged();
                 }
             }
@@ -117,9 +117,6 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
                     _newAppliance.Type = ApplianceTypes.TemperatureController;
                     _newAppliance.DataSheet = new TemperatureControllerDataSheet();
                     break;
-                default:
-                    // No type recognised...
-                    break;
             }
             OnPropertyChanged("NewAppliance");
             OnDataSheetChanged(NewAppliance.DataSheet);
@@ -149,11 +146,6 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             }
 
             DataSheetChangedEventHandler += HandleDataSheetChanged;
-        }
-
-        private void HasAnyNullProperties(object obj)
-        {
-            
         }
 
         private void HandleExistingAppliance(Appliance appliance)

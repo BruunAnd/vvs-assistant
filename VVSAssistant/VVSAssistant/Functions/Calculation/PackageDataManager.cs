@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using VVSAssistant.Models;
 using VVSAssistant.Models.DataSheets;
 
 namespace VVSAssistant.Functions.Calculation
 {
-    class PackageDataManager
+    internal class PackageDataManager
     {
-        private PackagedSolution _package;
+        private readonly PackagedSolution _package;
         public PackageDataManager(PackagedSolution package)
         {
             _package = package;
@@ -18,13 +16,8 @@ namespace VVSAssistant.Functions.Calculation
         /// <summary>
         /// Retrives the Primary Heating Appliance
         /// </summary>
-        public HeatingUnitDataSheet PrimaryUnit
-        {
-            get
-            {
-                return _package?.PrimaryHeatingUnit.DataSheet as HeatingUnitDataSheet;
-            }
-        }
+        public HeatingUnitDataSheet PrimaryUnit => _package?.PrimaryHeatingUnit.DataSheet as HeatingUnitDataSheet;
+
         /// <summary>
         /// Returns the first SolarPanel in the Appliance list.
         /// The working assumption is that only one type of solarPanel is 
@@ -34,7 +27,8 @@ namespace VVSAssistant.Functions.Calculation
             get
             { return _package.Appliances.FirstOrDefault(item =>
                     item.Type == ApplianceTypes.SolarPanel)?.DataSheet
-                    as SolarCollectorDataSheet; ; }}
+                    as SolarCollectorDataSheet;
+            }}
         /// <summary>
         /// Returns the first SolarStation in the Appliance list.
         /// The working assumption is that a packaged solution will
@@ -54,56 +48,43 @@ namespace VVSAssistant.Functions.Calculation
         /// and calculates the combined area of the solar panels.
         /// </summary>
         /// <returns>Area of the solar panels which furfill the predicate</returns>
-        public float SolarPanelArea(Predicate<SolarCollectorDataSheet> PanelHeatingUse)
+        public float SolarPanelArea(Predicate<SolarCollectorDataSheet> panelHeatingUse)
         {
-            float ans = 0;
             var solarPanels = _package.Appliances.Where(item =>
             {
                 var solarCollectorDataSheet = item?.DataSheet as SolarCollectorDataSheet;
                 return solarCollectorDataSheet != null &&
                 (item.Type == ApplianceTypes.SolarPanel &&
-                PanelHeatingUse.Invoke(solarCollectorDataSheet));
+                panelHeatingUse.Invoke(solarCollectorDataSheet));
             });
-            foreach (var item in solarPanels)
-            {
-                var solarCollectorDataSheet = item?.DataSheet as SolarCollectorDataSheet;
-                if (solarCollectorDataSheet != null)
-                    ans += solarCollectorDataSheet.Area;
-            }
-            return ans;
+            return solarPanels.Select(item => item.DataSheet).OfType<SolarCollectorDataSheet>().Sum(solarCollectorDataSheet => solarCollectorDataSheet.Area);
         }
-        /// <summary>
+        /// <summary/>
         /// Selects SolarContainers from SolarContainers list in packaged solution
         /// based on the given predicate.
         /// And calculates the aggregated volume of the containers.
         /// <returns>Aggregated volume of all solar contains that furfill the predicate</returns>
-        public float SolarContainerVolume(Predicate<ContainerDataSheet> ContainerTypes)
+        public float SolarContainerVolume(Predicate<ContainerDataSheet> containerTypes)
         {
-            float ans = 0;
             var containers = _package.SolarContainers.Where(item =>
             {
                 var containerDataSheet = item?.DataSheet as ContainerDataSheet;
                 return containerDataSheet != null &&
-                ContainerTypes.Invoke(containerDataSheet);
+                containerTypes.Invoke(containerDataSheet);
             });
-            foreach (var item in containers)
-            {
-                ans += (item.DataSheet as ContainerDataSheet).Volume;
-            }
-            return ans;
+            return containers.Sum(item => ((ContainerDataSheet) item.DataSheet).Volume);
         }
         /// <summary>
         /// Returns the number of Solar Contains in the package that furfill
         /// the given predicate
         /// </summary>
-        public int NumSolarContainers(Predicate<ContainerDataSheet> ContainerTypes)
+        public int NumSolarContainers(Predicate<ContainerDataSheet> containerTypes)
         {
-            int ans = 0;
-            ans = _package.SolarContainers.Count(item =>
+            var ans = _package.SolarContainers.Count(item =>
             {
-            var containerDataSheet = item?.DataSheet as ContainerDataSheet;
+                var containerDataSheet = item?.DataSheet as ContainerDataSheet;
                 return containerDataSheet != null &&
-                ContainerTypes.Invoke(containerDataSheet);
+                       containerTypes.Invoke(containerDataSheet);
             });
             return ans;
         }
@@ -111,13 +92,13 @@ namespace VVSAssistant.Functions.Calculation
         /// Returns An IEnumerable of Solar Containers from the SolarContainers list
         /// in PackagedSolution, based on the given predicate
         /// </summary>
-        public IEnumerable<Appliance> SolarContainers(Predicate<ContainerDataSheet> ContainerUsage)
+        public IEnumerable<Appliance> SolarContainers(Predicate<ContainerDataSheet> containerUsage)
         {
             var solarContainers = _package.SolarContainers.Where(item =>
             {
                 var containerDataSheet = item?.DataSheet as ContainerDataSheet;
                 return containerDataSheet != null &&
-                ContainerUsage.Invoke(containerDataSheet);
+                containerUsage.Invoke(containerDataSheet);
             });
             return solarContainers;
         }
@@ -167,27 +148,18 @@ namespace VVSAssistant.Functions.Calculation
         {
             get
             {
-                string Classification = null;
-                Classification = PrimaryUnit.InternalTempControl == null ?
-                    (_package?.Appliances.FirstOrDefault(item =>
-                        item?.Type == ApplianceTypes.TemperatureController)?
-                        .DataSheet as TemperatureControllerDataSheet)?.Class ?? "0" :
-                    PrimaryUnit.InternalTempControl;
-                return TemperatureControllerDataSheet.ClassBonus[Classification];
+                var classification = PrimaryUnit.InternalTempControl ?? ((_package?.Appliances.FirstOrDefault(item =>
+                                                                                     item?.Type == ApplianceTypes.TemperatureController)?
+                                                                             .DataSheet as TemperatureControllerDataSheet)?.Class ?? "0");
+                return TemperatureControllerDataSheet.ClassBonus[classification];
             }
         }
         /// <summary>
         /// Returns the Solar Container Energy class bonus
         /// </summary>
-        public float SolarContainerClass
-        {
-            get
-            {
-                return ContainerDataSheet.ClassificationClass[
-                    (_package?.SolarContainers[0]?.DataSheet
-                    as ContainerDataSheet).Classification ?? "0"];
-            }
-        }
+        public float SolarContainerClass => ContainerDataSheet.ClassificationClass[
+        ((ContainerDataSheet) _package?.SolarContainers[0]?.DataSheet)?.Classification ?? "0"];
+
         public CalculationType CalculationStrategyType(PackagedSolution package, EEICalculationResult result)
         {
             var primaryType = package.PrimaryHeatingUnit.Type;
@@ -197,14 +169,14 @@ namespace VVSAssistant.Functions.Calculation
                 case ApplianceTypes.HeatPump:
                     return CalculationType.PrimaryHeatPump;
                 case ApplianceTypes.Boiler:
-                    if (primaryData.isWaterHeater && result.WaterHeatingEffciency != default(float))
+                    if (primaryData.IsWaterHeater && Math.Abs(result.WaterHeatingEffciency - default(float)) > 0)
                         return CalculationType.PrimaryWaterBoiler;
                     else
                         return CalculationType.PrimaryBoiler;
                 case ApplianceTypes.LowTempHeatPump:
                     return CalculationType.PrimaryLowTempHeatPump;
                 case ApplianceTypes.CHP:
-                    return CalculationType.PrimaryCPH;
+                    return CalculationType.PrimaryCHP;
                 default:
                     return 0;
             }

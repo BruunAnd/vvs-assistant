@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using VVSAssistant.Functions.Calculation.Strategies;
 using VVSAssistant.Models;
 using VVSAssistant.Models.DataSheets;
@@ -19,31 +15,39 @@ namespace VVSAssistant.Functions.Calculation
         /// <returns>Calculation strategy</returns>
         public List<IEEICalculation> SelectCalculationStrategy(PackagedSolution package)
         {
-            List<IEEICalculation> Calculations = new List<IEEICalculation>();
+            var calculations = new List<IEEICalculation>();
                    
             switch (package.PrimaryHeatingUnit?.Type ?? 0)
             {
+                case ApplianceTypes.LowTempHeatPump:
                 case ApplianceTypes.CHP:
                 case ApplianceTypes.HeatPump:
-                     Calculations.Add(new HeatPumpAsPrimary());
+                     calculations.Add(new HeatPumpAsPrimary());
                     break;
                 case ApplianceTypes.Boiler:
-                     Calculations.Add(new BoilerAsPrimary());
+                     calculations.Add(new BoilerAsPrimary());
                     if (IsBoilerForWater(package))
-                        Calculations.Add(new BoilerForWater());
+                        calculations.Add(new BoilerForWater());
                     break;
-                case ApplianceTypes.LowTempHeatPump:
-                    Calculations.Add(new HeatPumpAsPrimary());
+                case ApplianceTypes.TemperatureController:
+                    break;
+                case ApplianceTypes.SolarPanel:
+                    break;
+                case ApplianceTypes.Container:
+                    break;
+                case ApplianceTypes.SolarStation:
+                    break;
+                case ApplianceTypes.WaterHeater:
                     break;
                 default:
                     return null;
             }
-            return Calculations;
+            return calculations;
         }
-        private bool IsBoilerForWater(PackagedSolution package)
+        private static bool IsBoilerForWater(PackagedSolution package)
         {
 
-            return ((package.PrimaryHeatingUnit.DataSheet as HeatingUnitDataSheet).WaterHeatingEffiency > 0);
+            return (((HeatingUnitDataSheet) package.PrimaryHeatingUnit.DataSheet).WaterHeatingEffiency > 0);
 
         } 
     }

@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using VVSAssistant.Models;
-using VVSAssistant.Models.DataSheets;
 
 namespace VVSAssistant.Functions.Calculation.Strategies
 {
-    class HeatPumpAsPrimary : IEEICalculation
+    internal class HeatPumpAsPrimary : IEEICalculation
     {
-        EEICalculationResult _results = new EEICalculationResult();
+        private readonly EEICalculationResult _results = new EEICalculationResult();
         private PackagedSolution _package;
         private PackageDataManager _packageData;
         private float _II;
@@ -20,9 +15,9 @@ namespace VVSAssistant.Functions.Calculation.Strategies
 
 
 
-        public EEICalculationResult CalculateEEI(PackagedSolution Package)
+        public EEICalculationResult CalculateEEI(PackagedSolution package)
         {
-            _package = Package;
+            _package = package;
             _packageData = new PackageDataManager(_package);
             //setting starting AFUE value
             _results.PrimaryHeatingUnitAFUE = _packageData.PrimaryUnit.AFUE;
@@ -54,14 +49,13 @@ namespace VVSAssistant.Functions.Calculation.Strategies
 
         private float SecBoilerEffect()
         {
-            float heatingUnitRelationship;
             if (_packageData.SupplementaryBoiler == null)
             {
                 return 0;
             }
             else
             {
-                heatingUnitRelationship = _packageData.PrimaryUnit.WattUsage / (_packageData.PrimaryUnit.WattUsage + _packageData.SupplementaryBoiler.WattUsage);
+                var heatingUnitRelationship = _packageData.PrimaryUnit.WattUsage / (_packageData.PrimaryUnit.WattUsage + _packageData.SupplementaryBoiler.WattUsage);
 
                 _II = UtilityClass.GetWeighting(heatingUnitRelationship, _packageData.HasNonSolarContainer(), true);
 
@@ -73,16 +67,13 @@ namespace VVSAssistant.Functions.Calculation.Strategies
 
         private float SolarContribution()
         {
-            if (_package.PrimaryHeatingUnit.Type == ApplianceTypes.CHP)
-                _solarContributionFactor = 0.7f;
-            else
-                _solarContributionFactor = 0.45f;
+            _solarContributionFactor = _package.PrimaryHeatingUnit.Type == ApplianceTypes.CHP ? 0.7f : 0.45f;
 
-                var SolarCollectorData = _packageData.SolarPanelData;
-            float solarPanelArea = _packageData.SolarPanelArea(panel =>
-                                    panel.isRoomHeater == true);
-            float solarContainerVolume = _packageData.SolarContainerVolume(container =>
-                                         !container.isWaterContainer);
+                var solarCollectorData = _packageData.SolarPanelData;
+            var solarPanelArea = _packageData.SolarPanelArea(panel =>
+                                    panel.IsRoomHeater);
+            var solarContainerVolume = _packageData.SolarContainerVolume(container =>
+                                         !container.IsWaterContainer);
 
             _results.ContainerVolume = solarContainerVolume / 1000;
             _results.SolarCollectorArea = solarPanelArea;
@@ -91,10 +82,10 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             _IV = 115 / (11 * _packageData.PrimaryUnit.WattUsage);
 
             // Assume only one type of solarpanel pr. package
-            if (solarPanelArea != 0 && solarContainerVolume > 0)
+            if (Math.Abs(solarPanelArea) > 0 && solarContainerVolume > 0)
             {
                 ans = (_III * solarPanelArea + _IV * (solarContainerVolume / 1000)) *
-                    _solarContributionFactor * (SolarCollectorData.Efficency / 100) * _packageData.SolarContainerClass;
+                    _solarContributionFactor * (solarCollectorData.Efficency / 100) * _packageData.SolarContainerClass;
             }
             return ans;
         }       

@@ -1,7 +1,5 @@
 using System;
 using System.Linq;
-using System.Reflection;
-using VVSAssistant.Functions.Calculation.Interfaces;
 using VVSAssistant.Models.Interfaces;
 using VVSAssistant.ValueConverters;
 
@@ -35,8 +33,8 @@ namespace VVSAssistant.Models
 
         public object MakeCopy()
         {
-            var copy = Activator.CreateInstance(this.GetType()); //New object of same type
-            var properties = this.GetType().GetProperties(); //All properties from this object
+            var copy = Activator.CreateInstance(GetType()); //New object of same type
+            var properties = GetType().GetProperties(); //All properties from this object
             foreach (var pi in copy.GetType().GetProperties()) //For all the properties in the new object
             {
                 var matchingProperty = properties.First(p => p.Name == pi.Name); //Find the property with the same name in this object

@@ -36,7 +36,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 case BoilerId.Condens5000:
                     return new ApplianceStub("Condens5000", new HeatingUnitDataSheet()
                     { UseProfile = UseProfileType.XXL, WattUsage=24, Vbu=110, Psb=2, WaterHeatingEffiency=78,
-                        isWaterHeater =true, isRoomHeater=true, AFUEColdClima = 98, AFUEWarmClima=87.8f}, ApplianceTypes.Boiler);
+                        IsWaterHeater =true, IsRoomHeater=true, AFUEColdClima = 98, AFUEWarmClima=87.8f}, ApplianceTypes.Boiler);
                 case BoilerId.Vitodens200:
                     return new ApplianceStub("LoganoPlusSB105", new HeatingUnitDataSheet()
                     { AFUE = 94, WattUsage = 42}, ApplianceTypes.Boiler);
@@ -98,23 +98,23 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 case SolarPanelId.LogasolSKNWater:
                     return new ApplianceStub("LogasolSKN", new SolarCollectorDataSheet()
                     { Area = 2.25f, Efficency = 61, N0 = 0.766f, a1 = 3.22f,
-                        a2 = 0.015f, IAM = 0.92f, isRoomHeater = true }, ApplianceTypes.SolarPanel);
+                        a2 = 0.015f, IAM = 0.92f, IsRoomHeater = true }, ApplianceTypes.SolarPanel);
                 case SolarPanelId.FKC25Water:
                     return new ApplianceStub("FKC25", new SolarCollectorDataSheet()
                     { Area = 2.25f,Efficency = 61,N0 = 0.766f,a1 = 3.22f,
                       a2 = 0.015f,IAM = 0.92f}, ApplianceTypes.SolarPanel);
                 case SolarPanelId.Vitosol300T:
                     return new ApplianceStub("Vitosol 300-T", new SolarCollectorDataSheet()
-                    { Area = 3.19f, Efficency = 72, isRoomHeater = true }, ApplianceTypes.SolarPanel);
+                    { Area = 3.19f, Efficency = 72, IsRoomHeater = true }, ApplianceTypes.SolarPanel);
                 case SolarPanelId.LogasolSKN40:
                     return new ApplianceStub("Logasol SKN 4.0", new SolarCollectorDataSheet()
-                    { Area = 2.25f, Efficency = 61, isRoomHeater = true }, ApplianceTypes.SolarPanel);
+                    { Area = 2.25f, Efficency = 61, IsRoomHeater = true }, ApplianceTypes.SolarPanel);
                 case SolarPanelId.Vitosol200T:
                     return new ApplianceStub("Vitosol 200-T", new SolarCollectorDataSheet()
-                    { Area = 1.33f, Efficency = 67.5f, isRoomHeater = true}, ApplianceTypes.SolarPanel);
+                    { Area = 1.33f, Efficency = 67.5f, IsRoomHeater = true}, ApplianceTypes.SolarPanel);
                 case SolarPanelId.Vitosol200TSP2A:
                     return new ApplianceStub("Vitosol 200-T SP2A", new SolarCollectorDataSheet()
-                    { Area = 3.19f, Efficency = 67.4f, isRoomHeater = true }, ApplianceTypes.SolarPanel);
+                    { Area = 3.19f, Efficency = 67.4f, IsRoomHeater = true }, ApplianceTypes.SolarPanel);
                 default:
                     return new Appliance();
             }
@@ -194,7 +194,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 case WaterHeaterId.Compress3000:
                     return new ApplianceStub("Compress3000", new HeatingUnitDataSheet()
                     { Vnorm = 260, Vbu=20, StandingLoss=159, WaterHeatingEffiency=95, AFUEColdClima=83, AFUEWarmClima=114,
-                      isWaterHeater=true, UseProfile = UseProfileType.XL}, ApplianceTypes.WaterHeater);
+                      IsWaterHeater=true, UseProfile = UseProfileType.XL}, ApplianceTypes.WaterHeater);
                 default:
                     return new Appliance();
             }

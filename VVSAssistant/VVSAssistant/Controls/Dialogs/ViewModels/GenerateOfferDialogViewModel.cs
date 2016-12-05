@@ -6,7 +6,7 @@ using VVSAssistant.Common;
 
 namespace VVSAssistant.Controls.Dialogs.ViewModels
 {
-    class GenerateOfferDialogViewModel : NotifyPropertyChanged
+    internal class GenerateOfferDialogViewModel : NotifyPropertyChanged
     {
         private Offer _offer;
         public Offer Offer

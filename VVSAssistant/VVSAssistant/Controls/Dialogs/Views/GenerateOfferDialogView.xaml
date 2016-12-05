@@ -3,10 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-             xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+             xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
              mc:Ignorable="d"
-             Dialog:DialogParticipation.Register="{Binding}">
+             dialog:DialogParticipation.Register="{Binding}">
     <Grid Margin="0 10 0 10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" MinHeight="20" />
@@ -30,13 +30,13 @@
                 <StackPanel Orientation="Vertical">
 
                     <Label Content="Tilbudsnavn:"/>
-                    <TextBox Grid.Row="2" 
-                 Controls:TextBoxHelper.ClearTextButton="True"
+                    <TextBox
+                        controls:TextBoxHelper.ClearTextButton="True"
                  Text="{Binding Offer.OfferInformation.Title, UpdateSourceTrigger=PropertyChanged}"/>
 
                     <Label Content="Indledning på følgebrev:"/>
-                    <TextBox Grid.Row="4"
-                 Height="78"
+                    <TextBox
+                        Height="78"
                  Text="{Binding Offer.OfferInformation.Intro, UpdateSourceTrigger=PropertyChanged}"
                  TextWrapping="Wrap"
                  AcceptsReturn="True"/>
@@ -85,19 +85,19 @@
                 
                 <DockPanel DockPanel.Dock="Right" Margin="0 10 0 0">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <Button x:Name="PART_PrintButton"
+                        <Button x:Name="PartPrintButton"
                     Margin="0 0 5 0"
                     Width="75"
                     Command="{Binding PrintCommand}"
                     Style="{StaticResource AccentedSquareButtonStyle}"
                     Content="Udskriv"/>
-                        <Button x:Name="PART_AffirmativeButton"
+                        <Button x:Name="PartAffirmativeButton"
                     Margin="0 0 5 0"
                     Width="75"
                     Command="{Binding SaveCommand}"
                     Style="{StaticResource AccentedSquareButtonStyle}"
                     Content="Gem"/>
-                        <Button x:Name="PART_NegativeButton"
+                        <Button x:Name="PartNegativeButton"
                     Width="75"
                     Command="{Binding CloseCommand}"
                     Style="{DynamicResource SquareButtonStyle}"

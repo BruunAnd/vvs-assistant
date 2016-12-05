@@ -4,8 +4,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
-             xmlns:viewModels="clr-namespace:VVSAssistant.ViewModels"
-             xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d"
              dialog:DialogParticipation.Register="{Binding}">
     <Grid Margin="0 10 0 10">
@@ -65,6 +63,7 @@
             <Button Height="35"
                     MinWidth="80"
                     Margin="0 0 5 0"
+                    Style="{StaticResource AccentedSquareButtonStyle}"
                     Command="{Binding SaveCommand}"
                     Content="Tilføj"/>
             <Button Height="35"

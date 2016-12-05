@@ -43,8 +43,8 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 var data = item?.DataSheet as ContainerDataSheet;
                 if (data == null)
                     break;
-                data.isBivalent = true;
-                data.isWaterContainer = true;
+                data.IsBivalent = true;
+                data.IsWaterContainer = true;
             }
             var panels = package.Appliances.Where(item => item.Type == ApplianceTypes.SolarPanel);
             foreach (var item in panels)
@@ -52,7 +52,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 var data = item?.DataSheet as SolarCollectorDataSheet;
                 if (data == null)
                     break;
-                data.isWaterHeater = true;
+                data.IsWaterHeater = true;
             }
             var calculation = new BoilerForWater();
             var result = calculation.CalculateEEI(package);
@@ -81,8 +81,8 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 var data = item?.DataSheet as ContainerDataSheet;
                 if (data == null)
                     break;
-                data.isBivalent = true;
-                data.isWaterContainer = true;
+                data.IsBivalent = true;
+                data.IsWaterContainer = true;
             }
             var panels = package.Appliances.Where(item => item.Type == ApplianceTypes.SolarPanel);
             foreach (var item in panels)
@@ -90,7 +90,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 var data = item?.DataSheet as SolarCollectorDataSheet;
                 if (data == null)
                     break;
-                data.isWaterHeater = true;
+                data.IsWaterHeater = true;
             }
             var calculation = new BoilerForWater();
             var result = calculation.CalculateEEI(package);
@@ -113,8 +113,8 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 var data = item?.DataSheet as ContainerDataSheet;
                 if (data == null)
                     break;
-                data.isBivalent = true;
-                data.isWaterContainer = true;
+                data.IsBivalent = true;
+                data.IsWaterContainer = true;
             }
             var panels = package.Appliances.Where(item => item.Type == ApplianceTypes.SolarPanel);
             foreach (var item in panels)
@@ -122,7 +122,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 var data = item?.DataSheet as SolarCollectorDataSheet;
                 if (data == null)
                     break;
-                data.isWaterHeater = true;
+                data.IsWaterHeater = true;
             }
             var result = calculation.CalculateEEI(package);
             var EEI = (float)Math.Round(result.PackagedSolutionAtWarmTemperaturesAFUE);
@@ -142,8 +142,8 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 var data = item?.DataSheet as ContainerDataSheet;
                 if (data == null)
                     break;
-                data.isBivalent = true;
-                data.isWaterContainer = true;
+                data.IsBivalent = true;
+                data.IsWaterContainer = true;
             }
             var panels = package.Appliances.Where(item => item.Type == ApplianceTypes.SolarPanel);
             foreach (var item in panels)
@@ -151,7 +151,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 var data = item?.DataSheet as SolarCollectorDataSheet;
                 if (data == null)
                     break;
-                data.isWaterHeater = true;
+                data.IsWaterHeater = true;
             }
             var calculation = new BoilerForWater();
             var result = calculation.CalculateEEI(package);

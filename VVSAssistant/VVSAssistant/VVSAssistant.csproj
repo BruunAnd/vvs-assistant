@@ -229,7 +229,6 @@
     <Compile Include="Models\DataSheets\SolarStationDataSheet.cs" />
     <Compile Include="Models\Interfaces\ICalculatable.cs" />
     <Compile Include="Models\Material.cs" />
-    <Compile Include="Models\MaterialReference.cs" />
     <Compile Include="Models\Offer.cs" />
     <Compile Include="Models\OfferInformation.cs" />
     <Compile Include="Models\PackagedSolution.cs" />

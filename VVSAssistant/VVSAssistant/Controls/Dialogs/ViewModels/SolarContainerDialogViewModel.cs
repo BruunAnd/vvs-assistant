@@ -1,19 +1,13 @@
-﻿using MahApps.Metro.Controls.Dialogs;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using VVSAssistant.Common;
 using VVSAssistant.Common.ViewModels;
 using VVSAssistant.Models;
 using VVSAssistant.Models.DataSheets;
-using VVSAssistant.ViewModels;
 
 namespace VVSAssistant.Controls.Dialogs.ViewModels
 {
-    class SolarContainerDialogViewModel : NotifyPropertyChanged
+    internal class SolarContainerDialogViewModel : NotifyPropertyChanged
     {
         /* When a container is added to a packaged solution and there is a solar collector in it, 
          * this window should ask the user which container is tied to the solar collector. 
@@ -23,7 +17,6 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
         public RelayCommand SaveCommand { get; }
         public RelayCommand CloseCommand { get; }
 
-        private ObservableCollection<Appliance> _appliances;
         public ObservableCollection<Appliance> Appliances { get; }
 
         private Appliance _selectedAppliance;

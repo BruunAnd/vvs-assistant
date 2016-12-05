@@ -53,7 +53,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 var data = item?.DataSheet as ContainerDataSheet;
                 if (data == null)
                     break;
-                data.isBivalent = true;
+                data.IsBivalent = true;
             }
             var panels = package.Appliances.Where(item => item.Type == ApplianceTypes.SolarPanel);
             foreach (var item in panels)
@@ -61,7 +61,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 var data = item?.DataSheet as SolarCollectorDataSheet;
                 if (data == null)
                     break;
-                data.isRoomHeater= true;
+                data.IsRoomHeater= true;
             }
             var result = new EEICalculationResult();
             result = calculation.CalculateEEI(package);
@@ -82,7 +82,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 var data = item?.DataSheet as ContainerDataSheet;
                 if (data == null)
                     break;
-                data.isBivalent = true;
+                data.IsBivalent = true;
             }
             var panels = package.Appliances.Where(item => item.Type == ApplianceTypes.SolarPanel);
             foreach (var item in panels)
@@ -90,7 +90,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 var data = item?.DataSheet as SolarCollectorDataSheet;
                 if (data == null)
                     break;
-                data.isRoomHeater = true;
+                data.IsRoomHeater = true;
             }
             var result = new EEICalculationResult();
             result = calculation.CalculateEEI(package);
@@ -109,7 +109,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 var data = item?.DataSheet as ContainerDataSheet;
                 if (data == null)
                     break;
-                data.isBivalent = true;
+                data.IsBivalent = true;
             }
             var panels = package.Appliances.Where(item => item.Type == ApplianceTypes.SolarPanel);
             foreach (var item in panels)
@@ -117,7 +117,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 var data = item?.DataSheet as SolarCollectorDataSheet;
                 if (data == null)
                     break;
-                data.isRoomHeater = true;
+                data.IsRoomHeater = true;
             }
             var result = new EEICalculationResult();
             result = calculation.CalculateEEI(package);
@@ -138,7 +138,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 var data = item?.DataSheet as ContainerDataSheet;
                 if (data == null)
                     break;
-                data.isBivalent = true;
+                data.IsBivalent = true;
             }
             var panels = package.Appliances.Where(item => item.Type == ApplianceTypes.SolarPanel);
             foreach (var item in panels)
@@ -146,7 +146,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 var data = item?.DataSheet as SolarCollectorDataSheet;
                 if (data == null)
                     break;
-                data.isRoomHeater = true;
+                data.IsRoomHeater = true;
             }
             var result = new EEICalculationResult();
             result = calculation.CalculateEEI(package);
@@ -167,7 +167,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 var data = item?.DataSheet as ContainerDataSheet;
                 if (data == null)
                     break;
-                data.isBivalent = true;
+                data.IsBivalent = true;
             }
             var panels = package.Appliances.Where(item => item.Type == ApplianceTypes.SolarPanel);
             foreach (var item in panels)
@@ -175,7 +175,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 var data = item?.DataSheet as SolarCollectorDataSheet;
                 if (data == null)
                     break;
-                data.isRoomHeater = true;
+                data.IsRoomHeater = true;
             }
             var result = new EEICalculationResult();
             result = calculation.CalculateEEI(package);
@@ -197,7 +197,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 var data = item?.DataSheet as ContainerDataSheet;
                 if (data == null)
                     break;
-                data.isBivalent = true;
+                data.IsBivalent = true;
             }
             var panels = package.Appliances.Where(item => item.Type == ApplianceTypes.SolarPanel);
             foreach (var item in panels)
@@ -205,7 +205,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 var data = item?.DataSheet as SolarCollectorDataSheet;
                 if (data == null)
                     break;
-                data.isRoomHeater = true;
+                data.IsRoomHeater = true;
             }
             var result = new EEICalculationResult();
             result = calculation.CalculateEEI(package);
@@ -228,7 +228,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 var data = item?.DataSheet as ContainerDataSheet;
                 if (data == null)
                     break;
-                data.isBivalent = true;
+                data.IsBivalent = true;
             }
             var panels = package.Appliances.Where(item => item.Type == ApplianceTypes.SolarPanel);
             foreach (var item in panels)
@@ -236,7 +236,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 var data = item?.DataSheet as SolarCollectorDataSheet;
                 if (data == null)
                     break;
-                data.isRoomHeater = true;
+                data.IsRoomHeater = true;
             }
             //package.Appliances.Add(new ApplianceFactory().GetBoiler(id) ?? new Appliance());
             if (id == BoilerId.LoganoSB150)
@@ -259,7 +259,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 var data = item?.DataSheet as ContainerDataSheet;
                 if (data == null)
                     break;
-                data.isBivalent = true;
+                data.IsBivalent = true;
             }
             var panels = package.Appliances.Where(item => item.Type == ApplianceTypes.SolarPanel);
             foreach (var item in panels)
@@ -267,7 +267,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 var data = item?.DataSheet as SolarCollectorDataSheet;
                 if (data == null)
                     break;
-                data.isRoomHeater = true;
+                data.IsRoomHeater = true;
             }
             var result = calculation.CalculateEEI(package);
             var lowTemp = result.PackagedSolutionAtColdTemperaturesAFUE;
@@ -286,7 +286,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 var data = item?.DataSheet as ContainerDataSheet;
                 if (data == null)
                     break;
-                data.isBivalent = true;
+                data.IsBivalent = true;
             }
             var panels = package.Appliances.Where(item => item.Type == ApplianceTypes.SolarPanel);
             foreach (var item in panels)
@@ -294,7 +294,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 var data = item?.DataSheet as SolarCollectorDataSheet;
                 if (data == null)
                     break;
-                data.isRoomHeater = true;
+                data.IsRoomHeater = true;
             }
             //package.Appliances.Add(new ApplianceFactory().GetBoiler(id) ?? new Appliance());
             if (id == ContainerId.SM500)

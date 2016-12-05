@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace VVSAssistant.Models.DataSheets
@@ -52,45 +51,45 @@ namespace VVSAssistant.Models.DataSheets
         //TODO: Maybe find some better names for these two
         //TODO: Make example text appear in the text boxes when creating a new appliance so the user won't enter invalid info.
         [Browsable(false)]
-        public bool isRoomHeater { get; set; }
+        public bool IsRoomHeater { get; set; }
         [Browsable(false)]
-        public bool isWaterHeater { get; set; }
+        public bool IsWaterHeater { get; set; }
 
         public override string ToString()
         {
-            string room= "";
-            string water = "";
-            string userProfileString = "";
-            string WaterHeatEffString = "";
-            string coldwarmString = "";
-            string tempconString = "";
-            string lossString = "";
-            string vnormString = "";
-            string vbuString = "";
-            string psbString = "";
+            var room= "";
+            var water = "";
+            var userProfileString = "";
+            var waterHeatEffString = "";
+            var coldwarmString = "";
+            var tempconString = "";
+            var lossString = "";
+            var vnormString = "";
+            var vbuString = "";
+            var psbString = "";
 
-            if (isRoomHeater == true)
+            if (IsRoomHeater)
                 room = ", Rumopvarmning";
-            if (isWaterHeater == true)
+            if (IsWaterHeater)
                 water = ", Vandopvarmning";
             if (UseProfile != 0)
                 userProfileString = $", Forbrugsprofil: {UseProfile}";
-            if (WaterHeatingEffiency != 0)
-                WaterHeatEffString = $", Effektivitet ved vandopvarmning: {WaterHeatingEffiency}%";
-            if (AFUEColdClima != 0)
+            if (Math.Abs(WaterHeatingEffiency) > 0)
+                waterHeatEffString = $", Effektivitet ved vandopvarmning: {WaterHeatingEffiency}%";
+            if (Math.Abs(AFUEColdClima) > 0)
                 coldwarmString = $", Årvirkninsgrad i koldere klimazoner: {AFUEColdClima}%, Årvirkninsgrad i varmere klimazoner: {AFUEWarmClima}%";
             if (InternalTempControl != null)
                 tempconString = $", Temperaturregulatorklasse: {InternalTempControl}";
-            if (StandingLoss != 0)
+            if (Math.Abs(StandingLoss) > 0)
                 lossString = $", Stilstandstab: {StandingLoss}W";
-            if (Vnorm != 0)
+            if (Math.Abs(Vnorm) > 0)
                 vnormString = $", Vandindhold: {Vnorm}L";
-            if (Vbu != 0)
+            if (Math.Abs(Vbu) > 0)
                 vbuString = $", Ikke-solrelateret beholdervolumen: {Vbu}L";
-            if (Psb != 0)
+            if (Math.Abs(Psb) > 0)
                 psbString = $", Elforbrug i standbytilstand {Psb}W";
 
-            return $"Årsvirkningsgrad: {AFUE}%, Wattforbrug: {WattUsage}kW{room}{water}{coldwarmString}{tempconString}{userProfileString}{WaterHeatEffString}{lossString}{vnormString}{vbuString}{psbString}";
+            return $"Årsvirkningsgrad: {AFUE}%, Wattforbrug: {WattUsage}kW{room}{water}{coldwarmString}{tempconString}{userProfileString}{waterHeatEffString}{lossString}{vnormString}{vbuString}{psbString}";
         }
     }
     public enum UseProfileType

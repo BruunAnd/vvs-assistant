@@ -1,31 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Markup;
-using System.Xml;
-using VVSAssistant.Functions.Calculation;
-using VVSAssistant.Models;
+﻿using VVSAssistant.Models;
 
 namespace VVSAssistant.ViewModels
 
 
 
 {
-
-    class PdfOfferExportViewModel
+    internal class PdfOfferExportViewModel
     {
         private string _pageOne;
         public string PageOne
         {
             get
             {
-                return this._pageOne != null ? _pageOne : "Collapsed";
+                return _pageOne ?? "Collapsed";
             }
             set { _pageOne = value; }
         }
@@ -34,7 +21,7 @@ namespace VVSAssistant.ViewModels
         {
             get
             {
-                return this._pageTwo != null ? _pageTwo : "Collapsed";
+                return _pageTwo ?? "Collapsed";
             }
             set { _pageTwo = value; }
         }
@@ -43,7 +30,7 @@ namespace VVSAssistant.ViewModels
         {
             get
             {
-                return this._pageThree != null ? _pageThree : "Collapsed";
+                return _pageThree ?? "Collapsed";
 
             }
             set { _pageThree = value; }
