@@ -33,9 +33,10 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             _results.SecondaryBoilerAFUE = _packageData.SupplementaryBoiler?.AFUE ?? 0;
             _results.EffectOfSecondaryBoiler = SecBoilerEffect();
 
-
             //Calculating effect of solarcollector
             _results.SolarHeatContribution = SolarContribution();
+
+            //finalizing the EEI Calculation
             _results.EEI = (float)Math.Round(_results.PrimaryHeatingUnitAFUE + _results.EffectOfTemperatureRegulatorClass - _results.EffectOfSecondaryBoiler + _results.SolarHeatContribution);
             _results.EEICharacters = EEICharLabelChooser.EEIChar(_package.PrimaryHeatingUnit.Type, _results.EEI, 1)[0];
             _results.ToNextLabel = EEICharLabelChooser.EEIChar(_package.PrimaryHeatingUnit.Type, _results.EEI, 1)[1];
