@@ -1,4 +1,6 @@
 ﻿using System.Data.Entity;
+using System.Linq;
+using VVSAssistant.Exceptions;
 using VVSAssistant.Models;
 using VVSAssistant.Models.DataSheets;
 
@@ -41,6 +43,7 @@ namespace VVSAssistant.Database
             modelBuilder.Entity<Offer>().HasRequired(o => o.PackagedSolution).WithMany();
         }
 
+        public DbSet<CompanyInformation> CompanyInformation { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<ClientInformation> ClientInformation { get; set; }
         public DbSet<Offer> Offers { get; set; }

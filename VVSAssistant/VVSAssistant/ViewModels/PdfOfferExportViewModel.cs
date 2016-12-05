@@ -1,18 +1,33 @@
-﻿using VVSAssistant.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Markup;
+using System.Xml;
+using VVSAssistant.Database;
+using VVSAssistant.Exceptions;
+using VVSAssistant.Functions.Calculation;
+using VVSAssistant.Models;
 
 namespace VVSAssistant.ViewModels
 
 
 
 {
-    internal class PdfOfferExportViewModel
+
+    class PdfOfferExportViewModel
     {
         private string _pageOne;
         public string PageOne
         {
             get
             {
-                return _pageOne ?? "Collapsed";
+                return this._pageOne != null ? _pageOne : "Collapsed";
             }
             set { _pageOne = value; }
         }
@@ -21,7 +36,7 @@ namespace VVSAssistant.ViewModels
         {
             get
             {
-                return _pageTwo ?? "Collapsed";
+                return this._pageTwo != null ? _pageTwo : "Collapsed";
             }
             set { _pageTwo = value; }
         }
@@ -30,7 +45,7 @@ namespace VVSAssistant.ViewModels
         {
             get
             {
-                return _pageThree ?? "Collapsed";
+                return this._pageThree != null ? _pageThree : "Collapsed";
 
             }
             set { _pageThree = value; }
@@ -76,12 +91,20 @@ namespace VVSAssistant.ViewModels
 
             CreationDate = offer.CreationDate.ToString("dd. MMMM yyyy");
             Signatur = offer.OfferInformation.Signature;
-            CompanyName = CompanyInfo.CompanyName;
-            Adresse = CompanyInfo.Address;
-            Email = CompanyInfo.Email;
-            WebSite = CompanyInfo.Website;
-            Telephone = CompanyInfo.Telephone;
-            CVR = CompanyInfo.Cvr;
+
+            using (var ctx = new AssistantContext())
+            {
+                var companyInfo = ctx.CompanyInformation.FirstOrDefault();
+                if (companyInfo == null)
+                    throw new CompanyInformationNotFoundException("Ingen firmaoplysninger er indtastet.");
+
+                CompanyName = companyInfo.CompanyName;
+                Adresse = companyInfo.Address;
+                Email = companyInfo.Email;
+                WebSite = companyInfo.Website;
+                Telephone = companyInfo.Telephone;
+                CVR = companyInfo.Cvr;
+            }
 
             IntroText = offer.OfferInformation.Intro;
             OutroText = offer.OfferInformation.Outro;
