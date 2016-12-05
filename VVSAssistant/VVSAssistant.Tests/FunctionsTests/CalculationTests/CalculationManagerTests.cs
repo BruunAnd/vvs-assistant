@@ -135,9 +135,12 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests
             var package = new PackageFactory().GetPackage(packID);
             var calcManager = new CalculationManager();
             EEICalculationResult Results = calcManager.SelectCalculationStrategy(package)[0].CalculateEEI(package);
-            Assert.AreEqual(Results.EffectOfSecondaryHeatPump, expectedValue);
-            //Assert.IsTrue(Results.EffectOfSecondaryHeatPump <= expectedValue + 0.1f && Results.EffectOfSecondaryHeatPump >= expectedValue - 0.1f);
+            //Assert.AreEqual(Results.EffectOfSecondaryHeatPump, expectedValue);
+            Assert.IsTrue(Results.EffectOfSecondaryHeatPump <= expectedValue + 0.1f && Results.EffectOfSecondaryHeatPump >= expectedValue - 0.1f);
         }
+
+
+
         //[Test]
         //public void SelectCalculationStrategy_ReturnsAEEICalculationType_True()
         //{

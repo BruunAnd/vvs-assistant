@@ -148,26 +148,14 @@ namespace VVSAssistant.Functions.Calculation
         public bool HasNonSolarContainer()
         {
             var containers = _package.Appliances.Where(item => item.Type == ApplianceTypes.Container);
-            var solarContainers = _package.SolarContainers;
-            foreach (var item in containers)
+            var solarContainers = _package.SolarContainers.Where(item => item.Type == ApplianceTypes.Container);
+            if (containers.Count() <= solarContainers.Count())
             {
-                bool ans = false;
-                foreach (var solar in solarContainers)
-                {
-                    if (item != solar)
-                    {
-                        ans = true;
-                    }
-                    else if(item == solar)
-                    {
-                        ans = false;
-                        break;
-                    }
-                }
-                if (ans)
-                    return true;
+                return false;
             }
-            return false;
+            else
+                return true;
+
         }
         /// <summary>
         /// Returns the Primary HeatingUnit internal temp controller bonus

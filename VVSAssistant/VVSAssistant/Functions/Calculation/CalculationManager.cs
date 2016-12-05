@@ -38,8 +38,6 @@ namespace VVSAssistant.Functions.Calculation
                 default:
                     return null;
             }
-
-
             return Calculations;
         }
         private bool IsBoilerForWater(PackagedSolution package)

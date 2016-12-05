@@ -64,8 +64,8 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         {
             var package = new PackageFactory().GetPackage(Id);
             float RegulatorEffect = HeatPumpStrategy.CalculateEEI(package).EffectOfTemperatureRegulatorClass;
-            Assert.AreEqual(RegulatorEffect, expectedValue);
-            //Assert.IsTrue(RegulatorEffect <= expectedValue + 0.1f && RegulatorEffect >= expectedValue - 0.1f);
+            //Assert.AreEqual(RegulatorEffect, expectedValue);
+            Assert.IsTrue(RegulatorEffect <= expectedValue + 0.1f && RegulatorEffect >= expectedValue - 0.1f);
         }
 
         [Test]
@@ -92,8 +92,8 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         {
             var package = new PackageFactory().GetPackage(Id);
             float solarContribution = HeatPumpStrategy.CalculateEEI(package).SolarHeatContribution;
-            Assert.AreEqual(solarContribution, expectedValue);
-            //Assert.IsTrue(solarContribution <= expectedValue + 0.1f && solarContribution >= expectedValue - 0.1f);
+            //Assert.AreEqual(solarContribution, expectedValue);
+            Assert.IsTrue(solarContribution <= expectedValue + 0.1f && solarContribution >= expectedValue - 0.1f);
         }
 
 
@@ -123,6 +123,17 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             Assert.IsTrue(WarmAFUE <= expectedValue + 1 && WarmAFUE >= expectedValue - 1);
         }
 
+        [Test]
+        [TestCase(PackagedSolutionId.PrimaryCHP4Solars, false)]
+        public void HeatPumpAsPrimStrategyReturnsCorrectHasNonSolarContainer_false(PackagedSolutionId Id, bool expectedValue)
+        {
+            var package = new PackageFactory().GetPackage(Id);
+            var _packageData = new PackageDataManager(package);
+            Assert.IsFalse(_packageData.HasNonSolarContainer());
+            
+        }
+
+
     }
 
- }
+}

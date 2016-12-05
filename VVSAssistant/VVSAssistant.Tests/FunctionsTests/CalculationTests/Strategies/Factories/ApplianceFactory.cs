@@ -11,7 +11,8 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             {
                 case BoilerId.Cerapur:
                     return new ApplianceStub("Cerapur", new HeatingUnitDataSheet()
-                            { WattUsage = 20, AFUE = 93, AFUEColdClima = 98.2f, AFUEWarmClima = 87.8f },
+                            { WattUsage = 20, AFUE = 93, AFUEColdClima = 98.2f, AFUEWarmClima = 87.8f,
+                            WaterHeatingEffiency = 68, UseProfile = UseProfileType.M  },
                         ApplianceTypes.Boiler);
                 case BoilerId.LoganoSB150:
                     return new ApplianceStub("LoganoPlusSB105", new HeatingUnitDataSheet()
@@ -97,14 +98,14 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 case SolarPanelId.LogasolSKNWater:
                     return new ApplianceStub("LogasolSKN", new SolarCollectorDataSheet()
                     { Area = 2.25f, Efficency = 61, N0 = 0.766f, a1 = 3.22f,
-                        a2 = 0.015f, IAM = 0.92f }, ApplianceTypes.SolarPanel);
+                        a2 = 0.015f, IAM = 0.92f, isRoomHeater = true }, ApplianceTypes.SolarPanel);
                 case SolarPanelId.FKC25Water:
                     return new ApplianceStub("FKC25", new SolarCollectorDataSheet()
                     { Area = 2.25f,Efficency = 61,N0 = 0.766f,a1 = 3.22f,
                       a2 = 0.015f,IAM = 0.92f}, ApplianceTypes.SolarPanel);
                 case SolarPanelId.Vitosol300T:
                     return new ApplianceStub("Vitosol 300-T", new SolarCollectorDataSheet()
-                    { Area = 3.19f, Efficency = 72 }, ApplianceTypes.SolarPanel);
+                    { Area = 3.19f, Efficency = 72, isRoomHeater = true }, ApplianceTypes.SolarPanel);
                 case SolarPanelId.LogasolSKN40:
                     return new ApplianceStub("Logasol SKN 4.0", new SolarCollectorDataSheet()
                     { Area = 2.25f, Efficency = 61, isRoomHeater = true }, ApplianceTypes.SolarPanel);
