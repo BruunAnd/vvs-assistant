@@ -10,120 +10,92 @@ namespace VVSAssistant.Functions.Calculation.Strategies
 {
     class HeatPumpAsPrimary : IEEICalculation
     {
-        EEICalculationResult Results;
-        private HeatingUnitDataSheet PrimaryUnit;
-        private HeatingUnitDataSheet SecondaryBoiler;
-        private float II;
-        private float III;
-        private float IV;
-        private float SolarContributionFactor;
+        EEICalculationResult _results = new EEICalculationResult();
+        private PackagedSolution _package;
+        private PackageDataManager _packageData;
+        private float _II;
+        private float _III;
+        private float _IV;
+        private float _solarContributionFactor;
 
 
 
-        public EEICalculationResult CalculateEEI(PackagedSolution PackagedSolution)
+        public EEICalculationResult CalculateEEI(PackagedSolution Package)
         {
-            Results = new EEICalculationResult();
-
+            _package = Package;
+            _packageData = new PackageDataManager(_package);
             //setting starting AFUE value
-            PrimaryUnit = PackagedSolution.PrimaryHeatingUnit.DataSheet as HeatingUnitDataSheet;
-            Results.PrimaryHeatingUnitAFUE = PrimaryUnit.AFUE;
+            _results.PrimaryHeatingUnitAFUE = _packageData.PrimaryUnit.AFUE;
 
             //finding effect of temperatur regulator
-            IEnumerable<Appliance> TempControllers = PackagedSolution.Appliances.Where(TempControl => TempControl.Type == ApplianceTypes.TemperatureController);
-
-           
-           
-            if (PrimaryUnit.InternalTempControl != null)
-            {
-                Results.EffectOfTemperatureRegulatorClass = TemperatureControllerDataSheet.ClassBonus[PrimaryUnit.InternalTempControl];
-            }
-            else if (TempControllers.Count() > 0)
-            {
-                Results.EffectOfTemperatureRegulatorClass = TemperatureControllerDataSheet.ClassBonus[(TempControllers.FirstOrDefault()?.DataSheet as TemperatureControllerDataSheet).Class];
-            }
-
-            //finding a solarCollector
-            IEnumerable<Appliance> Solars = PackagedSolution.Appliances.Where(Solar => Solar.Type == ApplianceTypes.SolarPanel);
-            
-
+            _results.EffectOfTemperatureRegulatorClass = _packageData.TempControllerBonus;
             //Calculating effect of secondary boiler
-            IEnumerable<Appliance> SecBoilers = PackagedSolution.Appliances.Where(SecBoiler => SecBoiler.Type == ApplianceTypes.Boiler);
-
-            if (SecBoilers.Count() > 0)
-            {
-                SecondaryBoiler = SecBoilers.FirstOrDefault()?.DataSheet as HeatingUnitDataSheet;
-                Results.SecondaryBoilerAFUE = SecondaryBoiler.AFUE;
-
-                float heatingUnitRelationship = PrimaryUnit.WattUsage / (PrimaryUnit.WattUsage + SecondaryBoiler.WattUsage);
-
-                II = UtilityClass.GetWeighting(heatingUnitRelationship, HasNonSolarContainer(PackagedSolution, Solars), true);
-
-
-                Results.EffectOfSecondaryBoiler = Math.Abs((float)Math.Round((SecondaryBoiler.AFUE - PrimaryUnit.AFUE) * II,2));
-            }
+            _results.SecondaryBoilerAFUE = _packageData.SupplementaryBoiler?.AFUE ?? 0;
+            _results.EffectOfSecondaryBoiler = SecBoilerEffect();
 
 
             //Calculating effect of solarcollector
-            if (Solars.Count() != 0 && PackagedSolution.SolarContainers.Count() != 0)
-            {
-                if (PackagedSolution.PrimaryHeatingUnit.Type == ApplianceTypes.CHP)
-                    SolarContributionFactor = 0.7f;
-                else
-                    SolarContributionFactor = 0.45f;
-
-                III = 294 / (11 * PrimaryUnit.WattUsage);
-                IV = 115 / (11 * PrimaryUnit.WattUsage);
-
-                float AreaOfSolars = 0;
-                foreach (Appliance solar in Solars)
-                {
-                    AreaOfSolars = (solar.DataSheet as SolarCollectorDataSheet).Area + AreaOfSolars;
-                }
-                Results.SolarCollectorArea = AreaOfSolars;
-
-                float solarContainerVolume = 0;
-                foreach (Appliance Container in PackagedSolution.SolarContainers)
-                {
-                    solarContainerVolume += (Container.DataSheet as ContainerDataSheet).Volume;
-                }
-                Results.ContainerVolume = solarContainerVolume / 1000;
-                Results.SolarCollectorEffectiveness = (Solars.FirstOrDefault()?.DataSheet as SolarCollectorDataSheet).Efficency;
-                Results.ContainerClassification = ContainerDataSheet.ClassificationClass[(PackagedSolution.SolarContainers[0].DataSheet as ContainerDataSheet).Classification];
-
-                Results.SolarHeatContribution = (float)Math.Round((III * Results.SolarCollectorArea + IV * Results.ContainerVolume) * SolarContributionFactor * (Results.SolarCollectorEffectiveness / 100) * Results.ContainerClassification, 2);
-            }
-            Results.EEI = (float)Math.Round(Results.PrimaryHeatingUnitAFUE + Results.EffectOfTemperatureRegulatorClass - Results.EffectOfSecondaryBoiler + Results.SolarHeatContribution);
-            Results.EEICharacters = EEICharLabelChooser.EEIChar(PackagedSolution.PrimaryHeatingUnit.Type, Results.EEI, 1)[0];
-            Results.ToNextLabel = EEICharLabelChooser.EEIChar(PackagedSolution.PrimaryHeatingUnit.Type, Results.EEI, 1)[1];
-            Results.ProceedingEEICharacter = EEICharLabelChooser.EEIChar(PackagedSolution.PrimaryHeatingUnit.Type, Results.EEI, 1)[2];
+            _results.SolarHeatContribution = SolarContribution();
+            _results.EEI = (float)Math.Round(_results.PrimaryHeatingUnitAFUE + _results.EffectOfTemperatureRegulatorClass - _results.EffectOfSecondaryBoiler + _results.SolarHeatContribution);
+            _results.EEICharacters = EEICharLabelChooser.EEIChar(_package.PrimaryHeatingUnit.Type, _results.EEI, 1)[0];
+            _results.ToNextLabel = EEICharLabelChooser.EEIChar(_package.PrimaryHeatingUnit.Type, _results.EEI, 1)[1];
+            _results.ProceedingEEICharacter = EEICharLabelChooser.EEIChar(_package.PrimaryHeatingUnit.Type, _results.EEI, 1)[2];
             //Calculating for colder and warmer climates
-            if (PackagedSolution.PrimaryHeatingUnit.Type != ApplianceTypes.CHP)
+            if (_package.PrimaryHeatingUnit.Type != ApplianceTypes.CHP)
             {
-                Results.PackagedSolutionAtColdTemperaturesAFUE = Results.EEI-(PrimaryUnit.AFUE-PrimaryUnit.AFUEColdClima);
-                Results.PackagedSolutionAtWarmTemperaturesAFUE = Results.EEI + (PrimaryUnit.AFUEWarmClima - PrimaryUnit.AFUE);
+                _results.PackagedSolutionAtColdTemperaturesAFUE = _results.EEI-(_packageData.PrimaryUnit.AFUE - _packageData.PrimaryUnit.AFUEColdClima);
+                _results.PackagedSolutionAtWarmTemperaturesAFUE = _results.EEI + (_packageData.PrimaryUnit.AFUEWarmClima - _packageData.PrimaryUnit.AFUE);
             }
-            Results.CalculationType = new PackageDataManager(PackagedSolution).CalculationStrategyType(PackagedSolution,Results);
-            return Results;
+            _results.CalculationType = new PackageDataManager(_package).CalculationStrategyType(_package,_results);
+            return _results;
         }
 
-        private bool HasNonSolarContainer(PackagedSolution _package, IEnumerable<Appliance> Solars)
-        {
-            IEnumerable<Appliance> Containers = _package.Appliances.Where(Container => Container.Type == ApplianceTypes.Container);
 
-            if (Solars.Count() <= 0 && Containers.Count() > 0)
+        private float SecBoilerEffect()
+        {
+            float heatingUnitRelationship;
+            if (_packageData.SupplementaryBoiler == null)
             {
-                return true;
-            }
-            else if (_package.SolarContainers.Count() < Containers.Count())
-            {
-                return true;
+                return 0;
             }
             else
             {
-                return false;
+                heatingUnitRelationship = _packageData.PrimaryUnit.WattUsage / (_packageData.PrimaryUnit.WattUsage + _packageData.SupplementaryBoiler.WattUsage);
+
+                _II = UtilityClass.GetWeighting(heatingUnitRelationship, _packageData.HasNonSolarContainer(), true);
+
+
+                return Math.Abs((float)Math.Round((_packageData.SupplementaryBoiler.AFUE - _packageData.PrimaryUnit.AFUE) * _II, 2));
             }
-            //return _package?.Appliances.Any(item => item?.Type == ApplianceTypes.Container
-            //                                && item != _package.SolarContainer) ?? false;
+
         }
+
+        private float SolarContribution()
+        {
+            if (_package.PrimaryHeatingUnit.Type == ApplianceTypes.CHP)
+                _solarContributionFactor = 0.7f;
+            else
+                _solarContributionFactor = 0.45f;
+
+                var SolarCollectorData = _packageData.SolarPanelData;
+            float solarPanelArea = _packageData.SolarPanelArea(panel =>
+                                    panel.isRoomHeater == true);
+            float solarContainerVolume = _packageData.SolarContainerVolume(container =>
+                                         !container.isWaterContainer);
+
+            _results.ContainerVolume = solarContainerVolume / 1000;
+            _results.SolarCollectorArea = solarPanelArea;
+            float ans = 0;
+            _III = 294 / (11 * _packageData.PrimaryUnit.WattUsage);
+            _IV = 115 / (11 * _packageData.PrimaryUnit.WattUsage);
+
+            // Assume only one type of solarpanel pr. package
+            if (solarPanelArea != 0 && solarContainerVolume > 0)
+            {
+                ans = (_III * solarPanelArea + _IV * (solarContainerVolume / 1000)) *
+                    _solarContributionFactor * (SolarCollectorData.Efficency / 100) * _packageData.SolarContainerClass;
+            }
+            return ans;
+        }       
     }
 }

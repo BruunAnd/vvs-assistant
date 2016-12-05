@@ -39,7 +39,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests
         [TestCase(0.36f,true,true, 0.10f)]
         [TestCase(0.1764f,true, true, 0.38f)]
         [TestCase(0.36f, false, true, 0.19f)]
-
+        [TestCase(0.3571f, true, true, 0.1f)]
         public void GetWeightingReturnsCurrectAnswer_True(float input, bool firstBool, bool secondBool, float expectedAnswer)
         {
             Assert.AreEqual(UtilityClass.GetWeighting(input, firstBool, secondBool), expectedAnswer);

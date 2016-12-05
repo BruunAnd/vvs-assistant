@@ -218,7 +218,6 @@
     <Compile Include="Functions\Calculation\EEICalculationResult.cs" />
     <Compile Include="Functions\Calculation\Strategies\HeatPumpAsPrimary.cs" />
     <Compile Include="Functions\Calculation\IEEICalculation.cs" />
-    <Compile Include="Functions\Calculation\Interfaces\ICalculationChooser.cs" />
     <Compile Include="Functions\UtilityClass.cs" />
     <Compile Include="Models\Appliance.cs" />
     <Compile Include="Models\ApplianceInstance.cs" />
@@ -418,7 +417,9 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Functions\Calculation\Interfaces\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
