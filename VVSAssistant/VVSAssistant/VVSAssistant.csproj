@@ -173,7 +173,7 @@
     <Compile Include="Common\NavigationService.cs" />
     <Compile Include="Common\NotifyPropertyChanged.cs" />
     <Compile Include="Common\ViewModels\FilterableViewModelBase.cs" />
-    <Compile Include="CompanyInfo.cs" />
+    <Compile Include="Models\CompanyInformation.cs" />
     <Compile Include="Controls\Dialogs\ViewModels\AddHeatingUnitDialogViewModel.cs" />
     <Compile Include="Controls\Dialogs\ViewModels\AddSolarPanelDialogviewModel.cs" />
     <Compile Include="Controls\Dialogs\ViewModels\CompanyInfoDialogViewModel.cs" />
@@ -203,6 +203,7 @@
       <DependentUpon>SolarContainerDialogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Database\AssistantContext.cs" />
+    <Compile Include="Exceptions\CompanyInformationNotFoundException.cs" />
     <Compile Include="Exceptions\InvalidParameterException.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Functions\Calculation\CalculationType.cs" />

@@ -9,6 +9,8 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Markup;
 using System.Xml;
+using VVSAssistant.Database;
+using VVSAssistant.Exceptions;
 using VVSAssistant.Functions.Calculation;
 using VVSAssistant.Models;
 
@@ -89,12 +91,20 @@ namespace VVSAssistant.ViewModels
 
             CreationDate = offer.CreationDate.ToString("dd. MMMM yyyy");
             Signatur = offer.OfferInformation.Signature;
-            CompanyName = CompanyInfo.CompanyName;
-            Adresse = CompanyInfo.Address;
-            Email = CompanyInfo.Email;
-            WebSite = CompanyInfo.Website;
-            Telephone = CompanyInfo.Telephone;
-            CVR = CompanyInfo.Cvr;
+
+            using (var ctx = new AssistantContext())
+            {
+                var companyInfo = ctx.CompanyInformation.FirstOrDefault();
+                if (companyInfo == null)
+                    throw new CompanyInformationNotFoundException("Ingen firmaoplysninger er indtastet.");
+
+                CompanyName = companyInfo.CompanyName;
+                Adresse = companyInfo.Address;
+                Email = companyInfo.Email;
+                WebSite = companyInfo.Website;
+                Telephone = companyInfo.Telephone;
+                CVR = companyInfo.Cvr;
+            }
 
             IntroText = offer.OfferInformation.Intro;
             OutroText = offer.OfferInformation.Outro;

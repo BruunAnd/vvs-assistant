@@ -5,8 +5,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
              xmlns:viewModels="clr-namespace:VVSAssistant.Controls.Dialogs.ViewModels"
-             xmlns:system="clr-namespace:System;assembly=mscorlib"
-             xmlns:local="clr-namespace:VVSAssistant"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance viewModels:CompanyInfoDialogViewModel}"
              dialog:DialogParticipation.Register="{Binding}">
@@ -31,17 +29,17 @@
 
         <StackPanel Grid.Row="2">
             <Label Content="Firmanavn: "/>
-            <TextBox Text="{Binding Source={x:Static local:CompanyInfo.CompanyName}, Mode=OneWay}"/>
+            <TextBox Text="{Binding CompanyInformation.CompanyName}"/>
             <Label Content="Firma adresse: "/>
-            <TextBox Text="{Binding Source={x:Static local:CompanyInfo.Address}, Mode=OneWay}"/>
+            <TextBox Text="{Binding CompanyInformation.Address}"/>
             <Label Content="CVR: "/>
-            <TextBox Text="{Binding Source={x:Static local:CompanyInfo.Cvr}, Mode=OneWay}"/>
+            <TextBox Text="{Binding CompanyInformation.Cvr}"/>
             <Label Content="Telefonnummer: "/>
-            <TextBox Text="{Binding Source={x:Static local:CompanyInfo.Telephone}, Mode=OneWay}"/>
+            <TextBox Text="{Binding CompanyInformation.Telephone}"/>
             <Label Content="Email: "/>
-            <TextBox Text="{Binding Source={x:Static local:CompanyInfo.Email}, Mode=OneWay}"/>
+            <TextBox Text="{Binding CompanyInformation.Email}"/>
             <Label Content="Hjemmeside URL: "/>
-            <TextBox Text="{Binding Source={x:Static local:CompanyInfo.Website}, Mode=OneWay}"/>
+            <TextBox Text="{Binding CompanyInformation.Website}"/>
         </StackPanel>
 
         <StackPanel Grid.Row="4"

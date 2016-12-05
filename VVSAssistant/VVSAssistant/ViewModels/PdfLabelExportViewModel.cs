@@ -9,6 +9,8 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Markup;
 using System.Xml;
+using VVSAssistant.Database;
+using VVSAssistant.Exceptions;
 using VVSAssistant.Functions.Calculation;
 using VVSAssistant.Models;
 
@@ -82,7 +84,14 @@ namespace VVSAssistant.ViewModels
 
         public void Setup(PackagedSolution packaged)
         {
-            CompNameText = CompanyInfo.CompanyName;
+            using (var ctx = new AssistantContext())
+            {
+                var companyInfo = ctx.CompanyInformation.FirstOrDefault();
+                if (companyInfo == null)
+                    throw new CompanyInformationNotFoundException("Ingen firmaoplysninger er indtastet.");
+
+                CompNameText = companyInfo.CompanyName;
+            }
 
             switch (packaged.EnergyLabel.Count)
             {

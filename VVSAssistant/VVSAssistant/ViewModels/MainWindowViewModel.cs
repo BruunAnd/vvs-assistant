@@ -103,8 +103,11 @@ namespace VVSAssistant.ViewModels
         {
             var customDialog = new CustomDialog();
             var dialogCoordinator = new DialogCoordinator();
+            IsLoading = true;
             var dialogViewModel = new CompanyInfoDialogViewModel(instanceCancel => dialogCoordinator.HideMetroDialogAsync(this, customDialog),
                 instanceCompleted => dialogCoordinator.HideMetroDialogAsync(this, customDialog));
+            dialogViewModel.LoadDataFromDatabase();
+            IsLoading = false;
 
             customDialog.Content = new CompanyInfoDialogView { DataContext = dialogViewModel };
 
