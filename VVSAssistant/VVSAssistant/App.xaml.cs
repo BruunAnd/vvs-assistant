@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
 using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using VVSAssistant.Database;
 using VVSAssistant.Models;
@@ -15,7 +10,7 @@ namespace VVSAssistant
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App
     {
 
         protected override void OnStartup(StartupEventArgs e)
@@ -23,12 +18,12 @@ namespace VVSAssistant
             base.OnStartup(e);
             InitializeCultureInfo();
             new AssistantContext().Database.Delete();
-            return;
-            ShittySeed();
+            //ShittySeed();
+            
         }
-        private void InitializeCultureInfo()
+        private static void InitializeCultureInfo()
         {
-            CultureInfo customCulture = (CultureInfo)
+            var customCulture = (CultureInfo)
                         System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
             customCulture.NumberFormat.NumberDecimalSeparator = ".";
             System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;

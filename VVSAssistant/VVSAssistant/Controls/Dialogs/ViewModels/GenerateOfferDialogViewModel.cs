@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Threading;
-using MahApps.Metro.Controls.Dialogs;
-using VVSAssistant.ViewModels;
 using System.ComponentModel;
-using System.Collections.ObjectModel;
 using VVSAssistant.Models;
 using VVSAssistant.Common.ViewModels;
 using VVSAssistant.Common;
-using VVSAssistant.Events;
 
 namespace VVSAssistant.Controls.Dialogs.ViewModels
 {

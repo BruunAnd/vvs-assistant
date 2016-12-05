@@ -35,7 +35,7 @@
             <Label Content="Firma adresse: "/>
             <TextBox Text="{Binding Source={x:Static local:CompanyInfo.Address}, Mode=OneWay}"/>
             <Label Content="CVR: "/>
-            <TextBox Text="{Binding Source={x:Static local:CompanyInfo.CVR}, Mode=OneWay}"/>
+            <TextBox Text="{Binding Source={x:Static local:CompanyInfo.Cvr}, Mode=OneWay}"/>
             <Label Content="Telefonnummer: "/>
             <TextBox Text="{Binding Source={x:Static local:CompanyInfo.Telephone}, Mode=OneWay}"/>
             <Label Content="Email: "/>

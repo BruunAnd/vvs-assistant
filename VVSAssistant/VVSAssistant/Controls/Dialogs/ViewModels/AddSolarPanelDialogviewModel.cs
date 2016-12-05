@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using VVSAssistant.Common;
 using VVSAssistant.Common.ViewModels;
 using VVSAssistant.Models;
@@ -61,13 +57,8 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
                 SolarPanelData.isRoomHeater = _isRoomHeater;
             }
         }
-        private SolarCollectorDataSheet SolarPanelData
-        {
-            get
-            {
-                return (_solarPanel?.DataSheet as SolarCollectorDataSheet);
-            }
-        }
+        private SolarCollectorDataSheet SolarPanelData => (_solarPanel?.DataSheet as SolarCollectorDataSheet);
+
         private void Save()
         {
             _appsInSolution.Add(_solarPanel);

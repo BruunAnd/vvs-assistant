@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security;
-using System.Text;
-using System.Threading.Tasks;
 using VVSAssistant.Common;
 using VVSAssistant.Common.ViewModels;
 
@@ -13,10 +8,7 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
     {
         public RelayCommand SaveCommand { get;  }
         public RelayCommand CloseCommand { get; }
-
-        public string Title { get; }
-        public string Message { get; }
-
+        
         private bool _isPrimaryBoiler;
         public bool IsPrimaryBoiler
         {

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Configuration;
@@ -11,7 +10,6 @@ using System.Windows.Documents;
 using System.Windows.Markup;
 using System.Windows.Xps.Packaging;
 using Microsoft.Win32;
-using VVSAssistant.Functions.Calculation;
 using VVSAssistant.Models;
 using VVSAssistant.ViewModels;
 using VVSAssistant.Views;
@@ -97,18 +95,6 @@ namespace VVSAssistant.Functions
             return pageContent;
         }
 
-        private static void SaveXpsFile(string path, FixedDocument fixedDocument)
-        {
-
-            if (File.Exists(path))
-                File.Delete(path); // TODO: Notify that the user should close all PDFs before doing this
-            var xpsd = new XpsDocument(path, FileAccess.ReadWrite);
-            var xw = XpsDocument.CreateXpsDocumentWriter(xpsd);
-            xw.Write(fixedDocument);
-            xpsd.Close();
-
-        }
-        
         public static class PdfOffer
         {
             public static void Export(Offer offer)
@@ -164,8 +150,6 @@ namespace VVSAssistant.Functions
         {
             public static void ExportEnergyLabel(PackagedSolution packaged)
             {
-                var path = $"PdfOffer{packaged.Name}.xps";
-
                 var fixedDoc = new FixedDocument();
 
                 var v = new PdfLabelLayout();

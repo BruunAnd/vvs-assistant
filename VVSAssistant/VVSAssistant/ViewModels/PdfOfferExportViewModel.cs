@@ -94,7 +94,7 @@ namespace VVSAssistant.ViewModels
             Email = CompanyInfo.Email;
             WebSite = CompanyInfo.Website;
             Telephone = CompanyInfo.Telephone;
-            CVR = CompanyInfo.CVR;
+            CVR = CompanyInfo.Cvr;
 
             IntroText = offer.OfferInformation.Intro;
             OutroText = offer.OfferInformation.Outro;

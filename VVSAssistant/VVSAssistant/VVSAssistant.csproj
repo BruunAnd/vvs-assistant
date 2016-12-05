@@ -203,9 +203,7 @@
       <DependentUpon>SolarContainerDialogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Database\AssistantContext.cs" />
-    <Compile Include="Events\VVSAssistantEvents.cs" />
     <Compile Include="Exceptions\InvalidParameterException.cs" />
-    <Compile Include="Extensions\ObservableExtension.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Functions\Calculation\CalculationType.cs" />
     <Compile Include="Functions\Calculation\EEICharLabelChooser.cs" />

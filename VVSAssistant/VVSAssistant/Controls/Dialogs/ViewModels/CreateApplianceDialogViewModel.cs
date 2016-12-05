@@ -1,21 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using VVSAssistant.Common;
 using VVSAssistant.Common.ViewModels;
 using VVSAssistant.Models;
 using VVSAssistant.Models.DataSheets;
-using VVSAssistant.ViewModels;
-using VVSAssistant.Events;
 
 namespace VVSAssistant.Controls.Dialogs.ViewModels
 {
     class CreateApplianceDialogViewModel : NotifyPropertyChanged
     {
+        /* When the DataSheet (type) of a new appliance is changed during creation */
+        public delegate void DataSheetChanged(DataSheet dataSheet);
+        public static event DataSheetChanged DataSheetChangedEventHandler;
+        public static void OnDataSheetChanged(DataSheet dataSheet)
+        {
+            DataSheetChangedEventHandler?.Invoke(dataSheet);
+        }
+
         public RelayCommand SaveCommand { get; }
         public RelayCommand CloseCommand { get; }
 
@@ -121,7 +122,7 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
                     break;
             }
             OnPropertyChanged("NewAppliance");
-            VvsAssistantEvents.OnDataSheetChanged(NewAppliance.DataSheet);
+            OnDataSheetChanged(NewAppliance.DataSheet);
         }
 
         public CreateApplianceDialogViewModel(Appliance newAppliance, bool isNewAppliance, Action<CreateApplianceDialogViewModel> closeHandler, 
@@ -147,7 +148,7 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
                 HandleExistingAppliance(NewAppliance);
             }
 
-            VvsAssistantEvents.DataSheetChangedEventHandler += HandleDataSheetChanged;
+            DataSheetChangedEventHandler += HandleDataSheetChanged;
         }
 
         private void HasAnyNullProperties(object obj)
@@ -158,7 +159,7 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
         private void HandleExistingAppliance(Appliance appliance)
         {
             OldDataSheet = appliance.DataSheet.MakeCopy() as DataSheet;
-            VvsAssistantEvents.OnDataSheetChanged(NewAppliance.DataSheet);
+            OnDataSheetChanged(NewAppliance.DataSheet);
         }
 
         /* When a new type is chosen in the dialog, switch visibilities */
