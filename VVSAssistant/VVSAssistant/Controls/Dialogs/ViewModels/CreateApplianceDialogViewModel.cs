@@ -4,6 +4,7 @@ using VVSAssistant.Common;
 using VVSAssistant.Common.ViewModels;
 using VVSAssistant.Models;
 using VVSAssistant.Models.DataSheets;
+using VVSAssistant.ValueConverters;
 
 namespace VVSAssistant.Controls.Dialogs.ViewModels
 {
@@ -20,11 +21,22 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
         public RelayCommand SaveCommand { get; }
         public RelayCommand CloseCommand { get; }
 
-        private string _chosenType;
         public string ChosenType
         {
-            get { return _chosenType; }
-            set { _chosenType = value; OnTypeChosen(); }
+            get
+            {
+                return (string)new ApplianceTypeConverter().Convert(_newAppliance.Type, typeof(string), null, null);
+            }
+            set
+            {
+                if (value == null)
+                    return;
+                var converter = new ApplianceTypeConverter();
+                _newAppliance.Type = (ApplianceTypes)converter.ConvertBack(value, typeof(ApplianceTypes), null, null);
+                _newAppliance.DataSheet = converter.ConvertTypeToDataSheet(_newAppliance.Type);
+                OnPropertyChanged("NewAppliance");
+                OnDataSheetChanged(NewAppliance.DataSheet);
+            }
         }
 
         public ObservableCollection<string> Types { get; } = new ObservableCollection<string>()
@@ -66,60 +78,17 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             {
                 if (IsContainer == false)
                     return false;
-                if (NewAppliance.DataSheet != null && NewAppliance.DataSheet is ContainerDataSheet)
-                    return (NewAppliance.DataSheet as ContainerDataSheet).IsWaterContainer;
-                else
-                    return false;
+                var sheet = NewAppliance.DataSheet as ContainerDataSheet;
+                return sheet != null && sheet.IsWaterContainer;
             }
             set
             {
-                if (NewAppliance.DataSheet != null && NewAppliance.DataSheet is ContainerDataSheet)
-                {
-                    (NewAppliance.DataSheet as ContainerDataSheet).IsWaterContainer = value;
-                    OnPropertyChanged();
-                }
+                var sheet = NewAppliance.DataSheet as ContainerDataSheet;
+                if (sheet == null)
+                    return;
+                sheet.IsWaterContainer = value;
+                OnPropertyChanged();
             }
-        }
-
-        public void OnTypeChosen()
-        {
-            switch (ChosenType)
-            {
-                case "Varmepumpe":
-                    _newAppliance.Type = ApplianceTypes.HeatPump;
-                    _newAppliance.DataSheet = new HeatingUnitDataSheet();
-                    break;
-                case "Lavtemperatursvarmepumpe":
-                    _newAppliance.Type = ApplianceTypes.LowTempHeatPump;
-                    _newAppliance.DataSheet = new HeatingUnitDataSheet();
-                    break;
-                case "Kraftvarmeanlæg":
-                    _newAppliance.Type = ApplianceTypes.CHP;
-                    _newAppliance.DataSheet = new HeatingUnitDataSheet();
-                    break;
-                case "Kedel":
-                    _newAppliance.Type = ApplianceTypes.Boiler;
-                    _newAppliance.DataSheet = new HeatingUnitDataSheet();
-                    break;
-                case "Beholder":
-                    _newAppliance.Type = ApplianceTypes.Container;
-                    _newAppliance.DataSheet = new ContainerDataSheet();
-                    break;
-                case "Solpanel":
-                    _newAppliance.Type = ApplianceTypes.SolarPanel;
-                    _newAppliance.DataSheet = new SolarCollectorDataSheet();
-                    break;
-                case "Solstation":
-                    _newAppliance.Type = ApplianceTypes.SolarStation;
-                    _newAppliance.DataSheet = new SolarStationDataSheet();
-                    break;
-                case "Temperaturregulering":
-                    _newAppliance.Type = ApplianceTypes.TemperatureController;
-                    _newAppliance.DataSheet = new TemperatureControllerDataSheet();
-                    break;
-            }
-            OnPropertyChanged("NewAppliance");
-            OnDataSheetChanged(NewAppliance.DataSheet);
         }
 
         public CreateApplianceDialogViewModel(Appliance newAppliance, bool isNewAppliance, Action<CreateApplianceDialogViewModel> closeHandler, 
