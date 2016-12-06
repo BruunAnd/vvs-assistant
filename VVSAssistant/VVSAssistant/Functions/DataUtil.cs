@@ -95,6 +95,25 @@ namespace VVSAssistant.Functions
             return pageContent;
         }
 
+        private static void RunSaveDialog(FixedDocument fixedDocument, string offerTitle)
+        {
+            var dlg = new SaveFileDialog()
+            {
+                Filter = "XPS-filer (.xps)|*.xps",
+                FileName = offerTitle,
+                DefaultExt = ".xps"
+            };
+
+            var result = dlg.ShowDialog();
+            if (result == false) return;
+            if (File.Exists(dlg.FileName)) File.Delete(dlg.FileName);
+
+            var xpsd = new XpsDocument(dlg.FileName, FileAccess.ReadWrite);
+            var xw = XpsDocument.CreateXpsDocumentWriter(xpsd);
+            xw.Write(fixedDocument);
+            xpsd.Close();
+        }
+
         public static class PdfOffer
         {
             public static void Export(Offer offer)
@@ -126,24 +145,7 @@ namespace VVSAssistant.Functions
                 RunSaveDialog(fixedDoc, offer.OfferInformation.Title);
             }
 
-            private static void RunSaveDialog(FixedDocument fixedDocument, string offerTitle)
-            {
-                var dlg = new SaveFileDialog()
-                {
-                    Filter = "XPS-filer (.xps)|*.xps",
-                    FileName = offerTitle,
-                    DefaultExt = ".xps"
-                };
-
-                var result = dlg.ShowDialog();
-                if (result == false) return;
-                if (File.Exists(dlg.FileName)) File.Delete(dlg.FileName);
-
-                var xpsd = new XpsDocument(dlg.FileName, FileAccess.ReadWrite);
-                var xw = XpsDocument.CreateXpsDocumentWriter(xpsd);
-                xw.Write(fixedDocument);
-                xpsd.Close();
-            }
+            
         }
 
         public static class PdfEnergyLabel
@@ -173,25 +175,6 @@ namespace VVSAssistant.Functions
                 }
 
                 RunSaveDialog(fixedDoc, packaged.Name);
-            }
-
-            private static void RunSaveDialog(FixedDocument fixedDocument, string packagedSolutionName)
-            {
-                var dlg = new SaveFileDialog()
-                {
-                    Filter = "XPS-filer (.xps)|*.xps",
-                    FileName = packagedSolutionName,
-                    DefaultExt = ".xps"
-                };
-
-                var result = dlg.ShowDialog();
-                if (result == false) return;
-                if (File.Exists(dlg.FileName)) File.Delete(dlg.FileName);
-
-                var xpsd = new XpsDocument(dlg.FileName, FileAccess.ReadWrite);
-                var xw = XpsDocument.CreateXpsDocumentWriter(xpsd);
-                xw.Write(fixedDocument);
-                xpsd.Close();
             }
         }
     }
