@@ -97,32 +97,18 @@ namespace VVSAssistant.ViewModels
         /// and each appliance is added to the list of appliances in the offer. Last but not least,
         /// we raise a notifier that the property has been changed.
         /// </summary>
-        public PackagedSolution SelectedPackagedSolution
-        {
-            get { return Offer.PackagedSolution; }
-            set
-            {
-                if (value == null) return;
-                Offer.PackagedSolution = value;
-                foreach (var appliance in value.Appliances)
-                    AppliancesInOffer.Add(appliance);
-                OnPropertyChanged();
-                UpdateSidebarValues();
-            }
-        }
+        public PackagedSolution SelectedPackagedSolution { get; set; }
 
         #endregion
 
         public CreateOfferViewModel(IDialogCoordinator coordinator)
         {
             SetInitialSettings();
+            _dialogCoordinator = coordinator;
 
             MaterialsInOffer = new ObservableCollection<Material>();
             SalariesInOffer = new ObservableCollection<Salary>();
             AppliancesInOffer = new ObservableCollection<Appliance>();
-
-            _dialogCoordinator = coordinator;
-            PackagedSolutions = new ObservableCollection<PackagedSolution>();
 
             // Assign notifier to the collections we want to monitor.
             MaterialsInOffer.CollectionChanged += NotifyOfferContentsChanged;
@@ -135,7 +121,7 @@ namespace VVSAssistant.ViewModels
             {
                 using (var ctx = new AssistantContext())
                 {
-                    if (ctx.Offers.SingleOrDefault(o => o.Id == Offer.Id) == null) // Not saved
+                    if (!ctx.Offers.Any(o => o.Id == Offer.Id)) // Not saved
                         SaveOfferDialog();
                     else
                         ExportOffer();
@@ -145,7 +131,7 @@ namespace VVSAssistant.ViewModels
             /* Tied to the action of double clicking a packaged solution's info 
              * in the list of packaged solutions. When this happens, property 
              * "SelectedPackagedSolution" is set to the clicked Packaged Solution. */
-            PackagedSolutionDoubleClickedCmd = new RelayCommand(x => OnSolutionDoubleClicked()); 
+            PackagedSolutionDoubleClickedCmd = new RelayCommand(x => OnSolutionSelected()); 
 
             /* Doing the same as print offer, todo: figure out what we want to accomplish here */
             SaveOfferCmd = new RelayCommand(x => SaveOfferDialog(), x => VerifyOfferHasRequiredInformation());
@@ -156,9 +142,9 @@ namespace VVSAssistant.ViewModels
             {
                 SetInitialSettings();
                 ClearCollections();
-                PackagedSolutions.Clear();
-                LoadDataFromDatabase();
-            });
+                // PackagedSolutions.Clear();
+                NotifyCanExecuteChanged();
+            }, x => ArePackagedSolutionsVisible == false);
         }
 
         #region Methods
@@ -190,11 +176,21 @@ namespace VVSAssistant.ViewModels
 
         /* Enables the Component, Salary, and Materials view, and prepares
          * the offer for receiving information about any of these */
-        public void OnSolutionDoubleClicked()
+        public void OnSolutionSelected()
         {
             IsComponentTabVisible = true;
             ArePackagedSolutionsVisible = false;
-            PrintOfferCmd.NotifyCanExecuteChanged();
+
+            // Set offer's packaged solution to selected
+            Offer.PackagedSolution = SelectedPackagedSolution;
+
+            // Add appliances to appliances in this offer
+            foreach (var appliance in SelectedPackagedSolution.Appliances)
+                AppliancesInOffer.Add(appliance);
+
+            UpdateSidebarValues();
+
+            NotifyCanExecuteChanged();
         }
 
         /* Opens offer creation dialog */
@@ -241,7 +237,6 @@ namespace VVSAssistant.ViewModels
 
         private void NotifyOfferContentsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            
             if (e == null) return;
 
             // Remove eventlistener from deleted properties.
@@ -259,8 +254,14 @@ namespace VVSAssistant.ViewModels
         private void OfferContentsPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             UpdateSidebarValues();
-            PrintOfferCmd.NotifyCanExecuteChanged();
-            SaveOfferCmd.NotifyCanExecuteChanged();
+            NotifyCanExecuteChanged();
+        }
+
+        private void NotifyCanExecuteChanged()
+        {
+            PrintOfferCmd?.NotifyCanExecuteChanged();
+            SaveOfferCmd?.NotifyCanExecuteChanged();
+            CreateNewOfferCmd?.NotifyCanExecuteChanged();
         }
 
         private void UpdateSidebarValues()
