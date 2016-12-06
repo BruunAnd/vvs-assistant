@@ -59,11 +59,11 @@ namespace VVSAssistant.Common
         public static async Task<bool> ConfirmDiscardChanges(IDialogCoordinator dialogCoordinator)
         {
             var result = await dialogCoordinator.ShowMessageAsync(CurrentPage,
-                    "Bekræft navigation",
+                    "Bekræft handling",
                     "Du har ugemte ændringer, ønsker du at forlade siden?",
                     MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings()
                     {
-                        AffirmativeButtonText = "Forlad siden",
+                        AffirmativeButtonText = "Forlad",
                         NegativeButtonText = "Fortryd"
                     });
 

@@ -99,6 +99,20 @@ namespace VVSAssistant.ViewModels
             NavigationService.EndNavigate();
         }
 
+        public async void OnWindowClosing(object sender, CancelEventArgs e)
+        {
+            e.Cancel = true;
+            var result = true;
+
+            if(NavigationService.CurrentPage != null) result = await NavigationService.ConfirmDiscardChanges(new DialogCoordinator());
+
+            // Close canceled.
+            if (!result) return;
+
+            Application.Current.Shutdown();
+
+        }
+
         private async void OpenOfferSettingsDialog()
         {
             var customDialog = new CustomDialog();
