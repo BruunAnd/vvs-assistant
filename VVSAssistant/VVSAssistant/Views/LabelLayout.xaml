@@ -8,7 +8,7 @@
       d:DesignHeight="1200" d:DesignWidth="1000"
       >
     <ContentControl.DataContext>
-        <viewModels:PdfLabelExportViewModel/>
+        <viewModels:LabelExportViewModel/>
     </ContentControl.DataContext>
     <Grid Height="27.7cm" Width="19.0cm">
         <!--Skema 1-->

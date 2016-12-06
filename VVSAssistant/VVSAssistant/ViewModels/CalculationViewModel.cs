@@ -5,7 +5,7 @@ using VVSAssistant.Functions.Calculation;
 
 namespace VVSAssistant.ViewModels
 {
-    internal class PdfCalculationViewModel
+    internal class CalculationViewModel
     {
         #region Prop
         private string _pageOne;
