@@ -64,7 +64,7 @@ namespace VVSAssistant.ViewModels
 
         public ObservableCollection<Salary> SalariesInOffer { get; set; }
 
-        public ObservableCollection<Appliance> AppliancesInOffer { get; set; }
+        public ObservableCollection<OfferedAppliance> AppliancesInOffer { get; set; }
 
         #endregion
 
@@ -108,7 +108,7 @@ namespace VVSAssistant.ViewModels
 
             MaterialsInOffer = new ObservableCollection<Material>();
             SalariesInOffer = new ObservableCollection<Salary>();
-            AppliancesInOffer = new ObservableCollection<Appliance>();
+            AppliancesInOffer = new ObservableCollection<OfferedAppliance>();
 
             // Assign notifier to the collections we want to monitor.
             MaterialsInOffer.CollectionChanged += NotifyOfferContentsChanged;
@@ -186,7 +186,7 @@ namespace VVSAssistant.ViewModels
 
             // Add appliances to appliances in this offer
             foreach (var appliance in SelectedPackagedSolution.Appliances)
-                AppliancesInOffer.Add(appliance);
+                AppliancesInOffer.Add(new OfferedAppliance(appliance));
 
             UpdateSidebarValues();
 
@@ -307,7 +307,7 @@ namespace VVSAssistant.ViewModels
                 Offer.PackagedSolution = existingOffer.PackagedSolution;
 
                 // Load appliances
-                foreach (var appliance in existingOffer.PackagedSolution.Appliances)
+                foreach (var appliance in existingOffer.Appliances)
                     AppliancesInOffer.Add(appliance);
 
                 // Load materials
@@ -328,6 +328,7 @@ namespace VVSAssistant.ViewModels
             using (var ctx = new AssistantContext())
             {
                 ctx.PackagedSolutions.Attach(offer.PackagedSolution);
+                offer.Appliances = AppliancesInOffer.ToList();
                 offer.Salaries = SalariesInOffer.ToList();
                 offer.Materials = MaterialsInOffer.ToList();
                 offer.CreationDate = DateTime.Now;
