@@ -35,12 +35,13 @@ namespace VVSAssistant.Functions
                 {
                     output = array[ResultsPrimHeat.Length - 1];
                     break;
-                }                                
-                else if (input > ResultsPrimHeat[i])
+                }
+
+                if (input > ResultsPrimHeat[i])
                 {
                     i++;
                 }
-                else if(Math.Abs(input - ResultsPrimHeat[i]) < 0)
+                else if (input.Equals(ResultsPrimHeat[i]))
                 {
                     output = array[i];
                     break;

@@ -30,7 +30,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             var qref = _qref[_result.WaterHeatingUseProfile];
             var qaux = SolCalMethodQaux();
             var qnonsol = SolCalMethodQnonsol();
-
+            
             var parameterOne = _result.WaterHeatingEffciency;
             var parameterTwo = Math.Abs(qnonsol) > 0 ? 220 * qref / qnonsol : 0;
             

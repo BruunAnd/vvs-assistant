@@ -17,8 +17,8 @@ namespace VVSAssistant
         {
             base.OnStartup(e);
             InitializeCultureInfo();
-            new AssistantContext().Database.Delete();
-            //ShittySeed();
+            //new AssistantContext().Database.Delete();
+            // ShittySeed();
             
         }
         private static void InitializeCultureInfo()
