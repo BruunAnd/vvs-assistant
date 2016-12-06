@@ -5,21 +5,21 @@ using VVSAssistant.ValueConverters;
 
 namespace VVSAssistant.Models
 {
-    public class Appliance : UnitPrice, ICalculateable, ICopyable
+    public class Appliance : ICalculateable, ICopyable
     {
-        // public int Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public DateTime CreationDate { get; set; }
         public ApplianceTypes Type { get; set; }
         public DataSheet DataSheet { get; set; }
         public string Description => DataSheet.ToString();
+        public double UnitCostPrice { get; set; }
 
         public Appliance(string name, DataSheet datasheet, ApplianceTypes type)
         {
             Name = name;
             DataSheet = datasheet;
             Type = type;
-            Quantity = 1;
         }
 
         public Appliance()
