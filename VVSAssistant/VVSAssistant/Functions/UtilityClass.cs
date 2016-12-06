@@ -26,16 +26,15 @@ namespace VVSAssistant.Functions
                 array = primIsHeatPump ? PrimHeatNoContainer : PrimBoilNoContainer;
             }
 
-            var output = 0.0f;
-            var outputFound = false;
+            float output;
             var i = 0;
 
-            while (outputFound == false)
+            while (true)
             {
                 if (input > 0.7f)
                 {
                     output = array[ResultsPrimHeat.Length - 1];
-                    outputFound = true;
+                    break;
                 }                                
                 else if (input > ResultsPrimHeat[i])
                 {
@@ -44,12 +43,12 @@ namespace VVSAssistant.Functions
                 else if(Math.Abs(input - ResultsPrimHeat[i]) < 0)
                 {
                     output = array[i];
-                    outputFound = true;
+                    break;
                 }
                 else
                 {
                     output = LiniarInterpolation(ResultsPrimHeat, array, i, input);
-                    outputFound = true;
+                    break;
                 }
             }
             return output;
