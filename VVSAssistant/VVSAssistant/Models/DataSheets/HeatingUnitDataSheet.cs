@@ -45,7 +45,7 @@ namespace VVSAssistant.Models.DataSheets
         public float Vbu { get; set; }
 
         [DisplayName(@"Elforbrug i standbytilstand")] //W
-        [Description(@"Kedlens Elforbrug i standbytilstand (Psb) i kW")]
+        [Description(@"Kedlens Elforbrug i standbytilstand (Psb) i Watt (W)")]
         public float Psb { get; set; }
 
         //TODO: Maybe find some better names for these two
