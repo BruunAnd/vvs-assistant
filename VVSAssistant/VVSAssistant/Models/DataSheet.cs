@@ -11,7 +11,7 @@ namespace VVSAssistant.Models
         public int Id { get; set; }
 
         [DisplayName(@"Pris")]
-        [Description(@"eksempel")]
+        [Description(@"Prisen for komponentet i danske kroner")]
         public double Price { get; set; }
 
         public virtual object MakeCopy()
