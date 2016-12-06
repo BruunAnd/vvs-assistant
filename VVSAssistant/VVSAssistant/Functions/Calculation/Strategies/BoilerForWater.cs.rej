@@ -1,0 +1,9 @@
+diff a/VVSAssistant/VVSAssistant/Functions/Calculation/Strategies/BoilerForWater.cs b/VVSAssistant/VVSAssistant/Functions/Calculation/Strategies/BoilerForWater.cs	(rejected hunks)
+@@ -33,7 +33,6 @@
+             var qaux = SolCalMethodQaux();
+             var qnonsol = SolCalMethodQnonsol();
+ 
+-            float parameterOne = _result.WaterHeatingEffciency;
+             var parameterOne = _result.WaterHeatingEffciency;
+             var parameterTwo = Math.Abs(qnonsol) > 0 ? 220 * qref / qnonsol : 0;
+             
