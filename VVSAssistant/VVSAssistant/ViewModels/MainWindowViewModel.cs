@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.IO.Compression;
 using System.Linq;
 using System.Windows;
@@ -101,14 +102,17 @@ namespace VVSAssistant.ViewModels
 
         public async void OnWindowClosing(object sender, CancelEventArgs e)
         {
+            // Cancel close command
             e.Cancel = true;
             var result = true;
 
-            if(NavigationService.CurrentPage != null) result = await NavigationService.ConfirmDiscardChanges(new DialogCoordinator());
+            // If current page is not null, run close window confirmation dialog
+            if(NavigationService.CurrentPage != null && NavigationService.CurrentPage.IsDataSaved == false) result = await NavigationService.ConfirmDiscardChanges(new DialogCoordinator());
 
-            // Close canceled.
+            // Don't close the window
             if (!result) return;
 
+            // Close the window
             Application.Current.Shutdown();
 
         }

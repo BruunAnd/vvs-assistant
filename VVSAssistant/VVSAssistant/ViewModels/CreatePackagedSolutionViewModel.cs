@@ -214,8 +214,7 @@ namespace VVSAssistant.ViewModels
 
             NavigateBackCmd = new RelayCommand(async x =>
             {
-                // Temp solution, we need to check if there are unsaved changes.
-                if (AppliancesInPackagedSolution.Any())
+                if (!IsDataSaved)
                 {
                     var result = await NavigationService.ConfirmDiscardChanges(_dialogCoordinator);
                     if (result == false) return;
@@ -224,7 +223,10 @@ namespace VVSAssistant.ViewModels
             });
 
             AddApplianceToPackagedSolutionCmd = new RelayCommand(
-                x => HandleAddApplianceToPackagedSolution(SelectedAppliance),
+                x =>
+                {
+                    HandleAddApplianceToPackagedSolution(SelectedAppliance);
+                },
                 x => SelectedAppliance != null);
 
             RemoveApplianceFromPackagedSolutionCmd = new RelayCommand(x =>
@@ -257,6 +259,7 @@ namespace VVSAssistant.ViewModels
                     RunSaveDialog();
                 else
                     SaveCurrentPackagedSolution();
+
             }, x => AppliancesInPackagedSolution.Any());
 
             CreateNewApplianceCmd = new RelayCommand(x =>
@@ -274,7 +277,7 @@ namespace VVSAssistant.ViewModels
         }
 
         #region Methods
-        
+
         private async void CreateNewPackagedSolution()
         {
             if (!AppliancesInPackagedSolution.Any()) return;
@@ -293,11 +296,13 @@ namespace VVSAssistant.ViewModels
             EeiResultsRoomHeating = new EEICalculationResult();
             EeiResultsWaterHeating = new EEICalculationResult();
             UpdateEei();
+            IsDataSaved = true;
         }
 
         private void AddApplianceToPackagedSolution(Appliance appliance)
         {
             AppliancesInPackagedSolution.Add(appliance);
+            IsDataSaved = false;
         }
 
         /// <summary>
@@ -329,8 +334,11 @@ namespace VVSAssistant.ViewModels
 
             // Remove from current solution
             if (AppliancesInPackagedSolution.Contains(appliance))
+            {
                 AppliancesInPackagedSolution.Remove(appliance);
-
+                IsDataSaved = false;
+            }
+            
             // Remove from visual list of appliances
             Appliances.Remove(appliance);
 
@@ -363,6 +371,8 @@ namespace VVSAssistant.ViewModels
                 ctx.PackagedSolutions.AddOrUpdate(PackagedSolution);
                 ctx.SaveChanges();
             }
+
+            IsDataSaved = true;
         }
 
         private async void RunAddSolarPanelDialog(Appliance solarPanel)

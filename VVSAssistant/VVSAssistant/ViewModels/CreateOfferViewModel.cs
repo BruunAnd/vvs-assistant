@@ -9,6 +9,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
+using VVSAssistant.Common;
 using VVSAssistant.Common.ViewModels;
 using VVSAssistant.Database;
 using VVSAssistant.Functions;
@@ -18,7 +19,8 @@ namespace VVSAssistant.ViewModels
     internal class CreateOfferViewModel : ViewModelBase
     {
         #region RelayCommands
-
+        
+        public RelayCommand NavigateBackCmd { get; }
         public RelayCommand PrintOfferCmd { get; }
         public RelayCommand PackagedSolutionDoubleClickedCmd { get; }
         public RelayCommand CreateNewOfferCmd { get; }
@@ -115,6 +117,16 @@ namespace VVSAssistant.ViewModels
             SalariesInOffer.CollectionChanged += NotifyOfferContentsChanged;
             AppliancesInOffer.CollectionChanged += NotifyOfferContentsChanged;
 
+            NavigateBackCmd = new RelayCommand(async x =>
+            {
+                if (!IsDataSaved)
+                {
+                    var result = await NavigationService.ConfirmDiscardChanges(_dialogCoordinator);
+                    if (result == false) return;
+                }
+                NavigationService.GoBack();
+            });
+
             /* Tied to "print offer" button in bottom left corner. 
              * Disabled if VerifyOfferHasRequiredInformation returns false. */
             PrintOfferCmd = new RelayCommand(x => 
@@ -133,7 +145,7 @@ namespace VVSAssistant.ViewModels
              * "SelectedPackagedSolution" is set to the clicked Packaged Solution. */
             PackagedSolutionDoubleClickedCmd = new RelayCommand(x => OnSolutionSelected()); 
 
-            /* Doing the same as print offer, todo: figure out what we want to accomplish here */
+            /* Doing the same as print offer */
             SaveOfferCmd = new RelayCommand(x => SaveOfferDialog(), x => VerifyOfferHasRequiredInformation());
 
             /* When the "nyt tilbud" button in bottom left corner is pressed. 
@@ -255,6 +267,7 @@ namespace VVSAssistant.ViewModels
         {
             UpdateSidebarValues();
             NotifyCanExecuteChanged();
+            IsDataSaved = false;
         }
 
         private void NotifyCanExecuteChanged()
@@ -336,6 +349,7 @@ namespace VVSAssistant.ViewModels
                 ctx.Offers.AddOrUpdate(offer);
                 ctx.SaveChanges();
             }
+            IsDataSaved = true;
         }
         #endregion
     }
