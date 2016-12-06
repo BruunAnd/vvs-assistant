@@ -591,16 +591,6 @@ namespace VVSAssistant.ViewModels
                                                  (a => a.DataSheet is SolarCollectorDataSheet));
                 RunSolarContainerDialog(message, title, appToAdd, appliances);
             }
-            else if (appToAdd.DataSheet is SolarCollectorDataSheet &&
-                AppliancesInPackagedSolution.Any(a => a.DataSheet is ContainerDataSheet))
-            {
-                /* Prompt the user for whether or not any of the containers are tied to the solar collector */
-                var title = "Vælg beholderen som denne solfanger er forbundet til ";
-                var message = "Hvis solfangeren ikke er forbundet til en beholder, tryk på \"Acceptér\"";
-                var appliances = new ObservableCollection<Appliance>(AppliancesInPackagedSolution.Where
-                                                 (a => a.DataSheet is ContainerDataSheet));
-                RunSolarContainerDialog(message, title, appToAdd, appliances);
-            }
             else if(appToAdd.DataSheet is SolarCollectorDataSheet)
             {
                 RunAddSolarPanelDialog(appToAdd);
