@@ -35,12 +35,12 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
                 _newAppliance.Type = (ApplianceTypes)converter.ConvertBack(value, typeof(ApplianceTypes), null, null);
                 _newAppliance.DataSheet = converter.ConvertTypeToDataSheet(_newAppliance.Type);
                 OnPropertyChanged("NewAppliance");
+                OnPropertyChanged("CanEditProperties");
                 OnDataSheetChanged(NewAppliance.DataSheet);
             }
         }
 
-        public ObservableCollection<string> Types { get; } = new ObservableCollection<string>()
-        { "Varmepumpe", "Lavtemperatursvarmepumpe", "Kraftvarmeanlæg", "Kedel", "Beholder", "Solpanel", "Solstation", "Temperaturregulering"};
+        public ObservableCollection<string> Types { get; } = new ObservableCollection<string>(ApplianceTypeConverter.AppliancesNames);
 
         private Appliance _newAppliance;
         public Appliance NewAppliance
@@ -90,6 +90,8 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        public bool CanEditProperties => _newAppliance.DataSheet != null;
 
         public CreateApplianceDialogViewModel(Appliance newAppliance, bool isNewAppliance, Action<CreateApplianceDialogViewModel> closeHandler, 
                                               Action<CreateApplianceDialogViewModel> completionHandler)
