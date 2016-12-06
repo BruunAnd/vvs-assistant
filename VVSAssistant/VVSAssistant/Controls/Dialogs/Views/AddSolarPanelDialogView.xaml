@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300"
              dialog:DialogParticipation.Register="{Binding}">
     <Grid Margin="0,71,0,104">
         <Grid.RowDefinitions>
@@ -30,6 +29,7 @@
             <Button
                     MinWidth="80"
                     Margin="5,32,5,25"
+                    Style="{StaticResource SquareButtonStyle}"
                     Command="{Binding CloseCommand}"
                     Content="Fortryd"/>
         </StackPanel>

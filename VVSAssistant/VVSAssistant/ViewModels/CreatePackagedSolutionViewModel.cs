@@ -173,6 +173,7 @@ namespace VVSAssistant.ViewModels
         public RelayCommand SavePackagedSolutionCmd { get; }
         public RelayCommand CreateNewApplianceCmd { get; }
         public RelayCommand PdfExportCmd { get; }
+        public RelayCommand NavigateBackCmd { get; }
 
         #endregion
 
@@ -210,6 +211,17 @@ namespace VVSAssistant.ViewModels
             #endregion
 
             #region Command declarations
+
+            NavigateBackCmd = new RelayCommand(async x =>
+            {
+                // Temp solution, we need to check if there are unsaved changes.
+                if (AppliancesInPackagedSolution.Any())
+                {
+                    var result = await NavigationService.ConfirmDiscardChanges(_dialogCoordinator);
+                    if (result == false) return;
+                }
+                NavigationService.GoBack();
+            });
 
             AddApplianceToPackagedSolutionCmd = new RelayCommand(
                 x => HandleAddApplianceToPackagedSolution(SelectedAppliance),
@@ -262,15 +274,17 @@ namespace VVSAssistant.ViewModels
         }
 
         #region Methods
-
-
+        
         private async void CreateNewPackagedSolution()
         {
             if (!AppliancesInPackagedSolution.Any()) return;
 
             var result = await _dialogCoordinator.ShowMessageAsync(this, "Ny pakkeløsning",
                 "Hvis du opretter en ny pakkeløsning mister du arbejdet på din nuværende pakkeløsning. Vil du fortsætte?",
-                MessageDialogStyle.AffirmativeAndNegative);
+                MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings()
+                {
+                    NegativeButtonText = "Afbryd"
+                });
 
             if (result == MessageDialogResult.Negative) return;
 

@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using VVSAssistant.Common.ViewModels;
 using VVSAssistant.ViewModels;
+using MahApps.Metro;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace VVSAssistant.Common
 {
@@ -52,6 +54,20 @@ namespace VVSAssistant.Common
             NavigationStack.Remove(NavigationStack.GetEnumerator().Current);
             await BeginNavigate(NavigationStack.GetEnumerator().Current);
             EndNavigate();
+        }
+
+        public static async Task<bool> ConfirmDiscardChanges(IDialogCoordinator dialogCoordinator)
+        {
+            var result = await dialogCoordinator.ShowMessageAsync(CurrentPage,
+                    "Bekræft navigation",
+                    "Du har ugemte ændringer, ønsker du at forlade siden?",
+                    MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings()
+                    {
+                        AffirmativeButtonText = "Forlad siden",
+                        NegativeButtonText = "Fortryd"
+                    });
+
+            return result == MessageDialogResult.Affirmative;
         }
 
         public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
