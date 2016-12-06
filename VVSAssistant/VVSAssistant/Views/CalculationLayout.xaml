@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="1200" d:DesignWidth="1000">
     <ContentControl.DataContext>
-        <viewModels:PdfCalculationViewModel/>
+        <viewModels:CalculationViewModel/>
     </ContentControl.DataContext>
 
     <Grid Height="27.7cm" Width="19cm" Background="White">

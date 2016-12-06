@@ -23,7 +23,7 @@ namespace VVSAssistant.ViewModels
         public string Plus { get; set; }
     }
 
-    internal class PdfLabelExportViewModel
+    internal class LabelExportViewModel
     {
         #region Prop
         private string _labelOne;

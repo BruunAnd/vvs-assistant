@@ -252,9 +252,9 @@
     <Compile Include="Common\ViewModels\ViewModelBase.cs" />
     <Compile Include="Common\ViewModels\RelayCommand.cs" />
     <Compile Include="Models\UnitPrice.cs" />
-    <Compile Include="ViewModels\PdfCalculationViewModel.cs" />
-    <Compile Include="ViewModels\PdfLabelExportViewModel.cs" />
-    <Compile Include="ViewModels\PdfOfferExportViewModel.cs" />
+    <Compile Include="ViewModels\CalculationViewModel.cs" />
+    <Compile Include="ViewModels\LabelExportViewModel.cs" />
+    <Compile Include="ViewModels\OfferExportViewModel.cs" />
     <Compile Include="Views\CreateOfferView.xaml.cs">
       <DependentUpon>CreateOfferView.xaml</DependentUpon>
     </Compile>
@@ -267,14 +267,14 @@
     <Compile Include="Views\CreatePackagedSolutionView.xaml.cs">
       <DependentUpon>CreatePackagedSolutionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\PdfCalculationLayout.xaml.cs">
-      <DependentUpon>PdfCalculationLayout.xaml</DependentUpon>
+    <Compile Include="Views\CalculationLayout.xaml.cs">
+      <DependentUpon>CalculationLayout.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\PdfLabelLayout.xaml.cs">
-      <DependentUpon>PdfLabelLayout.xaml</DependentUpon>
+    <Compile Include="Views\LabelLayout.xaml.cs">
+      <DependentUpon>LabelLayout.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\PdfOfferLayout.xaml.cs">
-      <DependentUpon>PdfOfferLayout.xaml</DependentUpon>
+    <Compile Include="Views\OfferLayout.xaml.cs">
+      <DependentUpon>OfferLayout.xaml</DependentUpon>
     </Compile>
     <Page Include="Controls\Dialogs\Views\AddHeatingUnitDialogView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -340,15 +340,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\PdfCalculationLayout.xaml">
+    <Page Include="Views\CalculationLayout.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\PdfLabelLayout.xaml">
+    <Page Include="Views\LabelLayout.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\PdfOfferLayout.xaml">
+    <Page Include="Views\OfferLayout.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
