@@ -162,7 +162,7 @@ namespace VVSAssistant.ViewModels
         #region Methods
 
         /* Initializes the view */
-        public void SetInitialSettings()
+        private void SetInitialSettings()
         {
             ArePackagedSolutionsVisible = true;
             IsComponentTabVisible = false;
@@ -170,7 +170,7 @@ namespace VVSAssistant.ViewModels
             UpdateSidebarValues();
         }
 
-        public void ClearCollections()
+        private void ClearCollections()
         {
             // Setting to a new collection instance as clearing the collection causes 
             // the packaged solutions appliance list to be cleared in runtime (reference values). *Important
@@ -179,7 +179,7 @@ namespace VVSAssistant.ViewModels
             SalariesInOffer.Clear();
         }
 
-        public bool VerifyOfferHasRequiredInformation()
+        private bool VerifyOfferHasRequiredInformation()
         {
             return Offer.PackagedSolution != null &&
                    SalariesInOffer.Count   != 0    &&
@@ -188,7 +188,7 @@ namespace VVSAssistant.ViewModels
 
         /* Enables the Component, Salary, and Materials view, and prepares
          * the offer for receiving information about any of these */
-        public void OnSolutionSelected()
+        private void OnSolutionSelected()
         {
             IsComponentTabVisible = true;
             ArePackagedSolutionsVisible = false;
@@ -206,13 +206,13 @@ namespace VVSAssistant.ViewModels
         }
 
         /* Opens offer creation dialog */
-        public void SaveOfferDialog()
+        private void SaveOfferDialog()
         {
             RunGenerateOfferDialog();
         }
 
         /* Called by PrintOfferDialog */
-        public async void RunGenerateOfferDialog()
+        private async void RunGenerateOfferDialog()
         {
             var customDialog = new CustomDialog();
             var dialogViewModel = new GenerateOfferDialogViewModel(Offer, 
