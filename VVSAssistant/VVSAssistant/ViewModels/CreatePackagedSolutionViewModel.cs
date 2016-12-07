@@ -272,7 +272,7 @@ namespace VVSAssistant.ViewModels
             {
                 PackagedSolution.Appliances = new ApplianceList(AppliancesInPackagedSolution.ToList());
                 DataUtil.EnergyLabel.ExportEnergyLabel(PackagedSolution);
-            });
+            }, x => AppliancesInPackagedSolution.Any() && IsDataSaved);
             #endregion
         }
 
@@ -303,6 +303,7 @@ namespace VVSAssistant.ViewModels
         {
             AppliancesInPackagedSolution.Add(appliance);
             IsDataSaved = false;
+            PdfExportCmd.NotifyCanExecuteChanged();
         }
 
         /// <summary>
@@ -382,6 +383,7 @@ namespace VVSAssistant.ViewModels
             }
 
             IsDataSaved = true;
+            PdfExportCmd.NotifyCanExecuteChanged();
         }
 
         private async void RunAddSolarPanelDialog(Appliance solarPanel)
@@ -516,6 +518,7 @@ namespace VVSAssistant.ViewModels
         {
             NewPackagedSolutionCmd.NotifyCanExecuteChanged();
             SavePackagedSolutionCmd.NotifyCanExecuteChanged();
+            PdfExportCmd.NotifyCanExecuteChanged();
             UpdateEei();
         }
 
