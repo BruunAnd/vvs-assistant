@@ -81,7 +81,8 @@ namespace VVSAssistant.ViewModels
         public double AppliancesPrice { get; set; }
         public double SalariesPrice { get; set; }
         public double MaterialsPrice { get; set; }
-        public void Setup(Offer offer)
+
+        public OfferExportViewModel(Offer offer)
         {
             OfferTitle = offer.OfferInformation.Title;
             ClientCompanyName = offer.Client.ClientInformation.CompanyName;
@@ -110,7 +111,7 @@ namespace VVSAssistant.ViewModels
             OutroText = offer.OfferInformation.Outro;
 
             TotalAmountEks = offer.TotalSalesPrice;
-            TotalSalesPriceInkl = (offer.TotalSalesPrice*1.25);
+            TotalSalesPriceInkl = (offer.TotalSalesPrice * 1.25);
             MomsAmount = TotalSalesPriceInkl - offer.TotalSalesPrice;
             Moms = ((offer.OfferInformation.ApplyTax) ? "inkl. moms" : "Eks. moms");
             TotalSalesPrice = ((offer.OfferInformation.ApplyTax) ? TotalSalesPriceInkl : TotalAmountEks);

@@ -272,7 +272,7 @@ namespace VVSAssistant.ViewModels
             {
                 PackagedSolution.Appliances = new ApplianceList(AppliancesInPackagedSolution.ToList());
                 DataUtil.EnergyLabel.ExportEnergyLabel(PackagedSolution);
-            });
+            }, x => AppliancesInPackagedSolution.Any() && IsDataSaved);
             #endregion
         }
 
@@ -303,6 +303,7 @@ namespace VVSAssistant.ViewModels
         {
             AppliancesInPackagedSolution.Add(appliance);
             IsDataSaved = false;
+            PdfExportCmd.NotifyCanExecuteChanged();
         }
 
         /// <summary>
@@ -368,11 +369,21 @@ namespace VVSAssistant.ViewModels
                 if (PackagedSolution.CreationDate == default(DateTime))
                     PackagedSolution.CreationDate = DateTime.Now;
 
-                ctx.PackagedSolutions.AddOrUpdate(PackagedSolution);
+                if (PackagedSolution.Id != 0)
+                {
+                    var tmp = ctx.PackagedSolutions.Find(PackagedSolution.Id);
+                    tmp.Appliances = PackagedSolution.Appliances;
+                }
+                else
+                {
+                    ctx.PackagedSolutions.Add(PackagedSolution);
+                }
+
                 ctx.SaveChanges();
             }
 
             IsDataSaved = true;
+            PdfExportCmd.NotifyCanExecuteChanged();
         }
 
         private async void RunAddSolarPanelDialog(Appliance solarPanel)
@@ -508,6 +519,7 @@ namespace VVSAssistant.ViewModels
         {
             NewPackagedSolutionCmd.NotifyCanExecuteChanged();
             SavePackagedSolutionCmd.NotifyCanExecuteChanged();
+            PdfExportCmd.NotifyCanExecuteChanged();
             UpdateEei();
         }
 

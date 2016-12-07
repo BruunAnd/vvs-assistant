@@ -1,11 +1,15 @@
-﻿using NUnit.Framework;
+﻿using MahApps.Metro.Controls.Dialogs;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using VVSAssistant.Database;
+using VVSAssistant.Functions.Calculation;
 using VVSAssistant.Models;
+using VVSAssistant.Models.DataSheets;
 using VVSAssistant.ViewModels;
 
 namespace VVSAssistant.Tests.ViewModelTests
@@ -14,85 +18,64 @@ namespace VVSAssistant.Tests.ViewModelTests
     class CreateOfferViewModelTest
     {
         private CreateOfferViewModel testModel;
-        /*private ClientViewModel _testClient;
-        private PackagedSolutionViewModel _testPackSol;
-        private ApplianceViewModel _testAppliance1;
-        private ApplianceViewModel _testAppliance2;*/
+        private PackagedSolution testPack;
+        private Client testClient;
+        private Appliance testApp1;
+        private Appliance testApp2;
+        private Offer off;
+        private AssistantContext ctx;
 
         [SetUp]
         public void Setup()
         {
-            //testModel = new CreateOfferViewModel();
+            testModel = new CreateOfferViewModel(new DialogCoordinator());
 
-            ///* Client Setup */
-            //_testClient = new ClientViewModel(new Client());
-            //_testClient.ClientInformation.Address = "test";
-            //_testClient.ClientInformation.DatabaseName = "test";
-            //_testClient.ClientInformation.Email = "test";
-            //_testClient.ClientInformation.CompanyName = "test";
-            //_testClient.Offers = new System.Collections.ObjectModel.ObservableCollection<OfferViewModel>();
-            //_testClient.CreationDate = DateTime.Now;
-            //_testClient.Id = 1;
+            testApp1 = new Appliance() { Name = "app1", CreationDate = DateTime.Now, Type = ApplianceTypes.Boiler};
+            testApp1.DataSheet = new HeatingUnitDataSheet();
 
-            ///* Appliance 1 setup */
-            //_testAppliance1 = new ApplianceViewModel(new Appliance());
-            //_testAppliance1.DatabaseName = "test";
-            //_testAppliance1.Type = ApplianceTypes.Container;
+            testApp2 = new Appliance() { Name = "app2", CreationDate = DateTime.Now, Type = ApplianceTypes.Container};
+            testApp2.DataSheet = new ContainerDataSheet();
 
-            ///* Appliance 2 setup */
-            //_testAppliance2 = new ApplianceViewModel(new Appliance());
-            //_testAppliance1.DatabaseName = "test";
-            //_testAppliance1.Type = ApplianceTypes.Boiler;
+            testPack = new PackagedSolution() { Name = "testPack"};
+            testPack.Appliances.Add(testApp1); testPack.Appliances.Add(testApp2);
+            testPack.PrimaryHeatingUnit = testApp1;
+            testPack.CreationDate = DateTime.Now;
+            testPack.EnergyLabel = new List<EEICalculationResult>();
 
-            ///* Packaged solution setup */
-            //_testPackSol = new PackagedSolutionViewModel(new PackagedSolution());
-            //_testPackSol.Appliances.Add(_testAppliance1);
-            //_testPackSol.Appliances.Add(_testAppliance2);
-            //_testPackSol.DatabaseName = "test";
-        }
-        /*
-        [Test]
-        public void InformationAssignmentTest()
-        {
-            testModel.Offer.Client.ClientInformation.DatabaseName = "Anders";
-            testModel.Offer.PackagedSolution.Appliances.Add(_testAppliance1);
+            testClient = new Client();
+            testClient.ClientInformation = new ClientInformation();
+            testClient.CreationDate = DateTime.Now;
 
-            Assert.AreEqual(testModel.Offer.Client.ClientInformation.DatabaseName, "Anders");
-            Assert.AreEqual(testModel.Offer.PackagedSolution.Appliances[0], _testAppliance1);
+            off = new Offer();
+            off.CreationDate = DateTime.Now;
+            off.PackagedSolution = testPack;
+            off.Client = testClient;
         }
 
         [Test]
-        public void ObjectAssignmentTest()
+        public void InitialDBTest()
         {
-            testModel.Offer.Client = _testClient;
-            Assert.AreEqual(testModel.Offer.Client.ClientInformation.DatabaseName, "test");
+            new AssistantContext().Database.Delete();
+            ctx = new AssistantContext();
+            ctx.Offers.Add(off);
+            ctx.SaveChanges();
+            Assert.IsTrue(ctx.Offers.Any(o => o.Id == off.Id));
         }
 
         [Test]
-        public void ValueAndObjectAssignment()
+        public void LoadExistingOfferTest()
         {
-            testModel.Offer.Client.ClientInformation.DatabaseName = "Anders";
-            testModel.Offer.Client = _testClient;
-            Assert.AreEqual(testModel.Offer.Client.ClientInformation.DatabaseName, "test");
+            new AssistantContext().Database.Delete();
+            ctx = new AssistantContext();
+
+            ctx.Offers.Add(off);
+            ctx.SaveChanges();
+
+            testModel.LoadExistingOffer(off.Id);
+            Assert.AreEqual(off.Appliances.Count, 
+                            testModel.AppliancesInOffer.Count);
         }
-
-        [Test]
-        public void InformationValidityTest()
-        {
-            Assert.IsFalse(testModel.VerifyNeededInformation());
-
-            OfferViewModel offer = new OfferViewModel(new Offer());
-            offer.Client = _testClient;
-            offer.PackagedSolution = _testPackSol;
-            offer.Id = 1;
-            offer.Materials.Add(new MaterialViewModel(new Material()));
-            offer.Salaries.Add(new SalaryViewModel(new Salary()));
-
-            testModel.Offer = offer;
-            Assert.IsTrue(testModel.VerifyNeededInformation());
-
-        }
-        */
+            
         /* Mr. Gorbachev, */ [TearDown] /* this wall*/
         public void TearDown()
         {
