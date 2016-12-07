@@ -62,11 +62,11 @@ namespace VVSAssistant.ViewModels
 
         public ObservableCollection<PackagedSolution> PackagedSolutions { get; set; }
 
-        public ObservableCollection<Material> MaterialsInOffer { get; set; }
+        public ObservableCollection<UnitPrice> MaterialsInOffer { get; set; }
 
-        public ObservableCollection<Salary> SalariesInOffer { get; set; }
+        public ObservableCollection<UnitPrice> SalariesInOffer { get; set; }
 
-        public ObservableCollection<OfferedAppliance> AppliancesInOffer { get; set; }
+        public ObservableCollection<UnitPrice> AppliancesInOffer { get; set; }
 
         #endregion
 
@@ -108,9 +108,9 @@ namespace VVSAssistant.ViewModels
             SetInitialSettings();
             _dialogCoordinator = coordinator;
 
-            MaterialsInOffer = new ObservableCollection<Material>();
-            SalariesInOffer = new ObservableCollection<Salary>();
-            AppliancesInOffer = new ObservableCollection<OfferedAppliance>();
+            MaterialsInOffer = new ObservableCollection<UnitPrice>();
+            SalariesInOffer = new ObservableCollection<UnitPrice>();
+            AppliancesInOffer = new ObservableCollection<UnitPrice>();
 
             // Assign notifier to the collections we want to monitor.
             MaterialsInOffer.CollectionChanged += NotifyOfferContentsChanged;
@@ -198,7 +198,7 @@ namespace VVSAssistant.ViewModels
 
             // Add appliances to appliances in this offer
             foreach (var appliance in SelectedPackagedSolution.Appliances)
-                AppliancesInOffer.Add(new OfferedAppliance(appliance));
+                AppliancesInOffer.Add(new UnitPrice(appliance));
 
             UpdateSidebarValues();
 
@@ -310,7 +310,7 @@ namespace VVSAssistant.ViewModels
             using (var ctx = new AssistantContext())
             {
                 var existingOffer = ctx.Offers.Where(o => o.Id == existingOfferId)
-                    .Include(o => o.Appliances.Select(a => a.Appliance.DataSheet))
+                    .Include(o => o.Appliances)
                     .Include(o => o.PackagedSolution)
                     .Include(o => o.Materials)
                     .Include(o => o.Salaries)
@@ -349,10 +349,6 @@ namespace VVSAssistant.ViewModels
 
                 // Ensure that packaged solution won't be duplicated 
                 ctx.PackagedSolutions.Attach(offer.PackagedSolution);
-
-                // Ensure that appliances won't be duplicated
-                foreach (var appliance in offer.Appliances.Select(a => a.Appliance))
-                    ctx.Appliances.Attach(appliance);
 
                 ctx.Offers.Add(offer);
                 ctx.SaveChanges();

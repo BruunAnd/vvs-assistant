@@ -229,12 +229,9 @@
     <Compile Include="Models\DataSheets\HeatingUnitDataSheet.cs" />
     <Compile Include="Models\DataSheets\SolarStationDataSheet.cs" />
     <Compile Include="Models\Interfaces\ICalculatable.cs" />
-    <Compile Include="Models\Material.cs" />
     <Compile Include="Models\Offer.cs" />
-    <Compile Include="Models\OfferedAppliance.cs" />
     <Compile Include="Models\OfferInformation.cs" />
     <Compile Include="Models\PackagedSolution.cs" />
-    <Compile Include="Models\Salary.cs" />
     <Compile Include="Models\DataSheets\SolarCollectorDataSheet.cs" />
     <Compile Include="Models\DataSheets\TemperatureControllerDataSheet.cs" />
     <Compile Include="ValueConverters\ApplianceTypeConverter.cs" />
