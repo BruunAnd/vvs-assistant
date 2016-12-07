@@ -124,20 +124,20 @@ namespace VVSAssistant.Functions
                 //PageOne
                 var vmOffer = new OfferExportViewModel();
                 vmOffer.Setup(offer);
-                var pageOne = new PdfOfferLayout();
+                var pageOne = new OfferLayout();
                 vmOffer.PageOne = "Visible";
                 fixedDoc.Pages.Add(CreatePageContent(pageOne, vmOffer));
 
                 //PageTwo
                 vmOffer = new OfferExportViewModel();
-                var pageTwo = new PdfOfferLayout();
+                var pageTwo = new OfferLayout();
                 vmOffer.Setup(offer);
                 vmOffer.PageTwo = "Visible";
                 fixedDoc.Pages.Add(CreatePageContent(pageTwo, vmOffer));
 
                 //pageThree
                 vmOffer = new OfferExportViewModel();
-                var pageThree = new PdfOfferLayout();
+                var pageThree = new OfferLayout();
                 vmOffer.Setup(offer);
                 vmOffer.PageThree = "Visible";
                 fixedDoc.Pages.Add(CreatePageContent(pageThree, vmOffer));
@@ -154,13 +154,13 @@ namespace VVSAssistant.Functions
             {
                 var fixedDoc = new FixedDocument();
 
-                var v = new PdfLabelLayout();
+                var v = new LabelLayout();
                 var vm = new LabelExportViewModel();
                 vm.Setup(packaged);
 
                 fixedDoc.Pages.Add(CreatePageContent(v, vm));
 
-                var calculationLayout = new PdfCalculationLayout();
+                var calculationLayout = new CalculationLayout();
                 var calculationViewModel = new CalculationViewModel();
                 calculationViewModel.Setup(packaged.EnergyLabel);
 
@@ -168,7 +168,7 @@ namespace VVSAssistant.Functions
 
                 if (packaged.EnergyLabel.Count > 1)
                 {
-                    calculationLayout = new PdfCalculationLayout();
+                    calculationLayout = new CalculationLayout();
                     calculationViewModel = new CalculationViewModel();
                     calculationViewModel.SetupSpecialPage(packaged.EnergyLabel);
                     fixedDoc.Pages.Add(CreatePageContent(calculationLayout, calculationViewModel));

@@ -22,9 +22,9 @@ namespace VVSAssistant.Views
     /// <summary>
     /// Interaction logic for PdfOfferLayout.xaml
     /// </summary>
-    public partial class PdfOfferLayout
+    public partial class OfferLayout
     {
-        public PdfOfferLayout()
+        public OfferLayout()
         {
             InitializeComponent();
         }

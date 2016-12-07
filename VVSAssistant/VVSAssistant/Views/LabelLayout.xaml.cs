@@ -21,9 +21,9 @@ namespace VVSAssistant.Views
     /// <summary>
     /// Interaction logic for PdfLabelLayout.xaml
     /// </summary>
-    public partial class PdfLabelLayout
+    public partial class LabelLayout
     {
-        public PdfLabelLayout()
+        public LabelLayout()
         {
             InitializeComponent();
         }

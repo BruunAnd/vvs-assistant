@@ -18,9 +18,9 @@ namespace VVSAssistant.Views
     /// <summary>
     /// Interaction logic for PdfCalculationLayout.xaml
     /// </summary>
-    public partial class PdfCalculationLayout
+    public partial class CalculationLayout
     {
-        public PdfCalculationLayout()
+        public CalculationLayout()
         {
             InitializeComponent();
         }
