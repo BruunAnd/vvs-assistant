@@ -32,8 +32,8 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
                 if (value == null)
                     return;
                 var converter = new ApplianceTypeConverter();
-                _newAppliance.Type = (ApplianceTypes)converter.ConvertBack(value, typeof(ApplianceTypes), null, null);
-                _newAppliance.DataSheet = converter.ConvertTypeToDataSheet(_newAppliance.Type);
+                NewAppliance.Type = (ApplianceTypes)converter.ConvertBack(value, typeof(ApplianceTypes), null, null);
+                NewAppliance.DataSheet = converter.ConvertTypeToDataSheet(_newAppliance.Type);
                 OnPropertyChanged("NewAppliance");
                 OnPropertyChanged("CanEditProperties");
                 OnDataSheetChanged(NewAppliance.DataSheet);
