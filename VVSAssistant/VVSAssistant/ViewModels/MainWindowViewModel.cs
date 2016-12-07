@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.IO.Compression;
 using System.Linq;
 using System.Windows;
@@ -38,7 +39,7 @@ namespace VVSAssistant.ViewModels
                 var dlg = new SaveFileDialog {Filter = "Zip filer (.zip)|*.zip", FileName = "database", DefaultExt = ".zip"};
                 var result = dlg.ShowDialog();
                 if (result == true) DataUtil.Database.Export(dlg.FileName);
-            }, x => DataUtil.Database.Exists());
+            }, x => DataUtil.Database.Exists);
 
             RunOfferSettingsDialogCmd = new RelayCommand(x =>
             {
@@ -58,7 +59,7 @@ namespace VVSAssistant.ViewModels
             if (dlg == null) return;
             using (var archive = ZipFile.OpenRead(dlg.FileName))
             {
-                if (archive.Entries.FirstOrDefault(x => x.Name == DataUtil.Database.Name()) != null) return;
+                if (archive.Entries.FirstOrDefault(x => x.Name == DataUtil.Database.Name) != null) return;
                 MessageBox.Show("Den valgte .zip fil indeholder ikke en gyldig database fil.", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
                 e.Cancel = true;
             }
@@ -97,6 +98,24 @@ namespace VVSAssistant.ViewModels
             // Navigate to page
             await NavigationService.BeginNavigate(nextPage);
             NavigationService.EndNavigate();
+        }
+
+        public async void OnWindowClosing(object sender, CancelEventArgs e)
+        {
+            // Cancel close command
+            e.Cancel = true;
+            var result = true;
+
+            // If current page is not null, run close window confirmation dialog
+            if(NavigationService.CurrentPage != null && NavigationService.CurrentPage.IsDataSaved == false) result = 
+                    await NavigationService.ConfirmDiscardChanges(new DialogCoordinator());
+
+            // Don't close the window
+            if (!result) return;
+
+            // Close the window
+            Application.Current.Shutdown();
+
         }
 
         private async void OpenOfferSettingsDialog()

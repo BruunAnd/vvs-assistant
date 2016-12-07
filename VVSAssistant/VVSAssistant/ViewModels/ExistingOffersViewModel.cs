@@ -13,6 +13,7 @@ namespace VVSAssistant.ViewModels
 {
     public class ExistingOffersViewModel : ViewModelBase
     {
+        public RelayCommand NavigateBackCmd { get; }
         public RelayCommand OpenOfferInCreateOfferViewModel { get; }
         public RelayCommand PrintOfferCmd { get; }
         public RelayCommand DropOfferCmd { get; }
@@ -40,6 +41,11 @@ namespace VVSAssistant.ViewModels
 
         public ExistingOffersViewModel(IDialogCoordinator coordinator)
         {
+            NavigateBackCmd = new RelayCommand(x =>
+            {
+                NavigationService.GoBack();
+            });
+
             OpenOfferInCreateOfferViewModel = new RelayCommand(async x =>
             {
                 var createOfferViewModel = new CreateOfferViewModel(coordinator);
@@ -50,7 +56,7 @@ namespace VVSAssistant.ViewModels
 
             PrintOfferCmd = new RelayCommand(x =>
             {
-                DataUtil.PdfOffer.Export(SelectedOffer);
+                DataUtil.Offer.Export(SelectedOffer);
             }, x => SelectedOffer != null);
 
             DropOfferCmd = new RelayCommand(x =>

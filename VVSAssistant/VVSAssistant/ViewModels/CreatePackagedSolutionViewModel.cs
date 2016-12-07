@@ -173,6 +173,7 @@ namespace VVSAssistant.ViewModels
         public RelayCommand SavePackagedSolutionCmd { get; }
         public RelayCommand CreateNewApplianceCmd { get; }
         public RelayCommand PdfExportCmd { get; }
+        public RelayCommand NavigateBackCmd { get; }
 
         #endregion
 
@@ -211,8 +212,21 @@ namespace VVSAssistant.ViewModels
 
             #region Command declarations
 
+            NavigateBackCmd = new RelayCommand(async x =>
+            {
+                if (!IsDataSaved)
+                {
+                    var result = await NavigationService.ConfirmDiscardChanges(_dialogCoordinator);
+                    if (result == false) return;
+                }
+                NavigationService.GoBack();
+            });
+
             AddApplianceToPackagedSolutionCmd = new RelayCommand(
-                x => HandleAddApplianceToPackagedSolution(SelectedAppliance),
+                x =>
+                {
+                    HandleAddApplianceToPackagedSolution(SelectedAppliance);
+                },
                 x => SelectedAppliance != null);
 
             RemoveApplianceFromPackagedSolutionCmd = new RelayCommand(x =>
@@ -245,6 +259,7 @@ namespace VVSAssistant.ViewModels
                     RunSaveDialog();
                 else
                     SaveCurrentPackagedSolution();
+
             }, x => AppliancesInPackagedSolution.Any());
 
             CreateNewApplianceCmd = new RelayCommand(x =>
@@ -256,13 +271,12 @@ namespace VVSAssistant.ViewModels
             PdfExportCmd = new RelayCommand(x =>
             {
                 PackagedSolution.Appliances = new ApplianceList(AppliancesInPackagedSolution.ToList());
-                DataUtil.PdfEnergyLabel.ExportEnergyLabel(PackagedSolution);
+                DataUtil.EnergyLabel.ExportEnergyLabel(PackagedSolution);
             });
             #endregion
         }
 
         #region Methods
-
 
         private async void CreateNewPackagedSolution()
         {
@@ -270,7 +284,10 @@ namespace VVSAssistant.ViewModels
 
             var result = await _dialogCoordinator.ShowMessageAsync(this, "Ny pakkeløsning",
                 "Hvis du opretter en ny pakkeløsning mister du arbejdet på din nuværende pakkeløsning. Vil du fortsætte?",
-                MessageDialogStyle.AffirmativeAndNegative);
+                MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings()
+                {
+                    NegativeButtonText = "Afbryd"
+                });
 
             if (result == MessageDialogResult.Negative) return;
 
@@ -279,11 +296,13 @@ namespace VVSAssistant.ViewModels
             EeiResultsRoomHeating = new EEICalculationResult();
             EeiResultsWaterHeating = new EEICalculationResult();
             UpdateEei();
+            IsDataSaved = true;
         }
 
         private void AddApplianceToPackagedSolution(Appliance appliance)
         {
             AppliancesInPackagedSolution.Add(appliance);
+            IsDataSaved = false;
         }
 
         /// <summary>
@@ -315,8 +334,11 @@ namespace VVSAssistant.ViewModels
 
             // Remove from current solution
             if (AppliancesInPackagedSolution.Contains(appliance))
+            {
                 AppliancesInPackagedSolution.Remove(appliance);
-
+                IsDataSaved = false;
+            }
+            
             // Remove from visual list of appliances
             Appliances.Remove(appliance);
 
@@ -349,6 +371,8 @@ namespace VVSAssistant.ViewModels
                 ctx.PackagedSolutions.AddOrUpdate(PackagedSolution);
                 ctx.SaveChanges();
             }
+
+            IsDataSaved = true;
         }
 
         private async void RunAddSolarPanelDialog(Appliance solarPanel)
@@ -395,11 +419,11 @@ namespace VVSAssistant.ViewModels
             await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
         }
 
-        private async void RunSolarContainerDialog(string message, string title, Appliance appliance, ObservableCollection<Appliance> appliances)
+        private async void RunSolarContainerDialog(string message, string title, Appliance appliance)
         {
             var customDialog = new CustomDialog();
 
-            var dialogViewModel = new SolarContainerDialogViewModel(message, title, appliance, appliances, AppliancesInPackagedSolution, PackagedSolution,
+            var dialogViewModel = new SolarContainerDialogViewModel(message, title, appliance, AppliancesInPackagedSolution, PackagedSolution,
                                                                     closeHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
                                                                     completionHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog));
 
@@ -581,15 +605,12 @@ namespace VVSAssistant.ViewModels
                  * room heating, or both. */
                 RunAddHeatingUnitDialog(appToAdd);
             }
-            else if (appToAdd.DataSheet is ContainerDataSheet &&
-                AppliancesInPackagedSolution.Any(a => a.DataSheet is SolarCollectorDataSheet))
+            else if (appToAdd.DataSheet is ContainerDataSheet)
             {
                 /* Prompt the user for whether or not the container is tied to any of the solar collector. */
-                var title = "Vælg solfangeren som denne beholder er forbundet til";
-                var message = "Hvis beholderen ikke er forbundet til en solfanger, tryk på \"Acceptér\"";
-                var appliances = new ObservableCollection<Appliance>(AppliancesInPackagedSolution.Where
-                                                 (a => a.DataSheet is SolarCollectorDataSheet));
-                RunSolarContainerDialog(message, title, appToAdd, appliances);
+                var title = "Vælg om denne beholder er til en solfanger";
+                var message = "Hvis beholderen ikke er forbundet til en solfanger, tryk på \"Tilføj\"";
+                RunSolarContainerDialog(message, title, appToAdd);
             }
             else if(appToAdd.DataSheet is SolarCollectorDataSheet)
             {

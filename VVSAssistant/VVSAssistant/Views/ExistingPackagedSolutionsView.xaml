@@ -46,8 +46,7 @@
                     Height="32"
                     MinWidth="120"
                     Content="Tilbage"
-                    Command="{Binding ElementName=Root, Path=DataContext.NavCommand}"
-                    CommandParameter="GoBack"/>
+                    Command="{Binding NavigateBackCmd}"/>
 
             <TextBox controls:TextBoxHelper.ClearTextButton="True" 
                      controls:TextBoxHelper.Watermark="Søg" 

@@ -31,6 +31,7 @@ namespace VVSAssistant.ViewModels
 
         private readonly IDialogCoordinator _dialogCoordinator;
 
+        public RelayCommand NavigateBackCmd { get; }
         public RelayCommand CreatePackagedSolutionCopyCmd { get; }
         public RelayCommand PrintCalculationCmd { get; }
         public RelayCommand DropPackagedSolutionCmd { get; }
@@ -41,6 +42,11 @@ namespace VVSAssistant.ViewModels
 
             PackagedSolutions = new AsyncObservableCollection<PackagedSolution>();
             SetupFilterableView(PackagedSolutions);
+
+            NavigateBackCmd = new RelayCommand(x =>
+            {
+                NavigationService.GoBack();
+            });
 
             CreatePackagedSolutionCopyCmd = new RelayCommand(async x =>
             {
@@ -57,7 +63,7 @@ namespace VVSAssistant.ViewModels
             
             PrintCalculationCmd = new RelayCommand(x =>
             {
-                DataUtil.PdfEnergyLabel.ExportEnergyLabel(SelectedPackagedSolution);
+                DataUtil.EnergyLabel.ExportEnergyLabel(SelectedPackagedSolution);
             }, x => SelectedPackagedSolution != null);
         }
 

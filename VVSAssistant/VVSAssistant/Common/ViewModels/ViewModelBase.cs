@@ -13,6 +13,8 @@ namespace VVSAssistant.Common.ViewModels
 
         public abstract void LoadDataFromDatabase();
 
+        public bool IsDataSaved { get; set; } = true;
+
         /// <summary>
         /// Validates a property based on its DataAnnotations
         /// </summary>

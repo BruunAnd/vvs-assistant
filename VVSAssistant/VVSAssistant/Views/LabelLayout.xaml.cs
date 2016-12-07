@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,11 +19,11 @@ using System.Xml;
 namespace VVSAssistant.Views
 {
     /// <summary>
-    /// Interaction logic for PdfOfferLayout.xaml
+    /// Interaction logic for PdfLabelLayout.xaml
     /// </summary>
-    public partial class PdfOfferLayout
+    public partial class LabelLayout
     {
-        public PdfOfferLayout()
+        public LabelLayout()
         {
             InitializeComponent();
         }

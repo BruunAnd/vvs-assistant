@@ -31,14 +31,14 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             var qaux = SolCalMethodQaux();
             var qnonsol = SolCalMethodQnonsol();
 
-            var parameterOne = _result.WaterHeatingEffciency;
-            var parameterTwo = Math.Abs(qnonsol) > 0 ? (220 * qref) / qnonsol : 0;
+            var I = _result.WaterHeatingEffciency;
+            var II = Math.Abs(qnonsol) > 0 ? (220 * qref) / qnonsol : 0;
 
-            var parameterThree = Math.Abs(qaux) > 0 ? (float)(((qaux * 2.5) / (220 * qref)) * 100) : 0;
+            var III = Math.Abs(qaux) > 0 ? (float)(((qaux * 2.5) / (220 * qref)) * 100) : 0;
             _result.SolarHeatContribution = qaux.Equals(0) || qnonsol.Equals(0) ? 0 :
-                (1.1f * parameterOne - 10) * parameterTwo - parameterThree - parameterOne;
+                (1.1f * I - 10) * II - III - I;
 
-            _result.EEI = _result.SolarHeatContribution + parameterOne;
+            _result.EEI = _result.SolarHeatContribution + I;
 
             _result.PackagedSolutionAtColdTemperaturesAFUE = _result.EEI - 0.2f * _result.SolarHeatContribution;
             _result.PackagedSolutionAtWarmTemperaturesAFUE = _result.EEI + 0.4f * _result.SolarHeatContribution;

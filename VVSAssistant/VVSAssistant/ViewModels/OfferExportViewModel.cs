@@ -20,7 +20,7 @@ namespace VVSAssistant.ViewModels
 
 {
 
-    class PdfOfferExportViewModel
+    class OfferExportViewModel
     {
         private string _pageOne;
         public string PageOne

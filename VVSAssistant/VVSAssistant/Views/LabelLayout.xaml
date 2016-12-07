@@ -1,4 +1,4 @@
-﻿<ContentControl x:Class="VVSAssistant.Views.PdfLabelLayout"
+﻿<ContentControl x:Class="VVSAssistant.Views.LabelLayout"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -8,7 +8,7 @@
       d:DesignHeight="1200" d:DesignWidth="1000"
       >
     <ContentControl.DataContext>
-        <viewModels:PdfLabelExportViewModel/>
+        <viewModels:LabelExportViewModel/>
     </ContentControl.DataContext>
     <Grid Height="27.7cm" Width="19.0cm">
         <!--Skema 1-->

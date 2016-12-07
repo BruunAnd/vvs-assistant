@@ -57,7 +57,8 @@ namespace VVSAssistant.Functions.Calculation
                 (item.Type == ApplianceTypes.SolarPanel &&
                 panelHeatingUse.Invoke(solarCollectorDataSheet));
             });
-            return solarPanels.Select(item => item.DataSheet).OfType<SolarCollectorDataSheet>().Sum(solarCollectorDataSheet => solarCollectorDataSheet.Area);
+            return solarPanels.Select(item => item.DataSheet).OfType<SolarCollectorDataSheet>().
+                    Sum(solarCollectorDataSheet => solarCollectorDataSheet.Area);
         }
         /// <summary/>
         /// Selects SolarContainers from SolarContainers list in packaged solution
@@ -148,9 +149,10 @@ namespace VVSAssistant.Functions.Calculation
         {
             get
             {
-                var classification = PrimaryUnit.InternalTempControl ?? ((_package?.Appliances.FirstOrDefault(item =>
-                                                                                     item?.Type == ApplianceTypes.TemperatureController)?
-                                                                             .DataSheet as TemperatureControllerDataSheet)?.Class ?? "0");
+                var classification = PrimaryUnit.InternalTempControl ?? 
+                        ((_package?.Appliances.FirstOrDefault(item =>
+                            item?.Type == ApplianceTypes.TemperatureController)?
+                                .DataSheet as TemperatureControllerDataSheet)?.Class ?? "0");
                 return TemperatureControllerDataSheet.ClassBonus[classification];
             }
         }

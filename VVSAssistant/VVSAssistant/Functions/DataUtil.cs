@@ -31,29 +31,22 @@ namespace VVSAssistant.Functions
 
         public static class Database
         {
-            public static string Name()
-            {
-                return new AppSettingsReader().GetValue("dbFileName", typeof(string)).ToString();
-            }
+            public static string Name => 
+                new AppSettingsReader().GetValue("dbFileName", typeof(string)).ToString();
 
-            public static bool Exists()
-            {
-                return Location() != null;
-            }
+            public static bool Exists => Location != null;
 
-            private static string Location()
-            {
-                return Directory.GetFiles(AssemblyDirectory, Name()).FirstOrDefault();
-            }
+            private static string Location => 
+                Directory.GetFiles(AssemblyDirectory, Name).FirstOrDefault();
 
             public static bool Export(string targetPath)
             {
                 // Path is invalid
-                if (!Exists()) return false;
+                if (!Exists) return false;
                 if (File.Exists(targetPath)) File.Delete(targetPath);
                 using (var zip = ZipFile.Open(targetPath, ZipArchiveMode.Create))
                 {
-                    zip.CreateEntryFromFile(Location(), Name());
+                    zip.CreateEntryFromFile(Location, Name);
                 }
 
                 return true;
@@ -64,12 +57,12 @@ namespace VVSAssistant.Functions
                 var assemblyLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
                 using (var archive = ZipFile.OpenRead(src))
                 {
-                    if (archive.Entries.FirstOrDefault(x => x.Name == Name()) == null)
+                    if (archive.Entries.FirstOrDefault(x => x.Name == Name) == null)
                     {
                         return false;
                     }
                 }
-                if (Exists()) File.Delete(Location());
+                if (Exists) File.Delete(Location);
                 ZipFile.ExtractToDirectory(src, assemblyLocation);
                 return true;
             }
@@ -114,30 +107,30 @@ namespace VVSAssistant.Functions
             xpsd.Close();
         }
 
-        public static class PdfOffer
+        public static class Offer
         {
-            public static void Export(Offer offer)
+            public static void Export(Models.Offer offer)
             {
-                //var path = $"PdfOffer.xps";
+                //var path = $"Offer.xps";
                 var fixedDoc = new FixedDocument();
 
                 //PageOne
-                var vmOffer = new PdfOfferExportViewModel();
+                var vmOffer = new OfferExportViewModel();
                 vmOffer.Setup(offer);
-                var pageOne = new PdfOfferLayout();
+                var pageOne = new OfferLayout();
                 vmOffer.PageOne = "Visible";
                 fixedDoc.Pages.Add(CreatePageContent(pageOne, vmOffer));
 
                 //PageTwo
-                vmOffer = new PdfOfferExportViewModel();
-                var pageTwo = new PdfOfferLayout();
+                vmOffer = new OfferExportViewModel();
+                var pageTwo = new OfferLayout();
                 vmOffer.Setup(offer);
                 vmOffer.PageTwo = "Visible";
                 fixedDoc.Pages.Add(CreatePageContent(pageTwo, vmOffer));
 
                 //pageThree
-                vmOffer = new PdfOfferExportViewModel();
-                var pageThree = new PdfOfferLayout();
+                vmOffer = new OfferExportViewModel();
+                var pageThree = new OfferLayout();
                 vmOffer.Setup(offer);
                 vmOffer.PageThree = "Visible";
                 fixedDoc.Pages.Add(CreatePageContent(pageThree, vmOffer));
@@ -148,28 +141,28 @@ namespace VVSAssistant.Functions
             
         }
 
-        public static class PdfEnergyLabel
+        public static class EnergyLabel
         {
             public static void ExportEnergyLabel(PackagedSolution packaged)
             {
                 var fixedDoc = new FixedDocument();
 
-                var v = new PdfLabelLayout();
-                var vm = new PdfLabelExportViewModel();
+                var v = new LabelLayout();
+                var vm = new LabelExportViewModel();
                 vm.Setup(packaged);
 
                 fixedDoc.Pages.Add(CreatePageContent(v, vm));
 
-                var calculationLayout = new PdfCalculationLayout();
-                var calculationViewModel = new PdfCalculationViewModel();
+                var calculationLayout = new CalculationLayout();
+                var calculationViewModel = new CalculationViewModel();
                 calculationViewModel.Setup(packaged.EnergyLabel);
 
                 fixedDoc.Pages.Add(CreatePageContent(calculationLayout, calculationViewModel));
 
                 if (packaged.EnergyLabel.Count > 1)
                 {
-                    calculationLayout = new PdfCalculationLayout();
-                    calculationViewModel = new PdfCalculationViewModel();
+                    calculationLayout = new CalculationLayout();
+                    calculationViewModel = new CalculationViewModel();
                     calculationViewModel.SetupSpecialPage(packaged.EnergyLabel);
                     fixedDoc.Pages.Add(CreatePageContent(calculationLayout, calculationViewModel));
                 }

@@ -1,4 +1,4 @@
-﻿<ContentControl x:Class="VVSAssistant.Views.PdfCalculationLayout"
+﻿<ContentControl x:Class="VVSAssistant.Views.CalculationLayout"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="1200" d:DesignWidth="1000">
     <ContentControl.DataContext>
-        <viewModels:PdfCalculationViewModel/>
+        <viewModels:CalculationViewModel/>
     </ContentControl.DataContext>
 
     <Grid Height="27.7cm" Width="19cm" Background="White">
