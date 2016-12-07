@@ -19,12 +19,7 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
 
         public ObservableCollection<Appliance> Appliances { get; }
 
-        private Appliance _selectedAppliance;
-        public Appliance SelectedAppliance
-        {
-            get { return _selectedAppliance; }
-            set { _selectedAppliance = value; OnPropertyChanged(); }
-        }
+        public bool SolarCollector { get; set; }
 
         private Appliance _appliance;
         public Appliance Appliance
@@ -66,22 +61,18 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
 
         private void HandleSaveCommand()
         {
-            if (SelectedAppliance == null)
-            {
-                _appsInSolution.Add(Appliance); /* Type doesn't matter in this case */
-            }
-
-            else if (SelectedAppliance.DataSheet is ContainerDataSheet)
-            {
-                _packagedSolution.SolarContainers.Add(SelectedAppliance); /* Container, already in the PS */
-                _appsInSolution.Add(Appliance); /* Solar Collector */
-            }
-            else if (SelectedAppliance.DataSheet is SolarCollectorDataSheet)
+            if (SolarCollector)
             {
                 /* Don't need to do anything with the solar collector. */
                 _packagedSolution.SolarContainers.Add(Appliance); /* Container */
                 _appsInSolution.Add(Appliance); /* Container */
             }
+            else
+            {
+                _appsInSolution.Add(Appliance); /* Type doesn't matter in this case */
+            }
+            
+
         }
 
     }

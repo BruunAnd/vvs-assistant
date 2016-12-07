@@ -605,12 +605,11 @@ namespace VVSAssistant.ViewModels
                  * room heating, or both. */
                 RunAddHeatingUnitDialog(appToAdd);
             }
-            else if (appToAdd.DataSheet is ContainerDataSheet &&
-                AppliancesInPackagedSolution.Any(a => a.DataSheet is SolarCollectorDataSheet))
+            else if (appToAdd.DataSheet is ContainerDataSheet)
             {
                 /* Prompt the user for whether or not the container is tied to any of the solar collector. */
-                var title = "Vælg solfangeren som denne beholder er forbundet til";
-                var message = "Hvis beholderen ikke er forbundet til en solfanger, tryk på \"Acceptér\"";
+                var title = "Vælg om denne beholder er til en solfanger";
+                var message = "Hvis beholderen ikke er forbundet til en solfanger, tryk på \"Tilføj\"";
                 var appliances = new ObservableCollection<Appliance>(AppliancesInPackagedSolution.Where
                                                  (a => a.DataSheet is SolarCollectorDataSheet));
                 RunSolarContainerDialog(message, title, appToAdd, appliances);
