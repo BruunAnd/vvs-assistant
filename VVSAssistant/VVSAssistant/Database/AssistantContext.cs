@@ -16,6 +16,7 @@ namespace VVSAssistant.Database
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<PackagedSolution>().HasMany(s => s.ApplianceInstances);
+            modelBuilder.Entity<PackagedSolution>().HasMany(s => s.SolarContainerInstances);
             modelBuilder.Entity<PackagedSolution>().HasOptional(s => s.PrimaryHeatingUnitInstance);
 
             modelBuilder.Entity<Appliance>().HasRequired(a => a.DataSheet);
