@@ -17,8 +17,6 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
         public RelayCommand SaveCommand { get; }
         public RelayCommand CloseCommand { get; }
 
-        public ObservableCollection<Appliance> Appliances { get; }
-
         public bool SolarCollector { get; set; }
 
         private Appliance _appliance;
@@ -35,7 +33,7 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
         public string Message { get; }
 
         public SolarContainerDialogViewModel(string message, string title, 
-                                             Appliance appliance, ObservableCollection<Appliance> appliances, 
+                                             Appliance appliance, 
                                              ObservableCollection<Appliance> appsInSolution,PackagedSolution packagedSolution,
                                              Action<SolarContainerDialogViewModel> closeHandler, Action<SolarContainerDialogViewModel> completionHandler)
         {
@@ -44,7 +42,6 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
 
             _appsInSolution = appsInSolution;
             _packagedSolution = packagedSolution;
-            Appliances = appliances;
             Appliance = appliance;
 
             SaveCommand = new RelayCommand(x =>

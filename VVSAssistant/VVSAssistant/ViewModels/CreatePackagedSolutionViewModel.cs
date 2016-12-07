@@ -419,11 +419,11 @@ namespace VVSAssistant.ViewModels
             await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
         }
 
-        private async void RunSolarContainerDialog(string message, string title, Appliance appliance, ObservableCollection<Appliance> appliances)
+        private async void RunSolarContainerDialog(string message, string title, Appliance appliance)
         {
             var customDialog = new CustomDialog();
 
-            var dialogViewModel = new SolarContainerDialogViewModel(message, title, appliance, appliances, AppliancesInPackagedSolution, PackagedSolution,
+            var dialogViewModel = new SolarContainerDialogViewModel(message, title, appliance, AppliancesInPackagedSolution, PackagedSolution,
                                                                     closeHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
                                                                     completionHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog));
 
@@ -610,9 +610,7 @@ namespace VVSAssistant.ViewModels
                 /* Prompt the user for whether or not the container is tied to any of the solar collector. */
                 var title = "Vælg om denne beholder er til en solfanger";
                 var message = "Hvis beholderen ikke er forbundet til en solfanger, tryk på \"Tilføj\"";
-                var appliances = new ObservableCollection<Appliance>(AppliancesInPackagedSolution.Where
-                                                 (a => a.DataSheet is SolarCollectorDataSheet));
-                RunSolarContainerDialog(message, title, appToAdd, appliances);
+                RunSolarContainerDialog(message, title, appToAdd);
             }
             else if(appToAdd.DataSheet is SolarCollectorDataSheet)
             {
