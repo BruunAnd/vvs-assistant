@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using MahApps.Metro.Controls.Dialogs;
 using VVSAssistant.Common;
 using VVSAssistant.Common.ViewModels;
@@ -63,6 +64,7 @@ namespace VVSAssistant.ViewModels
             
             PrintCalculationCmd = new RelayCommand(x =>
             {
+                SelectedPackagedSolution.UpdateEEI();
                 DataUtil.EnergyLabel.ExportEnergyLabel(SelectedPackagedSolution);
             }, x => SelectedPackagedSolution != null);
         }
