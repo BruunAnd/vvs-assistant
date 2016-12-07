@@ -72,14 +72,38 @@ namespace VVSAssistant.Tests.ViewModelTests
             ctx.SaveChanges();
 
             testModel.LoadExistingOffer(off.Id);
-            Assert.AreEqual(off.Appliances.Count, 
-                            testModel.AppliancesInOffer.Count);
+            Assert.IsTrue(DoContentsMatch(off.Appliances, testModel.Offer.Appliances));
+            Assert.IsTrue(DoContentsMatch(off.Materials, testModel.Offer.Materials));
+            Assert.IsTrue(DoContentsMatch(off.Salaries, testModel.Offer.Salaries));
         }
-            
+
+        [Test]
+        public void LoadDataFromDatabaseTest()
+        {
+            new AssistantContext().Database.Delete();
+            ctx = new AssistantContext();
+
+            ctx.PackagedSolutions.Add(testPack);
+            ctx.SaveChanges();
+
+            Assert.IsTrue(ctx.PackagedSolutions.Any(p => p.Id == testPack.Id));
+        }
         /* Mr. Gorbachev, */ [TearDown] /* this wall*/
         public void TearDown()
         {
             testModel = null;
+        }
+
+        public bool DoContentsMatch(IEnumerable<object> first, IEnumerable<object> second)
+        {
+            foreach (var item in first)
+            {
+                if (!second.Contains(item))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }
