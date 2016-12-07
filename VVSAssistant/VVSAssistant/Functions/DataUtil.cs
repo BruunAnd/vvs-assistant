@@ -114,11 +114,11 @@ namespace VVSAssistant.Functions
             xpsd.Close();
         }
 
-        public static class PdfOffer
+        public static class Offer
         {
-            public static void Export(Offer offer)
+            public static void Export(Models.Offer offer)
             {
-                //var path = $"PdfOffer.xps";
+                //var path = $"Offer.xps";
                 var fixedDoc = new FixedDocument();
 
                 //PageOne
@@ -148,7 +148,7 @@ namespace VVSAssistant.Functions
             
         }
 
-        public static class PdfEnergyLabel
+        public static class EnergyLabel
         {
             public static void ExportEnergyLabel(PackagedSolution packaged)
             {

@@ -271,7 +271,7 @@ namespace VVSAssistant.ViewModels
             PdfExportCmd = new RelayCommand(x =>
             {
                 PackagedSolution.Appliances = new ApplianceList(AppliancesInPackagedSolution.ToList());
-                DataUtil.PdfEnergyLabel.ExportEnergyLabel(PackagedSolution);
+                DataUtil.EnergyLabel.ExportEnergyLabel(PackagedSolution);
             });
             #endregion
         }

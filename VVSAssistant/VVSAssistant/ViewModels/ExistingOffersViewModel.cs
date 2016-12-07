@@ -56,7 +56,7 @@ namespace VVSAssistant.ViewModels
 
             PrintOfferCmd = new RelayCommand(x =>
             {
-                DataUtil.PdfOffer.Export(SelectedOffer);
+                DataUtil.Offer.Export(SelectedOffer);
             }, x => SelectedOffer != null);
 
             DropOfferCmd = new RelayCommand(x =>

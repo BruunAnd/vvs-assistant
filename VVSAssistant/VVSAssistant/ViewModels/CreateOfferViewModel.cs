@@ -244,7 +244,7 @@ namespace VVSAssistant.ViewModels
 
         public void ExportOffer()
         {
-            DataUtil.PdfOffer.Export(Offer);
+            DataUtil.Offer.Export(Offer);
         }
 
         private void NotifyOfferContentsChanged(object sender, NotifyCollectionChangedEventArgs e)

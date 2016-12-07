@@ -63,7 +63,7 @@ namespace VVSAssistant.ViewModels
             
             PrintCalculationCmd = new RelayCommand(x =>
             {
-                DataUtil.PdfEnergyLabel.ExportEnergyLabel(SelectedPackagedSolution);
+                DataUtil.EnergyLabel.ExportEnergyLabel(SelectedPackagedSolution);
             }, x => SelectedPackagedSolution != null);
         }
 
