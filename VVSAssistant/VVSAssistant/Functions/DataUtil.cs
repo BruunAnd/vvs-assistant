@@ -31,29 +31,22 @@ namespace VVSAssistant.Functions
 
         public static class Database
         {
-            public static string Name()
-            {
-                return new AppSettingsReader().GetValue("dbFileName", typeof(string)).ToString();
-            }
+            public static string Name => 
+                new AppSettingsReader().GetValue("dbFileName", typeof(string)).ToString();
 
-            public static bool Exists()
-            {
-                return Location() != null;
-            }
+            public static bool Exists => Location != null;
 
-            private static string Location()
-            {
-                return Directory.GetFiles(AssemblyDirectory, Name()).FirstOrDefault();
-            }
+            private static string Location => 
+                Directory.GetFiles(AssemblyDirectory, Name).FirstOrDefault();
 
             public static bool Export(string targetPath)
             {
                 // Path is invalid
-                if (!Exists()) return false;
+                if (!Exists) return false;
                 if (File.Exists(targetPath)) File.Delete(targetPath);
                 using (var zip = ZipFile.Open(targetPath, ZipArchiveMode.Create))
                 {
-                    zip.CreateEntryFromFile(Location(), Name());
+                    zip.CreateEntryFromFile(Location, Name);
                 }
 
                 return true;
@@ -64,12 +57,12 @@ namespace VVSAssistant.Functions
                 var assemblyLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
                 using (var archive = ZipFile.OpenRead(src))
                 {
-                    if (archive.Entries.FirstOrDefault(x => x.Name == Name()) == null)
+                    if (archive.Entries.FirstOrDefault(x => x.Name == Name) == null)
                     {
                         return false;
                     }
                 }
-                if (Exists()) File.Delete(Location());
+                if (Exists) File.Delete(Location);
                 ZipFile.ExtractToDirectory(src, assemblyLocation);
                 return true;
             }
