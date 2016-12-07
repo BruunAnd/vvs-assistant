@@ -3,13 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:viewModels="clr-namespace:VVSAssistant.ViewModels"
              xmlns:valueConverters="clr-namespace:VVSAssistant.ValueConverters"
              mc:Ignorable="d" 
              Height="27.7cm" Width="21.0cm">
-    <ContentControl.DataContext>
-        <viewModels:OfferExportViewModel/>
-    </ContentControl.DataContext>
+
     <ContentControl.Resources>
         <valueConverters:PriceConverter x:Key="PriceConverter"/>
     </ContentControl.Resources>

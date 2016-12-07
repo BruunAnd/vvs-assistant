@@ -82,7 +82,7 @@ namespace VVSAssistant.ViewModels
         public string LabelTwoTabeOneArrowPlus { get; set; }
         #endregion
 
-        public void Setup(PackagedSolution packaged)
+        public LabelExportViewModel(PackagedSolution packaged)
         {
             using (var ctx = new AssistantContext())
             {
@@ -103,11 +103,9 @@ namespace VVSAssistant.ViewModels
             SolarIncluded = (packaged.Appliances.Any(item => item.Type == ApplianceTypes.SolarPanel)) ? "Visible" : "Hidden";
             WatertankIncluded = (packaged.Appliances.Any(item => item.Type == ApplianceTypes.Container)) ? "Visible" : "Hidden";
             TempControleIncluded = (packaged.Appliances.Any(item => item.Type == ApplianceTypes.TemperatureController)) ? "Visible" : "Hidden";
-            HeaterIncluded = (packaged.EnergyLabel[0].SecondaryBoilerAFUE > 0 || packaged.EnergyLabel[0].SecondaryHeatPumpAFUE > 0)? "Visible" : "Hidden";
-
+            HeaterIncluded = (packaged.EnergyLabel[0].SecondaryBoilerAFUE > 0 || packaged.EnergyLabel[0].SecondaryHeatPumpAFUE > 0) ? "Visible" : "Hidden";
 
         }
-
         private void SetupLabelOne(EEICalculationResult result)
         {
             LabelOne = "Visible";

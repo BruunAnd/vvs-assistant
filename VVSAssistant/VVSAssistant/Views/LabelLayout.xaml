@@ -3,13 +3,8 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:viewModels="clr-namespace:VVSAssistant.ViewModels"
       mc:Ignorable="d" 
-      d:DesignHeight="1200" d:DesignWidth="1000"
-      >
-    <ContentControl.DataContext>
-        <viewModels:LabelExportViewModel/>
-    </ContentControl.DataContext>
+      d:DesignHeight="1200" d:DesignWidth="1000">
     <Grid Height="27.7cm" Width="19.0cm">
         <!--Skema 1-->
         <Grid Grid.Row="0" Grid.Column="0" Height="27.7cm" Width="19.0cm" Visibility="{Binding LabelOne}">
