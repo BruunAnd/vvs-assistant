@@ -13,7 +13,6 @@
 
     <ContentControl.Resources>
         <valueConverters:PriceConverter x:Key="PriceConverter"/>
-        <valueConverters:ApplianceTypeConverter x:Key="ApplianceTypeConverter"/>
     </ContentControl.Resources>
     <Grid Background="White">
         <Grid.ColumnDefinitions>
@@ -92,13 +91,13 @@
                               SelectionMode="Single"
                               CanUserAddRows="False">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding Appliance.Name}"
+                            <DataGridTextColumn Binding="{Binding Name}"
                                                 Header="Navn"
                                                 MinWidth="100"
                                                 Width="1.5*"
                                                 IsReadOnly="True"
                                                 CanUserReorder="False"/>
-                            <DataGridTextColumn Binding="{Binding Appliance.Type, Converter={StaticResource ApplianceTypeConverter}}"
+                            <DataGridTextColumn Binding="{Binding Description}"
                                                 Header="Type"
                                                 MinWidth="100"
                                                 Width="1*" 

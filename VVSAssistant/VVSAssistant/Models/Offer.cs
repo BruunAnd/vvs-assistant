@@ -8,9 +8,9 @@ namespace VVSAssistant.Models
     {
         public Offer()
         {
-            Salaries = new List<Salary>();
-            Materials = new List<Material>();
-            Appliances = new List<OfferedAppliance>();
+            Salaries = new List<UnitPrice>();
+            Materials = new List<UnitPrice>();
+            Appliances = new List<UnitPrice>();
         }
 
         public double TotalSalesPrice => Salaries.Sum(salary => salary.SalesPrice)
@@ -29,8 +29,8 @@ namespace VVSAssistant.Models
         public Client Client { get; set; }
         public OfferInformation OfferInformation { get; set; }
         public PackagedSolution PackagedSolution { get; set; }
-        public ICollection<Salary> Salaries { get; set; }
-        public ICollection<Material> Materials { get; set; }
-        public ICollection<OfferedAppliance> Appliances { get; set; }
+        public ICollection<UnitPrice> Salaries { get; set; }
+        public ICollection<UnitPrice> Materials { get; set; }
+        public ICollection<UnitPrice> Appliances { get; set; }
     }
 }

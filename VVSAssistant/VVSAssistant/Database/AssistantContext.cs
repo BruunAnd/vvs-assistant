@@ -30,11 +30,6 @@ namespace VVSAssistant.Database
             modelBuilder.Entity<SolarStationDataSheet>().ToTable("SolarStationDataSheets");
             modelBuilder.Entity<TemperatureControllerDataSheet>().ToTable("TemperatureControllerDataSheet");
 
-            // Create a table for each unitprice type
-            modelBuilder.Entity<Salary>().ToTable("Salaries");
-            modelBuilder.Entity<Material>().ToTable("Materials");
-            modelBuilder.Entity<OfferedAppliance>().ToTable("OfferedAppliances");
-
             // Map ApplianceInstance
             modelBuilder.Entity<ApplianceInstance>().HasRequired(a => a.Appliance).WithMany();
 
@@ -55,6 +50,5 @@ namespace VVSAssistant.Database
         public DbSet<UnitPrice> UnitPrices { get; set; }
         public DbSet<DataSheet> DataSheets { get; set; }
         public DbSet<ApplianceInstance> ApplianceInstances { get; set; }
-        public DbSet<Material> Materials { get; set; }
     }
 }

@@ -46,20 +46,29 @@ namespace VVSAssistant.ValueConverters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var castedValue = (ApplianceTypes) value;
-            return TypeNameAssocation.ContainsKey(castedValue) ? TypeNameAssocation[castedValue] : null;
+            return ConvertTypeToString(castedValue);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var castedValue = (string) value;
-            return TypeNameAssocation.FirstOrDefault(v => v.Value.Equals(castedValue)).Key;
+            return ConvertStringToType((string) value);
         }
 
-        public DataSheet ConvertTypeToDataSheet(ApplianceTypes type)
+        public static string ConvertTypeToString(ApplianceTypes type)
+        {
+            return TypeNameAssocation.ContainsKey(type) ? TypeNameAssocation[type] : null;
+        }
+
+        public static DataSheet ConvertTypeToDataSheet(ApplianceTypes type)
         {
             if (TypeDataSheetTypeAssociation.ContainsKey(type))
                 return Activator.CreateInstance(TypeDataSheetTypeAssociation[type]) as DataSheet;
             return null;
+        }
+
+        public static ApplianceTypes ConvertStringToType(string value)
+        {
+            return TypeNameAssocation.FirstOrDefault(v => v.Value.Equals(value)).Key;
         }
     }
 }

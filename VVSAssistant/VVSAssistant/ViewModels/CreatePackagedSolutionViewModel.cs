@@ -505,7 +505,8 @@ namespace VVSAssistant.ViewModels
                     // Update appliance changes in database
                     using (var ctx = new AssistantContext())
                     {
-                        ctx.Appliances.AddOrUpdate(SelectedAppliance);
+                        ctx.Entry(SelectedAppliance).State = EntityState.Modified;
+
                         ctx.SaveChanges();
                     }
                 });

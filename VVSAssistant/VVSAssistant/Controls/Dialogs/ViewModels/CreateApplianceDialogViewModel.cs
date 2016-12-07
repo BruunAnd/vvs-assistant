@@ -31,9 +31,8 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             {
                 if (value == null)
                     return;
-                var converter = new ApplianceTypeConverter();
-                NewAppliance.Type = (ApplianceTypes)converter.ConvertBack(value, typeof(ApplianceTypes), null, null);
-                NewAppliance.DataSheet = converter.ConvertTypeToDataSheet(_newAppliance.Type);
+                NewAppliance.Type = ApplianceTypeConverter.ConvertStringToType(value);
+                NewAppliance.DataSheet = ApplianceTypeConverter.ConvertTypeToDataSheet(_newAppliance.Type);
                 OnPropertyChanged("NewAppliance");
                 OnPropertyChanged("CanEditProperties");
                 OnDataSheetChanged(NewAppliance.DataSheet);
@@ -128,8 +127,7 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
         /* When a new type is chosen in the dialog, switch visibilities */
         private void HandleDataSheetChanged(DataSheet dataSheet)
         {
-            if (dataSheet is HeatingUnitDataSheet ||
-                dataSheet is SolarCollectorDataSheet)
+            if (dataSheet is HeatingUnitDataSheet || dataSheet is SolarCollectorDataSheet)
             {
                 IsHeatingOrSolar = true;
                 IsContainer = false;

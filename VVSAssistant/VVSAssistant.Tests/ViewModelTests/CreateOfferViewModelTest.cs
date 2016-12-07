@@ -28,7 +28,6 @@ namespace VVSAssistant.Tests.ViewModelTests
         [SetUp]
         public void Setup()
         {
-            ctx = new AssistantContext();
             testModel = new CreateOfferViewModel(new DialogCoordinator());
 
             testApp1 = new Appliance() { Name = "app1", CreationDate = DateTime.Now, Type = ApplianceTypes.Boiler};
@@ -56,6 +55,8 @@ namespace VVSAssistant.Tests.ViewModelTests
         [Test]
         public void InitialDBTest()
         {
+            new AssistantContext().Database.Delete();
+            ctx = new AssistantContext();
             ctx.Offers.Add(off);
             ctx.SaveChanges();
             Assert.IsTrue(ctx.Offers.Any(o => o.Id == off.Id));
@@ -64,26 +65,45 @@ namespace VVSAssistant.Tests.ViewModelTests
         [Test]
         public void LoadExistingOfferTest()
         {
+            new AssistantContext().Database.Delete();
+            ctx = new AssistantContext();
+
             ctx.Offers.Add(off);
             ctx.SaveChanges();
 
             testModel.LoadExistingOffer(off.Id);
+            Assert.IsTrue(DoContentsMatch(off.Appliances, testModel.Offer.Appliances));
+            Assert.IsTrue(DoContentsMatch(off.Materials, testModel.Offer.Materials));
+            Assert.IsTrue(DoContentsMatch(off.Salaries, testModel.Offer.Salaries));
         }
 
-        public bool DoesContentsMatch(IEnumerable<object> first, IEnumerable<object> second)
+        [Test]
+        public void LoadDataFromDatabaseTest()
         {
-            foreach (var item in first)
-            {
-                if (!second.Contains(item))
-                    return false;
-            }
-            return true;
+            new AssistantContext().Database.Delete();
+            ctx = new AssistantContext();
+
+            ctx.PackagedSolutions.Add(testPack);
+            ctx.SaveChanges();
+
+            Assert.IsTrue(ctx.PackagedSolutions.Any(p => p.Id == testPack.Id));
         }
-            
         /* Mr. Gorbachev, */ [TearDown] /* this wall*/
         public void TearDown()
         {
             testModel = null;
+        }
+
+        public bool DoContentsMatch(IEnumerable<object> first, IEnumerable<object> second)
+        {
+            foreach (var item in first)
+            {
+                if (!second.Contains(item))
+                {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }
