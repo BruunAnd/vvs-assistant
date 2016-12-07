@@ -368,7 +368,16 @@ namespace VVSAssistant.ViewModels
                 if (PackagedSolution.CreationDate == default(DateTime))
                     PackagedSolution.CreationDate = DateTime.Now;
 
-                ctx.PackagedSolutions.AddOrUpdate(PackagedSolution);
+                if (PackagedSolution.Id != 0)
+                {
+                    var tmp = ctx.PackagedSolutions.Find(PackagedSolution.Id);
+                    tmp.Appliances = PackagedSolution.Appliances;
+                }
+                else
+                {
+                    ctx.PackagedSolutions.Add(PackagedSolution);
+                }
+
                 ctx.SaveChanges();
             }
 
