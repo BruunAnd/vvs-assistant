@@ -5,10 +5,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
              mc:Ignorable="d"
-             MinHeight="200"
-             MinWidth="350"
              dialog:DialogParticipation.Register="{Binding}">
-    <Grid Margin="0 10 0 0">
+    <Grid Margin="0,71,0,104">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" MinHeight="20" />
             <RowDefinition Height="Auto" />
@@ -21,21 +19,18 @@
                    Margin="0 5 0 5"
                    FontSize="24"
                    Text="{Binding Title}"
-                   TextWrapping="Wrap"
-                   TextAlignment="Center"/>
+                   TextWrapping="Wrap"/>
         <TextBlock Grid.Row="1"
                    Grid.ColumnSpan="99"
                    Margin="0 5 0 5"
                    FontSize="14"
                    Text="{Binding Message}"
-                   TextWrapping="Wrap"
-                   TextAlignment="Center"/>
+                   TextWrapping="Wrap"/>
 
-        <ComboBox ItemsSource="{Binding Appliances}"
-                  SelectedItem="{Binding SelectedAppliance}"
-                  Grid.Row="3"
-                  Text ="{Binding Name}">
-        </ComboBox>
+        <StackPanel Grid.Row="3" Margin="0,0,0,17">
+            <CheckBox Content="Solfanger" Margin="5" IsChecked="{Binding SolarCollector}"/>
+        </StackPanel>
+       
         <StackPanel Grid.Row="4"
                     Height="85"
                     HorizontalAlignment="Center"
@@ -46,7 +41,7 @@
                     Margin="0 0 5 0"
                     Style="{StaticResource AccentedSquareButtonStyle}"
                     Command="{Binding SaveCommand}"
-                    Content="Vælg"/>
+                    Content="Tilføj"/>
             <Button x:Name="PartNegativeButton"
                     Height="35"
                     MinWidth="80"

@@ -16,6 +16,7 @@ namespace VVSAssistant.Database
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<PackagedSolution>().HasMany(s => s.ApplianceInstances);
+            modelBuilder.Entity<PackagedSolution>().HasMany(s => s.SolarContainerInstances);
             modelBuilder.Entity<PackagedSolution>().HasOptional(s => s.PrimaryHeatingUnitInstance);
 
             modelBuilder.Entity<Appliance>().HasRequired(a => a.DataSheet);
@@ -40,6 +41,7 @@ namespace VVSAssistant.Database
             // Map Offer
             modelBuilder.Entity<Offer>().HasMany(o => o.Materials).WithOptional();
             modelBuilder.Entity<Offer>().HasMany(o => o.Salaries).WithOptional();
+            modelBuilder.Entity<Offer>().HasMany(o => o.Appliances).WithOptional();
             modelBuilder.Entity<Offer>().HasRequired(o => o.PackagedSolution).WithMany();
         }
 

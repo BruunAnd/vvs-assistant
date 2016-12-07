@@ -17,14 +17,7 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
         public RelayCommand SaveCommand { get; }
         public RelayCommand CloseCommand { get; }
 
-        public ObservableCollection<Appliance> Appliances { get; }
-
-        private Appliance _selectedAppliance;
-        public Appliance SelectedAppliance
-        {
-            get { return _selectedAppliance; }
-            set { _selectedAppliance = value; OnPropertyChanged(); }
-        }
+        public bool SolarCollector { get; set; }
 
         private Appliance _appliance;
         public Appliance Appliance
@@ -40,7 +33,7 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
         public string Message { get; }
 
         public SolarContainerDialogViewModel(string message, string title, 
-                                             Appliance appliance, ObservableCollection<Appliance> appliances, 
+                                             Appliance appliance, 
                                              ObservableCollection<Appliance> appsInSolution,PackagedSolution packagedSolution,
                                              Action<SolarContainerDialogViewModel> closeHandler, Action<SolarContainerDialogViewModel> completionHandler)
         {
@@ -49,7 +42,6 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
 
             _appsInSolution = appsInSolution;
             _packagedSolution = packagedSolution;
-            Appliances = appliances;
             Appliance = appliance;
 
             SaveCommand = new RelayCommand(x =>
@@ -66,22 +58,18 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
 
         private void HandleSaveCommand()
         {
-            if (SelectedAppliance == null)
-            {
-                _appsInSolution.Add(Appliance); /* Type doesn't matter in this case */
-            }
-
-            else if (SelectedAppliance.DataSheet is ContainerDataSheet)
-            {
-                _packagedSolution.SolarContainers.Add(SelectedAppliance); /* Container, already in the PS */
-                _appsInSolution.Add(Appliance); /* Solar Collector */
-            }
-            else if (SelectedAppliance.DataSheet is SolarCollectorDataSheet)
+            if (SolarCollector)
             {
                 /* Don't need to do anything with the solar collector. */
                 _packagedSolution.SolarContainers.Add(Appliance); /* Container */
                 _appsInSolution.Add(Appliance); /* Container */
             }
+            else
+            {
+                _appsInSolution.Add(Appliance); /* Type doesn't matter in this case */
+            }
+            
+
         }
 
     }

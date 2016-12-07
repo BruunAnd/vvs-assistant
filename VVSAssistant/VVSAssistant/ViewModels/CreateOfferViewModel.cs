@@ -310,7 +310,8 @@ namespace VVSAssistant.ViewModels
             using (var ctx = new AssistantContext())
             {
                 var existingOffer = ctx.Offers.Where(o => o.Id == existingOfferId)
-                    .Include(o => o.PackagedSolution.ApplianceInstances.Select(a => a.Appliance.DataSheet))
+                    .Include(o => o.Appliances.Select(a => a.Appliance.DataSheet))
+                    .Include(o => o.PackagedSolution)
                     .Include(o => o.Materials)
                     .Include(o => o.Salaries)
                     .FirstOrDefault();
@@ -340,13 +341,20 @@ namespace VVSAssistant.ViewModels
         {
             using (var ctx = new AssistantContext())
             {
-                ctx.PackagedSolutions.Attach(offer.PackagedSolution);
                 offer.Appliances = AppliancesInOffer.ToList();
                 offer.Salaries = SalariesInOffer.ToList();
                 offer.Materials = MaterialsInOffer.ToList();
                 offer.CreationDate = DateTime.Now;
                 offer.Client.CreationDate = DateTime.Now;
-                ctx.Offers.AddOrUpdate(offer);
+
+                // Ensure that packaged solution won't be duplicated 
+                ctx.PackagedSolutions.Attach(offer.PackagedSolution);
+
+                // Ensure that appliances won't be duplicated
+                foreach (var appliance in offer.Appliances.Select(a => a.Appliance))
+                    ctx.Appliances.Attach(appliance);
+
+                ctx.Offers.Add(offer);
                 ctx.SaveChanges();
             }
             IsDataSaved = true;
