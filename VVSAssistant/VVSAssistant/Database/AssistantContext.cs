@@ -41,6 +41,7 @@ namespace VVSAssistant.Database
             // Map Offer
             modelBuilder.Entity<Offer>().HasMany(o => o.Materials).WithOptional();
             modelBuilder.Entity<Offer>().HasMany(o => o.Salaries).WithOptional();
+            modelBuilder.Entity<Offer>().HasMany(o => o.Appliances).WithOptional();
             modelBuilder.Entity<Offer>().HasRequired(o => o.PackagedSolution).WithMany();
         }
 
