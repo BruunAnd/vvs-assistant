@@ -53,6 +53,7 @@ namespace VVSAssistant.ViewModels
             set { _pageFive = value; }
         }
 
+        public List<EEICalculationResult> Results { get; set; }
 
         public string PackagedAnnualEfficiencyAverageClima { get; set; } 
 
@@ -100,32 +101,12 @@ namespace VVSAssistant.ViewModels
             set { _packagedWaterUseprofile = value; }
         }
         #endregion
-        public void Setup(List<EEICalculationResult> results)
-        {
-            var result = results[0];
-            switch (result.CalculationType)
-            {
-                case CalculationType.PrimaryBoiler: PageTwo = "Visible"; break;
-                case CalculationType.PrimaryCHP: PageThree = "Visible"; break;
-                case CalculationType.PrimaryHeatPump: PageOne = "Visible"; SetupPageOneSecResult(result); break;
-                case CalculationType.PrimaryLowTempHeatPump: PageFour = "Visible"; SetupPageOneSecResult(result); break;
-                default: return;
-            }
-            BasicSetup(result);
-        }
 
-        public void SetupSpecialPage(List<EEICalculationResult> results)
+        public CalculationViewModel(List<EEICalculationResult> results)
         {
-            BasicSetup(results[0]);
-            SetupPageFiveSpecialInfo(results);
+            Results = results;
+            var result = Results[0];
 
-        }
-        private string CheckIfZero(float value)
-        {
-            return value <= 0 ? "" : Math.Round(value, 2).ToString(CultureInfo.CurrentCulture);
-        }
-        private void BasicSetup(EEICalculationResult result)
-        {
             PrimAnnualEfficiency = CheckIfZero(result.PrimaryHeatingUnitAFUE);
             TemperatureControleclass = CheckIfZero(result.EffectOfTemperatureRegulatorClass);
             SupBoilerAnnualEfficiency = CheckIfZero(result.SecondaryBoilerAFUE);
@@ -148,20 +129,37 @@ namespace VVSAssistant.ViewModels
 
             ResultOne = CheckIfZero(result.PackagedSolutionAtColdTemperaturesAFUE);
         }
+        public void Setup()
+        {
+            var result = Results[0];
+            switch (result.CalculationType)
+            {
+                case CalculationType.PrimaryBoiler: PageTwo = "Visible"; break;
+                case CalculationType.PrimaryCHP: PageThree = "Visible"; break;
+                case CalculationType.PrimaryHeatPump: PageOne = "Visible"; SetupPageOneSecResult(result); break;
+                case CalculationType.PrimaryLowTempHeatPump: PageFour = "Visible"; SetupPageOneSecResult(result); break;
+                default: return;
+            }
+        }
+
+        public void SetupSpecialPage()
+        {
+                PageFive = "Visible";
+                UseProfile = Results[1].WaterHeatingUseProfile.ToString();
+                AnnualWaterheatingEfficiency = CheckIfZero(Results[1].WaterHeatingEffciency);
+                SolarTotal = CheckIfZero(Results[1].SolarHeatContribution);
+                PackagedAnnualEfficiencyAverageClima = CheckIfZero(Results[1].EEI);
+                PackagedAnnualEfficiencyEEILabelWater = SelectValue(Results[1].EEICharacters);
+                PackagedWaterUseprofile = SelectValue(Results[1].WaterHeatingUseProfile.ToString());
+        }
+        private string CheckIfZero(float value)
+        {
+            return value <= 0 ? "" : Math.Round(value, 2).ToString(CultureInfo.CurrentCulture);
+        }
 
         private void SetupPageOneSecResult(EEICalculationResult result)
         {
             ResultTwo = CheckIfZero(result.PackagedSolutionAtWarmTemperaturesAFUE);
-        }
-        private void SetupPageFiveSpecialInfo(List<EEICalculationResult> results)
-        {
-            PageFive = "Visible";
-            UseProfile = results[1].WaterHeatingUseProfile.ToString();
-            AnnualWaterheatingEfficiency = CheckIfZero(results[1].WaterHeatingEffciency);
-            SolarTotal = CheckIfZero(results[1].SolarHeatContribution);
-            PackagedAnnualEfficiencyAverageClima = CheckIfZero(results[1].EEI);
-            PackagedAnnualEfficiencyEEILabelWater = SelectValue(results[1].EEICharacters);
-            PackagedWaterUseprofile = SelectValue(results[1].WaterHeatingUseProfile.ToString());
         }
         private int SelectValue(string label)
         {
