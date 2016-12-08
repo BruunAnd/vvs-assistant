@@ -147,16 +147,9 @@ namespace VVSAssistant.ViewModels
 
             PrintOfferCmd = new RelayCommand(x =>
             {
-                if (Offer.OfferInformation == null)
-                {
-                    SaveOfferDialog();
-                }
-                else
-                {
-                    SaveOfferToDatabase(Offer);
-                    ExportOffer();
-                }
-            }, x => VerifyOfferHasRequiredInformation());
+                SaveOfferToDatabase(Offer);
+                ExportOffer();
+            }, x => VerifyOfferHasRequiredInformation() && Offer.OfferInformation != null);
 
             /* When the "nyt tilbud" button in bottom left corner is pressed. 
              * Nullifies all offer properties and changes view to list of packaged solutions. */
@@ -230,6 +223,8 @@ namespace VVSAssistant.ViewModels
                 {
                     // Closes the dialog
                     _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
+                    Offer.OfferInformation = null;
+                    NotifyCanExecuteChanged();
                 }, 
                 completionHandler =>
                 {
@@ -238,6 +233,7 @@ namespace VVSAssistant.ViewModels
                     Offer.TotalCostPrice = TotalCostPrice;
                     Offer.TotalContributionMargin = TotalContributionMargin;
                     SaveOfferToDatabase(Offer);
+                    NotifyCanExecuteChanged();
                 },
                 printHandler =>
                 {
@@ -246,6 +242,7 @@ namespace VVSAssistant.ViewModels
                     Offer.TotalContributionMargin = TotalContributionMargin;
                     SaveOfferToDatabase(Offer);
                     ExportOffer();
+                    NotifyCanExecuteChanged();
                 });
 
             customDialog.Content = new GenerateOfferDialogView { DataContext = dialogViewModel };
@@ -354,13 +351,28 @@ namespace VVSAssistant.ViewModels
                 offer.Appliances = AppliancesInOffer.ToList();
                 offer.Salaries = SalariesInOffer.ToList();
                 offer.Materials = MaterialsInOffer.ToList();
-                offer.CreationDate = DateTime.Now;
-                offer.Client.CreationDate = DateTime.Now;
 
                 // Ensure that packaged solution won't be duplicated 
                 ctx.PackagedSolutions.Attach(offer.PackagedSolution);
 
-                ctx.Offers.Add(offer);
+                if (offer.CreationDate == default(DateTime))
+                    offer.CreationDate = DateTime.Now;
+
+                if (offer.Client.CreationDate == default(DateTime))
+                    offer.Client.CreationDate = DateTime.Now;
+
+                if (offer.Id != 0)
+                {
+                    var tmp = ctx.Offers.Find(offer.Id);
+                    tmp.Materials = offer.Materials;
+                    tmp.Salaries = offer.Salaries;
+                    tmp.Appliances = offer.Appliances;
+                }
+                else
+                {
+                    ctx.Offers.Add(offer);
+                }
+
                 ctx.SaveChanges();
             }
             IsDataSaved = true;

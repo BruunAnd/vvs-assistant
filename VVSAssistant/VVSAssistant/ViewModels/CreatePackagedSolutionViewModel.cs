@@ -269,9 +269,14 @@ namespace VVSAssistant.ViewModels
 
             PdfExportCmd = new RelayCommand(x =>
             {
+                if (string.IsNullOrEmpty(PackagedSolution.Name))
+                    RunSaveDialog();
+                else
+                    SaveCurrentPackagedSolution();
+
                 PackagedSolution.Appliances = new ApplianceList(AppliancesInPackagedSolution.ToList());
                 DataUtil.EnergyLabel.ExportEnergyLabel(PackagedSolution);
-            }, x => AppliancesInPackagedSolution.Any() && IsDataSaved);
+            }, x => AppliancesInPackagedSolution.Any());
             #endregion
         }
 
