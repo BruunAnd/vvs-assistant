@@ -142,10 +142,6 @@ namespace VVSAssistant.Functions
         {
             public static void ExportEnergyLabel(PackagedSolution packaged)
             {
-
-                if (packaged.EnergyLabel.Count == 0)
-                    return;
-
                 var fixedDoc = new FixedDocument();
 
                 var v = new LabelLayout();
