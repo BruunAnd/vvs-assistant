@@ -69,7 +69,7 @@ namespace VVSAssistant.ViewModels
         public OfferExportViewModel(Offer offer)
         {
             OfferTitle = offer.OfferInformation.Title;
-            ClientCompanyName = offer.Client.ClientInformation.CompanyName;
+            ClientCompanyName = offer.Client.ClientInformation.CompanyName == null ? offer.Client.ClientInformation.CompanyName : null;
             ClientName = offer.Client.ClientInformation.Name;
             ClientStreet = offer.Client.ClientInformation.Address;
             ClientCity = offer.Client.ClientInformation.City + ", " + offer.Client.ClientInformation.PostalCode;

@@ -131,7 +131,8 @@
                                         CanUserSort="False"/>
                     <DataGridTextColumn Binding="{Binding Type, Converter={StaticResource ApplianceTypeConverter}}" 
                                         Header="Type"
-                                        Width="150"/>
+                                        Width="150"
+                                        CanUserSort="True"/>
                     <DataGridTextColumn Binding="{Binding Description}"  
                                         Header="Beskrivelse"
                                         Width="*"

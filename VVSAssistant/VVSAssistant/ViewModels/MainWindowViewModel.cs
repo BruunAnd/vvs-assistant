@@ -1,6 +1,9 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.IO.Compression;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows;
 using Microsoft.Win32;
 using MahApps.Metro.Controls.Dialogs;
@@ -43,7 +46,13 @@ namespace VVSAssistant.ViewModels
 
             RunOfferSettingsDialogCmd = new RelayCommand(x =>
             {
-                OpenOfferSettingsDialog();
+                OpenOfferSettingsDialog(instanceCanceled =>
+                 {
+                     _dialogCoordinator.HideMetroDialogAsync(this, _customDialog);
+                 }, instanceCompleted =>
+                 {
+                     _dialogCoordinator.HideMetroDialogAsync(this, _customDialog);
+                 });
             });
 
         }
@@ -71,6 +80,9 @@ namespace VVSAssistant.ViewModels
         public RelayCommand DatabaseExport { get; }
         public RelayCommand RunOfferSettingsDialogCmd { get; }
 
+        private readonly DialogCoordinator _dialogCoordinator = new DialogCoordinator();
+        private readonly CustomDialog _customDialog = new CustomDialog();
+
         private async void OnNav(string destination)
         {
             ViewModelBase nextPage;
@@ -78,32 +90,46 @@ namespace VVSAssistant.ViewModels
             switch (destination)
             {
                 case "ExistingPackagedSolutionView":
-                    nextPage = new ExistingPackagedSolutionsViewModel(new DialogCoordinator());
+                    nextPage = new ExistingPackagedSolutionsViewModel(_dialogCoordinator);
                     break;
                 case "CreatePackagedSolutionView":
                     using (var ctx = new AssistantContext())
                     {
+                        nextPage = new CreatePackagedSolutionViewModel(_dialogCoordinator);
                         if (!ctx.CompanyInformation.Any())
                         {
-                            OpenOfferSettingsDialog();
-                            return;
+                            OpenOfferSettingsDialog(instanceCanceled =>
+                            {
+                                _dialogCoordinator.HideMetroDialogAsync(this, _customDialog);
+                                NavigationService.GoBack();
+                            }, instanceCompleted =>
+                            {
+                                _dialogCoordinator.HideMetroDialogAsync(this, _customDialog);
+                            });
                         }
                     }
-                    nextPage = new CreatePackagedSolutionViewModel(new DialogCoordinator());
+                    
                     break;
                 case "ExistingOffersView":
-                    nextPage = new ExistingOffersViewModel(new DialogCoordinator());
+                    nextPage = new ExistingOffersViewModel(_dialogCoordinator);
                     break;
                 case "CreateOfferView":
                     using (var ctx = new AssistantContext())
                     {
+                        nextPage = new CreateOfferViewModel(_dialogCoordinator);
                         if (!ctx.CompanyInformation.Any())
                         {
-                            OpenOfferSettingsDialog();
-                            return;
-                        }       
+                            OpenOfferSettingsDialog(instanceCanceled =>
+                            {
+                                _dialogCoordinator.HideMetroDialogAsync(this, _customDialog);
+                                NavigationService.GoBack();
+                            }, instanceCompleted =>
+                            {
+                                _dialogCoordinator.HideMetroDialogAsync(this, _customDialog);
+                                
+                            });
+                        }
                     }
-                    nextPage = new CreateOfferViewModel(new DialogCoordinator());
                     break;
                 case "GoBack":
                     NavigationService.GoBack();
@@ -135,19 +161,15 @@ namespace VVSAssistant.ViewModels
 
         }
 
-        private async void OpenOfferSettingsDialog()
-        {
-            var customDialog = new CustomDialog();
-            var dialogCoordinator = new DialogCoordinator();
+        private async void OpenOfferSettingsDialog(Action<CompanyInfoDialogViewModel> closeHandler, Action<CompanyInfoDialogViewModel> completionHandler)
+        { 
             IsLoading = true;
-            var dialogViewModel = new CompanyInfoDialogViewModel(instanceCancel => dialogCoordinator.HideMetroDialogAsync(this, customDialog),
-                instanceCompleted => dialogCoordinator.HideMetroDialogAsync(this, customDialog));
+            var dialogViewModel = new CompanyInfoDialogViewModel(closeHandler, completionHandler);
             dialogViewModel.LoadDataFromDatabase();
             IsLoading = false;
+            _customDialog.Content = new CompanyInfoDialogView { DataContext = dialogViewModel };
 
-            customDialog.Content = new CompanyInfoDialogView { DataContext = dialogViewModel };
-
-            await dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
+            await _dialogCoordinator.ShowMetroDialogAsync(this, _customDialog);
         }
 
         private bool _isLoading;

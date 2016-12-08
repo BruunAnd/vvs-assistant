@@ -126,27 +126,37 @@ namespace VVSAssistant.ViewModels
                 }
                 NavigationService.GoBack();
             });
-
-            /* Tied to "print offer" button in bottom left corner. 
-             * Disabled if VerifyOfferHasRequiredInformation returns false. */
-            PrintOfferCmd = new RelayCommand(x => 
-            {
-                using (var ctx = new AssistantContext())
-                {
-                    if (!ctx.Offers.Any(o => o.Id == Offer.Id)) // Not saved
-                        SaveOfferDialog();
-                    else
-                        ExportOffer();
-                }
-            }, x => VerifyOfferHasRequiredInformation()); 
-
+            
             /* Tied to the action of double clicking a packaged solution's info 
              * in the list of packaged solutions. When this happens, property 
              * "SelectedPackagedSolution" is set to the clicked Packaged Solution. */
             PackagedSolutionSelectedCmd = new RelayCommand(x => OnSolutionSelected(), x => SelectedPackagedSolution != null); 
 
-            /* Doing the same as print offer */
-            SaveOfferCmd = new RelayCommand(x => SaveOfferDialog(), x => VerifyOfferHasRequiredInformation());
+            /* Runs the dialog if no offerinformation is present and saves to database directly if it is */
+            SaveOfferCmd = new RelayCommand(x =>
+            {
+                if (Offer.OfferInformation == null)
+                {
+                    SaveOfferDialog();
+                }
+                else
+                {
+                    SaveOfferToDatabase(Offer);
+                }
+            }, x => VerifyOfferHasRequiredInformation());
+
+            PrintOfferCmd = new RelayCommand(x =>
+            {
+                if (Offer.OfferInformation == null)
+                {
+                    SaveOfferDialog();
+                }
+                else
+                {
+                    SaveOfferToDatabase(Offer);
+                    ExportOffer();
+                }
+            }, x => VerifyOfferHasRequiredInformation());
 
             /* When the "nyt tilbud" button in bottom left corner is pressed. 
              * Nullifies all offer properties and changes view to list of packaged solutions. */
