@@ -88,6 +88,7 @@ namespace VVSAssistant.ViewModels
                     .Include(o => o.Salaries)
                     .Include(o => o.PackagedSolution.ApplianceInstances.Select(a => a.Appliance))
                     .Include(o => o.OfferInformation)
+                    .Include(o => o.Client.ClientInformation)
                     .ToList());
             }
         }
