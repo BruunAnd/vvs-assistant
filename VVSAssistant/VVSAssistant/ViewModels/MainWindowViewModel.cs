@@ -83,7 +83,7 @@ namespace VVSAssistant.ViewModels
                 case "CreatePackagedSolutionView":
                     using (var ctx = new AssistantContext())
                     {
-                        if (ctx.CompanyInformation.FirstOrDefault() == null)
+                        if (!ctx.CompanyInformation.Any())
                         {
                             OpenOfferSettingsDialog();
                             return;
@@ -97,7 +97,7 @@ namespace VVSAssistant.ViewModels
                 case "CreateOfferView":
                     using (var ctx = new AssistantContext())
                     {
-                        if (ctx.CompanyInformation.FirstOrDefault() == null)
+                        if (!ctx.CompanyInformation.Any())
                         {
                             OpenOfferSettingsDialog();
                             return;
