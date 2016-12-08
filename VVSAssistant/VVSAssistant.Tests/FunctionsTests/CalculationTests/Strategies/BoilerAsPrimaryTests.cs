@@ -152,8 +152,8 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             var result = new EEICalculationResult();
             result = calculation.CalculateEEI(package);
             var solar = result.SolarHeatContribution;
-            Assert.AreEqual(expected, solar);
-            //Assert.IsTrue(expected <= solar + 0.1f && expected >= solar - 0.1f);
+            //Assert.AreEqual(expected, solar);
+            Assert.IsTrue(expected <= solar + 0.1f && expected >= solar - 0.1f);
         }
         [Test]
         [TestCase(PackagedSolutionId.PrimaryBoilerOHeatPump,0)]
