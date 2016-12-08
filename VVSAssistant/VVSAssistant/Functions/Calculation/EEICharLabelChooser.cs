@@ -81,7 +81,7 @@ namespace VVSAssistant.Functions.Calculation
             if (calcEEI > list[8])
                 return "0%";
 
-            return (list[index]- calcEEI) + "%";
+            return (list[index]- calcEEI + 1) + "%";
         }
 
         private static string GetNextLabel(int index)
