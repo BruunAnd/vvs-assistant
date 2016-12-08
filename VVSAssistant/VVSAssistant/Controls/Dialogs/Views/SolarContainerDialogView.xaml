@@ -34,7 +34,7 @@
                     Height="35"
                     MinWidth="80"
                     Margin="0 0 5 0"
-                    Style="{StaticResource AccentedSquareButtonStyle}"
+                    Style="{StaticResource AccentedSquareBntNormalChasing}"
                     Command="{Binding SaveCommand}"
                     Content="Tilføj"/>
             <Button x:Name="PartNegativeButton"
@@ -42,7 +42,7 @@
                     MinWidth="80"
                     Margin="5 0 5 0"
                     Command="{Binding CloseCommand}" 
-                    Style="{StaticResource SquareButtonStyle}"
+                    Style="{StaticResource SquareBntNormalChasing}"
                     Content="Fortryd"/>
         </StackPanel>
     </Grid>
