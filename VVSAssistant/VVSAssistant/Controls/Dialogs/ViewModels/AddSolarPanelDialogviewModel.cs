@@ -22,7 +22,7 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             {
                 Save();
                 completionHandler(this);
-            });
+            }, x => IsWaterHeater || IsRoomHeater);
 
             CloseCommand = new RelayCommand(x =>
             {
@@ -43,6 +43,7 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             {
                 _isWaterHeater = value;
                 SolarPanelData.IsWaterHeater = _isWaterHeater;
+                SaveCommand.NotifyCanExecuteChanged();
             }
         }
         public bool IsRoomHeater
@@ -55,6 +56,7 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             {
                 _isRoomHeater = value;
                 SolarPanelData.IsRoomHeater = _isRoomHeater;
+                SaveCommand.NotifyCanExecuteChanged();
             }
         }
         private SolarCollectorDataSheet SolarPanelData => (_solarPanel?.DataSheet as SolarCollectorDataSheet);
