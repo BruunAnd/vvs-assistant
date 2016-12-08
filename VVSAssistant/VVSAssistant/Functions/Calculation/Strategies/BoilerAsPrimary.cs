@@ -27,7 +27,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             _result.EffectOfTemperatureRegulatorClass = _packageData.TempControllerBonus;
             _result.EffectOfSecondaryBoiler = (_packageData.SupplementaryBoiler?.AFUE - _result.PrimaryHeatingUnitAFUE) * 0.1f ?? 0;
             _result.SolarHeatContribution = SolarContribution();
-            _result.SecondaryHeatPumpAFUE = _packageData.SupplementaryHeatPump.AFUE;
+            _result.SecondaryHeatPumpAFUE = _packageData.SupplementaryHeatPump?.AFUE ?? 0;
             _result.EffectOfSecondaryHeatPump = -HeatpumpContribution(_packageData.HasNonSolarContainer());
             _result.AdjustedContribution = Math.Abs(Math.Abs(_result.EffectOfSecondaryHeatPump)) > 0 && Math.Abs(_result.SolarHeatContribution) > 0
                                            ? AdjustedContribution(_result.EffectOfSecondaryHeatPump, _result.SolarHeatContribution)
@@ -56,7 +56,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
                                          !container.IsWaterContainer);
 
             _result.ContainerClassification = _packageData.SolarContainerClass;
-            _result.SolarCollectorEffectiveness = _packageData.SolarPanelData.Efficency;
+            _result.SolarCollectorEffectiveness = _packageData.SolarPanelData?.Efficency ?? 0;
             _result.ContainerVolume = solarContainerVolume / 1000;
             _result.SolarCollectorArea = solarPanelArea;
             float ans = 0;
