@@ -157,6 +157,12 @@
                     <MouseBinding MouseAction="LeftDoubleClick"
                                   Command="{Binding RemoveApplianceFromPackagedSolutionCmd}"/>
                 </DataGrid.InputBindings>
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Fjern fra pakkeløsning"
+                                  Command="{Binding RemoveApplianceFromPackagedSolutionCmd}"/>
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Name}"
                                         Header="Navn"

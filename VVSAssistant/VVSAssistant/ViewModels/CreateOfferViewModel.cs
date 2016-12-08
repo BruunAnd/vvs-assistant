@@ -22,7 +22,7 @@ namespace VVSAssistant.ViewModels
         
         public RelayCommand NavigateBackCmd { get; }
         public RelayCommand PrintOfferCmd { get; }
-        public RelayCommand PackagedSolutionDoubleClickedCmd { get; }
+        public RelayCommand PackagedSolutionSelectedCmd { get; }
         public RelayCommand CreateNewOfferCmd { get; }
         public RelayCommand SaveOfferCmd { get; }
 
@@ -143,7 +143,7 @@ namespace VVSAssistant.ViewModels
             /* Tied to the action of double clicking a packaged solution's info 
              * in the list of packaged solutions. When this happens, property 
              * "SelectedPackagedSolution" is set to the clicked Packaged Solution. */
-            PackagedSolutionDoubleClickedCmd = new RelayCommand(x => OnSolutionSelected()); 
+            PackagedSolutionSelectedCmd = new RelayCommand(x => OnSolutionSelected(), x => SelectedPackagedSolution != null); 
 
             /* Doing the same as print offer */
             SaveOfferCmd = new RelayCommand(x => SaveOfferDialog(), x => VerifyOfferHasRequiredInformation());
