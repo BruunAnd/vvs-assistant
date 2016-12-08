@@ -17,7 +17,26 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
         public RelayCommand SaveCommand { get; }
         public RelayCommand CloseCommand { get; }
 
-        public bool SolarContainer { get; set; }
+        private bool _solarContainer;
+        private bool _nonSolarContainer;
+        public bool SolarContainer
+        {
+            get { return _solarContainer; }
+            set
+            {
+                _solarContainer = value;
+                SaveCommand.NotifyCanExecuteChanged();
+            }
+        }
+        public bool NonSolarContainer
+        {
+            get { return _nonSolarContainer; }
+            set
+            {
+                _nonSolarContainer = value;
+                SaveCommand.NotifyCanExecuteChanged();
+            }
+        }
 
         private Appliance _appliance;
         public Appliance Appliance
@@ -45,7 +64,7 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             {
                 HandleSaveCommand();
                 completionHandler(this);
-            });
+            }, x => SolarContainer || NonSolarContainer);
 
             CloseCommand = new RelayCommand(x =>
             {

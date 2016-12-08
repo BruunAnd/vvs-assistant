@@ -77,6 +77,9 @@ namespace VVSAssistant.Functions.Calculation.Strategies
 
             _results.ContainerVolume = solarContainerVolume / 1000;
             _results.SolarCollectorArea = solarPanelArea;
+            _results.SolarCollectorEffectiveness = _packageData.SolarPanelData?.Efficency?? 0;
+            _results.ContainerClassification = _packageData.SolarContainerClass;
+
             float ans = 0;
             _III = 294 / (11 * _packageData.PrimaryUnit.WattUsage);
             _IV = 115 / (11 * _packageData.PrimaryUnit.WattUsage);

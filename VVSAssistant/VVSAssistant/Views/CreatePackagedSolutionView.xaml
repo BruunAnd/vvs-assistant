@@ -217,7 +217,7 @@
                            FontWeight="Bold"
                            Margin="0 2 0 2"
                            Padding="10 5 10 5"
-                           Foreground="{StaticResource IdealForegroundColorBrush}"
+                           Foreground="Black"
                            Background="{Binding EeiResultsWaterHeating.EEICharacters, Converter={StaticResource LetterToColorConverter}}"/>
                         </StackPanel>
                     </DockPanel>
@@ -230,7 +230,7 @@
                            FontWeight="Bold"
                            Margin="0 2 0 2"
                            Padding="10 5 10 5"
-                           Foreground="{StaticResource IdealForegroundColorBrush}"
+                           Foreground="Black"
                            Background="{Binding EeiResultsWaterHeating.ProceedingEEICharacter, Converter={StaticResource LetterToColorConverter}}"/>
                         </StackPanel>
                     </DockPanel>

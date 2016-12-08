@@ -25,7 +25,7 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
         {
             get
             {
-                return (string)new ApplianceTypeConverter().Convert(_newAppliance.Type, typeof(string), null, null);
+                return ApplianceTypeConverter.ConvertTypeToString(_newAppliance.Type);
             }
             set
             {
