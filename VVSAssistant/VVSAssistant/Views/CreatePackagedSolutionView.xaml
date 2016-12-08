@@ -16,6 +16,7 @@
     <ContentControl.Resources>
         <valueConverters:ApplianceTypeConverter x:Key="ApplianceTypeConverter" />
         <valueConverters:LetterToColorConverter x:Key="LetterToColorConverter" />
+        <valueConverters:ApplianceTypeColorConverter x:Key="ApplianceTypeColorConverter"/>
         <valueConverters:DescriptionConverter x:Key="CommaToNewlineConverter"/>
         <Style x:Key="ApplianceCell" TargetType="DataGridCell" 
                BasedOn="{StaticResource {x:Type DataGridCell}}">
@@ -101,6 +102,7 @@
                 <DataGrid.RowStyle>
                     <Style TargetType="DataGridRow" BasedOn="{StaticResource MetroDataGridRow}">
                         <Setter Property="ToolTip" Value="Højreklik for valgmuligheder"/>
+                        <Setter Property="Background" Value="{Binding Converter={StaticResource ApplianceTypeColorConverter}}"/>
                     </Style>
                 </DataGrid.RowStyle>
                 <DataGrid.CellStyle>
@@ -125,13 +127,15 @@
 
                     <DataGridTextColumn Binding="{Binding Name}" 
                                         Header="Navn"
-                                        Width="150"/>
+                                        Width="150"
+                                        CanUserSort="False"/>
                     <DataGridTextColumn Binding="{Binding Type, Converter={StaticResource ApplianceTypeConverter}}" 
                                         Header="Type"
                                         Width="150"/>
                     <DataGridTextColumn Binding="{Binding Description}"  
                                         Header="Beskrivelse"
-                                        Width="*"/>
+                                        Width="*"
+                                        CanUserSort="False"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
