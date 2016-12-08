@@ -27,10 +27,10 @@
 
         <StackPanel Grid.Row="2">
             <RadioButton Margin="5 5 5 5"
-                      Content="Primærkedel"
+                      Content="Primær"
                       IsChecked="{Binding IsPrimaryBoiler}" />
             <RadioButton Margin="5 5 5 5"
-                      Content="Sekundærkedel"
+                      Content="Supplerende"
                       IsChecked="{Binding IsSecondaryBoiler}" />
         </StackPanel>
 
