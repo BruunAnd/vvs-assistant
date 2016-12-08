@@ -23,7 +23,10 @@ namespace VVSAssistant.Models
 
         public Appliance this[int index]
         {
-            get { return BackingList[index].Appliance; }
+            get
+            {
+                return BackingList.Count >= index + 1 ? BackingList[index].Appliance : null;
+            }
             set { BackingList[index] = new ApplianceInstance(value); }
         }
 
