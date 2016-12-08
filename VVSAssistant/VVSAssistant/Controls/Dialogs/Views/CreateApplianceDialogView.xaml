@@ -42,6 +42,7 @@
                            IsCategorized="False"
                            Margin="0 10 0 10"
                            MinHeight="150"
+                           NameColumnWidth="300"
                            Visibility="{Binding CanEditProperties, Converter={StaticResource BoolToVisibilityConverter}}"/>
         <StackPanel Grid.Row="4" 
                     Visibility="{Binding IsHeatingOrSolar, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolToVisibilityConverter}}">
