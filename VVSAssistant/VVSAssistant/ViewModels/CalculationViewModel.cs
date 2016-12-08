@@ -121,8 +121,8 @@ namespace VVSAssistant.ViewModels
             PackagedAnnualEfficiencyEEILabel = SelectValue(result.EEICharacters);
 
             PackagedAnnualEfficiencyRoomHeating = CheckIfZero(result.EEI);
-            SupHeatingUnitAnnualEfficiency = CheckIfZero(result.EffectOfSecondaryHeatPump);
-            SupHeatingUnitTotal = CheckIfZero(result.SecondaryHeatPumpAFUE);
+            SupHeatingUnitAnnualEfficiency = CheckIfZero(result.SecondaryHeatPumpAFUE);
+            SupHeatingUnitTotal = CheckIfZero(result.EffectOfSecondaryHeatPump);
             SolarContributionAndSupHeatingUnitTotal = CheckIfZero(result.AdjustedContribution);
 
             PackagedAnnualEfficiencyAverageClima = CheckIfZero(result.EEI);
@@ -154,7 +154,8 @@ namespace VVSAssistant.ViewModels
         }
         private string CheckIfZero(float value)
         {
-            return value <= 0 ? "" : Math.Round(value, 2).ToString(CultureInfo.CurrentCulture);
+
+            return Math.Abs(value) <= 0 ? "" : Math.Round(value, 2).ToString(CultureInfo.CurrentCulture);
         }
 
         private void SetupPageOneSecResult(EEICalculationResult result)
