@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Diagnostics;
 using System.IO.Compression;
 using System.Linq;
 using System.Windows;
@@ -82,6 +81,14 @@ namespace VVSAssistant.ViewModels
                     nextPage = new ExistingPackagedSolutionsViewModel(new DialogCoordinator());
                     break;
                 case "CreatePackagedSolutionView":
+                    using (var ctx = new AssistantContext())
+                    {
+                        if (ctx.CompanyInformation.FirstOrDefault() == null)
+                        {
+                            OpenOfferSettingsDialog();
+                            return;
+                        }
+                    }
                     nextPage = new CreatePackagedSolutionViewModel(new DialogCoordinator());
                     break;
                 case "ExistingOffersView":
@@ -94,8 +101,7 @@ namespace VVSAssistant.ViewModels
                         {
                             OpenOfferSettingsDialog();
                             return;
-                        }
-                            
+                        }       
                     }
                     nextPage = new CreateOfferViewModel(new DialogCoordinator());
                     break;
