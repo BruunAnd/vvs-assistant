@@ -120,7 +120,7 @@ namespace VVSAssistant
                 ctx.Appliances.Add(new Appliance("LogasolSKN", new SolarCollectorDataSheet()
                 {
                     Area = 2.25f,
-                    Efficency = 60,
+                    Efficency = 61,
                     N0 = 0.766f,
                     a1 = 3.22f,
                     a2 = 0.015f,
