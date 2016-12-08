@@ -245,6 +245,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             var result = new EEICalculationResult();
             result = calculation.CalculateEEI(package);
             var EEI = Math.Round(result.EEI);
+            //Assert.AreEqual(expected, EEI);
             Assert.IsTrue(expected <= EEI + 1f && expected >= EEI - 1f);
         }
         [Test]

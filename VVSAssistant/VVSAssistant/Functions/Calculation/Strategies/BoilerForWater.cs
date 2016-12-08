@@ -38,7 +38,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             _result.SolarHeatContribution = qaux.Equals(0) || qnonsol.Equals(0) ? 0 :
                 (1.1f * I - 10) * II - III - I;
 
-            _result.EEI = _result.SolarHeatContribution + I;
+            _result.EEI = (float)Math.Round(_result.SolarHeatContribution + I);
 
             _result.PackagedSolutionAtColdTemperaturesAFUE = _result.EEI - 0.2f * _result.SolarHeatContribution;
             _result.PackagedSolutionAtWarmTemperaturesAFUE = _result.EEI + 0.4f * _result.SolarHeatContribution;

@@ -32,9 +32,9 @@ namespace VVSAssistant.Functions.Calculation.Strategies
                                            ? AdjustedContribution(_result.EffectOfSecondaryHeatPump, _result.SolarHeatContribution)
                                            : default(float);
 
-            _result.EEI = _result.PrimaryHeatingUnitAFUE + _result.EffectOfTemperatureRegulatorClass
+            _result.EEI = (float)Math.Round(_result.PrimaryHeatingUnitAFUE + _result.EffectOfTemperatureRegulatorClass
                           - _result.EffectOfSecondaryBoiler + _result.SolarHeatContribution -
-                          _result.EffectOfSecondaryHeatPump - _result.AdjustedContribution;
+                          _result.EffectOfSecondaryHeatPump - _result.AdjustedContribution);
             _result.PackagedSolutionAtColdTemperaturesAFUE = Math.Abs(_ii - default(float)) > 0 ? _result.EEI + (50 * _ii) : 0;
             _result.EEICharacters = EEICharLabelChooser.EEIChar(ApplianceTypes.Boiler, _result.EEI, 1)[0];
             _result.ToNextLabel = EEICharLabelChooser.EEIChar(ApplianceTypes.Boiler, _result.EEI, 1)[1];

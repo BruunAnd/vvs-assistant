@@ -17,7 +17,7 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
         public RelayCommand SaveCommand { get; }
         public RelayCommand CloseCommand { get; }
 
-        public bool SolarCollector { get; set; }
+        public bool SolarContainer { get; set; }
 
         private Appliance _appliance;
         public Appliance Appliance
@@ -32,18 +32,15 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
         public string Title { get; }
         public string Message { get; }
 
-        public SolarContainerDialogViewModel(string message, string title, 
-                                             Appliance appliance, 
-                                             ObservableCollection<Appliance> appsInSolution,PackagedSolution packagedSolution,
-                                             Action<SolarContainerDialogViewModel> closeHandler, Action<SolarContainerDialogViewModel> completionHandler)
+        public SolarContainerDialogViewModel(string title, Appliance appliance, 
+            PackagedSolution packagedSolution, ObservableCollection<Appliance> appliances,
+            Action<SolarContainerDialogViewModel> closeHandler, 
+            Action<SolarContainerDialogViewModel> completionHandler)
         {
             Title = title;
-            Message = message;
-
-            _appsInSolution = appsInSolution;
-            _packagedSolution = packagedSolution;
             Appliance = appliance;
-
+            _packagedSolution = packagedSolution;
+            _appsInSolution = appliances;
             SaveCommand = new RelayCommand(x =>
             {
                 HandleSaveCommand();
@@ -58,7 +55,7 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
 
         private void HandleSaveCommand()
         {
-            if (SolarCollector)
+            if (SolarContainer)
             {
                 /* Don't need to do anything with the solar collector. */
                 _packagedSolution.SolarContainers.Add(Appliance); /* Container */
@@ -68,8 +65,6 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             {
                 _appsInSolution.Add(Appliance); /* Type doesn't matter in this case */
             }
-            
-
         }
 
     }
