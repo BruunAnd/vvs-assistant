@@ -10,6 +10,7 @@ using VVSAssistant.Common.ViewModels;
 using VVSAssistant.Functions;
 using VVSAssistant.Controls.Dialogs.Views;
 using VVSAssistant.Controls.Dialogs.ViewModels;
+using VVSAssistant.Database;
 
 namespace VVSAssistant.ViewModels
 {
@@ -45,6 +46,7 @@ namespace VVSAssistant.ViewModels
             {
                 OpenOfferSettingsDialog();
             });
+
         }
 
         private void NavigationService_LoadingStateChanged(bool isLoading)
@@ -86,6 +88,15 @@ namespace VVSAssistant.ViewModels
                     nextPage = new ExistingOffersViewModel(new DialogCoordinator());
                     break;
                 case "CreateOfferView":
+                    using (var ctx = new AssistantContext())
+                    {
+                        if (ctx.CompanyInformation.FirstOrDefault() == null)
+                        {
+                            OpenOfferSettingsDialog();
+                            return;
+                        }
+                            
+                    }
                     nextPage = new CreateOfferViewModel(new DialogCoordinator());
                     break;
                 case "GoBack":

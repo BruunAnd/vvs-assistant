@@ -94,7 +94,6 @@
                       Grid.Row="1" 
                       AutoGenerateColumns="False"
                       HorizontalScrollBarVisibility="Auto"
-                      ColumnWidth="Auto"
                       ItemsSource="{Binding FilteredCollectionView, UpdateSourceTrigger=PropertyChanged}"
                       SelectedItem="{Binding SelectedAppliance}"
                       SelectionMode="Single">
@@ -125,11 +124,14 @@
                 <DataGrid.Columns>
 
                     <DataGridTextColumn Binding="{Binding Name}" 
-                                        Header="Navn"/>
+                                        Header="Navn"
+                                        Width="150"/>
                     <DataGridTextColumn Binding="{Binding Type, Converter={StaticResource ApplianceTypeConverter}}" 
-                                        Header="Type"/>
+                                        Header="Type"
+                                        Width="150"/>
                     <DataGridTextColumn Binding="{Binding Description}"  
-                                        Header="Beskrivelse"/>
+                                        Header="Beskrivelse"
+                                        Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
