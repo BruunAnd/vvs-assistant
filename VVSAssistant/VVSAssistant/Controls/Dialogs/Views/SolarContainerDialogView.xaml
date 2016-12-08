@@ -20,15 +20,10 @@
                    FontSize="24"
                    Text="{Binding Title}"
                    TextWrapping="Wrap"/>
-        <TextBlock Grid.Row="1"
-                   Grid.ColumnSpan="99"
-                   Margin="0 5 0 5"
-                   FontSize="14"
-                   Text="{Binding Message}"
-                   TextWrapping="Wrap"/>
 
         <StackPanel Grid.Row="3" Margin="0,0,0,17">
-            <CheckBox Content="Solfanger" Margin="5" IsChecked="{Binding SolarCollector}"/>
+            <RadioButton Content="Ja" Margin="5" IsChecked="{Binding SolarContainer}"/>
+            <RadioButton Content="Nej" Margin="5"/>
         </StackPanel>
        
         <StackPanel Grid.Row="4"
