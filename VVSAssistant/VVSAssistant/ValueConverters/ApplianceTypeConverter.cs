@@ -19,7 +19,7 @@ namespace VVSAssistant.ValueConverters
             {ApplianceTypes.Container, "Beholder"},
             {ApplianceTypes.HeatPump, "Varmepumpe"},
             {ApplianceTypes.LowTempHeatPump, "Lavtemperatursvarmepumpe"},
-            {ApplianceTypes.SolarPanel, "Solpanel"},
+            {ApplianceTypes.SolarPanel, "Solfanger"},
             {ApplianceTypes.TemperatureController, "Temperaturregulering"},
             {ApplianceTypes.SolarStation, "Solstation"},
             {ApplianceTypes.WaterHeater, "Vandvarmer"}
