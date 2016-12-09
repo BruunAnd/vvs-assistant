@@ -174,6 +174,10 @@
     <Compile Include="Common\NavigationService.cs" />
     <Compile Include="Common\NotifyPropertyChanged.cs" />
     <Compile Include="Common\ViewModels\FilterableViewModelBase.cs" />
+    <Compile Include="Controls\Dialogs\ViewModels\TimedMessageViewModel.cs" />
+    <Compile Include="Controls\Dialogs\Views\TimedMessageView.xaml.cs">
+      <DependentUpon>TimedMessageView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\CompanyInformation.cs" />
     <Compile Include="Controls\Dialogs\ViewModels\AddHeatingUnitDialogViewModel.cs" />
     <Compile Include="Controls\Dialogs\ViewModels\AddSolarPanelDialogviewModel.cs" />
@@ -295,6 +299,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\Dialogs\Views\SaveDialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Dialogs\Views\TimedMessageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

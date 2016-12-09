@@ -18,6 +18,8 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
         {
             _solarPanel = solarPanel;
             _appsInSolution = packagedsolution;
+            SolarPanelData.IsRoomHeater = false;
+            SolarPanelData.IsWaterHeater = false;
             SaveCommand = new RelayCommand(x =>
             {
                 Save();

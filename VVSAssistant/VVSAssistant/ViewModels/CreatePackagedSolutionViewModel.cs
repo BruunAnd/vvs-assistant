@@ -18,6 +18,7 @@ using VVSAssistant.Models;
 using VVSAssistant.Models.DataSheets;
 using VVSAssistant.Functions.Calculation;
 using VVSAssistant.ValueConverters;
+using MahApps.Metro.Controls;
 
 namespace VVSAssistant.ViewModels
 {
@@ -491,7 +492,7 @@ namespace VVSAssistant.ViewModels
                                                                 SaveCurrentPackagedSolution();
 
                                                                 await _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
-                                                                await _dialogCoordinator.ShowMessageAsync(this, "Succes", $"Pakkeløsningen {PackagedSolution.Name} blev gemt.");
+                                                                DisplayTimedMessage("Succes", $"Pakkeløsningen \"{PackagedSolution.Name}\" blev gemt.", 2);
                                                             });
 
             customDialog.Content = new SaveDialogView { DataContext = dialogViewModel };
@@ -695,6 +696,14 @@ namespace VVSAssistant.ViewModels
                 EeiResultsRoomHeating = null;
                 EeiResultsWaterHeating = null;
             }
+        }
+
+        private async void DisplayTimedMessage(string title, string message, double time)
+        {
+            var customDialog = new CustomDialog();
+            var messageViewModel = new TimedMessageViewModel(title, message, time, instanceCancel => _dialogCoordinator.HideMetroDialogAsync(this, customDialog));
+            customDialog.Content = new TimesMessageView { DataContext = messageViewModel };
+            await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
         }
 
         #endregion
