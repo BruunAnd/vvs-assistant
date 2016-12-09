@@ -21,9 +21,9 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <StackPanel FocusManager.FocusedElement="{Binding ElementName=TextBoxName}">
+        <StackPanel FocusManager.FocusedElement="{Binding ElementName=TextBoxFocus}">
             <Label Content="Navn:"/>
-            <TextBox Name="TextBoxName" Text="{Binding NewAppliance.Name}"/>
+            <TextBox Name="TextBoxFocus" Text="{Binding NewAppliance.Name}"/>
             <Label Content="Vælg komponenttype:"
                    Visibility="{Binding IsNewAppliance, Converter={StaticResource BoolToVisibilityConverter}}"/>
             <ComboBox ItemsSource="{Binding Types}"

@@ -13,8 +13,8 @@
             <RowDefinition Height="auto" MinHeight="3"/>
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Text="Vælg hvad solpanelet bruges til" Margin="5,0,0,0" FontSize="24"/>
-        <StackPanel Grid.Row="1" Margin="0,0,0,17">
-            <CheckBox Content="Rumopvarmning" Margin="5" IsChecked="{Binding IsRoomHeater}"/>
+        <StackPanel Grid.Row="1" Margin="0,0,0,17" FocusManager.FocusedElement="{Binding ElementName=CheckBoxFocus}">
+            <CheckBox Name="CheckBoxFocus" Content="Rumopvarmning" Margin="5" IsChecked="{Binding IsRoomHeater}"/>
             <CheckBox Content="Vandopvarmning" Margin="5" IsChecked="{Binding IsWaterHeater}"/>
         </StackPanel>
         <StackPanel Grid.Row="1"

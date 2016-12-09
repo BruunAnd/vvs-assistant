@@ -27,10 +27,10 @@
 
         <DockPanel Grid.Row="1" Grid.Column="0">
             <DockPanel DockPanel.Dock="Top">
-                <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Vertical" FocusManager.FocusedElement="{Binding ElementName=TextBoxFocus}">
 
                     <Label Content="Tilbudsnavn:"/>
-                    <TextBox
+                    <TextBox Name="TextBoxFocus"
                         controls:TextBoxHelper.ClearTextButton="True"
                  Text="{Binding Offer.OfferInformation.Title, UpdateSourceTrigger=PropertyChanged}"/>
 
