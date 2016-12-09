@@ -5,6 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d"
              dialog:DialogParticipation.Register="{Binding}">
     <UserControl.Resources>
@@ -44,17 +45,24 @@
                            Margin="0 10 0 10"
                            MinHeight="150"
                            NameColumnWidth="300"
-                           Visibility="{Binding CanEditProperties, Converter={StaticResource BoolToVisibilityConverter}}"/>
-        <StackPanel Grid.Row="4" 
-                    Visibility="{Binding IsHeatingOrSolar, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolToVisibilityConverter}}">
-            <Label Content="Specificér brug (kan være begge dele):" FontWeight="Bold"/>
-            <CheckBox Content="Rumopvarmning"
-                      IsChecked="{Binding NewAppliance.DataSheet.isRoomHeater}"
-                      Margin="0 0 0 10"/>
-            <CheckBox Content="Vandopvarmning"
-                      IsChecked="{Binding NewAppliance.DataSheet.isWaterHeater}"/>
-        </StackPanel>
-
+                           Visibility="{Binding CanEditProperties, Converter={StaticResource BoolToVisibilityConverter}}">
+            <xctk:PropertyGrid.EditorDefinitions>
+                <xctk:EditorTemplateDefinition >
+                    <xctk:EditorTemplateDefinition.TargetProperties>
+                        <xctk:TargetPropertyType Type="{x:Type sys:Double}"/>
+                        <xctk:TargetPropertyType Type="{x:Type sys:Int32}"/>
+                        <xctk:TargetPropertyType Type="{x:Type sys:Single}"/>
+                        <xctk:TargetPropertyType Type="{x:Type sys:Object}"/>
+                    </xctk:EditorTemplateDefinition.TargetProperties>
+                    <xctk:EditorTemplateDefinition.EditingTemplate>
+                        <DataTemplate>
+                            <TextBox Background="White" Text="{Binding Value}" />
+                        </DataTemplate>
+                    </xctk:EditorTemplateDefinition.EditingTemplate>
+                </xctk:EditorTemplateDefinition>
+            </xctk:PropertyGrid.EditorDefinitions>
+        </xctk:PropertyGrid>
+        
         <StackPanel Grid.Row="4" 
                     Visibility="{Binding IsContainer, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolToVisibilityConverter}}">
             <Label Content="Specificér brug:" FontWeight="Bold"/>
