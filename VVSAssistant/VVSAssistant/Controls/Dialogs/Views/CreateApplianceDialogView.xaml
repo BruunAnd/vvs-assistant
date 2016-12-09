@@ -52,7 +52,7 @@
                         <xctk:TargetPropertyType Type="{x:Type sys:Double}"/>
                         <xctk:TargetPropertyType Type="{x:Type sys:Int32}"/>
                         <xctk:TargetPropertyType Type="{x:Type sys:Single}"/>
-                        <xctk:TargetPropertyType Type="{x:Type sys:Object}"/>
+                        <xctk:TargetPropertyType Type="{x:Type sys:String}"/>
                     </xctk:EditorTemplateDefinition.TargetProperties>
                     <xctk:EditorTemplateDefinition.EditingTemplate>
                         <DataTemplate>
