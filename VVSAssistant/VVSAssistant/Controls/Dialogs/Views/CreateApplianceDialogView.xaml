@@ -21,9 +21,9 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <StackPanel>
+        <StackPanel FocusManager.FocusedElement="{Binding ElementName=TextBoxFocus}">
             <Label Content="Navn:"/>
-            <TextBox Text="{Binding NewAppliance.Name}"/>
+            <TextBox Name="TextBoxFocus" Text="{Binding NewAppliance.Name}"/>
             <Label Content="Vælg komponenttype:"
                    Visibility="{Binding IsNewAppliance, Converter={StaticResource BoolToVisibilityConverter}}"/>
             <ComboBox ItemsSource="{Binding Types}"
@@ -52,7 +52,7 @@
                         <xctk:TargetPropertyType Type="{x:Type sys:Double}"/>
                         <xctk:TargetPropertyType Type="{x:Type sys:Int32}"/>
                         <xctk:TargetPropertyType Type="{x:Type sys:Single}"/>
-                        <xctk:TargetPropertyType Type="{x:Type sys:Object}"/>
+                        <xctk:TargetPropertyType Type="{x:Type sys:String}"/>
                     </xctk:EditorTemplateDefinition.TargetProperties>
                     <xctk:EditorTemplateDefinition.EditingTemplate>
                         <DataTemplate>

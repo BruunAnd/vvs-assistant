@@ -60,6 +60,7 @@ namespace VVSAssistant.ViewModels
                  }, instanceCompleted =>
                  {
                      _dialogCoordinator.HideMetroDialogAsync(this, _customDialog);
+                     DisplayTimedMessage("Information gemt!", "", 2);
                  });
             });
 

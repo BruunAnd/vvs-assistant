@@ -27,9 +27,9 @@
                    Text="Din firmaprofil er tilknyttet fremtidige pakkeløsninger og tilbud."
                    TextWrapping="Wrap" />
 
-        <StackPanel Grid.Row="2">
+        <StackPanel Grid.Row="2" FocusManager.FocusedElement="{Binding ElementName=TextBoxFocus}">
             <Label Content="Firmanavn: "/>
-            <TextBox Text="{Binding CompanyInformation.CompanyName}"/>
+            <TextBox Name="TextBoxFocus" Text="{Binding CompanyInformation.CompanyName}"/>
             <Label Content="Firma adresse: "/>
             <TextBox Text="{Binding CompanyInformation.Address}"/>
             <Label Content="CVR: "/>
