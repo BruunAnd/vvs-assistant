@@ -20,11 +20,11 @@
                    Grid.ColumnSpan="99"
                    Margin="0 5 0 5"
                    FontSize="24"
-                   Text="{Binding Title}"
+                   Text="Gem pakkeløsning"
                    TextWrapping="Wrap"/>
         <TextBlock Grid.Row="1"
                    Margin="0 5 0 0"
-                   Text="{Binding Message}"
+                   Text="Navn på ny pakkeløsning:"
                    TextWrapping="Wrap" />
         <TextBox Grid.Row="2" 
                  controls:TextBoxHelper.ClearTextButton="True"

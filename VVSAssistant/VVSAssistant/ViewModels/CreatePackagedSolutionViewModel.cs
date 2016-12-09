@@ -492,15 +492,15 @@ namespace VVSAssistant.ViewModels
         {
             var customDialog = new CustomDialog();
 
-            var dialogViewModel = new SaveDialogViewModel("Gem pakkeløsning", "Navn:",
-                                      instanceCancel => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
-                                      instanceCompleted =>
-                                      {
-                                          _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
-                                          PackagedSolution.Name = instanceCompleted.Input;
-                                          OnPropertyChanged("PackagedSolution.Name");
-                                          SaveCurrentPackagedSolution();
-                                      });
+            var dialogViewModel = new SaveDialogViewModel(instanceCancel => _dialogCoordinator.HideMetroDialogAsync(this, customDialog), async instanceCompleted =>
+                                                            {
+                                                                PackagedSolution.Name = instanceCompleted.Input;
+                                                                OnPropertyChanged("PackagedSolution.Name");
+                                                                SaveCurrentPackagedSolution();
+
+                                                                await _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
+                                                                await _dialogCoordinator.ShowMessageAsync(this, "Succes", $"Pakkeløsningen {PackagedSolution.Name} blev gemt.");
+                                                            });
 
             customDialog.Content = new SaveDialogView { DataContext = dialogViewModel };
 
@@ -539,11 +539,8 @@ namespace VVSAssistant.ViewModels
             var customDialog = new CustomDialog();
             var newAppliance = new Appliance();
             var dialogViewModel = new CreateApplianceDialogViewModel(newAppliance, true,
-                closeHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
-                completionHandler =>
+                closeHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog), async completionHandler =>
                 {
-                    _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
-
                     // Save to database
                     using (var ctx = new AssistantContext())
                     {
@@ -554,6 +551,9 @@ namespace VVSAssistant.ViewModels
 
                     // Add to local list
                     Appliances.Add(newAppliance);
+
+                    await _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
+                    await _dialogCoordinator.ShowMessageAsync(this, "Succes", $"Komponentet {newAppliance.Name} blev gemt.");
                 });
 
             customDialog.Content = new CreateApplianceDialogView { DataContext = dialogViewModel };

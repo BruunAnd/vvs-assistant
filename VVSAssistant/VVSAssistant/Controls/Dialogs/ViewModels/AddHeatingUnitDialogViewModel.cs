@@ -6,15 +6,17 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
 {
     public class AddHeatingUnitDialogViewModel : NotifyPropertyChanged
     {
+        #region "Commmands"
         public RelayCommand SaveCommand { get;  }
         public RelayCommand CloseCommand { get; }
-        
+        #endregion
+
+        #region "Properties"
         private bool _isPrimaryBoiler;
         public bool IsPrimaryBoiler
         {
             get { return _isPrimaryBoiler; }
-            set
-            {
+            set {
                 SetProperty(ref _isPrimaryBoiler, value);
                 SaveCommand.NotifyCanExecuteChanged();
             }
@@ -24,8 +26,7 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
         public bool IsSecondaryBoiler
         {
             get { return _isSecondaryBoiler; }
-            set
-            {
+            set {
                 SetProperty(ref _isSecondaryBoiler, value);
                 SaveCommand.NotifyCanExecuteChanged();
             }
@@ -35,8 +36,7 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
         public bool IsUsedForRoomHeating
         {
             get { return _isUsedForRoomHeating; }
-            set
-            {
+            set {
                 SetProperty(ref _isUsedForRoomHeating, value);
                 SaveCommand.NotifyCanExecuteChanged();
             }
@@ -46,13 +46,12 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
         public bool IsUsedForWaterHeating
         {
             get { return _isUsedForWaterHeating; }
-            set
-            {
+            set {
                 SetProperty(ref _isUsedForWaterHeating, value);
                 SaveCommand.NotifyCanExecuteChanged();
             }
         }
-
+        #endregion
 
         public AddHeatingUnitDialogViewModel(Action<AddHeatingUnitDialogViewModel> closeHandler, Action<AddHeatingUnitDialogViewModel> completionHandler)
         {

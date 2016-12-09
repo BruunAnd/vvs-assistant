@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using System.Linq;
 using VVSAssistant.Common.ViewModels;
@@ -12,6 +13,7 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
         public CompanyInformation CompanyInformation { get; set; }
         public RelayCommand SaveCommand { get; }
         public RelayCommand CloseCommand { get; }
+
         public CompanyInfoDialogViewModel(Action<CompanyInfoDialogViewModel> closeHandler, Action<CompanyInfoDialogViewModel> completionHandler)
         {
             SaveCommand = new RelayCommand(x =>
@@ -21,7 +23,7 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
                 // Save changes to database
                 using (var ctx = new AssistantContext())
                 {
-                    ctx.CompanyInformation.Attach(CompanyInformation);
+                    ctx.Entry(CompanyInformation).State = EntityState.Modified;
                     ctx.CompanyInformation.AddOrUpdate(CompanyInformation);
                     ctx.SaveChanges();
                 }

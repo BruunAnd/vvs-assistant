@@ -225,15 +225,16 @@ namespace VVSAssistant.ViewModels
                     _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
                     Offer.OfferInformation = null;
                     NotifyCanExecuteChanged();
-                }, 
-                completionHandler =>
+                }, async completionHandler =>
                 {
-                    // Closes the dialog and saves the offer to database
-                    _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
                     Offer.TotalCostPrice = TotalCostPrice;
                     Offer.TotalContributionMargin = TotalContributionMargin;
                     SaveOfferToDatabase(Offer);
+
                     NotifyCanExecuteChanged();
+
+                    await _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
+                    await _dialogCoordinator.ShowMessageAsync(this, "Succes", $"Tilbuddet {Offer.OfferInformation.Title} blev gemt.");
                 },
                 printHandler =>
                 {
