@@ -154,12 +154,11 @@
                    Foreground="{StaticResource IdealForegroundColorBrush}"
                    Content="Pakkeløsning"/>
 
-            <DataGrid Name="PackageSolutionDataGrid"
-                      Grid.Row="1" 
+            <DataGrid Grid.Row="1" 
                       IsReadOnly="true" 
                       AutoGenerateColumns="False" 
                       ItemsSource="{Binding AppliancesInPackagedSolutionView}"
-                      SelectedItem="{Binding SelectedAppliance}" >
+                      SelectedItem="{Binding SelectedApplianceInSolution}" >
                 <DataGrid.InputBindings>
                     <MouseBinding MouseAction="LeftDoubleClick"
                                   Command="{Binding RemoveApplianceFromPackagedSolutionCmd}"/>

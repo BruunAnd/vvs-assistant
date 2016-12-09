@@ -23,10 +23,11 @@
         <StackPanel>
             <Label Content="Navn:"/>
             <TextBox Text="{Binding NewAppliance.Name}"/>
-            <Label Content="Vælg komponenttype:"/>
+            <Label Content="Vælg komponenttype:"
+                   Visibility="{Binding IsNewAppliance, Converter={StaticResource BoolToVisibilityConverter}}"/>
             <ComboBox ItemsSource="{Binding Types}"
                       SelectedItem="{Binding ChosenType, UpdateSourceTrigger=PropertyChanged}"
-                      Visibility="{Binding isNewAppliance, Converter={StaticResource BoolToVisibilityConverter}}">
+                      Visibility="{Binding IsNewAppliance, Converter={StaticResource BoolToVisibilityConverter}}">
             </ComboBox>
         </StackPanel>
         <xctk:PropertyGrid Grid.Row="3"
