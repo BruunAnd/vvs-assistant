@@ -7,7 +7,6 @@ using VVSAssistant.Models;
 using VVSAssistant.Database;
 using MahApps.Metro.Controls.Dialogs;
 using VVSAssistant.Common;
-using VVSAssistant.Common.ViewModels.VVSAssistant.Common.ViewModels;
 using VVSAssistant.Extensions;
 using VVSAssistant.Functions;
 

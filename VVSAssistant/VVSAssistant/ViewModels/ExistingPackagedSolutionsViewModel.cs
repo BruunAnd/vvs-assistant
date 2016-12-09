@@ -1,13 +1,11 @@
-﻿using System;
+﻿using System.Data.Entity;
 using System.Linq;
 using MahApps.Metro.Controls.Dialogs;
 using VVSAssistant.Common;
 using VVSAssistant.Common.ViewModels;
-using VVSAssistant.Common.ViewModels.VVSAssistant.Common.ViewModels;
 using VVSAssistant.Extensions;
 using VVSAssistant.Models;
 using VVSAssistant.Functions;
-using System.Data.Entity;
 using System.Threading.Tasks;
 using VVSAssistant.Database;
 
