@@ -9,7 +9,7 @@ namespace VVSAssistant.Models.DataSheets
         [DisplayName(@"Areal")]
         [Description(@"Arealet for en enkelt solfanger i kvadratmeter")]
         public float Area { get; set; }
-        [DisplayName(@"Energieffektivitet")]
+        [DisplayName(@"Solfangereffektivitet")]
         [Description(@"Solfangereeffektivitet i procent")]
         public float Efficency { get; set; }
         // Zero loss efficiency
