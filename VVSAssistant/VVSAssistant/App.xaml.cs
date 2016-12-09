@@ -21,7 +21,7 @@ namespace VVSAssistant
 
             using (var ctx = new AssistantContext())
             {
-                ctx.Database.Delete();
+                //ctx.Database.Delete();
                 if (ctx.Appliances.Any()) return;
                 ctx.Appliances.Add(new Appliance("Cerapur", new HeatingUnitDataSheet()
                 { WattUsage = 20, AFUE = 93, AFUEColdClima = 98.2f, AFUEWarmClima = 87.8f }, ApplianceTypes.Boiler)
