@@ -38,7 +38,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                     { UseProfile = UseProfileType.XXL, WattUsage=24, Vbu=110, Psb=2, WaterHeatingEffiency=78,
                         IsWaterHeater =true, IsRoomHeater=true, AFUEColdClima = 98, AFUEWarmClima=87.8f}, ApplianceTypes.Boiler);
                 case BoilerId.Vitodens200:
-                    return new ApplianceStub("LoganoPlusSB105", new HeatingUnitDataSheet()
+                    return new ApplianceStub("Vitodens 200", new HeatingUnitDataSheet()
                     { AFUE = 94, WattUsage = 42}, ApplianceTypes.Boiler);
                 case BoilerId.Vitoladens300W:
                     return new ApplianceStub("Vitoladens 300-W", new HeatingUnitDataSheet()
@@ -79,7 +79,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                     return new ApplianceStub("Vitocal 200-S", new HeatingUnitDataSheet()
                     { AFUE = 118, AFUEColdClima = 100, AFUEWarmClima = 183, WattUsage = 9, InternalTempControl = "2" }, ApplianceTypes.HeatPump);
                 case HeatpumpId.Compress5000:
-                    return new ApplianceStub("Vitocal 200-S", new HeatingUnitDataSheet()
+                    return new ApplianceStub("Compress 5000", new HeatingUnitDataSheet()
                     { AFUE = 133, AFUEColdClima = 135, AFUEWarmClima = 132, WattUsage = 43, InternalTempControl = "7" }, ApplianceTypes.HeatPump);
                 case HeatpumpId.Vitocal350A:
                     return new ApplianceStub("Vitocal 350-A", new HeatingUnitDataSheet()

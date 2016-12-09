@@ -22,7 +22,7 @@ namespace VVSAssistant.ViewModels
         
         public RelayCommand NavigateBackCmd { get; }
         public RelayCommand PrintOfferCmd { get; }
-        public RelayCommand PackagedSolutionDoubleClickedCmd { get; }
+        public RelayCommand PackagedSolutionSelectedCmd { get; }
         public RelayCommand CreateNewOfferCmd { get; }
         public RelayCommand SaveOfferCmd { get; }
 
@@ -126,27 +126,30 @@ namespace VVSAssistant.ViewModels
                 }
                 NavigationService.GoBack();
             });
-
-            /* Tied to "print offer" button in bottom left corner. 
-             * Disabled if VerifyOfferHasRequiredInformation returns false. */
-            PrintOfferCmd = new RelayCommand(x => 
-            {
-                using (var ctx = new AssistantContext())
-                {
-                    if (!ctx.Offers.Any(o => o.Id == Offer.Id)) // Not saved
-                        SaveOfferDialog();
-                    else
-                        ExportOffer();
-                }
-            }, x => VerifyOfferHasRequiredInformation()); 
-
+            
             /* Tied to the action of double clicking a packaged solution's info 
              * in the list of packaged solutions. When this happens, property 
              * "SelectedPackagedSolution" is set to the clicked Packaged Solution. */
-            PackagedSolutionDoubleClickedCmd = new RelayCommand(x => OnSolutionSelected()); 
+            PackagedSolutionSelectedCmd = new RelayCommand(x => OnSolutionSelected(), x => SelectedPackagedSolution != null); 
 
-            /* Doing the same as print offer */
-            SaveOfferCmd = new RelayCommand(x => SaveOfferDialog(), x => VerifyOfferHasRequiredInformation());
+            /* Runs the dialog if no offerinformation is present and saves to database directly if it is */
+            SaveOfferCmd = new RelayCommand(x =>
+            {
+                if (Offer.OfferInformation == null)
+                {
+                    SaveOfferDialog();
+                }
+                else
+                {
+                    SaveOfferToDatabase(Offer);
+                }
+            }, x => VerifyOfferHasRequiredInformation());
+
+            PrintOfferCmd = new RelayCommand(x =>
+            {
+                SaveOfferToDatabase(Offer);
+                ExportOffer();
+            }, x => VerifyOfferHasRequiredInformation() && Offer.OfferInformation != null);
 
             /* When the "nyt tilbud" button in bottom left corner is pressed. 
              * Nullifies all offer properties and changes view to list of packaged solutions. */
@@ -162,7 +165,7 @@ namespace VVSAssistant.ViewModels
         #region Methods
 
         /* Initializes the view */
-        public void SetInitialSettings()
+        private void SetInitialSettings()
         {
             ArePackagedSolutionsVisible = true;
             IsComponentTabVisible = false;
@@ -170,7 +173,7 @@ namespace VVSAssistant.ViewModels
             UpdateSidebarValues();
         }
 
-        public void ClearCollections()
+        private void ClearCollections()
         {
             // Setting to a new collection instance as clearing the collection causes 
             // the packaged solutions appliance list to be cleared in runtime (reference values). *Important
@@ -179,7 +182,7 @@ namespace VVSAssistant.ViewModels
             SalariesInOffer.Clear();
         }
 
-        public bool VerifyOfferHasRequiredInformation()
+        private bool VerifyOfferHasRequiredInformation()
         {
             return Offer.PackagedSolution != null &&
                    SalariesInOffer.Count   != 0    &&
@@ -188,7 +191,7 @@ namespace VVSAssistant.ViewModels
 
         /* Enables the Component, Salary, and Materials view, and prepares
          * the offer for receiving information about any of these */
-        public void OnSolutionSelected()
+        private void OnSolutionSelected()
         {
             IsComponentTabVisible = true;
             ArePackagedSolutionsVisible = false;
@@ -206,13 +209,13 @@ namespace VVSAssistant.ViewModels
         }
 
         /* Opens offer creation dialog */
-        public void SaveOfferDialog()
+        private void SaveOfferDialog()
         {
             RunGenerateOfferDialog();
         }
 
         /* Called by PrintOfferDialog */
-        public async void RunGenerateOfferDialog()
+        private async void RunGenerateOfferDialog()
         {
             var customDialog = new CustomDialog();
             var dialogViewModel = new GenerateOfferDialogViewModel(Offer, 
@@ -220,6 +223,8 @@ namespace VVSAssistant.ViewModels
                 {
                     // Closes the dialog
                     _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
+                    Offer.OfferInformation = null;
+                    NotifyCanExecuteChanged();
                 }, 
                 completionHandler =>
                 {
@@ -228,6 +233,7 @@ namespace VVSAssistant.ViewModels
                     Offer.TotalCostPrice = TotalCostPrice;
                     Offer.TotalContributionMargin = TotalContributionMargin;
                     SaveOfferToDatabase(Offer);
+                    NotifyCanExecuteChanged();
                 },
                 printHandler =>
                 {
@@ -236,6 +242,7 @@ namespace VVSAssistant.ViewModels
                     Offer.TotalContributionMargin = TotalContributionMargin;
                     SaveOfferToDatabase(Offer);
                     ExportOffer();
+                    NotifyCanExecuteChanged();
                 });
 
             customDialog.Content = new GenerateOfferDialogView { DataContext = dialogViewModel };
@@ -344,13 +351,28 @@ namespace VVSAssistant.ViewModels
                 offer.Appliances = AppliancesInOffer.ToList();
                 offer.Salaries = SalariesInOffer.ToList();
                 offer.Materials = MaterialsInOffer.ToList();
-                offer.CreationDate = DateTime.Now;
-                offer.Client.CreationDate = DateTime.Now;
 
                 // Ensure that packaged solution won't be duplicated 
                 ctx.PackagedSolutions.Attach(offer.PackagedSolution);
 
-                ctx.Offers.Add(offer);
+                if (offer.CreationDate == default(DateTime))
+                    offer.CreationDate = DateTime.Now;
+
+                if (offer.Client.CreationDate == default(DateTime))
+                    offer.Client.CreationDate = DateTime.Now;
+
+                if (offer.Id != 0)
+                {
+                    var tmp = ctx.Offers.Find(offer.Id);
+                    tmp.Materials = offer.Materials;
+                    tmp.Salaries = offer.Salaries;
+                    tmp.Appliances = offer.Appliances;
+                }
+                else
+                {
+                    ctx.Offers.Add(offer);
+                }
+
                 ctx.SaveChanges();
             }
             IsDataSaved = true;

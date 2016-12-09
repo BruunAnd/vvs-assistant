@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -270,39 +269,63 @@ namespace VVSAssistant.ViewModels
 
             PdfExportCmd = new RelayCommand(x =>
             {
+                if (string.IsNullOrEmpty(PackagedSolution.Name))
+                    RunSaveDialog();
+                else
+                    SaveCurrentPackagedSolution();
+
                 PackagedSolution.Appliances = new ApplianceList(AppliancesInPackagedSolution.ToList());
                 DataUtil.EnergyLabel.ExportEnergyLabel(PackagedSolution);
-            }, x => AppliancesInPackagedSolution.Any() && IsDataSaved);
+            }, x => AppliancesInPackagedSolution.Any());
             #endregion
         }
 
         #region Methods
 
+        /// <summary>
+        /// Prompt the user to confirm action
+        /// Remove the current packaged solution from the view
+        /// Initialize new packaged solution
+        /// </summary>
         private async void CreateNewPackagedSolution()
         {
-            if (!AppliancesInPackagedSolution.Any()) return;
-
-            var result = await _dialogCoordinator.ShowMessageAsync(this, "Ny pakkeløsning",
+            // Run message dialog and await response
+            var result = await _dialogCoordinator.ShowMessageAsync(this, 
+                "Ny pakkeløsning",
                 "Hvis du opretter en ny pakkeløsning mister du arbejdet på din nuværende pakkeløsning. Vil du fortsætte?",
-                MessageDialogStyle.AffirmativeAndNegative, new MetroDialogSettings()
+                MessageDialogStyle.AffirmativeAndNegative, 
+                new MetroDialogSettings()
                 {
                     NegativeButtonText = "Afbryd"
                 });
 
+            // If negative button was pressed => return
             if (result == MessageDialogResult.Negative) return;
 
+            // Clear the appliance list for the current packaged solution
             AppliancesInPackagedSolution.Clear();
+
+            // Reset collections and results
             PackagedSolution = new PackagedSolution();
             EeiResultsRoomHeating = new EEICalculationResult();
             EeiResultsWaterHeating = new EEICalculationResult();
+
+            // Update the EEI (=> 0)
             UpdateEei();
-            IsDataSaved = true;
         }
 
+        /// <summary>
+        /// Adds an appliance to the viewed packaged solution
+        /// </summary>
+        /// <param name="appliance"></param>
         private void AddApplianceToPackagedSolution(Appliance appliance)
         {
             AppliancesInPackagedSolution.Add(appliance);
+
+            // Set save state to false
             IsDataSaved = false;
+
+            // Notify the print function of changes
             PdfExportCmd.NotifyCanExecuteChanged();
         }
 
@@ -353,6 +376,9 @@ namespace VVSAssistant.ViewModels
             }
         }
 
+        /// <summary>
+        /// Save the viewed packaged solution to the database
+        /// </summary>
         private void SaveCurrentPackagedSolution()
         {
             /* IMPORTANT 
@@ -366,26 +392,33 @@ namespace VVSAssistant.ViewModels
                 foreach (var appliance in PackagedSolution.Appliances)
                     ctx.Appliances.Attach(appliance);
 
+                // Set the creation date to now
                 if (PackagedSolution.CreationDate == default(DateTime))
                     PackagedSolution.CreationDate = DateTime.Now;
 
+                // Perform add or update
                 if (PackagedSolution.Id != 0)
                 {
+                    // Update the appliance list of existing packaged solution
                     var tmp = ctx.PackagedSolutions.Find(PackagedSolution.Id);
                     tmp.Appliances = PackagedSolution.Appliances;
                 }
                 else
                 {
+                    // Add new packaged solution to the database
                     ctx.PackagedSolutions.Add(PackagedSolution);
                 }
 
+                // Save database changes
                 ctx.SaveChanges();
             }
 
+            // Set save state to true and notify print function of change
             IsDataSaved = true;
             PdfExportCmd.NotifyCanExecuteChanged();
         }
 
+        #region Run dialog methods
         private async void RunAddSolarPanelDialog(Appliance solarPanel)
         {
             var customDialog = new CustomDialog();
@@ -418,8 +451,8 @@ namespace VVSAssistant.ViewModels
                             // todo set purpose of heating unit   
                         }
 
-                        ((HeatingUnitDataSheet) appliance.DataSheet).IsRoomHeater = instanceCompleted.IsUsedForRoomHeating;
-                        ((HeatingUnitDataSheet) appliance.DataSheet).IsWaterHeater = instanceCompleted.IsUsedForWaterHeating;
+                        ((HeatingUnitDataSheet)appliance.DataSheet).IsRoomHeater = instanceCompleted.IsUsedForRoomHeating;
+                        ((HeatingUnitDataSheet)appliance.DataSheet).IsWaterHeater = instanceCompleted.IsUsedForWaterHeating;
                         PackagedSolution.PrimaryHeatingUnit = appliance;
                     }
                     AddApplianceToPackagedSolution(appliance);
@@ -430,11 +463,10 @@ namespace VVSAssistant.ViewModels
             await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
         }
 
-        private async void RunSolarContainerDialog(string message, string title, Appliance appliance)
+        private async void RunSolarContainerDialog(string title, Appliance appliance)
         {
             var customDialog = new CustomDialog();
-
-            var dialogViewModel = new SolarContainerDialogViewModel(message, title, appliance, AppliancesInPackagedSolution, PackagedSolution,
+            var dialogViewModel = new SolarContainerDialogViewModel(title, appliance, PackagedSolution, AppliancesInPackagedSolution,
                                                                     closeHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
                                                                     completionHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog));
 
@@ -506,7 +538,7 @@ namespace VVSAssistant.ViewModels
                         ctx.Appliances.Add(newAppliance);
                         ctx.SaveChanges();
                     }
-                                          
+
                     // Add to local list
                     Appliances.Add(newAppliance);
                 });
@@ -515,7 +547,8 @@ namespace VVSAssistant.ViewModels
 
             await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
         }
-
+        #endregion
+        
         private void PackageSolutionAppliances_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             NewPackagedSolutionCmd.NotifyCanExecuteChanged();
@@ -622,9 +655,8 @@ namespace VVSAssistant.ViewModels
             else if (appToAdd.DataSheet is ContainerDataSheet)
             {
                 /* Prompt the user for whether or not the container is tied to any of the solar collector. */
-                var title = "Vælg om denne beholder er til en solfanger";
-                var message = "Hvis beholderen ikke er forbundet til en solfanger, tryk på \"Tilføj\"";
-                RunSolarContainerDialog(message, title, appToAdd);
+                const string title = "Vælg om denne beholder er til Solvarme";
+                RunSolarContainerDialog(title, appToAdd);
             }
             else if(appToAdd.DataSheet is SolarCollectorDataSheet)
             {

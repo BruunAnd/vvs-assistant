@@ -1,26 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Markup;
-using System.Xml;
+﻿using System.Linq;
 using VVSAssistant.Database;
-using VVSAssistant.Exceptions;
-using VVSAssistant.Functions.Calculation;
 using VVSAssistant.Models;
 
 namespace VVSAssistant.ViewModels
-
-
-
 {
-
-    class OfferExportViewModel
+    internal class OfferExportViewModel
     {
         private string _pageOne;
         public string PageOne
@@ -85,7 +69,7 @@ namespace VVSAssistant.ViewModels
         public OfferExportViewModel(Offer offer)
         {
             OfferTitle = offer.OfferInformation.Title;
-            ClientCompanyName = offer.Client.ClientInformation.CompanyName;
+            ClientCompanyName = offer.Client.ClientInformation.CompanyName == null ? offer.Client.ClientInformation.CompanyName : null;
             ClientName = offer.Client.ClientInformation.Name;
             ClientStreet = offer.Client.ClientInformation.Address;
             ClientCity = offer.Client.ClientInformation.City + ", " + offer.Client.ClientInformation.PostalCode;
@@ -96,8 +80,8 @@ namespace VVSAssistant.ViewModels
             using (var ctx = new AssistantContext())
             {
                 var companyInfo = ctx.CompanyInformation.FirstOrDefault();
-                if (companyInfo == null)
-                    throw new CompanyInformationNotFoundException("Ingen firmaoplysninger er indtastet.");
+
+                if (companyInfo == null) return;
 
                 CompanyName = companyInfo.CompanyName;
                 Adresse = companyInfo.Address;
@@ -120,5 +104,6 @@ namespace VVSAssistant.ViewModels
             SalariesPrice = offer.SalariesSalesPrice;
             MaterialsPrice = offer.MaterialsSalesPrice;
         }
+        
     }
 }

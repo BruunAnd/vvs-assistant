@@ -33,11 +33,11 @@ namespace VVSAssistant.Functions.Calculation.Strategies
 
             //finalizing the EEI Calculation
             _results.EEI = (float)Math.Round(_results.PrimaryHeatingUnitAFUE + _results.EffectOfTemperatureRegulatorClass - _results.EffectOfSecondaryBoiler + _results.SolarHeatContribution);
-            _results.EEICharacters = EEICharLabelChooser.EEIChar(_package.PrimaryHeatingUnit.Type, _results.EEI, 1)[0];
-            _results.ToNextLabel = EEICharLabelChooser.EEIChar(_package.PrimaryHeatingUnit.Type, _results.EEI, 1)[1];
-            _results.ProceedingEEICharacter = EEICharLabelChooser.EEIChar(_package.PrimaryHeatingUnit.Type, _results.EEI, 1)[2];
+            _results.EEICharacters = EEICharLabelChooser.EEIChar(PrimaryUnitType, _results.EEI, 1)[0];
+            _results.ToNextLabel = EEICharLabelChooser.EEIChar(PrimaryUnitType, _results.EEI, 1)[1];
+            _results.ProceedingEEICharacter = EEICharLabelChooser.EEIChar(PrimaryUnitType, _results.EEI, 1)[2];
             //Calculating for colder and warmer climates
-            if (_package.PrimaryHeatingUnit.Type != ApplianceTypes.CHP)
+            if (PrimaryUnitType != ApplianceTypes.CHP)
             {
                 _results.PackagedSolutionAtColdTemperaturesAFUE = _results.EEI-(_packageData.PrimaryUnit.AFUE - _packageData.PrimaryUnit.AFUEColdClima);
                 _results.PackagedSolutionAtWarmTemperaturesAFUE = _results.EEI + (_packageData.PrimaryUnit.AFUEWarmClima - _packageData.PrimaryUnit.AFUE);
@@ -67,7 +67,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
 
         private float SolarContribution()
         {
-            _solarContributionFactor = _package.PrimaryHeatingUnit.Type == ApplianceTypes.CHP ? 0.7f : 0.45f;
+            _solarContributionFactor = PrimaryUnitType == ApplianceTypes.CHP ? 0.7f : 0.45f;
 
                 var solarCollectorData = _packageData.SolarPanelData;
             var solarPanelArea = _packageData.SolarPanelArea(panel =>
@@ -77,6 +77,9 @@ namespace VVSAssistant.Functions.Calculation.Strategies
 
             _results.ContainerVolume = solarContainerVolume / 1000;
             _results.SolarCollectorArea = solarPanelArea;
+            _results.SolarCollectorEffectiveness = _packageData.SolarPanelData?.Efficency?? 0;
+            _results.ContainerClassification = _packageData.SolarContainerClass;
+
             float ans = 0;
             _III = 294 / (11 * _packageData.PrimaryUnit.WattUsage);
             _IV = 115 / (11 * _packageData.PrimaryUnit.WattUsage);
@@ -88,6 +91,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
                     _solarContributionFactor * (solarCollectorData.Efficency / 100) * _packageData.SolarContainerClass;
             }
             return ans;
-        }       
+        }
+        private ApplianceTypes PrimaryUnitType => _package.PrimaryHeatingUnit.Type;
     }
 }

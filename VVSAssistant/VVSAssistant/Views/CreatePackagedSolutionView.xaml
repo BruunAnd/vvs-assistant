@@ -16,6 +16,7 @@
     <ContentControl.Resources>
         <valueConverters:ApplianceTypeConverter x:Key="ApplianceTypeConverter" />
         <valueConverters:LetterToColorConverter x:Key="LetterToColorConverter" />
+        <valueConverters:ApplianceTypeColorConverter x:Key="ApplianceTypeColorConverter"/>
         <valueConverters:DescriptionConverter x:Key="CommaToNewlineConverter"/>
         <Style x:Key="ApplianceCell" TargetType="DataGridCell" 
                BasedOn="{StaticResource {x:Type DataGridCell}}">
@@ -94,7 +95,6 @@
                       Grid.Row="1" 
                       AutoGenerateColumns="False"
                       HorizontalScrollBarVisibility="Auto"
-                      ColumnWidth="Auto"
                       ItemsSource="{Binding FilteredCollectionView, UpdateSourceTrigger=PropertyChanged}"
                       SelectedItem="{Binding SelectedAppliance}"
                       SelectionMode="Single">
@@ -102,6 +102,7 @@
                 <DataGrid.RowStyle>
                     <Style TargetType="DataGridRow" BasedOn="{StaticResource MetroDataGridRow}">
                         <Setter Property="ToolTip" Value="Højreklik for valgmuligheder"/>
+                        <Setter Property="Background" Value="{Binding Converter={StaticResource ApplianceTypeColorConverter}}"/>
                     </Style>
                 </DataGrid.RowStyle>
                 <DataGrid.CellStyle>
@@ -125,11 +126,17 @@
                 <DataGrid.Columns>
 
                     <DataGridTextColumn Binding="{Binding Name}" 
-                                        Header="Navn"/>
+                                        Header="Navn"
+                                        Width="150"
+                                        CanUserSort="False"/>
                     <DataGridTextColumn Binding="{Binding Type, Converter={StaticResource ApplianceTypeConverter}}" 
-                                        Header="Type"/>
+                                        Header="Type"
+                                        Width="150"
+                                        CanUserSort="True"/>
                     <DataGridTextColumn Binding="{Binding Description}"  
-                                        Header="Beskrivelse"/>
+                                        Header="Beskrivelse"
+                                        Width="*"
+                                        CanUserSort="False"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
@@ -157,6 +164,12 @@
                     <MouseBinding MouseAction="LeftDoubleClick"
                                   Command="{Binding RemoveApplianceFromPackagedSolutionCmd}"/>
                 </DataGrid.InputBindings>
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Fjern fra pakkeløsning"
+                                  Command="{Binding RemoveApplianceFromPackagedSolutionCmd}"/>
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Name}"
                                         Header="Navn"
@@ -184,7 +197,7 @@
                            FontWeight="Bold"
                            Margin="0 2 0 2"
                            Padding="10 5 10 5"
-                           Foreground="{StaticResource IdealForegroundColorBrush}"
+                           Foreground="Black"
                            Background="{Binding EeiResultsRoomHeating.EEICharacters, Converter={StaticResource LetterToColorConverter}}"/>
                         </StackPanel>
                     </DockPanel>
@@ -197,7 +210,7 @@
                            FontWeight="Bold"
                            Margin="0 2 0 2"
                            Padding="10 5 10 5"
-                           Foreground="{StaticResource IdealForegroundColorBrush}"
+                           Foreground="Black"
                            Background="{Binding EeiResultsRoomHeating.ProceedingEEICharacter, Converter={StaticResource LetterToColorConverter}}"/>
                         </StackPanel>
                     </DockPanel>
@@ -215,7 +228,7 @@
                            FontWeight="Bold"
                            Margin="0 2 0 2"
                            Padding="10 5 10 5"
-                           Foreground="{StaticResource IdealForegroundColorBrush}"
+                           Foreground="Black"
                            Background="{Binding EeiResultsWaterHeating.EEICharacters, Converter={StaticResource LetterToColorConverter}}"/>
                         </StackPanel>
                     </DockPanel>
@@ -228,7 +241,7 @@
                            FontWeight="Bold"
                            Margin="0 2 0 2"
                            Padding="10 5 10 5"
-                           Foreground="{StaticResource IdealForegroundColorBrush}"
+                           Foreground="Black"
                            Background="{Binding EeiResultsWaterHeating.ProceedingEEICharacter, Converter={StaticResource LetterToColorConverter}}"/>
                         </StackPanel>
                     </DockPanel>

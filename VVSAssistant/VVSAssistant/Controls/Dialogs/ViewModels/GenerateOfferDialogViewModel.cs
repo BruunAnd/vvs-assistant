@@ -61,7 +61,6 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             return !string.IsNullOrEmpty(Offer.Client.ClientInformation.Name) &&
                    !string.IsNullOrEmpty(Offer.Client.ClientInformation.Email) &&
                    !string.IsNullOrEmpty(Offer.Client.ClientInformation.Address) &&
-                   !string.IsNullOrEmpty(Offer.Client.ClientInformation.CompanyName) &&
                    !string.IsNullOrEmpty(Offer.OfferInformation.Title) &&
                    !string.IsNullOrEmpty(Offer.OfferInformation.Intro) &&
                    !string.IsNullOrEmpty(Offer.OfferInformation.Outro) &&

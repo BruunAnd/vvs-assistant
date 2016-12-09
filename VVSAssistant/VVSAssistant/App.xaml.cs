@@ -83,7 +83,7 @@ namespace VVSAssistant
                     AFUEWarmClima = 87.8f
                 }, ApplianceTypes.Boiler)
                 { CreationDate = DateTime.Now });
-                ctx.Appliances.Add(new Appliance("LoganoPlusSB105", new HeatingUnitDataSheet()
+                ctx.Appliances.Add(new Appliance("Vitodens 200", new HeatingUnitDataSheet()
                 { AFUE = 94, WattUsage = 42 }, ApplianceTypes.Boiler)
                 { CreationDate = DateTime.Now });
                 ctx.Appliances.Add(new Appliance("Vitoladens 300-W", new HeatingUnitDataSheet()
@@ -108,7 +108,7 @@ namespace VVSAssistant
                 ctx.Appliances.Add(new Appliance("Vitocal 200-S", new HeatingUnitDataSheet()
                 { AFUE = 118, AFUEColdClima = 100, AFUEWarmClima = 183, WattUsage = 9, InternalTempControl = "2" }, ApplianceTypes.HeatPump)
                 { CreationDate = DateTime.Now });
-                ctx.Appliances.Add(new Appliance("Vitocal 200-S", new HeatingUnitDataSheet()
+                ctx.Appliances.Add(new Appliance("Compress 5000", new HeatingUnitDataSheet()
                 { AFUE = 133, AFUEColdClima = 135, AFUEWarmClima = 132, WattUsage = 43, InternalTempControl = "7" }, ApplianceTypes.HeatPump)
                 { CreationDate = DateTime.Now });
                 ctx.Appliances.Add(new Appliance("Vitocal 350-A", new HeatingUnitDataSheet()
@@ -120,7 +120,7 @@ namespace VVSAssistant
                 ctx.Appliances.Add(new Appliance("LogasolSKN", new SolarCollectorDataSheet()
                 {
                     Area = 2.25f,
-                    Efficency = 60,
+                    Efficency = 61,
                     N0 = 0.766f,
                     a1 = 3.22f,
                     a2 = 0.015f,

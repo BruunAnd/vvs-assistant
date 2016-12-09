@@ -24,7 +24,7 @@
                    TextWrapping="Wrap"/>
         <TextBlock Grid.Row="1"
                    Margin="0 5 0 0"
-                   Text="Denne information vises på alle tilbud."
+                   Text="Din firmaprofil er tilknyttet fremtidige pakkeløsninger og tilbud."
                    TextWrapping="Wrap" />
 
         <StackPanel Grid.Row="2">
@@ -50,12 +50,12 @@
                     MinWidth="80"
                     Margin="0 0 5 0"
                     Command="{Binding SaveCommand}"
-                    Style="{StaticResource AccentedSquareButtonStyle}"
+                    Style="{StaticResource AccentedSquareBntNormalChasing}"
                     Content="Gem"/>
             <Button Height="35"
                     MinWidth="80"
                     Margin="5 0 5 0"
-                    Style="{StaticResource SquareButtonStyle}"
+                    Style="{StaticResource SquareBntNormalChasing}"
                     Command="{Binding CloseCommand}"
                     Content="Fortryd"/>
         </StackPanel>

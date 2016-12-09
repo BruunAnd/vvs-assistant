@@ -17,6 +17,7 @@ namespace VVSAssistant.Functions.Calculation
         /// Retrives the Primary Heating Appliance
         /// </summary>
         public HeatingUnitDataSheet PrimaryUnit => _package?.PrimaryHeatingUnit.DataSheet as HeatingUnitDataSheet;
+        public ApplianceTypes PrimaryUnitType => _package.PrimaryHeatingUnit.Type;
 
         /// <summary>
         /// Returns the first SolarPanel in the Appliance list.
