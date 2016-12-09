@@ -1,0 +1,83 @@
+﻿<ContentControl x:Class="VVSAssistant.Views.SettingsView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:viewModels="clr-namespace:VVSAssistant.ViewModels"
+      xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+      mc:Ignorable="d" 
+      d:DataContext="{d:DesignInstance viewModels:SettingsViewModel}"
+      d:DesignHeight="600" d:DesignWidth="1080"
+      dialog:DialogParticipation.Register="{Binding}">
+
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0"
+              Grid.ColumnSpan="99"
+              Background="{StaticResource AccentBaseColorBrush}">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="20"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="1"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left"
+                    Height="32"
+                    MinWidth="120"
+                    Content="Tilbage"
+                    Command="{Binding NavigateBackCmd}"/>
+        </Grid>
+        <WrapPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <controls:Tile 
+                           Style="{StaticResource NavigationTileStyle}"
+                           Command="{Binding DatabaseImport}"
+                           CommandParameter="Import"
+                           Title="Importer database">
+                <Rectangle Width="64" 
+                               Height="64"
+                               Fill="{StaticResource IdealForegroundColorBrush}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Visual="{StaticResource appbar_cabinet_in}" Stretch="Fill" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </controls:Tile>
+
+            <controls:Tile 
+                           Style="{StaticResource NavigationTileStyle}"
+                           Command="{Binding DatabaseExport}"
+                           CommandParameter="Export"
+                           Title="Eksporter database">
+                <Rectangle Width="64" 
+                               Height="64"
+                               Fill="{StaticResource IdealForegroundColorBrush}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Visual="{StaticResource appbar_cabinet_out}" Stretch="Fill" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </controls:Tile>
+
+            <controls:Tile 
+                           Style="{StaticResource NavigationTileStyle}"
+                           Command="{Binding RunOfferSettingsDialogCmd}"
+                           Title="Firmaprofil">
+                <Rectangle Width="64" 
+                               Height="64"
+                               Fill="{StaticResource IdealForegroundColorBrush}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Visual="{StaticResource appbar_home_people}" Stretch="Fill" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </controls:Tile>
+
+        </WrapPanel>
+    </Grid>
+</ContentControl>

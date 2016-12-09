@@ -31,6 +31,9 @@
         <DataTemplate DataType="{x:Type viewModels:ExistingOffersViewModel}">
             <views:ExistingOffersView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:SettingsViewModel}">
+            <views:SettingsView/>
+        </DataTemplate>
         <valueConverters:LoadingStateToOpacityConverter x:Key="LoadingStateToOpacityConverter"/>
     </Window.Resources>
 
@@ -39,9 +42,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TabControl>
-                <TabItem Header="Startside">
-                    <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                         <controls:Tile 
                        Style="{StaticResource NavigationTileStyle}"
                        Command="{Binding NavCommand}"
@@ -93,54 +94,20 @@
                                 </Rectangle.OpacityMask>
                             </Rectangle>
                         </controls:Tile>
+                        <controls:Tile 
+                       Style="{StaticResource NavigationTileStyle}"
+                       Command="{Binding NavCommand}"
+                       CommandParameter="SettingsView"
+                       Title="Indstillinger">
+                            <Rectangle Width="64" 
+                           Height="64"
+                           Fill="{StaticResource IdealForegroundColorBrush}">
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Visual="{StaticResource appbar_settings}" Stretch="Fill" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </controls:Tile>
                     </WrapPanel>
-                </TabItem>
-                <TabItem Header="Indstillinger">
-                    <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <controls:Tile 
-                       Style="{StaticResource NavigationTileStyle}"
-                       Command="{Binding DatabaseImport}"
-                       CommandParameter="Import"
-                       Title="Importer database">
-                            <Rectangle Width="64" 
-                           Height="64"
-                           Fill="{StaticResource IdealForegroundColorBrush}">
-                                <Rectangle.OpacityMask>
-                                    <VisualBrush Visual="{StaticResource appbar_cabinet_in}" Stretch="Fill" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                        </controls:Tile>
-
-                        <controls:Tile 
-                       Style="{StaticResource NavigationTileStyle}"
-                       Command="{Binding DatabaseExport}"
-                       CommandParameter="Export"
-                       Title="Eksporter database">
-                            <Rectangle Width="64" 
-                           Height="64"
-                           Fill="{StaticResource IdealForegroundColorBrush}">
-                                <Rectangle.OpacityMask>
-                                    <VisualBrush Visual="{StaticResource appbar_cabinet_out}" Stretch="Fill" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                        </controls:Tile>
-
-                        <controls:Tile 
-                       Style="{StaticResource NavigationTileStyle}"
-                       Command="{Binding RunOfferSettingsDialogCmd}"
-                       Title="Firmaprofil">
-                            <Rectangle Width="64" 
-                           Height="64"
-                           Fill="{StaticResource IdealForegroundColorBrush}">
-                                <Rectangle.OpacityMask>
-                                    <VisualBrush Visual="{StaticResource appbar_home_people}" Stretch="Fill" />
-                                </Rectangle.OpacityMask>
-                            </Rectangle>
-                        </controls:Tile>
-                        
-                    </WrapPanel>
-                </TabItem>
-            </TabControl>
 
         </Grid>
         <controls:TransitioningContentControl Content="{Binding Path=(common:NavigationService.CurrentPage)}"/>

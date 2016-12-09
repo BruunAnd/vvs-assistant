@@ -28,66 +28,14 @@ namespace VVSAssistant.ViewModels
                 OnNav(str);
             });
 
-            DatabaseImport = new RelayCommand(x =>
-            {
-                var dlg = new OpenFileDialog {Filter = "Zip filer (.zip)|*.zip"};
-                dlg.FileOk += ValidateDatabaseFile;
-                var result = dlg.ShowDialog();
-                if (result == true)
-                {
-                    DataUtil.Database.Import(dlg.FileName);
-                    DisplayTimedMessage("Succes", "Databasen er importeret succesfuldt. ", 2);
-                }
-                DatabaseExport.NotifyCanExecuteChanged();
-            });
-
-            DatabaseExport = new RelayCommand(x =>
-            {
-                var dlg = new SaveFileDialog {Filter = "Zip filer (.zip)|*.zip", FileName = "database", DefaultExt = ".zip"};
-                var result = dlg.ShowDialog();
-                if (result == true)
-                {
-                    DataUtil.Database.Export(dlg.FileName);
-                    DisplayTimedMessage("Succes", "Databasen er eksporteret succesfuldt. ", 2);
-                }
-            }, x => DataUtil.Database.Exists);
-
-            RunOfferSettingsDialogCmd = new RelayCommand(x =>
-            {
-                OpenOfferSettingsDialog(instanceCanceled =>
-                 {
-                     _dialogCoordinator.HideMetroDialogAsync(this, _customDialog);
-                 }, instanceCompleted =>
-                 {
-                     _dialogCoordinator.HideMetroDialogAsync(this, _customDialog);
-                     DisplayTimedMessage("Information gemt!", "", 2);
-                 });
-            });
-
         }
 
         private void NavigationService_LoadingStateChanged(bool isLoading)
         {
             IsLoading = isLoading;
         }
-
-        private static void ValidateDatabaseFile(object sender, CancelEventArgs e)
-        {
-            var dlg = sender as OpenFileDialog;
-
-            if (dlg == null) return;
-            using (var archive = ZipFile.OpenRead(dlg.FileName))
-            {
-                if (archive.Entries.FirstOrDefault(x => x.Name == DataUtil.Database.Name) != null) return;
-                MessageBox.Show("Den valgte .zip fil indeholder ikke en gyldig database fil.", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
-                e.Cancel = true;
-            }
-        }
         
         public RelayCommand NavCommand { get; }
-        public RelayCommand DatabaseImport { get; }
-        public RelayCommand DatabaseExport { get; }
-        public RelayCommand RunOfferSettingsDialogCmd { get; }
 
         private readonly DialogCoordinator _dialogCoordinator = new DialogCoordinator();
         private readonly CustomDialog _customDialog = new CustomDialog();
@@ -111,9 +59,9 @@ namespace VVSAssistant.ViewModels
                             {
                                 _dialogCoordinator.HideMetroDialogAsync(this, _customDialog);
                                 NavigationService.GoBack();
-                            }, instanceCompleted =>
+                            }, async instanceCompleted =>
                             {
-                                _dialogCoordinator.HideMetroDialogAsync(this, _customDialog);
+                                await _dialogCoordinator.HideMetroDialogAsync(this, _customDialog);
                                 DisplayTimedMessage("Information gemt!", "", 2);
                             });
                         }
@@ -133,13 +81,16 @@ namespace VVSAssistant.ViewModels
                             {
                                 _dialogCoordinator.HideMetroDialogAsync(this, _customDialog);
                                 NavigationService.GoBack();
-                            }, instanceCompleted =>
+                            }, async instanceCompleted =>
                             {
-                                _dialogCoordinator.HideMetroDialogAsync(this, _customDialog);
+                                await _dialogCoordinator.HideMetroDialogAsync(this, _customDialog);
                                 DisplayTimedMessage("Information gemt!", "", 2);
                             });
                         }
                     }
+                    break;
+                case "SettingsView":
+                    nextPage = new SettingsViewModel(_dialogCoordinator);
                     break;
                 case "GoBack":
                     NavigationService.GoBack();
