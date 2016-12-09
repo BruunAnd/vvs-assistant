@@ -235,7 +235,6 @@
     <Compile Include="Models\PackagedSolution.cs" />
     <Compile Include="Models\DataSheets\SolarCollectorDataSheet.cs" />
     <Compile Include="Models\DataSheets\TemperatureControllerDataSheet.cs" />
-    <Compile Include="ValueConverters\ApplianceTypeColorConverter.cs" />
     <Compile Include="ValueConverters\ApplianceTypeConverter.cs" />
     <Compile Include="ValueConverters\DateTimeConverter.cs" />
     <Compile Include="ValueConverters\DescriptionConverter.cs" />
