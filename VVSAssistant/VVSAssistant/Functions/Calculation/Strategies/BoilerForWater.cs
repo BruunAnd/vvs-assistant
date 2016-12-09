@@ -84,7 +84,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             var vnorm = VnormPackage;
             var psbsol = PsbsolPackage;
             var solarData = _packageData.SolarPanelData;
-            if (vnorm <= 0 || psbsol <= 0 || solarData == null)
+            if (vnorm <= 0 || psbsol <= 0 || solarData == null || area < 0.1f)
                 return 0;
             // Monthly Qnonsol values, needs to be summed to get the full Qnonsol
             foreach (var keyvalue in _monthlyQnonsol.Keys)

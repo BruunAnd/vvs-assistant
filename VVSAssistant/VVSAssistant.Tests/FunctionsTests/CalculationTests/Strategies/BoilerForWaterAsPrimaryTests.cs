@@ -158,5 +158,29 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             var EEI = (float)Math.Round(result.PackagedSolutionAtColdTemperaturesAFUE);
             Assert.IsTrue(expected + 1f >= EEI && EEI >= expected - 1f);
         }
+
+        [Test]
+        [TestCase(82)]
+        public void Tired(float expected)
+        {
+            var package = new PackageFactory().GetPackage(PackagedSolutionId.PrimaryWaterBoilerOSolar);
+            var containers = package.SolarContainers;
+            foreach (var item in containers)
+            {
+                var data = item?.DataSheet as ContainerDataSheet;
+                if (data == null)
+                    break;
+                data.IsBivalent = true;
+                data.IsWaterContainer = true;
+            }
+            package.Appliances.Add(new ApplianceFactory().GetSolarPanel(SolarPanelId.LogasolSKNWater));
+            var solar = package.Appliances.First(item => item.Type == ApplianceTypes.SolarPanel);
+            (solar.DataSheet as SolarCollectorDataSheet).IsRoomHeater = true;
+            (solar.DataSheet as SolarCollectorDataSheet).IsWaterHeater = false;
+            var calculation = new BoilerForWater();
+            var result = calculation.CalculateEEI(package);
+            var EEI = (float)Math.Round(result.PackagedSolutionAtColdTemperaturesAFUE);
+            Assert.IsTrue(expected + 1f >= EEI && EEI >= expected - 1f);
+        } 
     }
 }
