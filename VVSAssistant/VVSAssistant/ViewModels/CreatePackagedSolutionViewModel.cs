@@ -478,6 +478,7 @@ namespace VVSAssistant.ViewModels
                     using (var ctx = new AssistantContext())
                     {
                         ctx.Entry(SelectedAppliance).State = EntityState.Modified;
+                        ctx.Entry(SelectedAppliance.DataSheet).State = EntityState.Modified;
 
                         ctx.SaveChanges();
                     }
