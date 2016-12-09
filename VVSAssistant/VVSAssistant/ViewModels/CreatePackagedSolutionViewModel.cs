@@ -204,8 +204,6 @@ namespace VVSAssistant.ViewModels
         {
             #region Initialize collections
 
-            Appliances = new AsyncObservableCollection<Appliance>();
-            SetupFilterableView(Appliances);
             AppliancesInPackagedSolution = new AsyncObservableCollection<Appliance>();
             AppliancesInPackagedSolutionView = CollectionViewSource.GetDefaultView(AppliancesInPackagedSolution);
 
@@ -567,8 +565,9 @@ namespace VVSAssistant.ViewModels
         {
             using (var ctx = new AssistantContext())
             {
-                ctx.Appliances.Include(a => a.DataSheet).ToList().ForEach(Appliances.Add);
+                Appliances = new AsyncObservableCollection<Appliance>(ctx.Appliances.Include(a => a.DataSheet).ToList());
             }
+            SetupFilterableView(Appliances);
         }
 
         public void LoadExistingPackagedSolution(int packagedSolutionId)
