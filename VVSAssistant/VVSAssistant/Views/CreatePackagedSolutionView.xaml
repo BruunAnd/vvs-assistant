@@ -125,16 +125,13 @@
 
                     <DataGridTextColumn Binding="{Binding Name}" 
                                         Header="Navn"
-                                        Width="150"
-                                        CanUserSort="False"/>
+                                        Width="150"/>
                     <DataGridTextColumn Binding="{Binding Type, Converter={StaticResource ApplianceTypeConverter}}" 
                                         Header="Type"
-                                        Width="150"
-                                        CanUserSort="True"/>
+                                        Width="150"/>
                     <DataGridTextColumn Binding="{Binding Description}"  
                                         Header="Beskrivelse"
-                                        Width="*"
-                                        CanUserSort="False"/>
+                                        Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
