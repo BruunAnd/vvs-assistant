@@ -17,6 +17,7 @@ using VVSAssistant.Functions;
 using VVSAssistant.Models;
 using VVSAssistant.Models.DataSheets;
 using VVSAssistant.Functions.Calculation;
+using VVSAssistant.ValueConverters;
 
 namespace VVSAssistant.ViewModels
 {
@@ -649,7 +650,9 @@ namespace VVSAssistant.ViewModels
             }
 
             // Filter based on FilterString
-            return obj.Name.ContainsIgnoreCase(FilterString) || obj.Description.ContainsIgnoreCase(FilterString);
+            return obj.Name.ContainsIgnoreCase(FilterString) ||
+                   obj.Description.ContainsIgnoreCase(FilterString) ||
+                   ApplianceTypeConverter.ConvertTypeToString(obj.Type).ContainsIgnoreCase(FilterString);
         }
 
         private void HandleAddApplianceToPackagedSolution(Appliance appToAdd)
