@@ -15,12 +15,15 @@ namespace VVSAssistant.Database
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            // Map PackagedSolution
             modelBuilder.Entity<PackagedSolution>().HasMany(s => s.ApplianceInstances);
             modelBuilder.Entity<PackagedSolution>().HasMany(s => s.SolarContainerInstances);
             modelBuilder.Entity<PackagedSolution>().HasOptional(s => s.PrimaryHeatingUnitInstance);
 
+            // Map Appliance
             modelBuilder.Entity<Appliance>().HasRequired(a => a.DataSheet);
 
+            // Map Client
             modelBuilder.Entity<Client>().HasRequired(c => c.ClientInformation);
 
             // Create a table for each datasheet type
