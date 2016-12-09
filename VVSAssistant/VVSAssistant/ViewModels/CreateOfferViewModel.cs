@@ -193,6 +193,7 @@ namespace VVSAssistant.ViewModels
          * the offer for receiving information about any of these */
         private void OnSolutionSelected()
         {
+            IsDataSaved = false;
             IsComponentTabVisible = true;
             ArePackagedSolutionsVisible = false;
 
