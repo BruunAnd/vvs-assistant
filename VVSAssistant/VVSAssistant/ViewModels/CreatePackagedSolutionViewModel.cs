@@ -146,6 +146,19 @@ namespace VVSAssistant.ViewModels
             }
         }
 
+        private Appliance _selectedApplianceInSolution;
+        public Appliance SelectedApplianceInSolution
+        {
+            get { return _selectedApplianceInSolution; }
+            set
+            {
+                if (!SetProperty(ref _selectedApplianceInSolution, value)) return;
+
+                RemoveApplianceFromPackagedSolutionCmd?.NotifyCanExecuteChanged();
+                OnPropertyChanged();
+            }
+        }
+
         private EEICalculationResult _eeiResult;
         public EEICalculationResult EeiResultsRoomHeating
         {
@@ -230,12 +243,12 @@ namespace VVSAssistant.ViewModels
 
             RemoveApplianceFromPackagedSolutionCmd = new RelayCommand(x =>
             {
-                if (PackagedSolution.PrimaryHeatingUnit == SelectedAppliance)
+                if (PackagedSolution.PrimaryHeatingUnit == SelectedApplianceInSolution)
                     PackagedSolution.PrimaryHeatingUnit = null;
                 
-                AppliancesInPackagedSolution.Remove(SelectedAppliance);
+                AppliancesInPackagedSolution.Remove(SelectedApplianceInSolution);
                 
-            }, x => SelectedAppliance != null);
+            }, x => SelectedApplianceInSolution != null);
 
             EditApplianceCmd = new RelayCommand(x =>
             {
