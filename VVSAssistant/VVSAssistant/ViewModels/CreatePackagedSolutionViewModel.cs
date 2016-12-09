@@ -461,11 +461,7 @@ namespace VVSAssistant.ViewModels
                             // Inform the user that their previous primary heating unit will be replaced
                             await _dialogCoordinator.ShowMessageAsync(this, "Information",
                                     $"Da du har valgt en ny primærkedel er komponentet {PackagedSolution.PrimaryHeatingUnit.Name} nu en sekundærkedel.");
-                            // todo set purpose of heating unit   
                         }
-
-                        ((HeatingUnitDataSheet)appliance.DataSheet).IsRoomHeater = instanceCompleted.IsUsedForRoomHeating;
-                        ((HeatingUnitDataSheet)appliance.DataSheet).IsWaterHeater = instanceCompleted.IsUsedForWaterHeating;
                         PackagedSolution.PrimaryHeatingUnit = appliance;
                     }
                     AddApplianceToPackagedSolution(appliance);

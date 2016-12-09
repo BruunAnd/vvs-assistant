@@ -18,7 +18,7 @@ namespace VVSAssistant.Functions
 {
     public static class DataUtil
     {
-        public static string AssemblyDirectory
+        private static string AssemblyDirectory
         {
             get
             {

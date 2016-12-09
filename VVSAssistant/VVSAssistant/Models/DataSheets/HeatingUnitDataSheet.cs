@@ -47,14 +47,7 @@ namespace VVSAssistant.Models.DataSheets
         [DisplayName(@"Elforbrug i standbytilstand")] //W
         [Description(@"Kedlens Elforbrug i standbytilstand (Psb) i Watt (W)")]
         public float Psb { get; set; }
-
-        //TODO: Maybe find some better names for these two
-        //TODO: Make example text appear in the text boxes when creating a new appliance so the user won't enter invalid info.
-        [Browsable(false)]
-        public bool IsRoomHeater { get; set; }
-        [Browsable(false)]
-        public bool IsWaterHeater { get; set; }
-
+        
         public override string ToString()
         {
             var room= "";
@@ -67,11 +60,7 @@ namespace VVSAssistant.Models.DataSheets
             var vnormString = "";
             var vbuString = "";
             var psbString = "";
-
-            if (IsRoomHeater)
-                room = ", Rumopvarmning";
-            if (IsWaterHeater)
-                water = ", Vandopvarmning";
+            
             if (UseProfile != 0)
                 userProfileString = $", Forbrugsprofil: {UseProfile}";
             if (Math.Abs(WaterHeatingEffiency) > 0)

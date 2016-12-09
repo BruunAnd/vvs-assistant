@@ -34,28 +34,6 @@
                       IsChecked="{Binding IsSecondaryBoiler}" />
         </StackPanel>
 
-        <StackPanel Grid.Row="3">
-            <StackPanel.Style>
-                <Style TargetType="{x:Type StackPanel}">
-                    <Setter Property="Visibility" Value="Collapsed" />
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsPrimaryBoiler}" Value="True">
-                            <Setter Property="Visibility" Value="Visible" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </StackPanel.Style>
-            <TextBlock Margin="0 5 0 0"
-                       Text="Vælg om den nye varmeenhed skal bruges til rum- eller vandopvarmning."
-                       TextWrapping="Wrap" />
-            <CheckBox Margin="5 5 5 5"
-                      Content="Rumopvarmning"
-                      IsChecked="{Binding IsUsedForRoomHeating}"/>
-            <CheckBox Margin="5 5 5 5"
-                      Content="Vandopvarmning"
-                      IsChecked="{Binding IsUsedForWaterHeating}"/>
-        </StackPanel>
-        
         <StackPanel Grid.Row="4"
                     Height="85"
                     HorizontalAlignment="Right"
