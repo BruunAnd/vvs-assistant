@@ -36,7 +36,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 case BoilerId.Condens5000:
                     return new ApplianceStub("Condens5000", new HeatingUnitDataSheet()
                     { UseProfile = UseProfileType.XXL, WattUsage=24, Vbu=110, Psb=2, WaterHeatingEffiency=78,
-                        IsWaterHeater =true, IsRoomHeater=true, AFUEColdClima = 98, AFUEWarmClima=87.8f}, ApplianceTypes.Boiler);
+                        AFUEColdClima = 98, AFUEWarmClima=87.8f}, ApplianceTypes.Boiler);
                 case BoilerId.Vitodens200:
                     return new ApplianceStub("Vitodens 200", new HeatingUnitDataSheet()
                     { AFUE = 94, WattUsage = 42}, ApplianceTypes.Boiler);
@@ -194,7 +194,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 case WaterHeaterId.Compress3000:
                     return new ApplianceStub("Compress3000", new HeatingUnitDataSheet()
                     { Vnorm = 260, Vbu=20, StandingLoss=159, WaterHeatingEffiency=95, AFUEColdClima=83, AFUEWarmClima=114,
-                      IsWaterHeater=true, UseProfile = UseProfileType.XL}, ApplianceTypes.WaterHeater);
+                      UseProfile = UseProfileType.XL}, ApplianceTypes.WaterHeater);
                 default:
                     return new Appliance();
             }

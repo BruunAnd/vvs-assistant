@@ -172,10 +172,7 @@ namespace VVSAssistant.Functions.Calculation
                 case ApplianceTypes.HeatPump:
                     return CalculationType.PrimaryHeatPump;
                 case ApplianceTypes.Boiler:
-                    if (primaryData.IsWaterHeater && Math.Abs(result.WaterHeatingEffciency - default(float)) > 0)
-                        return CalculationType.PrimaryWaterBoiler;
-                    else
-                        return CalculationType.PrimaryBoiler;
+                    return Math.Abs(result.WaterHeatingEffciency - default(float)) > 0 ? CalculationType.PrimaryWaterBoiler : CalculationType.PrimaryBoiler;
                 case ApplianceTypes.LowTempHeatPump:
                     return CalculationType.PrimaryLowTempHeatPump;
                 case ApplianceTypes.CHP:

@@ -30,36 +30,14 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
                 SaveCommand.NotifyCanExecuteChanged();
             }
         }
-
-        private bool _isUsedForRoomHeating;
-        public bool IsUsedForRoomHeating
-        {
-            get { return _isUsedForRoomHeating; }
-            set
-            {
-                SetProperty(ref _isUsedForRoomHeating, value);
-                SaveCommand.NotifyCanExecuteChanged();
-            }
-        }
-
-        private bool _isUsedForWaterHeating;
-        public bool IsUsedForWaterHeating
-        {
-            get { return _isUsedForWaterHeating; }
-            set
-            {
-                SetProperty(ref _isUsedForWaterHeating, value);
-                SaveCommand.NotifyCanExecuteChanged();
-            }
-        }
-
+        
 
         public AddHeatingUnitDialogViewModel(Action<AddHeatingUnitDialogViewModel> closeHandler, Action<AddHeatingUnitDialogViewModel> completionHandler)
         {
             SaveCommand = new RelayCommand(x =>
             {
                 completionHandler(this);
-            }, x => IsSecondaryBoiler || (IsPrimaryBoiler && (IsUsedForRoomHeating || IsUsedForWaterHeating)));
+            }, x => IsSecondaryBoiler || IsPrimaryBoiler);
 
 
             CloseCommand = new RelayCommand(x =>

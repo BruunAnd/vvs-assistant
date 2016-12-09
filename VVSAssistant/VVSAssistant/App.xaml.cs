@@ -77,8 +77,6 @@ namespace VVSAssistant
                     Vbu = 110,
                     Psb = 2,
                     WaterHeatingEffiency = 78,
-                    IsWaterHeater = true,
-                    IsRoomHeater = true,
                     AFUEColdClima = 98,
                     AFUEWarmClima = 87.8f
                 }, ApplianceTypes.Boiler)
