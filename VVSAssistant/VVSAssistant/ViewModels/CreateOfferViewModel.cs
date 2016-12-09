@@ -218,7 +218,7 @@ namespace VVSAssistant.ViewModels
         private async void RunGenerateOfferDialog()
         {
             var customDialog = new CustomDialog();
-            var dialogViewModel = new GenerateOfferDialogViewModel(Offer, 
+            var dialogViewModel = new GenerateOfferDialogViewModel(Offer,
                 closeHandler =>
                 {
                     // Closes the dialog
@@ -227,14 +227,14 @@ namespace VVSAssistant.ViewModels
                     NotifyCanExecuteChanged();
                 }, async completionHandler =>
                 {
-                    Offer.TotalCostPrice = TotalCostPrice;
-                    Offer.TotalContributionMargin = TotalContributionMargin;
-                    SaveOfferToDatabase(Offer);
+                Offer.TotalCostPrice = TotalCostPrice;
+                Offer.TotalContributionMargin = TotalContributionMargin;
+                SaveOfferToDatabase(Offer);
 
-                    NotifyCanExecuteChanged();
+                NotifyCanExecuteChanged();
 
-                    await _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
-                    await _dialogCoordinator.ShowMessageAsync(this, "Succes", $"Tilbuddet {Offer.OfferInformation.Title} blev gemt.");
+                await _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
+                DisplayTimedMessage("Succes", $"Tilbuddet \"{ Offer.OfferInformation.Title}\" blev gemt.", 2);
                 },
                 printHandler =>
                 {
@@ -377,6 +377,14 @@ namespace VVSAssistant.ViewModels
                 ctx.SaveChanges();
             }
             IsDataSaved = true;
+        }
+
+        private async void DisplayTimedMessage(string title, string message, double time)
+        {
+            var customDialog = new CustomDialog();
+            var messageViewModel = new TimedMessageViewModel(title, message, time, instanceCancel => _dialogCoordinator.HideMetroDialogAsync(this, customDialog));
+            customDialog.Content = new TimesMessageView { DataContext = messageViewModel };
+            await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
         }
         #endregion
     }

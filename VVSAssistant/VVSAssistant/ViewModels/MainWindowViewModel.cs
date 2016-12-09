@@ -33,7 +33,11 @@ namespace VVSAssistant.ViewModels
                 var dlg = new OpenFileDialog {Filter = "Zip filer (.zip)|*.zip"};
                 dlg.FileOk += ValidateDatabaseFile;
                 var result = dlg.ShowDialog();
-                if (result == true) DataUtil.Database.Import(dlg.FileName);
+                if (result == true)
+                {
+                    DataUtil.Database.Import(dlg.FileName);
+                    DisplayTimedMessage("Succes", "Databasen er importeret succesfuldt. ", 2);
+                }
                 DatabaseExport.NotifyCanExecuteChanged();
             });
 
@@ -41,7 +45,11 @@ namespace VVSAssistant.ViewModels
             {
                 var dlg = new SaveFileDialog {Filter = "Zip filer (.zip)|*.zip", FileName = "database", DefaultExt = ".zip"};
                 var result = dlg.ShowDialog();
-                if (result == true) DataUtil.Database.Export(dlg.FileName);
+                if (result == true)
+                {
+                    DataUtil.Database.Export(dlg.FileName);
+                    DisplayTimedMessage("Succes", "Databasen er eksporteret succesfuldt. ", 2);
+                }
             }, x => DataUtil.Database.Exists);
 
             RunOfferSettingsDialogCmd = new RelayCommand(x =>
@@ -105,6 +113,7 @@ namespace VVSAssistant.ViewModels
                             }, instanceCompleted =>
                             {
                                 _dialogCoordinator.HideMetroDialogAsync(this, _customDialog);
+                                DisplayTimedMessage("Information gemt!", "", 2);
                             });
                         }
                     }
@@ -126,7 +135,7 @@ namespace VVSAssistant.ViewModels
                             }, instanceCompleted =>
                             {
                                 _dialogCoordinator.HideMetroDialogAsync(this, _customDialog);
-                                
+                                DisplayTimedMessage("Information gemt!", "", 2);
                             });
                         }
                     }
@@ -177,6 +186,14 @@ namespace VVSAssistant.ViewModels
         {
             get { return _isLoading; }
             set { SetProperty(ref _isLoading, value); }
+        }
+
+        private async void DisplayTimedMessage(string title, string message, double time)
+        {
+            var customDialog = new CustomDialog();
+            var messageViewModel = new TimedMessageViewModel(title, message, time, instanceCancel => _dialogCoordinator.HideMetroDialogAsync(this, customDialog));
+            customDialog.Content = new TimesMessageView { DataContext = messageViewModel };
+            await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
         }
     }
 }
