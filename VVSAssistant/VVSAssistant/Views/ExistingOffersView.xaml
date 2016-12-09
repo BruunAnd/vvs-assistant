@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:viewModels="clr-namespace:VVSAssistant.ViewModels"
       xmlns:valueConverters="clr-namespace:VVSAssistant.ValueConverters"
+      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="1080"
       d:DataContext="{d:DesignInstance viewModels:ExistingOffersViewModel}">
@@ -33,6 +34,8 @@
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="20"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="20"/>
             </Grid.ColumnDefinitions>
@@ -44,12 +47,18 @@
                     MinWidth="120"
                     Content="Tilbage"
                     Command="{Binding NavigateBackCmd}"/>
+
+            <TextBox controls:TextBoxHelper.ClearTextButton="True" 
+                     controls:TextBoxHelper.Watermark="Søg" 
+                     Grid.Column="3"
+                     Height="24"
+                     Text="{Binding FilterString, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
 
         <Grid Grid.Column="1" 
               Grid.Row="2">
             <DataGrid AutoGenerateColumns="False"
-                      ItemsSource="{Binding Offers, UpdateSourceTrigger=PropertyChanged}"
+                      ItemsSource="{Binding FilteredCollectionView, UpdateSourceTrigger=PropertyChanged}"
                       SelectedItem="{Binding SelectedOffer}"
                       SelectionMode="Single">
 

@@ -7,11 +7,13 @@ using VVSAssistant.Models;
 using VVSAssistant.Database;
 using MahApps.Metro.Controls.Dialogs;
 using VVSAssistant.Common;
+using VVSAssistant.Common.ViewModels.VVSAssistant.Common.ViewModels;
+using VVSAssistant.Extensions;
 using VVSAssistant.Functions;
 
 namespace VVSAssistant.ViewModels
 {
-    public class ExistingOffersViewModel : ViewModelBase
+    public class ExistingOffersViewModel : FilterableViewModelBase<Offer>
     {
         public RelayCommand NavigateBackCmd { get; }
         public RelayCommand OpenOfferInCreateOfferViewModel { get; }
@@ -91,6 +93,12 @@ namespace VVSAssistant.ViewModels
                     .Include(o => o.Client.ClientInformation)
                     .ToList());
             }
+            SetupFilterableView(Offers);
+        }
+
+        protected override bool Filter(Offer obj)
+        {
+            return obj.OfferInformation.Title.ContainsIgnoreCase(FilterString);
         }
     }
 }
