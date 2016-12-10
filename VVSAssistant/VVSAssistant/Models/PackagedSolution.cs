@@ -14,51 +14,24 @@ namespace VVSAssistant.Models
             ApplianceInstances = new List<ApplianceInstance>();
             EnergyLabel = new List<EEICalculationResult>();
             SolarContainerInstances = new List<ApplianceInstance>();
+            Appliances = new List<Appliance>();
+            SolarContainers = new List<Appliance>();
             CalculationManager = new CalculationManager();
         }
 
-        private ApplianceList _solarContainers;
-        [NotMapped]
-        public ApplianceList SolarContainers
+        public void LoadFromInstances()
         {
-            get { return _solarContainers ?? (_solarContainers = new ApplianceList((List<ApplianceInstance>)SolarContainerInstances)); }
-            set
-            {
-                _solarContainers = value;
-                SolarContainerInstances = _applianceList.BackingList;
-            }
+            Appliances = ApplianceInstances.Select(s => s.Appliance).ToList();
+            SolarContainers = SolarContainerInstances.Select(s => s.Appliance).ToList();
+            PrimaryHeatingUnit = PrimaryHeatingUnitInstance?.Appliance;
         }
 
-        [NotMapped]
-        public Appliance PrimaryHeatingUnit
+        public void SaveToInstances()
         {
-            get { return PrimaryHeatingUnitInstance?.Appliance; }
-            set { PrimaryHeatingUnitInstance = new ApplianceInstance(value); }
+            ApplianceInstances = new List<ApplianceInstance>(Appliances.Select(a => new ApplianceInstance(a)));
+            SolarContainerInstances = new List<ApplianceInstance>(SolarContainers.Select(a => new ApplianceInstance(a)));
+            PrimaryHeatingUnitInstance = PrimaryHeatingUnit == null ? null: new ApplianceInstance(PrimaryHeatingUnit);
         }
-
-        private ApplianceList _applianceList;
-        [NotMapped]
-        public ApplianceList Appliances
-        {
-            get { return _applianceList ?? (_applianceList = new ApplianceList((List<ApplianceInstance>) ApplianceInstances)); }
-            set
-            {
-                _applianceList = value;
-                ApplianceInstances = _applianceList.BackingList;
-            }
-        }
-
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public DateTime CreationDate { get; set; }
-        public ICollection<ApplianceInstance> SolarContainerInstances { get; set; }
-        public ICollection<ApplianceInstance> ApplianceInstances { get; set; }
-        public ApplianceInstance PrimaryHeatingUnitInstance { get; private set; }
-        public string Description => string.Join(", ", Appliances);
-        [NotMapped]
-        private CalculationManager CalculationManager { get; }
-        [NotMapped]
-        public List<EEICalculationResult> EnergyLabel { get; set; }
 
         public object MakeCopy()
         {
@@ -81,5 +54,28 @@ namespace VVSAssistant.Models
             foreach (var calculation in calculations ?? Enumerable.Empty<IEEICalculation>())
                 EnergyLabel.Add(calculation?.CalculateEEI(this));
         }
+
+        #region "Unmapped Properties"
+        [NotMapped]
+        public List<Appliance> SolarContainers { get; set; }
+        [NotMapped]
+        public Appliance PrimaryHeatingUnit { get; set; }
+        [NotMapped]
+        public List<Appliance> Appliances { get; set; }
+        [NotMapped]
+        private CalculationManager CalculationManager { get; }
+        [NotMapped]
+        public List<EEICalculationResult> EnergyLabel { get; set; }
+        public string Description => string.Join(", ", Appliances);
+        #endregion
+
+        #region "Mapped Properties"
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public DateTime CreationDate { get; set; }
+        public ICollection<ApplianceInstance> SolarContainerInstances { get; private set; }
+        public ICollection<ApplianceInstance> ApplianceInstances { get; private set; }
+        public ApplianceInstance PrimaryHeatingUnitInstance { get; private set; }
+        #endregion
     }
 }

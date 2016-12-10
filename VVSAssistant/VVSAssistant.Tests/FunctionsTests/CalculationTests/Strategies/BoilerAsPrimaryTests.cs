@@ -29,8 +29,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         public void PrimaryBoilerCalculateEEI_PrimarySolarContainerNull_ReturnsNull()
         {
             var package = new PackageFactory().GetPackage(PackagedSolutionId.PrimaryBoilerSame);
-            package.SolarContainers = new ApplianceList(new List<ApplianceInstance>());
-            package.SolarContainerInstances = new List<ApplianceInstance>();
+            package.SolarContainers = new List<Appliance>();
             var calculation = new BoilerAsPrimary();
             var result = calculation.CalculateEEI(package);
             Assert.AreEqual(result.SolarHeatContribution, 0);

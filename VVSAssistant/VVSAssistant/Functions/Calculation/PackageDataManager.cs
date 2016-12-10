@@ -71,8 +71,7 @@ namespace VVSAssistant.Functions.Calculation
             var containers = _package.SolarContainers.Where(item =>
             {
                 var containerDataSheet = item?.DataSheet as ContainerDataSheet;
-                return containerDataSheet != null &&
-                containerTypes.Invoke(containerDataSheet);
+                return containerDataSheet != null && containerTypes.Invoke(containerDataSheet);
             });
             return containers.Sum(item => ((ContainerDataSheet) item.DataSheet).Volume);
         }
@@ -161,7 +160,7 @@ namespace VVSAssistant.Functions.Calculation
         /// Returns the Solar Container Energy class bonus
         /// </summary>
         public float SolarContainerClass => ContainerDataSheet.ClassificationClass[
-        ((ContainerDataSheet) _package?.SolarContainers[0]?.DataSheet)?.Classification ?? "0"];
+        ((ContainerDataSheet) _package?.SolarContainers.FirstOrDefault()?.DataSheet)?.Classification ?? "0"];
 
         public CalculationType CalculationStrategyType(PackagedSolution package, EEICalculationResult result)
         {

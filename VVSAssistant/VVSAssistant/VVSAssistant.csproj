@@ -225,7 +225,6 @@
     <Compile Include="Functions\UtilityClass.cs" />
     <Compile Include="Models\Appliance.cs" />
     <Compile Include="Models\ApplianceInstance.cs" />
-    <Compile Include="Models\ApplianceList.cs" />
     <Compile Include="Models\ApplianceTypes.cs" />
     <Compile Include="Models\Client.cs" />
     <Compile Include="Models\ClientInformation.cs" />

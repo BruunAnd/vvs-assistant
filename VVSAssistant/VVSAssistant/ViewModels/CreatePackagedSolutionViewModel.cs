@@ -281,7 +281,7 @@ namespace VVSAssistant.ViewModels
 
             PdfExportCmd = new RelayCommand(x =>
             {
-                PackagedSolution.Appliances = new ApplianceList(AppliancesInPackagedSolution.ToList());
+                PackagedSolution.Appliances = AppliancesInPackagedSolution.ToList();
                 DataUtil.EnergyLabel.ExportEnergyLabel(PackagedSolution);
             }, x => AppliancesInPackagedSolution.Any() && IsDataSaved);
             #endregion
@@ -393,9 +393,9 @@ namespace VVSAssistant.ViewModels
              *  a solar collector without a container tied to it. */
             using (var ctx = new AssistantContext())
             {
-                PackagedSolution.Appliances = new ApplianceList(AppliancesInPackagedSolution.ToList());
+                ctx.PackagedSolutions.Attach(PackagedSolution);
 
-                // Attach appliances to this DataContext (otherwise they will be duplicated)
+                // Attach appliances to avoid duplicates
                 foreach (var appliance in PackagedSolution.Appliances)
                     ctx.Appliances.Attach(appliance);
 
@@ -403,18 +403,10 @@ namespace VVSAssistant.ViewModels
                 if (PackagedSolution.CreationDate == default(DateTime))
                     PackagedSolution.CreationDate = DateTime.Now;
 
-                // Perform add or update
-                if (PackagedSolution.Id != 0)
-                {
-                    // Update the appliance list of existing packaged solution
-                    var tmp = ctx.PackagedSolutions.Find(PackagedSolution.Id);
-                    tmp.Appliances = PackagedSolution.Appliances;
-                }
-                else
-                {
-                    // Add new packaged solution to the database
-                    ctx.PackagedSolutions.Add(PackagedSolution);
-                }
+                PackagedSolution.SaveToInstances();
+
+                ctx.Entry(PackagedSolution).State = PackagedSolution.Id == 0 ? EntityState.Added : EntityState.Modified;
+                //ctx.PackagedSolutions.AddOrUpdate(PackagedSolution);
 
                 // Save database changes
                 ctx.SaveChanges();
@@ -581,6 +573,8 @@ namespace VVSAssistant.ViewModels
 
                 if (existingPackagedSolution == null) return;
 
+                existingPackagedSolution.LoadFromInstances();
+
                 // Copy primary heating unit
                 PackagedSolution.PrimaryHeatingUnit = existingPackagedSolution.PrimaryHeatingUnit;
 
@@ -676,7 +670,7 @@ namespace VVSAssistant.ViewModels
 
         private void UpdateEei()
         {
-            PackagedSolution.Appliances = new ApplianceList(AppliancesInPackagedSolution.ToList());
+            PackagedSolution.Appliances = AppliancesInPackagedSolution.ToList();
             PackagedSolution.EnergyLabel.Clear();
             PackagedSolution.UpdateEEI();
             if (PackagedSolution.EnergyLabel != null && PackagedSolution.EnergyLabel.Count > 1)

@@ -311,6 +311,9 @@ namespace VVSAssistant.ViewModels
             {
                 PackagedSolutions = new ObservableCollection<PackagedSolution>(ctx.PackagedSolutions
                     .Include(p => p.ApplianceInstances.Select(a => a.Appliance.DataSheet)));
+
+                foreach (var packagedSolution in PackagedSolutions)
+                    packagedSolution.LoadFromInstances();
             }
         }
 
@@ -350,30 +353,23 @@ namespace VVSAssistant.ViewModels
         {
             using (var ctx = new AssistantContext())
             {
+                ctx.PackagedSolutions.Attach(offer.PackagedSolution);
+                
                 offer.Appliances = AppliancesInOffer.ToList();
                 offer.Salaries = SalariesInOffer.ToList();
                 offer.Materials = MaterialsInOffer.ToList();
 
-                // Ensure that packaged solution won't be duplicated 
-                ctx.PackagedSolutions.Attach(offer.PackagedSolution);
-
-                if (offer.CreationDate == default(DateTime))
-                    offer.CreationDate = DateTime.Now;
+                // Set existing unitprices to modified state
+                foreach (var unit in offer.Appliances.Concat(offer.Salaries).Concat(offer.Materials).Where(u => u.Id != 0))
+                    ctx.Entry(unit).State = EntityState.Modified;
 
                 if (offer.Client.CreationDate == default(DateTime))
                     offer.Client.CreationDate = DateTime.Now;
 
-                if (offer.Id != 0)
-                {
-                    var tmp = ctx.Offers.Find(offer.Id);
-                    tmp.Materials = offer.Materials;
-                    tmp.Salaries = offer.Salaries;
-                    tmp.Appliances = offer.Appliances;
-                }
-                else
-                {
-                    ctx.Offers.Add(offer);
-                }
+                if (offer.CreationDate == default(DateTime))
+                    offer.CreationDate = DateTime.Now;
+
+                ctx.Entry(Offer).State = Offer.Id == 0 ? EntityState.Added : EntityState.Modified;
 
                 ctx.SaveChanges();
             }
