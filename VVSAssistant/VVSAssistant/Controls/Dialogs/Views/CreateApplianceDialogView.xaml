@@ -7,6 +7,8 @@
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:local="clr-namespace:VVSAssistant.Controls.Dialogs.Views.Behavior"
              dialog:DialogParticipation.Register="{Binding}">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
@@ -56,7 +58,11 @@
                     </xctk:EditorTemplateDefinition.TargetProperties>
                     <xctk:EditorTemplateDefinition.EditingTemplate>
                         <DataTemplate>
-                            <TextBox Background="White" Text="{Binding Value}" />
+                            <TextBox Background="White" Text="{Binding Value}">
+                                <i:Interaction.Behaviors>
+                                    <local:SelectAllTextBehavior/>
+                                </i:Interaction.Behaviors>
+                            </TextBox>
                         </DataTemplate>
                     </xctk:EditorTemplateDefinition.EditingTemplate>
                 </xctk:EditorTemplateDefinition>

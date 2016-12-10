@@ -175,6 +175,7 @@
     <Compile Include="Common\NotifyPropertyChanged.cs" />
     <Compile Include="Common\ViewModels\FilterableViewModelBase.cs" />
     <Compile Include="Controls\Dialogs\ViewModels\TimedMessageViewModel.cs" />
+    <Compile Include="Controls\Dialogs\Views\Behavior\SelectAllTextBehavior.cs" />
     <Compile Include="Controls\Dialogs\Views\TimedMessageView.xaml.cs">
       <DependentUpon>TimedMessageView.xaml</DependentUpon>
     </Compile>
