@@ -311,9 +311,6 @@ namespace VVSAssistant.ViewModels
             {
                 PackagedSolutions = new ObservableCollection<PackagedSolution>(ctx.PackagedSolutions
                     .Include(p => p.ApplianceInstances.Select(a => a.Appliance.DataSheet)));
-
-                foreach (var packagedSolution in PackagedSolutions)
-                    packagedSolution.LoadFromInstances();
             }
         }
 

@@ -13,12 +13,13 @@ namespace VVSAssistant.Common
      * different threads. */
     public class AsyncObservableCollection<T> : ObservableCollection<T>
     {
-        public AsyncObservableCollection()
-        {
-            var collectionLock = new object();
-            BindingOperations.EnableCollectionSynchronization(this, collectionLock);
-        }
+        private readonly object _collectionLock = new object();
 
-        public AsyncObservableCollection(List<T> list) : base(list) {}
+        public AsyncObservableCollection() : this(Enumerable.Empty<T>()) {}
+
+        public AsyncObservableCollection(IEnumerable<T> items) : base(items)
+        {
+            BindingOperations.EnableCollectionSynchronization(this, _collectionLock);
+        }
     }
 }
