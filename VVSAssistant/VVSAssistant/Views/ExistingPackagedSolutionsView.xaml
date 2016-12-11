@@ -71,6 +71,8 @@
                     <ContextMenu>
                         <MenuItem Header="Føj til ny pakke"
                                   Command="{Binding CreatePackagedSolutionCopyCmd}"/>
+                        <MenuItem Header="Føj til nyt tilbud"
+                                  Command="{Binding CreateOfferFromSolutionCmd}"/>
                         <MenuItem Header="Print pakkelabel"
                                   Command="{Binding PrintCalculationCmd}"/>
                         <MenuItem Header="Slet pakke"

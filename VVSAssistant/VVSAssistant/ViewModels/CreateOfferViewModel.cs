@@ -108,6 +108,7 @@ namespace VVSAssistant.ViewModels
             SetInitialSettings();
             _dialogCoordinator = coordinator;
 
+            PackagedSolutions = new ObservableCollection<PackagedSolution>();
             MaterialsInOffer = new ObservableCollection<UnitPrice>();
             SalariesInOffer = new ObservableCollection<UnitPrice>();
             AppliancesInOffer = new ObservableCollection<UnitPrice>();
@@ -207,6 +208,14 @@ namespace VVSAssistant.ViewModels
             UpdateSidebarValues();
 
             NotifyCanExecuteChanged();
+        }
+
+        public void SelectPackagedSolutionById(int id)
+        {
+            SelectedPackagedSolution = PackagedSolutions.FirstOrDefault(p => p.Id == id);
+            if (SelectedPackagedSolution == null)
+                return;
+            OnSolutionSelected();
         }
 
         /* Opens offer creation dialog */
@@ -309,8 +318,15 @@ namespace VVSAssistant.ViewModels
         {
             using (var ctx = new AssistantContext())
             {
-                PackagedSolutions = new ObservableCollection<PackagedSolution>(ctx.PackagedSolutions
-                    .Include(p => p.ApplianceInstances.Select(a => a.Appliance.DataSheet)));
+                ctx.PackagedSolutions
+                    .Include(p => p.ApplianceInstances
+                    .Select(a => a.Appliance.DataSheet))
+                    .ToList()
+                    .ForEach(p =>
+                    {
+                        p.LoadFromInstances();
+                        PackagedSolutions.Add(p);
+                    });
             }
         }
 
