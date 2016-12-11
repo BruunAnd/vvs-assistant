@@ -401,7 +401,6 @@ namespace VVSAssistant.ViewModels
                 // Attach appliances to avoid duplicates
                 foreach (var appliance in PackagedSolution.Appliances)
                 {
-                    //var apps = ctx.Appliances.ToList();
                     if(ctx.Entry(appliance).State == EntityState.Unchanged)
                         ctx.Appliances.Attach(appliance);
                     else
@@ -541,7 +540,6 @@ namespace VVSAssistant.ViewModels
                     }
 
                     // Add to local list
-                    //if(!Appliances.Any(item => item.Equals(newAppliance)))
                     Appliances.Add(newAppliance);
 
                     await _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
