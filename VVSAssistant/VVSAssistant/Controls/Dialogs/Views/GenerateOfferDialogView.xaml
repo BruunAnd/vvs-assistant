@@ -47,7 +47,7 @@
                      TextWrapping="Wrap"
                      AcceptsReturn="True"/>
 
-                    <Label Content="Signatur:"/>
+                    <Label Content="Din signatur:"/>
                     <TextBox Text="{Binding Offer.OfferInformation.Signature, UpdateSourceTrigger=PropertyChanged}"/>
 
                 </StackPanel>
@@ -60,7 +60,7 @@
         <DockPanel Grid.Column="2" Grid.Row="1">
             <DockPanel DockPanel.Dock="Top">
                 <StackPanel Orientation="Vertical">
-                    <Label Content="Firmanavn:"/>
+                    <Label Content="Kundefirma: (Valgfri)"/>
                     <TextBox Text="{Binding Offer.Client.ClientInformation.CompanyName, UpdateSourceTrigger=PropertyChanged}" />
                     
                     <Label Content="Kundenavn:"/>
