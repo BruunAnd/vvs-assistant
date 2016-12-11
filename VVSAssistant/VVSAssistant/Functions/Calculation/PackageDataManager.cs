@@ -20,16 +20,21 @@ namespace VVSAssistant.Functions.Calculation
         public ApplianceTypes PrimaryUnitType => _package.PrimaryHeatingUnit.Type;
 
         /// <summary>
-        /// Returns the first SolarPanel in the Appliance list.
+        /// Returns the first SolarPanel in the Appliance list that satisfies the predicate.
         /// The working assumption is that only one type of solarPanel is 
         /// permitted in each packaged solution.
         /// </summary>
-        public SolarCollectorDataSheet SolarPanelData {
-            get
-            { return _package.Appliances.FirstOrDefault(item =>
-                    item.Type == ApplianceTypes.SolarPanel)?.DataSheet
-                    as SolarCollectorDataSheet;
-            }}
+        public SolarCollectorDataSheet SolarPanelData(Predicate<SolarCollectorDataSheet> solarPanelData)
+        {
+            var solarPanel = _package.Appliances.FirstOrDefault(item =>
+            {
+                var solarCollectorDataSheet = item?.DataSheet as SolarCollectorDataSheet;
+                return solarCollectorDataSheet != null &&
+                (item.Type == ApplianceTypes.SolarPanel &&
+                solarPanelData.Invoke(solarCollectorDataSheet));
+            });
+            return solarPanel?.DataSheet as SolarCollectorDataSheet ?? null;
+        }
         /// <summary>
         /// Returns the first SolarStation in the Appliance list.
         /// The working assumption is that a packaged solution will

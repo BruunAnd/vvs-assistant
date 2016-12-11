@@ -25,8 +25,8 @@ namespace VVSAssistant.Tests.ViewModelTests
         {
             ctx = new AssistantContext();
             model = new CreatePackagedSolutionViewModel(new DialogCoordinator());
-            app1 = new Appliance() { DataSheet = new HeatingUnitDataSheet(), CreationDate = DateTime.Now};
-            app2 = new Appliance() { DataSheet = new ContainerDataSheet(), CreationDate = DateTime.Now};
+            app1 = new Appliance() {Name="hej", DataSheet = new HeatingUnitDataSheet(), CreationDate = DateTime.Now};
+            app2 = new Appliance() {Name="huske navn", DataSheet = new ContainerDataSheet(), CreationDate = DateTime.Now};
         }
 
         [Test]

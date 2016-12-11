@@ -239,6 +239,7 @@ namespace VVSAssistant.ViewModels
             AddApplianceToPackagedSolutionCmd = new RelayCommand(
                 x =>
                 {
+                    //Appliance app = SelectedAppliance.MakeCopy() as Appliance;
                     HandleAddApplianceToPackagedSolution(SelectedAppliance);
                 },
                 x => SelectedAppliance != null);
@@ -279,8 +280,7 @@ namespace VVSAssistant.ViewModels
             CreateNewApplianceCmd = new RelayCommand(x =>
             {
                 RunCreateApplianceDialog();
-            }
-            );
+            });
 
             PdfExportCmd = new RelayCommand(x =>
             {
@@ -380,8 +380,13 @@ namespace VVSAssistant.ViewModels
             using (var ctx = new AssistantContext())
             {
                 // Attach appliance to this context, since it was loaded using another context
-                ctx.Appliances.Attach(appliance);
-                ctx.Appliances.Remove(appliance);
+                var apps = ctx.Appliances.ToList().Where(item => item.Equals(appliance));
+                foreach (var item in apps)
+                {
+                    ctx.Appliances.Remove(item);
+                }
+                //ctx.Appliances.Attach(item);
+                //ctx.Appliances.Remove(appliance);
                 ctx.SaveChanges();
             }
         }
@@ -678,6 +683,11 @@ namespace VVSAssistant.ViewModels
         private void UpdateEei()
         {
             PackagedSolution.Appliances = AppliancesInPackagedSolution.ToList();
+            foreach (var item in PackagedSolution.Appliances)
+            {
+                if(item.DataSheet is SolarCollectorDataSheet)
+                    Console.WriteLine((item.DataSheet as SolarCollectorDataSheet).IsWaterHeater);
+            }
             PackagedSolution.EnergyLabel.Clear();
             PackagedSolution.UpdateEei();
             if (PackagedSolution.EnergyLabel != null && PackagedSolution.EnergyLabel.Count > 1)
