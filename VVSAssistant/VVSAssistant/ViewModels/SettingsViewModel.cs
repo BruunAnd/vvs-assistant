@@ -48,11 +48,9 @@ namespace VVSAssistant.ViewModels
             {
                 var dlg = new SaveFileDialog { Filter = "Zip filer (.zip)|*.zip", FileName = "database", DefaultExt = ".zip" };
                 var result = dlg.ShowDialog();
-                if (result == true)
-                {
-                    DataUtil.Database.Export(dlg.FileName);
-                    DisplayTimedMessage("Succes", "Databasen er eksporteret succesfuldt. ", 2);
-                }
+                if (result != true) return;
+                DataUtil.Database.Export(dlg.FileName);
+                DisplayTimedMessage("Succes", "Databasen er eksporteret succesfuldt. ", 2);
             }, x => DataUtil.Database.Exists);
 
             RunOfferSettingsDialogCmd = new RelayCommand(x =>
@@ -60,9 +58,9 @@ namespace VVSAssistant.ViewModels
                 OpenOfferSettingsDialog(instanceCanceled =>
                 {
                     _dialogCoordinator.HideMetroDialogAsync(this, _customDialog);
-                }, instanceCompleted =>
+                }, async instanceCompleted =>
                 {
-                    _dialogCoordinator.HideMetroDialogAsync(this, _customDialog);
+                    await _dialogCoordinator.HideMetroDialogAsync(this, _customDialog);
                     DisplayTimedMessage("Information gemt!", "", 2);
                 });
             });
