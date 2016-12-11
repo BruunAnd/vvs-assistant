@@ -23,6 +23,7 @@ namespace VVSAssistant.ViewModels
                 CreatePackagedSolutionCopyCmd?.NotifyCanExecuteChanged();
                 PrintCalculationCmd?.NotifyCanExecuteChanged();
                 DropPackagedSolutionCmd?.NotifyCanExecuteChanged();
+                CreateOfferFromSolutionCmd?.NotifyCanExecuteChanged();
             }
         }
 
@@ -32,6 +33,7 @@ namespace VVSAssistant.ViewModels
 
         public RelayCommand NavigateBackCmd { get; }
         public RelayCommand CreatePackagedSolutionCopyCmd { get; }
+        public RelayCommand CreateOfferFromSolutionCmd { get; }
         public RelayCommand PrintCalculationCmd { get; }
         public RelayCommand DropPackagedSolutionCmd { get; }
 
@@ -55,6 +57,14 @@ namespace VVSAssistant.ViewModels
                 NavigationService.EndNavigate();
             }, x => SelectedPackagedSolution != null);
 
+            CreateOfferFromSolutionCmd = new RelayCommand(async x =>
+            {
+                var createOfferViewModel = new CreateOfferViewModel(dialogCoordinator);
+                await NavigationService.BeginNavigate(createOfferViewModel);
+                await Task.Run(() => createOfferViewModel.SelectPackagedSolutionById(SelectedPackagedSolution.Id));
+                NavigationService.EndNavigate();
+            }, x => SelectedPackagedSolution != null);
+
             DropPackagedSolutionCmd = new RelayCommand(x =>
             {
                 DropPackagedSolution(SelectedPackagedSolution);
@@ -62,7 +72,7 @@ namespace VVSAssistant.ViewModels
             
             PrintCalculationCmd = new RelayCommand(x =>
             {
-                SelectedPackagedSolution.UpdateEEI();
+                SelectedPackagedSolution.UpdateEei();
                 DataUtil.EnergyLabel.ExportEnergyLabel(SelectedPackagedSolution);
             }, x => SelectedPackagedSolution != null);
         }
@@ -105,7 +115,11 @@ namespace VVSAssistant.ViewModels
                     .Include(p => p.SolarContainerInstances.Select(a => a.Appliance.DataSheet))
                     .Include(p => p.PrimaryHeatingUnitInstance.Appliance.DataSheet)
                     .ToList()
-                    .ForEach(PackagedSolutions.Add);
+                    .ForEach(p =>
+                    {
+                        p.LoadFromInstances();
+                        PackagedSolutions.Add(p);
+                    }); 
             }
         }
 

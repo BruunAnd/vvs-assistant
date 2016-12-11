@@ -83,7 +83,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             float vbu = 0;
             var vnorm = VnormPackage;
             var psbsol = PsbsolPackage;
-            var solarData = _packageData.SolarPanelData;
+            var solarData = _packageData.SolarPanelData(item => item.IsWaterHeater == true);
             if (vnorm <= 0 || psbsol <= 0 || solarData == null || area < 0.1f)
                 return 0;
             // Monthly Qnonsol values, needs to be summed to get the full Qnonsol

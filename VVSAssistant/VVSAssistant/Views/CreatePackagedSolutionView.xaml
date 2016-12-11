@@ -152,10 +152,6 @@
                       AutoGenerateColumns="False" 
                       ItemsSource="{Binding AppliancesInPackagedSolutionView}"
                       SelectedItem="{Binding SelectedApplianceInSolution}" >
-                <DataGrid.InputBindings>
-                    <MouseBinding MouseAction="LeftDoubleClick"
-                                  Command="{Binding RemoveApplianceFromPackagedSolutionCmd}"/>
-                </DataGrid.InputBindings>
                 <DataGrid.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Fjern fra pakkeløsning"

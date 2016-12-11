@@ -25,8 +25,8 @@ namespace VVSAssistant.Tests.ViewModelTests
         {
             ctx = new AssistantContext();
             model = new CreatePackagedSolutionViewModel(new DialogCoordinator());
-            app1 = new Appliance() { DataSheet = new HeatingUnitDataSheet(), CreationDate = DateTime.Now};
-            app2 = new Appliance() { DataSheet = new ContainerDataSheet(), CreationDate = DateTime.Now};
+            app1 = new Appliance() {Name="hej", DataSheet = new HeatingUnitDataSheet(), CreationDate = DateTime.Now};
+            app2 = new Appliance() {Name="husk navn", DataSheet = new ContainerDataSheet(), CreationDate = DateTime.Now};
         }
 
         [Test]
@@ -50,7 +50,7 @@ namespace VVSAssistant.Tests.ViewModelTests
             PackagedSolution pack = new PackagedSolution() { CreationDate = DateTime.Now };
             pack.Appliances.Add(app1);
             pack.Appliances.Add(app2);
-
+            pack.SaveToInstances();
             ctx.PackagedSolutions.Add(pack);
             ctx.SaveChanges();
             model.LoadExistingPackagedSolution(pack.Id);

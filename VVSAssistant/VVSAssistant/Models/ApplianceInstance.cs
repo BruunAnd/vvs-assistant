@@ -17,6 +17,6 @@
 
         public int Id { get; set; }
         public Appliance Appliance { get; set; }
-        // public DataSheet DataSheet { get; set;  }
+        public PackagedSolution PackagedSolution { get; set; }
     }
 }

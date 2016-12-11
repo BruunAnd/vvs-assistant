@@ -69,7 +69,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
         {
             _solarContributionFactor = PrimaryUnitType == ApplianceTypes.CHP ? 0.7f : 0.45f;
 
-                var solarCollectorData = _packageData.SolarPanelData;
+            var solarCollectorData = _packageData.SolarPanelData(item => item.IsRoomHeater == true);
             var solarPanelArea = _packageData.SolarPanelArea(panel =>
                                     panel.IsRoomHeater);
             var solarContainerVolume = _packageData.SolarContainerVolume(container =>
@@ -77,7 +77,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
 
             _results.ContainerVolume = solarContainerVolume / 1000;
             _results.SolarCollectorArea = solarPanelArea;
-            _results.SolarCollectorEffectiveness = _packageData.SolarPanelData?.Efficency?? 0;
+            _results.SolarCollectorEffectiveness = solarCollectorData?.Efficency?? 0;
             _results.ContainerClassification = _packageData.SolarContainerClass;
 
             float ans = 0;

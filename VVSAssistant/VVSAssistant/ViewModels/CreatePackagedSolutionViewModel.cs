@@ -203,6 +203,9 @@ namespace VVSAssistant.ViewModels
         {
             #region Initialize collections
 
+            Appliances = new AsyncObservableCollection<Appliance>();
+            SetupFilterableView(Appliances);
+
             AppliancesInPackagedSolution = new AsyncObservableCollection<Appliance>();
             AppliancesInPackagedSolutionView = CollectionViewSource.GetDefaultView(AppliancesInPackagedSolution);
 
@@ -276,12 +279,11 @@ namespace VVSAssistant.ViewModels
             CreateNewApplianceCmd = new RelayCommand(x =>
             {
                 RunCreateApplianceDialog();
-            }
-            );
+            });
 
             PdfExportCmd = new RelayCommand(x =>
             {
-                PackagedSolution.Appliances = new ApplianceList(AppliancesInPackagedSolution.ToList());
+                PackagedSolution.Appliances = AppliancesInPackagedSolution.ToList();
                 DataUtil.EnergyLabel.ExportEnergyLabel(PackagedSolution);
             }, x => AppliancesInPackagedSolution.Any() && IsDataSaved);
             #endregion
@@ -377,8 +379,13 @@ namespace VVSAssistant.ViewModels
             using (var ctx = new AssistantContext())
             {
                 // Attach appliance to this context, since it was loaded using another context
-                ctx.Appliances.Attach(appliance);
-                ctx.Appliances.Remove(appliance);
+                var apps = ctx.Appliances.ToList().Where(item => item.Equals(appliance));
+                foreach (var item in apps)
+                {
+                    ctx.Appliances.Remove(item);
+                }
+                //ctx.Appliances.Attach(item);
+                //ctx.Appliances.Remove(appliance);
                 ctx.SaveChanges();
             }
         }
@@ -393,28 +400,25 @@ namespace VVSAssistant.ViewModels
              *  a solar collector without a container tied to it. */
             using (var ctx = new AssistantContext())
             {
-                PackagedSolution.Appliances = new ApplianceList(AppliancesInPackagedSolution.ToList());
+                ctx.PackagedSolutions.Attach(PackagedSolution);
 
-                // Attach appliances to this DataContext (otherwise they will be duplicated)
+                // Attach appliances to avoid duplicates
                 foreach (var appliance in PackagedSolution.Appliances)
-                    ctx.Appliances.Attach(appliance);
+                {
+                    if(ctx.Entry(appliance).State == EntityState.Unchanged)
+                        ctx.Appliances.Attach(appliance);
+                    else
+                        ctx.Appliances.Add(appliance);
+                }
 
                 // Set the creation date to now
                 if (PackagedSolution.CreationDate == default(DateTime))
                     PackagedSolution.CreationDate = DateTime.Now;
 
-                // Perform add or update
-                if (PackagedSolution.Id != 0)
-                {
-                    // Update the appliance list of existing packaged solution
-                    var tmp = ctx.PackagedSolutions.Find(PackagedSolution.Id);
-                    tmp.Appliances = PackagedSolution.Appliances;
-                }
-                else
-                {
-                    // Add new packaged solution to the database
-                    ctx.PackagedSolutions.Add(PackagedSolution);
-                }
+                PackagedSolution.SaveToInstances();
+
+                ctx.Entry(PackagedSolution).State = PackagedSolution.Id == 0 ? EntityState.Added : EntityState.Modified;
+                //ctx.PackagedSolutions.AddOrUpdate(PackagedSolution);
 
                 // Save database changes
                 ctx.SaveChanges();
@@ -466,10 +470,10 @@ namespace VVSAssistant.ViewModels
             await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
         }
 
-        private async void RunSolarContainerDialog(string title, Appliance appliance)
+        private async void RunSolarContainerDialog(Appliance appliance)
         {
             var customDialog = new CustomDialog();
-            var dialogViewModel = new SolarContainerDialogViewModel(title, appliance, PackagedSolution, AppliancesInPackagedSolution,
+            var dialogViewModel = new SolarContainerDialogViewModel(appliance, PackagedSolution, AppliancesInPackagedSolution,
                                                                     closeHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
                                                                     completionHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog));
 
@@ -564,9 +568,9 @@ namespace VVSAssistant.ViewModels
         {
             using (var ctx = new AssistantContext())
             {
-                Appliances = new AsyncObservableCollection<Appliance>(ctx.Appliances.Include(a => a.DataSheet).ToList());
+                var apps = ctx.Appliances.Include(a => a.DataSheet).ToList();
+                apps.Distinct().ToList().ForEach(Appliances.Add);
             }
-            SetupFilterableView(Appliances);
         }
 
         public void LoadExistingPackagedSolution(int packagedSolutionId)
@@ -580,6 +584,8 @@ namespace VVSAssistant.ViewModels
                     .FirstOrDefault();
 
                 if (existingPackagedSolution == null) return;
+
+                existingPackagedSolution.LoadFromInstances();
 
                 // Copy primary heating unit
                 PackagedSolution.PrimaryHeatingUnit = existingPackagedSolution.PrimaryHeatingUnit;
@@ -661,8 +667,7 @@ namespace VVSAssistant.ViewModels
             else if (appToAdd.DataSheet is ContainerDataSheet)
             {
                 /* Prompt the user for whether or not the container is tied to any of the solar collector. */
-                const string title = "Vælg om denne beholder er til Solvarme";
-                RunSolarContainerDialog(title, appToAdd);
+                RunSolarContainerDialog(appToAdd);
             }
             else if(appToAdd.DataSheet is SolarCollectorDataSheet)
             {
@@ -676,9 +681,14 @@ namespace VVSAssistant.ViewModels
 
         private void UpdateEei()
         {
-            PackagedSolution.Appliances = new ApplianceList(AppliancesInPackagedSolution.ToList());
+            PackagedSolution.Appliances = AppliancesInPackagedSolution.ToList();
+            foreach (var item in PackagedSolution.Appliances)
+            {
+                if(item.DataSheet is SolarCollectorDataSheet)
+                    Console.WriteLine((item.DataSheet as SolarCollectorDataSheet).IsWaterHeater);
+            }
             PackagedSolution.EnergyLabel.Clear();
-            PackagedSolution.UpdateEEI();
+            PackagedSolution.UpdateEei();
             if (PackagedSolution.EnergyLabel != null && PackagedSolution.EnergyLabel.Count > 1)
             {
                 EeiResultsRoomHeating = PackagedSolution.EnergyLabel[0];

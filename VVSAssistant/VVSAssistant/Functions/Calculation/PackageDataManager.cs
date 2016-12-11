@@ -20,16 +20,21 @@ namespace VVSAssistant.Functions.Calculation
         public ApplianceTypes PrimaryUnitType => _package.PrimaryHeatingUnit.Type;
 
         /// <summary>
-        /// Returns the first SolarPanel in the Appliance list.
+        /// Returns the first SolarPanel in the Appliance list that satisfies the predicate.
         /// The working assumption is that only one type of solarPanel is 
         /// permitted in each packaged solution.
         /// </summary>
-        public SolarCollectorDataSheet SolarPanelData {
-            get
-            { return _package.Appliances.FirstOrDefault(item =>
-                    item.Type == ApplianceTypes.SolarPanel)?.DataSheet
-                    as SolarCollectorDataSheet;
-            }}
+        public SolarCollectorDataSheet SolarPanelData(Predicate<SolarCollectorDataSheet> solarPanelData)
+        {
+            var solarPanel = _package.Appliances.FirstOrDefault(item =>
+            {
+                var solarCollectorDataSheet = item?.DataSheet as SolarCollectorDataSheet;
+                return solarCollectorDataSheet != null &&
+                (item.Type == ApplianceTypes.SolarPanel &&
+                solarPanelData.Invoke(solarCollectorDataSheet));
+            });
+            return solarPanel?.DataSheet as SolarCollectorDataSheet ?? null;
+        }
         /// <summary>
         /// Returns the first SolarStation in the Appliance list.
         /// The working assumption is that a packaged solution will
@@ -71,8 +76,7 @@ namespace VVSAssistant.Functions.Calculation
             var containers = _package.SolarContainers.Where(item =>
             {
                 var containerDataSheet = item?.DataSheet as ContainerDataSheet;
-                return containerDataSheet != null &&
-                containerTypes.Invoke(containerDataSheet);
+                return containerDataSheet != null && containerTypes.Invoke(containerDataSheet);
             });
             return containers.Sum(item => ((ContainerDataSheet) item.DataSheet).Volume);
         }
@@ -161,7 +165,7 @@ namespace VVSAssistant.Functions.Calculation
         /// Returns the Solar Container Energy class bonus
         /// </summary>
         public float SolarContainerClass => ContainerDataSheet.ClassificationClass[
-        ((ContainerDataSheet) _package?.SolarContainers[0]?.DataSheet)?.Classification ?? "0"];
+        ((ContainerDataSheet) _package?.SolarContainers.FirstOrDefault()?.DataSheet)?.Classification ?? "0"];
 
         public CalculationType CalculationStrategyType(PackagedSolution package, EEICalculationResult result)
         {
