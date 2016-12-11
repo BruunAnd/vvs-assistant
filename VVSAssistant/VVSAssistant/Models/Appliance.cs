@@ -1,11 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using VVSAssistant.Models.Interfaces;
 using VVSAssistant.ValueConverters;
 
 namespace VVSAssistant.Models
 {
-    public class Appliance : ICalculateable, ICopyable
+    public class Appliance : ICalculateable, ICopyable, IEquatable<Appliance>
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -41,6 +42,17 @@ namespace VVSAssistant.Models
                 pi.SetValue(copy, matchingProperty.GetValue(this)); //Set the new object's property with this name to the value of the same property in this object
             }
             return copy;
+        }
+
+        public bool Equals(Appliance other)
+        {
+            return Name.Equals(other.Name);
+        }
+        public override int GetHashCode()
+        {
+            int appName = Name == null ? 0 : Name.GetHashCode();
+            int creationDate = CreationDate == null ? 0 : CreationDate.GetHashCode();
+            return appName ^ creationDate;
         }
     }
 }

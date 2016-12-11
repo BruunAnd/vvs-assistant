@@ -400,7 +400,13 @@ namespace VVSAssistant.ViewModels
 
                 // Attach appliances to avoid duplicates
                 foreach (var appliance in PackagedSolution.Appliances)
-                    ctx.Appliances.Attach(appliance);
+                {
+                    //var apps = ctx.Appliances.ToList();
+                    if(ctx.Entry(appliance).State == EntityState.Unchanged)
+                        ctx.Appliances.Attach(appliance);
+                    else
+                        ctx.Appliances.Add(appliance);
+                }
 
                 // Set the creation date to now
                 if (PackagedSolution.CreationDate == default(DateTime))
@@ -535,6 +541,7 @@ namespace VVSAssistant.ViewModels
                     }
 
                     // Add to local list
+                    //if(!Appliances.Any(item => item.Equals(newAppliance)))
                     Appliances.Add(newAppliance);
 
                     await _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
@@ -559,7 +566,8 @@ namespace VVSAssistant.ViewModels
         {
             using (var ctx = new AssistantContext())
             {
-                ctx.Appliances.Include(a => a.DataSheet).ToList().ForEach(Appliances.Add);
+                var apps = ctx.Appliances.Include(a => a.DataSheet).ToList();
+                apps.Distinct().ToList().ForEach(Appliances.Add);
             }
         }
 

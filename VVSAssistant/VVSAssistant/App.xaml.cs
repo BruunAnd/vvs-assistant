@@ -21,10 +21,13 @@ namespace VVSAssistant
 
             using (var ctx = new AssistantContext())
             {
-                //ctx.Database.Delete();
+                ctx.Database.Delete();
                 if (ctx.Appliances.Any()) return;
                 ctx.Appliances.Add(new Appliance("Cerapur", new HeatingUnitDataSheet()
                 { WattUsage = 20, AFUE = 93, AFUEColdClima = 98.2f, AFUEWarmClima = 87.8f }, ApplianceTypes.Boiler)
+                { CreationDate = DateTime.Now });
+                ctx.Appliances.Add(new Appliance("Cerapur", new HeatingUnitDataSheet()
+                { WattUsage = 30, AFUE = 93, AFUEColdClima = 98.2f, AFUEWarmClima = 87.8f }, ApplianceTypes.Boiler)
                 { CreationDate = DateTime.Now });
                 ctx.Appliances.Add(new Appliance("LoganoPlusSB105", new HeatingUnitDataSheet()
                 { AFUE = 91, WattUsage = 18, AFUEColdClima = 99.2f, AFUEWarmClima = 92.5f },
