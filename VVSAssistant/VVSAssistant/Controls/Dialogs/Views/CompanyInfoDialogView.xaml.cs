@@ -17,11 +17,12 @@ namespace VVSAssistant.Controls.Dialogs.Views
     /// <summary>
     /// Interaction logic for CompanyInfoDialogView.xaml
     /// </summary>
-    public partial class CompanyInfoDialogView : UserControl
+    public partial class CompanyInfoDialogView
     {
         public CompanyInfoDialogView()
         {
             InitializeComponent();
+            Loaded += (sender, e) => MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
         }
     }
 }

@@ -28,7 +28,7 @@
         <StackPanel Grid.Row="2" FocusManager.FocusedElement="{Binding ElementName=RadioButtonFocus}">
             <RadioButton Name="RadioButtonFocus" Margin="5 5 5 5"
                       Content="Primær"
-                      IsChecked="{Binding IsPrimaryBoiler}" />
+                      IsChecked="{Binding IsPrimaryBoiler}"/>
             <RadioButton Margin="5 5 5 5"
                       Content="Supplerende"
                       IsChecked="{Binding IsSecondaryBoiler}" />

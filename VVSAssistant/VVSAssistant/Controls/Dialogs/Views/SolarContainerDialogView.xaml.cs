@@ -22,6 +22,7 @@ namespace VVSAssistant.Controls.Dialogs.Views
         public SolarContainerDialogView()
         {
             InitializeComponent();
+            Loaded += (sender, e) => MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
         }
     }
 }

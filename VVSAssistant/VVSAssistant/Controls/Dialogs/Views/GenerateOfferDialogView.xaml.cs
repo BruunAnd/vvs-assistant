@@ -23,6 +23,7 @@ namespace VVSAssistant.Controls.Dialogs.Views
         public GenerateOfferDialogView()
         {
             InitializeComponent();
+            Loaded += (sender, e) => MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
         }
     }
 }
