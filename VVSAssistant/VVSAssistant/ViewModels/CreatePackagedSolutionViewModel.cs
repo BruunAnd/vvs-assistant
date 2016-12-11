@@ -239,7 +239,6 @@ namespace VVSAssistant.ViewModels
             AddApplianceToPackagedSolutionCmd = new RelayCommand(
                 x =>
                 {
-                    //Appliance app = SelectedAppliance.MakeCopy() as Appliance;
                     HandleAddApplianceToPackagedSolution(SelectedAppliance);
                 },
                 x => SelectedAppliance != null);
