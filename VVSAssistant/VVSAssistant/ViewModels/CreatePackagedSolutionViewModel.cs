@@ -673,7 +673,7 @@ namespace VVSAssistant.ViewModels
         {
             PackagedSolution.Appliances = AppliancesInPackagedSolution.ToList();
             PackagedSolution.EnergyLabel.Clear();
-            PackagedSolution.UpdateEEI();
+            PackagedSolution.UpdateEei();
             if (PackagedSolution.EnergyLabel != null && PackagedSolution.EnergyLabel.Count > 1)
             {
                 EeiResultsRoomHeating = PackagedSolution.EnergyLabel[0];

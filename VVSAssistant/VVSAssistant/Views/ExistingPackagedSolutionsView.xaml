@@ -63,6 +63,10 @@
                       SelectedItem="{Binding SelectedPackagedSolution}"
                       SelectionMode="Single">
 
+                <DataGrid.InputBindings>
+                    <MouseBinding MouseAction="LeftDoubleClick"
+                                  Command="{Binding CreatePackagedSolutionCopyCmd}"/>
+                </DataGrid.InputBindings>
                 <DataGrid.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Føj til ny pakke"
