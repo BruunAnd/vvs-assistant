@@ -32,7 +32,10 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             });
         }
         private readonly ObservableCollection<Appliance> _appsInSolution;
-        private Appliance _solarPanel;
+        private readonly Appliance _solarPanel;
+
+        public int Quantity { get; set; } = 1;
+
         private bool _isWaterHeater;
         private bool _isRoomHeater;
         public bool IsWaterHeater
@@ -65,7 +68,12 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
 
         private void Save()
         {
-            _appsInSolution.Add(_solarPanel);
+            while (Quantity != 0)
+            {
+                _appsInSolution.Add(_solarPanel);
+                Quantity--;
+            }
+            
         }
     }
 }
