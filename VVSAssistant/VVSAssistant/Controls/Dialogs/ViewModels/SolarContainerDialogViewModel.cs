@@ -48,15 +48,11 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
         private readonly ObservableCollection<Appliance> _appsInSolution;
         private readonly PackagedSolution _packagedSolution;
 
-        public string Title { get; }
-        public string Message { get; }
-
-        public SolarContainerDialogViewModel(string title, Appliance appliance, 
+        public SolarContainerDialogViewModel(Appliance appliance, 
             PackagedSolution packagedSolution, ObservableCollection<Appliance> appliances,
             Action<SolarContainerDialogViewModel> closeHandler, 
             Action<SolarContainerDialogViewModel> completionHandler)
         {
-            Title = title;
             Appliance = appliance;
             _packagedSolution = packagedSolution;
             _appsInSolution = appliances;

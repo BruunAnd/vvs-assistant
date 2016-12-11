@@ -467,10 +467,10 @@ namespace VVSAssistant.ViewModels
             await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
         }
 
-        private async void RunSolarContainerDialog(string title, Appliance appliance)
+        private async void RunSolarContainerDialog(Appliance appliance)
         {
             var customDialog = new CustomDialog();
-            var dialogViewModel = new SolarContainerDialogViewModel(title, appliance, PackagedSolution, AppliancesInPackagedSolution,
+            var dialogViewModel = new SolarContainerDialogViewModel(appliance, PackagedSolution, AppliancesInPackagedSolution,
                                                                     closeHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
                                                                     completionHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog));
 
@@ -665,8 +665,7 @@ namespace VVSAssistant.ViewModels
             else if (appToAdd.DataSheet is ContainerDataSheet)
             {
                 /* Prompt the user for whether or not the container is tied to any of the solar collector. */
-                const string title = "Vælg om denne beholder er til Solvarme";
-                RunSolarContainerDialog(title, appToAdd);
+                RunSolarContainerDialog(appToAdd);
             }
             else if(appToAdd.DataSheet is SolarCollectorDataSheet)
             {
@@ -682,7 +681,7 @@ namespace VVSAssistant.ViewModels
         {
             PackagedSolution.Appliances = AppliancesInPackagedSolution.ToList();
             PackagedSolution.EnergyLabel.Clear();
-            PackagedSolution.UpdateEEI();
+            PackagedSolution.UpdateEei();
             if (PackagedSolution.EnergyLabel != null && PackagedSolution.EnergyLabel.Count > 1)
             {
                 EeiResultsRoomHeating = PackagedSolution.EnergyLabel[0];

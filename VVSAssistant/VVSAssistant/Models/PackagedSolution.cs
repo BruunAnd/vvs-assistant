@@ -48,7 +48,7 @@ namespace VVSAssistant.Models
         /// <summary>
         /// Recalculates the EnergyLabel property of this object.
         /// </summary>
-        public void UpdateEEI()
+        public void UpdateEei()
         {
             var calculations = CalculationManager.SelectCalculationStrategy(this);
             foreach (var calculation in calculations ?? Enumerable.Empty<IEEICalculation>())
