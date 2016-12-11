@@ -6,7 +6,11 @@
              xmlns:dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
              mc:Ignorable="d"
              dialog:DialogParticipation.Register="{Binding}">
-    <Grid Margin="0,71,0,104">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="16*"/>
+            <ColumnDefinition Width="139*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" MinHeight="20" />
             <RowDefinition Height="Auto" />
@@ -15,21 +19,21 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0"
-                   Grid.ColumnSpan="99"
+                   Grid.ColumnSpan="2"
                    Margin="0 5 0 5"
                    FontSize="24"
-                   Text="{Binding Title}"
+                   Text="Vælg om denne beholder er til en solfanger"
                    TextWrapping="Wrap"/>
 
-        <StackPanel Grid.Row="3" Margin="0,0,0,17" FocusManager.FocusedElement="{Binding ElementName=RadioButtonFocus}">
+        <StackPanel Grid.Row="3" Margin="0,0,0,17" FocusManager.FocusedElement="{Binding ElementName=RadioButtonFocus}" Grid.ColumnSpan="2">
             <RadioButton Name="RadioButtonFocus" Content="Ja" Margin="5" IsChecked="{Binding SolarContainer}"/>
             <RadioButton Content="Nej" Margin="5" IsChecked="{Binding NonSolarContainer}" />
         </StackPanel>
-       
+
         <StackPanel Grid.Row="4"
                     Height="85"
                     HorizontalAlignment="Center"
-                    Orientation="Horizontal">
+                    Orientation="Horizontal" Grid.Column="1" Margin="96.681,0,145,0">
             <Button x:Name="PartAffirmativeButton"
                     Height="35"
                     MinWidth="80"
