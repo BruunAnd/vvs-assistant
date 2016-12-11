@@ -149,9 +149,11 @@
 
             <DataGrid Grid.Row="1" 
                       IsReadOnly="true" 
-                      AutoGenerateColumns="False" 
+                      AutoGenerateColumns="False"
+                      SelectionMode="Single"
+                      SelectionUnit="FullRow"
                       ItemsSource="{Binding AppliancesInPackagedSolutionView}"
-                      SelectedItem="{Binding SelectedApplianceInSolution}" >
+                      SelectedItem="{Binding SelectedApplianceInSolution}">
                 <DataGrid.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Fjern fra pakkeløsning"

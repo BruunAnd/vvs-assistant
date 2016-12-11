@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -159,7 +160,7 @@ namespace VVSAssistant.ViewModels
                 OnPropertyChanged();
             }
         }
-
+        
         private EEICalculationResult _eeiResult;
         public EEICalculationResult EeiResultsRoomHeating
         {
