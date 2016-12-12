@@ -194,10 +194,7 @@ namespace VVSAssistant
         }
         private static void InitializeCultureInfo()
         {
-            var customCulture = (CultureInfo)
-                        System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
-            customCulture.NumberFormat.NumberDecimalSeparator = ".";
-            System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
+            System.Threading.Thread.CurrentThread.CurrentCulture = new CultureInfo("da-DK");
         }
     }
 }
