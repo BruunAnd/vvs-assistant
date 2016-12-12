@@ -39,12 +39,14 @@
                         Height="78"
                  Text="{Binding Offer.OfferInformation.Intro, UpdateSourceTrigger=PropertyChanged}"
                  TextWrapping="Wrap"
+                 xml:space="preserve"
                  AcceptsReturn="True"/>
 
                     <Label Content="Afslutning på følgebrev:"/>
                     <TextBox Height="78"
                      Text="{Binding Offer.OfferInformation.Outro, UpdateSourceTrigger=PropertyChanged}"
                      TextWrapping="Wrap"
+                     xml:space="preserve"
                      AcceptsReturn="True"/>
 
                     <Label Content="Din signatur:"/>

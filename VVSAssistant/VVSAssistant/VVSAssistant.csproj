@@ -171,7 +171,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Common\AsyncObservableCollection.cs" />
-    <Compile Include="Common\ExtendedDocumentPaginator.cs" />
     <Compile Include="Common\NavigationService.cs" />
     <Compile Include="Common\NotifyPropertyChanged.cs" />
     <Compile Include="Common\ViewModels\FilterableViewModelBase.cs" />
@@ -259,6 +258,9 @@
     <Compile Include="ViewModels\LabelExportViewModel.cs" />
     <Compile Include="ViewModels\OfferExportViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Compile Include="Views\CompanyFooter.xaml.cs">
+      <DependentUpon>CompanyFooter.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
@@ -332,6 +334,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Resources\IconsNonShared.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CompanyFooter.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -5,11 +5,13 @@ namespace VVSAssistant.Views
     /// <summary>
     /// Interaction logic for PdfOfferLayout.xaml
     /// </summary>
-    public partial class OfferLayout : FlowDocument
+    public partial class CompanyFooter
     {
-        public OfferLayout()
+        public FlowDocument FlowDocument;
+        public CompanyFooter()
         {
             InitializeComponent();
+            FlowDocument = FooterContent;
         }
     }
 }

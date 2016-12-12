@@ -138,19 +138,16 @@ namespace VVSAssistant.Functions
 
             //    RunSaveDialog(fixedDoc, offer.OfferInformation.Title);
 
-                var layout = new OfferLayout {DataContext = new OfferExportViewModel(offer)};
-                var flowDoc = layout.FlowDocument;
-                flowDoc.FontFamily = new FontFamily("Calibri");
-
-                IDocumentPaginatorSource dps = flowDoc;
-                var dp = dps.DocumentPaginator;
-
-                var edp = new ExtendedDocumentPaginator(dp, new Size(0, 0), dp.PageSize);
+                var context = new OfferExportViewModel(offer);
+                var layout = new OfferLayout {DataContext = context};
+                var footer = new CompanyFooter() {DataContext = context};
                 
-                RunSaveDialog(edp, offer.OfferInformation.Title);
-            }
+                layout.FontFamily = new FontFamily("Calibri");
 
-            
+                IDocumentPaginatorSource dps = layout;
+                
+                RunSaveDialog(dps.DocumentPaginator, offer.OfferInformation.Title);
+            }
         }
 
         public static class EnergyLabel
