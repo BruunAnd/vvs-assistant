@@ -49,9 +49,9 @@ namespace VVSAssistant.Functions.Calculation.Strategies
          * Heating unit */
         private float SolarContribution()
         {
-            var solarCollectorData = _packageData.SolarPanelData(item => item.IsRoomHeater == true);
+            var solarCollectorData = _packageData.SolarPanelData(item => item.IsUsedForRoomHeating == true);
             var solarPanelArea = _packageData.SolarPanelArea(panel =>
-                                    panel.IsRoomHeater);
+                                    panel.IsUsedForRoomHeating);
             var solarContainerVolume = _packageData.SolarContainerVolume(container =>
                                          !container.IsWaterContainer);
 

@@ -24,14 +24,14 @@ namespace VVSAssistant.Functions.Calculation
         /// The working assumption is that only one type of solarPanel is 
         /// permitted in each packaged solution.
         /// </summary>
-        public SolarCollectorDataSheet SolarPanelData(Predicate<SolarCollectorDataSheet> solarPanelData)
+        public SolarCollectorDataSheet SolarPanelData(Predicate<ApplianceInstance> solarPanelData)
         {
             var solarPanel = _package.ApplianceInstances.FirstOrDefault(item =>
             {
                 var solarCollectorDataSheet = item?.Appliance?.DataSheet as SolarCollectorDataSheet;
                 return solarCollectorDataSheet != null &&
                 (item?.Appliance?.Type == ApplianceTypes.SolarPanel &&
-                solarPanelData.Invoke(solarCollectorDataSheet));
+                solarPanelData.Invoke(item));
             });
             return solarPanel?.Appliance?.DataSheet as SolarCollectorDataSheet ?? null;
         }
@@ -54,14 +54,14 @@ namespace VVSAssistant.Functions.Calculation
         /// and calculates the combined area of the solar panels.
         /// </summary>
         /// <returns>Area of the solar panels which furfill the predicate</returns>
-        public float SolarPanelArea(Predicate<SolarCollectorDataSheet> panelHeatingUse)
+        public float SolarPanelArea(Predicate<ApplianceInstance> panelHeatingUse)
         {
             var solarPanels = _package.ApplianceInstances.Where(item =>
             {
                 var solarCollectorDataSheet = item?.Appliance?.DataSheet as SolarCollectorDataSheet;
                 return solarCollectorDataSheet != null &&
                 (item.Appliance?.Type == ApplianceTypes.SolarPanel &&
-                panelHeatingUse.Invoke(solarCollectorDataSheet));
+                panelHeatingUse.Invoke(item));
             });
             return solarPanels.Select(item => item.Appliance.DataSheet).OfType<SolarCollectorDataSheet>().
                     Sum(solarCollectorDataSheet => solarCollectorDataSheet.Area);
