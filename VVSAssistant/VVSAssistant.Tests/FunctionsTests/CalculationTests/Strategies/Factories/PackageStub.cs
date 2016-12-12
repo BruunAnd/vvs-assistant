@@ -9,162 +9,343 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             HeatpumpId? heatpump, ContainerId? container, TempControlId? tempControl)
         {
             var factory = new ApplianceFactory();
-            PrimaryHeatingUnit = factory.GetBoiler((priBoiler));
-            SolarContainers.Add(factory.GetContainer((solarContain ?? 0)));
-            Appliances.Add(factory.GetContainer(solarContain ?? 0));
-            Appliances.Add(factory.GetBoiler(secBoiler ?? 0));
+            ApplianceInstances.Add(new ApplianceInstance()
+            { Appliance = factory.GetBoiler((priBoiler)), IsPrimary = true });
+
+            ApplianceInstances.Add(new ApplianceInstance()
+            { Appliance = factory.GetContainer((solarContain ?? 0)),
+                IsSolarContainer = true});
+            ApplianceInstances.Add(new ApplianceInstance()
+            {
+                Appliance = factory.GetContainer(solarContain ?? 0)
+            });
+            ApplianceInstances.Add(new ApplianceInstance()
+            {
+                Appliance = factory.GetBoiler(secBoiler ?? 0)
+            });
             for (int i = 0; i < numberOfSolars; i++)
             {
-                Appliances.Add(factory.GetSolarPanel(solar ?? 0));
+                ApplianceInstances.Add(new ApplianceInstance()
+                {
+                    Appliance = factory.GetSolarPanel(solar ?? 0)
+                });
             }
-            Appliances.Add(factory.GetHeatpump(heatpump ?? 0));
-            Appliances.Add(factory.GetContainer(container ?? 0));
-            Appliances.Add(factory.GetTempControl(tempControl ?? 0));
+            ApplianceInstances.Add(new ApplianceInstance()
+            {
+                Appliance = factory.GetHeatpump(heatpump ?? 0)
+            });
+            ApplianceInstances.Add(new ApplianceInstance()
+            {
+                Appliance = factory.GetContainer(container ?? 0)
+            });
+            ApplianceInstances.Add(new ApplianceInstance()
+            {
+                Appliance = factory.GetTempControl(tempControl ?? 0)
+            });
         }
         public PackageStub(BoilerId priBoiler, ContainerId? solarContain, WaterHeaterId waterHeater, SolarPanelId? solar, 
             int numberOfSolars, SolarStationId solarStation, TempControlId? tempControl)
         {
             var factory = new ApplianceFactory();
-            PrimaryHeatingUnit = factory.GetBoiler((priBoiler));
-            SolarContainers.Add(factory.GetContainer((solarContain ?? 0)));
-            Appliances.Add(factory.GetContainer(solarContain ?? 0));
+            ApplianceInstances.Add(new ApplianceInstance()
+            { Appliance = factory.GetBoiler((priBoiler)), IsPrimary = true });
+
+            ApplianceInstances.Add(new ApplianceInstance()
+            { Appliance = factory.GetContainer((solarContain ?? 0)),
+              IsSolarContainer=true
+            });
+            ApplianceInstances.Add(new ApplianceInstance()
+            {
+                Appliance = factory.GetContainer(solarContain ?? 0)
+            });
             for (int i = 0; i < numberOfSolars; i++)
             {
-                Appliances.Add(factory.GetSolarPanel(solar ?? 0));
+                ApplianceInstances.Add(new ApplianceInstance()
+                {
+                    Appliance = factory.GetSolarPanel(solar ?? 0)
+                });
             }
-            Appliances.Add(factory.GetWaterHeater(waterHeater));
-            Appliances.Add(factory.GetSolarStation(solarStation));
-            Appliances.Add(factory.GetTempControl(tempControl ?? 0));
+            ApplianceInstances.Add(new ApplianceInstance()
+            {
+                Appliance = factory.GetTempControl(tempControl ?? 0)
+            });
+            ApplianceInstances.Add(new ApplianceInstance()
+            {
+                Appliance = factory.GetWaterHeater(waterHeater)
+            });
+            ApplianceInstances.Add(new ApplianceInstance()
+            {
+                Appliance = factory.GetSolarStation(solarStation)
+            });
+            ApplianceInstances.Add(new ApplianceInstance()
+            {
+                Appliance = factory.GetTempControl(tempControl ?? 0)
+            });
         }
         public PackageStub(BoilerId priBoiler, ContainerId? solarContainer, SolarPanelId? solar, int numberOfSolars,
             SolarStationId? solarStation)
         {
+
             var factory = new ApplianceFactory();
-            PrimaryHeatingUnit = factory.GetBoiler((priBoiler));
-            SolarContainers.Add(factory.GetContainer((solarContainer ?? 0)));
-            Appliances.Add(factory.GetContainer(solarContainer ?? 0));
+            ApplianceInstances.Add(new ApplianceInstance()
+            { Appliance = factory.GetBoiler((priBoiler)), IsPrimary=true });
+            ApplianceInstances.Add(new ApplianceInstance()
+            {
+                Appliance = factory.GetContainer(solarContainer ?? 0),
+                IsSolarContainer=true
+            });
             for (int i = 0; i < numberOfSolars; i++)
             {
-                Appliances.Add(factory.GetSolarPanel(solar ?? 0));
+                ApplianceInstances.Add(new ApplianceInstance()
+                {
+                    Appliance = factory.GetSolarPanel(solar ?? 0)
+                });
             }
-            Appliances.Add(factory.GetSolarStation(solarStation ?? 0));
+            ApplianceInstances.Add(new ApplianceInstance()
+            {
+                Appliance = factory.GetSolarStation(solarStation ?? 0)
+            });
         }
 
         public PackageStub(HeatpumpId? priPump, ContainerId? solarContain, BoilerId? secBoiler, SolarPanelId? solar,
             int? numberOfSolars, ContainerId? container, TempControlId? tempControl)
         {
             var factory = new ApplianceFactory();
-            PrimaryHeatingUnit = factory.GetHeatpump((priPump ?? 0));
-            SolarContainers.Add(factory.GetContainer((solarContain ?? 0)));
-            Appliances.Add(factory.GetContainer(solarContain ?? 0));
-            Appliances.Add(factory.GetBoiler(secBoiler ?? 0));
-
+            ApplianceInstances.Add(new ApplianceInstance()
+            { Appliance = factory.GetHeatpump((priPump ?? 0)), IsPrimary=true });
+            ApplianceInstances.Add(new ApplianceInstance()
+            {
+                Appliance = factory.GetContainer(solarContain ?? 0),
+                IsSolarContainer = true
+            });
+            ApplianceInstances.Add(new ApplianceInstance()
+            {
+                Appliance = factory.GetContainer(container ?? 0)
+            });
             for (int i = 0; i < numberOfSolars; i++)
             {
-                Appliances.Add(factory.GetSolarPanel(solar ?? 0));
+                ApplianceInstances.Add(new ApplianceInstance()
+                {
+                    Appliance = factory.GetSolarPanel(solar ?? 0)
+                });
             }
-            Appliances.Add(factory.GetBoiler(secBoiler ?? 0));
-            Appliances.Add(factory.GetContainer(container ?? 0));
-            Appliances.Add(factory.GetTempControl(tempControl ?? 0));
+            ApplianceInstances.Add(new ApplianceInstance()
+            {
+                Appliance = factory.GetBoiler(secBoiler ?? 0)
+            });
+            ApplianceInstances.Add(new ApplianceInstance()
+            {
+                Appliance = factory.GetTempControl(tempControl ?? 0)
+            });
         }
         public PackageStub(HeatpumpId priPump, ContainerId solarContainer, int numContainers, BoilerId? secBoiler, SolarPanelId? solar, 
             int? numberOfSolars, ContainerId? container, TempControlId? tempControl)
         {
             var factory = new ApplianceFactory();
-            PrimaryHeatingUnit = factory.GetHeatpump((priPump));
-            Appliances.Add(factory.GetBoiler(secBoiler ?? 0));
-            for (int i = 0; i < numContainers; i++)
+            ApplianceInstances.Add(new ApplianceInstance()
+            { Appliance = factory.GetHeatpump((priPump)), IsPrimary = true });
+            ApplianceInstances.Add(new ApplianceInstance()
             {
-                SolarContainers.Add(factory.GetContainer(solarContainer));
-                Appliances.Add(factory.GetContainer(solarContainer));
-            }
+                Appliance = factory.GetContainer(solarContainer),
+                IsSolarContainer = true
+            });
+            ApplianceInstances.Add(new ApplianceInstance()
+            {
+                Appliance = factory.GetContainer(container ?? 0)
+            });
             for (int i = 0; i < numberOfSolars; i++)
             {
-                Appliances.Add(factory.GetSolarPanel(solar ?? 0));
+                ApplianceInstances.Add(new ApplianceInstance()
+                {
+                    Appliance = factory.GetSolarPanel(solar ?? 0)
+                });
+            }
+            ApplianceInstances.Add(new ApplianceInstance()
+            {
+                Appliance = factory.GetBoiler(secBoiler ?? 0)
+            });
+            ApplianceInstances.Add(new ApplianceInstance()
+            {
+                Appliance = factory.GetTempControl(tempControl ?? 0)
+            });
+            for (int i = 0; i < numContainers; i++)
+            {
+                ApplianceInstances.Add(new ApplianceInstance()
+                {
+                    Appliance = factory.GetContainer(solarContainer),
+                    IsSolarContainer=true
+                });
             }
             for (int i = 0; i < numContainers-1; i++)
-                Appliances.Add(factory.GetContainer(solarContainer));
-            Appliances.Add(factory.GetBoiler(secBoiler ?? 0));
-            Appliances.Add(factory.GetContainer(container ?? 0));
-            Appliances.Add(factory.GetTempControl(tempControl ?? 0));
+            {
+                ApplianceInstances.Add(new ApplianceInstance()
+                {
+                    Appliance = factory.GetContainer(solarContainer)
+                });
+            }
         }
         public PackageStub(BoilerId primary, ContainerId? solarContainer,int numContainers, SolarPanelId? solar,
             int? numberOfSolars, TempControlId? tempControl)
         {
             var factory = new ApplianceFactory();
-            PrimaryHeatingUnit = factory.GetBoiler(primary);
-            for (int i = 0; i < numContainers; i++)
+            ApplianceInstances.Add(new ApplianceInstance()
+            { Appliance = factory.GetBoiler(primary), IsPrimary = true });
+            ApplianceInstances.Add(new ApplianceInstance()
             {
-                SolarContainers.Add(factory.GetContainer(solarContainer ?? 0));
-                Appliances.Add(factory.GetContainer(solarContainer ?? 0));
-            }
+                Appliance = factory.GetContainer(solarContainer ?? 0),
+                IsSolarContainer = true
+            });
             for (int i = 0; i < numberOfSolars; i++)
             {
-                Appliances.Add(factory.GetSolarPanel(solar ?? 0));
+                ApplianceInstances.Add(new ApplianceInstance()
+                {
+                    Appliance = factory.GetSolarPanel(solar ?? 0)
+                });
             }
-            for (int i = 0; i < numContainers-1; i++)
-                Appliances.Add(factory.GetContainer(solarContainer ?? 0));
-            Appliances.Add(factory.GetTempControl(tempControl ?? 0));
+            ApplianceInstances.Add(new ApplianceInstance()
+            {
+                Appliance = factory.GetTempControl(tempControl ?? 0)
+            });
+            for (int i = 0; i < numContainers; i++)
+            {
+                ApplianceInstances.Add(new ApplianceInstance()
+                {
+                    Appliance = factory.GetContainer(solarContainer ?? 0),
+                    IsSolarContainer = true
+                });
+            }
+            for (int i = 0; i < numContainers - 1; i++)
+            {
+                ApplianceInstances.Add(new ApplianceInstance()
+                {
+                    Appliance = factory.GetContainer(solarContainer ?? 0)
+                });
+            }
         }
         public PackageStub(BoilerId primary, ContainerId? solarContainer, int numContainers, SolarPanelId? solar,
             int? numberOfSolars, SolarStationId station)
         {
             var factory = new ApplianceFactory();
-            PrimaryHeatingUnit = factory.GetBoiler(primary);
-            for (int i = 0; i < numContainers; i++)
+            ApplianceInstances.Add(new ApplianceInstance()
+            { Appliance = factory.GetBoiler(primary), IsPrimary = true });
+            ApplianceInstances.Add(new ApplianceInstance()
             {
-                SolarContainers.Add(factory.GetContainer(solarContainer ?? 0));
-                Appliances.Add(factory.GetContainer(solarContainer ?? 0));
-            }
+                Appliance = factory.GetContainer(solarContainer ?? 0),
+                IsSolarContainer = true
+            });
             for (int i = 0; i < numberOfSolars; i++)
             {
-                Appliances.Add(factory.GetSolarPanel(solar ?? 0));
+                ApplianceInstances.Add(new ApplianceInstance()
+                {
+                    Appliance = factory.GetSolarPanel(solar ?? 0)
+                });
             }
-            for (int i = 0; i < numContainers-1; i++)
-                Appliances.Add(factory.GetContainer(solarContainer ?? 0));
-            Appliances.Add(factory.GetSolarStation(station));
+            for (int i = 0; i < numContainers; i++)
+            {
+                ApplianceInstances.Add(new ApplianceInstance()
+                {
+                    Appliance = factory.GetContainer(solarContainer ?? 0),
+                    IsSolarContainer = true
+                });
+            }
+            for (int i = 0; i < numContainers - 1; i++)
+            {
+                ApplianceInstances.Add(new ApplianceInstance()
+                {
+                    Appliance = factory.GetContainer(solarContainer ?? 0)
+                });
+            }
+            ApplianceInstances.Add(new ApplianceInstance()
+            {
+                Appliance = factory.GetSolarStation(station)
+            });
         }
 
         public PackageStub(CHPId? priCHP, ContainerId? solarContain, BoilerId? secBoiler, SolarPanelId? solar,
     int? numberOfSolars, ContainerId? container, TempControlId? tempControl)
         {
             var factory = new ApplianceFactory();
-            PrimaryHeatingUnit = factory.GetCHP((priCHP ?? 0));
-            SolarContainers.Add(factory.GetContainer((solarContain ?? 0)));
-            Appliances.Add(factory.GetBoiler(secBoiler ?? 0));
-            Appliances.Add(factory.GetContainer(solarContain ?? 0));
-
-
+            ApplianceInstances.Add(new ApplianceInstance()
+            { Appliance = factory.GetCHP(priCHP ?? 0), IsPrimary = true });
+            ApplianceInstances.Add(new ApplianceInstance()
+            {
+                Appliance = factory.GetContainer(solarContain ?? 0),
+                IsSolarContainer = true
+            });
             for (int i = 0; i < numberOfSolars; i++)
             {
-                Appliances.Add(factory.GetSolarPanel(solar ?? 0));
+                ApplianceInstances.Add(new ApplianceInstance()
+                {
+                    Appliance = factory.GetSolarPanel(solar ?? 0)
+                });
             }
-            Appliances.Add(factory.GetBoiler(secBoiler ?? 0));
-            Appliances.Add(factory.GetContainer(container ?? 0));
-            Appliances.Add(factory.GetTempControl(tempControl ?? 0));
+            ApplianceInstances.Add(new ApplianceInstance()
+            {
+                Appliance = factory.GetBoiler(secBoiler ?? 0)
+            });
+            ApplianceInstances.Add(new ApplianceInstance()
+            {
+                Appliance = factory.GetSolarPanel(solar ?? 0)
+            });
+            ApplianceInstances.Add(new ApplianceInstance()
+            {
+                Appliance = factory.GetContainer(container ?? 0)
+            });
+            ApplianceInstances.Add(new ApplianceInstance()
+            {
+                Appliance = factory.GetTempControl(tempControl ?? 0)
+            });
         }
 
         public PackageStub(CHPId priPump, ContainerId solarContainer, int numContainers, BoilerId? secBoiler, SolarPanelId? solar,
             int? numberOfSolars, ContainerId? container, TempControlId? tempControl)
         {
             var factory = new ApplianceFactory();
-            PrimaryHeatingUnit = factory.GetCHP((priPump));
-            Appliances.Add(factory.GetBoiler(secBoiler ?? 0));
-            for (int i = 0; i < numContainers; i++)
+            ApplianceInstances.Add(new ApplianceInstance()
+            { Appliance = factory.GetCHP(priPump), IsPrimary = true });
+            ApplianceInstances.Add(new ApplianceInstance()
             {
-                SolarContainers.Add(factory.GetContainer(solarContainer));
-                Appliances.Add(factory.GetContainer(solarContainer));
-
-            }
+                Appliance = factory.GetContainer(solarContainer),
+                IsSolarContainer = true
+            });
             for (int i = 0; i < numberOfSolars; i++)
             {
-                Appliances.Add(factory.GetSolarPanel(solar ?? 0));
+                ApplianceInstances.Add(new ApplianceInstance()
+                {
+                    Appliance = factory.GetSolarPanel(solar ?? 0)
+                });
             }
-            for (int i = 0; i < numContainers - 1; i++)
-                Appliances.Add(factory.GetContainer(solarContainer));
-            Appliances.Add(factory.GetBoiler(secBoiler ?? 0));
-            Appliances.Add(factory.GetContainer(container ?? 0));
-            Appliances.Add(factory.GetTempControl(tempControl ?? 0));
+            ApplianceInstances.Add(new ApplianceInstance()
+            {
+                Appliance = factory.GetBoiler(secBoiler ?? 0)
+            });
+            ApplianceInstances.Add(new ApplianceInstance()
+            {
+                Appliance = factory.GetSolarPanel(solar ?? 0)
+            });
+            ApplianceInstances.Add(new ApplianceInstance()
+            {
+                Appliance = factory.GetContainer(container ?? 0)
+            });
+            ApplianceInstances.Add(new ApplianceInstance()
+            {
+                Appliance = factory.GetTempControl(tempControl ?? 0)
+            });
+            for (int i = 0; i < numContainers; i++)
+            {
+                ApplianceInstances.Add(new ApplianceInstance()
+                {
+                    Appliance = factory.GetContainer(solarContainer),
+                    IsSolarContainer = true
+                });
+            }
+            for (int i = 0; i < numContainers-1; i++)
+            {
+                ApplianceInstances.Add(new ApplianceInstance()
+                {
+                    Appliance = factory.GetContainer(solarContainer)
+                });
+            }
         }
     }
 }

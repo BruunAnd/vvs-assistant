@@ -37,23 +37,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         public void WaterPrimaryCalculateEEI_CorrectSolarContribution(PackagedSolutionId packageId, float errorMargin, float expected)
         {
             var package = new PackageFactory().GetPackage(packageId);
-            var containers = package.SolarContainers;
-            foreach (var item in containers)
-            {
-                var data = item?.DataSheet as ContainerDataSheet;
-                if (data == null)
-                    break;
-                data.IsBivalent = true;
-                data.IsWaterContainer = true;
-            }
-            var panels = package.Appliances.Where(item => item.Type == ApplianceTypes.SolarPanel);
-            foreach (var item in panels)
-            {
-                var data = item?.DataSheet as SolarCollectorDataSheet;
-                if (data == null)
-                    break;
-                data.IsWaterHeater = true;
-            }
+            DOSTUFF(package);
             var calculation = new BoilerForWater();
             var result = calculation.CalculateEEI(package);
             var EEI = Math.Round(result.SolarHeatContribution, 3);
@@ -75,23 +59,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         public void WaterPrimaryCalculateEEI_CalculatesEEICompletePackagedSolution(PackagedSolutionId packageId, float errormargin,float expected)
         {
             var package = new PackageFactory().GetPackage(packageId);
-            var containers = package.SolarContainers;
-            foreach (var item in containers)
-            {
-                var data = item?.DataSheet as ContainerDataSheet;
-                if (data == null)
-                    break;
-                data.IsBivalent = true;
-                data.IsWaterContainer = true;
-            }
-            var panels = package.Appliances.Where(item => item.Type == ApplianceTypes.SolarPanel);
-            foreach (var item in panels)
-            {
-                var data = item?.DataSheet as SolarCollectorDataSheet;
-                if (data == null)
-                    break;
-                data.IsWaterHeater = true;
-            }
+            DOSTUFF(package);
             var calculation = new BoilerForWater();
             var result = calculation.CalculateEEI(package);
             var EEI = (float)Math.Round(result.EEI);
@@ -107,23 +75,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         {
             var package = new PackageFactory().GetPackage(packageId);
             var calculation = new BoilerForWater();
-            var containers = package.SolarContainers;
-            foreach (var item in containers)
-            {
-                var data = item?.DataSheet as ContainerDataSheet;
-                if (data == null)
-                    break;
-                data.IsBivalent = true;
-                data.IsWaterContainer = true;
-            }
-            var panels = package.Appliances.Where(item => item.Type == ApplianceTypes.SolarPanel);
-            foreach (var item in panels)
-            {
-                var data = item?.DataSheet as SolarCollectorDataSheet;
-                if (data == null)
-                    break;
-                data.IsWaterHeater = true;
-            }
+            DOSTUFF(package);
             var result = calculation.CalculateEEI(package);
             var EEI = (float)Math.Round(result.PackagedSolutionAtWarmTemperaturesAFUE);
             Assert.IsTrue(expected + 1f >= EEI && EEI >= expected - 1f);
@@ -136,23 +88,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         public void WaterPrimaryCalculateEEI_CorrectColderEEI(PackagedSolutionId packageId, float expected)
         {
             var package = new PackageFactory().GetPackage(packageId);
-            var containers = package.SolarContainers;
-            foreach (var item in containers)
-            {
-                var data = item?.DataSheet as ContainerDataSheet;
-                if (data == null)
-                    break;
-                data.IsBivalent = true;
-                data.IsWaterContainer = true;
-            }
-            var panels = package.Appliances.Where(item => item.Type == ApplianceTypes.SolarPanel);
-            foreach (var item in panels)
-            {
-                var data = item?.DataSheet as SolarCollectorDataSheet;
-                if (data == null)
-                    break;
-                data.IsWaterHeater = true;
-            }
+            DOSTUFF(package);
             var calculation = new BoilerForWater();
             var result = calculation.CalculateEEI(package);
             var EEI = (float)Math.Round(result.PackagedSolutionAtColdTemperaturesAFUE);
@@ -164,23 +100,42 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         public void Tired(float expected)
         {
             var package = new PackageFactory().GetPackage(PackagedSolutionId.PrimaryWaterBoilerOSolar);
-            var containers = package.SolarContainers;
+            var containers = package.SolarContainerInstances;
             foreach (var item in containers)
             {
-                var data = item?.DataSheet as ContainerDataSheet;
+                var data = item?.Appliance?.DataSheet as ContainerDataSheet;
                 if (data == null)
                     break;
                 data.IsBivalent = true;
                 data.IsWaterContainer = true;
             }
-            package.Appliances.Add(new ApplianceFactory().GetSolarPanel(SolarPanelId.LogasolSKNWater));
-            var solar = package.Appliances.First(item => item.Type == ApplianceTypes.SolarPanel);
-            (solar.DataSheet as SolarCollectorDataSheet).IsRoomHeater = true;
-            (solar.DataSheet as SolarCollectorDataSheet).IsWaterHeater = false;
+            package.ApplianceInstances.Add(new ApplianceInstance()
+            { Appliance = new ApplianceFactory().GetSolarPanel(SolarPanelId.LogasolSKNWater) });
+            var solar = package.ApplianceInstances.First(item => item.Appliance.Type == ApplianceTypes.SolarPanel);
+            solar.IsUsedForRoomHeating = true;
+            solar.IsUsedForWaterHeating = true;
             var calculation = new BoilerForWater();
             var result = calculation.CalculateEEI(package);
             var EEI = (float)Math.Round(result.PackagedSolutionAtColdTemperaturesAFUE);
             Assert.IsTrue(expected + 1f >= EEI && EEI >= expected - 1f);
+        }
+        
+        private void DOSTUFF(PackagedSolution package)
+        {
+            var containers = package.SolarContainerInstances;
+            foreach (var item in containers)
+            {
+                var data = item?.Appliance.DataSheet as ContainerDataSheet;
+                if (data == null)
+                    break;
+                data.IsBivalent = true;
+                data.IsWaterContainer = true;
+            }
+            var panels = package.ApplianceInstances.Where(item => item?.Appliance.Type == ApplianceTypes.SolarPanel);
+            foreach (var item in panels)
+            {
+                item.IsUsedForWaterHeating = true;
+            }
         } 
     }
 }
