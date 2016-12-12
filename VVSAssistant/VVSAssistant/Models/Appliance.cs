@@ -51,6 +51,7 @@ namespace VVSAssistant.Models
         {
             return Name.Equals(other.Name);
         }
+
         public override int GetHashCode()
         {
             int appName = Name == null ? 0 : Name.GetHashCode();

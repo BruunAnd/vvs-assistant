@@ -92,6 +92,6 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             }
             return ans;
         }
-        private ApplianceTypes PrimaryUnitType => _package.PrimaryHeatingUnit.Type;
+        private ApplianceTypes PrimaryUnitType => _package.PrimaryHeatingUnitInstance.Appliance.Type;
     }
 }

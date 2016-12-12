@@ -50,7 +50,6 @@ namespace VVSAssistant.Tests.ViewModelTests
             PackagedSolution pack = new PackagedSolution() { CreationDate = DateTime.Now };
             pack.Appliances.Add(app1);
             pack.Appliances.Add(app2);
-            pack.SaveToInstances();
             ctx.PackagedSolutions.Add(pack);
             ctx.SaveChanges();
             model.LoadExistingPackagedSolution(pack.Id);

@@ -13,9 +13,6 @@ namespace VVSAssistant.Models
         {
             ApplianceInstances = new List<ApplianceInstance>();
             EnergyLabel = new List<EEICalculationResult>();
-            SolarContainerInstances = new List<ApplianceInstance>();
-            Appliances = new List<Appliance>();
-            SolarContainers = new List<Appliance>();
             CalculationManager = new CalculationManager();
         }
 
@@ -43,15 +40,11 @@ namespace VVSAssistant.Models
 
         #region Unmapped Properties
         [NotMapped]
-        public List<Appliance> SolarContainers { get; set; }
-        [NotMapped]
-        public Appliance PrimaryHeatingUnit { get; set; }
-        [NotMapped]
-        public List<Appliance> Appliances { get; set; }
-        [NotMapped]
         private CalculationManager CalculationManager { get; }
         [NotMapped]
         public List<EEICalculationResult> EnergyLabel { get; set; }
+        public ApplianceInstance PrimaryHeatingUnitInstance => ApplianceInstances.FirstOrDefault(a => a.IsPrimary);
+        public IEnumerable<ApplianceInstance> SolarContainerInstances => ApplianceInstances.Where(a => a.IsSolarContainer);
         public string Description => string.Join(", ", ApplianceInstances.Select(a => a.Appliance));
         #endregion
 
@@ -59,9 +52,7 @@ namespace VVSAssistant.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTime CreationDate { get; set; }
-        public ICollection<ApplianceInstance> SolarContainerInstances { get; set; }
         public ICollection<ApplianceInstance> ApplianceInstances { get; set; }
-        public ApplianceInstance PrimaryHeatingUnitInstance { get; set; }
         #endregion
     }
 }

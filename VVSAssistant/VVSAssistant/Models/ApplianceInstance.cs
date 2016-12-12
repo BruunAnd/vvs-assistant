@@ -20,16 +20,18 @@ namespace VVSAssistant.Models
         {
             return new ApplianceInstance(Appliance)
             {
-                IsUsedForRoomHeating = this.IsUsedForRoomHeating,
-                IsUsedForWaterHeating = this.IsUsedForWaterHeating,
-                PackagedSolution = this.PackagedSolution
+                IsPrimary = IsPrimary,
+                IsSolarContainer = IsSolarContainer,
+                IsUsedForRoomHeating = IsUsedForRoomHeating,
+                IsUsedForWaterHeating = IsUsedForWaterHeating
             };
         }
 
         public int Id { get; set; }
         public Appliance Appliance { get; set; }
-        public PackagedSolution PackagedSolution { get; set; }
         public bool IsUsedForWaterHeating { get; set; }
         public bool IsUsedForRoomHeating { get; set; }
+        public bool IsSolarContainer { get; set; }
+        public bool IsPrimary { get; set; }
     }
 }

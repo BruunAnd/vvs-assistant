@@ -100,9 +100,9 @@ namespace VVSAssistant.ViewModels
                 default: return;
             }
 
-            SolarIncluded = (packaged.Appliances.Any(item => item.Type == ApplianceTypes.SolarPanel)) ? "Visible" : "Hidden";
-            WatertankIncluded = (packaged.Appliances.Any(item => item.Type == ApplianceTypes.Container)) ? "Visible" : "Hidden";
-            TempControleIncluded = (packaged.Appliances.Any(item => item.Type == ApplianceTypes.TemperatureController)) ? "Visible" : "Hidden";
+            SolarIncluded = packaged.ApplianceInstances.Any(item => item.Appliance.Type == ApplianceTypes.SolarPanel) ? "Visible" : "Hidden";
+            WatertankIncluded = packaged.ApplianceInstances.Any(item => item.Appliance.Type == ApplianceTypes.Container) ? "Visible" : "Hidden";
+            TempControleIncluded = packaged.ApplianceInstances.Any(item => item.Appliance.Type == ApplianceTypes.TemperatureController) ? "Visible" : "Hidden";
             HeaterIncluded = (packaged.EnergyLabel[0].SecondaryBoilerAFUE > 0 || packaged.EnergyLabel[0].SecondaryHeatPumpAFUE > 0) ? "Visible" : "Hidden";
 
         }

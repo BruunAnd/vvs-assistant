@@ -46,15 +46,13 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
         }
 
         private readonly ObservableCollection<ApplianceInstance> _appsInSolution;
-        private readonly PackagedSolution _packagedSolution;
 
         public SolarContainerDialogViewModel(ApplianceInstance appliance, 
-            PackagedSolution packagedSolution, ObservableCollection<ApplianceInstance> appliances,
+            ObservableCollection<ApplianceInstance> appliances,
             Action<SolarContainerDialogViewModel> closeHandler, 
             Action<SolarContainerDialogViewModel> completionHandler)
         {
             Appliance = appliance;
-            _packagedSolution = packagedSolution;
             _appsInSolution = appliances;
             SaveCommand = new RelayCommand(x =>
             {
@@ -70,17 +68,8 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
 
         private void HandleSaveCommand()
         {
-            if (SolarContainer)
-            {
-                /* Don't need to do anything with the solar collector. */
-                _packagedSolution.SolarContainerInstances.Add(Appliance); /* Container */
-                _appsInSolution.Add(Appliance); /* Container */
-            }
-            else
-            {
-                _appsInSolution.Add(Appliance); /* Type doesn't matter in this case */
-            }
+            Appliance.IsSolarContainer = SolarContainer;
+            _appsInSolution.Add(Appliance);
         }
-
     }
 }

@@ -1,6 +1,4 @@
 ﻿using System.Data.Entity;
-using System.Linq;
-using VVSAssistant.Exceptions;
 using VVSAssistant.Models;
 using VVSAssistant.Models.DataSheets;
 
@@ -17,8 +15,6 @@ namespace VVSAssistant.Database
         {
             // Map PackagedSolution
             modelBuilder.Entity<PackagedSolution>().HasMany(s => s.ApplianceInstances);
-            modelBuilder.Entity<PackagedSolution>().HasMany(s => s.SolarContainerInstances);
-            modelBuilder.Entity<PackagedSolution>().HasOptional(s => s.PrimaryHeatingUnitInstance);
 
             // Map Appliance
             modelBuilder.Entity<Appliance>().HasRequired(a => a.DataSheet);
@@ -31,7 +27,7 @@ namespace VVSAssistant.Database
             modelBuilder.Entity<HeatingUnitDataSheet>().ToTable("HeatingUnitDataSheets");
             modelBuilder.Entity<SolarCollectorDataSheet>().ToTable("SolarCollectorDataSheets");
             modelBuilder.Entity<SolarStationDataSheet>().ToTable("SolarStationDataSheets");
-            modelBuilder.Entity<TemperatureControllerDataSheet>().ToTable("TemperatureControllerDataSheet");
+            modelBuilder.Entity<TemperatureControllerDataSheet>().ToTable("TemperatureControllerDataSheets");
 
             // Map ApplianceInstance
             modelBuilder.Entity<ApplianceInstance>().HasRequired(a => a.Appliance).WithMany();

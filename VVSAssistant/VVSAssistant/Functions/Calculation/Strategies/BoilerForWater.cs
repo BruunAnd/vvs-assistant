@@ -124,11 +124,10 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             return qnonsol;
         }
 
-        public HeatingUnitDataSheet PrimaryData =>
-            _package?.PrimaryHeatingUnit?.DataSheet as HeatingUnitDataSheet;
-        public HeatingUnitDataSheet WaterHeater =>
-            _package.Appliances.FirstOrDefault(item =>
-                item?.Type == ApplianceTypes.WaterHeater)?.DataSheet as HeatingUnitDataSheet;
+        public HeatingUnitDataSheet PrimaryData => _package?.PrimaryHeatingUnitInstance?.Appliance?.DataSheet as HeatingUnitDataSheet;
+
+        public HeatingUnitDataSheet WaterHeater => _package.ApplianceInstances.FirstOrDefault(item =>
+                item.Appliance.Type == ApplianceTypes.WaterHeater)?.Appliance?.DataSheet as HeatingUnitDataSheet;
 
         private float PumpConsumption
         {
@@ -175,21 +174,21 @@ namespace VVSAssistant.Functions.Calculation.Strategies
                 ans += ans.Equals(0) && WaterHeater != null ? WaterHeater.StandingLoss / 45 : 0;
                 var solarContains = _packageData.SolarContainers(container =>
                     container.IsWaterContainer && container.IsBivalent);
-                ans += solarContains.Sum(item => (item?.DataSheet as ContainerDataSheet)?.StandingLoss / 45 ?? 0);
+                ans += solarContains.Sum(item => (item?.Appliance?.DataSheet as ContainerDataSheet)?.StandingLoss / 45 ?? 0);
                 return ans;
             }
         }
 
         private class QnonsolData
         {
-            public QnonsolData(float Qsol, float Tout)
+            public QnonsolData(float qsol, float tout)
             {
-                this.Qsol = Qsol;
-                this.Tout = Tout;
+                Qsol = qsol;
+                Tout = tout;
             }
+
             public float Qnonsol { get; set; }
             public float Qsol { get; }
-            public float Ta { get; set; }
             public float Tout { get; }
             public float Lwh { get; set; }
             public float Trefw { get; set; }

@@ -246,9 +246,6 @@ namespace VVSAssistant.ViewModels
 
             RemoveApplianceFromPackagedSolutionCmd = new RelayCommand(x =>
             {
-                if (PackagedSolution.PrimaryHeatingUnitInstance == SelectedApplianceInstance)
-                    PackagedSolution.PrimaryHeatingUnitInstance = null;
-                
                 AppliancesInPackagedSolution.Remove(SelectedApplianceInstance);
                 
             }, x => SelectedApplianceInstance != null);
@@ -358,17 +355,10 @@ namespace VVSAssistant.ViewModels
                 }
             }
 
-            // Remove as primary heating unit
-            if (PackagedSolution.PrimaryHeatingUnitInstance.Appliance == appliance)
-                PackagedSolution.PrimaryHeatingUnitInstance = null;
-
             // Remove from current solution
             foreach (var existingAppliance in AppliancesInPackagedSolution.Where(a => a.Appliance == appliance))
             {
                 AppliancesInPackagedSolution.Remove(existingAppliance);
-
-                if (PackagedSolution.SolarContainerInstances.Contains(existingAppliance))
-                    PackagedSolution.SolarContainerInstances.Remove(existingAppliance);
             }
             
             // Remove from visual list of appliances
@@ -399,8 +389,8 @@ namespace VVSAssistant.ViewModels
              *  a solar collector without a container tied to it. */
             using (var ctx = new AssistantContext())
             {
-                // Attach PackagedSolution to the context (it might have been created outside of it)
-                ctx.PackagedSolutions.Attach(PackagedSolution);
+                // Mark packaged solution as added if new or modified if old
+                ctx.Entry(PackagedSolution).State = PackagedSolution.Id == 0 ? EntityState.Added : EntityState.Modified;
 
                 // Copy visible list of appliance instances to the list in the model
                 PackagedSolution.ApplianceInstances = AppliancesInPackagedSolution.ToList();
@@ -420,12 +410,11 @@ namespace VVSAssistant.ViewModels
                 foreach (var appInstance in PackagedSolution.ApplianceInstances)
                     ctx.Entry(appInstance).State = appInstance.Id == 0 ? EntityState.Added : EntityState.Unchanged;
 
+                Console.WriteLine(ctx.Entry(PackagedSolution).State);
+
                 // Set the creation date to now
                 if (PackagedSolution.CreationDate == default(DateTime))
                     PackagedSolution.CreationDate = DateTime.Now;
-
-                // Mark packaged solution as added if new or modified if old
-                ctx.Entry(PackagedSolution).State = PackagedSolution.Id == 0 ? EntityState.Added : EntityState.Modified;
 
                 // Save database changes
                 ctx.SaveChanges();
@@ -461,13 +450,14 @@ namespace VVSAssistant.ViewModels
 
                     if (instanceCompleted.IsPrimaryBoiler)
                     {
-                        if (PackagedSolution.PrimaryHeatingUnit != null)
+                        if (PackagedSolution.PrimaryHeatingUnitInstance != null)
                         {
+                            PackagedSolution.PrimaryHeatingUnitInstance.IsPrimary = false;
                             // Inform the user that their previous primary heating unit will be replaced
                             await _dialogCoordinator.ShowMessageAsync(this, "Information",
                                     $"Da du har valgt en ny primærkedel er komponentet {PackagedSolution.PrimaryHeatingUnitInstance.Appliance.Name} nu en sekundærkedel.");
                         }
-                        PackagedSolution.PrimaryHeatingUnitInstance = appliance;
+                        appliance.IsPrimary = true;
                     }
                     AddApplianceToPackagedSolution(appliance);
                 });
@@ -480,7 +470,7 @@ namespace VVSAssistant.ViewModels
         private async void RunSolarContainerDialog(ApplianceInstance appliance)
         {
             var customDialog = new CustomDialog();
-            var dialogViewModel = new SolarContainerDialogViewModel(appliance, PackagedSolution, AppliancesInPackagedSolution,
+            var dialogViewModel = new SolarContainerDialogViewModel(appliance, AppliancesInPackagedSolution,
                                                                     closeHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
                                                                     completionHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog));
 
@@ -585,20 +575,11 @@ namespace VVSAssistant.ViewModels
             using (var ctx = new AssistantContext())
             {
                 var existingPackagedSolution = ctx.PackagedSolutions.Where(p => p.Id == packagedSolutionId)
-                    .Include(s => s.SolarContainerInstances.Select(i => i.Appliance.DataSheet))
-                    .Include(s => s.PrimaryHeatingUnitInstance.Appliance.DataSheet)
                     .Include(s => s.ApplianceInstances.Select(i => i.Appliance.DataSheet))
                     .FirstOrDefault();
 
                 if (existingPackagedSolution == null)
                     return;
-
-                // Copy primary heating unit
-                PackagedSolution.PrimaryHeatingUnitInstance = existingPackagedSolution.PrimaryHeatingUnitInstance?.MakeCopy();
-
-                // Copy solarcontainers
-                foreach (var solarContainer in existingPackagedSolution.SolarContainerInstances)
-                    PackagedSolution.SolarContainerInstances.Add(solarContainer.MakeCopy());
 
                 // Copy appliances
                 foreach (var appliance in existingPackagedSolution.ApplianceInstances)
@@ -689,6 +670,7 @@ namespace VVSAssistant.ViewModels
 
         private void UpdateEei()
         {
+            PackagedSolution.ApplianceInstances = AppliancesInPackagedSolution.ToList();
             PackagedSolution.EnergyLabel.Clear();
             PackagedSolution.UpdateEei();
             if (PackagedSolution.EnergyLabel != null && PackagedSolution.EnergyLabel.Count > 1)
