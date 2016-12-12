@@ -202,8 +202,8 @@ namespace VVSAssistant.ViewModels
             Offer.PackagedSolution = SelectedPackagedSolution;
 
             // Add appliances to appliances in this offer
-            foreach (var appliance in SelectedPackagedSolution.Appliances)
-                AppliancesInOffer.Add(new UnitPrice(appliance));
+            foreach (var appInstance in SelectedPackagedSolution.ApplianceInstances)
+                AppliancesInOffer.Add(new UnitPrice(appInstance.Appliance));
 
             UpdateSidebarValues();
 
@@ -322,11 +322,7 @@ namespace VVSAssistant.ViewModels
                     .Include(p => p.ApplianceInstances
                     .Select(a => a.Appliance.DataSheet))
                     .ToList()
-                    .ForEach(p =>
-                    {
-                        p.LoadFromInstances();
-                        PackagedSolutions.Add(p);
-                    });
+                    .ForEach(PackagedSolutions.Add);
             }
         }
 

@@ -19,7 +19,7 @@
         <valueConverters:DescriptionConverter x:Key="CommaToNewlineConverter"/>
         <Style x:Key="ApplianceCell" TargetType="DataGridCell" 
                BasedOn="{StaticResource {x:Type DataGridCell}}">
-            <Setter Property="ToolTip" Value="{Binding Description,
+            <Setter Property="ToolTip" Value="{Binding Appliance.Description,
                 Converter={StaticResource CommaToNewlineConverter}}"/>
             <Setter Property="ToolTipService.ShowDuration" Value="20000"/>
         </Style>
@@ -153,7 +153,7 @@
                       SelectionMode="Single"
                       SelectionUnit="FullRow"
                       ItemsSource="{Binding AppliancesInPackagedSolutionView}"
-                      SelectedItem="{Binding SelectedApplianceInSolution}">
+                      SelectedItem="{Binding SelectedApplianceInstance}">
                 <DataGrid.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Fjern fra pakkeløsning"
@@ -161,11 +161,11 @@
                     </ContextMenu>
                 </DataGrid.ContextMenu>
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding Name}"
+                    <DataGridTextColumn Binding="{Binding Appliance.Name}"
                                         Header="Navn"
                                         Width="*" 
                                         CellStyle="{StaticResource ApplianceCell}"/>
-                    <DataGridTextColumn Binding="{Binding Type, Converter={StaticResource ApplianceTypeConverter}}"
+                    <DataGridTextColumn Binding="{Binding Appliance.Type, Converter={StaticResource ApplianceTypeConverter}}"
                                         Header="Type"
                                         Width="*" 
                                         CellStyle="{StaticResource ApplianceCell}"/>

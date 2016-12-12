@@ -13,7 +13,6 @@ namespace VVSAssistant
     /// </summary>
     public partial class App
     {
-
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
@@ -21,7 +20,7 @@ namespace VVSAssistant
 
             using (var ctx = new AssistantContext())
             {
-                ctx.Database.Delete();
+                //ctx.Database.Delete();
                 if (ctx.Appliances.Any()) return;
                 ctx.Appliances.Add(new Appliance("Cerapur", new HeatingUnitDataSheet()
                 { WattUsage = 20, AFUE = 93, AFUEColdClima = 98.2f, AFUEWarmClima = 87.8f }, ApplianceTypes.Boiler)

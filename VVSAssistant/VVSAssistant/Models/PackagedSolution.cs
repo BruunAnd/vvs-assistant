@@ -19,20 +19,6 @@ namespace VVSAssistant.Models
             CalculationManager = new CalculationManager();
         }
 
-        public void LoadFromInstances()
-        {
-            Appliances = ApplianceInstances.Select(s => s.Appliance).ToList();
-            SolarContainers = SolarContainerInstances.Select(s => s.Appliance).ToList();
-            PrimaryHeatingUnit = PrimaryHeatingUnitInstance?.Appliance;
-        }
-
-        public void SaveToInstances()
-        {
-            ApplianceInstances = new List<ApplianceInstance>(Appliances.Select(a => new ApplianceInstance(a)));
-            SolarContainerInstances = new List<ApplianceInstance>(SolarContainers.Select(a => new ApplianceInstance(a)));
-            PrimaryHeatingUnitInstance = PrimaryHeatingUnit == null ? null: new ApplianceInstance(PrimaryHeatingUnit);
-        }
-
         public object MakeCopy()
         {
             var copy = Activator.CreateInstance(GetType()); //New object of same type
@@ -55,7 +41,7 @@ namespace VVSAssistant.Models
                 EnergyLabel.Add(calculation?.CalculateEEI(this));
         }
 
-        #region "Unmapped Properties"
+        #region Unmapped Properties
         [NotMapped]
         public List<Appliance> SolarContainers { get; set; }
         [NotMapped]
@@ -66,16 +52,16 @@ namespace VVSAssistant.Models
         private CalculationManager CalculationManager { get; }
         [NotMapped]
         public List<EEICalculationResult> EnergyLabel { get; set; }
-        public string Description => string.Join(", ", Appliances);
+        public string Description => string.Join(", ", ApplianceInstances.Select(a => a.Appliance));
         #endregion
 
-        #region "Mapped Properties"
+        #region Mapped Properties
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTime CreationDate { get; set; }
-        public ICollection<ApplianceInstance> SolarContainerInstances { get; private set; }
-        public ICollection<ApplianceInstance> ApplianceInstances { get; private set; }
-        public ApplianceInstance PrimaryHeatingUnitInstance { get; private set; }
+        public ICollection<ApplianceInstance> SolarContainerInstances { get; set; }
+        public ICollection<ApplianceInstance> ApplianceInstances { get; set; }
+        public ApplianceInstance PrimaryHeatingUnitInstance { get; set; }
         #endregion
     }
 }

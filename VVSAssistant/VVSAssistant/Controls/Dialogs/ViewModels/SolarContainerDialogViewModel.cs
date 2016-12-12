@@ -38,18 +38,18 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             }
         }
 
-        private Appliance _appliance;
-        public Appliance Appliance
+        private ApplianceInstance _appliance;
+        public ApplianceInstance Appliance
         {
             get { return _appliance; }
             set { _appliance = value; OnPropertyChanged(); }
         }
 
-        private readonly ObservableCollection<Appliance> _appsInSolution;
+        private readonly ObservableCollection<ApplianceInstance> _appsInSolution;
         private readonly PackagedSolution _packagedSolution;
 
-        public SolarContainerDialogViewModel(Appliance appliance, 
-            PackagedSolution packagedSolution, ObservableCollection<Appliance> appliances,
+        public SolarContainerDialogViewModel(ApplianceInstance appliance, 
+            PackagedSolution packagedSolution, ObservableCollection<ApplianceInstance> appliances,
             Action<SolarContainerDialogViewModel> closeHandler, 
             Action<SolarContainerDialogViewModel> completionHandler)
         {
@@ -73,7 +73,7 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             if (SolarContainer)
             {
                 /* Don't need to do anything with the solar collector. */
-                _packagedSolution.SolarContainers.Add(Appliance); /* Container */
+                _packagedSolution.SolarContainerInstances.Add(Appliance); /* Container */
                 _appsInSolution.Add(Appliance); /* Container */
             }
             else
