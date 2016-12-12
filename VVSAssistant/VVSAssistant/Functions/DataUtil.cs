@@ -2,17 +2,21 @@
 using System.IO;
 using System.Reflection;
 using System.Configuration;
+using System.Drawing;
 using System.IO.Compression;
 using System.Linq;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Markup;
+using System.Windows.Media;
 using System.Windows.Xps.Packaging;
 using Microsoft.Win32;
+using VVSAssistant.Common;
 using VVSAssistant.Models;
 using VVSAssistant.ViewModels;
 using VVSAssistant.Views;
+using FontFamily = System.Windows.Media.FontFamily;
+using Size = System.Windows.Size;
 
 namespace VVSAssistant.Functions
 {
@@ -88,7 +92,7 @@ namespace VVSAssistant.Functions
             return pageContent;
         }
 
-        private static void RunSaveDialog(FixedDocument fixedDocument, string offerTitle)
+        private static void RunSaveDialog(DocumentPaginator fixedDocument, string offerTitle)
         {
             var dlg = new SaveFileDialog()
             {
@@ -111,28 +115,39 @@ namespace VVSAssistant.Functions
         {
             public static void Export(Models.Offer offer)
             {
-                //var path = $"Offer.xps";
-                var fixedDoc = new FixedDocument();
+            //    //var path = $"Offer.xps";
+            //    var fixedDoc = new FixedDocument();
 
-                //PageOne
-                var vmOffer = new OfferExportViewModel(offer);
-                var pageOne = new OfferLayout();
-                vmOffer.PageOne = "Visible";
-                fixedDoc.Pages.Add(CreatePageContent(pageOne, vmOffer));
+            //    //PageOne
+            //    var vmOffer = new OfferExportViewModel(offer);
+            //    var pageOne = new OfferLayout();
+            //    vmOffer.PageOne = "Visible";
+            //    fixedDoc.Pages.Add(CreatePageContent(pageOne, vmOffer));
 
-                //PageTwo
-                vmOffer = new OfferExportViewModel(offer);
-                var pageTwo = new OfferLayout();
-                vmOffer.PageTwo = "Visible";
-                fixedDoc.Pages.Add(CreatePageContent(pageTwo, vmOffer));
+            //    //PageTwo
+            //    vmOffer = new OfferExportViewModel(offer);
+            //    var pageTwo = new OfferLayout();
+            //    vmOffer.PageTwo = "Visible";
+            //    fixedDoc.Pages.Add(CreatePageContent(pageTwo, vmOffer));
 
-                //pageThree
-                vmOffer = new OfferExportViewModel(offer);
-                var pageThree = new OfferLayout();
-                vmOffer.PageThree = "Visible";
-                fixedDoc.Pages.Add(CreatePageContent(pageThree, vmOffer));
+            //    //pageThree
+            //    vmOffer = new OfferExportViewModel(offer);
+            //    var pageThree = new OfferLayout();
+            //    vmOffer.PageThree = "Visible";
+            //    fixedDoc.Pages.Add(CreatePageContent(pageThree, vmOffer));
 
-                RunSaveDialog(fixedDoc, offer.OfferInformation.Title);
+            //    RunSaveDialog(fixedDoc, offer.OfferInformation.Title);
+
+                var layout = new OfferLayout {DataContext = new OfferExportViewModel(offer)};
+                var flowDoc = layout.FlowDocument;
+                flowDoc.FontFamily = new FontFamily("Calibri");
+
+                IDocumentPaginatorSource dps = flowDoc;
+                var dp = dps.DocumentPaginator;
+
+                var edp = new ExtendedDocumentPaginator(dp, new Size(0, 0), dp.PageSize);
+                
+                RunSaveDialog(edp, offer.OfferInformation.Title);
             }
 
             
@@ -165,8 +180,10 @@ namespace VVSAssistant.Functions
                     calculationViewModel.SetupSpecialPage();
                     fixedDoc.Pages.Add(CreatePageContent(calculationLayout, calculationViewModel));
                 }
+                
+                IDocumentPaginatorSource dps = fixedDoc;
 
-                RunSaveDialog(fixedDoc, packaged.Name);
+                RunSaveDialog(fixedDoc.DocumentPaginator, packaged.Name);
             }
         }
     }

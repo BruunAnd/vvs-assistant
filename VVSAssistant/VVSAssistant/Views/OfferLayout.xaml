@@ -4,10 +4,221 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:valueConverters="clr-namespace:VVSAssistant.ValueConverters"
-             mc:Ignorable="d" 
-             Height="27.7cm" Width="21.0cm">
-
+             xmlns:viewModels="clr-namespace:VVSAssistant.ViewModels"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance viewModels:OfferExportViewModel}"
+             Height="27.7cm" Width="21.0cm"
+             x:Name="OfferLayoutView">
+    
     <ContentControl.Resources>
+        <valueConverters:PriceConverter x:Key="PriceConverter"/>
+    </ContentControl.Resources>
+
+    <FlowDocument x:Name="OfferDocument" ColumnWidth="99999999" PagePadding="2cm">
+        <Section Margin="0 0 0 50">
+            <Table>
+                <Table.Columns>
+                    <TableColumn/>
+                    <TableColumn/>
+                </Table.Columns>
+                <TableRowGroup>
+                    <TableRow>
+                        <!-- Left top -->
+                        <TableCell RowSpan="2">
+                            <Paragraph TextAlignment="Left">
+                                <Run FontSize="14" FontWeight="Bold" Text="{Binding ClientCompanyName}"/>
+                                <LineBreak/>
+                                <Run FontSize="14" Text="{Binding ClientName}"/>
+                                <LineBreak/>
+                                <Run FontSize="14" Text="{Binding ClientStreet}"/>
+                                <LineBreak/>
+                                <Run FontSize="14" Text="{Binding ClientCity}"/>
+                            </Paragraph>
+                        </TableCell>
+                        <TableCell>
+                            <!-- Right top -->
+                            <Paragraph TextAlignment="Right">
+                                <Run FontSize="14" Text="{Binding CreationDate, StringFormat=dd-MM-yyyy}"/>
+                            </Paragraph>
+                        </TableCell>
+                    </TableRow>
+                </TableRowGroup>
+            </Table>
+        </Section>
+        <Section>
+            <Paragraph>
+                <Run FontSize="15" FontWeight="Bold" Text="{Binding OfferTitle}"/>
+            </Paragraph>
+            <Paragraph>
+                <Run FontSize="14" Text="{Binding IntroText}"/>
+            </Paragraph>
+        </Section>
+        <Section TextAlignment="Center" Margin="0 50 0 50">
+            <Paragraph>
+                <Run FontFamily="Calibri" FontSize="16" FontWeight="Bold" Text="Samlet pris:"/>
+                <Run Text="{Binding TotalSalesPrice, Converter={StaticResource PriceConverter}}" 
+                     FontFamily="Calibri" FontSize="16" FontWeight="Bold"/>
+                <Run FontFamily="Calibri" FontSize="16"
+                       FontWeight="Bold" Text="{Binding Moms}"/>
+            </Paragraph>
+        </Section>
+        <Section>
+            <Paragraph>
+                <Run FontSize="15" TextDecorations="Underline" Text="Forbehold for tilbuddet og kontrakt:"/>
+            </Paragraph>
+            <Paragraph>
+                <Run FontSize="14" Text="{Binding OutroText}"/>
+            </Paragraph>
+        </Section>
+        <Section>
+            <Table>
+                <Table.Columns>
+                    <TableColumn/>
+                    <TableColumn/>
+                </Table.Columns>
+                <TableRowGroup>
+                    <TableRow>
+                        <TableCell RowSpan="2">
+                            <Paragraph FontSize="14">
+                                <Run Text="Med venlig hilsen,"/>
+                                <LineBreak/>
+                                <Run Text="{Binding Signatur}"/>
+                                <LineBreak/>
+                            </Paragraph>
+                            <Paragraph FontSize="14">
+                                <Run Text="{Binding CompanyName}"/>
+                            </Paragraph>
+                        </TableCell>
+                        <TableCell TextAlignment="Right">
+                            <Paragraph FontSize="14" Margin="0 0 200 0">
+                                <Run Text="Accept af tilbud"/>
+                            </Paragraph>
+                            <BlockUIContainer Margin="0 45 0 0">
+                                <Line HorizontalAlignment="Right" X1="175" Y1="0" Stroke="Black" Margin="0 0 125 0"/>
+                            </BlockUIContainer>
+                            <BlockUIContainer>
+                                <Line HorizontalAlignment="Right" X1="100" Y1="0" Stroke="Black"/>
+                            </BlockUIContainer>
+                            <Paragraph FontSize="14" FontStyle="Italic">
+                                <TextBlock Text="Underskrift" Margin="0 0 125 0"/>
+                                <TextBlock Text="Dato" Margin="0 0 65 0"/>
+                            </Paragraph>
+                        </TableCell>
+                    </TableRow>
+                </TableRowGroup>
+            </Table>
+        </Section>
+        <Section BreakPageBefore="True">
+            <Table>
+                <Table.Columns>
+                    <TableColumn/>
+                    <TableColumn/>
+                </Table.Columns>
+                <TableRowGroup>
+                    <TableRow>
+                        <TableCell RowSpan="2">
+                            <Paragraph Margin="0 0 0 10" FontSize="16" FontWeight="Bold">
+                                <Run Text="Tekst"/>
+                            </Paragraph>
+                            <Paragraph LineHeight="30">
+                                <Run Text="Komponenter"/>
+                                <LineBreak/>
+                                <Run Text="Løn"/>
+                                <LineBreak/>
+                                <Run Text="Materialer"/>
+                            </Paragraph>
+                        </TableCell>
+                        <TableCell TextAlignment="Right">
+                            <Paragraph Margin="0 0 0 10" FontSize="16" FontWeight="Bold">
+                                <Run Text="Salgspris"/>
+                            </Paragraph>
+                            <Paragraph LineHeight="30">
+                                <Run Text="{Binding AppliancesPrice, Converter={StaticResource PriceConverter}}"/>
+                                <LineBreak/>
+                                <Run Text="{Binding SalariesPrice, Converter={StaticResource PriceConverter}}"/>
+                                <LineBreak/>
+                                <Run Text="{Binding MaterialsPrice, Converter={StaticResource PriceConverter}}"/>
+                            </Paragraph>
+                        </TableCell>
+                    </TableRow>
+                </TableRowGroup>
+                <TableRowGroup>
+                    <TableRow>
+                        <TableCell ColumnSpan="2">
+                            <BlockUIContainer Margin="0 25 0 25">
+                                <Separator BorderThickness="1" BorderBrush="Black"/>
+                            </BlockUIContainer>
+                        </TableCell>
+                    </TableRow>
+                </TableRowGroup>
+                <TableRowGroup FontWeight="Bold">
+                    <TableRow >
+                        <TableCell RowSpan="2" LineHeight="30">
+                            <Paragraph>
+                                <Run Text="Totalsum"/>
+                                <LineBreak/>
+                                <Run Text="Moms (25%)"/>
+                            </Paragraph>
+                        </TableCell>
+                        <TableCell LineHeight="30">
+                            <Paragraph TextAlignment="Right">
+                                <Run Text="{Binding TotalAmountEks, Converter={StaticResource PriceConverter}}"/>
+                                <LineBreak/>
+                                <Run Text="{Binding MomsAmount, Converter={StaticResource PriceConverter}}"/>
+                            </Paragraph>
+                        </TableCell>
+                    </TableRow>
+                </TableRowGroup>
+
+                <TableRowGroup>
+                    <TableRow>
+                        <TableCell ColumnSpan="2">
+                            <BlockUIContainer  Margin="0 25 0 0">
+                                <Separator BorderThickness="1" BorderBrush="Black"/>
+                            </BlockUIContainer>
+                        </TableCell>
+                    </TableRow>
+                </TableRowGroup>
+                
+                <TableRowGroup FontWeight="Bold">
+                    <TableRow>
+                        <TableCell RowSpan="2">
+                            <Paragraph>
+                                <Run Text="Totalsum inkl. moms"/>
+                            </Paragraph>
+                        </TableCell>
+                        <TableCell>
+                            <Paragraph TextAlignment="Right">
+                                <Run Text="{Binding TotalSalesPriceInkl, Converter={StaticResource PriceConverter}}"/>
+                            </Paragraph>
+                        </TableCell>
+                    </TableRow>
+                </TableRowGroup>
+
+                <TableRowGroup>
+                    <TableRow>
+                        <TableCell ColumnSpan="2">
+                            <BlockUIContainer>
+                                <Separator BorderThickness="1" BorderBrush="Black"/>
+                            </BlockUIContainer>
+                        </TableCell>
+                    </TableRow>
+                </TableRowGroup>
+            </Table>
+        </Section>
+    </FlowDocument>
+    
+    <!--<Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="5" Width="auto" Height="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="Black"/>
+    <Label Grid.Column="0" Grid.Row="0" FontWeight="Bold" FontSize="15" Content="Totalsum" Grid.ColumnSpan="3"/>
+    <Label Grid.Column="4" Grid.Row="0" FontWeight="Bold" FontSize="15" HorizontalAlignment="Right" Content="{Binding TotalAmountEks, Converter={StaticResource PriceConverter}}"/>
+    <Label Grid.Column="0" Grid.Row="1" FontWeight="Bold" FontSize="15" Content="Moms (25%)" Grid.ColumnSpan="3"/>
+    <Label Grid.Column="4" Grid.Row="1" FontWeight="Bold" FontSize="15" HorizontalAlignment="Right" Content="{Binding MomsAmount, Converter={StaticResource PriceConverter}}"/>
+    <Border Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="5" Width="auto" Height="1" HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="Black"/>
+    <Label Grid.Column="0" Grid.Row="3" FontWeight="Bold" FontSize="15" Content="Totalsum inkl. moms" Grid.ColumnSpan="3"/>
+    <Label Grid.Column="4" Grid.Row="3" FontWeight="Bold" FontSize="15" HorizontalAlignment="Right" Content="{Binding TotalSalesPriceInkl, Converter={StaticResource PriceConverter}}"/>
+    <Border Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="5" Width="auto" Height="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="Black"/>-->
+
+    <!--<ContentControl.Resources>
         <valueConverters:PriceConverter x:Key="PriceConverter"/>
     </ContentControl.Resources>
     <Grid Background="White">
@@ -249,5 +460,5 @@
                        HorizontalAlignment="Left" FontSize="14"
                        Content="{Binding WebSite}"/>
         </Grid>
-    </Grid>
+    </Grid>-->
 </ContentControl>
