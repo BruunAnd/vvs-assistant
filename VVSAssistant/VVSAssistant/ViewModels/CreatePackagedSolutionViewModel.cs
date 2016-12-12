@@ -186,7 +186,7 @@ namespace VVSAssistant.ViewModels
         public RelayCommand NewPackagedSolutionCmd { get; }
         public RelayCommand SavePackagedSolutionCmd { get; }
         public RelayCommand CreateNewApplianceCmd { get; }
-        public RelayCommand PdfExportCmd { get; }
+        public RelayCommand PrintEnergyLabelCmd { get; }
         public RelayCommand NavigateBackCmd { get; }
 
         #endregion
@@ -282,7 +282,7 @@ namespace VVSAssistant.ViewModels
                 RunCreateApplianceDialog();
             });
 
-            PdfExportCmd = new RelayCommand(x =>
+            PrintEnergyLabelCmd = new RelayCommand(x =>
             {
                 PackagedSolution.Appliances = AppliancesInPackagedSolution.ToList();
                 DataUtil.EnergyLabel.ExportEnergyLabel(PackagedSolution);
@@ -336,7 +336,7 @@ namespace VVSAssistant.ViewModels
             IsDataSaved = false;
 
             // Notify the print function of changes
-            PdfExportCmd.NotifyCanExecuteChanged();
+            PrintEnergyLabelCmd.NotifyCanExecuteChanged();
         }
 
         /// <summary>
@@ -427,7 +427,7 @@ namespace VVSAssistant.ViewModels
 
             // Set save state to true and notify print function of change
             IsDataSaved = true;
-            PdfExportCmd.NotifyCanExecuteChanged();
+            PrintEnergyLabelCmd.NotifyCanExecuteChanged();
         }
 
         #region Run dialog methods
@@ -561,7 +561,7 @@ namespace VVSAssistant.ViewModels
         {
             NewPackagedSolutionCmd.NotifyCanExecuteChanged();
             SavePackagedSolutionCmd.NotifyCanExecuteChanged();
-            PdfExportCmd.NotifyCanExecuteChanged();
+            PrintEnergyLabelCmd.NotifyCanExecuteChanged();
             UpdateEei();
         }
 
