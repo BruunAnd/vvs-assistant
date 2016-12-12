@@ -4,7 +4,6 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
 {
     class PackageStub : PackagedSolution
     {
-        public int Id { get; set; }
         public PackageStub(BoilerId priBoiler, ContainerId? solarContain, BoilerId? secBoiler, SolarPanelId? solar, int numberOfSolars,
             HeatpumpId? heatpump, ContainerId? container, TempControlId? tempControl)
         {

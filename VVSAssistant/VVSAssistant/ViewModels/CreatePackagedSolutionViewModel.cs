@@ -345,7 +345,9 @@ namespace VVSAssistant.ViewModels
             // Check if the appliance is used in any packaged solutions
             using (var ctx = new AssistantContext())
             {
-                var conflictingSolutions = ctx.PackagedSolutions.Where(s => s.ApplianceInstances.Any(a => a.Appliance.Id == appliance.Id)).ToList();
+                var conflictingSolutions = ctx.PackagedSolutions.Include(a => a.ApplianceInstances)
+                    .Where(s => s.ApplianceInstances.Any(a => a.Appliance.Id == appliance.Id))
+                    .ToList();
                 if (conflictingSolutions.Count > 0)
                 {
                     var formattedSolutionString = string.Join("\n", conflictingSolutions.Select(x => $"- {x.Name}"));
@@ -367,14 +369,8 @@ namespace VVSAssistant.ViewModels
             // Remove from database
             using (var ctx = new AssistantContext())
             {
-                // Attach appliance to this context, since it was loaded using another context
-                var apps = ctx.Appliances.ToList().Where(item => item.Equals(appliance));
-                foreach (var item in apps)
-                {
-                    ctx.Appliances.Remove(item);
-                }
-                //ctx.Appliances.Attach(item);
-                //ctx.Appliances.Remove(appliance);
+                ctx.Entry(appliance).State = EntityState.Deleted;
+
                 ctx.SaveChanges();
             }
         }
@@ -406,11 +402,14 @@ namespace VVSAssistant.ViewModels
                     });
                 }
 
-                // Attach appliance instances to avoid duplicates
+                // Attach appliances and appliance instances to avoid duplicates
                 foreach (var appInstance in PackagedSolution.ApplianceInstances)
-                    ctx.Entry(appInstance).State = appInstance.Id == 0 ? EntityState.Added : EntityState.Unchanged;
+                {
+                    ctx.Entry(appInstance.Appliance.DataSheet).State = EntityState.Unchanged;
+                    ctx.Entry(appInstance.Appliance).State = EntityState.Unchanged;
 
-                Console.WriteLine(ctx.Entry(PackagedSolution).State);
+                    ctx.Entry(appInstance).State = appInstance.Id == 0 ? EntityState.Added : EntityState.Unchanged;
+                }
 
                 // Set the creation date to now
                 if (PackagedSolution.CreationDate == default(DateTime))
@@ -565,8 +564,7 @@ namespace VVSAssistant.ViewModels
         {
             using (var ctx = new AssistantContext())
             {
-                var apps = ctx.Appliances.Include(a => a.DataSheet).ToList();
-                apps.Distinct().ToList().ForEach(Appliances.Add);
+                ctx.Appliances.Include(a => a.DataSheet).ToList().ForEach(Appliances.Add);
             }
         }
 

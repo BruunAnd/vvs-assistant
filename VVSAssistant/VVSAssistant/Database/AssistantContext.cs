@@ -14,9 +14,9 @@ namespace VVSAssistant.Database
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             // Map PackagedSolution
-            modelBuilder.Entity<PackagedSolution>().HasMany(s => s.ApplianceInstances);
+            modelBuilder.Entity<PackagedSolution>().HasMany(s => s.ApplianceInstances).WithRequired();
 
-            // Map Appliance
+            //// Map Appliance
             modelBuilder.Entity<Appliance>().HasRequired(a => a.DataSheet);
 
             // Map Client
@@ -29,14 +29,14 @@ namespace VVSAssistant.Database
             modelBuilder.Entity<SolarStationDataSheet>().ToTable("SolarStationDataSheets");
             modelBuilder.Entity<TemperatureControllerDataSheet>().ToTable("TemperatureControllerDataSheets");
 
-            // Map ApplianceInstance
+            //// Map ApplianceInstance
             modelBuilder.Entity<ApplianceInstance>().HasRequired(a => a.Appliance).WithMany();
 
             // Map Offer
-            modelBuilder.Entity<Offer>().HasMany(o => o.Materials).WithOptional();
-            modelBuilder.Entity<Offer>().HasMany(o => o.Salaries).WithOptional();
-            modelBuilder.Entity<Offer>().HasMany(o => o.Appliances).WithOptional();
-            modelBuilder.Entity<Offer>().HasRequired(o => o.PackagedSolution).WithMany();
+            modelBuilder.Entity<Offer>().HasMany(o => o.Materials);
+            modelBuilder.Entity<Offer>().HasMany(o => o.Salaries);
+            modelBuilder.Entity<Offer>().HasMany(o => o.Appliances);
+            modelBuilder.Entity<Offer>().HasRequired(o => o.PackagedSolution);
         }
 
         public DbSet<CompanyInformation> CompanyInformation { get; set; }

@@ -9,10 +9,12 @@ namespace VVSAssistant.Functions.Calculation
     internal class PackageDataManager
     {
         private readonly PackagedSolution _package;
+
         public PackageDataManager(PackagedSolution package)
         {
             _package = package;
         }
+
         /// <summary>
         /// Retrives the Primary Heating Appliance
         /// </summary>
@@ -29,9 +31,7 @@ namespace VVSAssistant.Functions.Calculation
             var solarPanel = _package.ApplianceInstances.FirstOrDefault(item =>
             {
                 var solarCollectorDataSheet = item?.Appliance?.DataSheet as SolarCollectorDataSheet;
-                return solarCollectorDataSheet != null &&
-                (item?.Appliance?.Type == ApplianceTypes.SolarPanel &&
-                solarPanelData.Invoke(item));
+                return solarCollectorDataSheet != null && item.Appliance?.Type == ApplianceTypes.SolarPanel && solarPanelData.Invoke(item);
             });
             return solarPanel?.Appliance?.DataSheet as SolarCollectorDataSheet ?? null;
         }
@@ -45,8 +45,7 @@ namespace VVSAssistant.Functions.Calculation
         {
             get
             {
-                return _package.ApplianceInstances.FirstOrDefault(item =>
-                    item?.Appliance?.Type == ApplianceTypes.SolarStation)?.Appliance?.DataSheet as SolarStationDataSheet;
+                return _package.ApplianceInstances.FirstOrDefault(item => item?.Appliance?.Type == ApplianceTypes.SolarStation)?.Appliance?.DataSheet as SolarStationDataSheet;
             }
         }
         /// <summary>
@@ -59,12 +58,9 @@ namespace VVSAssistant.Functions.Calculation
             var solarPanels = _package.ApplianceInstances.Where(item =>
             {
                 var solarCollectorDataSheet = item?.Appliance?.DataSheet as SolarCollectorDataSheet;
-                return solarCollectorDataSheet != null &&
-                (item.Appliance?.Type == ApplianceTypes.SolarPanel &&
-                panelHeatingUse.Invoke(item));
+                return solarCollectorDataSheet != null && item.Appliance?.Type == ApplianceTypes.SolarPanel && panelHeatingUse.Invoke(item);
             });
-            return solarPanels.Select(item => item.Appliance.DataSheet).OfType<SolarCollectorDataSheet>().
-                    Sum(solarCollectorDataSheet => solarCollectorDataSheet.Area);
+            return solarPanels.Select(item => item.Appliance.DataSheet).OfType<SolarCollectorDataSheet>().Sum(solarCollectorDataSheet => solarCollectorDataSheet.Area);
         }
 
         /// <summary/>
@@ -91,8 +87,7 @@ namespace VVSAssistant.Functions.Calculation
             var ans = _package.SolarContainerInstances.Count(item =>
             {
                 var containerDataSheet = item?.Appliance?.DataSheet as ContainerDataSheet;
-                return containerDataSheet != null &&
-                       containerTypes.Invoke(containerDataSheet);
+                return containerDataSheet != null && containerTypes.Invoke(containerDataSheet);
             });
             return ans;
         }
@@ -106,8 +101,7 @@ namespace VVSAssistant.Functions.Calculation
             var solarContainers = _package.SolarContainerInstances.Where(item =>
             {
                 var containerDataSheet = item?.Appliance?.DataSheet as ContainerDataSheet;
-                return containerDataSheet != null &&
-                containerUsage.Invoke(containerDataSheet);
+                return containerDataSheet != null && containerUsage.Invoke(containerDataSheet);
             });
             return solarContainers;
         }
@@ -116,21 +110,16 @@ namespace VVSAssistant.Functions.Calculation
         /// Working assumption is that a packaged solution cannot contain more than
         /// one supplementary HeatPump.
         /// </summary>
-        public HeatingUnitDataSheet SupplementaryHeatPump =>
-            _package.ApplianceInstances.FirstOrDefault(item =>
-                item?.Appliance?.Type == ApplianceTypes.HeatPump &&
-                item != _package.PrimaryHeatingUnitInstance)?.Appliance?.DataSheet
-                as HeatingUnitDataSheet;
+        public HeatingUnitDataSheet SupplementaryHeatPump => _package.ApplianceInstances.FirstOrDefault(item => item?.Appliance?.Type == ApplianceTypes.HeatPump &&
+            item != _package.PrimaryHeatingUnitInstance)?.Appliance?.DataSheet as HeatingUnitDataSheet;
 
         /// <summary>
         /// Returns the first Boiler in the Appliances list in PackagedSolution.
         /// Working assumption is that a packaged solution connot contain more 
         /// than one supplementary Boiler.
         /// </summary>
-        public HeatingUnitDataSheet SupplementaryBoiler =>
-            _package.ApplianceInstances.FirstOrDefault(item =>
-                item?.Appliance?.Type == ApplianceTypes.Boiler &&
-                item != _package.PrimaryHeatingUnitInstance)?.Appliance?.DataSheet as HeatingUnitDataSheet;
+        public HeatingUnitDataSheet SupplementaryBoiler => _package.ApplianceInstances.FirstOrDefault(item => item?.Appliance?.Type == ApplianceTypes.Boiler &&
+            item != _package.PrimaryHeatingUnitInstance)?.Appliance?.DataSheet as HeatingUnitDataSheet;
 
         /// <summary>
         /// Returns true when there exists an container in the packaged solution

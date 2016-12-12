@@ -19,8 +19,8 @@ namespace VVSAssistant.ViewModels
         public RelayCommand PrintOfferCmd { get; }
         public RelayCommand DropOfferCmd { get; }
 
-        private ObservableCollection<Offer> _offers;
-        public ObservableCollection<Offer> Offers
+        private AsyncObservableCollection<Offer> _offers;
+        public AsyncObservableCollection<Offer> Offers
         {
             get { return _offers; }
             set { _offers = value; OnPropertyChanged(); }
@@ -42,6 +42,9 @@ namespace VVSAssistant.ViewModels
 
         public ExistingOffersViewModel(IDialogCoordinator coordinator)
         {
+            Offers = new AsyncObservableCollection<Offer>();
+            SetupFilterableView(Offers);
+
             NavigateBackCmd = new RelayCommand(x =>
             {
                 NavigationService.GoBack();
@@ -84,15 +87,14 @@ namespace VVSAssistant.ViewModels
         {
             using (var ctx = new AssistantContext())
             {
-                Offers = new ObservableCollection<Offer>(ctx.Offers
-                    .Include(o => o.Materials)
+                ctx.Offers.Include(o => o.Materials)
                     .Include(o => o.Salaries)
                     .Include(o => o.PackagedSolution.ApplianceInstances.Select(a => a.Appliance))
                     .Include(o => o.OfferInformation)
                     .Include(o => o.Client.ClientInformation)
-                    .ToList());
+                    .ToList()
+                    .ForEach(Offers.Add);
             }
-            SetupFilterableView(Offers);
         }
 
         protected override bool Filter(Offer obj)
