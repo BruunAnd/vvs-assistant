@@ -16,12 +16,12 @@ namespace VVSAssistant.Models
 
         public virtual object MakeCopy()
         {
-            var copy = Activator.CreateInstance(GetType());
-            var properties = GetType().GetProperties();
-            foreach (var pi in copy.GetType().GetProperties())
+            var copy = Activator.CreateInstance(this.GetType()); //New object of same type
+            var properties = this.GetType().GetProperties(); //All properties from this object
+            foreach (var pi in copy.GetType().GetProperties()) //For all the properties in the new object
             {
-                var matchingProperty = properties.First(p => p.Name == pi.Name);
-                pi.SetValue(copy, matchingProperty.GetValue(this));
+                var matchingProperty = properties.First(p => p.Name == pi.Name); //Find the property with the same name in this object
+                pi.SetValue(copy, matchingProperty.GetValue(this)); //Set the new object's property with this name to the value of the same property in this object
             }
             return copy;
         }
