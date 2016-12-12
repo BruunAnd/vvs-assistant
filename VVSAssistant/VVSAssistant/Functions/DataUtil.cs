@@ -115,35 +115,12 @@ namespace VVSAssistant.Functions
         {
             public static void Export(Models.Offer offer)
             {
-            //    //var path = $"Offer.xps";
-            //    var fixedDoc = new FixedDocument();
-
-            //    //PageOne
-            //    var vmOffer = new OfferExportViewModel(offer);
-            //    var pageOne = new OfferLayout();
-            //    vmOffer.PageOne = "Visible";
-            //    fixedDoc.Pages.Add(CreatePageContent(pageOne, vmOffer));
-
-            //    //PageTwo
-            //    vmOffer = new OfferExportViewModel(offer);
-            //    var pageTwo = new OfferLayout();
-            //    vmOffer.PageTwo = "Visible";
-            //    fixedDoc.Pages.Add(CreatePageContent(pageTwo, vmOffer));
-
-            //    //pageThree
-            //    vmOffer = new OfferExportViewModel(offer);
-            //    var pageThree = new OfferLayout();
-            //    vmOffer.PageThree = "Visible";
-            //    fixedDoc.Pages.Add(CreatePageContent(pageThree, vmOffer));
-
-            //    RunSaveDialog(fixedDoc, offer.OfferInformation.Title);
-
-                var context = new OfferExportViewModel(offer);
-                var layout = new OfferLayout {DataContext = context};
-                var footer = new CompanyFooter() {DataContext = context};
+                var layout = new OfferLayout
+                {
+                    DataContext = new OfferExportViewModel(offer),
+                    FontFamily = new FontFamily("Calibri")
+                };
                 
-                layout.FontFamily = new FontFamily("Calibri");
-
                 IDocumentPaginatorSource dps = layout;
                 
                 RunSaveDialog(dps.DocumentPaginator, offer.OfferInformation.Title);
