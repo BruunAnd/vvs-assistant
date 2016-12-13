@@ -113,26 +113,6 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
 
             SaveCommand = new RelayCommand(x =>
             {
-                /* Pass the newly created appliance back to the view model */
-
-                /* ERROR: When writing that "newAppliance = NewAppliance; ", the 
-                 * system will give an error. However, when explicitly assigning 
-                 * the datasheets, it works just fine. I have absolutely no idea 
-                 * why this is. Can someone please explain? */
-
-                /* Code that DOESN'T work: 
-                 *     newAppliance = NewAppliance; 
-                 *     completionHandler(this);  */
-
-                /* Code that DOESN'T work either: 
-                 *     newAppliance = NewAppliance; 
-                 *     newAppliance.DataSheet = NewAppliance.DataSheet; 
-                 *     completionHandler(this);                      */
-
-                /* Code that works: */
-                //newAppliance.Name = NewAppliance.Name;
-                //newAppliance.Type = NewAppliance.Type;
-                //newAppliance.DataSheet = NewAppliance.DataSheet;
                 completionHandler(this);
             });
 
