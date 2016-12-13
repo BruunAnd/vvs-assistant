@@ -34,8 +34,12 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
         private readonly ObservableCollection<Appliance> _appsInSolution;
         private readonly Appliance _solarPanel;
 
-        public int Quantity { get; set; } = 1;
-
+        private int _quantity = 1;
+        public int Quantity {
+            get { return _quantity; }
+            set { _quantity = Math.Abs(value); }
+        }
+        
         private bool _isWaterHeater;
         private bool _isRoomHeater;
         public bool IsWaterHeater
