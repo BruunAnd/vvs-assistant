@@ -385,11 +385,11 @@ namespace VVSAssistant.ViewModels
              *  a solar collector without a container tied to it. */
             using (var ctx = new AssistantContext())
             {
+                // Copy visible list of appliance instances to the list in the model
+                var newApplianceInstanceList = AppliancesInPackagedSolution.ToList();
+
                 // Mark packaged solution as added if new or modified if old
                 ctx.Entry(PackagedSolution).State = PackagedSolution.Id == 0 ? EntityState.Added : EntityState.Modified;
-
-                // Copy visible list of appliance instances to the list in the model
-                PackagedSolution.ApplianceInstances = AppliancesInPackagedSolution.ToList();
 
                 // Mark removed appliance instances as deleted
                 if (PackagedSolution.Id > 0)
@@ -397,19 +397,22 @@ namespace VVSAssistant.ViewModels
                     var previousPackagedSolution = ctx.PackagedSolutions.Include(a => a.ApplianceInstances).FirstOrDefault(p => p.Id == PackagedSolution.Id);
                     previousPackagedSolution?.ApplianceInstances.ToList().ForEach(instance =>
                     {
-                        if (PackagedSolution.ApplianceInstances.All(a => a.Id != instance.Id))
-                            ctx.Entry(instance).State = EntityState.Deleted; 
+                        if (newApplianceInstanceList.All(a => a.Id != instance.Id))
+                            ctx.Entry(instance).State = EntityState.Deleted;
                     });
                 }
 
                 // Attach appliances and appliance instances to avoid duplicates
-                foreach (var appInstance in PackagedSolution.ApplianceInstances)
+                foreach (var appInstance in newApplianceInstanceList)
                 {
                     ctx.Entry(appInstance.Appliance.DataSheet).State = EntityState.Unchanged;
                     ctx.Entry(appInstance.Appliance).State = EntityState.Unchanged;
 
                     ctx.Entry(appInstance).State = appInstance.Id == 0 ? EntityState.Added : EntityState.Unchanged;
                 }
+
+                // Set new appliance instance list
+                PackagedSolution.ApplianceInstances = newApplianceInstanceList;
 
                 // Set the creation date to now
                 if (PackagedSolution.CreationDate == default(DateTime))
