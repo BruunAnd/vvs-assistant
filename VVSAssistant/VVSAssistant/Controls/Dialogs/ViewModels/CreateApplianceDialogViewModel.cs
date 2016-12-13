@@ -32,8 +32,11 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             {
                 if (value == null)
                     return;
-                ApplianceTypes type = ApplianceTypeConverter.ConvertStringToType(value);
+                ApplianceTypes type = ApplianceTypeConverter.ConvertStringToType(value); //Save for the new instance
+                string name = NewAppliance.Name; //Save for the new instance
                 NewAppliance = appFactory.CreateAppliance(type);
+                NewAppliance.Name = name;
+                NewAppliance.Type = type;
                 OnPropertyChanged("NewAppliance");
                 OnPropertyChanged("CanEditProperties");
                 OnDataSheetChanged(NewAppliance.DataSheet);
@@ -104,14 +107,32 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             CloseCommand = new RelayCommand(x =>
             {
                 if (!IsNewAppliance)
-                    NewAppliance.DataSheet = OldDataSheet;
+                    newAppliance.DataSheet = OldDataSheet;
                 closeHandler(this);
             });
 
             SaveCommand = new RelayCommand(x =>
             {
                 /* Pass the newly created appliance back to the view model */
-                newAppliance = NewAppliance; 
+
+                /* ERROR: When writing that "newAppliance = NewAppliance; ", the 
+                 * system will give an error. However, when explicitly assigning 
+                 * the datasheets, it works just fine. I have absolutely no idea 
+                 * why this is. Can someone please explain? */
+
+                /* Code that DOESN'T work: 
+                 *     newAppliance = NewAppliance; 
+                 *     completionHandler(this);  */
+
+                /* Code that DOESN'T work either: 
+                 *     newAppliance = NewAppliance; 
+                 *     newAppliance.DataSheet = NewAppliance.DataSheet; 
+                 *     completionHandler(this);                      */
+
+                /* Code that works: */
+                newAppliance.Name = NewAppliance.Name;
+                newAppliance.Type = NewAppliance.Type;
+                newAppliance.DataSheet = NewAppliance.DataSheet;
                 completionHandler(this);
             });
 
