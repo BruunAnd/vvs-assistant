@@ -451,10 +451,10 @@ namespace VVSAssistant.ViewModels
                     {
                         if (PackagedSolution.PrimaryHeatingUnitInstance != null)
                         {
-                            PackagedSolution.PrimaryHeatingUnitInstance.IsPrimary = false;
                             // Inform the user that their previous primary heating unit will be replaced
                             await _dialogCoordinator.ShowMessageAsync(this, "Information",
                                     $"Da du har valgt en ny primærkedel er komponentet {PackagedSolution.PrimaryHeatingUnitInstance.Appliance.Name} nu en sekundærkedel.");
+                            PackagedSolution.PrimaryHeatingUnitInstance.IsPrimary = false;
                         }
                         appliance.IsPrimary = true;
                     }
