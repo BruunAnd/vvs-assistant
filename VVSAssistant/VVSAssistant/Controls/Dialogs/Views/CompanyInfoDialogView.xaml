@@ -29,17 +29,17 @@
 
         <StackPanel Grid.Row="2" >
             <Label Content="Firmanavn: "/>
-            <TextBox Text="{Binding CompanyInformation.CompanyName}"/>
+            <TextBox Text="{Binding CompanyName, UpdateSourceTrigger=PropertyChanged}"/>
             <Label Content="Firma adresse: "/>
-            <TextBox Text="{Binding CompanyInformation.Address}"/>
+            <TextBox Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}"/>
             <Label Content="CVR: "/>
-            <TextBox Text="{Binding CompanyInformation.Cvr}"/>
+            <TextBox Text="{Binding Cvr, UpdateSourceTrigger=PropertyChanged}"/>
             <Label Content="Telefonnummer: "/>
-            <TextBox Text="{Binding CompanyInformation.Telephone}"/>
+            <TextBox Text="{Binding Telephone, UpdateSourceTrigger=PropertyChanged}"/>
             <Label Content="Email: "/>
-            <TextBox Text="{Binding CompanyInformation.Email}"/>
+            <TextBox Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}"/>
             <Label Content="Hjemmeside URL: "/>
-            <TextBox Text="{Binding CompanyInformation.Website}"/>
+            <TextBox Text="{Binding Website, UpdateSourceTrigger=PropertyChanged}"/>
         </StackPanel>
 
         <StackPanel Grid.Row="4"

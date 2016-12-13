@@ -79,7 +79,6 @@ namespace VVSAssistant.ViewModels
         private async void OpenOfferSettingsDialog(Action<CompanyInfoDialogViewModel> closeHandler, Action<CompanyInfoDialogViewModel> completionHandler)
         {
             var dialogViewModel = new CompanyInfoDialogViewModel(closeHandler, completionHandler);
-            dialogViewModel.LoadDataFromDatabase();
             _customDialog.Content = new CompanyInfoDialogView { DataContext = dialogViewModel };
 
             await _dialogCoordinator.ShowMetroDialogAsync(this, _customDialog);
