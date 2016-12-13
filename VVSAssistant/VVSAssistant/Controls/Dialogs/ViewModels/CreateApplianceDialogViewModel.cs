@@ -140,7 +140,8 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             if (!IsNewAppliance)
             {
                 OnPropertyChanged("IsNewAppliance");
-                HandleExistingAppliance(NewAppliance);
+                HandleExistingAppliance(newAppliance);
+                NewAppliance = newAppliance;
             }
 
             DataSheetChangedEventHandler += HandleDataSheetChanged;
