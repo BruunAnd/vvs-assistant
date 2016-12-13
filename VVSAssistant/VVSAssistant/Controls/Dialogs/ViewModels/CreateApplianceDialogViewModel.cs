@@ -32,8 +32,8 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             {
                 if (value == null)
                     return;
-
-                NewAppliance.DataSheet = appFactory.CreateAppliance(ApplianceTypeConverter.ConvertStringToType(value)).DataSheet;
+                ApplianceTypes type = ApplianceTypeConverter.ConvertStringToType(value);
+                NewAppliance = appFactory.CreateAppliance(type);
                 OnPropertyChanged("NewAppliance");
                 OnPropertyChanged("CanEditProperties");
                 OnDataSheetChanged(NewAppliance.DataSheet);

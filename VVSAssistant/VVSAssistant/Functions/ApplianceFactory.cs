@@ -13,39 +13,21 @@ namespace VVSAssistant.Functions
         public Appliance CreateAppliance(ApplianceTypes type)
         {
             Appliance app = new Appliance();
-            switch (type)
-            {
-                case ApplianceTypes.HeatPump:
-                    app.DataSheet = new HeatingUnitDataSheet();
-                    return app;
-                case ApplianceTypes.Boiler:
-                    app.DataSheet = new HeatingUnitDataSheet();
-                    return app;
-                case ApplianceTypes.TemperatureController:
-                    app.DataSheet = new TemperatureControllerDataSheet();
-                    return app;
-                case ApplianceTypes.SolarPanel:
-                    app.DataSheet = new SolarCollectorDataSheet();
-                    return app;
-                case ApplianceTypes.Container:
-                    app.DataSheet = new ContainerDataSheet();
-                    return app;
-                case ApplianceTypes.LowTempHeatPump:
-                    app.DataSheet = new HeatingUnitDataSheet();
-                    return app;
-                case ApplianceTypes.CHP:
-                    app.DataSheet = new HeatingUnitDataSheet();
-                    return app;
-                case ApplianceTypes.SolarStation:
-                    app.DataSheet = new SolarStationDataSheet();
-                    return app;
-                case ApplianceTypes.WaterHeater:
-                    app.DataSheet = new HeatingUnitDataSheet();
-                    return app;
-                default:
-                    return null;
-                    break;
-            }
+
+            if (type == ApplianceTypes.Boiler || type == ApplianceTypes.CHP ||
+                type == ApplianceTypes.HeatPump || type == ApplianceTypes.LowTempHeatPump ||
+                type == ApplianceTypes.WaterHeater)
+                { app.DataSheet = new HeatingUnitDataSheet(); return app; }
+            else if (type == ApplianceTypes.SolarPanel)
+                { app.DataSheet = new SolarCollectorDataSheet(); return app; }
+            else if (type == ApplianceTypes.SolarStation)
+                { app.DataSheet = new SolarStationDataSheet(); return app; }
+            else if (type == ApplianceTypes.TemperatureController)
+                { app.DataSheet = new TemperatureControllerDataSheet(); return app; }
+            else if (type == ApplianceTypes.Container)
+                { app.DataSheet = new ContainerDataSheet(); return app; }
+            else
+                return null;
         }
     }
 }
