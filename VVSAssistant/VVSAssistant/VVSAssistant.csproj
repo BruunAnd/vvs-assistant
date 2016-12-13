@@ -179,6 +179,7 @@
     <Compile Include="Controls\Dialogs\Views\TimedMessageView.xaml.cs">
       <DependentUpon>TimedMessageView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Functions\ApplianceFactory.cs" />
     <Compile Include="Models\CompanyInformation.cs" />
     <Compile Include="Controls\Dialogs\ViewModels\AddHeatingUnitDialogViewModel.cs" />
     <Compile Include="Controls\Dialogs\ViewModels\AddSolarPanelDialogviewModel.cs" />

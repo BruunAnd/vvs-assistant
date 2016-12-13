@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using VVSAssistant.Common;
 using VVSAssistant.Common.ViewModels;
+using VVSAssistant.Functions;
 using VVSAssistant.Models;
 using VVSAssistant.Models.DataSheets;
 using VVSAssistant.ValueConverters;
@@ -31,8 +32,7 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             {
                 if (value == null)
                     return;
-                NewAppliance.Type = ApplianceTypeConverter.ConvertStringToType(value);
-                NewAppliance.DataSheet = ApplianceTypeConverter.ConvertTypeToDataSheet(_newAppliance.Type);
+                NewAppliance = appFactory.CreateAppliance(ApplianceTypeConverter.ConvertStringToType(value));
                 OnPropertyChanged("NewAppliance");
                 OnPropertyChanged("CanEditProperties");
                 OnDataSheetChanged(NewAppliance.DataSheet);
@@ -92,9 +92,12 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
 
         public bool CanEditProperties => _newAppliance.DataSheet != null;
 
+        private ApplianceFactory appFactory;
+
         public CreateApplianceDialogViewModel(Appliance newAppliance, bool isNewAppliance, Action<CreateApplianceDialogViewModel> closeHandler, 
                                               Action<CreateApplianceDialogViewModel> completionHandler)
         {
+            appFactory = new ApplianceFactory();
             NewAppliance = newAppliance;
             CloseCommand = new RelayCommand(x =>
             {
