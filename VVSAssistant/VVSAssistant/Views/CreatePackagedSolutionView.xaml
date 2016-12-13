@@ -95,12 +95,6 @@
                       ItemsSource="{Binding FilteredCollectionView, UpdateSourceTrigger=PropertyChanged}"
                       SelectedItem="{Binding SelectedAppliance}"
                       SelectionMode="Single">
-
-                <DataGrid.RowStyle>
-                    <Style TargetType="DataGridRow" BasedOn="{StaticResource MetroDataGridRow}">
-                        <Setter Property="ToolTip" Value="Højreklik for valgmuligheder"/>
-                    </Style>
-                </DataGrid.RowStyle>
                 <DataGrid.CellStyle>
                     <Style TargetType="DataGridCell" BasedOn="{StaticResource ApplianceCell}"/>
                 </DataGrid.CellStyle>
