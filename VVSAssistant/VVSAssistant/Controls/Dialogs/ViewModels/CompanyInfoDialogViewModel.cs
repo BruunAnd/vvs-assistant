@@ -52,8 +52,8 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
         public CompanyInfoDialogViewModel(Action<CompanyInfoDialogViewModel> closeHandler, Action<CompanyInfoDialogViewModel> completionHandler)
         {
             LoadDataFromDatabase();
-            OnPropertyChanged(); //Make save button clickable if information is already there
             PropertyChanged += OnInputReceived;
+            OnPropertyChanged(); //Make save button clickable if information is already there
 
             SaveCommand = new RelayCommand(x =>
             {
