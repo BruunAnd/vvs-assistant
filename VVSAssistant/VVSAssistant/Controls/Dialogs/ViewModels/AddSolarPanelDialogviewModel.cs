@@ -7,19 +7,21 @@ using VVSAssistant.Models.DataSheets;
 
 namespace VVSAssistant.Controls.Dialogs.ViewModels
 {
-    public class AddSolarPanelDialogviewModel : NotifyPropertyChanged
+    public class AddSolarPanelDialogViewModel : NotifyPropertyChanged
     {
         public RelayCommand SaveCommand { get; }
         public RelayCommand CloseCommand { get; }
-        public AddSolarPanelDialogviewModel(Appliance solarPanel,
-            ObservableCollection<Appliance> packagedsolution,
-            Action<AddSolarPanelDialogviewModel> closeHandler, 
-            Action<AddSolarPanelDialogviewModel> completionHandler)
+
+        public AddSolarPanelDialogViewModel(ApplianceInstance solarPanel,
+            ObservableCollection<ApplianceInstance> appliancesInSolution,
+            Action<AddSolarPanelDialogViewModel> closeHandler, 
+            Action<AddSolarPanelDialogViewModel> completionHandler)
         {
             _solarPanel = solarPanel;
-            _appsInSolution = packagedsolution;
-            //SolarPanelData.IsRoomHeater = false;
-            //SolarPanelData.IsWaterHeater = false;
+            _appsInSolution = appliancesInSolution;
+            _solarPanel.IsUsedForRoomHeating = false;
+            _solarPanel.IsUsedForWaterHeating = false;
+
             SaveCommand = new RelayCommand(x =>
             {
                 Save();
@@ -31,8 +33,9 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
                 closeHandler(this);
             });
         }
-        private readonly ObservableCollection<Appliance> _appsInSolution;
-        private readonly Appliance _solarPanel;
+
+        private readonly ObservableCollection<ApplianceInstance> _appsInSolution;
+        private readonly ApplianceInstance _solarPanel;
 
         private int _quantity = 1;
         public int Quantity {
@@ -41,7 +44,6 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
         }
         
         private bool _isWaterHeater;
-        private bool _isRoomHeater;
         public bool IsWaterHeater
         {
             get
@@ -51,10 +53,12 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             set
             {
                 _isWaterHeater = value;
-                SolarPanelData.IsWaterHeater = _isWaterHeater;
+                _solarPanel.IsUsedForWaterHeating = _isWaterHeater;
                 SaveCommand.NotifyCanExecuteChanged();
             }
         }
+
+        private bool _isRoomHeater;
         public bool IsRoomHeater
         {
             get
@@ -64,11 +68,10 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             set
             {
                 _isRoomHeater = value;
-                SolarPanelData.IsRoomHeater = _isRoomHeater;
+                _solarPanel.IsUsedForRoomHeating = _isRoomHeater;
                 SaveCommand.NotifyCanExecuteChanged();
             }
         }
-        private SolarCollectorDataSheet SolarPanelData => (_solarPanel?.DataSheet as SolarCollectorDataSheet);
 
         private void Save()
         {
@@ -77,7 +80,6 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
                 _appsInSolution.Add(_solarPanel);
                 Quantity--;
             }
-            
         }
     }
 }

@@ -48,9 +48,8 @@ namespace VVSAssistant.Tests.ViewModelTests
             new AssistantContext().Database.Delete();
             ctx = new AssistantContext();
             PackagedSolution pack = new PackagedSolution() { CreationDate = DateTime.Now };
-            pack.Appliances.Add(app1);
-            pack.Appliances.Add(app2);
-            pack.SaveToInstances();
+            pack.ApplianceInstances.Add(new ApplianceInstance() {Appliance= app1 });
+            pack.ApplianceInstances.Add(new ApplianceInstance() {Appliance= app2 });
             ctx.PackagedSolutions.Add(pack);
             ctx.SaveChanges();
             model.LoadExistingPackagedSolution(pack.Id);

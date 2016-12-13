@@ -69,9 +69,8 @@ namespace VVSAssistant.Functions.Calculation.Strategies
         {
             _solarContributionFactor = PrimaryUnitType == ApplianceTypes.CHP ? 0.7f : 0.45f;
 
-            var solarCollectorData = _packageData.SolarPanelData(item => item.IsRoomHeater == true);
-            var solarPanelArea = _packageData.SolarPanelArea(panel =>
-                                    panel.IsRoomHeater);
+            var solarCollectorData = _packageData.SolarPanelData(item => item.IsUsedForRoomHeating == true);
+            var solarPanelArea = _packageData.SolarPanelArea(item => item.IsUsedForRoomHeating == true);
             var solarContainerVolume = _packageData.SolarContainerVolume(container =>
                                          !container.IsWaterContainer);
 
@@ -92,6 +91,6 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             }
             return ans;
         }
-        private ApplianceTypes PrimaryUnitType => _package.PrimaryHeatingUnit.Type;
+        private ApplianceTypes PrimaryUnitType => _package.PrimaryHeatingUnitInstance.Appliance.Type;
     }
 }

@@ -112,14 +112,8 @@ namespace VVSAssistant.ViewModels
             {
                 ctx.PackagedSolutions
                     .Include(p => p.ApplianceInstances.Select(a => a.Appliance.DataSheet))
-                    .Include(p => p.SolarContainerInstances.Select(a => a.Appliance.DataSheet))
-                    .Include(p => p.PrimaryHeatingUnitInstance.Appliance.DataSheet)
                     .ToList()
-                    .ForEach(p =>
-                    {
-                        p.LoadFromInstances();
-                        PackagedSolutions.Add(p);
-                    }); 
+                    .ForEach(PackagedSolutions.Add);
             }
         }
 

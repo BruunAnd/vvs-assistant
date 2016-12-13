@@ -17,7 +17,7 @@ namespace VVSAssistant.Functions.Calculation
         {
             var calculations = new List<IEEICalculation>();
                    
-            switch (package.PrimaryHeatingUnit?.Type ?? 0)
+            switch (package.PrimaryHeatingUnitInstance?.Appliance?.Type ?? 0)
             {
                 case ApplianceTypes.LowTempHeatPump:
                 case ApplianceTypes.CHP:
@@ -46,9 +46,7 @@ namespace VVSAssistant.Functions.Calculation
         }
         private static bool IsBoilerForWater(PackagedSolution package)
         {
-
-            return (((HeatingUnitDataSheet) package.PrimaryHeatingUnit.DataSheet).WaterHeatingEffiency > 0);
-
+            return ((HeatingUnitDataSheet) package.PrimaryHeatingUnitInstance.Appliance.DataSheet).WaterHeatingEffiency > 0;
         } 
     }
 }

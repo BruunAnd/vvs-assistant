@@ -37,8 +37,8 @@ namespace VVSAssistant.Tests.ViewModelTests
             testApp2.DataSheet = new ContainerDataSheet();
 
             testPack = new PackagedSolution() { Name = "testPack"};
-            testPack.Appliances.Add(testApp1); testPack.Appliances.Add(testApp2);
-            testPack.PrimaryHeatingUnit = testApp1;
+            testPack.ApplianceInstances.Add(new ApplianceInstance() {Appliance= testApp1, IsPrimary=true });
+            testPack.ApplianceInstances.Add(new ApplianceInstance() {Appliance= testApp2 });
             testPack.CreationDate = DateTime.Now;
             testPack.EnergyLabel = new List<EEICalculationResult>();
 

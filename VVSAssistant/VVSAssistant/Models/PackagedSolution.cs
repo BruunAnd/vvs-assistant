@@ -13,24 +13,7 @@ namespace VVSAssistant.Models
         {
             ApplianceInstances = new List<ApplianceInstance>();
             EnergyLabel = new List<EEICalculationResult>();
-            SolarContainerInstances = new List<ApplianceInstance>();
-            Appliances = new List<Appliance>();
-            SolarContainers = new List<Appliance>();
             CalculationManager = new CalculationManager();
-        }
-
-        public void LoadFromInstances()
-        {
-            Appliances = ApplianceInstances.Select(s => s.Appliance).ToList();
-            SolarContainers = SolarContainerInstances.Select(s => s.Appliance).ToList();
-            PrimaryHeatingUnit = PrimaryHeatingUnitInstance?.Appliance;
-        }
-
-        public void SaveToInstances()
-        {
-            ApplianceInstances = new List<ApplianceInstance>(Appliances.Select(a => new ApplianceInstance(a)));
-            SolarContainerInstances = new List<ApplianceInstance>(SolarContainers.Select(a => new ApplianceInstance(a)));
-            PrimaryHeatingUnitInstance = PrimaryHeatingUnit == null ? null: new ApplianceInstance(PrimaryHeatingUnit);
         }
 
         public object MakeCopy()
@@ -55,27 +38,21 @@ namespace VVSAssistant.Models
                 EnergyLabel.Add(calculation?.CalculateEEI(this));
         }
 
-        #region "Unmapped Properties"
-        [NotMapped]
-        public List<Appliance> SolarContainers { get; set; }
-        [NotMapped]
-        public Appliance PrimaryHeatingUnit { get; set; }
-        [NotMapped]
-        public List<Appliance> Appliances { get; set; }
+        #region Unmapped Properties
         [NotMapped]
         private CalculationManager CalculationManager { get; }
         [NotMapped]
         public List<EEICalculationResult> EnergyLabel { get; set; }
-        public string Description => string.Join(", ", Appliances);
+        public ApplianceInstance PrimaryHeatingUnitInstance => ApplianceInstances.FirstOrDefault(a => a.IsPrimary);
+        public IEnumerable<ApplianceInstance> SolarContainerInstances => ApplianceInstances.Where(a => a.IsSolarContainer);
+        public string Description => string.Join(", ", ApplianceInstances.Select(a => a.Appliance));
         #endregion
 
-        #region "Mapped Properties"
+        #region Mapped Properties
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTime CreationDate { get; set; }
-        public ICollection<ApplianceInstance> SolarContainerInstances { get; private set; }
-        public ICollection<ApplianceInstance> ApplianceInstances { get; private set; }
-        public ApplianceInstance PrimaryHeatingUnitInstance { get; private set; }
+        public ICollection<ApplianceInstance> ApplianceInstances { get; set; }
         #endregion
     }
 }

@@ -49,9 +49,9 @@ namespace VVSAssistant.Functions.Calculation.Strategies
          * Heating unit */
         private float SolarContribution()
         {
-            var solarCollectorData = _packageData.SolarPanelData(item => item.IsRoomHeater == true);
+            var solarCollectorData = _packageData.SolarPanelData(item => item.IsUsedForRoomHeating == true);
             var solarPanelArea = _packageData.SolarPanelArea(panel =>
-                                    panel.IsRoomHeater);
+                                    panel.IsUsedForRoomHeating);
             var solarContainerVolume = _packageData.SolarContainerVolume(container =>
                                          !container.IsWaterContainer);
 
@@ -86,13 +86,14 @@ namespace VVSAssistant.Functions.Calculation.Strategies
             _result.SecondaryHeatPumpAFUE = heatpumpData.AFUE;
             return (heatpumpData.AFUE - PrimaryBoiler.AFUE) * _ii;
         }
-        // Adjustes the contribution from the HeatPump and the solar system
+
+        // Adjusts the contribution from the HeatPump and the solar system
         private float AdjustedContribution(float heatpumpContribution, float solarContribution)
         {
             float value = -heatpumpContribution > solarContribution ? solarContribution : heatpumpContribution;
             return (value * 0.5f);
         }
-        private HeatingUnitDataSheet PrimaryBoiler { get {return _package?.PrimaryHeatingUnit?.
-                                                      DataSheet as HeatingUnitDataSheet; } }
+
+        private HeatingUnitDataSheet PrimaryBoiler => _package?.PrimaryHeatingUnitInstance?.Appliance?.DataSheet as HeatingUnitDataSheet;
     }
 }

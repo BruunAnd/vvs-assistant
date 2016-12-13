@@ -13,7 +13,6 @@ namespace VVSAssistant
     /// </summary>
     public partial class App
     {
-
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
@@ -139,13 +138,13 @@ namespace VVSAssistant
                 { Area = 3.19f, Efficency = 72 }, ApplianceTypes.SolarPanel)
                 { CreationDate = DateTime.Now });
                 ctx.Appliances.Add(new Appliance("Logasol SKN 4.0", new SolarCollectorDataSheet()
-                { Area = 2.25f, Efficency = 61, IsRoomHeater = true }, ApplianceTypes.SolarPanel)
+                { Area = 2.25f, Efficency = 61}, ApplianceTypes.SolarPanel)
                 { CreationDate = DateTime.Now });
                 ctx.Appliances.Add(new Appliance("Vitosol 200-T", new SolarCollectorDataSheet()
-                { Area = 1.33f, Efficency = 67.5f, IsRoomHeater = true }, ApplianceTypes.SolarPanel)
+                { Area = 1.33f, Efficency = 67.5f}, ApplianceTypes.SolarPanel)
                 { CreationDate = DateTime.Now });
                 ctx.Appliances.Add(new Appliance("Vitosol 200-T SP2A", new SolarCollectorDataSheet()
-                { Area = 3.19f, Efficency = 67.4f, IsRoomHeater = true }, ApplianceTypes.SolarPanel)
+                { Area = 3.19f, Efficency = 67.4f}, ApplianceTypes.SolarPanel)
                 { CreationDate = DateTime.Now });
                 ctx.Appliances.Add(new Appliance("SomeContiner", new ContainerDataSheet()
                 { Volume = 500, Classification = "B", StandingLoss = 80 }, ApplianceTypes.Container)

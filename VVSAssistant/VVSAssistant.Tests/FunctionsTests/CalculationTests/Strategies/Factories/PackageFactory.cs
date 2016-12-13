@@ -8,7 +8,10 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         {
             switch (id)
             {
-
+                case PackagedSolutionId.PrimaryBoilerNUll:
+                    return new PackageStub(0, 0, 0, 0, 0);
+                case PackagedSolutionId.PrimarySolarContainerNull:
+                    return new PackageStub(BoilerId.LoganoSB150, 0, 0, 0, 0);
                 case PackagedSolutionId.PrimaryBoilerOHeatPump:
                     return new PackageStub(BoilerId.LoganoSB150, ContainerId.ClassBHighVolume, 
                         BoilerId.Cerapur, SolarPanelId.LogasolSKNWater, 1,
@@ -130,6 +133,6 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         PrimaryBoilerW1Solar, PrimaryHeatPump6Solars, PrimaryPurUnitSolarWater, PrimaryPurUnitSolarWaterWStation,
         PrimaryCondens1Container, PrimaryCondens3Container, PrimaryHeatPump2Solar, PrimaryHeatPump4Solars, PrimaryHeatPumpNoSolars,
             PrimaryCHP4Solars, Brian1, Brian2, Brian3, Brian5, WaterHeaterTest, AndersTest, EuroPurWStationWPanels,
-        Europur1SolarOnly
+        Europur1SolarOnly, PrimaryBoilerNUll, PrimarySolarContainerNull
     }
 }

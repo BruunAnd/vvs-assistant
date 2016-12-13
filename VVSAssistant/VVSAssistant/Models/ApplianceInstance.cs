@@ -1,4 +1,6 @@
-﻿namespace VVSAssistant.Models
+﻿using VVSAssistant.Models.Interfaces;
+
+namespace VVSAssistant.Models
 {
     /* This class is necessary due to limitations on the database.
      * Without this class we would not be able to add multiple
@@ -12,11 +14,24 @@
         public ApplianceInstance(Appliance appliance)
         {
             Appliance = appliance;
-            //DataSheet = appliance?.DataSheet;
+        }
+
+        public ApplianceInstance MakeCopy()
+        {
+            return new ApplianceInstance(Appliance)
+            {
+                IsPrimary = IsPrimary,
+                IsSolarContainer = IsSolarContainer,
+                IsUsedForRoomHeating = IsUsedForRoomHeating,
+                IsUsedForWaterHeating = IsUsedForWaterHeating
+            };
         }
 
         public int Id { get; set; }
         public Appliance Appliance { get; set; }
-        public PackagedSolution PackagedSolution { get; set; }
+        public bool IsUsedForWaterHeating { get; set; }
+        public bool IsUsedForRoomHeating { get; set; }
+        public bool IsSolarContainer { get; set; }
+        public bool IsPrimary { get; set; }
     }
 }

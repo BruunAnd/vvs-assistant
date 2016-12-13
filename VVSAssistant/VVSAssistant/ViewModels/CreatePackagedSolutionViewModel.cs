@@ -148,13 +148,13 @@ namespace VVSAssistant.ViewModels
             }
         }
 
-        private Appliance _selectedApplianceInSolution;
-        public Appliance SelectedApplianceInSolution
+        private ApplianceInstance _selectedApplianceInstance;
+        public ApplianceInstance SelectedApplianceInstance
         {
-            get { return _selectedApplianceInSolution; }
+            get { return _selectedApplianceInstance; }
             set
             {
-                if (!SetProperty(ref _selectedApplianceInSolution, value)) return;
+                if (!SetProperty(ref _selectedApplianceInstance, value)) return;
 
                 RemoveApplianceFromPackagedSolutionCmd?.NotifyCanExecuteChanged();
                 OnPropertyChanged();
@@ -195,7 +195,7 @@ namespace VVSAssistant.ViewModels
 
         public AsyncObservableCollection<Appliance> Appliances { get; set; }
         
-        private AsyncObservableCollection<Appliance> AppliancesInPackagedSolution { get;}
+        private AsyncObservableCollection<ApplianceInstance> AppliancesInPackagedSolution { get;}
         public ICollectionView AppliancesInPackagedSolutionView { get; set; }
 
         #endregion
@@ -207,7 +207,7 @@ namespace VVSAssistant.ViewModels
             Appliances = new AsyncObservableCollection<Appliance>();
             SetupFilterableView(Appliances);
 
-            AppliancesInPackagedSolution = new AsyncObservableCollection<Appliance>();
+            AppliancesInPackagedSolution = new AsyncObservableCollection<ApplianceInstance>();
             AppliancesInPackagedSolutionView = CollectionViewSource.GetDefaultView(AppliancesInPackagedSolution);
 
             #endregion
@@ -246,12 +246,9 @@ namespace VVSAssistant.ViewModels
 
             RemoveApplianceFromPackagedSolutionCmd = new RelayCommand(x =>
             {
-                if (PackagedSolution.PrimaryHeatingUnit == SelectedApplianceInSolution)
-                    PackagedSolution.PrimaryHeatingUnit = null;
+                AppliancesInPackagedSolution.Remove(SelectedApplianceInstance);
                 
-                AppliancesInPackagedSolution.Remove(SelectedApplianceInSolution);
-                
-            }, x => SelectedApplianceInSolution != null);
+            }, x => SelectedApplianceInstance != null);
 
             EditApplianceCmd = new RelayCommand(x =>
             {
@@ -284,7 +281,7 @@ namespace VVSAssistant.ViewModels
 
             PrintEnergyLabelCmd = new RelayCommand(x =>
             {
-                PackagedSolution.Appliances = AppliancesInPackagedSolution.ToList();
+                //PackagedSolution.Appliances = AppliancesInPackagedSolution.ToList();
                 DataUtil.EnergyLabel.ExportEnergyLabel(PackagedSolution);
             }, x => AppliancesInPackagedSolution.Any() && IsDataSaved);
             #endregion
@@ -328,7 +325,7 @@ namespace VVSAssistant.ViewModels
         /// Adds an appliance to the viewed packaged solution
         /// </summary>
         /// <param name="appliance"></param>
-        private void AddApplianceToPackagedSolution(Appliance appliance)
+        private void AddApplianceToPackagedSolution(ApplianceInstance appliance)
         {
             AppliancesInPackagedSolution.Add(appliance);
 
@@ -348,7 +345,9 @@ namespace VVSAssistant.ViewModels
             // Check if the appliance is used in any packaged solutions
             using (var ctx = new AssistantContext())
             {
-                var conflictingSolutions = ctx.PackagedSolutions.Where(s => s.ApplianceInstances.Any(a => a.Appliance.Id == appliance.Id)).ToList();
+                var conflictingSolutions = ctx.PackagedSolutions.Include(a => a.ApplianceInstances)
+                    .Where(s => s.ApplianceInstances.Any(a => a.Appliance.Id == appliance.Id))
+                    .ToList();
                 if (conflictingSolutions.Count > 0)
                 {
                     var formattedSolutionString = string.Join("\n", conflictingSolutions.Select(x => $"- {x.Name}"));
@@ -358,19 +357,10 @@ namespace VVSAssistant.ViewModels
                 }
             }
 
-            // Remove as primary heating unit
-            if (PackagedSolution.PrimaryHeatingUnit == appliance)
-                PackagedSolution.PrimaryHeatingUnit = null;
-
-            // Remove from solar containers in current solution
-            if (PackagedSolution.SolarContainers.Contains(appliance))
-                PackagedSolution.SolarContainers.Remove(appliance);
-
             // Remove from current solution
-            if (AppliancesInPackagedSolution.Contains(appliance))
+            foreach (var existingAppliance in AppliancesInPackagedSolution.Where(a => a.Appliance == appliance))
             {
-                AppliancesInPackagedSolution.Remove(appliance);
-                IsDataSaved = false;
+                AppliancesInPackagedSolution.Remove(existingAppliance);
             }
             
             // Remove from visual list of appliances
@@ -379,14 +369,8 @@ namespace VVSAssistant.ViewModels
             // Remove from database
             using (var ctx = new AssistantContext())
             {
-                // Attach appliance to this context, since it was loaded using another context
-                var apps = ctx.Appliances.ToList().Where(item => item.Equals(appliance));
-                foreach (var item in apps)
-                {
-                    ctx.Appliances.Remove(item);
-                }
-                //ctx.Appliances.Attach(item);
-                //ctx.Appliances.Remove(appliance);
+                ctx.Entry(appliance).State = EntityState.Deleted;
+
                 ctx.SaveChanges();
             }
         }
@@ -401,25 +385,35 @@ namespace VVSAssistant.ViewModels
              *  a solar collector without a container tied to it. */
             using (var ctx = new AssistantContext())
             {
-                ctx.PackagedSolutions.Attach(PackagedSolution);
+                // Mark packaged solution as added if new or modified if old
+                ctx.Entry(PackagedSolution).State = PackagedSolution.Id == 0 ? EntityState.Added : EntityState.Modified;
 
-                // Attach appliances to avoid duplicates
-                foreach (var appliance in PackagedSolution.Appliances)
+                // Copy visible list of appliance instances to the list in the model
+                PackagedSolution.ApplianceInstances = AppliancesInPackagedSolution.ToList();
+
+                // Mark removed appliance instances as deleted
+                if (PackagedSolution.Id > 0)
                 {
-                    if(ctx.Entry(appliance).State == EntityState.Unchanged)
-                        ctx.Appliances.Attach(appliance);
-                    else
-                        ctx.Appliances.Add(appliance);
+                    var previousPackagedSolution = ctx.PackagedSolutions.Include(a => a.ApplianceInstances).FirstOrDefault(p => p.Id == PackagedSolution.Id);
+                    previousPackagedSolution?.ApplianceInstances.ToList().ForEach(instance =>
+                    {
+                        if (PackagedSolution.ApplianceInstances.All(a => a.Id != instance.Id))
+                            ctx.Entry(instance).State = EntityState.Deleted; 
+                    });
+                }
+
+                // Attach appliances and appliance instances to avoid duplicates
+                foreach (var appInstance in PackagedSolution.ApplianceInstances)
+                {
+                    ctx.Entry(appInstance.Appliance.DataSheet).State = EntityState.Unchanged;
+                    ctx.Entry(appInstance.Appliance).State = EntityState.Unchanged;
+
+                    ctx.Entry(appInstance).State = appInstance.Id == 0 ? EntityState.Added : EntityState.Unchanged;
                 }
 
                 // Set the creation date to now
                 if (PackagedSolution.CreationDate == default(DateTime))
                     PackagedSolution.CreationDate = DateTime.Now;
-
-                PackagedSolution.SaveToInstances();
-
-                ctx.Entry(PackagedSolution).State = PackagedSolution.Id == 0 ? EntityState.Added : EntityState.Modified;
-                //ctx.PackagedSolutions.AddOrUpdate(PackagedSolution);
 
                 // Save database changes
                 ctx.SaveChanges();
@@ -431,11 +425,11 @@ namespace VVSAssistant.ViewModels
         }
 
         #region Run dialog methods
-        private async void RunAddSolarPanelDialog(Appliance solarPanel)
+        private async void RunAddSolarPanelDialog(ApplianceInstance solarPanel)
         {
             var customDialog = new CustomDialog();
 
-            var dialogViewModel = new AddSolarPanelDialogviewModel(solarPanel, AppliancesInPackagedSolution,
+            var dialogViewModel = new AddSolarPanelDialogViewModel(solarPanel, AppliancesInPackagedSolution,
                           closeHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
                           completionHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog));
 
@@ -444,7 +438,7 @@ namespace VVSAssistant.ViewModels
             await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
         }
 
-        private async void RunAddHeatingUnitDialog(Appliance appliance)
+        private async void RunAddHeatingUnitDialog(ApplianceInstance appliance)
         {
             var customDialog = new CustomDialog();
 
@@ -455,13 +449,14 @@ namespace VVSAssistant.ViewModels
 
                     if (instanceCompleted.IsPrimaryBoiler)
                     {
-                        if (PackagedSolution.PrimaryHeatingUnit != null)
+                        if (PackagedSolution.PrimaryHeatingUnitInstance != null)
                         {
+                            PackagedSolution.PrimaryHeatingUnitInstance.IsPrimary = false;
                             // Inform the user that their previous primary heating unit will be replaced
                             await _dialogCoordinator.ShowMessageAsync(this, "Information",
-                                    $"Da du har valgt en ny primærkedel er komponentet {PackagedSolution.PrimaryHeatingUnit.Name} nu en sekundærkedel.");
+                                    $"Da du har valgt en ny primærkedel er komponentet {PackagedSolution.PrimaryHeatingUnitInstance.Appliance.Name} nu en sekundærkedel.");
                         }
-                        PackagedSolution.PrimaryHeatingUnit = appliance;
+                        appliance.IsPrimary = true;
                     }
                     AddApplianceToPackagedSolution(appliance);
                 });
@@ -471,10 +466,10 @@ namespace VVSAssistant.ViewModels
             await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
         }
 
-        private async void RunSolarContainerDialog(Appliance appliance)
+        private async void RunSolarContainerDialog(ApplianceInstance appliance)
         {
             var customDialog = new CustomDialog();
-            var dialogViewModel = new SolarContainerDialogViewModel(appliance, PackagedSolution, AppliancesInPackagedSolution,
+            var dialogViewModel = new SolarContainerDialogViewModel(appliance, AppliancesInPackagedSolution,
                                                                     closeHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog),
                                                                     completionHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog));
 
@@ -569,8 +564,7 @@ namespace VVSAssistant.ViewModels
         {
             using (var ctx = new AssistantContext())
             {
-                var apps = ctx.Appliances.Include(a => a.DataSheet).ToList();
-                apps.Distinct().ToList().ForEach(Appliances.Add);
+                ctx.Appliances.Include(a => a.DataSheet).ToList().ForEach(Appliances.Add);
             }
         }
 
@@ -579,25 +573,15 @@ namespace VVSAssistant.ViewModels
             using (var ctx = new AssistantContext())
             {
                 var existingPackagedSolution = ctx.PackagedSolutions.Where(p => p.Id == packagedSolutionId)
-                    .Include(s => s.SolarContainerInstances.Select(i => i.Appliance.DataSheet))
-                    .Include(s => s.PrimaryHeatingUnitInstance.Appliance.DataSheet)
                     .Include(s => s.ApplianceInstances.Select(i => i.Appliance.DataSheet))
                     .FirstOrDefault();
 
-                if (existingPackagedSolution == null) return;
-
-                existingPackagedSolution.LoadFromInstances();
-
-                // Copy primary heating unit
-                PackagedSolution.PrimaryHeatingUnit = existingPackagedSolution.PrimaryHeatingUnit;
-
-                // Copy solarcontainers
-                foreach (var solarContainer in existingPackagedSolution.SolarContainers)
-                    PackagedSolution.SolarContainers.Add(solarContainer);
+                if (existingPackagedSolution == null)
+                    return;
 
                 // Copy appliances
-                foreach (var appliance in existingPackagedSolution.Appliances)
-                    AppliancesInPackagedSolution.Add(appliance);
+                foreach (var appliance in existingPackagedSolution.ApplianceInstances)
+                    AppliancesInPackagedSolution.Add(appliance.MakeCopy());
             }
         }
 
@@ -658,36 +642,33 @@ namespace VVSAssistant.ViewModels
 
         private void HandleAddApplianceToPackagedSolution(Appliance appToAdd)
         {
+            var appInstance = new ApplianceInstance(appToAdd);
+
             if (appToAdd.DataSheet is HeatingUnitDataSheet)
             {
                 /* Prompt user for whether or not the heating unit is primary */
                 /* If it is primary, ask whether or not it is for water heating, 
                  * room heating, or both. */
-                RunAddHeatingUnitDialog(appToAdd);
+                RunAddHeatingUnitDialog(appInstance);
             }
             else if (appToAdd.DataSheet is ContainerDataSheet)
             {
                 /* Prompt the user for whether or not the container is tied to any of the solar collector. */
-                RunSolarContainerDialog(appToAdd);
+                RunSolarContainerDialog(appInstance);
             }
             else if(appToAdd.DataSheet is SolarCollectorDataSheet)
             {
-                RunAddSolarPanelDialog(appToAdd);
+                RunAddSolarPanelDialog(appInstance);
             }
             else
             {
-                AddApplianceToPackagedSolution(appToAdd);
+                AddApplianceToPackagedSolution(appInstance);
             }
         }
 
         private void UpdateEei()
         {
-            PackagedSolution.Appliances = AppliancesInPackagedSolution.ToList();
-            foreach (var item in PackagedSolution.Appliances)
-            {
-                if(item.DataSheet is SolarCollectorDataSheet)
-                    Console.WriteLine((item.DataSheet as SolarCollectorDataSheet).IsWaterHeater);
-            }
+            PackagedSolution.ApplianceInstances = AppliancesInPackagedSolution.ToList();
             PackagedSolution.EnergyLabel.Clear();
             PackagedSolution.UpdateEei();
             if (PackagedSolution.EnergyLabel != null && PackagedSolution.EnergyLabel.Count > 1)
