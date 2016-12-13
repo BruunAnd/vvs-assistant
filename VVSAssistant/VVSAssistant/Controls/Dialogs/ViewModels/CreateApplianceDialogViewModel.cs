@@ -130,9 +130,9 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
                  *     completionHandler(this);                      */
 
                 /* Code that works: */
-                newAppliance.Name = NewAppliance.Name;
-                newAppliance.Type = NewAppliance.Type;
-                newAppliance.DataSheet = NewAppliance.DataSheet;
+                //newAppliance.Name = NewAppliance.Name;
+                //newAppliance.Type = NewAppliance.Type;
+                //newAppliance.DataSheet = NewAppliance.DataSheet;
                 completionHandler(this);
             });
 

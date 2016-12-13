@@ -534,6 +534,7 @@ namespace VVSAssistant.ViewModels
             var dialogViewModel = new CreateApplianceDialogViewModel(newAppliance, true,
                 closeHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog), async completionHandler =>
                 {
+                    newAppliance = completionHandler.NewAppliance;
                     // Save to database
                     using (var ctx = new AssistantContext())
                     {
