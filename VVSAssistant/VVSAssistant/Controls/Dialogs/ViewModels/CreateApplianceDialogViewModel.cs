@@ -32,7 +32,8 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             {
                 if (value == null)
                     return;
-                NewAppliance = appFactory.CreateAppliance(ApplianceTypeConverter.ConvertStringToType(value));
+
+                NewAppliance.DataSheet = appFactory.CreateAppliance(ApplianceTypeConverter.ConvertStringToType(value)).DataSheet;
                 OnPropertyChanged("NewAppliance");
                 OnPropertyChanged("CanEditProperties");
                 OnDataSheetChanged(NewAppliance.DataSheet);
@@ -99,6 +100,7 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
         {
             appFactory = new ApplianceFactory();
             NewAppliance = newAppliance;
+
             CloseCommand = new RelayCommand(x =>
             {
                 if (!IsNewAppliance)
@@ -108,6 +110,9 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
 
             SaveCommand = new RelayCommand(x =>
             {
+                /* If datasheet changes, NewAppliance is a new object, which doesn't 
+                 * translate to the original newAppliance. Force the change here. */
+                newAppliance = NewAppliance; 
                 completionHandler(this);
             });
 

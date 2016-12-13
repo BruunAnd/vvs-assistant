@@ -532,7 +532,7 @@ namespace VVSAssistant.ViewModels
         private async void RunCreateApplianceDialog()
         {
             var customDialog = new CustomDialog();
-            var newAppliance = new Appliance();
+            Appliance newAppliance = new Appliance();
             var dialogViewModel = new CreateApplianceDialogViewModel(newAppliance, true,
                 closeHandler => _dialogCoordinator.HideMetroDialogAsync(this, customDialog), async completionHandler =>
                 {
