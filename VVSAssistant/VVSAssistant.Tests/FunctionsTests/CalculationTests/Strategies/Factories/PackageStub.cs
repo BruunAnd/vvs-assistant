@@ -16,17 +16,14 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
                 IsSolarContainer = true});
             ApplianceInstances.Add(new ApplianceInstance()
             {
-                Appliance = factory.GetContainer(solarContain ?? 0)
-            });
-            ApplianceInstances.Add(new ApplianceInstance()
-            {
                 Appliance = factory.GetBoiler(secBoiler ?? 0)
             });
             for (int i = 0; i < numberOfSolars; i++)
             {
                 ApplianceInstances.Add(new ApplianceInstance()
                 {
-                    Appliance = factory.GetSolarPanel(solar ?? 0)
+                    Appliance = factory.GetSolarPanel(solar ?? 0),
+                    IsUsedForRoomHeating = true
                 });
             }
             ApplianceInstances.Add(new ApplianceInstance()
@@ -53,15 +50,12 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             { Appliance = factory.GetContainer((solarContain ?? 0)),
               IsSolarContainer=true
             });
-            ApplianceInstances.Add(new ApplianceInstance()
-            {
-                Appliance = factory.GetContainer(solarContain ?? 0)
-            });
             for (int i = 0; i < numberOfSolars; i++)
             {
                 ApplianceInstances.Add(new ApplianceInstance()
                 {
-                    Appliance = factory.GetSolarPanel(solar ?? 0)
+                    Appliance = factory.GetSolarPanel(solar ?? 0),
+                    IsUsedForRoomHeating = true
                 });
             }
             ApplianceInstances.Add(new ApplianceInstance()
@@ -97,7 +91,8 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             {
                 ApplianceInstances.Add(new ApplianceInstance()
                 {
-                    Appliance = factory.GetSolarPanel(solar ?? 0)
+                    Appliance = factory.GetSolarPanel(solar ?? 0),
+                    IsUsedForRoomHeating = true
                 });
             }
             ApplianceInstances.Add(new ApplianceInstance()
@@ -125,7 +120,8 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             {
                 ApplianceInstances.Add(new ApplianceInstance()
                 {
-                    Appliance = factory.GetSolarPanel(solar ?? 0)
+                    Appliance = factory.GetSolarPanel(solar ?? 0),
+                    IsUsedForRoomHeating = true
                 });
             }
             ApplianceInstances.Add(new ApplianceInstance()
@@ -156,7 +152,8 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             {
                 ApplianceInstances.Add(new ApplianceInstance()
                 {
-                    Appliance = factory.GetSolarPanel(solar ?? 0)
+                    Appliance = factory.GetSolarPanel(solar ?? 0),
+                    IsUsedForRoomHeating = true
                 });
             }
             ApplianceInstances.Add(new ApplianceInstance()
@@ -198,7 +195,8 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             {
                 ApplianceInstances.Add(new ApplianceInstance()
                 {
-                    Appliance = factory.GetSolarPanel(solar ?? 0)
+                    Appliance = factory.GetSolarPanel(solar ?? 0),
+                    IsUsedForRoomHeating = true
                 });
             }
             ApplianceInstances.Add(new ApplianceInstance()
@@ -217,7 +215,8 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             {
                 ApplianceInstances.Add(new ApplianceInstance()
                 {
-                    Appliance = factory.GetContainer(solarContainer ?? 0)
+                    Appliance = factory.GetContainer(solarContainer ?? 0),
+                    IsSolarContainer =true
                 });
             }
         }
@@ -236,22 +235,16 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             {
                 ApplianceInstances.Add(new ApplianceInstance()
                 {
-                    Appliance = factory.GetSolarPanel(solar ?? 0)
+                    Appliance = factory.GetSolarPanel(solar ?? 0),
+                    IsUsedForRoomHeating = true
                 });
             }
-            for (int i = 0; i < numContainers; i++)
+            for (int i = 0; i < numContainers-1; i++)
             {
                 ApplianceInstances.Add(new ApplianceInstance()
                 {
                     Appliance = factory.GetContainer(solarContainer ?? 0),
                     IsSolarContainer = true
-                });
-            }
-            for (int i = 0; i < numContainers - 1; i++)
-            {
-                ApplianceInstances.Add(new ApplianceInstance()
-                {
-                    Appliance = factory.GetContainer(solarContainer ?? 0)
                 });
             }
             ApplianceInstances.Add(new ApplianceInstance()
@@ -275,7 +268,8 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             {
                 ApplianceInstances.Add(new ApplianceInstance()
                 {
-                    Appliance = factory.GetSolarPanel(solar ?? 0)
+                    Appliance = factory.GetSolarPanel(solar ?? 0),
+                    IsUsedForRoomHeating = true
                 });
             }
             ApplianceInstances.Add(new ApplianceInstance()
@@ -311,7 +305,8 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             {
                 ApplianceInstances.Add(new ApplianceInstance()
                 {
-                    Appliance = factory.GetSolarPanel(solar ?? 0)
+                    Appliance = factory.GetSolarPanel(solar ?? 0),
+                    IsUsedForRoomHeating = true
                 });
             }
             ApplianceInstances.Add(new ApplianceInstance()

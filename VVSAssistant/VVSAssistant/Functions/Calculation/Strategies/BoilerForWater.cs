@@ -77,7 +77,7 @@ namespace VVSAssistant.Functions.Calculation.Strategies
         private float SolCalMethodQnonsol()
         {
             float qnonsol = 0;
-            var area = _packageData.SolarPanelArea(x => x.IsUsedForWaterHeating);
+            var area = _packageData.SolarPanelArea(x => x.IsUsedForWaterHeating == true);
             // Vbu is used in the getter properties, and used as zero for the rest of the calculation
             // since no documentation properly speciefies how to use the Vbu value elsewhere.
             float vbu = 0;

@@ -46,7 +46,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         {
             var package = new PackageFactory().GetPackage(id);
             var calculation = new BoilerAsPrimary();
-            DOSTUFF(package);
+            AssignUsageProperties(package);
             var result = new EEICalculationResult();
             result = calculation.CalculateEEI(package);
             var AFUE = result.PrimaryHeatingUnitAFUE;
@@ -60,7 +60,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         {
             var package = new PackageFactory().GetPackage(id);
             var calculation = new BoilerAsPrimary();
-            DOSTUFF(package);
+            AssignUsageProperties(package);
             var result = new EEICalculationResult();
             result = calculation.CalculateEEI(package);
             Assert.AreEqual(expected, (float)Math.Round(result.EffectOfTemperatureRegulatorClass,1));
@@ -72,7 +72,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         {
             var package = new PackageFactory().GetPackage(id);
             var calculation = new BoilerAsPrimary();
-            DOSTUFF(package);
+            AssignUsageProperties(package);
             var result = new EEICalculationResult();
             result = calculation.CalculateEEI(package);
             var secBoiler = result.EffectOfSecondaryBoiler;
@@ -86,7 +86,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         {
             var package = new PackageFactory().GetPackage(id);
             var calculation = new BoilerAsPrimary();
-            DOSTUFF(package);
+            AssignUsageProperties(package);
             var result = new EEICalculationResult();
             result = calculation.CalculateEEI(package);
             var solar = result.SolarHeatContribution;
@@ -100,7 +100,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         {
             var package = new PackageFactory().GetPackage(id);
             var calculation = new BoilerAsPrimary();
-            DOSTUFF(package);
+            AssignUsageProperties(package);
             var result = new EEICalculationResult();
             result = calculation.CalculateEEI(package);
 
@@ -115,7 +115,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         {
             var package = new PackageFactory().GetPackage(id);
             var calculation = new BoilerAsPrimary();
-            DOSTUFF(package);
+            AssignUsageProperties(package);
             var result = new EEICalculationResult();
             result = calculation.CalculateEEI(package);
             var adjusted = result.AdjustedContribution;
@@ -131,7 +131,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         {
             var package = new PackageFactory().GetPackage(packId);
             var calculation = new BoilerAsPrimary();
-            DOSTUFF(package);
+            AssignUsageProperties(package);
             //package.Appliances.Add(new ApplianceFactory().GetBoiler(id) ?? new Appliance());
             if (id == BoilerId.LoganoSB150)
             {
@@ -153,7 +153,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         {
             var package = new PackageFactory().GetPackage(id);
             var calculation = new BoilerAsPrimary();
-            DOSTUFF(package);
+            AssignUsageProperties(package);
             var result = calculation.CalculateEEI(package);
             var lowTemp = result.PackagedSolutionAtColdTemperaturesAFUE;
 
@@ -165,7 +165,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         {
             var package = new PackageFactory().GetPackage(packId);
             var calculation = new BoilerAsPrimary();
-            DOSTUFF(package);
+            AssignUsageProperties(package);
             //package.Appliances.Add(new ApplianceFactory().GetBoiler(id) ?? new Appliance());
             if (id == ContainerId.SM500)
                 package.ApplianceInstances.Add(new ApplianceInstance() { Appliance = new ApplianceFactory().GetContainer(id) });
@@ -174,7 +174,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             var EEI = Math.Round(result.EEI);
             Assert.IsTrue(expected <= EEI + 1f && expected >= EEI - 1f);
         }
-        private void DOSTUFF(PackagedSolution package)
+        private void AssignUsageProperties(PackagedSolution package)
         {
             var containers = package.SolarContainerInstances;
             foreach (var item in containers)

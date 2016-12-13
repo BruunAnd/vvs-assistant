@@ -37,10 +37,11 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         public void WaterPrimaryCalculateEEI_CorrectSolarContribution(PackagedSolutionId packageId, float errorMargin, float expected)
         {
             var package = new PackageFactory().GetPackage(packageId);
-            DOSTUFF(package);
+            AssignUsageProperties(package);
             var calculation = new BoilerForWater();
             var result = calculation.CalculateEEI(package);
             var EEI = Math.Round(result.SolarHeatContribution, 3);
+            //Assert.AreEqual(EEI, expected);
             Assert.IsTrue(expected + errorMargin >= EEI && EEI >= expected - errorMargin);
         }
         [Test]
@@ -59,7 +60,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         public void WaterPrimaryCalculateEEI_CalculatesEEICompletePackagedSolution(PackagedSolutionId packageId, float errormargin,float expected)
         {
             var package = new PackageFactory().GetPackage(packageId);
-            DOSTUFF(package);
+            AssignUsageProperties(package);
             var calculation = new BoilerForWater();
             var result = calculation.CalculateEEI(package);
             var EEI = (float)Math.Round(result.EEI);
@@ -75,7 +76,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         {
             var package = new PackageFactory().GetPackage(packageId);
             var calculation = new BoilerForWater();
-            DOSTUFF(package);
+            AssignUsageProperties(package);
             var result = calculation.CalculateEEI(package);
             var EEI = (float)Math.Round(result.PackagedSolutionAtWarmTemperaturesAFUE);
             Assert.IsTrue(expected + 1f >= EEI && EEI >= expected - 1f);
@@ -88,7 +89,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
         public void WaterPrimaryCalculateEEI_CorrectColderEEI(PackagedSolutionId packageId, float expected)
         {
             var package = new PackageFactory().GetPackage(packageId);
-            DOSTUFF(package);
+            AssignUsageProperties(package);
             var calculation = new BoilerForWater();
             var result = calculation.CalculateEEI(package);
             var EEI = (float)Math.Round(result.PackagedSolutionAtColdTemperaturesAFUE);
@@ -120,7 +121,7 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests.Strategies
             Assert.IsTrue(expected + 1f >= EEI && EEI >= expected - 1f);
         }
         
-        private void DOSTUFF(PackagedSolution package)
+        private void AssignUsageProperties(PackagedSolution package)
         {
             var containers = package.SolarContainerInstances;
             foreach (var item in containers)
