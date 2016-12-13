@@ -99,7 +99,7 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
                                               Action<CreateApplianceDialogViewModel> completionHandler)
         {
             appFactory = new ApplianceFactory();
-            NewAppliance = newAppliance;
+            NewAppliance = new Appliance();
 
             CloseCommand = new RelayCommand(x =>
             {
@@ -110,8 +110,7 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
 
             SaveCommand = new RelayCommand(x =>
             {
-                /* If datasheet changes, NewAppliance is a new object, which doesn't 
-                 * translate to the original newAppliance. Force the change here. */
+                /* Pass the newly created appliance back to the view model */
                 newAppliance = NewAppliance; 
                 completionHandler(this);
             });
