@@ -14,26 +14,26 @@ namespace VVSAssistant.Functions.Calculation
         public static readonly List<float> UserTypeXl = new List<float> { 27, 30, 35, 38, 55, 80, 123, 160, 200 };
         public static readonly List<float> UserTypeXxl = new List<float> { 28, 32, 36, 40, 60, 85, 131, 170, 213 };
 
-        public static List<string> EEIChar(ApplianceTypes PrimaryHeat, float CalcEII, float uncertainty = 0)
+        public static List<string> EEIChar(ApplianceTypes PrimaryHeat, float CalcEEI, float uncertainty = 0)
         {
             switch (PrimaryHeat)
             {
                 case ApplianceTypes.HeatPump:
                 case ApplianceTypes.Boiler:
                 case ApplianceTypes.CHP:
-                    var heatBoilChPindex = GetLabel(PrimPumpOrBoilOrChp, CalcEII, uncertainty);
+                    var heatBoilChPindex = GetLabel(PrimPumpOrBoilOrChp, CalcEEI, uncertainty);
                     return new List<string>
                     {
                         Labels[heatBoilChPindex],
-                        GetToNext(PrimPumpOrBoilOrChp, CalcEII, heatBoilChPindex),
+                        GetToNext(PrimPumpOrBoilOrChp, CalcEEI, heatBoilChPindex),
                         GetNextLabel(heatBoilChPindex)
                     };
                 case ApplianceTypes.LowTempHeatPump:
-                    var lowTempIndex = GetLabel(LowHeatPump, CalcEII, uncertainty);
+                    var lowTempIndex = GetLabel(LowHeatPump, CalcEEI, uncertainty);
                     return new List<string>
                     {
                         Labels[lowTempIndex],
-                        GetToNext(PrimPumpOrBoilOrChp, CalcEII, lowTempIndex),
+                        GetToNext(PrimPumpOrBoilOrChp, CalcEEI, lowTempIndex),
                         GetNextLabel(lowTempIndex)
                     };
                 default:
