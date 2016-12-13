@@ -154,8 +154,13 @@ namespace VVSAssistant.ViewModels
 
             /* When the "nyt tilbud" button in bottom left corner is pressed. 
              * Nullifies all offer properties and changes view to list of packaged solutions. */
-            CreateNewOfferCmd = new RelayCommand(x =>
+            CreateNewOfferCmd = new RelayCommand(async x =>
             {
+                if (!IsDataSaved)
+                {
+                    var result = await NavigationService.ConfirmDiscardChanges(_dialogCoordinator);
+                    if (result == false) return;
+                }
                 SetInitialSettings();
                 ClearCollections();
                 // PackagedSolutions.Clear();
