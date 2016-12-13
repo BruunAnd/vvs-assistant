@@ -7,7 +7,7 @@ using VVSAssistant.ValueConverters;
 
 namespace VVSAssistant.Models
 {
-    public class Appliance : ICalculateable, ICopyable, IEquatable<Appliance>
+    public class Appliance : ICalculable, ICopyable, IEquatable<Appliance>
     {
         public int Id { get; set; }
         public string Name { get; set; }
