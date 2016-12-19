@@ -88,7 +88,8 @@ namespace VVSAssistant.Tests.ViewModelTests
 
             Assert.IsTrue(ctx.PackagedSolutions.Any(p => p.Id == testPack.Id));
         }
-        /* Mr. Gorbachev, */ [TearDown] /* this wall*/
+
+        [TearDown]
         public void TearDown()
         {
             testModel = null;

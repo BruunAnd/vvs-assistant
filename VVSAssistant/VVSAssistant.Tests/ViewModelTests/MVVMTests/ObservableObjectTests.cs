@@ -14,8 +14,7 @@ namespace VVSAssistant.Tests.ViewModelTests.MVVMTests
     public class ObservableObjectTests
     {
         private StubObservableObject _stub = null;
-
-        // Factory er anbefalet i stedet for Setup
+        
         [SetUp]
         public void Setup()
         {
