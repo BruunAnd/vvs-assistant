@@ -74,7 +74,7 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
             });
         }
 
-        public void OnInputReceived(object source, PropertyChangedEventArgs e)
+        private void OnInputReceived(object source, PropertyChangedEventArgs e)
         {
             if (string.IsNullOrEmpty(Address) || string.IsNullOrEmpty(Telephone) ||
                 string.IsNullOrEmpty(Cvr)     || string.IsNullOrEmpty(Email)     ||
@@ -83,10 +83,9 @@ namespace VVSAssistant.Controls.Dialogs.ViewModels
                 hasRequiredInformation = false;
                 return;
             }
-            else
-                hasRequiredInformation = true;
+            hasRequiredInformation = true;
 
-            SaveCommand.NotifyCanExecuteChanged();
+            SaveCommand?.NotifyCanExecuteChanged();
         }
 
         public void LoadDataFromDatabase()
