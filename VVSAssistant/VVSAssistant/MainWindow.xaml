@@ -13,7 +13,8 @@
     xmlns:dialogs="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
     xmlns:valueConverters="clr-namespace:VVSAssistant.ValueConverters"
     Title="VVS Assistant" MinHeight="650" MinWidth="1080" Height="650" Width="1080"
-    dialogs:DialogParticipation.Register="{Binding}">
+    dialogs:DialogParticipation.Register="{Binding}"
+    BorderBrush="{StaticResource AccentBaseColorBrush}">
     <Window.DataContext>
         <viewModels:MainWindowViewModel/>
     </Window.DataContext>
