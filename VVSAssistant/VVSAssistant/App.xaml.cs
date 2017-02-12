@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using VVSAssistant.Database;
+using VVSAssistant.Functions;
 using VVSAssistant.Models;
 using VVSAssistant.Models.DataSheets;
 
@@ -17,11 +19,18 @@ namespace VVSAssistant
         {
             base.OnStartup(e);
             InitializeCultureInfo();
+            TestSeed();
+            VVSUpdater up = new VVSUpdater();
+            Exit += up.DeletePartiallyDownloadedUpdateFiles;
+            new Task(() => up.UpdateApplication()).Start(); //Update asynchronously if current version is outdated
+        }
 
+        private void TestSeed()
+        {
             using (var ctx = new AssistantContext())
             {
-                ctx.Database.Delete();
-                if (ctx.Appliances.Any()) return;
+                if (ctx.Appliances.Any())
+                    return;
                 ctx.Appliances.Add(new Appliance("Cerapur", new HeatingUnitDataSheet()
                 { WattUsage = 20, AFUE = 93, AFUEColdClima = 98.2f, AFUEWarmClima = 87.8f }, ApplianceTypes.Boiler)
                 { CreationDate = DateTime.Now });
@@ -138,13 +147,13 @@ namespace VVSAssistant
                 { Area = 3.19f, Efficency = 72 }, ApplianceTypes.SolarPanel)
                 { CreationDate = DateTime.Now });
                 ctx.Appliances.Add(new Appliance("Logasol SKN 4.0", new SolarCollectorDataSheet()
-                { Area = 2.25f, Efficency = 61}, ApplianceTypes.SolarPanel)
+                { Area = 2.25f, Efficency = 61 }, ApplianceTypes.SolarPanel)
                 { CreationDate = DateTime.Now });
                 ctx.Appliances.Add(new Appliance("Vitosol 200-T", new SolarCollectorDataSheet()
-                { Area = 1.33f, Efficency = 67.5f}, ApplianceTypes.SolarPanel)
+                { Area = 1.33f, Efficency = 67.5f }, ApplianceTypes.SolarPanel)
                 { CreationDate = DateTime.Now });
                 ctx.Appliances.Add(new Appliance("Vitosol 200-T SP2A", new SolarCollectorDataSheet()
-                { Area = 3.19f, Efficency = 67.4f}, ApplianceTypes.SolarPanel)
+                { Area = 3.19f, Efficency = 67.4f }, ApplianceTypes.SolarPanel)
                 { CreationDate = DateTime.Now });
                 ctx.Appliances.Add(new Appliance("SomeContiner", new ContainerDataSheet()
                 { Volume = 500, Classification = "B", StandingLoss = 80 }, ApplianceTypes.Container)

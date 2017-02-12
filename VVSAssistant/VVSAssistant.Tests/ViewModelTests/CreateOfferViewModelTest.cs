@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using VVSAssistant.Common.ViewModels;
 using VVSAssistant.Database;
 using VVSAssistant.Functions.Calculation;
 using VVSAssistant.Models;
@@ -19,6 +20,7 @@ namespace VVSAssistant.Tests.ViewModelTests
     {
         private CreateOfferViewModel testModel;
         private PackagedSolution testPack;
+        private PackagedSolution testPack2;
         private Client testClient;
         private Appliance testApp1;
         private Appliance testApp2;
@@ -41,6 +43,12 @@ namespace VVSAssistant.Tests.ViewModelTests
             testPack.ApplianceInstances.Add(new ApplianceInstance() {Appliance= testApp2 });
             testPack.CreationDate = DateTime.Now;
             testPack.EnergyLabel = new List<EEICalculationResult>();
+
+            testPack2 = new PackagedSolution() { Name = "testPack2" };
+            testPack2.ApplianceInstances.Add(new ApplianceInstance() { Appliance = testApp2, IsPrimary = true });
+            testPack2.ApplianceInstances.Add(new ApplianceInstance() { Appliance = testApp1 });
+            testPack2.CreationDate = DateTime.Now;
+            testPack2.EnergyLabel = new List<EEICalculationResult>();
 
             testClient = new Client();
             testClient.ClientInformation = new ClientInformation();
@@ -88,7 +96,8 @@ namespace VVSAssistant.Tests.ViewModelTests
 
             Assert.IsTrue(ctx.PackagedSolutions.Any(p => p.Id == testPack.Id));
         }
-        /* Mr. Gorbachev, */ [TearDown] /* this wall*/
+
+        [TearDown]
         public void TearDown()
         {
             testModel = null;
@@ -104,6 +113,18 @@ namespace VVSAssistant.Tests.ViewModelTests
                 }
             }
             return true;
+        }
+
+        [Test]
+        public void PackagedSolutionSelectedCmdTest()
+        {
+            testModel.SelectedPackagedSolution = testPack2;
+            testModel.PackagedSolutionSelectedCmd.Execute(null);
+            Assert.IsFalse(testModel.IsDataSaved);
+            Assert.IsFalse(testModel.ArePackagedSolutionsVisible);
+            Assert.True(testModel.IsComponentTabVisible);
+            Assert.AreEqual(testPack2, testModel.Offer.PackagedSolution);
+            Assert.IsTrue(testModel.AppliancesInOffer.Count == 2);
         }
     }
 }

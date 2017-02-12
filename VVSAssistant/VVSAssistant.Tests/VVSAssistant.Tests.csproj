@@ -79,7 +79,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClassXTests.cs" />
     <Compile Include="FunctionsTests\CalculationTests\EEICharLabelChooserTests.cs" />
     <Compile Include="FunctionsTests\CalculationTests\Strategies\BoilerAsPrimaryTests.cs" />
     <Compile Include="FunctionsTests\CalculationTests\Strategies\BoilerForWaterAsPrimaryTests.cs" />

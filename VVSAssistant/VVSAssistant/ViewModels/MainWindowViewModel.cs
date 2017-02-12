@@ -1,15 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
-using System.IO.Compression;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Windows;
-using Microsoft.Win32;
 using MahApps.Metro.Controls.Dialogs;
 using VVSAssistant.Common;
 using VVSAssistant.Common.ViewModels;
-using VVSAssistant.Functions;
 using VVSAssistant.Controls.Dialogs.Views;
 using VVSAssistant.Controls.Dialogs.ViewModels;
 using VVSAssistant.Database;

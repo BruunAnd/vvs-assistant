@@ -139,37 +139,5 @@ namespace VVSAssistant.Tests.FunctionsTests.CalculationTests
             // fejl margin hævet til 0.3 fordi det eneste der påvirker resultatet en en værdi der er 0.509 i stedet for 0.504
             Assert.IsTrue(Results.EffectOfSecondaryHeatPump <= expectedValue + 0.3f && Results.EffectOfSecondaryHeatPump >= expectedValue - 0.3f);
         }
-
-
-
-        //[Test]
-        //public void SelectCalculationStrategy_ReturnsAEEICalculationType_True()
-        //{
-        //    var package = new PackagedSolution() { PrimaryHeatingUnit = new Appliance() { Type = ApplianceTypes.Boiler } };
-        //    var calcManager = new CalculationManager();
-
-        //    Assert.IsTrue(typeof(IEEICalculation).IsAssignableFrom(calcManager.SelectCalculationStreategies(package).GetType()));
-        //}
-
-        //// Integration Test between Appliance and CalculationSelector
-        //[Test]
-        //[TestCase(ApplianceTypes.Boiler, null, typeof(BoilerAsPrimary))]
-        //[TestCase(ApplianceTypes.HeatPump, null, typeof(HeatPumpAsPrimary))]
-        //[TestCase(ApplianceTypes.LowTempHeatPump, null, typeof(HeatPumpAsPrimary))]
-        //[TestCase(ApplianceTypes.Boiler, ApplianceTypes.SolarPanel, typeof(BoilerForWater))]
-        //public void SelectCalculationStrategy_SelectsCorrectStrategy(ApplianceTypes type,
-        //    ApplianceTypes secondApplianceType, Type EEICalculation)
-        //{
-        //    // Arrange
-        //    var package = new PackagedSolution();
-        //    var calcManager = new CalculationManager();
-
-        //    //Act
-        //    package.PrimaryHeatingUnit = new Appliance() { Type = type };
-        //    package.Appliances.Add(new Appliance() { Type = secondApplianceType});
-
-        //    //Assert
-        //    Assert.AreEqual(calcManager.SelectCalculationStreategies(package).GetType(), EEICalculation);
-        //}
     }
 }
