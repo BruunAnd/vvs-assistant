@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using VVSAssistant.Database;
+using VVSAssistant.Functions;
 using VVSAssistant.Models;
 using VVSAssistant.Models.DataSheets;
 
@@ -18,6 +20,9 @@ namespace VVSAssistant
             base.OnStartup(e);
             InitializeCultureInfo();
             TestSeed();
+            VVSUpdater up = new VVSUpdater();
+            Exit += up.DeletePartiallyDownloadedUpdateFiles;
+            new Task(() => up.UpdateApplication()).Start(); //Update asynchronously if current version is outdated
         }
 
         private void TestSeed()
