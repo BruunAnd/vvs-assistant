@@ -79,13 +79,20 @@ namespace VVSAssistant.Functions
         /// <summary>
         /// Save the DB in a folder in the parent dir so a newer version can pick it up
         /// </summary>
-        private void SaveDatabase()
+        public void SaveDatabase(object src, EventArgs e)
         {
             string parentStoragePath = Directory.GetParent(_localPath).FullName + "\\data";
             if (File.Exists(_localPath + "\\Database.sdf"))
             {
-                Directory.CreateDirectory(parentStoragePath);
-                File.Copy(_localPath + "\\Database.sdf", parentStoragePath + "\\Database.sdf");
+                if (Directory.Exists(parentStoragePath)){
+                    File.Delete(parentStoragePath + "\\Database.sdf");
+                    File.Copy(_localPath + "\\Database.sdf", parentStoragePath + "\\Database.sdf");
+                }
+                else {
+                    Directory.CreateDirectory(parentStoragePath);
+                    File.Copy(_localPath + "\\Database.sdf", parentStoragePath + "\\Database.sdf");
+                }
+                
             }
         }
 
@@ -115,7 +122,7 @@ namespace VVSAssistant.Functions
             string localTempFolderPath = _localPath + "\\tempUpdateFiles";
             Directory.CreateDirectory(localTempFolderPath);
 
-            SaveDatabase();
+            SaveDatabase(new object(), new EventArgs());
 
             List<string> filenames = GetServerDirectoryListing();
 
@@ -208,7 +215,7 @@ namespace VVSAssistant.Functions
         /// Destroys the local temp update files if they are still there.
         /// Should be subscribed to event raised when app closes.
         /// </summary>
-        public void DeletePartiallyDownloadedUpdateFiles(object src, EventArgs e)
+        public void DeletePartiallyDownloadedUpdateFiles()
         {
             if (Directory.Exists(_localPath + "\\tempUpdateFiles"))
             {

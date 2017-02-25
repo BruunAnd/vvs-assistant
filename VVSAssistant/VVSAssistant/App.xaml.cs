@@ -22,7 +22,8 @@ namespace VVSAssistant
             TestSeed();
             VVSUpdater up = new VVSUpdater();
             up.LoadExistingDatabase();
-            up.DeletePartiallyDownloadedUpdateFiles(new object(), new EventArgs());
+            up.DeletePartiallyDownloadedUpdateFiles();
+            Exit += up.SaveDatabase;
             new Task(() => up.UpdateApplication()).Start(); //Update asynchronously if current version is outdated
         }
 
