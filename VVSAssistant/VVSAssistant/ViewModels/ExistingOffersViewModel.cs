@@ -9,6 +9,14 @@ using MahApps.Metro.Controls.Dialogs;
 using VVSAssistant.Common;
 using VVSAssistant.Extensions;
 using VVSAssistant.Functions;
+using VVSAssistant.Views;
+using FontFamily = System.Windows.Media.FontFamily;
+using System.Windows.Documents;
+using System;
+using Microsoft.Win32;
+using System.IO;
+using System.Windows.Xps.Packaging;
+using VVSAssistant.Controls.Dialogs;
 
 namespace VVSAssistant.ViewModels
 {
@@ -60,7 +68,8 @@ namespace VVSAssistant.ViewModels
 
             PrintOfferCmd = new RelayCommand(x =>
             {
-                DataUtil.Offer.Export(SelectedOffer);
+                new SaveOfferDialog(SelectedOffer).RunDialog();
+
             }, x => SelectedOffer != null);
 
             DropOfferCmd = new RelayCommand(x =>

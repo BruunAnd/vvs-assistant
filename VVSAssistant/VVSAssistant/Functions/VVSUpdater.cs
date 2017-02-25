@@ -40,6 +40,7 @@ namespace VVSAssistant.Functions
                 return File.ReadAllText(versionFilePath);
             else
                 return "0.0.0";
+ 
         }
 
         /// <summary>

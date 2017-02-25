@@ -8,6 +8,7 @@ using VVSAssistant.Models;
 using VVSAssistant.Functions;
 using System.Threading.Tasks;
 using VVSAssistant.Database;
+using VVSAssistant.Controls.Dialogs;
 
 namespace VVSAssistant.ViewModels
 {
@@ -73,7 +74,7 @@ namespace VVSAssistant.ViewModels
             PrintCalculationCmd = new RelayCommand(x =>
             {
                 SelectedPackagedSolution.UpdateEei();
-                DataUtil.EnergyLabel.ExportEnergyLabel(SelectedPackagedSolution);
+                new SaveEnergyLabelDialog(SelectedPackagedSolution).RunDialog();
             }, x => SelectedPackagedSolution != null);
         }
 

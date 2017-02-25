@@ -221,12 +221,15 @@
     <Compile Include="Common\NavigationService.cs" />
     <Compile Include="Common\NotifyPropertyChanged.cs" />
     <Compile Include="Common\ViewModels\FilterableViewModelBase.cs" />
+    <Compile Include="Controls\Dialogs\SaveEnergyLabelDialog.cs" />
+    <Compile Include="Controls\Dialogs\SaveOfferDialog.cs" />
     <Compile Include="Controls\Dialogs\ViewModels\TimedMessageViewModel.cs" />
     <Compile Include="Controls\Dialogs\Views\Behavior\SelectAllTextBehavior.cs" />
     <Compile Include="Controls\Dialogs\Views\TimedMessageView.xaml.cs">
       <DependentUpon>TimedMessageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Functions\ApplianceFactory.cs" />
+    <Compile Include="Functions\ApplicationDatabase.cs" />
     <Compile Include="Functions\VVSUpdater.cs" />
     <Compile Include="Models\CompanyInformation.cs" />
     <Compile Include="Controls\Dialogs\ViewModels\AddHeatingUnitDialogViewModel.cs" />
@@ -263,7 +266,6 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Functions\Calculation\CalculationType.cs" />
     <Compile Include="Functions\Calculation\EEICharLabelChooser.cs" />
-    <Compile Include="Functions\DataUtil.cs" />
     <Compile Include="Models\Interfaces\ICopyable.cs" />
     <Compile Include="Functions\Calculation\PackageDataManager.cs" />
     <Compile Include="Functions\Calculation\Strategies\BoilerAsPrimary.cs" />

@@ -19,6 +19,7 @@ using VVSAssistant.Models.DataSheets;
 using VVSAssistant.Functions.Calculation;
 using VVSAssistant.ValueConverters;
 using MahApps.Metro.Controls;
+using VVSAssistant.Controls.Dialogs;
 
 namespace VVSAssistant.ViewModels
 {
@@ -282,7 +283,7 @@ namespace VVSAssistant.ViewModels
             PrintEnergyLabelCmd = new RelayCommand(x =>
             {
                 //PackagedSolution.Appliances = AppliancesInPackagedSolution.ToList();
-                DataUtil.EnergyLabel.ExportEnergyLabel(PackagedSolution);
+                new SaveEnergyLabelDialog(PackagedSolution).RunDialog();
             }, x => AppliancesInPackagedSolution.Any() && IsDataSaved);
             #endregion
         }
