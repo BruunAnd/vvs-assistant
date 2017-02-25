@@ -7,7 +7,7 @@ using VVSAssistant.Database;
 using VVSAssistant.Functions;
 using VVSAssistant.Models;
 using VVSAssistant.Models.DataSheets;
-
+ 
 namespace VVSAssistant
 {
     /// <summary>
@@ -21,8 +21,8 @@ namespace VVSAssistant
             InitializeCultureInfo();
             TestSeed();
             VVSUpdater up = new VVSUpdater();
+            up.LoadExistingDatabase();
             up.DeletePartiallyDownloadedUpdateFiles(new object(), new EventArgs());
-            Exit += up.DeletePartiallyDownloadedUpdateFiles;
             new Task(() => up.UpdateApplication()).Start(); //Update asynchronously if current version is outdated
         }
 

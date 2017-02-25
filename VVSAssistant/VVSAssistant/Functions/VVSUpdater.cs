@@ -7,6 +7,7 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using VVSAssistant.Database;
 
 namespace VVSAssistant.Functions
 {
@@ -23,12 +24,14 @@ namespace VVSAssistant.Functions
 
         public string CurrentVersion { get { return GetCurrentVersion(); } set { SetCurrentVersion(value); } }
 
-        string _serverPath, _localPath, _serverUN, _serverPW;
+        private string _localPath { get { return Directory.GetCurrentDirectory(); }
+        }
+
+        string _serverPath, _serverUN, _serverPW;
 
         public VVSUpdater()
         {
             _serverPath = "ftp://etilmelding.com/public_ftp/VVS/VVSAssistantUpdates/";
-            _localPath = Directory.GetCurrentDirectory();
             _serverUN = "ownerofthis";
             _serverPW = "BramsHansen2";
         }
@@ -73,19 +76,33 @@ namespace VVSAssistant.Functions
         }
 
         /// <summary>
-        /// After temp update folder has been added, save the database in there.
+        /// Save the DB in a folder in the parent dir so a newer version can pick it up
         /// </summary>
         private void SaveDatabase()
         {
-            if (Directory.Exists(_localPath + "\\tempUpdateFiles"))
+            string parentStoragePath = Directory.GetParent(_localPath).FullName + "\\data";
+            if (File.Exists(_localPath + "\\Database.sdf"))
             {
-                File.Copy(_localPath + "\\Database.sdf", _localPath + "\\tempUpdateFiles\\Database.sdf");
+                Directory.CreateDirectory(parentStoragePath);
+                File.Copy(_localPath + "\\Database.sdf", parentStoragePath + "\\Database.sdf");
             }
         }
 
-        public void ReloadDatabase()
+        /// <summary>
+        /// Replaces the current DB with the one in the parent dir if it exists. 
+        /// Deletes the old DB after replacing.
+        /// </summary>
+        public void LoadExistingDatabase()
         {
-            File.Replace(_localPath + "\\tempUpdateFiles\\Database.sdf", _localPath + "\\Database.sdf", _localPath + "\\DatabaseBackup.sdf");
+            string parentStoragePath = Directory.GetParent(_localPath).FullName + "\\data";
+            if (Directory.Exists(parentStoragePath))
+            {
+                if (File.Exists(parentStoragePath + "\\Database.sdf"))
+                {
+                    File.Replace(parentStoragePath + "\\Database.sdf", _localPath + "\\Database.sdf", _localPath + "\\DatabaseBackup.sdf");
+                }
+                Directory.Delete(parentStoragePath, true);
+            }
         }
 
         /// <summary>
@@ -122,7 +139,6 @@ namespace VVSAssistant.Functions
             {
                 await mgr.UpdateApp();
             }
-            ReloadDatabase();
             Directory.Delete(localTempFolderPath, true);
         }
         /// <summary>
@@ -193,10 +209,9 @@ namespace VVSAssistant.Functions
         /// </summary>
         public void DeletePartiallyDownloadedUpdateFiles(object src, EventArgs e)
         {
-            if (Directory.Exists(_localPath + "\\tempUdpdateFiles"))
+            if (Directory.Exists(_localPath + "\\tempUpdateFiles"))
             {
-                ReloadDatabase();
-                Directory.Delete(_localPath + "\\tempUdpdateFiles", true);
+                Directory.Delete(_localPath + "\\tempUpdateFiles", true);
             }
         }
     }
