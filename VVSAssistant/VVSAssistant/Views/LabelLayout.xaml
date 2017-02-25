@@ -45,7 +45,7 @@
                 <!-- Øverste billede -->
                 <Image Grid.Row="0"
                 Grid.Column="0"
-               Source="/Image/header_energy.png"/>
+               Source="/Image/energy_label_header.png"/>
                 <!-- navn -->
                 <Label Grid.Row="1"
                    Grid.Column="0"
@@ -110,21 +110,21 @@
                         </Border>
 
                         <Image
-                        Grid.Row="0" Grid.Column="0" Source="/Image/PictosDG tren_radiator-2.png" Stretch="Fill" Margin="5,-38,47,147" RenderTransformOrigin="-0.267,0.2"/>
+                        Grid.Row="0" Grid.Column="0" Source="/Image/radiator.png" Stretch="Fill" Margin="5,-38,47,147" RenderTransformOrigin="-0.267,0.2"/>
 
-                        <Image Grid.Row="0" Grid.Column="1" Source="/Image/Fleches toutes Aplus_CALIBRI_2.png" Margin="69,45,33,45" Stretch="Fill" Grid.ColumnSpan="2"/>
+                        <Image Grid.Row="0" Grid.Column="1" Source="/Image/arrow.png" Margin="69,45,33,45" Stretch="Fill" Grid.ColumnSpan="2"/>
                         <TextBlock Text="{Binding AnnualEfficiencyLetter}" Margin="0,56,38,30" Foreground="White" FontSize="28" FontWeight="Bold" FontFamily="Calibri"
                                Grid.Row="0" Grid.Column="2"/>
                         <TextBlock Text="{Binding AnnualEfficiencyPlus}" Margin="18,46,40,18" Foreground="White" FontSize="24" FontWeight="Bold" FontFamily="Calibri"
                                Grid.Row="0" Grid.Column="2"/>
 
-                        <Image Grid.Column="0" Grid.Row="0" Margin="13,29,12,0" Source="/Image/heat-generator.png" Height="82" VerticalAlignment="Top" Grid.ColumnSpan="2" />
+                        <Image Grid.Column="0" Grid.Row="0" Margin="13,29,12,0" Source="/Image/heat_generator.png" Height="82" VerticalAlignment="Top" Grid.ColumnSpan="2" />
                         <!-- nedere felt venstre-->
                         <Border Grid.Row="2" Grid.Column="0" Background="White" BorderBrush="#00bfff" BorderThickness="4" CornerRadius="10.0" Grid.ColumnSpan="3"/>
 
                         <Label Grid.Row="2" Grid.Column="0" Content="+" FontFamily="Calibri" Foreground="#00bfff" FontSize="80" Margin="10,30,25,427" FontWeight="Bold"/>
 
-                        <Image Grid.Row="2" Grid.Column="0" Margin="84,43,24,444" Source="/Image/SOLAR COLLECTOR.png" Grid.ColumnSpan="2"/>
+                        <Image Grid.Row="2" Grid.Column="0" Margin="84,43,24,444" Source="/Image/solar_collector.png" Grid.ColumnSpan="2"/>
 
                         <Rectangle Grid.Row="2" Grid.Column="2" Width="1.1cm" Height="1.1cm" Stroke="#00bfff" StrokeThickness="4" Margin="22,67,35,454" RenderTransformOrigin="0.601,2.045" />
                         <Label Grid.Row="2" Grid.Column="2" Content="X" Foreground="Black" FontSize="50" FontFamily="Calibri" FontWeight="Bold" Visibility="{Binding SolarIncluded}" Margin="24,51,37,424"/>
@@ -142,7 +142,7 @@
                         <Image Grid.Row="2"
                            Grid.Column="0"
                            Margin="87,319,35,158"
-                           Source="/Image/CONTROL.png" Grid.ColumnSpan="2"/>
+                           Source="/Image/user_control.png" Grid.ColumnSpan="2"/>
 
                         <Rectangle Grid.Row="2"
                                Grid.Column="2"
@@ -174,7 +174,7 @@
                         <Image Grid.Row="2"
                         Grid.Column="1"
                         Margin="1,438,41,43"
-                        Source="/Image/heat-generator.png"/>
+                        Source="/Image/heat_generator.png"/>
 
                         <Rectangle Grid.Row="2"
                                Grid.Column="2"
@@ -208,9 +208,6 @@
                 BorderBrush="#00bfff"
                 BorderThickness="4" 
                 CornerRadius="10.0">
-                            <!--<Image Margin="-22,-4,78,-6"
-                               Source="/Image/Asset 3.png"
-                               Stretch="Fill"/>-->
                         </Border>
                         <Grid Grid.Row="0"
                                 Grid.Column="0">
@@ -299,7 +296,7 @@
                             Canvas.Bottom="0"
                            Width="2.5cm"
                            Height="1.5cm"
-                           Source="/Image/Fleches toutes Aplus_CALIBRI_2.png"
+                           Source="/Image/arrow.png"
                            Stretch="Fill"/>
                                 <TextBlock Text="{Binding LabelTwoTabeOneArrowLetter}"
                                Canvas.Left="25"
@@ -364,7 +361,7 @@
                 <!-- Øverste billede -->
                 <Image Grid.Row="0"
                 Grid.Column="0"
-               Source="/Image/header_energy.png"/>
+               Source="/Image/energy_label_header.png"/>
                 <!-- navn -->
                 <Label Grid.Row="1"
                    Grid.Column="0"
@@ -429,14 +426,14 @@
 
                         <Image
                             Grid.Row="0" Grid.Column="0"
-                           Source="/Image/PictosDG tren_radiator-2.png"
+                           Source="/Image/radiator.png"
                            Stretch="Fill"
                            Margin="212,34,35,117" RenderTransformOrigin="-0.267,0.2"/>
 
 
                         <Image
                             Grid.Row="0" Grid.Column="0"
-                           Source="/Image/Tap.png"
+                           Source="/Image/water_tap.png"
                            Stretch="Fill"
                            Margin="207,114,44,38" RenderTransformOrigin="-0.267,0.2"/>
 
@@ -451,7 +448,7 @@
 
                         <Image Grid.Row="0"
                            Grid.Column="0"
-                           Source="/Image/Fleches toutes Aplus_CALIBRI_2.png"
+                           Source="/Image/arrow.png"
                            Margin="130,26,84,112"
                            Stretch="Fill"/>
                         <TextBlock Grid.Row="0" Text="{Binding WaterHeatingModeLetter}"
@@ -470,7 +467,7 @@
 
                         <Image Grid.Row="0"
                            Grid.Column="0"
-                           Source="/Image/Fleches toutes Aplus_CALIBRI_2.png"
+                           Source="/Image/arrow.png"
                            Margin="130,99,84,38"
                            Stretch="Fill"/>
                         <TextBlock Grid.Row="0" Text="{Binding AnnualEfficiencyLetter}"
@@ -489,7 +486,7 @@
                         <Image Grid.Column="0"
                         Grid.Row="0"
                         Margin="-30,43,142,44"
-                        Source="/Image/heat-generator.png"
+                        Source="/Image/heat_generator.png"
                            />
                         <!-- nedere felt venstre-->
                         <Border Grid.Row="2"
@@ -512,7 +509,7 @@
                         <Image Grid.Row="2"
                            Grid.Column="0"
                            Margin="84,41,122,391"
-                           Source="/Image/SOLAR COLLECTOR.png"/>
+                           Source="/Image/solar_collector.png"/>
 
                         <Rectangle Grid.Row="2"
                                Grid.Column="0"
@@ -575,7 +572,7 @@
                         <Image Grid.Row="2"
                            Grid.Column="0"
                            Margin="88,319,132,141"
-                           Source="/Image/CONTROL.png"/>
+                           Source="/Image/user_control.png"/>
 
                         <Rectangle Grid.Row="2"
                                Grid.Column="0"
@@ -607,7 +604,7 @@
                         <Image Grid.Row="2"
                         Grid.Column="0"
                         Margin="96,433,138,20"
-                        Source="/Image/heat-generator.png"/>
+                        Source="/Image/heat_generator.png"/>
 
                         <Rectangle Grid.Row="2"
                                Grid.Column="0"
@@ -646,13 +643,13 @@
                 BorderThickness="4" 
                 CornerRadius="10.0">
                             <Image Margin="-20,51,105,25"
-                               Source="/Image/Asset 3.png"
+                               Source="/Image/energy_efficiency_classes.png"
                                Stretch="Fill"/>
                         </Border>
 
                         <Image
                             Grid.Row="0" Grid.Column="0"
-                           Source="/Image/PictosDG tren_radiator-2.png"
+                           Source="/Image/radiator.png"
                            Stretch="Fill"
                            Margin="15,14,284,304" RenderTransformOrigin="-0.267,0.2"/>
 
@@ -685,7 +682,7 @@
                             Canvas.Bottom="0"
                            Width="2.5cm"
                            Height="1.5cm"
-                           Source="/Image/Fleches toutes Aplus_CALIBRI_2.png"
+                           Source="/Image/arrow.png"
                            Stretch="Fill"/>
                                 <TextBlock Text="{Binding TabelOneArrowLetter}"
                                Canvas.Left="25"
@@ -712,7 +709,7 @@
                 CornerRadius="10.0">
                             <Image
                                Margin="20,10,283,300"
-                               Source="/Image/Tap.png"
+                               Source="/Image/water_tap.png"
                                Stretch="Fill"/>
 
                         </Border>
@@ -727,7 +724,7 @@
 
                         <Image Grid.Row="2" Grid.Column="0"
                                Margin="-20,53,112,23"
-                               Source="/Image/Asset 3.png"
+                               Source="/Image/energy_efficiency_classes.png"
                                Stretch="Fill"/>
 
                         <Grid Grid.Row="2"
@@ -758,7 +755,7 @@
                             Canvas.Bottom="0"
                            Width="2.5cm"
                            Height="1.5cm"
-                           Source="/Image/Fleches toutes Aplus_CALIBRI_2.png"
+                           Source="/Image/arrow.png"
                            Stretch="Fill"/>
                                 <TextBlock
                               Canvas.Left="25"

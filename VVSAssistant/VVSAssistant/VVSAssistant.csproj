@@ -448,14 +448,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Image\Asset 3.png" />
-    <Resource Include="Image\CONTROL.png" />
-    <Resource Include="Image\Fleches toutes Aplus_CALIBRI_2.png" />
-    <Resource Include="Image\header_energy.png" />
-    <Resource Include="Image\heat-generator.png" />
-    <Resource Include="Image\PictosDG tren_radiator-2.png" />
-    <Resource Include="Image\SOLAR COLLECTOR.png" />
-    <Resource Include="Image\Tap.png" />
+    <Resource Include="Image\energy_efficiency_classes.png" />
+    <Resource Include="Image\user_control.png" />
+    <Resource Include="Image\arrow.png" />
+    <Resource Include="Image\energy_label_header.png" />
+    <Resource Include="Image\heat_generator.png" />
+    <Resource Include="Image\radiator.png" />
+    <Resource Include="Image\solar_collector.png" />
+    <Resource Include="Image\water_tap.png" />
     <Resource Include="Image\watertank.png" />
   </ItemGroup>
   <ItemGroup>
