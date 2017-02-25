@@ -73,6 +73,23 @@ namespace VVSAssistant.Functions
         }
 
         /// <summary>
+        /// After temp update folder has been added, save the database in there.
+        /// </summary>
+        private void SaveDatabase()
+        {
+            if (Directory.Exists(_localPath + "\\tempUpdateFiles\\"))
+            {
+                File.Copy(_localPath + "\\Database.sdf", _localPath + "\\tempUpdateFiles\\Database.sdf");
+            }
+        }
+
+        public void ReloadDatabase()
+        {
+            File.Delete(_localPath + "Database.sdf");
+            File.Copy(_localPath+"\\tempUpdateFiles\\Database.sdf", _localPath + "\\Database.sdf");
+        }
+
+        /// <summary>
         /// Downloads all update files from server and applies updates for next startup. 
         /// WARNING: Takes a long time.
         /// </summary>
@@ -80,6 +97,7 @@ namespace VVSAssistant.Functions
         {
             string localTempFolderPath = _localPath + "\\tempUpdateFiles\\";
             Directory.CreateDirectory(localTempFolderPath);
+            SaveDatabase();
 
             List<string> filenames = GetServerDirectoryListing();
 
@@ -104,7 +122,7 @@ namespace VVSAssistant.Functions
             {
                 await mgr.UpdateApp();
             }
-
+            ReloadDatabase();
             Directory.Delete(localTempFolderPath, true);
         }
         /// <summary>
@@ -146,7 +164,7 @@ namespace VVSAssistant.Functions
             string line = streamReader.ReadLine();
             while (!string.IsNullOrEmpty(line))
             {
-                filenames.Add(line);
+                filenames.Add(line);  
                 line = streamReader.ReadLine();
             }
             streamReader.Close();
@@ -177,6 +195,7 @@ namespace VVSAssistant.Functions
         {
             if (Directory.Exists(_localPath + "\\tempUdpdateFiles\\"))
             {
+                ReloadDatabase();
                 Directory.Delete(_localPath + "\\tempUdpdateFiles\\", true);
             }
         }
