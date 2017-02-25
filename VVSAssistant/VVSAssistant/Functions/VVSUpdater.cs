@@ -77,7 +77,7 @@ namespace VVSAssistant.Functions
         /// </summary>
         private void SaveDatabase()
         {
-            if (Directory.Exists(_localPath + "\\tempUpdateFiles\\"))
+            if (Directory.Exists(_localPath + "\\tempUpdateFiles"))
             {
                 File.Copy(_localPath + "\\Database.sdf", _localPath + "\\tempUpdateFiles\\Database.sdf");
             }
@@ -85,8 +85,7 @@ namespace VVSAssistant.Functions
 
         public void ReloadDatabase()
         {
-            File.Delete(_localPath + "Database.sdf");
-            File.Copy(_localPath+"\\tempUpdateFiles\\Database.sdf", _localPath + "\\Database.sdf");
+            File.Replace(_localPath + "\\tempUpdateFiles\\Database.sdf", _localPath + "\\Database.sdf", _localPath + "\\DatabaseBackup.sdf");
         }
 
         /// <summary>
@@ -95,8 +94,9 @@ namespace VVSAssistant.Functions
         /// </summary>
         public async void DownloadAndUpdateFromServer()
         {
-            string localTempFolderPath = _localPath + "\\tempUpdateFiles\\";
+            string localTempFolderPath = _localPath + "\\tempUpdateFiles";
             Directory.CreateDirectory(localTempFolderPath);
+
             SaveDatabase();
 
             List<string> filenames = GetServerDirectoryListing();
@@ -111,7 +111,7 @@ namespace VVSAssistant.Functions
                     if (filenames[i].Contains(".") && filenames[i].Any(c => c != '.'))
                     {
                         string serverFilePath = _serverPath + filenames[i].ToString();
-                        string localFilePath = localTempFolderPath + filenames[i].ToString();
+                        string localFilePath = localTempFolderPath + "\\" + filenames[i].ToString();
                         ftpClient.DownloadFile(serverFilePath, localFilePath);
                     }
                 }
@@ -193,10 +193,10 @@ namespace VVSAssistant.Functions
         /// </summary>
         public void DeletePartiallyDownloadedUpdateFiles(object src, EventArgs e)
         {
-            if (Directory.Exists(_localPath + "\\tempUdpdateFiles\\"))
+            if (Directory.Exists(_localPath + "\\tempUdpdateFiles"))
             {
                 ReloadDatabase();
-                Directory.Delete(_localPath + "\\tempUdpdateFiles\\", true);
+                Directory.Delete(_localPath + "\\tempUdpdateFiles", true);
             }
         }
     }
