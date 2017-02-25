@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using VVSAssistant.Database;
+using VVSAssistant.Functions;
 using VVSAssistant.Models;
 using VVSAssistant.Models.DataSheets;
-
+ 
 namespace VVSAssistant
 {
     /// <summary>
@@ -17,10 +19,11 @@ namespace VVSAssistant
         {
             base.OnStartup(e);
             InitializeCultureInfo();
-            // TestSeed();
-            // VVSUpdater up = new VVSUpdater();
-            // Exit += up.DeletePartiallyDownloadedUpdateFiles;
-            // new Task(() => up.UpdateApplication()).Start(); //Update asynchronously if current version is outdated
+            TestSeed();
+            VVSUpdater up = new VVSUpdater();
+            up.LoadExistingDatabase();
+            up.DeletePartiallyDownloadedUpdateFiles(new object(), new EventArgs());
+            new Task(() => up.UpdateApplication()).Start(); //Update asynchronously if current version is outdated
         }
 
         private void TestSeed()
