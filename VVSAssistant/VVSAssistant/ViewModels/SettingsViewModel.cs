@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO.Compression;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
@@ -38,7 +35,7 @@ namespace VVSAssistant.ViewModels
                 var result = dlg.ShowDialog();
                 if (result == true)
                 {
-                    DataUtil.Database.Import(dlg.FileName);
+                    ApplicationDatabase.Import(dlg.FileName);
                     DisplayTimedMessage("Succes", "Databasen er importeret succesfuldt. ", 2);
                 }
                 DatabaseExport.NotifyCanExecuteChanged();
@@ -49,9 +46,9 @@ namespace VVSAssistant.ViewModels
                 var dlg = new SaveFileDialog { Filter = "Zip filer (.zip)|*.zip", FileName = "database", DefaultExt = ".zip" };
                 var result = dlg.ShowDialog();
                 if (result != true) return;
-                DataUtil.Database.Export(dlg.FileName);
+                ApplicationDatabase.Export(dlg.FileName);
                 DisplayTimedMessage("Succes", "Databasen er eksporteret succesfuldt. ", 2);
-            }, x => DataUtil.Database.Exists);
+            }, x => ApplicationDatabase.Exists);
 
             RunOfferSettingsDialogCmd = new RelayCommand(x =>
             {
@@ -99,7 +96,7 @@ namespace VVSAssistant.ViewModels
             if (dlg == null) return;
             using (var archive = ZipFile.OpenRead(dlg.FileName))
             {
-                if (archive.Entries.FirstOrDefault(x => x.Name == DataUtil.Database.Name) != null) return;
+                if (archive.Entries.FirstOrDefault(x => x.Name == ApplicationDatabase.Name) != null) return;
                 MessageBox.Show("Den valgte .zip fil indeholder ikke en gyldig database fil.", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
                 e.Cancel = true;
             }

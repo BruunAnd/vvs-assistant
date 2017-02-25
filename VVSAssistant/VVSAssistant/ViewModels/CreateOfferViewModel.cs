@@ -13,6 +13,13 @@ using VVSAssistant.Common;
 using VVSAssistant.Common.ViewModels;
 using VVSAssistant.Database;
 using VVSAssistant.Functions;
+using Microsoft.Win32;
+using System.IO;
+using System.Windows.Xps.Packaging;
+using System.Windows.Documents;
+using FontFamily = System.Windows.Media.FontFamily;
+using VVSAssistant.Views;
+using VVSAssistant.Controls.Dialogs;
 
 namespace VVSAssistant.ViewModels
 {
@@ -149,7 +156,7 @@ namespace VVSAssistant.ViewModels
             PrintOfferCmd = new RelayCommand(x =>
             {
                 SaveOfferToDatabase(Offer);
-                ExportOffer();
+                new SaveOfferDialog(Offer).RunDialog();
             }, x => VerifyOfferHasRequiredInformation() && Offer.OfferInformation != null);
 
             /* When the "nyt tilbud" button in bottom left corner is pressed. 
@@ -257,7 +264,9 @@ namespace VVSAssistant.ViewModels
                     Offer.TotalCostPrice = TotalCostPrice;
                     Offer.TotalContributionMargin = TotalContributionMargin;
                     SaveOfferToDatabase(Offer);
-                    ExportOffer();
+
+                    new SaveOfferDialog(Offer).RunDialog();
+                     
                     NotifyCanExecuteChanged();
                 });
 
@@ -265,10 +274,6 @@ namespace VVSAssistant.ViewModels
             await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
         }
 
-        public void ExportOffer()
-        {
-            DataUtil.Offer.Export(Offer);
-        }
 
         private void NotifyOfferContentsChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
