@@ -31,9 +31,9 @@ namespace VVSAssistant.Functions
 
         public VVSUpdater()
         {
-            _serverPath = "ftp://etilmelding.com/public_ftp/VVS/VVSAssistantUpdates/";
-            _serverUN = "ownerofthis";
-            _serverPW = "BramsHansen2";
+            _serverPath = System.Configuration.ConfigurationManager.AppSettings["ServerPath"];
+            _serverUN = System.Configuration.ConfigurationManager.AppSettings["ServerUN"];
+            _serverPW = System.Configuration.ConfigurationManager.AppSettings["ServerPW"];
         }
 
         private string GetCurrentVersion()
@@ -141,7 +141,6 @@ namespace VVSAssistant.Functions
                     }
                 }
             }
-
             //Let Squirrel.Windows take over from here
             using (var mgr = new UpdateManager(localTempFolderPath))
             {
