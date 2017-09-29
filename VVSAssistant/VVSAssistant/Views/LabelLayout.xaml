@@ -333,7 +333,7 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.5cm"/>
-                <RowDefinition Height="0.4cm"/>
+                <RowDefinition Height="0.08cm"/>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="0.4cm"/>
                 <RowDefinition Height="0.5cm"/>
@@ -355,7 +355,7 @@
                     <RowDefinition Height="1.2cm"/>
                     <RowDefinition Height="0.5cm"/>
                     <RowDefinition Height="1*"/>
-                    <RowDefinition Height="0.6cm"/>
+                    <RowDefinition Height="0.5cm"/>
 
                 </Grid.RowDefinitions>
                 <!-- Øverste billede -->
@@ -375,7 +375,7 @@
                 <Border Grid.Row="2"
                 Grid.Column="0"
                 BorderBrush="#00bfff"
-                BorderThickness="0,0,0,4" Margin="0,0,10,0">
+                BorderThickness="0,0,0,4" Margin="0,0,0,0">
                 </Border>
 
                 <Label Grid.Row="4"
@@ -384,7 +384,7 @@
                    Content="2015" 
                    FontSize="14" 
                    FontWeight="Bold"
-                   Margin="-4,714,610,-3" Grid.RowSpan="2"/>
+                   Margin="-2,727,611,-5" Grid.RowSpan="2"/>
 
                 <Label Grid.Row="4"
                    Grid.Column="0"
@@ -392,15 +392,15 @@
                    Content="811/2013" 
                    FontSize="14" 
                    FontWeight="Bold"
-                   Margin="574,713,1,-4" Grid.RowSpan="2"/>
+                   Margin="581,726,-7,-9" Grid.RowSpan="2"/>
 
                 <!-- Grid: alt med skemaere -->
                 <!-- Skema 2 -->
                 <Grid Grid.Row="4" Grid.Column="0" Visibility="Visible">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="4*"/>
-                        <ColumnDefinition Width="0.3cm"/>
                         <ColumnDefinition Width="5*"/>
+                        <ColumnDefinition Width="0.3cm"/>
+                        <ColumnDefinition Width="7*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*"/>
@@ -428,14 +428,14 @@
                             Grid.Row="0" Grid.Column="0"
                            Source="/Image/radiator.png"
                            Stretch="Fill"
-                           Margin="212,34,35,117" RenderTransformOrigin="-0.267,0.2"/>
+                           Margin="206,34,25,117" RenderTransformOrigin="-0.267,0.2"/>
 
 
                         <Image
                             Grid.Row="0" Grid.Column="0"
                            Source="/Image/water_tap.png"
                            Stretch="Fill"
-                           Margin="207,114,44,38" RenderTransformOrigin="-0.267,0.2"/>
+                           Margin="207,105,24,47" RenderTransformOrigin="-0.267,0.2"/>
 
                         <Label Grid.Row="0"
                            Grid.Column="0"
@@ -443,23 +443,23 @@
                            FontFamily="Calibri"
                            Foreground="Black"
                            FontSize="22"
-                           Margin="236,123,0,10"
+                           Margin="218,122,3,11"
                            FontWeight="Bold"/>
 
                         <Image Grid.Row="0"
                            Grid.Column="0"
                            Source="/Image/arrow.png"
-                           Margin="130,26,84,112"
+                           Margin="119,26,68,112"
                            Stretch="Fill"/>
                         <TextBlock Grid.Row="0" Text="{Binding WaterHeatingModeLetter}"
-                               Margin="147,30,110,113"
+                               Margin="138,29,105,114"
                                Foreground="White"
                                FontSize="28"
                                FontWeight="Bold"
                                FontFamily="Calibri"/>
 
                         <TextBlock Grid.Row="0" Text="{Binding WaterHeatingModePlus}"
-                               Margin="160,24,84,113"
+                               Margin="155,24,69,113"
                                Foreground="White"
                                FontSize="24"
                                FontWeight="Bold"
@@ -468,16 +468,16 @@
                         <Image Grid.Row="0"
                            Grid.Column="0"
                            Source="/Image/arrow.png"
-                           Margin="130,99,84,38"
+                           Margin="118,99,69,38"
                            Stretch="Fill"/>
                         <TextBlock Grid.Row="0" Text="{Binding AnnualEfficiencyLetter}"
-                               Margin="147,105,112,38"
+                               Margin="138,103,104,40"
                                Foreground="White"
                                FontSize="28"
                                FontWeight="Bold"
                                FontFamily="Calibri"/>
                         <TextBlock Grid.Row="0" Text="{Binding AnnualEfficiencyPlus}"
-                               Margin="160,99,84,44"
+                               Margin="155,96,69,47"
                                Foreground="White"
                                FontSize="24"
                                FontWeight="Bold"
@@ -485,7 +485,7 @@
 
                         <Image Grid.Column="0"
                         Grid.Row="0"
-                        Margin="-30,43,142,44"
+                        Margin="-14,43,126,44"
                         Source="/Image/heat_generator.png"
                            />
                         <!-- nedere felt venstre-->
@@ -503,7 +503,7 @@
                            FontFamily="Calibri"
                            Foreground="#00bfff"
                            FontSize="80"
-                           Margin="10,30,215,406"
+                           Margin="10,30,204,406"
                            FontWeight="Bold"/>
 
                         <Image Grid.Row="2"
@@ -513,10 +513,9 @@
 
                         <Rectangle Grid.Row="2"
                                Grid.Column="0"
-                               Width="1.1cm"
                                Height="1.1cm"
                                Stroke="#00bfff"
-                               StrokeThickness="4" Margin="207,67,35,419" RenderTransformOrigin="0.601,2.045"
+                               StrokeThickness="4" Margin="188,67,29,428" RenderTransformOrigin="0.601,2.045"
                                />
                         <Label Grid.Row="2"
                            Grid.Column="0"
@@ -526,7 +525,7 @@
                            FontFamily="Calibri"
                            FontWeight="Bold"
                            Visibility="{Binding SolarIncluded}"
-                           Margin="209,51,37,414"/>
+                           Margin="192,53,30,412"/>
 
                         <Label Grid.Row="2"
                            Grid.Column="0"
@@ -534,7 +533,7 @@
                            FontFamily="Calibri"
                            Foreground="#00bfff"
                            FontSize="80"
-                           Margin="10,157,226,287"
+                           Margin="10,157,204,287"
                            FontWeight="Bold"/>
 
                         <Image Grid.Row="2"
@@ -544,10 +543,9 @@
 
                         <Rectangle Grid.Row="2"
                                Grid.Column="0"
-                               Width="1.1cm"
                                    Height="1.1cm"
                                Stroke="#00bfff"
-                               StrokeThickness="4" Margin="207,194,35,293"
+                               StrokeThickness="4" Margin="188,193,29,302"
                                />
 
                         <Label Grid.Row="2"
@@ -557,7 +555,7 @@
                            FontSize="50"
                            FontFamily="Calibri"
                            FontWeight="Bold"
-                           Margin="209,178,37,287"
+                           Margin="192,179,30,286"
                            Visibility="{Binding WatertankIncluded}"/>
 
                         <Label Grid.Row="2"
@@ -566,7 +564,7 @@
                            FontFamily="Calibri"
                            Foreground="#00bfff"
                            FontSize="80"
-                           Margin="13,293,220,141"
+                           Margin="13,293,204,141"
                            FontWeight="Bold"/>
 
                         <Image Grid.Row="2"
@@ -576,10 +574,9 @@
 
                         <Rectangle Grid.Row="2"
                                Grid.Column="0"
-                               Width="1.1cm"
                                Height="1.1cm"
                                Stroke="#00bfff"
-                               StrokeThickness="4" Margin="207,330,35,156" RenderTransformOrigin="0.649,4.305"
+                               StrokeThickness="4" Margin="188,330,29,165" RenderTransformOrigin="0.649,4.305"
                                />
 
                         <Label Grid.Row="2"
@@ -589,7 +586,7 @@
                            FontSize="50"
                            FontFamily="Calibri"
                            FontWeight="Bold"
-                           Margin="209,314,38,151"
+                           Margin="192,315,30,150"
                            Visibility="{Binding TempControleIncluded}"/>
 
                         <Label Grid.Row="2"
@@ -598,7 +595,7 @@
                            FontFamily="Calibri"
                            Foreground="#00bfff"
                            FontSize="80"
-                           Margin="13,408,215,33"
+                           Margin="13,408,204,33"
                            FontWeight="Bold"/>
 
                         <Image Grid.Row="2"
@@ -608,10 +605,9 @@
 
                         <Rectangle Grid.Row="2"
                                Grid.Column="0"
-                               Width="1.1cm"
                                    Height="1.1cm"
                                Stroke="#00bfff"
-                               StrokeThickness="4" Margin="207,445,35,41" RenderTransformOrigin="0.505,3.68"
+                               StrokeThickness="4" Margin="188,445,29,50" RenderTransformOrigin="0.505,3.68"
                                />
 
                         <Label Grid.Row="2"
@@ -621,7 +617,7 @@
                            FontSize="50"
                            FontFamily="Calibri"
                            FontWeight="Bold"
-                           Margin="209,429,36,41"
+                           Margin="192,431,30,39"
                            Visibility="{Binding HeaterIncluded}"/>
 
 
@@ -656,7 +652,7 @@
                         <Grid Grid.Row="0"
                                 Grid.Column="0">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="242"/>
+                                <ColumnDefinition Width="265"/>
                                 <ColumnDefinition Width="1*"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
@@ -681,7 +677,7 @@
                             Canvas.Left="0"
                             Canvas.Bottom="0"
                            Width="2.5cm"
-                           Height="1.5cm"
+                           Height="1.4cm"
                            Source="/Image/arrow.png"
                            Stretch="Fill"/>
                                 <TextBlock Text="{Binding TabelOneArrowLetter}"
@@ -719,7 +715,7 @@
                            FontFamily="Calibri"
                            Foreground="Black"
                            FontSize="22"
-                           Margin="67,33,244,284"
+                           Margin="83,35,228,282"
                            FontWeight="Bold"></Label>
 
                         <Image Grid.Row="2" Grid.Column="0"
@@ -730,7 +726,7 @@
                         <Grid Grid.Row="2"
                            Grid.Column="0">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="242"/>
+                                <ColumnDefinition Width="265"/>
                                 <ColumnDefinition Width="1*"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
@@ -754,7 +750,7 @@
                             Canvas.Left="0"
                             Canvas.Bottom="0"
                            Width="2.5cm"
-                           Height="1.5cm"
+                           Height="1.4cm"
                            Source="/Image/arrow.png"
                            Stretch="Fill"/>
                                 <TextBlock
